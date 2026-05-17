@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About — Shopnil Academy · Education without paywalls</title>
+<meta name="description" content="Shopnil Academy makes quality education available to everyone, everywhere, for free. Read our story and meet the team." />
+<link rel="icon" href="assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* Hero */
+  .about-hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    background:
+      radial-gradient(circle at 20% 30%, var(--green-soft), transparent 50%),
+      radial-gradient(circle at 80% 70%, var(--gold-soft), transparent 50%),
+      var(--bg);
+  }
+  .about-hero .breadcrumb {
+    display: flex; gap: 8px; justify-content: center; font-size: 13px;
+    color: var(--muted); margin-bottom: 18px;
+  }
+  .about-hero .breadcrumb .sep { opacity: .4; }
+  .about-hero h1 {
+    font-size: clamp(48px, 6vw, 76px);
+    margin: 14px auto 22px;
+    max-width: 860px;
+  }
+  .about-hero h1 em { font-style: normal; color: var(--green); }
+  .about-hero h1 .red { color: var(--red); }
+  .about-hero .lead {
+    font-size: 19px;
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* Big logo callout */
+  .brand-mark {
+    padding: 80px 0;
+    text-align: center;
+    background: var(--cream);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand-mark img {
+    width: 200px; height: 200px;
+    margin: 0 auto 32px;
+    filter: drop-shadow(0 12px 30px rgba(15,36,24,.12));
+  }
+  .brand-mark h2 {
+    font-size: clamp(28px, 3vw, 38px);
+    max-width: 720px;
+    margin: 0 auto 16px;
+  }
+  .brand-mark p {
+    font-size: 17px; color: var(--muted);
+    max-width: 580px; margin: 0 auto;
+  }
+
+  /* Story */
+  .story { padding: 100px 0; }
+  .story-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    align-items: center;
+  }
+  .story-text h2 {
+    font-size: clamp(34px, 4vw, 48px);
+    margin: 14px 0 24px;
+    max-width: 480px;
+  }
+  .story-text p {
+    font-size: 17px; line-height: 1.65; color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .story-text p + p { color: var(--muted); }
+  .story-visual { position: relative; height: 480px; }
+  .sv-blob {
+    position: absolute; top: 40px; right: 0;
+    width: 360px; height: 360px;
+    background: var(--green-mint);
+    border-radius: 50% 60% 70% 40% / 50% 60% 40% 50%;
+    z-index: 0;
+  }
+  .sv-blob.two {
+    bottom: 0; left: 30px; top: auto;
+    width: 220px; height: 220px;
+    background: var(--gold-soft);
+  }
+  .sv-card {
+    position: absolute;
+    background: #fff; border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    padding: 22px;
+    z-index: 2;
+  }
+  .sv-card.one { top: 30px; left: 30px; width: 260px; }
+  .sv-card.one .ic { width: 44px; height: 44px; border-radius: 12px; background: var(--green-soft); color: var(--green); display: grid; place-items: center; font-size: 20px; margin-bottom: 14px; }
+  .sv-card.one strong { display: block; font-family: var(--font-display); font-size: 17px; margin-bottom: 4px; }
+  .sv-card.one p { font-size: 13px; color: var(--muted); margin: 0; }
+  .sv-card.two { top: 240px; right: 0; width: 230px; }
+  .sv-card.two .row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .sv-card.two .row strong { font-family: var(--font-display); font-size: 15px; }
+  .sv-card.two .stars { color: var(--gold); letter-spacing: 1px; font-size: 13px; }
+  .sv-card.two p { font-size: 13px; color: var(--muted); line-height: 1.4; margin: 0; }
+
+  /* Values */
+  .values { background: var(--cream); }
+  .values-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .value-card {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 24px; padding: 32px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .value-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .value-card .ic {
+    width: 60px; height: 60px;
+    border-radius: 18px;
+    display: grid; place-items: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  .value-card:nth-child(1) .ic { background: var(--green-soft); color: var(--green); }
+  .value-card:nth-child(2) .ic { background: var(--red-soft); color: var(--red); }
+  .value-card:nth-child(3) .ic { background: var(--gold-soft); color: #b8881a; }
+  .value-card:nth-child(4) .ic { background: var(--green-mint); color: var(--green-deep); }
+  .value-card:nth-child(5) .ic { background: var(--red-soft); color: var(--red); }
+  .value-card:nth-child(6) .ic { background: var(--gold-soft); color: #b8881a; }
+  .value-card h3 { font-size: 21px; margin-bottom: 10px; }
+  .value-card p { font-size: 15px; color: var(--muted); line-height: 1.55; }
+
+  /* Big stats band */
+  .stats-band {
+    background: var(--green);
+    color: #fff; padding: 80px 0;
+    position: relative; overflow: hidden;
+  }
+  .stats-band::before { content: ''; position: absolute; right: -100px; top: -100px; width: 320px; height: 320px; background: rgba(244,42,65,.25); border-radius: 50%; }
+  .stats-band::after { content: ''; position: absolute; left: -80px; bottom: -80px; width: 280px; height: 280px; background: rgba(232,183,42,.2); border-radius: 50%; }
+  .stats-band .section-head { position: relative; z-index: 2; margin-bottom: 56px; }
+  .stats-band .eyebrow { color: var(--gold); }
+  .stats-band .eyebrow::before { background: var(--gold); }
+  .stats-band .section-head h2 { color: #fff; }
+  .stats-band .section-head p { color: rgba(255,255,255,.8); }
+  .stats-grid {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px;
+    text-align: center;
+  }
+  .stats-grid .stat strong {
+    display: block; font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(48px, 5vw, 64px); color: var(--gold);
+    letter-spacing: -.03em; line-height: 1;
+  }
+  .stats-grid .stat span { display: block; margin-top: 12px; font-size: 14px; color: rgba(255,255,255,.75); }
+
+  /* How we pay for free */
+  .funding {
+    padding: 100px 0;
+    background: var(--bg);
+  }
+  .funding-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    align-items: center;
+  }
+  .funding h2 { font-size: clamp(32px, 3.5vw, 44px); max-width: 460px; margin: 14px 0 24px; }
+  .funding p { font-size: 16px; line-height: 1.65; color: var(--muted); margin-bottom: 18px; }
+  .funding-list {
+    list-style: none; padding: 0; margin: 24px 0 0;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .funding-list li {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 18px 20px; background: #fff;
+    border: 1px solid var(--line); border-radius: 14px;
+  }
+  .funding-list .ic {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: var(--green-soft); color: var(--green);
+    display: grid; place-items: center;
+    font-size: 16px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .funding-list strong { display: block; font-family: var(--font-display); font-size: 15px; margin-bottom: 3px; }
+  .funding-list small { font-size: 13px; color: var(--muted); }
+
+  /* Instructors */
+  .inst-section { background: var(--ink); color: #fff; padding: 100px 0; }
+  .inst-section .eyebrow { color: var(--gold); }
+  .inst-section .eyebrow::before { background: var(--gold); }
+  .inst-section .section-head h2 { color: #fff; }
+  .inst-section .section-head p { color: rgba(255,255,255,.65); }
+  .inst-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  }
+  .inst-card {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px; padding: 28px; text-align: center;
+  }
+  .inst-avatar {
+    width: 96px; height: 96px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--green), var(--gold));
+    margin: 0 auto 18px;
+    display: grid; place-items: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 30px; color: var(--ink);
+    position: relative;
+  }
+  .inst-avatar::after {
+    content: ''; position: absolute; bottom: 4px; right: 6px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--green); border: 3px solid var(--ink);
+  }
+  .inst-card h4 { font-size: 18px; margin-bottom: 4px; color: #fff; }
+  .inst-card .role { font-size: 13px; color: rgba(255,255,255,.6); margin-bottom: 14px; }
+  .inst-card .bio { font-size: 13px; color: rgba(255,255,255,.7); line-height: 1.5; margin-bottom: 18px; min-height: 60px; }
+  .inst-stats { display: flex; justify-content: center; gap: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.08); font-size: 11px; color: rgba(255,255,255,.65); }
+  .inst-stats strong { color: var(--gold); display: block; font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+
+  /* CTA */
+  .cta { padding: 100px 0; }
+  .cta-card {
+    background: var(--green);
+    color: #fff;
+    border-radius: 36px;
+    padding: 72px 56px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-card::before { content: ''; position: absolute; top: -80px; left: -80px; width: 280px; height: 280px; background: rgba(244,42,65,.3); border-radius: 50%; }
+  .cta-card::after { content: ''; position: absolute; bottom: -100px; right: -60px; width: 320px; height: 320px; background: rgba(232,183,42,.25); border-radius: 50%; }
+  .cta-card > * { position: relative; z-index: 2; }
+  .cta-card h2 { font-size: clamp(36px, 4.5vw, 56px); color: #fff; max-width: 700px; margin: 0 auto 16px; }
+  .cta-card p { font-size: 18px; color: rgba(255,255,255,.85); margin-bottom: 32px; }
+  .cta-card .btn-primary { background: #fff; color: var(--green); }
+  .cta-card .btn-primary:hover { background: var(--cream); }
+  .cta-card .btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.3); }
+  .cta-card .btn-outline:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+  .cta-actions { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+  @media (max-width: 980px) {
+    .story-grid { grid-template-columns: 1fr; gap: 60px; }
+    .story-visual { height: 420px; max-width: 460px; margin: 0 auto; }
+    .values-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .funding-grid { grid-template-columns: 1fr; }
+    .inst-grid { grid-template-columns: repeat(2, 1fr); }
+    .brand-mark img { width: 140px; height: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="index.html" class="logo">
+      <img src="assets/logo.png" alt="Shopnil Academy" />
+      <span class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN WITHOUT LIMITS</small>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="courses.html" class="btn btn-ghost">Browse</a>
+      <a href="courses.html" class="btn btn-primary">Start free →</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- Hero -->
+<section class="about-hero">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span class="sep">/</span><span>About</span>
+    </div>
+    <span class="free-pill">Our mission</span>
+    <h1 class="pretty">Education shouldn't have a <em>price tag</em> — or a <span class="red">paywall.</span></h1>
+    <p class="lead">Shopnil Academy exists to make high-quality learning available to anyone with a phone or computer — completely free, no asterisks, forever.</p>
+  </div>
+</section>
+
+<!-- Brand mark -->
+<section class="brand-mark">
+  <div class="wrap">
+    <img src="assets/logo.png" alt="Shopnil Academy crest" />
+    <h2 class="pretty">A simple promise wrapped in a crest.</h2>
+    <p>Green for growth. Red for passion. Gold for what you'll earn. The crest is our reminder that learning is a serious craft — and that everyone deserves a seat.</p>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="story">
+  <div class="wrap story-grid">
+    <div class="story-text">
+      <span class="eyebrow">Our story</span>
+      <h2 class="pretty">It started with a frustrating bill.</h2>
+      <p>Shopnil Academy was founded in Dhaka after our founder tried to enroll a younger sibling in a $400 online programming course — and realized that for most families in Bangladesh, that's a month's rent.</p>
+      <p>Quality education shouldn't depend on your zip code or your parents' bank account. So we built something different: a platform where every course is genuinely, permanently free — funded entirely by tasteful sponsorships and ads — taught by working practitioners who care.</p>
+      <p>Today, more than 10,000 students from 40+ countries learn with us every month. Not a single one has paid a rupee, taka, or dollar.</p>
+    </div>
+    <div class="story-visual">
+      <div class="sv-blob"></div>
+      <div class="sv-blob two"></div>
+      <div class="sv-card one">
+        <div class="ic">📚</div>
+        <strong>200+ courses</strong>
+        <p>Every one of them free, every one of them taught by working practitioners.</p>
+      </div>
+      <div class="sv-card two">
+        <div class="row">
+          <div class="avatar" style="background: var(--red-soft); color: var(--red); width: 36px; height: 36px;">NI</div>
+          <strong>Nadia I.</strong>
+        </div>
+        <div class="stars">★★★★★</div>
+        <p>"I never thought I'd be able to learn guitar. Now I play at family gatherings."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="block values">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What we believe</span>
+      <h2 class="pretty">Six principles. Zero exceptions.</h2>
+      <p>These aren't aspirations — they're the rules we run the platform by.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="ic">∞</div>
+        <h3>Always free</h3>
+        <p>No subscriptions. No "premium tier." No locked content. Every course is fully open, forever.</p>
+      </div>
+      <div class="value-card">
+        <div class="ic">🤝</div>
+        <h3>No paywalls</h3>
+        <p>You'll never hit a "to continue, please subscribe" screen. We promise.</p>
+      </div>
+      <div class="value-card">
+        <div class="ic">✨</div>
+        <h3>Real instructors</h3>
+        <p>Every course is taught by someone who does the work professionally — not a content farm.</p>
+      </div>
+      <div class="value-card">
+        <div class="ic">📁</div>
+        <h3>Project-first</h3>
+        <p>Every course ends with something you've built. Skills you can put on a CV or portfolio.</p>
+      </div>
+      <div class="value-card">
+        <div class="ic">🌍</div>
+        <h3>Open access</h3>
+        <p>Subtitles in 5+ languages. Mobile-optimized. Works on slow connections. For everyone.</p>
+      </div>
+      <div class="value-card">
+        <div class="ic">🛡️</div>
+        <h3>Respectful ads</h3>
+        <p>Ads pay our bills — but we hand-vet every sponsor. No deceptive ads, no malware, no junk.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats band -->
+<section class="stats-band">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">By the numbers</span>
+      <h2 class="pretty">Free education, at scale.</h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat"><strong>10,000+</strong><span>Active students</span></div>
+      <div class="stat"><strong>200+</strong><span>Free courses</span></div>
+      <div class="stat"><strong>50+</strong><span>Expert instructors</span></div>
+      <div class="stat"><strong>40+</strong><span>Countries reached</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- How we pay for it -->
+<section class="funding">
+  <div class="wrap funding-grid">
+    <div>
+      <span class="eyebrow">How "free" actually works</span>
+      <h2 class="pretty">If you're not paying, how do we keep the lights on?</h2>
+      <p>Fair question. Here's the honest breakdown — and why our model means we'll never have to start charging you.</p>
+    </div>
+    <ul class="funding-list">
+      <li>
+        <div class="ic">📢</div>
+        <div>
+          <strong>Display & sponsored ads (80%)</strong>
+          <small>Hand-curated sponsors and AdSense. We block any ad that's deceptive, NSFW, or annoying.</small>
+        </div>
+      </li>
+      <li>
+        <div class="ic">🤝</div>
+        <div>
+          <strong>Brand partnerships (15%)</strong>
+          <small>Tasteful sponsorships from companies that align with our mission — clearly labeled.</small>
+        </div>
+      </li>
+      <li>
+        <div class="ic">🎁</div>
+        <div>
+          <strong>Optional donations (5%)</strong>
+          <small>Some students choose to tip — completely optional, nothing locked behind it.</small>
+        </div>
+      </li>
+      <li>
+        <div class="ic">🚫</div>
+        <div>
+          <strong>What we'll never do</strong>
+          <small>Sell your data. Charge for courses. Put core lessons behind a paywall. Promise.</small>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Instructors -->
+<section class="inst-section" id="instructors">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">The team</span>
+      <h2 class="pretty">Practitioners who happen to teach.</h2>
+      <p>Our instructors aren't career educators — they're working professionals who set aside time to share their craft.</p>
+    </div>
+    <div class="inst-grid">
+      <div class="inst-card">
+        <div class="inst-avatar">SK</div>
+        <h4>Sazid Khan</h4>
+        <div class="role">Senior Python Developer</div>
+        <p class="bio">8 years building production Python systems. Loves clean code and bad puns.</p>
+        <div class="inst-stats">
+          <div><strong>4.9★</strong>Rating</div>
+          <div><strong>2.1K</strong>Students</div>
+          <div><strong>8</strong>Courses</div>
+        </div>
+      </div>
+      <div class="inst-card">
+        <div class="inst-avatar">MA</div>
+        <h4>Maria Alvarez</h4>
+        <div class="role">Polyglot · 6 languages</div>
+        <p class="bio">Bilingual since birth, certified language coach. Teaches Spanish that you'll actually use.</p>
+        <div class="inst-stats">
+          <div><strong>4.9★</strong>Rating</div>
+          <div><strong>1.6K</strong>Students</div>
+          <div><strong>5</strong>Courses</div>
+        </div>
+      </div>
+      <div class="inst-card">
+        <div class="inst-avatar">RM</div>
+        <h4>Rifat Mahmud</h4>
+        <div class="role">Pro Guitarist · 12 yrs</div>
+        <p class="bio">Session musician, music director, and a stubbornly patient teacher.</p>
+        <div class="inst-stats">
+          <div><strong>4.8★</strong>Rating</div>
+          <div><strong>980</strong>Students</div>
+          <div><strong>4</strong>Courses</div>
+        </div>
+      </div>
+      <div class="inst-card">
+        <div class="inst-avatar">NA</div>
+        <h4>Dr. Nadia Anwar</h4>
+        <div class="role">PhD Math & Physics</div>
+        <p class="bio">Math should be beautiful, not scary. She explains it like a friend over chai.</p>
+        <div class="inst-stats">
+          <div><strong>4.9★</strong>Rating</div>
+          <div><strong>1.4K</strong>Students</div>
+          <div><strong>6</strong>Courses</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-card">
+      <span class="free-pill" style="background: rgba(255,255,255,.15); color: var(--gold); border-color: rgba(232,183,42,.3);">100% Free · Forever</span>
+      <h2 class="pretty" style="margin-top: 20px;">Find a course you love.<br/>Start today.</h2>
+      <p>10,000+ students. 200+ free courses. One promise: no paywalls. Ever.</p>
+      <div class="cta-actions">
+        <a href="courses.html" class="btn btn-primary btn-lg">Browse free courses →</a>
+        <a href="contact.html" class="btn btn-outline btn-lg">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo">
+          <img src="assets/logo.png" alt="Shopnil Academy" />
+          <span class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>LEARN WITHOUT LIMITS</small>
+          </span>
+        </a>
+        <p class="foot-about">100% free online courses in coding, math, languages, and guitar. Built for learners who want to actually finish.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="courses.html">All courses</a></li>
+          <li><a href="courses.html?track=tech">Tech & Coding</a></li>
+          <li><a href="courses.html?track=math">Math & Science</a></li>
+          <li><a href="courses.html?track=lang">Languages</a></li>
+          <li><a href="courses.html?track=guitar">Guitar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#instructors">Instructors</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">Get in touch</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Help center</a></li>
+          <li><a href="#">Student portal</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">Advertise</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — Shopnil Academy · We'd love to hear from you</title>
+<meta name="description" content="Have a question, idea, or partnership in mind? Get in touch with Shopnil Academy. We reply within 24 hours." />
+<link rel="icon" href="assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  /* Hero */
+  .contact-hero {
+    padding: 64px 0 56px;
+    background:
+      radial-gradient(circle at 80% 30%, var(--green-soft), transparent 50%),
+      radial-gradient(circle at 20% 80%, var(--red-soft), transparent 50%),
+      var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .contact-hero .breadcrumb { display: flex; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+  .contact-hero .breadcrumb .sep { opacity: .4; }
+  .contact-hero h1 { font-size: clamp(44px, 5.5vw, 68px); margin: 14px 0 18px; max-width: 760px; }
+  .contact-hero h1 em { font-style: normal; color: var(--green); }
+  .contact-hero .lead { font-size: 18px; color: var(--muted); max-width: 580px; }
+
+  /* Quick channels */
+  .quick-channels {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 40px;
+  }
+  .channel {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 16px; padding: 22px;
+    display: flex; gap: 14px; align-items: flex-start;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  .channel:hover { border-color: var(--green); transform: translateY(-2px); }
+  .channel .ic {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--green-soft); color: var(--green);
+    display: grid; place-items: center; font-size: 18px;
+    flex-shrink: 0;
+  }
+  .channel:nth-child(2) .ic { background: var(--red-soft); color: var(--red); }
+  .channel:nth-child(3) .ic { background: var(--gold-soft); color: #b8881a; }
+  .channel:nth-child(4) .ic { background: var(--green-mint); color: var(--green-deep); }
+  .channel strong { display: block; font-family: var(--font-display); font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+  .channel a, .channel span { font-size: 13px; color: var(--muted); }
+  .channel a:hover { color: var(--green); }
+
+  /* Main */
+  .contact-main {
+    padding: 80px 0;
+    display: grid; grid-template-columns: 1.4fr 1fr; gap: 56px;
+  }
+
+  /* Form */
+  .form-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 40px;
+  }
+  .form-card h2 {
+    font-size: 28px; margin-bottom: 8px;
+  }
+  .form-card p.intro {
+    font-size: 15px; color: var(--muted); margin-bottom: 32px;
+  }
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin-bottom: 16px;
+  }
+  .field {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 16px;
+  }
+  .field label {
+    font-size: 13px; font-weight: 600; color: var(--ink);
+  }
+  .field label .req { color: var(--red); margin-left: 2px; }
+  .field input, .field select, .field textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    font-family: inherit; font-size: 15px;
+    background: var(--bg);
+    color: var(--ink);
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    outline: none; border-color: var(--green); background: #fff;
+  }
+  .field textarea { min-height: 140px; resize: vertical; }
+  .field .helper { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* Topic chips */
+  .topic-chips {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .topic-chip {
+    padding: 9px 14px; border-radius: 999px;
+    background: var(--bg); border: 1.5px solid var(--line);
+    font-size: 13px; font-weight: 500; color: var(--ink);
+    cursor: pointer; font-family: inherit;
+    transition: all .15s ease;
+  }
+  .topic-chip:hover { border-color: var(--ink); }
+  .topic-chip.active { background: var(--green); border-color: var(--green); color: #fff; }
+
+  .consent {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin: 20px 0 24px;
+    font-size: 13px; color: var(--muted);
+    line-height: 1.5;
+  }
+  .consent input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--line); border-radius: 5px;
+    background: #fff; flex-shrink: 0;
+    display: grid; place-items: center;
+    cursor: pointer; margin-top: 1px;
+  }
+  .consent input[type="checkbox"]:checked { background: var(--green); border-color: var(--green); }
+  .consent input[type="checkbox"]:checked::after { content: '✓'; color: #fff; font-size: 12px; font-weight: 700; }
+  .consent a { color: var(--green); text-decoration: underline; }
+
+  .form-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .form-actions .response-time {
+    font-size: 13px; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .form-actions .response-time .dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; box-shadow: 0 0 0 4px rgba(0,106,78,.18); }
+
+  /* Sidebar */
+  .contact-aside { display: flex; flex-direction: column; gap: 24px; }
+  .info-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 28px;
+  }
+  .info-card h3 {
+    font-size: 18px; margin-bottom: 18px;
+  }
+  .info-list { display: flex; flex-direction: column; gap: 16px; }
+  .info-item { display: flex; gap: 14px; align-items: flex-start; }
+  .info-item .ic {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: #fff; color: var(--green);
+    display: grid; place-items: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .info-item .label { font-size: 12px; color: var(--muted); margin-bottom: 2px; display: block; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+  .info-item strong { display: block; font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+  .info-item small { font-size: 13px; color: var(--muted); }
+  .info-item a { color: var(--ink); }
+  .info-item a:hover { color: var(--green); }
+
+  .hours-table { display: flex; flex-direction: column; gap: 8px; }
+  .hours-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 12px; background: #fff; border-radius: 8px;
+    font-size: 13px;
+  }
+  .hours-row span:last-child { color: var(--muted); font-family: var(--font-display); font-weight: 500; }
+  .hours-row.today { background: var(--green); color: #fff; }
+  .hours-row.today span:last-child { color: rgba(255,255,255,.85); }
+
+  /* FAQ */
+  .faq-section { padding: 80px 0; background: var(--cream); }
+  .faq-grid { max-width: 780px; margin: 0 auto; }
+  details.faq {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 16px; margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color .15s ease;
+  }
+  details.faq[open] { border-color: var(--green); }
+  details.faq summary {
+    list-style: none; cursor: pointer;
+    padding: 22px 24px;
+    display: flex; align-items: center; gap: 18px;
+    font-family: var(--font-display); font-weight: 600; font-size: 17px;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::marker { display: none; }
+  details.faq summary .chev {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--green-soft); color: var(--green);
+    display: grid; place-items: center; font-size: 14px;
+    margin-left: auto;
+    transition: transform .2s ease;
+  }
+  details.faq[open] summary .chev { transform: rotate(45deg); background: var(--green); color: #fff; }
+  details.faq summary .chev::before { content: '+'; }
+  details.faq .answer {
+    padding: 0 24px 24px;
+    font-size: 15px; line-height: 1.6; color: var(--muted);
+  }
+
+  /* Quote / social proof */
+  .social-cta {
+    padding: 80px 0;
+    text-align: center;
+    background: var(--ink);
+    color: #fff;
+  }
+  .social-cta h2 { color: #fff; font-size: clamp(32px, 4vw, 44px); max-width: 600px; margin: 0 auto 16px; }
+  .social-cta p { color: rgba(255,255,255,.7); max-width: 480px; margin: 0 auto 32px; font-size: 16px; }
+  .social-buttons { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .social-buttons a {
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.15);
+    color: #fff;
+    font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .social-buttons a:hover { background: var(--green); border-color: var(--green); }
+
+  @media (max-width: 980px) {
+    .quick-channels { grid-template-columns: 1fr 1fr; }
+    .contact-main { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-card { padding: 28px; }
+  }
+  @media (max-width: 640px) {
+    .quick-channels { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="index.html" class="logo">
+      <img src="assets/logo.png" alt="Shopnil Academy" />
+      <span class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN WITHOUT LIMITS</small>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="courses.html">Courses</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="courses.html" class="btn btn-ghost">Browse</a>
+      <a href="courses.html" class="btn btn-primary">Start free →</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- Hero -->
+<section class="contact-hero">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a><span class="sep">/</span><span>Contact</span>
+    </div>
+    <span class="free-pill">We reply within 24 hours</span>
+    <h1 class="pretty">Let's talk. We <em>actually</em> read every message.</h1>
+    <p class="lead">Questions about a course, ideas for new tracks, partnership offers, or just want to say hi — we'd love to hear from you.</p>
+
+    <div class="quick-channels">
+      <a class="channel" href="mailto:info@shopnilacademy.com">
+        <div class="ic">📧</div>
+        <div>
+          <strong>Email us</strong>
+          <a href="mailto:info@shopnilacademy.com">info@shopnilacademy.com</a>
+        </div>
+      </a>
+      <a class="channel" href="tel:+15550001234">
+        <div class="ic">📞</div>
+        <div>
+          <strong>Call us</strong>
+          <a href="tel:+15550001234">+1 (555) 000-1234</a>
+        </div>
+      </a>
+      <a class="channel" href="#">
+        <div class="ic">💬</div>
+        <div>
+          <strong>Live chat</strong>
+          <span>Mon–Fri, 9 AM – 6 PM GMT</span>
+        </div>
+      </a>
+      <a class="channel" href="#">
+        <div class="ic">🤝</div>
+        <div>
+          <strong>Partner with us</strong>
+          <a href="mailto:partners@shopnilacademy.com">partners@shopnilacademy.com</a>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Main -->
+<section>
+  <div class="wrap contact-main">
+    <!-- Form -->
+    <form class="form-card" onsubmit="submitForm(event)">
+      <h2>Send us a message</h2>
+      <p class="intro">Fill in what you need and our team will get back to you within one business day. Required fields are marked with <span style="color: var(--red);">*</span>.</p>
+
+      <div class="field">
+        <label>What are you reaching out about?</label>
+        <div class="topic-chips">
+          <button type="button" class="topic-chip active">General question</button>
+          <button type="button" class="topic-chip">Course help</button>
+          <button type="button" class="topic-chip">Partnership</button>
+          <button type="button" class="topic-chip">Become instructor</button>
+          <button type="button" class="topic-chip">Advertise</button>
+          <button type="button" class="topic-chip">Press</button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>First name <span class="req">*</span></label>
+          <input type="text" placeholder="Rafi" required />
+        </div>
+        <div class="field">
+          <label>Last name <span class="req">*</span></label>
+          <input type="text" placeholder="Ahmed" required />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" placeholder="you@example.com" required />
+        </div>
+        <div class="field">
+          <label>Phone <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
+          <input type="tel" placeholder="+880 1234 567890" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Interested in <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
+        <select>
+          <option>Select a course category…</option>
+          <option>Tech & Coding</option>
+          <option>Math & Science</option>
+          <option>Languages</option>
+          <option>Guitar</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Your message <span class="req">*</span></label>
+        <textarea placeholder="Tell us what you'd like help with, in as much or as little detail as you'd like…" required></textarea>
+        <small class="helper">Most replies come within a few hours during business days.</small>
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" required />
+        <span>I agree to be contacted by Shopnil Academy and understand that my information will be handled per the <a href="#">Privacy Policy</a>. I'm <strong>not</strong> being added to any marketing list — unless I separately opt in.</span>
+      </label>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-lg">Send message →</button>
+        <span class="response-time"><span class="dot"></span> Typical reply: under 4 hours</span>
+      </div>
+    </form>
+
+    <!-- Aside -->
+    <aside class="contact-aside">
+      <div class="info-card">
+        <h3>Contact details</h3>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="ic">📧</div>
+            <div>
+              <span class="label">General</span>
+              <strong><a href="mailto:info@shopnilacademy.com">info@shopnilacademy.com</a></strong>
+              <small>For any question, big or small</small>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="ic">🎓</div>
+            <div>
+              <span class="label">Course support</span>
+              <strong><a href="mailto:help@shopnilacademy.com">help@shopnilacademy.com</a></strong>
+              <small>For technical issues or lesson help</small>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="ic">📢</div>
+            <div>
+              <span class="label">Advertise / sponsor</span>
+              <strong><a href="mailto:ads@shopnilacademy.com">ads@shopnilacademy.com</a></strong>
+              <small>Media kit available on request</small>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="ic">📍</div>
+            <div>
+              <span class="label">Reach</span>
+              <strong>Online — available worldwide</strong>
+              <small>Headquartered in Dhaka, Bangladesh 🇧🇩</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-card" style="background: #fff;">
+        <h3>Office hours</h3>
+        <div class="hours-table">
+          <div class="hours-row today"><span>Monday</span><span>9 AM – 6 PM</span></div>
+          <div class="hours-row"><span>Tuesday</span><span>9 AM – 6 PM</span></div>
+          <div class="hours-row"><span>Wednesday</span><span>9 AM – 6 PM</span></div>
+          <div class="hours-row"><span>Thursday</span><span>9 AM – 6 PM</span></div>
+          <div class="hours-row"><span>Friday</span><span>9 AM – 4 PM</span></div>
+          <div class="hours-row"><span>Saturday</span><span>Closed</span></div>
+          <div class="hours-row"><span>Sunday</span><span>Closed</span></div>
+        </div>
+        <p style="font-size: 12px; color: var(--muted); margin-top: 12px;">All hours in GMT. Emails outside hours still get read; we just reply the next business day.</p>
+      </div>
+
+      <!-- Sidebar ad -->
+      <div class="ad-slot rectangle">
+        <strong>Sidebar ad · 300×250</strong>
+        <small>Tasteful sponsor / AdSense slot</small>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Quick answers</span>
+      <h2 class="pretty">You might find your answer here first.</h2>
+      <p>The most common questions we get — answered honestly.</p>
+    </div>
+    <div class="faq-grid">
+      <details class="faq" open>
+        <summary>Are the courses really 100% free?<span class="chev"></span></summary>
+        <div class="answer">Yes. Every single course on Shopnil Academy is free, with no hidden upgrades, locked lessons, or "premium" tiers. We're funded entirely through tasteful, hand-vetted advertising and optional donations — not subscriptions.</div>
+      </details>
+      <details class="faq">
+        <summary>Do I get a certificate when I finish?<span class="chev"></span></summary>
+        <div class="answer">Yes — every course offers a shareable certificate on completion that you can put on your CV, LinkedIn, or portfolio. The certificate is also free.</div>
+      </details>
+      <details class="faq">
+        <summary>How do you make money if courses are free?<span class="chev"></span></summary>
+        <div class="answer">We rely on respectful, clearly-labeled ads and sponsor partnerships. Every ad slot on the platform is marked "Sponsored," and we manually approve every campaign — no deceptive ads, no malware, no junk. Read the full breakdown on our <a href="about.html" style="color: var(--green); text-decoration: underline;">About page</a>.</div>
+      </details>
+      <details class="faq">
+        <summary>Can I download lessons for offline learning?<span class="chev"></span></summary>
+        <div class="answer">Yes. All video lessons can be downloaded for offline study, which means you can keep learning on slow or no internet connections. We believe learning shouldn't depend on bandwidth.</div>
+      </details>
+      <details class="faq">
+        <summary>I want to teach a course on Shopnil. How?<span class="chev"></span></summary>
+        <div class="answer">We'd love that. Email <a href="mailto:teach@shopnilacademy.com" style="color: var(--green); text-decoration: underline;">teach@shopnilacademy.com</a> with a short pitch of what you'd like to teach and a sample of your work. We respond to every application within a week.</div>
+      </details>
+      <details class="faq">
+        <summary>Do you offer live classes or just recordings?<span class="chev"></span></summary>
+        <div class="answer">Both. Most courses have weekly live Q&A sessions with the instructor, plus all lessons are recorded so you can catch up at your own pace. Live sessions are also recorded for everyone who couldn't make it.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- Social CTA -->
+<section class="social-cta">
+  <div class="wrap">
+    <h2 class="pretty">Or just follow along on social.</h2>
+    <p>We post free mini-lessons, study tips, and behind-the-scenes content every week.</p>
+    <div class="social-buttons">
+      <a href="#"><span>📘</span> Facebook</a>
+      <a href="#"><span>𝕏</span> Twitter</a>
+      <a href="#"><span>▶</span> YouTube</a>
+      <a href="#"><span>📷</span> Instagram</a>
+      <a href="#"><span>in</span> LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo">
+          <img src="assets/logo.png" alt="Shopnil Academy" />
+          <span class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>LEARN WITHOUT LIMITS</small>
+          </span>
+        </a>
+        <p class="foot-about">100% free online courses in coding, math, languages, and guitar. Built for learners who want to actually finish.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="courses.html">All courses</a></li>
+          <li><a href="courses.html?track=tech">Tech & Coding</a></li>
+          <li><a href="courses.html?track=math">Math & Science</a></li>
+          <li><a href="courses.html?track=lang">Languages</a></li>
+          <li><a href="courses.html?track=guitar">Guitar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#instructors">Instructors</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">Get in touch</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Help center</a></li>
+          <li><a href="#">Student portal</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">Advertise</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Topic chips selector
+  document.querySelectorAll('.topic-chip').forEach(c => {
+    c.addEventListener('click', () => {
+      c.parentElement.querySelectorAll('.topic-chip').forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+    });
+  });
+
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ Message sent — we\'ll be in touch!';
+      btn.style.background = 'var(--green)';
+      setTimeout(() => {
+        e.target.reset();
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }, 3000);
+    }, 1000);
+  }
+</script>
+
+</body>
+</html>

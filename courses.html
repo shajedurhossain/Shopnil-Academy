@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>All Courses — Shopnil Academy · 100% Free</title>
+<meta name="description" content="Browse 200+ free courses in coding, math, languages, and guitar at Shopnil Academy. No paywalls, ever." />
+<link rel="icon" href="assets/logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+  .page-header {
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+    padding: 56px 0 48px;
+  }
+  .page-header .search-wrap {
+    margin-top: 32px;
+    max-width: 720px;
+  }
+  .search-bar {
+    background: #fff;
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 6px 6px 6px 20px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+  .search-bar .ic { color: var(--muted); font-size: 18px; }
+  .search-bar input {
+    flex: 1; border: 0; outline: none; padding: 12px 0;
+    font-size: 16px; font-family: inherit; background: transparent;
+  }
+  .search-bar .btn { padding: 12px 22px; }
+
+  /* Filter chips row */
+  .filter-row {
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    padding: 18px 0;
+    position: sticky; top: 0; z-index: 30;
+  }
+  .filter-row-inner {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  }
+  .filter-row-inner .chip-group {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .filter-row-inner .sort {
+    margin-left: auto;
+    display: flex; gap: 8px; align-items: center;
+    font-size: 13px; color: var(--muted);
+  }
+  .sort select {
+    padding: 8px 14px; border-radius: 999px;
+    border: 1px solid var(--line); background: #fff;
+    font-family: inherit; font-size: 13px; font-weight: 500;
+    color: var(--ink); cursor: pointer;
+  }
+
+  /* Layout */
+  .catalog {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    padding: 48px 0 80px;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    position: sticky;
+    top: 90px;
+    align-self: start;
+    display: flex; flex-direction: column; gap: 24px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+  .sidebar h4 {
+    font-size: 13px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .filter-group {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: 16px; padding: 22px;
+  }
+  .filter-list { display: flex; flex-direction: column; gap: 12px; }
+  .filter-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; cursor: pointer;
+  }
+  .filter-item input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px; border: 1.5px solid var(--line);
+    border-radius: 5px; background: #fff;
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .filter-item input[type="checkbox"]:checked {
+    background: var(--green); border-color: var(--green);
+  }
+  .filter-item input[type="checkbox"]:checked::after {
+    content: '✓'; color: #fff; font-size: 12px; font-weight: 700;
+  }
+  .filter-item label { flex: 1; cursor: pointer; }
+  .filter-item .count {
+    font-size: 12px; color: var(--muted);
+    background: var(--cream); padding: 2px 8px; border-radius: 999px;
+  }
+
+  /* Star rating filter */
+  .stars-filter .stars-row {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; padding: 6px 0; cursor: pointer;
+  }
+  .stars-filter .stars-row .stars { color: var(--gold); letter-spacing: 1px; }
+  .stars-filter .stars-row span { color: var(--muted); font-size: 13px; }
+  .stars-filter .stars-row:hover span { color: var(--ink); }
+
+  /* Main */
+  .main h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+  .main .results-meta {
+    font-size: 14px; color: var(--muted);
+    margin-bottom: 28px;
+  }
+  .course-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+
+  /* Pagination */
+  .pagination {
+    display: flex; gap: 6px; justify-content: center; align-items: center;
+    margin-top: 60px;
+  }
+  .pagination button, .pagination a {
+    min-width: 40px; height: 40px;
+    border-radius: 10px; border: 1px solid var(--line);
+    background: #fff; color: var(--ink);
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    cursor: pointer; padding: 0 12px;
+    display: grid; place-items: center;
+  }
+  .pagination button:hover, .pagination a:hover { border-color: var(--ink); }
+  .pagination .active { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .pagination .dots { background: transparent; border: 0; cursor: default; }
+
+  @media (max-width: 980px) {
+    .catalog { grid-template-columns: 1fr; }
+    .sidebar { position: static; max-height: none; overflow: visible; }
+    .course-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .course-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="index.html" class="logo">
+      <img src="assets/logo.png" alt="Shopnil Academy" />
+      <span class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN WITHOUT LIMITS</small>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="courses.html" class="active">Courses</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="courses.html" class="btn btn-ghost">Browse</a>
+      <a href="courses.html" class="btn btn-primary">Start free →</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- Page header -->
+<section class="page-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span class="sep">/</span>
+      <span>Courses</span>
+    </div>
+    <span class="free-pill">100% Free · 200+ courses available</span>
+    <h1 style="margin-top: 16px;">Browse every course. <span style="color: var(--green);">All free.</span></h1>
+    <p class="lead">Pick a track, filter by what matters to you, and start learning in seconds. No subscriptions. No paywalls.</p>
+    <div class="search-wrap">
+      <div class="search-bar">
+        <span class="ic">⌕</span>
+        <input type="text" placeholder="Search Python, Spanish, calculus, guitar..." />
+        <button class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sticky filter chips -->
+<section class="filter-row">
+  <div class="wrap filter-row-inner">
+    <div class="chip-group">
+      <button class="chip active">All tracks</button>
+      <button class="chip">💻 Tech & Coding</button>
+      <button class="chip">📐 Math & Science</button>
+      <button class="chip">🌍 Languages</button>
+      <button class="chip">🎸 Guitar</button>
+    </div>
+    <div class="sort">
+      <label for="sort">Sort by:</label>
+      <select id="sort">
+        <option>Most popular</option>
+        <option>Newest first</option>
+        <option>Highest rated</option>
+        <option>Shortest first</option>
+        <option>Longest first</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<!-- Catalog grid -->
+<div class="wrap catalog">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="filter-group">
+      <h4>Level</h4>
+      <div class="filter-list">
+        <div class="filter-item"><input type="checkbox" id="lvl1" checked /><label for="lvl1">Beginner</label><span class="count">96</span></div>
+        <div class="filter-item"><input type="checkbox" id="lvl2" /><label for="lvl2">Intermediate</label><span class="count">68</span></div>
+        <div class="filter-item"><input type="checkbox" id="lvl3" /><label for="lvl3">Advanced</label><span class="count">28</span></div>
+        <div class="filter-item"><input type="checkbox" id="lvl4" /><label for="lvl4">All levels</label><span class="count">42</span></div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <h4>Duration</h4>
+      <div class="filter-list">
+        <div class="filter-item"><input type="checkbox" id="d1" /><label for="d1">0–5 hours</label><span class="count">34</span></div>
+        <div class="filter-item"><input type="checkbox" id="d2" /><label for="d2">5–20 hours</label><span class="count">82</span></div>
+        <div class="filter-item"><input type="checkbox" id="d3" /><label for="d3">20–50 hours</label><span class="count">71</span></div>
+        <div class="filter-item"><input type="checkbox" id="d4" /><label for="d4">50+ hours</label><span class="count">18</span></div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <h4>Rating</h4>
+      <div class="filter-list stars-filter">
+        <div class="stars-row"><span class="stars">★★★★★</span><span>4.5 & up (128)</span></div>
+        <div class="stars-row"><span class="stars">★★★★☆</span><span>4.0 & up (186)</span></div>
+        <div class="stars-row"><span class="stars">★★★☆☆</span><span>3.5 & up (203)</span></div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <h4>Features</h4>
+      <div class="filter-list">
+        <div class="filter-item"><input type="checkbox" id="f1" /><label for="f1">Certificate</label><span class="count">156</span></div>
+        <div class="filter-item"><input type="checkbox" id="f2" /><label for="f2">Live Q&A</label><span class="count">42</span></div>
+        <div class="filter-item"><input type="checkbox" id="f3" /><label for="f3">Downloadable</label><span class="count">184</span></div>
+        <div class="filter-item"><input type="checkbox" id="f4" /><label for="f4">Practice exercises</label><span class="count">132</span></div>
+        <div class="filter-item"><input type="checkbox" id="f5" /><label for="f5">Subtitles</label><span class="count">200</span></div>
+      </div>
+    </div>
+
+    <!-- Sidebar ad slot -->
+    <div class="ad-slot rectangle">
+      <strong>Sidebar ad · 300×250</strong>
+      <small>Medium rectangle slot for AdSense or sponsors</small>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <h2>All courses</h2>
+    <p class="results-meta">Showing <strong>1–12</strong> of <strong>234</strong> courses · all free</p>
+
+    <div class="course-grid">
+      <!-- 1 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-tech">
+          <span class="badge bestseller">⭐ Bestseller</span>
+          <span class="free-badge">FREE</span>
+          <span class="level">Beginner</span>
+          <span class="duration">30h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Python for Absolute Beginners</h3>
+          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(2,140)</span></div>
+          <div class="course-meta"><span>45 lessons</span><span>Certificate</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">SK</div>Sazid Khan</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 2 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-guitar">
+          <span class="badge new">🔥 New</span>
+          <span class="free-badge">FREE</span>
+          <span class="level">All levels</span>
+          <span class="duration">25h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Guitar</span>
+          <h3>Acoustic Guitar Masterclass</h3>
+          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(980)</span></div>
+          <div class="course-meta"><span>40 lessons</span><span>Tab sheets</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">RM</div>Rifat Mahmud</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 3 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-lang">
+          <span class="badge">📈 Trending</span>
+          <span class="free-badge">FREE</span>
+          <span class="level">Beginner</span>
+          <span class="duration">35h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Languages</span>
+          <h3>SpanishFlow — Speak in 30 Days</h3>
+          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(1,560)</span></div>
+          <div class="course-meta"><span>50 lessons</span><span>Audio drills</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">MA</div>Maria Alvarez</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 4 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-math">
+          <span class="badge bestseller">⭐ Top rated</span>
+          <span class="free-badge">FREE</span>
+          <span class="level">Intermediate</span>
+          <span class="duration">40h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Math & Science</span>
+          <h3>Calculus Made Easy — From Basics to Advanced</h3>
+          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(1,420)</span></div>
+          <div class="course-meta"><span>60 lessons</span><span>Practice sets</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">NA</div>Dr. Nadia Anwar</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 5 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-blue">
+          <span class="badge new">🔥 New</span>
+          <span class="free-badge">FREE</span>
+          <span class="level">Beginner</span>
+          <span class="duration">18h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Web Development with HTML, CSS & JavaScript</h3>
+          <div class="course-rating"><strong>4.7</strong><span class="stars">★★★★★</span><span class="count">(320)</span></div>
+          <div class="course-meta"><span>32 lessons</span><span>Project-based</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">TH</div>Tanvir Hasan</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 6 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-purple">
+          <span class="free-badge">FREE</span>
+          <span class="level">Intermediate</span>
+          <span class="duration">22h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Data Science Foundations — Pandas, NumPy & More</h3>
+          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(412)</span></div>
+          <div class="course-meta"><span>38 lessons</span><span>Datasets</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">SK</div>Sazid Khan</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- In-feed ad slot -->
+      <div class="ad-slot in-feed" style="grid-column: span 3; min-height: 140px;">
+        <strong>In-feed ad · 970×120 native</strong>
+        <small>Tasteful sponsor slot between course rows · feels native, clearly labeled</small>
+      </div>
+
+      <!-- 7 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-lang">
+          <span class="free-badge">FREE</span>
+          <span class="level">Beginner</span>
+          <span class="duration">28h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Languages</span>
+          <h3>English Fluency for Bangladeshi Learners</h3>
+          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(890)</span></div>
+          <div class="course-meta"><span>44 lessons</span><span>Speaking drills</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">FK</div>Farah Khanam</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 8 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-guitar">
+          <span class="free-badge">FREE</span>
+          <span class="level">Intermediate</span>
+          <span class="duration">28h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Guitar</span>
+          <h3>Electric Guitar Fundamentals — Tone & Technique</h3>
+          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(186)</span></div>
+          <div class="course-meta"><span>44 lessons</span><span>Backing tracks</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">RM</div>Rifat Mahmud</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 9 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-math">
+          <span class="badge new">🔥 New</span>
+          <span class="free-badge">FREE</span>
+          <span class="level">Beginner</span>
+          <span class="duration">20h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Math & Science</span>
+          <h3>Physics Fundamentals for High School</h3>
+          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(248)</span></div>
+          <div class="course-meta"><span>36 lessons</span><span>Lab exercises</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">NA</div>Dr. Nadia Anwar</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 10 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-tech">
+          <span class="free-badge">FREE</span>
+          <span class="level">All levels</span>
+          <span class="duration">12h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Git & Version Control — From Zero to Confident</h3>
+          <div class="course-rating"><strong>4.7</strong><span class="stars">★★★★★</span><span class="count">(640)</span></div>
+          <div class="course-meta"><span>22 lessons</span><span>Hands-on</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">SK</div>Sazid Khan</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 11 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-lang">
+          <span class="free-badge">FREE</span>
+          <span class="level">Beginner</span>
+          <span class="duration">30h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Languages</span>
+          <h3>Arabic for Beginners — Spoken & Written</h3>
+          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(420)</span></div>
+          <div class="course-meta"><span>48 lessons</span><span>Pronunciation</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">HS</div>Hussain Sayeed</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+      <!-- 12 -->
+      <a href="course.html" class="course">
+        <div class="course-thumb t-purple">
+          <span class="free-badge">FREE</span>
+          <span class="level">Intermediate</span>
+          <span class="duration">16h</span>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Math & Science</span>
+          <h3>Statistics & Probability — Real-World Examples</h3>
+          <div class="course-rating"><strong>4.7</strong><span class="stars">★★★★★</span><span class="count">(380)</span></div>
+          <div class="course-meta"><span>28 lessons</span><span>Excel exercises</span></div>
+          <div class="course-foot">
+            <div class="course-instructor"><div class="avatar">NA</div>Dr. Nadia Anwar</div>
+            <span class="enroll-link">Enroll →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button>‹</button>
+      <a class="active">1</a>
+      <a>2</a>
+      <a>3</a>
+      <a>4</a>
+      <span class="dots">…</span>
+      <a>20</a>
+      <button>›</button>
+    </div>
+  </main>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="index.html" class="logo">
+          <img src="assets/logo.png" alt="Shopnil Academy" />
+          <span class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>LEARN WITHOUT LIMITS</small>
+          </span>
+        </a>
+        <p class="foot-about">100% free online courses in coding, math, languages, and guitar. Built for learners who want to actually finish.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">𝕏</a>
+          <a href="#" aria-label="YouTube">▶</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="courses.html">All courses</a></li>
+          <li><a href="courses.html?track=tech">Tech & Coding</a></li>
+          <li><a href="courses.html?track=math">Math & Science</a></li>
+          <li><a href="courses.html?track=lang">Languages</a></li>
+          <li><a href="courses.html?track=guitar">Guitar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="about.html#instructors">Instructors</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="contact.html">Get in touch</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Help center</a></li>
+          <li><a href="#">Student portal</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">Advertise</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Make chip filters togglable
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      chip.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
