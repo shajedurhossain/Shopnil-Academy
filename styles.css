@@ -180,6 +180,86 @@ p { margin: 0; }
 
 section.block { padding: 100px 0; position: relative; }
 
+/* -- COMING SOON OVERLAY ON COURSE CARD --------------------- */
+.course.is-soon { opacity: .92; }
+.course.is-soon .course-thumb { filter: saturate(.55); }
+.course .soon-tag {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: rgba(15,36,24,.85);
+  color: #fff;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .08em;
+  z-index: 3;
+  text-transform: uppercase;
+}
+.course .available-tag {
+  position: absolute;
+  top: 14px; left: 14px;
+  background: var(--green);
+  color: #fff;
+  padding: 5px 12px 5px 6px;
+  border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .04em;
+  z-index: 3;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.course .available-tag::before {
+  content: '●';
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--gold);
+  display: inline-grid;
+  place-items: center;
+  font-size: 0;
+}
+.course.is-available .free-badge { background: var(--gold); color: var(--green-dark); }
+.course.is-available .free-badge::before { background: var(--green-dark); color: var(--gold); }
+
+/* Track-grouped catalog */
+.track-section { margin-bottom: 72px; }
+.track-head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.track-head .track-title {
+  display: flex; align-items: center; gap: 14px;
+}
+.track-icon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: grid; place-items: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.track-icon.tech { background: var(--green-soft); color: var(--green); }
+.track-icon.math { background: var(--green-mint); color: var(--green-deep); }
+.track-icon.lang { background: var(--red-soft); color: var(--red); }
+.track-icon.guitar { background: var(--gold-soft); color: #b8881a; }
+.track-head h2 {
+  font-size: clamp(24px, 2.5vw, 30px);
+  margin: 0;
+}
+.track-head .count {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 500;
+}
+.track-head .count strong { color: var(--ink); font-family: var(--font-display); font-weight: 600; }
+
+/* Course thumb track variants */
+.course-thumb.t-tech { background: linear-gradient(135deg, var(--green) 0%, var(--green-deep) 100%); }
+.course-thumb.t-bio  { background: linear-gradient(135deg, #2d8c5f 0%, #1a5e3f 100%); }
+.course-thumb.t-data { background: linear-gradient(135deg, #4a7c59 0%, #2d4f3a 100%); }
+.course-thumb.t-ops  { background: linear-gradient(135deg, #1e3a8a 0%, #1e3a5f 100%); }
+
 /* -- COURSE CARD (used on home, courses, etc.) -------------- */
 .course {
   background: #fff; border: 1px solid var(--line);

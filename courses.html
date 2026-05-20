@@ -4,197 +4,175 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>All Courses — Shopnil Academy · 100% Free</title>
-<meta name="description" content="Browse 200+ free courses in coding, math, languages, and guitar at Shopnil Academy. No paywalls, ever." />
+<meta name="description" content="Browse free courses in bioinformatics, programming, languages, math, and guitar at Shopnil Academy. No paywalls, ever." />
 <link rel="icon" href="assets/logo.png" />
-
-    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Shopnil Academy" />
-    <meta property="og:title" content="All Courses — Shopnil Academy · 200+ Free Courses" />
-    <meta property="og:description" content="Browse 200+ free online courses in coding, math, languages, and guitar. Filter by level, duration, and rating. All courses 100% free." />
-    <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Shopnil Academy — Learn anything. Pay nothing. Ever." />
-    <meta property="og:url" content="https://shopnilacademy.com/courses.html" />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="All Courses — Shopnil Academy · 200+ Free Courses" />
-    <meta name="twitter:description" content="Browse 200+ free online courses in coding, math, languages, and guitar. Filter by level, duration, and rating. All courses 100% free." />
-    <meta name="twitter:image" content="https://shopnilacademy.com/assets/og-image.png" />
-
-    <!-- Canonical -->
-    <link rel="canonical" href="https://shopnilacademy.com/courses.html" />
-
-    <!-- Theme color (mobile browser chrome) -->
-    <meta name="theme-color" content="#006A4E" />
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp, etc.) -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Shopnil Academy" />
+<meta property="og:title" content="All Courses — Shopnil Academy · Free Courses Across 4 Tracks" />
+<meta property="og:description" content="Free online courses in bioinformatics, programming, languages, math, and guitar. All courses 100% free." />
+<meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Shopnil Academy — Learn anything. Pay nothing. Ever." />
+<meta property="og:url" content="https://shopnilacademy.com/courses.html" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="All Courses — Shopnil Academy" />
+<meta name="twitter:description" content="Free online courses across bioinformatics, programming, languages, math, and guitar." />
+<meta name="twitter:image" content="https://shopnilacademy.com/assets/og-image.png" />
+<link rel="canonical" href="https://shopnilacademy.com/courses.html" />
+<meta name="theme-color" content="#006A4E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TBSKG50L36"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TBSKG50L36');
+</script>
 <style>
   .page-header {
     background: var(--cream);
     border-bottom: 1px solid var(--line);
-    padding: 56px 0 48px;
+    padding: 56px 0 40px;
   }
-  .page-header .search-wrap {
-    margin-top: 32px;
-    max-width: 720px;
+  .page-header .summary-row {
+    display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap;
   }
-  .search-bar {
-    background: #fff;
-    border: 2px solid var(--ink);
-    border-radius: 16px;
-    padding: 6px 6px 6px 20px;
-    display: flex; align-items: center; gap: 12px;
-    box-shadow: var(--shadow-sm);
+  .summary-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: #fff; border: 1px solid var(--line);
+    padding: 10px 18px; border-radius: 999px;
+    font-size: 14px; font-weight: 500;
   }
-  .search-bar .ic { color: var(--muted); font-size: 18px; }
-  .search-bar input {
-    flex: 1; border: 0; outline: none; padding: 12px 0;
-    font-size: 16px; font-family: inherit; background: transparent;
-  }
-  .search-bar .btn { padding: 12px 22px; }
+  .summary-pill strong { font-family: var(--font-display); font-weight: 700; color: var(--ink); }
+  .summary-pill .swatch { width: 10px; height: 10px; border-radius: 50%; }
+  .summary-pill .swatch.tech { background: var(--green); }
+  .summary-pill .swatch.math { background: var(--green-deep); }
+  .summary-pill .swatch.lang { background: var(--red); }
+  .summary-pill .swatch.guitar { background: var(--gold); }
+  .summary-pill .swatch.avail { background: var(--green); box-shadow: 0 0 0 3px rgba(0,106,78,.15); }
 
-  /* Filter chips row */
-  .filter-row {
+  /* Anchor jump nav */
+  .anchor-nav {
     background: #fff;
     border-bottom: 1px solid var(--line);
-    padding: 18px 0;
+    padding: 16px 0;
     position: sticky; top: 0; z-index: 30;
   }
-  .filter-row-inner {
-    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  .anchor-nav-inner {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
   }
-  .filter-row-inner .chip-group {
-    display: flex; gap: 8px; flex-wrap: wrap;
+  .anchor-nav-inner .label {
+    font-size: 13px; color: var(--muted); margin-right: 8px; font-weight: 500;
   }
-  .filter-row-inner .sort {
-    margin-left: auto;
-    display: flex; gap: 8px; align-items: center;
-    font-size: 13px; color: var(--muted);
-  }
-  .sort select {
+  .anchor-pill {
     padding: 8px 14px; border-radius: 999px;
-    border: 1px solid var(--line); background: #fff;
-    font-family: inherit; font-size: 13px; font-weight: 500;
-    color: var(--ink); cursor: pointer;
-  }
-
-  /* Layout */
-  .catalog {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 40px;
-    padding: 48px 0 80px;
-  }
-
-  /* Sidebar */
-  .sidebar {
-    position: sticky;
-    top: 90px;
-    align-self: start;
-    display: flex; flex-direction: column; gap: 24px;
-    max-height: calc(100vh - 100px);
-    overflow-y: auto;
-    padding-right: 8px;
-  }
-  .sidebar h4 {
-    font-size: 13px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: .08em; color: var(--muted);
-    margin-bottom: 14px;
-  }
-  .filter-group {
-    background: #fff; border: 1px solid var(--line);
-    border-radius: 16px; padding: 22px;
-  }
-  .filter-list { display: flex; flex-direction: column; gap: 12px; }
-  .filter-item {
-    display: flex; align-items: center; gap: 10px;
-    font-size: 14px; cursor: pointer;
-  }
-  .filter-item input[type="checkbox"] {
-    appearance: none; -webkit-appearance: none;
-    width: 18px; height: 18px; border: 1.5px solid var(--line);
-    border-radius: 5px; background: #fff;
-    display: grid; place-items: center;
-    cursor: pointer;
+    background: var(--bg); border: 1px solid var(--line);
+    font-size: 13px; font-weight: 600; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 6px;
+    text-decoration: none;
     transition: all .15s ease;
   }
-  .filter-item input[type="checkbox"]:checked {
-    background: var(--green); border-color: var(--green);
+  .anchor-pill:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .anchor-pill .ic { font-size: 14px; }
+  .anchor-pill .num {
+    background: rgba(15,36,24,.08);
+    padding: 1px 7px; border-radius: 999px;
+    font-size: 11px; font-weight: 700;
   }
-  .filter-item input[type="checkbox"]:checked::after {
-    content: '✓'; color: #fff; font-size: 12px; font-weight: 700;
+  .anchor-pill:hover .num { background: rgba(255,255,255,.15); }
+  .anchor-nav-inner .right-actions { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .anchor-nav-inner .right-actions .toggle {
+    font-size: 13px; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; background: transparent; border: 1px solid var(--line);
+    border-radius: 999px; cursor: pointer; font-family: inherit; font-weight: 500;
+    transition: all .15s ease;
   }
-  .filter-item label { flex: 1; cursor: pointer; }
-  .filter-item .count {
-    font-size: 12px; color: var(--muted);
-    background: var(--cream); padding: 2px 8px; border-radius: 999px;
+  .anchor-nav-inner .right-actions .toggle:hover { border-color: var(--ink); color: var(--ink); }
+  .anchor-nav-inner .right-actions .toggle.active { background: var(--green); border-color: var(--green); color: #fff; }
+
+  /* Catalog wrapper */
+  .catalog {
+    padding: 56px 0 80px;
   }
 
-  /* Star rating filter */
-  .stars-filter .stars-row {
+  /* Sub-section (for language splits) */
+  .sub-section { margin: 24px 0 28px; }
+  .sub-section .sub-head {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: 14px;
+    color: var(--muted);
+    text-transform: uppercase; letter-spacing: .08em;
+    margin-bottom: 14px;
+    padding-left: 4px;
     display: flex; align-items: center; gap: 8px;
-    font-size: 14px; padding: 6px 0; cursor: pointer;
   }
-  .stars-filter .stars-row .stars { color: var(--gold); letter-spacing: 1px; }
-  .stars-filter .stars-row span { color: var(--muted); font-size: 13px; }
-  .stars-filter .stars-row:hover span { color: var(--ink); }
+  .sub-section .sub-head::before {
+    content: ''; width: 18px; height: 1.5px; background: var(--muted);
+  }
 
-  /* Main */
-  .main h2 {
-    font-size: 22px;
-    margin-bottom: 8px;
+  /* Track group separator (anchor target) */
+  .track-section { scroll-margin-top: 88px; }
+
+  /* Empty / coming-soon course thumbnail decoration */
+  .course .thumb-deco {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    color: rgba(255,255,255,.55);
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 16px;
+    letter-spacing: .04em;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
   }
-  .main .results-meta {
-    font-size: 14px; color: var(--muted);
-    margin-bottom: 28px;
+  .course .thumb-deco svg { width: 32px; height: 32px; margin-bottom: 6px; }
+
+  /* Notify banner */
+  .notify-banner {
+    background: var(--green-soft);
+    border: 1px solid rgba(0,106,78,.15);
+    border-radius: 18px;
+    padding: 28px;
+    display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center;
+    margin-bottom: 48px;
   }
+  .notify-banner h3 { font-size: 22px; margin-bottom: 6px; }
+  .notify-banner p { font-size: 14px; color: var(--muted); max-width: 540px; }
+  .notify-form { display: flex; gap: 10px; }
+  .notify-form input {
+    padding: 12px 16px; border: 1.5px solid var(--line);
+    border-radius: 999px; font-family: inherit; font-size: 14px;
+    background: #fff; min-width: 240px;
+  }
+  .notify-form input:focus { outline: none; border-color: var(--green); }
+
   .course-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 22px;
   }
 
-  /* Pagination */
-  .pagination {
-    display: flex; gap: 6px; justify-content: center; align-items: center;
-    margin-top: 60px;
-  }
-  .pagination button, .pagination a {
-    min-width: 40px; height: 40px;
-    border-radius: 10px; border: 1px solid var(--line);
-    background: #fff; color: var(--ink);
-    font-family: inherit; font-size: 14px; font-weight: 600;
-    cursor: pointer; padding: 0 12px;
-    display: grid; place-items: center;
-  }
-  .pagination button:hover, .pagination a:hover { border-color: var(--ink); }
-  .pagination .active { background: var(--ink); color: #fff; border-color: var(--ink); }
-  .pagination .dots { background: transparent; border: 0; cursor: default; }
+  /* "Hide coming soon" mode */
+  body.hide-soon .course.is-soon { display: none; }
+  body.hide-soon .track-section.no-available { display: none; }
 
   @media (max-width: 980px) {
-    .catalog { grid-template-columns: 1fr; }
-    .sidebar { position: static; max-height: none; overflow: visible; }
     .course-grid { grid-template-columns: repeat(2, 1fr); }
+    .notify-banner { grid-template-columns: 1fr; }
   }
   @media (max-width: 640px) {
     .course-grid { grid-template-columns: 1fr; }
+    .anchor-nav { padding: 12px 0; }
   }
 </style>
-
-    <!-- Google Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBSKG50L36"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-TBSKG50L36');
-    </script>
 </head>
 <body>
 
@@ -216,7 +194,7 @@
     </div>
     <div class="nav-cta">
       <a href="courses.html" class="btn btn-ghost">Browse</a>
-      <a href="courses.html" class="btn btn-primary">Start free →</a>
+      <a href="courses.html#available" class="btn btn-primary">Start free →</a>
     </div>
     <button class="nav-toggle" aria-label="Menu">☰</button>
   </nav>
@@ -225,348 +203,564 @@
 <!-- Page header -->
 <section class="page-header">
   <div class="wrap">
-    <div class="breadcrumb">
+    <div class="breadcrumb" style="display: flex; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 18px;">
       <a href="index.html">Home</a>
-      <span class="sep">/</span>
+      <span style="opacity: .4;">/</span>
       <span>Courses</span>
     </div>
-    <span class="free-pill">100% Free · 200+ courses available</span>
-    <h1 style="margin-top: 16px;">Browse every course. <span style="color: var(--green);">All free.</span></h1>
-    <p class="lead">Pick a track, filter by what matters to you, and start learning in seconds. No subscriptions. No paywalls.</p>
-    <div class="search-wrap">
-      <div class="search-bar">
-        <span class="ic">⌕</span>
-        <input type="text" placeholder="Search Python, Spanish, calculus, guitar..." />
-        <button class="btn btn-primary">Search</button>
-      </div>
+    <span class="free-pill">100% Free · 1 course available · more launching soon</span>
+    <h1 style="margin-top: 16px; font-size: clamp(40px, 5vw, 56px); max-width: 760px;">All courses, <span style="color: var(--green);">100% free.</span></h1>
+    <p class="lead" style="font-size: 18px; color: var(--muted); max-width: 620px; margin-top: 14px;">We're building a complete free curriculum — one careful course at a time. Browse what's launching across our four tracks.</p>
+    <div class="summary-row">
+      <span class="summary-pill"><span class="swatch tech"></span><strong>Tech & Coding</strong> · 6 courses</span>
+      <span class="summary-pill"><span class="swatch math"></span><strong>Math & Science</strong> · 2 courses</span>
+      <span class="summary-pill"><span class="swatch lang"></span><strong>Languages</strong> · 14 courses</span>
+      <span class="summary-pill"><span class="swatch guitar"></span><strong>Guitar</strong> · 1 course</span>
+      <span class="summary-pill" style="background: var(--green); color: #fff; border-color: var(--green);"><span class="swatch avail"></span><strong style="color: #fff;">Available now</strong> · 1</span>
     </div>
   </div>
 </section>
 
-<!-- Sticky filter chips -->
-<section class="filter-row">
-  <div class="wrap filter-row-inner">
-    <div class="chip-group">
-      <button class="chip active">All tracks</button>
-      <button class="chip">💻 Tech & Coding</button>
-      <button class="chip">📐 Math & Science</button>
-      <button class="chip">🌍 Languages</button>
-      <button class="chip">🎸 Guitar</button>
-    </div>
-    <div class="sort">
-      <label for="sort">Sort by:</label>
-      <select id="sort">
-        <option>Most popular</option>
-        <option>Newest first</option>
-        <option>Highest rated</option>
-        <option>Shortest first</option>
-        <option>Longest first</option>
-      </select>
+<!-- Sticky anchor nav -->
+<nav class="anchor-nav">
+  <div class="wrap anchor-nav-inner">
+    <span class="label">Jump to:</span>
+    <a href="#tech" class="anchor-pill"><span class="ic">💻</span> Tech & Coding <span class="num">6</span></a>
+    <a href="#math" class="anchor-pill"><span class="ic">📐</span> Math & Science <span class="num">2</span></a>
+    <a href="#languages" class="anchor-pill"><span class="ic">🌍</span> Languages <span class="num">14</span></a>
+    <a href="#guitar" class="anchor-pill"><span class="ic">🎸</span> Guitar <span class="num">1</span></a>
+    <div class="right-actions">
+      <button class="toggle" id="hide-soon-toggle">Show only available</button>
     </div>
   </div>
-</section>
+</nav>
 
-<!-- Catalog grid -->
 <div class="wrap catalog">
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="filter-group">
-      <h4>Level</h4>
-      <div class="filter-list">
-        <div class="filter-item"><input type="checkbox" id="lvl1" checked /><label for="lvl1">Beginner</label><span class="count">96</span></div>
-        <div class="filter-item"><input type="checkbox" id="lvl2" /><label for="lvl2">Intermediate</label><span class="count">68</span></div>
-        <div class="filter-item"><input type="checkbox" id="lvl3" /><label for="lvl3">Advanced</label><span class="count">28</span></div>
-        <div class="filter-item"><input type="checkbox" id="lvl4" /><label for="lvl4">All levels</label><span class="count">42</span></div>
+  <!-- Notify banner -->
+  <div class="notify-banner">
+    <div>
+      <h3>Want to know when courses launch?</h3>
+      <p>We'll send a single email when each new course goes live — no spam, no marketing fluff. Just the link to the new course.</p>
+    </div>
+    <form class="notify-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ Subscribed';">
+      <input type="email" placeholder="you@example.com" required />
+      <button type="submit" class="btn btn-primary">Notify me</button>
+    </form>
+  </div>
+
+  <!-- ================= TECH & CODING ================= -->
+  <section class="track-section" id="tech">
+    <div class="track-head">
+      <div class="track-title">
+        <div class="track-icon tech">💻</div>
+        <div>
+          <h2>Tech & Coding</h2>
+          <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Bioinformatics, programming, infrastructure, and data engineering.</p>
+        </div>
       </div>
+      <span class="count"><strong>6 courses</strong> · all coming soon</span>
     </div>
-
-    <div class="filter-group">
-      <h4>Duration</h4>
-      <div class="filter-list">
-        <div class="filter-item"><input type="checkbox" id="d1" /><label for="d1">0–5 hours</label><span class="count">34</span></div>
-        <div class="filter-item"><input type="checkbox" id="d2" /><label for="d2">5–20 hours</label><span class="count">82</span></div>
-        <div class="filter-item"><input type="checkbox" id="d3" /><label for="d3">20–50 hours</label><span class="count">71</span></div>
-        <div class="filter-item"><input type="checkbox" id="d4" /><label for="d4">50+ hours</label><span class="count">18</span></div>
-      </div>
-    </div>
-
-    <div class="filter-group">
-      <h4>Rating</h4>
-      <div class="filter-list stars-filter">
-        <div class="stars-row"><span class="stars">★★★★★</span><span>4.5 & up (128)</span></div>
-        <div class="stars-row"><span class="stars">★★★★☆</span><span>4.0 & up (186)</span></div>
-        <div class="stars-row"><span class="stars">★★★☆☆</span><span>3.5 & up (203)</span></div>
-      </div>
-    </div>
-
-    <div class="filter-group">
-      <h4>Features</h4>
-      <div class="filter-list">
-        <div class="filter-item"><input type="checkbox" id="f1" /><label for="f1">Certificate</label><span class="count">156</span></div>
-        <div class="filter-item"><input type="checkbox" id="f2" /><label for="f2">Live Q&A</label><span class="count">42</span></div>
-        <div class="filter-item"><input type="checkbox" id="f3" /><label for="f3">Downloadable</label><span class="count">184</span></div>
-        <div class="filter-item"><input type="checkbox" id="f4" /><label for="f4">Practice exercises</label><span class="count">132</span></div>
-        <div class="filter-item"><input type="checkbox" id="f5" /><label for="f5">Subtitles</label><span class="count">200</span></div>
-      </div>
-    </div>
-
-    <!-- Sidebar ad slot -->
-    <div class="ad-slot rectangle">
-      <strong>Sidebar ad · 300×250</strong>
-      <small>Medium rectangle slot for AdSense or sponsors</small>
-    </div>
-  </aside>
-
-  <!-- Main -->
-  <main class="main">
-    <h2>All courses</h2>
-    <p class="results-meta">Showing <strong>1–12</strong> of <strong>234</strong> courses · all free</p>
 
     <div class="course-grid">
-      <!-- 1 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-tech">
-          <span class="badge bestseller">⭐ Bestseller</span>
+      <article class="course is-soon">
+        <div class="course-thumb t-ops">
+          <span class="soon-tag">Coming soon</span>
           <span class="free-badge">FREE</span>
-          <span class="level">Beginner</span>
-          <span class="duration">30h</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            UNIX · LINUX · BASH
+          </div>
         </div>
         <div class="course-body">
           <span class="course-cat">Tech & Coding</span>
-          <h3>Python for Absolute Beginners</h3>
-          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(2,140)</span></div>
-          <div class="course-meta"><span>45 lessons</span><span>Certificate</span></div>
+          <h3>Unix, Linux & BASH Scripting</h3>
+          <div class="course-meta">
+            <span>Command line</span><span>Shell scripting</span><span>System basics</span>
+          </div>
           <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">SK</div>Sazid Khan</div>
-            <span class="enroll-link">Enroll →</span>
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
           </div>
         </div>
-      </a>
-      <!-- 2 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-guitar">
-          <span class="badge new">🔥 New</span>
-          <span class="free-badge">FREE</span>
-          <span class="level">All levels</span>
-          <span class="duration">25h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Guitar</span>
-          <h3>Acoustic Guitar Masterclass</h3>
-          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(980)</span></div>
-          <div class="course-meta"><span>40 lessons</span><span>Tab sheets</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">RM</div>Rifat Mahmud</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
-      <!-- 3 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-lang">
-          <span class="badge">📈 Trending</span>
-          <span class="free-badge">FREE</span>
-          <span class="level">Beginner</span>
-          <span class="duration">35h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Languages</span>
-          <h3>SpanishFlow — Speak in 30 Days</h3>
-          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(1,560)</span></div>
-          <div class="course-meta"><span>50 lessons</span><span>Audio drills</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">MA</div>Maria Alvarez</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
-      <!-- 4 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-math">
-          <span class="badge bestseller">⭐ Top rated</span>
-          <span class="free-badge">FREE</span>
-          <span class="level">Intermediate</span>
-          <span class="duration">40h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Math & Science</span>
-          <h3>Calculus Made Easy — From Basics to Advanced</h3>
-          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(1,420)</span></div>
-          <div class="course-meta"><span>60 lessons</span><span>Practice sets</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">NA</div>Dr. Nadia Anwar</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
-      <!-- 5 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-blue">
-          <span class="badge new">🔥 New</span>
-          <span class="free-badge">FREE</span>
-          <span class="level">Beginner</span>
-          <span class="duration">18h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Tech & Coding</span>
-          <h3>Web Development with HTML, CSS & JavaScript</h3>
-          <div class="course-rating"><strong>4.7</strong><span class="stars">★★★★★</span><span class="count">(320)</span></div>
-          <div class="course-meta"><span>32 lessons</span><span>Project-based</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">TH</div>Tanvir Hasan</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
-      <!-- 6 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-purple">
-          <span class="free-badge">FREE</span>
-          <span class="level">Intermediate</span>
-          <span class="duration">22h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Tech & Coding</span>
-          <h3>Data Science Foundations — Pandas, NumPy & More</h3>
-          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(412)</span></div>
-          <div class="course-meta"><span>38 lessons</span><span>Datasets</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">SK</div>Sazid Khan</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
+      </article>
 
-      <!-- In-feed ad slot -->
-      <div class="ad-slot in-feed" style="grid-column: span 3; min-height: 140px;">
-        <strong>In-feed ad · 970×120 native</strong>
-        <small>Tasteful sponsor slot between course rows · feels native, clearly labeled</small>
+      <article class="course is-soon">
+        <div class="course-thumb t-tech">
+          <span class="soon-tag">Coming soon</span>
+          <span class="free-badge">FREE</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            PYTHON · TENSORFLOW · R · C/C++
+          </div>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Programming for Bioinformatics</h3>
+          <div class="course-meta">
+            <span>Python 3.x</span><span>TensorFlow</span><span>R / Bioconductor</span><span>C/C++</span>
+          </div>
+          <div class="course-foot">
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="course is-soon">
+        <div class="course-thumb t-data">
+          <span class="soon-tag">Coming soon</span>
+          <span class="free-badge">FREE</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 10v6m11-11h-6M7 12H1m17.5-7.5l-4.2 4.2M9.7 14.3l-4.2 4.2m13 0l-4.2-4.2M9.7 9.7L5.5 5.5"/></svg>
+            GIT · DOCKER · KUBERNETES
+          </div>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Reproducible Research Tooling</h3>
+          <div class="course-meta">
+            <span>Git</span><span>Conda</span><span>Docker</span><span>Nextflow</span><span>SLURM</span><span>Docker Swarm</span><span>Kubernetes</span>
+          </div>
+          <div class="course-foot">
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="course is-soon">
+        <div class="course-thumb t-bio">
+          <span class="soon-tag">Coming soon</span>
+          <span class="free-badge">FREE</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+            WORKFLOW SYSTEMS
+          </div>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Workflow Systems for Pipelines</h3>
+          <div class="course-meta">
+            <span>Nextflow</span><span>Snakemake</span><span>Pipeline design</span>
+          </div>
+          <div class="course-foot">
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="course is-soon">
+        <div class="course-thumb t-bio">
+          <span class="soon-tag">Coming soon</span>
+          <span class="free-badge">FREE</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            NGS DATA ANALYSIS
+          </div>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>NGS Data Analysis</h3>
+          <div class="course-meta">
+            <span>SC-seq</span><span>RNA-seq</span><span>ChIP-seq</span><span>ATAC-seq</span><span>DNA variation</span><span>Epigenetics</span><span>Microbiome</span><span>Metagenomics</span>
+          </div>
+          <div class="course-foot">
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="course is-soon">
+        <div class="course-thumb t-ops">
+          <span class="soon-tag">Coming soon</span>
+          <span class="free-badge">FREE</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+            DATABASES · GDPR
+          </div>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Tech & Coding</span>
+          <h3>Databases & Sensitive Data Handling</h3>
+          <div class="course-meta">
+            <span>SQL basics</span><span>Schema design</span><span>GDPR</span><span>GenDG</span><span>Privacy</span>
+          </div>
+          <div class="course-foot">
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= MATH & SCIENCE ================= -->
+  <section class="track-section" id="math">
+    <div class="track-head">
+      <div class="track-title">
+        <div class="track-icon math">📐</div>
+        <div>
+          <h2>Math & Science</h2>
+          <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">Foundational courses for high-school students.</p>
+        </div>
       </div>
+      <span class="count"><strong>2 courses</strong> · all coming soon</span>
+    </div>
 
-      <!-- 7 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-lang">
+    <div class="course-grid">
+      <article class="course is-soon">
+        <div class="course-thumb t-math">
+          <span class="soon-tag">Coming soon</span>
           <span class="free-badge">FREE</span>
-          <span class="level">Beginner</span>
-          <span class="duration">28h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Languages</span>
-          <h3>English Fluency for Bangladeshi Learners</h3>
-          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(890)</span></div>
-          <div class="course-meta"><span>44 lessons</span><span>Speaking drills</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">FK</div>Farah Khanam</div>
-            <span class="enroll-link">Enroll →</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3v18l4-3 4 3 4-3 4 3V3"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>
+            HIGH SCHOOL MATH
           </div>
         </div>
-      </a>
-      <!-- 8 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-guitar">
+        <div class="course-body">
+          <span class="course-cat">Math & Science</span>
+          <h3>High School Mathematics</h3>
+          <div class="course-meta">
+            <span>Algebra</span><span>Geometry</span><span>Trigonometry</span><span>Calculus</span>
+          </div>
+          <div class="course-foot">
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="course is-soon">
+        <div class="course-thumb t-bio">
+          <span class="soon-tag">Coming soon</span>
           <span class="free-badge">FREE</span>
-          <span class="level">Intermediate</span>
-          <span class="duration">28h</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5C4 14.5 2 11 2 7.5 2 4 5 2 5 2c0 0 1.5 5.5 4.5 5.5"/><path d="M15.5 14.5C20 14.5 22 11 22 7.5 22 4 19 2 19 2c0 0-1.5 5.5-4.5 5.5"/><path d="M12 22V8M8.5 14.5C10 15.5 12 16 12 16s2-.5 3.5-1.5"/></svg>
+            HIGH SCHOOL BIOLOGY
+          </div>
+        </div>
+        <div class="course-body">
+          <span class="course-cat">Math & Science</span>
+          <h3>High School Biology</h3>
+          <div class="course-meta">
+            <span>Cell biology</span><span>Genetics</span><span>Anatomy</span><span>Ecology</span>
+          </div>
+          <div class="course-foot">
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= LANGUAGES ================= -->
+  <section class="track-section" id="languages">
+    <div class="track-head">
+      <div class="track-title">
+        <div class="track-icon lang">🌍</div>
+        <div>
+          <h2>Languages</h2>
+          <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">7 languages × 2 native-language tracks each (Bangla & English).</p>
+        </div>
+      </div>
+      <span class="count"><strong>14 courses</strong> · 1 available, 13 coming soon</span>
+    </div>
+
+    <!-- For Bangla Speakers -->
+    <div class="sub-section">
+      <div class="sub-head">For Bangla speakers · বাংলা ভাষাভাষীদের জন্য</div>
+      <div class="course-grid">
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">ع<br/><span style="font-size: 13px; opacity: .8;">Arabic</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Arabic for Bangla Speakers</h3>
+            <div class="course-meta"><span>আরবি</span><span>Spoken</span><span>Written</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">中文<br/><span style="font-size: 13px; opacity: .8;">Mandarin</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Chinese (Mandarin) for Bangla Speakers</h3>
+            <div class="course-meta"><span>চাইনিজ</span><span>Pinyin</span><span>Characters</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Aa<br/><span style="font-size: 13px; opacity: .8;">British English</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>English (British) for Bangla Speakers</h3>
+            <div class="course-meta"><span>ইংরেজি</span><span>Speaking</span><span>Writing</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Fr<br/><span style="font-size: 13px; opacity: .8;">French</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>French for Bangla Speakers</h3>
+            <div class="course-meta"><span>ফরাসি</span><span>Pronunciation</span><span>Grammar</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-available">
+          <a href="course.html" style="display: contents; text-decoration: none;">
+            <div class="course-thumb t-lang" style="background: linear-gradient(135deg, #FFCE00 0%, #DD0000 50%, #000000 100%);">
+              <span class="available-tag">● Available now</span>
+              <span class="free-badge">FREE</span>
+              <div class="thumb-deco" style="font-size: 22px; color: #fff;">De<br/><span style="font-size: 13px;">German</span></div>
+            </div>
+            <div class="course-body">
+              <span class="course-cat" style="color: var(--gold); font-weight: 700;">⭐ FEATURED · LIVE</span>
+              <h3>German for Bangla Speakers</h3>
+              <div class="course-meta"><span>জার্মান</span><span>A1 – B1</span><span>Speaking</span><span>Grammar</span></div>
+              <div class="course-foot">
+                <div class="course-instructor"><div class="avatar" style="background: var(--gold-soft); color: #b8881a;">SA</div>Shopnil Academy</div>
+                <span class="enroll-link">Enroll free →</span>
+              </div>
+            </div>
+          </a>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Ру<br/><span style="font-size: 13px; opacity: .8;">Russian</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Russian for Bangla Speakers</h3>
+            <div class="course-meta"><span>রাশিয়ান</span><span>Cyrillic</span><span>Spoken</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Es<br/><span style="font-size: 13px; opacity: .8;">Spanish</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Spanish for Bangla Speakers</h3>
+            <div class="course-meta"><span>স্প্যানিশ</span><span>Conversation</span><span>Grammar</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- For English Speakers -->
+    <div class="sub-section">
+      <div class="sub-head">For English speakers</div>
+      <div class="course-grid">
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">ع<br/><span style="font-size: 13px; opacity: .8;">Arabic</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Arabic for English Speakers</h3>
+            <div class="course-meta"><span>Modern Standard</span><span>Spoken</span><span>Written</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">中文<br/><span style="font-size: 13px; opacity: .8;">Mandarin</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Chinese (Mandarin) for English Speakers</h3>
+            <div class="course-meta"><span>Pinyin</span><span>Characters</span><span>Tones</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Aa<br/><span style="font-size: 13px; opacity: .8;">British English</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>British English Fluency</h3>
+            <div class="course-meta"><span>RP accent</span><span>Idioms</span><span>Writing</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Fr<br/><span style="font-size: 13px; opacity: .8;">French</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>French for English Speakers</h3>
+            <div class="course-meta"><span>Pronunciation</span><span>Grammar</span><span>Conversation</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">De<br/><span style="font-size: 13px; opacity: .8;">German</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>German for English Speakers</h3>
+            <div class="course-meta"><span>A1 – B1</span><span>Speaking</span><span>Grammar</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Ру<br/><span style="font-size: 13px; opacity: .8;">Russian</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Russian for English Speakers</h3>
+            <div class="course-meta"><span>Cyrillic</span><span>Spoken</span><span>Grammar</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="course is-soon">
+          <div class="course-thumb t-lang">
+            <span class="soon-tag">Coming soon</span>
+            <span class="free-badge">FREE</span>
+            <div class="thumb-deco" style="font-size: 22px;">Es<br/><span style="font-size: 13px; opacity: .8;">Spanish</span></div>
+          </div>
+          <div class="course-body">
+            <span class="course-cat">Languages</span>
+            <h3>Spanish for English Speakers</h3>
+            <div class="course-meta"><span>Conversation</span><span>Grammar</span><span>Travel</span></div>
+            <div class="course-foot">
+              <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+              <span class="enroll-link">Notify me →</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GUITAR ================= -->
+  <section class="track-section" id="guitar">
+    <div class="track-head">
+      <div class="track-title">
+        <div class="track-icon guitar">🎸</div>
+        <div>
+          <h2>Guitar</h2>
+          <p style="font-size: 13px; color: var(--muted); margin-top: 4px;">From your first chord to playing your favorite songs.</p>
+        </div>
+      </div>
+      <span class="count"><strong>1 course</strong> · coming soon</span>
+    </div>
+
+    <div class="course-grid">
+      <article class="course is-soon">
+        <div class="course-thumb t-guitar">
+          <span class="soon-tag">Coming soon</span>
+          <span class="free-badge">FREE</span>
+          <div class="thumb-deco">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            BASIC GUITAR
+          </div>
         </div>
         <div class="course-body">
           <span class="course-cat">Guitar</span>
-          <h3>Electric Guitar Fundamentals — Tone & Technique</h3>
-          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(186)</span></div>
-          <div class="course-meta"><span>44 lessons</span><span>Backing tracks</span></div>
+          <h3>Basic Guitar Lessons for Beginners</h3>
+          <div class="course-meta">
+            <span>First chords</span><span>Strumming</span><span>Easy songs</span><span>Tuning</span>
+          </div>
           <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">RM</div>Rifat Mahmud</div>
-            <span class="enroll-link">Enroll →</span>
+            <span style="font-size: 13px; color: var(--muted);">Sign up to be notified</span>
+            <span class="enroll-link">Notify me →</span>
           </div>
         </div>
-      </a>
-      <!-- 9 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-math">
-          <span class="badge new">🔥 New</span>
-          <span class="free-badge">FREE</span>
-          <span class="level">Beginner</span>
-          <span class="duration">20h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Math & Science</span>
-          <h3>Physics Fundamentals for High School</h3>
-          <div class="course-rating"><strong>4.9</strong><span class="stars">★★★★★</span><span class="count">(248)</span></div>
-          <div class="course-meta"><span>36 lessons</span><span>Lab exercises</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">NA</div>Dr. Nadia Anwar</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
-      <!-- 10 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-tech">
-          <span class="free-badge">FREE</span>
-          <span class="level">All levels</span>
-          <span class="duration">12h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Tech & Coding</span>
-          <h3>Git & Version Control — From Zero to Confident</h3>
-          <div class="course-rating"><strong>4.7</strong><span class="stars">★★★★★</span><span class="count">(640)</span></div>
-          <div class="course-meta"><span>22 lessons</span><span>Hands-on</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">SK</div>Sazid Khan</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
-      <!-- 11 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-lang">
-          <span class="free-badge">FREE</span>
-          <span class="level">Beginner</span>
-          <span class="duration">30h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Languages</span>
-          <h3>Arabic for Beginners — Spoken & Written</h3>
-          <div class="course-rating"><strong>4.8</strong><span class="stars">★★★★★</span><span class="count">(420)</span></div>
-          <div class="course-meta"><span>48 lessons</span><span>Pronunciation</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">HS</div>Hussain Sayeed</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
-      <!-- 12 -->
-      <a href="course.html" class="course">
-        <div class="course-thumb t-purple">
-          <span class="free-badge">FREE</span>
-          <span class="level">Intermediate</span>
-          <span class="duration">16h</span>
-        </div>
-        <div class="course-body">
-          <span class="course-cat">Math & Science</span>
-          <h3>Statistics & Probability — Real-World Examples</h3>
-          <div class="course-rating"><strong>4.7</strong><span class="stars">★★★★★</span><span class="count">(380)</span></div>
-          <div class="course-meta"><span>28 lessons</span><span>Excel exercises</span></div>
-          <div class="course-foot">
-            <div class="course-instructor"><div class="avatar">NA</div>Dr. Nadia Anwar</div>
-            <span class="enroll-link">Enroll →</span>
-          </div>
-        </div>
-      </a>
+      </article>
     </div>
+  </section>
 
-    <!-- Pagination -->
-    <div class="pagination">
-      <button>‹</button>
-      <a class="active">1</a>
-      <a>2</a>
-      <a>3</a>
-      <a>4</a>
-      <span class="dots">…</span>
-      <a>20</a>
-      <button>›</button>
-    </div>
-  </main>
 </div>
 
 <!-- Footer -->
@@ -581,7 +775,7 @@
             <small>LEARN WITHOUT LIMITS</small>
           </span>
         </a>
-        <p class="foot-about">100% free online courses in coding, math, languages, and guitar. Built for learners who want to actually finish.</p>
+        <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar. Built for learners who want to actually finish.</p>
         <div class="foot-social">
           <a href="#" aria-label="Facebook">f</a>
           <a href="#" aria-label="Twitter">𝕏</a>
@@ -593,10 +787,10 @@
         <h4>Learn</h4>
         <ul>
           <li><a href="courses.html">All courses</a></li>
-          <li><a href="courses.html?track=tech">Tech & Coding</a></li>
-          <li><a href="courses.html?track=math">Math & Science</a></li>
-          <li><a href="courses.html?track=lang">Languages</a></li>
-          <li><a href="courses.html?track=guitar">Guitar</a></li>
+          <li><a href="courses.html#tech">Tech & Coding</a></li>
+          <li><a href="courses.html#math">Math & Science</a></li>
+          <li><a href="courses.html#languages">Languages</a></li>
+          <li><a href="courses.html#guitar">Guitar</a></li>
         </ul>
       </div>
       <div class="foot-col">
@@ -635,11 +829,17 @@
 </footer>
 
 <script>
-  // Make chip filters togglable
-  document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      chip.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
+  // Toggle "Show only available" mode
+  const toggle = document.getElementById('hide-soon-toggle');
+  toggle.addEventListener('click', () => {
+    const on = document.body.classList.toggle('hide-soon');
+    toggle.classList.toggle('active', on);
+    toggle.textContent = on ? '✓ Showing available only' : 'Show only available';
+
+    // Hide track sections that have no available courses when toggled on
+    document.querySelectorAll('.track-section').forEach(sec => {
+      const hasAvailable = sec.querySelector('.course.is-available');
+      sec.classList.toggle('no-available', on && !hasAvailable);
     });
   });
 </script>
