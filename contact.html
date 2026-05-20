@@ -308,11 +308,11 @@
     <p class="lead">Questions about a course, ideas for new tracks, partnership offers, or just want to say hi — we'd love to hear from you.</p>
 
     <div class="quick-channels">
-      <a class="channel" href="mailto:info@shopnilacademy.com">
+      <a class="channel" href="/cdn-cgi/l/email-protection#a7cec9c1c8e7d4cfc8d7c9cecbc6c4c6c3c2cade89c4c8ca">
         <div class="ic">📧</div>
         <div>
           <strong>Email us</strong>
-          <a href="mailto:info@shopnilacademy.com">info@shopnilacademy.com</a>
+          <a href="/cdn-cgi/l/email-protection#70191e161f3003181f001e191c11131114151d095e131f1d"><span class="__cf_email__" data-cfemail="4f262129200f3c27203f2126232e2c2e2b2a2236612c2022">[email&#160;protected]</span></a>
         </div>
       </a>
       <a class="channel" href="tel:+15550001234">
@@ -333,7 +333,7 @@
         <div class="ic">🤝</div>
         <div>
           <strong>Partner with us</strong>
-          <a href="mailto:partners@shopnilacademy.com">partners@shopnilacademy.com</a>
+          <a href="/cdn-cgi/l/email-protection#55253427213b30272615263d3a253b3c393436343130382c7b363a38"><span class="__cf_email__" data-cfemail="51213023253f3423221122393e213f383d30323035343c287f323e3c">[email&#160;protected]</span></a>
         </div>
       </a>
     </div>
@@ -344,48 +344,59 @@
 <section>
   <div class="wrap contact-main">
     <!-- Form -->
-    <form class="form-card" onsubmit="submitForm(event)">
+    <form class="form-card" action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+      <!-- Web3Forms access key -->
+      <input type="hidden" name="access_key" value="cc51f234-6775-4367-b432-3ba59f39592c" />
+      <!-- Customize the subject line of the email you receive -->
+      <input type="hidden" name="subject" value="New message from Shopnil Academy contact form" />
+      <input type="hidden" name="from_name" value="Shopnil Academy Website" />
+      <!-- Bot protection (honeypot) -->
+      <input type="checkbox" name="botcheck" style="display:none;" tabindex="-1" autocomplete="off" />
+      <!-- Redirect after successful submission -->
+      <input type="hidden" name="redirect" value="false" />
+
       <h2>Send us a message</h2>
-      <p class="intro">Fill in what you need and our team will get back to you within one business day. Required fields are marked with <span style="color: var(--red);">*</span>.</p>
+      <p class="intro">Fill in what you need and we'll get back to you within one business day. Required fields are marked with <span style="color: var(--red);">*</span>.</p>
 
       <div class="field">
         <label>What are you reaching out about?</label>
         <div class="topic-chips">
-          <button type="button" class="topic-chip active">General question</button>
-          <button type="button" class="topic-chip">Course help</button>
-          <button type="button" class="topic-chip">Partnership</button>
-          <button type="button" class="topic-chip">Become instructor</button>
-          <button type="button" class="topic-chip">Advertise</button>
-          <button type="button" class="topic-chip">Press</button>
+          <button type="button" class="topic-chip active" data-topic="General question">General question</button>
+          <button type="button" class="topic-chip" data-topic="Course help">Course help</button>
+          <button type="button" class="topic-chip" data-topic="Partnership">Partnership</button>
+          <button type="button" class="topic-chip" data-topic="Become instructor">Become instructor</button>
+          <button type="button" class="topic-chip" data-topic="Advertise">Advertise</button>
+          <button type="button" class="topic-chip" data-topic="Press">Press</button>
         </div>
+        <input type="hidden" name="topic" id="topic-value" value="General question" />
       </div>
 
       <div class="form-row">
         <div class="field">
           <label>First name <span class="req">*</span></label>
-          <input type="text" placeholder="Rafi" required />
+          <input type="text" name="first_name" placeholder="Rafi" required />
         </div>
         <div class="field">
           <label>Last name <span class="req">*</span></label>
-          <input type="text" placeholder="Ahmed" required />
+          <input type="text" name="last_name" placeholder="Ahmed" required />
         </div>
       </div>
 
       <div class="form-row">
         <div class="field">
           <label>Email <span class="req">*</span></label>
-          <input type="email" placeholder="you@example.com" required />
+          <input type="email" name="email" placeholder="you@example.com" required />
         </div>
         <div class="field">
           <label>Phone <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
-          <input type="tel" placeholder="+880 1234 567890" />
+          <input type="tel" name="phone" placeholder="+880 1234 567890" />
         </div>
       </div>
 
       <div class="field">
         <label>Interested in <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
-        <select>
-          <option>Select a course category…</option>
+        <select name="interested_in">
+          <option value="">Select a course category…</option>
           <option>Tech & Coding</option>
           <option>Math & Science</option>
           <option>Languages</option>
@@ -396,18 +407,20 @@
 
       <div class="field">
         <label>Your message <span class="req">*</span></label>
-        <textarea placeholder="Tell us what you'd like help with, in as much or as little detail as you'd like…" required></textarea>
+        <textarea name="message" placeholder="Tell us what you'd like help with, in as much or as little detail as you'd like…" required></textarea>
         <small class="helper">Most replies come within a few hours during business days.</small>
       </div>
 
       <label class="consent">
-        <input type="checkbox" required />
+        <input type="checkbox" name="consent" value="yes" required />
         <span>I agree to be contacted by Shopnil Academy and understand that my information will be handled per the <a href="#">Privacy Policy</a>. I'm <strong>not</strong> being added to any marketing list — unless I separately opt in.</span>
       </label>
 
+      <div id="form-status" style="display:none; padding: 14px 18px; border-radius: 12px; margin-bottom: 16px; font-size: 14px;"></div>
+
       <div class="form-actions">
         <button type="submit" class="btn btn-primary btn-lg">Send message →</button>
-        <span class="response-time"><span class="dot"></span> Typical reply: under 4 hours</span>
+        <span class="response-time"><span class="dot"></span> Typical reply: under 24 hours</span>
       </div>
     </form>
 
@@ -420,7 +433,7 @@
             <div class="ic">📧</div>
             <div>
               <span class="label">General</span>
-              <strong><a href="mailto:info@shopnilacademy.com">info@shopnilacademy.com</a></strong>
+              <strong><a href="/cdn-cgi/l/email-protection#5831363e37182b303728363134393b393c3d3521763b3735"><span class="__cf_email__" data-cfemail="8de4e3ebe2cdfee5e2fde3e4e1eceeece9e8e0f4a3eee2e0">[email&#160;protected]</span></a></strong>
               <small>For any question, big or small</small>
             </div>
           </div>
@@ -428,7 +441,7 @@
             <div class="ic">🎓</div>
             <div>
               <span class="label">Course support</span>
-              <strong><a href="mailto:help@shopnilacademy.com">help@shopnilacademy.com</a></strong>
+              <strong><a href="/cdn-cgi/l/email-protection#8ce4e9e0fcccffe4e3fce2e5e0edefede8e9e1f5a2efe3e1"><span class="__cf_email__" data-cfemail="365e535a4676455e5946585f5a57555752535b4f1855595b">[email&#160;protected]</span></a></strong>
               <small>For technical issues or lesson help</small>
             </div>
           </div>
@@ -436,7 +449,7 @@
             <div class="ic">📢</div>
             <div>
               <span class="label">Advertise / sponsor</span>
-              <strong><a href="mailto:ads@shopnilacademy.com">ads@shopnilacademy.com</a></strong>
+              <strong><a href="/cdn-cgi/l/email-protection#4322273003302b2c332d2a2f22202227262e3a6d202c2e"><span class="__cf_email__" data-cfemail="d3b2b7a093a0bbbca3bdbabfb2b0b2b7b6beaafdb0bcbe">[email&#160;protected]</span></a></strong>
               <small>Media kit available on request</small>
             </div>
           </div>
@@ -501,7 +514,7 @@
       </details>
       <details class="faq">
         <summary>I want to teach a course on Shopnil. How?<span class="chev"></span></summary>
-        <div class="answer">We'd love that. Email <a href="mailto:teach@shopnilacademy.com" style="color: var(--green); text-decoration: underline;">teach@shopnilacademy.com</a> with a short pitch of what you'd like to teach and a sample of your work. We respond to every application within a week.</div>
+        <div class="answer">We'd love that. Email <a href="/cdn-cgi/l/email-protection#6b1f0e0a08032b1803041b0502070a080a0f0e061245080406" style="color: var(--green); text-decoration: underline;"><span class="__cf_email__" data-cfemail="34405155575c74475c5b445a5d585557555051594d1a575b59">[email&#160;protected]</span></a> with a short pitch of what you'd like to teach and a sample of your work. We respond to every application within a week.</div>
       </details>
       <details class="faq">
         <summary>Do you offer live classes or just recordings?<span class="chev"></span></summary>
@@ -591,31 +604,70 @@
   </div>
 </footer>
 
-<script>
-  // Topic chips selector
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Topic chips selector — stores in hidden input
   document.querySelectorAll('.topic-chip').forEach(c => {
     c.addEventListener('click', () => {
       c.parentElement.querySelectorAll('.topic-chip').forEach(x => x.classList.remove('active'));
       c.classList.add('active');
+      const hidden = document.getElementById('topic-value');
+      if (hidden) hidden.value = c.dataset.topic || c.textContent.trim();
     });
   });
 
-  function submitForm(e) {
+  // Real form submission via Web3Forms
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const btn = e.target.querySelector('button[type="submit"]');
+    const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.textContent;
     btn.textContent = 'Sending...';
     btn.disabled = true;
-    setTimeout(() => {
-      btn.textContent = '✓ Message sent — we\'ll be in touch!';
-      btn.style.background = 'var(--green)';
-      setTimeout(() => {
-        e.target.reset();
+    status.style.display = 'none';
+
+    try {
+      const formData = new FormData(form);
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      });
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // Success
+        status.style.display = 'block';
+        status.style.background = 'var(--green-soft)';
+        status.style.color = 'var(--green-deep)';
+        status.style.border = '1px solid rgba(0,106,78,.2)';
+        status.innerHTML = '<strong>✓ Message sent!</strong> We received your message and will reply within 24 hours.';
+        form.reset();
+        // Reset topic chip to default
+        document.querySelectorAll('.topic-chip').forEach(x => x.classList.remove('active'));
+        document.querySelector('.topic-chip').classList.add('active');
+        document.getElementById('topic-value').value = 'General question';
         btn.textContent = originalText;
         btn.disabled = false;
-      }, 3000);
-    }, 1000);
-  }
+        // Track in GA if available
+        if (typeof gtag === 'function') {
+          gtag('event', 'contact_form_submit', { event_category: 'engagement', event_label: 'contact' });
+        }
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch (err) {
+      console.error('Form error:', err);
+      status.style.display = 'block';
+      status.style.background = 'var(--red-soft)';
+      status.style.color = 'var(--red)';
+      status.style.border = '1px solid rgba(244,42,65,.2)';
+      status.innerHTML = '<strong>Something went wrong.</strong> Please try again, or email us directly at <a href="mailto:info@shopnilacademy.com" style="color:var(--red); text-decoration: underline;">info@shopnilacademy.com</a>';
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  });
 </script>
 
 </body>
