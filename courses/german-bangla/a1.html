@@ -368,6 +368,54 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans',sans-s
 .srs-q4:hover{background:#d0f0e0}.srs-q5:hover{background:#c0dff8}
 .srs-card{border:2px solid var(--border)}
 .srs-card:hover{border-color:var(--gold)}
+
+/* ── DAILY GOAL BAR ── */
+.daily-goal{background:var(--black);border:1.5px solid rgba(212,168,83,.35);border-radius:13px;padding:14px 16px;margin-bottom:12px}
+.dg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.dg-title{font-size:.72rem;font-weight:700;color:var(--gold)}
+.dg-xp{font-size:.72rem;color:rgba(255,255,255,.45)}
+.dg-bar-outer{background:rgba(255,255,255,.08);border-radius:10px;height:11px;overflow:hidden;margin-bottom:6px}
+.dg-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#ff9d00);border-radius:10px;transition:width .5s ease}
+.dg-status{font-size:.7rem;color:rgba(255,255,255,.5)}
+.dg-status.done{color:#5dbb7a;font-weight:700}
+/* ── STREAK DRAMA ── */
+.streak-danger{border-color:rgba(255,80,80,.5)!important;animation:danger-pulse 2s infinite}
+@keyframes danger-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,80,80,0)}50%{box-shadow:0 0 0 6px rgba(255,80,80,.15)}}
+.streak-safe{border-color:rgba(93,187,122,.4)!important}
+/* ── BADGES ── */
+.badges-section{margin-bottom:12px}
+.badges-title{font-size:.72rem;font-weight:700;color:var(--gold);margin-bottom:8px}
+.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.badge-card{background:var(--black);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 5px;text-align:center;transition:all .2s;cursor:default}
+.badge-card.earned{border-color:rgba(212,168,83,.4);background:rgba(212,168,83,.07)}
+.badge-card.locked{opacity:.35;filter:grayscale(1)}
+.badge-icon{font-size:1.4rem;margin-bottom:3px}
+.badge-name{font-size:.58rem;font-weight:700;color:rgba(255,255,255,.6);line-height:1.3}
+.badge-card.earned .badge-name{color:var(--gold)}
+/* ── XP TOAST ── */
+.xp-toast{position:fixed;top:60px;right:14px;background:var(--gold);color:var(--black);font-weight:800;font-size:.85rem;padding:6px 14px;border-radius:20px;z-index:999;pointer-events:none;opacity:0;transform:translateY(0);transition:all .15s}
+.xp-toast.show{opacity:1;transform:translateY(4px)}
+/* ── LEVEL BADGE ── */
+.level-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(212,168,83,.12);border:1px solid rgba(212,168,83,.3);border-radius:20px;padding:3px 10px;font-size:.7rem;font-weight:700;color:var(--gold);margin-left:8px}
+/* ── LEADERBOARD ── */
+.leaderboard{background:var(--black);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:14px 16px;margin-bottom:12px}
+.lb-title{font-size:.72rem;font-weight:700;color:var(--gold);margin-bottom:10px}
+.lb-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.lb-row:last-child{border-bottom:none}
+.lb-rank{font-size:.75rem;font-weight:700;color:rgba(255,255,255,.4);width:18px;text-align:center}
+.lb-rank.gold{color:#ffd700}
+.lb-rank.silver{color:#c0c0c0}
+.lb-rank.bronze{color:#cd7f32}
+.lb-name{flex:1;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.8)}
+.lb-name.you{color:var(--gold)}
+.lb-xp-val{font-size:.72rem;font-weight:700;color:#5dbb7a}
+.lb-bar{width:60px;background:rgba(255,255,255,.07);border-radius:5px;height:5px;overflow:hidden}
+.lb-bar-fill{height:100%;background:var(--gold);border-radius:5px}
+/* ── COMEBACK BANNER ── */
+.comeback{background:linear-gradient(135deg,rgba(255,60,60,.12),rgba(255,120,0,.08));border:1.5px solid rgba(255,80,80,.35);border-radius:13px;padding:13px 16px;margin-bottom:12px;display:none}
+.comeback.show{display:block}
+.cb-title{font-size:.8rem;font-weight:700;color:#ff6b6b;margin-bottom:4px}
+.cb-msg{font-size:.73rem;color:rgba(255,255,255,.6)}
 </style>
 </head>
 <body>
@@ -918,42 +966,73 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans',sans-s
 <!-- ====== HOME ====== -->
 <div class="page active" id="page-home">
   <div style="padding:14px 13px 36px;max-width:660px">
+
+    <!-- XP TOAST -->
+    <div class="xp-toast" id="xpToast">+10 XP!</div>
+
+    <!-- COMEBACK BANNER (shown when streak broken) -->
+    <div class="comeback" id="comebackBanner">
+      <div class="cb-title">😢 আপনার streak শেষ হয়ে গেছে!</div>
+      <div class="cb-msg">কিন্তু চিন্তা নেই — আজ পড়লে নতুন streak শুরু হবে! 💪 এগিয়ে যান!</div>
+    </div>
+
+    <!-- HERO -->
     <div class="home-hero">
       <div class="hh-flag">🇩🇪</div>
       <div class="hh-title">জার্মান A1 — শুরু করুন</div>
       <div class="hh-bn">সম্পূর্ণ শূন্য থেকে শুরু — বাংলায়</div>
-      <div class="hh-sub">৬টি অধ্যায় · ৩০+ পাঠ · নিজের গতিতে শিখুন<br>প্রতিটি অধ্যায় শেষে রিভিউ — কোনো সময়সীমা নেই!</div>
+      <div class="hh-sub">৫টি অধ্যায় · ৩৫+ পাঠ · নিজের গতিতে শিখুন</div>
     </div>
-    <!-- BEGINNER WELCOME BOX -->
-    <div style="background:#fff;border:1.5px solid var(--gold);border-radius:13px;padding:14px 16px;margin-bottom:14px">
-      <div style="font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:8px">🌟 সম্পূর্ণ নতুন? এখান থেকে শুরু করুন!</div>
-      <div style="font-family:var(--bn);font-size:.84rem;color:#444;line-height:1.75;margin-bottom:10px">
-        <strong>কোনো পূর্ব অভিজ্ঞতার প্রয়োজন নেই।</strong> এই কোর্সটি একদম শূন্য থেকে শুরু করে।<br>
-        🔢 প্রতিটি পাঠ: শব্দ শিখুন → টাইপ করুন → বলুন → কুইজ দিন<br>
-        🎯 নিজের গতিতে এগিয়ে যান — কোনো সময়সীমা নেই<br>
-        🏆 প্রতিটি সঠিক উত্তরে XP পাবেন ও streak বাড়বে
-      </div>
-      <button onclick="go('d1g','nav-d1g');openWeek(1);openDay(1)" style="background:var(--gold);color:var(--black);border:none;border-radius:9px;padding:10px 20px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%">
-        🚀 পাঠ ১ থেকে শুরু করুন
-      </button>
-    </div>
-    <!-- STREAK HERO -->
-    <div class="streak-hero">
-      <div class="sh-fire">🔥</div>
+
+    <!-- STREAK HERO (with danger/safe state) -->
+    <div class="streak-hero" id="streakHero">
+      <div class="sh-fire" id="streakFire">🔥</div>
       <div class="sh-info">
         <div class="sh-count" id="streakHome">0</div>
-        <div class="sh-label">দিনের ধারা (Streak)</div>
+        <div class="sh-label" id="streakLabel">দিনের ধারা (Streak)</div>
       </div>
       <div class="sh-xp">
         <div class="sh-xp-n" id="xpHome">0</div>
-        <div class="sh-xp-l">মোট XP</div>
+        <div class="sh-xp-l">মোট XP · <span id="levelLabel" style="color:var(--gold)">Anfänger</span></div>
       </div>
     </div>
+
+    <!-- DAILY GOAL BAR -->
+    <div class="daily-goal" id="dailyGoalBox">
+      <div class="dg-header">
+        <div class="dg-title">🎯 আজকের লক্ষ্য — Daily Goal</div>
+        <div class="dg-xp" id="dgXpLabel">0 / 30 XP</div>
+      </div>
+      <div class="dg-bar-outer">
+        <div class="dg-bar-inner" id="dgBar" style="width:0%"></div>
+      </div>
+      <div class="dg-status" id="dgStatus">আজ ৩০ XP অর্জন করুন — streak বাঁচিয়ে রাখুন! 🔥</div>
+    </div>
+
+    <!-- BADGES -->
+    <div class="badges-section">
+      <div class="badges-title">🏅 আপনার ব্যাজ — Badges</div>
+      <div class="badges-grid" id="badgesGrid"></div>
+    </div>
+
+    <!-- LEADERBOARD -->
+    <div class="leaderboard">
+      <div class="lb-title">🏆 সাপ্তাহিক র‍্যাংকিং — Weekly Leaderboard</div>
+      <div id="leaderboardRows"></div>
+    </div>
+
+    <!-- STATS -->
     <div class="stats">
       <div class="stat"><div class="st-n" id="lessonsCompleted">0</div><div class="st-l">পাঠ সম্পন্ন</div></div>
       <div class="stat"><div class="st-n" id="quizzesDone">0</div><div class="st-l">কুইজ দেওয়া</div></div>
       <div class="stat"><div class="st-n" id="srsCount">0</div><div class="st-l">শব্দ বাকি</div></div>
     </div>
+
+    <!-- START BUTTON -->
+    <button onclick="go('d1g','nav-d1g');openWeek(1);openDay(1)" style="background:var(--gold);color:var(--black);border:none;border-radius:9px;padding:11px 20px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:12px">
+      🚀 পড়া শুরু করুন
+    </button>
+
     <div style="font-family:var(--bn);font-size:.78rem;font-weight:700;color:var(--gold);margin-bottom:9px">আপনার অধ্যায়গুলো 📚</div>
 
     <div class="wc" onclick="go('d1g','nav-d1g');openWeek(1);openDay(1)">
@@ -3687,6 +3766,288 @@ try {
 }
 
 
+
+// ============================================================
+// REWARD SYSTEM — Daily Goal, Badges, Leaderboard, Levels
+// ============================================================
+var DAILY_GOAL = 30;
+var SK_DAILY = 'de_dailyXP';
+var SK_DAILY_DATE = 'de_dailyDate';
+var SK_BADGES = 'de_badges';
+var SK_LB = 'de_lb_week';
+var SK_LB_DATE = 'de_lb_date';
+
+// Level thresholds
+var LEVELS = [
+  {min:0,    name:'Anfänger',    icon:'🌱', label:'শিক্ষার্থী'},
+  {min:100,  name:'Lerner',      icon:'📚', label:'শিক্ষার্থী+'},
+  {min:300,  name:'Schüler',     icon:'✏️', label:'ছাত্র'},
+  {min:600,  name:'Fortschritt', icon:'⚡', label:'অগ্রগতি'},
+  {min:1000, name:'Könner',      icon:'🔥', label:'দক্ষ'},
+  {min:1500, name:'Meister',     icon:'🏆', label:'মাস্টার'},
+  {min:2500, name:'Experte',     icon:'🌟', label:'বিশেষজ্ঞ'}
+];
+
+// Badge definitions
+var BADGES = [
+  {id:'first',   icon:'🌅', name:'প্রথম পাঠ',    cond:function(s){return s.xp>=10;},        tip:'প্রথম XP অর্জন!'},
+  {id:'streak3', icon:'🔥', name:'৩ দিন ধারা',   cond:function(s){return s.streak>=3;},     tip:'৩ দিন টানা পড়া!'},
+  {id:'streak7', icon:'🌟', name:'৭ দিন ধারা',   cond:function(s){return s.streak>=7;},     tip:'১ সপ্তাহ streak!'},
+  {id:'xp100',   icon:'💯', name:'১০০ XP',        cond:function(s){return s.xp>=100;},       tip:'১০০ XP অর্জন!'},
+  {id:'xp500',   icon:'⚡', name:'৫০০ XP',        cond:function(s){return s.xp>=500;},       tip:'৫০০ XP অর্জন!'},
+  {id:'quiz1',   icon:'📝', name:'প্রথম কুইজ',    cond:function(s){return s.quizzes>=1;},    tip:'প্রথম কুইজ দিলেন!'},
+  {id:'quiz5',   icon:'🎯', name:'৫টি কুইজ',      cond:function(s){return s.quizzes>=5;},    tip:'৫টি কুইজ সম্পন্ন!'},
+  {id:'speak1',  icon:'🎤', name:'প্রথম উচ্চারণ',  cond:function(s){return s.speaks>=1;},    tip:'প্রথম speaking test!'},
+  {id:'ch1',     icon:'🏅', name:'অধ্যায় ১',      cond:function(s){return s.lessons>=7;},    tip:'অধ্যায় ১ শেষ!'},
+  {id:'ch2',     icon:'🥈', name:'অধ্যায় ২',      cond:function(s){return s.lessons>=14;},   tip:'অধ্যায় ২ শেষ!'},
+  {id:'ch3',     icon:'🥇', name:'অধ্যায় ৩',      cond:function(s){return s.lessons>=21;},   tip:'অধ্যায় ৩ শেষ!'},
+  {id:'a1done',  icon:'🎓', name:'A1 সম্পন্ন',    cond:function(s){return s.lessons>=35;},   tip:'A1 শেষ!'}
+];
+
+// Mock leaderboard competitors (static AI opponents)
+var LB_RIVALS = [
+  {name:'Farhan (Dhaka)',   xp:280},
+  {name:'Mitu (Berlin)',    xp:195},
+  {name:'Arif (Hamburg)',   xp:150},
+  {name:'Nadia (Köln)',     xp:90},
+  {name:'Rahim (Frankfurt)',xp:45}
+];
+
+function getStats() {
+  var xp = getXP();
+  var streak = 0;
+  try { streak = parseInt(localStorage.getItem(SK.streak)||'0'); } catch(e){}
+  var prog = getProg();
+  var lessons = Object.keys(prog).length;
+  var quizzes = 0;
+  var speaks = 0;
+  try {
+    var qkeys = Object.keys(prog).filter(function(k){return k.indexOf('q')>0 || k.slice(-1)==='q';});
+    quizzes = qkeys.length;
+    var skeys = Object.keys(prog).filter(function(k){return k.slice(-1)==='s';});
+    speaks = skeys.length;
+  } catch(e){}
+  return {xp:xp, streak:streak, lessons:lessons, quizzes:quizzes, speaks:speaks};
+}
+
+function getLevel(xp) {
+  var lvl = LEVELS[0];
+  for (var i=0; i<LEVELS.length; i++) {
+    if (xp >= LEVELS[i].min) lvl = LEVELS[i];
+  }
+  return lvl;
+}
+
+function getDailyXP() {
+  try {
+    var today = new Date().toISOString().slice(0,10);
+    var savedDate = localStorage.getItem(SK_DAILY_DATE)||'';
+    if (savedDate !== today) {
+      localStorage.setItem(SK_DAILY, '0');
+      localStorage.setItem(SK_DAILY_DATE, today);
+      return 0;
+    }
+    return parseInt(localStorage.getItem(SK_DAILY)||'0');
+  } catch(e){ return 0; }
+}
+
+function addDailyXP(n) {
+  try {
+    var today = new Date().toISOString().slice(0,10);
+    var savedDate = localStorage.getItem(SK_DAILY_DATE)||'';
+    var current = 0;
+    if (savedDate === today) {
+      current = parseInt(localStorage.getItem(SK_DAILY)||'0');
+    } else {
+      localStorage.setItem(SK_DAILY_DATE, today);
+    }
+    var newVal = current + n;
+    localStorage.setItem(SK_DAILY, newVal);
+    return newVal;
+  } catch(e){ return n; }
+}
+
+function getEarnedBadges() {
+  try { return JSON.parse(localStorage.getItem(SK_BADGES)||'[]'); } catch(e){ return []; }
+}
+
+function checkBadges() {
+  var stats = getStats();
+  var earned = getEarnedBadges();
+  var newBadges = [];
+  for (var i=0; i<BADGES.length; i++) {
+    var b = BADGES[i];
+    if (earned.indexOf(b.id) < 0 && b.cond(stats)) {
+      earned.push(b.id);
+      newBadges.push(b);
+    }
+  }
+  if (newBadges.length > 0) {
+    try { localStorage.setItem(SK_BADGES, JSON.stringify(earned)); } catch(e){}
+    for (var j=0; j<newBadges.length; j++) {
+      showBadgeToast(newBadges[j]);
+    }
+  }
+  return earned;
+}
+
+function showBadgeToast(badge) {
+  var t = document.getElementById('xpToast');
+  if (!t) return;
+  t.textContent = badge.icon + ' ব্যাজ পেলেন: ' + badge.name + '!';
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2500);
+}
+
+function showXPToast(n) {
+  var t = document.getElementById('xpToast');
+  if (!t) return;
+  t.textContent = '+' + n + ' XP!';
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 1500);
+}
+
+function buildBadgesGrid() {
+  var grid = document.getElementById('badgesGrid');
+  if (!grid) return;
+  var earned = getEarnedBadges();
+  var html = '';
+  for (var i=0; i<BADGES.length; i++) {
+    var b = BADGES[i];
+    var isEarned = earned.indexOf(b.id) >= 0;
+    html += '<div class="badge-card ' + (isEarned ? 'earned' : 'locked') + '" title="' + b.tip + '">';
+    html += '<div class="badge-icon">' + b.icon + '</div>';
+    html += '<div class="badge-name">' + b.name + '</div>';
+    html += '</div>';
+  }
+  grid.innerHTML = html;
+}
+
+function buildLeaderboard() {
+  var rows = document.getElementById('leaderboardRows');
+  if (!rows) return;
+  var myXP = getXP();
+  var entries = [{name:'আপনি (Shajedur)', xp:myXP, isYou:true}];
+  for (var i=0; i<LB_RIVALS.length; i++) {
+    entries.push({name:LB_RIVALS[i].name, xp:LB_RIVALS[i].xp, isYou:false});
+  }
+  entries.sort(function(a,b){return b.xp - a.xp;});
+  var maxXP = entries[0].xp || 1;
+  var html = '';
+  for (var j=0; j<entries.length; j++) {
+    var e = entries[j];
+    var rankClass = j===0 ? 'gold' : j===1 ? 'silver' : j===2 ? 'bronze' : '';
+    var rankIcon = j===0 ? '🥇' : j===1 ? '🥈' : j===2 ? '🥉' : (j+1);
+    var pct = Math.round((e.xp/maxXP)*100);
+    html += '<div class="lb-row">';
+    html += '<div class="lb-rank ' + rankClass + '">' + rankIcon + '</div>';
+    html += '<div class="lb-name ' + (e.isYou?'you':'') + '">' + e.name + (e.isYou?' ★':'') + '</div>';
+    html += '<div class="lb-bar"><div class="lb-bar-fill" style="width:' + pct + '%"></div></div>';
+    html += '<div class="lb-xp-val">' + e.xp + ' XP</div>';
+    html += '</div>';
+  }
+  rows.innerHTML = html;
+}
+
+function buildDailyGoal() {
+  var daily = getDailyXP();
+  var pct = Math.min(100, Math.round((daily/DAILY_GOAL)*100));
+  var bar = document.getElementById('dgBar');
+  var label = document.getElementById('dgXpLabel');
+  var status = document.getElementById('dgStatus');
+  if (bar) bar.style.width = pct + '%';
+  if (label) label.textContent = daily + ' / ' + DAILY_GOAL + ' XP';
+  if (status) {
+    if (daily >= DAILY_GOAL) {
+      status.className = 'dg-status done';
+      status.textContent = '✅ আজকের লক্ষ্য পূরণ হয়েছে! চমৎকার! 🎉';
+    } else {
+      status.className = 'dg-status';
+      var left = DAILY_GOAL - daily;
+      status.textContent = 'আরও ' + left + ' XP অর্জন করুন — streak বাঁচিয়ে রাখুন! 🔥';
+    }
+  }
+}
+
+function buildStreakHero() {
+  var streak = 0;
+  try { streak = parseInt(localStorage.getItem(SK.streak)||'0'); } catch(e){}
+  var daily = getDailyXP();
+  var hero = document.getElementById('streakHero');
+  var fire = document.getElementById('streakFire');
+  var lbl = document.getElementById('streakLabel');
+  var sh = document.getElementById('streakHome');
+  var xpEl = document.getElementById('xpHome');
+  var lvlEl = document.getElementById('levelLabel');
+  var comeback = document.getElementById('comebackBanner');
+
+  if (sh) sh.textContent = streak;
+  if (xpEl) xpEl.textContent = getXP();
+
+  var lvl = getLevel(getXP());
+  if (lvlEl) lvlEl.textContent = lvl.icon + ' ' + lvl.name;
+
+  // Check if streak was broken (last day not yesterday or today)
+  var today = new Date().toISOString().slice(0,10);
+  var yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  var lastDay = '';
+  try { lastDay = localStorage.getItem(SK.lastDay)||''; } catch(e){}
+
+  var streakBroken = streak === 0 && lastDay !== '' && lastDay !== today && lastDay !== yesterday;
+  var streakAtRisk = lastDay === yesterday && daily < DAILY_GOAL;
+  var streakSafe = lastDay === today && daily >= DAILY_GOAL;
+
+  if (comeback) comeback.className = streakBroken ? 'comeback show' : 'comeback';
+
+  if (hero) {
+    if (streakAtRisk && streak > 0) {
+      hero.className = 'streak-hero streak-danger';
+      if (fire) fire.textContent = '⚠️';
+      if (lbl) lbl.textContent = 'Streak বিপদে! আজ পড়ুন!';
+    } else if (streakSafe || daily >= DAILY_GOAL) {
+      hero.className = 'streak-hero streak-safe';
+      if (fire) fire.textContent = '🔥';
+      if (lbl) lbl.textContent = streak + ' দিনের ধারা — চালিয়ে যান!';
+    } else {
+      hero.className = 'streak-hero';
+      if (fire) fire.textContent = '🔥';
+      if (lbl) lbl.textContent = 'দিনের ধারা (Streak)';
+    }
+  }
+}
+
+function refreshRewardUI() {
+  buildStreakHero();
+  buildDailyGoal();
+  buildBadgesGrid();
+  buildLeaderboard();
+  checkBadges();
+}
+
+// Override addXP to also add daily XP and trigger reward check
+var _origAddXP = addXP;
+addXP = function(n) {
+  _origAddXP(n);
+  addDailyXP(n);
+  showXPToast(n);
+  buildDailyGoal();
+  buildStreakHero();
+  buildLeaderboard();
+  checkBadges();
+  buildBadgesGrid();
+};
+
+// Call refreshRewardUI whenever home is opened
+var _origGo = go;
+go = function(page, navId) {
+  _origGo(page, navId);
+  if (page === 'home') {
+    setTimeout(refreshRewardUI, 50);
+  }
+};
+
+// Init on load
+setTimeout(refreshRewardUI, 100);
 </script>
 </body>
 </html>
