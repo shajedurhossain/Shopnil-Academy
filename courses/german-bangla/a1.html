@@ -368,54 +368,6 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans',sans-s
 .srs-q4:hover{background:#d0f0e0}.srs-q5:hover{background:#c0dff8}
 .srs-card{border:2px solid var(--border)}
 .srs-card:hover{border-color:var(--gold)}
-
-/* ── DAILY GOAL BAR ── */
-.daily-goal{background:var(--black);border:1.5px solid rgba(212,168,83,.35);border-radius:13px;padding:14px 16px;margin-bottom:12px}
-.dg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.dg-title{font-size:.72rem;font-weight:700;color:var(--gold)}
-.dg-xp{font-size:.72rem;color:rgba(255,255,255,.45)}
-.dg-bar-outer{background:rgba(255,255,255,.08);border-radius:10px;height:11px;overflow:hidden;margin-bottom:6px}
-.dg-bar-inner{height:100%;background:linear-gradient(90deg,var(--gold),#ff9d00);border-radius:10px;transition:width .5s ease}
-.dg-status{font-size:.7rem;color:rgba(255,255,255,.5)}
-.dg-status.done{color:#5dbb7a;font-weight:700}
-/* ── STREAK DRAMA ── */
-.streak-danger{border-color:rgba(255,80,80,.5)!important;animation:danger-pulse 2s infinite}
-@keyframes danger-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,80,80,0)}50%{box-shadow:0 0 0 6px rgba(255,80,80,.15)}}
-.streak-safe{border-color:rgba(93,187,122,.4)!important}
-/* ── BADGES ── */
-.badges-section{margin-bottom:12px}
-.badges-title{font-size:.72rem;font-weight:700;color:var(--gold);margin-bottom:8px}
-.badges-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-.badge-card{background:var(--black);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 5px;text-align:center;transition:all .2s;cursor:default}
-.badge-card.earned{border-color:rgba(212,168,83,.4);background:rgba(212,168,83,.07)}
-.badge-card.locked{opacity:.35;filter:grayscale(1)}
-.badge-icon{font-size:1.4rem;margin-bottom:3px}
-.badge-name{font-size:.58rem;font-weight:700;color:rgba(255,255,255,.6);line-height:1.3}
-.badge-card.earned .badge-name{color:var(--gold)}
-/* ── XP TOAST ── */
-.xp-toast{position:fixed;top:60px;right:14px;background:var(--gold);color:var(--black);font-weight:800;font-size:.85rem;padding:6px 14px;border-radius:20px;z-index:999;pointer-events:none;opacity:0;transform:translateY(0);transition:all .15s}
-.xp-toast.show{opacity:1;transform:translateY(4px)}
-/* ── LEVEL BADGE ── */
-.level-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(212,168,83,.12);border:1px solid rgba(212,168,83,.3);border-radius:20px;padding:3px 10px;font-size:.7rem;font-weight:700;color:var(--gold);margin-left:8px}
-/* ── LEADERBOARD ── */
-.leaderboard{background:var(--black);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:14px 16px;margin-bottom:12px}
-.lb-title{font-size:.72rem;font-weight:700;color:var(--gold);margin-bottom:10px}
-.lb-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.lb-row:last-child{border-bottom:none}
-.lb-rank{font-size:.75rem;font-weight:700;color:rgba(255,255,255,.4);width:18px;text-align:center}
-.lb-rank.gold{color:#ffd700}
-.lb-rank.silver{color:#c0c0c0}
-.lb-rank.bronze{color:#cd7f32}
-.lb-name{flex:1;font-size:.78rem;font-weight:600;color:rgba(255,255,255,.8)}
-.lb-name.you{color:var(--gold)}
-.lb-xp-val{font-size:.72rem;font-weight:700;color:#5dbb7a}
-.lb-bar{width:60px;background:rgba(255,255,255,.07);border-radius:5px;height:5px;overflow:hidden}
-.lb-bar-fill{height:100%;background:var(--gold);border-radius:5px}
-/* ── COMEBACK BANNER ── */
-.comeback{background:linear-gradient(135deg,rgba(255,60,60,.12),rgba(255,120,0,.08));border:1.5px solid rgba(255,80,80,.35);border-radius:13px;padding:13px 16px;margin-bottom:12px;display:none}
-.comeback.show{display:block}
-.cb-title{font-size:.8rem;font-weight:700;color:#ff6b6b;margin-bottom:4px}
-.cb-msg{font-size:.73rem;color:rgba(255,255,255,.6)}
 </style>
 </head>
 <body>
@@ -966,73 +918,42 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans',sans-s
 <!-- ====== HOME ====== -->
 <div class="page active" id="page-home">
   <div style="padding:14px 13px 36px;max-width:660px">
-
-    <!-- XP TOAST -->
-    <div class="xp-toast" id="xpToast">+10 XP!</div>
-
-    <!-- COMEBACK BANNER (shown when streak broken) -->
-    <div class="comeback" id="comebackBanner">
-      <div class="cb-title">😢 আপনার streak শেষ হয়ে গেছে!</div>
-      <div class="cb-msg">কিন্তু চিন্তা নেই — আজ পড়লে নতুন streak শুরু হবে! 💪 এগিয়ে যান!</div>
-    </div>
-
-    <!-- HERO -->
     <div class="home-hero">
       <div class="hh-flag">🇩🇪</div>
       <div class="hh-title">জার্মান A1 — শুরু করুন</div>
       <div class="hh-bn">সম্পূর্ণ শূন্য থেকে শুরু — বাংলায়</div>
-      <div class="hh-sub">৫টি অধ্যায় · ৩৫+ পাঠ · নিজের গতিতে শিখুন</div>
+      <div class="hh-sub">৬টি অধ্যায় · ৩০+ পাঠ · নিজের গতিতে শিখুন<br>প্রতিটি অধ্যায় শেষে রিভিউ — কোনো সময়সীমা নেই!</div>
     </div>
-
-    <!-- STREAK HERO (with danger/safe state) -->
-    <div class="streak-hero" id="streakHero">
-      <div class="sh-fire" id="streakFire">🔥</div>
+    <!-- BEGINNER WELCOME BOX -->
+    <div style="background:#fff;border:1.5px solid var(--gold);border-radius:13px;padding:14px 16px;margin-bottom:14px">
+      <div style="font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:8px">🌟 সম্পূর্ণ নতুন? এখান থেকে শুরু করুন!</div>
+      <div style="font-family:var(--bn);font-size:.84rem;color:#444;line-height:1.75;margin-bottom:10px">
+        <strong>কোনো পূর্ব অভিজ্ঞতার প্রয়োজন নেই।</strong> এই কোর্সটি একদম শূন্য থেকে শুরু করে।<br>
+        🔢 প্রতিটি পাঠ: শব্দ শিখুন → টাইপ করুন → বলুন → কুইজ দিন<br>
+        🎯 নিজের গতিতে এগিয়ে যান — কোনো সময়সীমা নেই<br>
+        🏆 প্রতিটি সঠিক উত্তরে XP পাবেন ও streak বাড়বে
+      </div>
+      <button onclick="go('d1g','nav-d1g');openWeek(1);openDay(1)" style="background:var(--gold);color:var(--black);border:none;border-radius:9px;padding:10px 20px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%">
+        🚀 পাঠ ১ থেকে শুরু করুন
+      </button>
+    </div>
+    <!-- STREAK HERO -->
+    <div class="streak-hero">
+      <div class="sh-fire">🔥</div>
       <div class="sh-info">
         <div class="sh-count" id="streakHome">0</div>
-        <div class="sh-label" id="streakLabel">দিনের ধারা (Streak)</div>
+        <div class="sh-label">দিনের ধারা (Streak)</div>
       </div>
       <div class="sh-xp">
         <div class="sh-xp-n" id="xpHome">0</div>
-        <div class="sh-xp-l">মোট XP · <span id="levelLabel" style="color:var(--gold)">Anfänger</span></div>
+        <div class="sh-xp-l">মোট XP</div>
       </div>
     </div>
-
-    <!-- DAILY GOAL BAR -->
-    <div class="daily-goal" id="dailyGoalBox">
-      <div class="dg-header">
-        <div class="dg-title">🎯 আজকের লক্ষ্য — Daily Goal</div>
-        <div class="dg-xp" id="dgXpLabel">0 / 30 XP</div>
-      </div>
-      <div class="dg-bar-outer">
-        <div class="dg-bar-inner" id="dgBar" style="width:0%"></div>
-      </div>
-      <div class="dg-status" id="dgStatus">আজ ৩০ XP অর্জন করুন — streak বাঁচিয়ে রাখুন! 🔥</div>
-    </div>
-
-    <!-- BADGES -->
-    <div class="badges-section">
-      <div class="badges-title">🏅 আপনার ব্যাজ — Badges</div>
-      <div class="badges-grid" id="badgesGrid"></div>
-    </div>
-
-    <!-- LEADERBOARD -->
-    <div class="leaderboard">
-      <div class="lb-title">🏆 সাপ্তাহিক র‍্যাংকিং — Weekly Leaderboard</div>
-      <div id="leaderboardRows"></div>
-    </div>
-
-    <!-- STATS -->
     <div class="stats">
       <div class="stat"><div class="st-n" id="lessonsCompleted">0</div><div class="st-l">পাঠ সম্পন্ন</div></div>
       <div class="stat"><div class="st-n" id="quizzesDone">0</div><div class="st-l">কুইজ দেওয়া</div></div>
       <div class="stat"><div class="st-n" id="srsCount">0</div><div class="st-l">শব্দ বাকি</div></div>
     </div>
-
-    <!-- START BUTTON -->
-    <button onclick="go('d1g','nav-d1g');openWeek(1);openDay(1)" style="background:var(--gold);color:var(--black);border:none;border-radius:9px;padding:11px 20px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;width:100%;margin-bottom:12px">
-      🚀 পড়া শুরু করুন
-    </button>
-
     <div style="font-family:var(--bn);font-size:.78rem;font-weight:700;color:var(--gold);margin-bottom:9px">আপনার অধ্যায়গুলো 📚</div>
 
     <div class="wc" onclick="go('d1g','nav-d1g');openWeek(1);openDay(1)">
@@ -3048,247 +2969,249 @@ var spData={
 var spRes={d1s:{},d2s:{},d3s:{},d4s:{},d5s:{},d10s:{},d15s:{},d1als:{},d1qws:{},d1vbs:{},d2pps:{},d2pls:{},d2grs:{},d3dms:{},d3svs:{},d3prs:{},d4mvs:{},d4acs:{},d4ngs:{},d5pfs:{},d5wds:{},d5dts:{}};
 var qzData={
   d1q:[
-    {q:'What does "Guten Morgen" mean?',o:['Good Night','Good Morning','Good Evening','Good Day'],a:1,f:'Morgen = Morning!'},
-    {q:'How do you say "Thank you" in German?',o:['Bitte','Hallo','Danke','Tschüss'],a:2,f:'Danke = Thank you!'},
-    {q:'How do you say "My name is Hossain"?',o:['Ich bin Hossain','Ich heiße Hossain','Ich komme Hossain','Ich wohne Hossain'],a:1,f:'Ich heiße = My name is!'},
-    {q:'What does "Wie geht es Ihnen?" mean?',o:['What is your name?','Where are you from?','How are you?','How old are you?'],a:2,f:'Wie geht es = How is it going!'},
-    {q:'How do you say "Goodbye"?',o:['Guten Tag','Danke','Bitte','Auf Wiedersehen'],a:3,f:'Auf Wiedersehen = Goodbye!'},
-    {q:'What does "Entschuldigung" mean?',o:['Thank you','Please','Excuse me','Hello'],a:2,f:'Entschuldigung = Excuse me!'},
-    {q:'How do you say "Please" in German?',o:['Danke','Bitte','Hallo','Tschüss'],a:1,f:'Bitte = Please!'},
-    {q:'What is the formal greeting for afternoon?',o:['Guten Morgen','Guten Abend','Guten Tag','Gute Nacht'],a:2,f:'Guten Tag = Good Day!'},
-    {q:'How do you say "I come from Bangladesh"?',o:['Ich komme aus England','Ich komme aus Bangladesch','Ich wohne in Bangladesch','Ich bin in Bangladesch'],a:1,f:'Ich komme aus = I come from!'},
-    {q:'What does "Sehr gut, danke!" mean?',o:['Very bad, thanks','Very good, thanks','Not good, thanks','OK, thanks'],a:1,f:'Sehr gut = Very good!'}
+    {q:'\"শুভ সকাল\" German-এ কী?',o:['Guten Abend','Guten Morgen','Gute Nacht','Guten Tag'],a:1,f:'সকাল = Morgen → Guten Morgen!'},
+    {q:'\"ধন্যবাদ\" German-এ কী?',o:['Bitte','Hallo','Danke','Tschüss'],a:2,f:'ধন্যবাদ = Danke!'},
+    {q:'\"আমার নাম হোসেন\" German-এ?',o:['Ich bin Hossain','Ich heiße Hossain','Ich komme Hossain','Ich wohne Hossain'],a:1,f:'Ich heiße = আমার নাম!'},
+    {q:'\"আপনি কেমন আছেন?\" German-এ?',o:['Wie heißt du?','Woher kommen Sie?','Wie geht es Ihnen?','Wo wohnen Sie?'],a:2,f:'Wie geht es Ihnen? = আপনি কেমন আছেন? (formal)!'},
+    {q:'\"বিদায়\" German-এ কী?',o:['Guten Tag','Danke','Bitte','Auf Wiedersehen'],a:3,f:'বিদায় = Auf Wiedersehen!'},
+    {q:'\"মাফ করবেন\" German-এ?',o:['Danke','Bitte','Entschuldigung','Hallo'],a:2,f:'মাফ করবেন = Entschuldigung!'},
+    {q:'\"অনুগ্রহ করে\" German-এ?',o:['Danke','Bitte','Hallo','Tschüss'],a:1,f:'অনুগ্রহ করে = Bitte!'},
+    {q:'\"শুভ দুপুর\" German-এ?',o:['Guten Morgen','Guten Abend','Guten Tag','Gute Nacht'],a:2,f:'দিনের formal অভিবাদন = Guten Tag!'},
+    {q:'\"আমি বাংলাদেশ থেকে\" German-এ?',o:['Ich komme aus England','Ich komme aus Bangladesch','Ich wohne in Bangladesch','Ich bin in Bangladesch'],a:1,f:'থেকে আসা = kommen aus!'},
+    {q:'\"খুব ভালো, ধন্যবাদ!\" German-এ?',o:['Nicht gut, danke','Sehr gut, danke!','Es geht, danke','Schlecht, danke'],a:1,f:'খুব ভালো = sehr gut!'}
   ],
   d2q:[
-    {q:'How do you say "I live in Dhaka"?',o:['Ich komme in Dhaka','Ich wohne in Dhaka','Ich bin in Dhaka','Ich fahre in Dhaka'],a:1,f:'wohnen = to live somewhere!'},
-    {q:'What does "Ich bin dreißig Jahre alt" mean?',o:['I am twenty years old','I am thirty years old','I am forty years old','I am fifty years old'],a:1,f:'dreißig = 30!'},
-    {q:'How do you introduce yourself formally?',o:['Ich heiße','Ich wohne','Ich komme','Ich bin'],a:0,f:'Ich heiße = My name is (formal introduction)!'},
-    {q:'What does "Woher kommen Sie?" mean?',o:['Where do you live?','How old are you?','Where do you come from?','What do you do?'],a:2,f:'Woher kommen Sie? = Where do you come from? (formal)'},
-    {q:'How do you say "I am a student"?',o:['Ich bin Lehrer','Ich bin Student','Ich bin Arzt','Ich bin Koch'],a:1,f:'Student = student!'},
-    {q:'What is "Ich spreche Deutsch" in English?',o:['I learn German','I like German','I speak German','I write German'],a:2,f:'sprechen = to speak!'},
-    {q:'How do you say "I work in an office"?',o:['Ich arbeite im Büro','Ich wohne im Büro','Ich lerne im Büro','Ich esse im Büro'],a:0,f:'arbeiten im Büro = work in an office!'},
-    {q:'What is "verheiratet"?',o:['single','married','divorced','widowed'],a:1,f:'verheiratet = married!'},
-    {q:'How do you say "I am learning German"?',o:['Ich spreche Deutsch','Ich schreibe Deutsch','Ich lerne Deutsch','Ich lese Deutsch'],a:2,f:'lernen = to learn!'},
-    {q:'What does "Ich komme aus Bangladesch" mean?',o:['I live in Bangladesh','I come from Bangladesh','I work in Bangladesh','I travel to Bangladesh'],a:1,f:'kommen aus = to come from!'}
+    {q:'\"আমি ঢাকায় থাকি\" German-এ?',o:['Ich komme in Dhaka','Ich wohne in Dhaka','Ich bin in Dhaka','Ich fahre in Dhaka'],a:1,f:'থাকা = wohnen → Ich wohne in Dhaka!'},
+    {q:'\"আমার বয়স ত্রিশ\" German-এ?',o:['Ich bin zwanzig Jahre alt','Ich bin dreißig Jahre alt','Ich bin vierzig Jahre alt','Ich bin fünfzig Jahre alt'],a:1,f:'ত্রিশ = dreißig!'},
+    {q:'নিজেকে formal-ভাবে পরিচয় করাতে কোনটি?',o:['Ich heiße','Ich wohne','Ich komme','Ich bin'],a:0,f:'Ich heiße = আমার নাম (formal পরিচয়)!'},
+    {q:'\"আপনি কোথা থেকে?\" German-এ (formal)?',o:['Wo wohnen Sie?','Wie alt sind Sie?','Woher kommen Sie?','Was machen Sie?'],a:2,f:'কোথা থেকে = Woher → Woher kommen Sie?'},
+    {q:'\"আমি ছাত্র\" German-এ?',o:['Ich bin Lehrer','Ich bin Student','Ich bin Arzt','Ich bin Koch'],a:1,f:'ছাত্র = Student!'},
+    {q:'\"আমি German বলি\" German-এ?',o:['Ich lerne Deutsch','Ich mag Deutsch','Ich spreche Deutsch','Ich schreibe Deutsch'],a:2,f:'বলা = sprechen → Ich spreche Deutsch!'},
+    {q:'\"আমি অফিসে কাজ করি\" German-এ?',o:['Ich arbeite im Büro','Ich wohne im Büro','Ich lerne im Büro','Ich esse im Büro'],a:0,f:'কাজ করা = arbeiten → im Büro!'},
+    {q:'\"বিবাহিত\" German-এ?',o:['ledig','verheiratet','geschieden','verwitwet'],a:1,f:'বিবাহিত = verheiratet!'},
+    {q:'\"আমি German শিখছি\" German-এ?',o:['Ich spreche Deutsch','Ich schreibe Deutsch','Ich lerne Deutsch','Ich lese Deutsch'],a:2,f:'শেখা = lernen → Ich lerne Deutsch!'},
+    {q:'\"আমি বাংলাদেশ থেকে এসেছি\" German-এ?',o:['Ich lebe in Bangladesch','Ich komme aus Bangladesch','Ich arbeite in Bangladesch','Ich fahre nach Bangladesch'],a:1,f:'থেকে আসা = kommen aus!'}
   ],
   d3q:[
-    {q:'How do you say "twenty" in German?',o:['dreißig','vierzig','zwanzig','fünfzig'],a:2,f:'zwanzig = 20!'},
-    {q:'What is "drei" in English?',o:['one','two','three','four'],a:2,f:'drei = three!'},
-    {q:'How do you say "one hundred" in German?',o:['tausend','hundert','zwanzig','neunzig'],a:1,f:'hundert = 100!'},
-    {q:'What number is "siebenundvierzig"?',o:['37','47','57','67'],a:1,f:'sieben(7) + vierzig(40) = 47!'},
-    {q:'How do you say "fifty" in German?',o:['vierzig','sechzig','fünfzig','siebzig'],a:2,f:'fünfzig = 50!'},
-    {q:'What is "acht" in English?',o:['six','seven','eight','nine'],a:2,f:'acht = eight!'},
-    {q:'How do you say "thirty" in German?',o:['zwanzig','dreißig','vierzig','fünfzig'],a:1,f:'dreißig = 30 — note the ß!'},
-    {q:'What is "neunzig" in English?',o:['seventy','eighty','ninety','sixty'],a:2,f:'neunzig = 90!'},
-    {q:'How do you say "twelve" in German?',o:['elf','zwölf','dreizehn','vierzehn'],a:1,f:'zwölf = 12!'},
-    {q:'What number is "fünfundzwanzig"?',o:['15','20','25','30'],a:2,f:'fünf(5) + zwanzig(20) = 25!'}
+    {q:'\"বিশ\" German-এ কী?',o:['dreißig','vierzig','zwanzig','fünfzig'],a:2,f:'বিশ = zwanzig!'},
+    {q:'\"তিন\" German-এ কী?',o:['eins','zwei','drei','vier'],a:2,f:'তিন = drei!'},
+    {q:'\"একশো\" German-এ কী?',o:['tausend','hundert','zwanzig','neunzig'],a:1,f:'একশো = hundert!'},
+    {q:'৪৭ German-এ কীভাবে লেখে?',o:['siebenunddreißig','siebenundvierzig','siebenundfünfzig','siebenundsechzig'],a:1,f:'sieben(৭) + vierzig(৪০) = siebenundvierzig!'},
+    {q:'\"পঞ্চাশ\" German-এ কী?',o:['vierzig','sechzig','fünfzig','siebzig'],a:2,f:'পঞ্চাশ = fünfzig!'},
+    {q:'\"আট\" German-এ কী?',o:['sechs','sieben','acht','neun'],a:2,f:'আট = acht!'},
+    {q:'\"ত্রিশ\" German-এ কী?',o:['zwanzig','dreißig','vierzig','fünfzig'],a:1,f:'ত্রিশ = dreißig — ß লক্ষ্য করুন!'},
+    {q:'\"নব্বই\" German-এ কী?',o:['siebzig','achtzig','neunzig','sechzig'],a:2,f:'নব্বই = neunzig!'},
+    {q:'\"বারো\" German-এ কী?',o:['elf','zwölf','dreizehn','vierzehn'],a:1,f:'বারো = zwölf!'},
+    {q:'২৫ German-এ কীভাবে লেখে?',o:['fünfzehn','zwanzig','fünfundzwanzig','dreißig'],a:2,f:'fünf(৫) + zwanzig(২০) = fünfundzwanzig!'}
   ],
   d4q:[
-    {q:'How do you say "red" in German?',o:['blau','grün','gelb','rot'],a:3,f:'rot = red!'},
-    {q:'What does "blau" mean?',o:['green','blue','yellow','white'],a:1,f:'blau = blue!'},
-    {q:'How do you say "beautiful/nice" in German?',o:['groß','klein','schön','alt'],a:2,f:'schön = beautiful!'},
-    {q:'What is the opposite of "groß" (big)?',o:['alt','neu','klein','warm'],a:2,f:'klein = small — opposite of groß!'},
-    {q:'How do you say "black" in German?',o:['weiß','grau','braun','schwarz'],a:3,f:'schwarz = black!'},
-    {q:'What does "kalt" mean?',o:['hot','warm','cool','cold'],a:3,f:'kalt = cold!'},
-    {q:'How do you say "new" in German?',o:['alt','neu','jung','groß'],a:1,f:'neu = new — opposite of alt (old)!'},
-    {q:'What color is "gelb"?',o:['red','blue','yellow','green'],a:2,f:'gelb = yellow!'},
-    {q:'How do you say "I am tired"?',o:['Ich bin glücklich','Ich bin müde','Ich bin krank','Ich bin groß'],a:1,f:'müde = tired!'},
-    {q:'What does "grün" mean?',o:['grey','brown','green','purple'],a:2,f:'grün = green!'}
+    {q:'\"লাল\" German-এ কী?',o:['blau','grün','gelb','rot'],a:3,f:'লাল = rot!'},
+    {q:'\"নীল\" German-এ কী?',o:['grün','blau','gelb','weiß'],a:1,f:'নীল = blau!'},
+    {q:'\"সুন্দর\" German-এ কী?',o:['groß','klein','schön','alt'],a:2,f:'সুন্দর = schön!'},
+    {q:'\"groß\" (বড়) এর বিপরীত কী?',o:['alt','neu','klein','warm'],a:2,f:'ছোট = klein — groß এর বিপরীত!'},
+    {q:'\"কালো\" German-এ কী?',o:['weiß','grau','braun','schwarz'],a:3,f:'কালো = schwarz!'},
+    {q:'\"kalt\" মানে কী?',o:['গরম','উষ্ণ','ঠান্ডা','শীতল'],a:2,f:'kalt = ঠান্ডা!'},
+    {q:'\"নতুন\" German-এ কী?',o:['alt','neu','jung','groß'],a:1,f:'নতুন = neu — alt (পুরানো) এর বিপরীত!'},
+    {q:'\"হলুদ\" German-এ কী?',o:['rot','blau','gelb','grün'],a:2,f:'হলুদ = gelb!'},
+    {q:'\"আমি ক্লান্ত\" German-এ?',o:['Ich bin glücklich','Ich bin müde','Ich bin krank','Ich bin groß'],a:1,f:'ক্লান্ত = müde!'},
+    {q:'\"সবুজ\" German-এ কী?',o:['grau','braun','grün','lila'],a:2,f:'সবুজ = grün!'}
   ],
   d5q:[
-    {q:'How do you say "my father" in German?',o:['dein Vater','sein Vater','mein Vater','ihr Vater'],a:2,f:'mein = my (masculine)!'},
-    {q:'What does "die Schwester" mean?',o:['brother','mother','sister','daughter'],a:2,f:'die Schwester = sister!'},
-    {q:'How do you say "I have a brother"?',o:['Ich habe einen Bruder','Ich bin ein Bruder','Ich komme einen Bruder','Ich wohne einen Bruder'],a:0,f:'Ich habe = I have, einen Bruder = a brother!'},
-    {q:'What is "der Vater" in English?',o:['mother','son','daughter','father'],a:3,f:'der Vater = father!'},
-    {q:'How do you say "my family lives in Dhaka"?',o:['Meine Familie wohnt in Dhaka','Mein Familie wohnt in Dhaka','Meine Familie lebt Dhaka','Meine Familie kommt Dhaka'],a:0,f:'Meine Familie = my family (die Familie is feminine)!'},
-    {q:'What does "die Mutter" mean?',o:['sister','grandmother','mother','aunt'],a:2,f:'die Mutter = mother!'},
-    {q:'How do you say "his sister"?',o:['meine Schwester','deine Schwester','seine Schwester','ihre Schwester'],a:2,f:'er → sein — seine Schwester!'},
-    {q:'What is "das Kind" in English?',o:['man','woman','child','baby'],a:2,f:'das Kind = child!'},
-    {q:'How do you say "our house"?',o:['mein Haus','dein Haus','sein Haus','unser Haus'],a:3,f:'unser = our!'},
-    {q:'What is the plural of "das Kind"?',o:['die Kinds','die Kinder','die Kinde','die Kindern'],a:1,f:'das Kind → die Kinder!'}
+    {q:'\"আমার বাবা\" German-এ?',o:['dein Vater','sein Vater','mein Vater','ihr Vater'],a:2,f:'আমার = mein (masculine)!'},
+    {q:'\"die Schwester\" মানে কী?',o:['ভাই','মা','বোন','মেয়ে'],a:2,f:'die Schwester = বোন!'},
+    {q:'\"আমার একটা ভাই আছে\" German-এ?',o:['Ich habe einen Bruder','Ich bin ein Bruder','Ich komme einen Bruder','Ich wohne einen Bruder'],a:0,f:'Ich habe = আমার আছে, einen Bruder = একটা ভাই!'},
+    {q:'\"der Vater\" মানে কী?',o:['মা','ছেলে','মেয়ে','বাবা'],a:3,f:'der Vater = বাবা!'},
+    {q:'\"আমার পরিবার ঢাকায় থাকে\" German-এ?',o:['Meine Familie wohnt in Dhaka','Mein Familie wohnt in Dhaka','Meine Familie lebt Dhaka','Meine Familie kommt Dhaka'],a:0,f:'আমার পরিবার = Meine Familie (die Familie → feminine)!'},
+    {q:'\"die Mutter\" মানে কী?',o:['বোন','দাদি','মা','খালা'],a:2,f:'die Mutter = মা!'},
+    {q:'\"তার বোন\" German-এ (he)?',o:['meine Schwester','deine Schwester','seine Schwester','ihre Schwester'],a:2,f:'er → sein/seine — seine Schwester!'},
+    {q:'\"das Kind\" মানে কী?',o:['পুরুষ','মহিলা','শিশু','বাচ্চা'],a:2,f:'das Kind = শিশু/সন্তান!'},
+    {q:'\"আমাদের বাড়ি\" German-এ?',o:['mein Haus','dein Haus','sein Haus','unser Haus'],a:3,f:'আমাদের = unser!'},
+    {q:'\"das Kind\" এর plural কী?',o:['die Kinds','die Kinder','die Kinde','die Kindern'],a:1,f:'das Kind → die Kinder!'}
   ],
   d1alq:[
-    {q:'What does "ae" (ä) sound like in German?',o:['Like English a','Like English e','Like English o','Like English u'],a:1,f:'ae (ä) = like e — Maenner (Männer) = MEN-ner!'},
-    {q:'How do you pronounce "oe" (ö)?',o:['Round lips say i','Round lips say e','Round lips say a','Like u'],a:1,f:'oe (ö) = round lips and say e!'},
-    {q:'What does "sch" sound like in German?',o:['Like ch','Like sh','Like sp','Like st'],a:1,f:'sch = sh sound — Schule = SHOO-le!'},
-    {q:'"ei" in German sounds like?',o:['ee like see','aye like eye','ay like say','oy like boy'],a:1,f:'ei = eye sound — heißen nein ein!'},
-    {q:'How is "w" pronounced in German?',o:['Like English w','Like English v','Like English b','Like English f'],a:1,f:'German w = English v sound — Wasser = VASS-er!'},
-    {q:'What is "ss" (ß) equivalent to?',o:['A single s','Double ss','The letter b','Silent'],a:1,f:'ss (ß) = double ss — Strasse (Straße) = SHTRAH-sse!'},
-    {q:'"ie" in German sounds like?',o:['Short i','Long ee','Like eye','Like oy'],a:1,f:'ie = long ee — wie Wien die!'},
-    {q:'How is "z" pronounced in German?',o:['Like English z','Like ts','Like s','Like dz'],a:1,f:'German z = ts sound — zwei Zeit!'},
-    {q:'What sound does "sp" make at start of a word?',o:['sp','shp','zp','fp'],a:1,f:'sp at start = shp — sprechen = SHPREH-khen!'},
-    {q:'How is "v" pronounced in most German words?',o:['Like English v','Like English f','Like English b','Like English p'],a:1,f:'German v = f sound — Vater = FA-ter!'}
+    {q:'\"ä\" (ae) উচ্চারণ কীভাবে হয়?',o:['English a এর মতো','English e এর মতো','English o এর মতো','English u এর মতো'],a:1,f:'ä = e এর মতো — Männer = MEN-ner!'},
+    {q:'\"ö\" উচ্চারণ করতে ঠোঁটের অবস্থান কী?',o:['ঠোঁট গোল করে i বলুন','ঠোঁট গোল করে e বলুন','ঠোঁট গোল করে a বলুন','u এর মতো'],a:1,f:'ö = ঠোঁট গোল করে e বলুন!'},
+    {q:'\"sch\" এর উচ্চারণ কী?',o:['ch এর মতো','sh এর মতো','sp এর মতো','st এর মতো'],a:1,f:'sch = sh — Schule = SHOO-le!'},
+    {q:'German \"ei\" কীভাবে উচ্চারণ হয়?',o:['ee (দীর্ঘ ই)','eye (আই)','ay (এই)','oy (অই)'],a:1,f:'ei = eye — heißen, nein, ein!'},
+    {q:'German \"w\" এর উচ্চারণ কী?',o:['English w এর মতো','English v এর মতো','English b এর মতো','English f এর মতো'],a:1,f:'German w = English v — Wasser = VASS-er!'},
+    {q:'\"ß\" (Eszett) মানে কী?',o:['একটি s','দুটি ss','b অক্ষর','নীরব'],a:1,f:'ß = দুটি ss — Straße = SHTRAH-sse!'},
+    {q:'German \"ie\" উচ্চারণ কী?',o:['ছোট i','দীর্ঘ ee','eye এর মতো','oy এর মতো'],a:1,f:'ie = দীর্ঘ ee — wie, Wien, die!'},
+    {q:'German \"z\" উচ্চারণ কী?',o:['English z এর মতো','ts এর মতো','s এর মতো','dz এর মতো'],a:1,f:'German z = ts — zwei, Zeit!'},
+    {q:'শব্দের শুরুতে \"sp\" উচ্চারণ কী?',o:['sp','shp','zp','fp'],a:1,f:'sp (শুরুতে) = shp — sprechen = SHPREH-khen!'},
+    {q:'German \"v\" সাধারণত কীভাবে উচ্চারণ হয়?',o:['English v এর মতো','English f এর মতো','English b এর মতো','English p এর মতো'],a:1,f:'German v = f — Vater = FA-ter!'}
   ],
   d1qwq:[
-    {q:'What does "Wo" mean?',o:['Who','What','Where','When'],a:2,f:'Wo = Where — Wo wohnst du?'},
-    {q:'Which question word asks about a person?',o:['Was','Wo','Wer','Wann'],a:2,f:'Wer = Who — Wer ist das?'},
-    {q:'How do you say "Why" in German?',o:['Wie','Wann','Woher','Warum'],a:3,f:'Warum = Why!'},
-    {q:'"Woher kommst du?" means?',o:['Where do you live?','Where are you from?','Where are you going?','When are you coming?'],a:1,f:'Woher = Where from!'},
-    {q:'How do you ask "What is that?"?',o:['Wer ist das?','Wo ist das?','Was ist das?','Wie ist das?'],a:2,f:'Was = What!'},
-    {q:'Which word means "When?"',o:['Wie','Wann','Warum','Woher'],a:1,f:'Wann = When!'},
-    {q:'"Wie heißt du?" means?',o:['Where do you live?','How old are you?','What is your name?','Where are you from?'],a:2,f:'Wie heißt du? = What is your name?'},
-    {q:'"Wie viel kostet das?" means?',o:['How old is that?','How much does that cost?','How big is that?','How far is that?'],a:1,f:'Wie viel = How much!'},
-    {q:'All German question words start with which letter?',o:['V','G','W','F'],a:2,f:'All W-questions start with W!'},
-    {q:'How do you ask "Where are you from?" formally?',o:['Wo wohnen Sie?','Woher kommen Sie?','Wer sind Sie?','Wie heißen Sie?'],a:1,f:'Woher kommen Sie? = Where are you from? (formal)'}
+    {q:'\"কোথায়\" German-এ কী?',o:['Wer','Was','Wo','Wann'],a:2,f:'কোথায় = Wo — Wo wohnst du?'},
+    {q:'ব্যক্তি সম্পর্কে জিজ্ঞেস করতে কোন W-word?',o:['Was','Wo','Wer','Wann'],a:2,f:'Wer = কে — Wer ist das?'},
+    {q:'\"কেন\" German-এ কী?',o:['Wie','Wann','Woher','Warum'],a:3,f:'কেন = Warum!'},
+    {q:'\"Woher kommst du?\" মানে কী?',o:['তুমি কোথায় থাকো?','তুমি কোথা থেকে?','তুমি কোথায় যাচ্ছ?','তুমি কখন আসছ?'],a:1,f:'Woher = কোথা থেকে!'},
+    {q:'\"এটা কী?\" German-এ?',o:['Wer ist das?','Wo ist das?','Was ist das?','Wie ist das?'],a:2,f:'কী = Was → Was ist das?'},
+    {q:'\"কখন\" German-এ কী?',o:['Wie','Wann','Warum','Woher'],a:1,f:'কখন = Wann!'},
+    {q:'\"Wie heißt du?\" মানে কী?',o:['তুমি কোথায় থাকো?','তোমার বয়স কত?','তোমার নাম কী?','তুমি কোথা থেকে?'],a:2,f:'Wie heißt du? = তোমার নাম কী?'},
+    {q:'\"Wie viel kostet das?\" মানে কী?',o:['এটা কত পুরানো?','এটার দাম কত?','এটা কত বড়?','এটা কত দূর?'],a:1,f:'Wie viel = কত → দাম জিজ্ঞেস করা!'},
+    {q:'German-এর সব question word কোন অক্ষর দিয়ে শুরু?',o:['V','G','W','F'],a:2,f:'সব W-questions W দিয়ে শুরু!'},
+    {q:'\"আপনি কোথা থেকে?\" formal German-এ?',o:['Wo wohnen Sie?','Woher kommen Sie?','Wer sind Sie?','Wie heißen Sie?'],a:1,f:'Woher kommen Sie? = আপনি কোথা থেকে? (formal)'}
   ],
   d1vbq:[
-    {q:'What is "ich bin" in English?',o:['I have','I am','I was','I will be'],a:1,f:'sein: ich bin = I am!'},
-    {q:'Complete: "Du ___ nett."',o:['bist','sind','seid','ist'],a:0,f:'du bist = you are!'},
-    {q:'Complete: "Er ___ Lehrer."',o:['bin','bist','ist','sind'],a:2,f:'er/sie/es ist = he/she is!'},
-    {q:'"Wir sind Freunde" means?',o:['We have friends','We are friends','You are friends','They are friends'],a:1,f:'wir sind = we are!'},
-    {q:'Complete: "Ich ___ einen Bruder."',o:['bin','habe','hat','haben'],a:1,f:'haben: ich habe = I have!'},
-    {q:'Complete: "Du ___ Zeit."',o:['haben','hat','hast','habt'],a:2,f:'haben: du hast = you have!'},
-    {q:'What is the stem of "wohnen"?',o:['wohne','wohn','wohnst','wohnt'],a:1,f:'wohnen → stem = wohn!'},
-    {q:'Complete: "Ich ___ Deutsch."',o:['lernst','lernt','lerne','lernen'],a:2,f:'Regular verbs: ich + stem + e → ich lerne!'},
-    {q:'Complete: "Wir ___ in Berlin."',o:['wohne','wohnst','wohnt','wohnen'],a:3,f:'wir wohnen — same as infinitive!'},
-    {q:'Which has "haben" (not "hat" or "hast")?',o:['ich','du','er','wir'],a:3,f:'wir haben = we have!'}
+    {q:'\"ich bin\" মানে কী?',o:['আমার আছে','আমি আছি','আমি ছিলাম','আমি থাকব'],a:1,f:'sein: ich bin = আমি আছি!'},
+    {q:'\"তুমি ভালো\" German-এ?',o:['Du bist nett','Du sind nett','Du ist nett','Du seid nett'],a:0,f:'du → bist — Du bist nett!'},
+    {q:'\"সে শিক্ষক\" German-এ?',o:['Er bin Lehrer','Er bist Lehrer','Er ist Lehrer','Er sind Lehrer'],a:2,f:'er/sie/es → ist — Er ist Lehrer!'},
+    {q:'\"Wir sind Freunde\" মানে কী?',o:['আমাদের বন্ধু আছে','আমরা বন্ধু','তোমরা বন্ধু','তারা বন্ধু'],a:1,f:'wir sind = আমরা আছি!'},
+    {q:'\"আমার একটা ভাই আছে\" German-এ?',o:['Ich bin einen Bruder','Ich habe einen Bruder','Ich hat einen Bruder','Ich haben einen Bruder'],a:1,f:'haben: ich habe = আমার আছে!'},
+    {q:'\"তোমার সময় আছে\" German-এ?',o:['Du haben Zeit','Du hat Zeit','Du hast Zeit','Du habt Zeit'],a:2,f:'haben: du hast = তোমার আছে!'},
+    {q:'\"wohnen\" verb এর stem কী?',o:['wohne','wohn','wohnst','wohnt'],a:1,f:'wohnen → stem = wohn!'},
+    {q:'\"আমি German শিখি\" German-এ?',o:['Ich lernst Deutsch','Ich lernt Deutsch','Ich lerne Deutsch','Ich lernen Deutsch'],a:2,f:'Regular verbs: ich + stem + e → ich lerne!'},
+    {q:'\"আমরা বার্লিনে থাকি\" German-এ?',o:['Wir wohne in Berlin','Wir wohnst in Berlin','Wir wohnt in Berlin','Wir wohnen in Berlin'],a:3,f:'wir wohnen — infinitive এর মতোই!'},
+    {q:'কোন subject-এ \"haben\" ব্যবহার হয়?',o:['ich','du','er','wir'],a:3,f:'wir haben = আমাদের আছে!'}
   ],
   d2ppq:[
-    {q:'How do you say "my father"?',o:['dein Vater','mein Vater','sein Vater','ihr Vater'],a:1,f:'ich → mein (masculine)!'},
-    {q:'Complete: "___ Mutter ist nett." (my mother)',o:['Mein','Meine','Sein','Ihre'],a:1,f:'die Mutter is feminine → meine!'},
-    {q:'How do you say "his sister"?',o:['ihr Schwester','seine Schwester','deine Schwester','meine Schwester'],a:1,f:'er → sein/seine — feminine → -e!'},
-    {q:'"Ihr Mann" means?',o:['my husband','your husband','her husband','our husband'],a:2,f:'ihr = her!'},
-    {q:'Complete: "___ Familie wohnt hier." (our family)',o:['Unser','Unsere','Mein','Dein'],a:1,f:'die Familie is feminine → unsere!'},
-    {q:'When do you add -e to mein/dein etc?',o:['Never','With masculine','With feminine and plural','Always'],a:2,f:'Add -e for feminine and plural nouns!'},
-    {q:'How do you say "your (formal) name"?',o:['dein Name','sein Name','Ihr Name','unser Name'],a:2,f:'Ihr (capital I) = Your formal!'},
-    {q:'Complete: "Das ist ___ Buch." (my book)',o:['meine','meinen','mein','meiner'],a:2,f:'das Buch is neuter → mein (no -e)!'},
-    {q:'"Wo wohnt deine Familie?" means?',o:['Where is your family?','Where does your family live?','Who is your family?','When does your family come?'],a:1,f:'deine Familie = your family (feminine)!'},
-    {q:'Complete: "___ Bruder heißt Rahim." (his)',o:['Mein','Dein','Sein','Ihr'],a:2,f:'er → sein — masculine, no -e!'}
+    {q:'\"আমার বাবা\" German-এ?',o:['dein Vater','mein Vater','sein Vater','ihr Vater'],a:1,f:'আমার (masculine) = mein!'},
+    {q:'\"আমার মা নেহায়েত ভালো\" — blank পূরণ করুন: \"___ Mutter ist nett.\"',o:['Mein','Meine','Sein','Ihre'],a:1,f:'die Mutter feminine → meine!'},
+    {q:'\"তার বোন\" German-এ (he)?',o:['ihr Schwester','seine Schwester','deine Schwester','meine Schwester'],a:1,f:'er → sein/seine — feminine → -e!'},
+    {q:'\"Ihr Mann\" মানে কী?',o:['আমার স্বামী','তোমার স্বামী','তার স্বামী','আমাদের স্বামী'],a:2,f:'ihr = তার (she)!'},
+    {q:'\"আমাদের পরিবার এখানে থাকে\" — blank: \"___ Familie wohnt hier.\"',o:['Unser','Unsere','Mein','Dein'],a:1,f:'die Familie feminine → unsere!'},
+    {q:'Feminine ও plural noun এর আগে কোন ending যোগ হয়?',o:['কোনো ending নয়','e যোগ হয়','en যোগ হয়','er যোগ হয়'],a:1,f:'Feminine ও plural → -e ending: meine, deine, seine!'},
+    {q:'\"আপনার নাম\" (formal) German-এ?',o:['dein Name','sein Name','Ihr Name','unser Name'],a:2,f:'Ihr (বড় I) = আপনার (formal)!'},
+    {q:'\"এটা আমার বই\" — blank: \"Das ist ___ Buch.\" (das Buch)',o:['meine','meinen','mein','meiner'],a:2,f:'das Buch neuter → mein (কোনো -e নেই)!'},
+    {q:'\"Wo wohnt deine Familie?\" মানে কী?',o:['তোমার পরিবার কে?','তোমার পরিবার কোথায় থাকে?','তোমার পরিবার কখন আসে?','তোমার পরিবার কেন?'],a:1,f:'deine Familie = তোমার পরিবার (feminine)!'},
+    {q:'\"তার ভাই\" German-এ (he) — blank: \"___ Bruder heißt Rahim.\"',o:['Mein','Dein','Sein','Ihr'],a:2,f:'er → sein — masculine, কোনো -e নেই!'}
   ],
   d2plq:[
-    {q:'Plural of "das Kind"?',o:['die Kinds','die Kinde','die Kinder','die Kindern'],a:2,f:'das Kind → die Kinder!'},
-    {q:'What article do all German plurals use?',o:['der','die','das','ein'],a:1,f:'All plurals use "die"!'},
-    {q:'Plural of "die Frau"?',o:['die Fraue','die Frauen','die Fräuen','die Fraus'],a:1,f:'die Frau → die Frauen!'},
-    {q:'Plural of "der Bruder"?',o:['die Bruders','die Brüder','die Bruderen','die Bruder'],a:1,f:'der Bruder → die Brüder!'},
-    {q:'Plural of "das Auto"?',o:['die Autoen','die Autoes','die Autos','die Äutos'],a:2,f:'das Auto → die Autos (-s for borrowed words)!'},
-    {q:'Plural of "der Mann"?',o:['die Mannen','die Männe','die Männer','die Mans'],a:2,f:'der Mann → die Männer!'},
-    {q:'Complete: "Ich habe zwei ___." (Buch)',o:['Buchs','Büche','Bücher','Büchs'],a:2,f:'das Buch → die Bücher!'},
-    {q:'Plural of "die Stadt"?',o:['die Stadts','die Städten','die Städte','die Stade'],a:2,f:'die Stadt → die Städte!'},
-    {q:'"die Länder" is plural of?',o:['die Lande','das Land','der Lander','die Lände'],a:1,f:'das Land → die Länder!'},
-    {q:'Which is TRUE about German plurals?',o:['All add -s','All use "der"','All use "die"','All add -en'],a:2,f:'All German plurals use "die"!'}
+    {q:'\"das Kind\" এর plural কী?',o:['die Kinds','die Kinde','die Kinder','die Kindern'],a:2,f:'das Kind → die Kinder!'},
+    {q:'German plural-এ সব সময় কোন article ব্যবহার হয়?',o:['der','die','das','ein'],a:1,f:'সব plural → die!'},
+    {q:'\"die Frau\" এর plural কী?',o:['die Fraue','die Frauen','die Fräuen','die Fraus'],a:1,f:'die Frau → die Frauen!'},
+    {q:'\"der Bruder\" এর plural কী?',o:['die Bruders','die Brüder','die Bruderen','die Bruder'],a:1,f:'der Bruder → die Brüder (umlaut)!'},
+    {q:'\"das Auto\" এর plural কী?',o:['die Autoen','die Autoes','die Autos','die Äutos'],a:2,f:'das Auto → die Autos (-s)!'},
+    {q:'\"der Mann\" এর plural কী?',o:['die Mannen','die Männe','die Männer','die Mans'],a:2,f:'der Mann → die Männer (umlaut + -er)!'},
+    {q:'\"দুটো বই\" German-এ — blank: \"Ich habe zwei ___.\"',o:['Buchs','Büche','Bücher','Büchs'],a:2,f:'das Buch → die Bücher!'},
+    {q:'\"die Stadt\" এর plural কী?',o:['die Stadts','die Städten','die Städte','die Stade'],a:2,f:'die Stadt → die Städte (umlaut + -e)!'},
+    {q:'\"die Länder\" কোন শব্দের plural?',o:['die Lande','das Land','der Lander','die Lände'],a:1,f:'das Land → die Länder!'},
+    {q:'German plural সম্পর্কে কোনটি সত্য?',o:['সব plural-এ -s যোগ হয়','সব plural-এ der হয়','সব plural-এ die হয়','সব plural-এ -en যোগ হয়'],a:2,f:'সব German plural → die!'}
   ],
   d2grq:[
-    {q:'Words ending in "-ung" are always which gender?',o:['der','die','das','random'],a:1,f:'"-ung" → always die!'},
-    {q:'Words ending in "-chen" are always which gender?',o:['der','die','das','depends'],a:2,f:'"-chen" (diminutive) → always das!'},
-    {q:'Days of the week are which gender?',o:['die','das','der','varies'],a:2,f:'Days are always der!'},
-    {q:'Words ending in "-heit" or "-keit" are which gender?',o:['der','die','das','varies'],a:1,f:'"-heit/-keit" → always die!'},
-    {q:'Words ending in "-ion" are usually which gender?',o:['der','die','das','der/die'],a:1,f:'"-ion" → usually die!'},
-    {q:'Seasons are which gender?',o:['die','das','der','varies'],a:2,f:'Seasons are der!'},
-    {q:'Words ending in "-schaft" are which gender?',o:['der','die','das','varies'],a:1,f:'"-schaft" → always die!'},
-    {q:'Nouns from verbs (das Essen) are which gender?',o:['der','die','das','varies'],a:2,f:'Verb → noun → always das!'},
-    {q:'Words ending in "-ität" are which gender?',o:['der','die','das','varies'],a:1,f:'"-ität" → always die!'},
-    {q:'Why is "das Mädchen" (girl) neuter?',o:['Girls are neuter','It ends in -chen','Random','Historical'],a:1,f:'"-chen" suffix → always das!'}
+    {q:'\"-ung\" দিয়ে শেষ শব্দগুলো কোন gender?',o:['der','die','das','random'],a:1,f:'-ung → সবসময় die! die Wohnung, die Zeitung!'},
+    {q:'\"-chen\" দিয়ে শেষ শব্দগুলো কোন gender?',o:['der','die','das','depends'],a:2,f:'-chen (diminutive) → সবসময় das! das Mädchen!'},
+    {q:'সপ্তাহের দিনগুলো কোন gender?',o:['die','das','der','varies'],a:2,f:'সব দিন = der! der Montag, der Dienstag!'},
+    {q:'\"-heit\" বা \"-keit\" দিয়ে শেষ শব্দগুলো কোন gender?',o:['der','die','das','varies'],a:1,f:'-heit/-keit → সবসময় die! die Freiheit!'},
+    {q:'\"-ion\" দিয়ে শেষ শব্দগুলো সাধারণত কোন gender?',o:['der','die','das','der/die'],a:1,f:'-ion → সাধারণত die! die Station, die Nation!'},
+    {q:'ঋতুগুলো কোন gender?',o:['die','das','der','varies'],a:2,f:'সব ঋতু = der! der Sommer, der Winter!'},
+    {q:'\"-schaft\" দিয়ে শেষ শব্দগুলো কোন gender?',o:['der','die','das','varies'],a:1,f:'-schaft → সবসময় die! die Freundschaft!'},
+    {q:'Verb থেকে noun তৈরি হলে (das Essen) কোন gender?',o:['der','die','das','varies'],a:2,f:'Verb → noun → সবসময় das! das Essen, das Lernen!'},
+    {q:'\"-ität\" দিয়ে শেষ শব্দগুলো কোন gender?',o:['der','die','das','varies'],a:1,f:'-ität → সবসময় die! die Universität!'},
+    {q:'\"das Mädchen\" (মেয়ে) কেন neuter?',o:['মেয়েরা neuter','এটা -chen দিয়ে শেষ','Random','Historical'],a:1,f:'-chen suffix → সবসময় das!'}
   ],
   d3dmq:[
-    {q:'How do you say "on Monday"?',o:['in Montag','am Montag','bei Montag','zu Montag'],a:1,f:'"am" + day = on Monday!'},
-    {q:'How do you say "in January"?',o:['an Januar','am Januar','im Januar','bei Januar'],a:2,f:'"im" + month = in January!'},
-    {q:'What is Wednesday in German?',o:['Donnerstag','Dienstag','Mittwoch','Freitag'],a:2,f:'Mittwoch = Wednesday!'},
-    {q:'Which day comes first in a German week?',o:['Sonntag','Samstag','Montag','Dienstag'],a:2,f:'German week starts on Montag!'},
-    {q:'How do you say "on the 3rd of March"?',o:['am drei März','am dritten März','in dritten März','im dritten März'],a:1,f:'am + ordinal + month!'},
-    {q:'What is November in German?',o:['Oktober','Dezember','September','November'],a:3,f:'November = November!'},
-    {q:'"Wann hast du Geburtstag?" means?',o:['Where is your birthday?','When is your birthday?','How old are you?','Who has a birthday?'],a:1,f:'Wann = When, Geburtstag = birthday!'},
-    {q:'How do you say "in summer"?',o:['an Sommer','am Sommer','im Sommer','bei Sommer'],a:2,f:'im + season!'},
-    {q:'What month is "März"?',o:['May','February','March','April'],a:2,f:'März = March!'},
-    {q:'How do you say "on Friday"?',o:['im Freitag','am Freitag','in Freitag','bei Freitag'],a:1,f:'am + day!'}
+    {q:'\"সোমবারে\" German-এ?',o:['in Montag','am Montag','bei Montag','zu Montag'],a:1,f:'am + দিন = সোমবারে!'},
+    {q:'\"জানুয়ারিতে\" German-এ?',o:['an Januar','am Januar','im Januar','bei Januar'],a:2,f:'im + মাস = জানুয়ারিতে!'},
+    {q:'\"Mittwoch\" মানে কী?',o:['বৃহস্পতিবার','মঙ্গলবার','বুধবার','শুক্রবার'],a:2,f:'Mittwoch = বুধবার!'},
+    {q:'German সপ্তাহ কোন দিন শুরু হয়?',o:['Sonntag','Samstag','Montag','Dienstag'],a:2,f:'German সপ্তাহ Montag (সোমবার) থেকে শুরু!'},
+    {q:'\"৩রা মার্চে\" German-এ?',o:['am drei März','am dritten März','in dritten März','im dritten März'],a:1,f:'am + ordinal + মাস!'},
+    {q:'\"November\" German-এ কী?',o:['Oktober','Dezember','September','November'],a:3,f:'November = November!'},
+    {q:'\"Wann hast du Geburtstag?\" মানে কী?',o:['তোমার জন্মদিন কোথায়?','তোমার জন্মদিন কবে?','তোমার বয়স কত?','কার জন্মদিন?'],a:1,f:'Wann = কবে, Geburtstag = জন্মদিন!'},
+    {q:'\"গ্রীষ্মকালে\" German-এ?',o:['an Sommer','am Sommer','im Sommer','bei Sommer'],a:2,f:'im + ঋতু = গ্রীষ্মকালে!'},
+    {q:'\"März\" মানে কী?',o:['মে','ফেব্রুয়ারি','মার্চ','এপ্রিল'],a:2,f:'März = মার্চ!'},
+    {q:'\"শুক্রবারে\" German-এ?',o:['im Freitag','am Freitag','in Freitag','bei Freitag'],a:1,f:'am + দিন = শুক্রবারে!'}
   ],
   d3svq:[
-    {q:'"Ich stehe auf" — "auf" comes from which verb?',o:['stehen','aufgehen','aufstehen','stehenauf'],a:2,f:'"auf" is the prefix of aufstehen!'},
-    {q:'Complete: "Ich ___ dich ___." (anrufen)',o:['anrufe / -','rufe / an','anruf / e','ruf / ane'],a:1,f:'anrufen → Ich rufe...an!'},
-    {q:'"Er kauft heute ein." Infinitive is?',o:['kaufen','einkaufen','kaufein','einkauf'],a:1,f:'ein + kaufen = einkaufen!'},
-    {q:'Complete: "Wir sehen abends ___." (fernsehen)',o:['sehen','fern','sieht','ferne'],a:1,f:'fernsehen → sehen...fern!'},
-    {q:'"Wann kommst du an?" Infinitive is?',o:['kommen','ankommen','ankom','kommten'],a:1,f:'ankommen = to arrive!'},
-    {q:'Which is a separable verb?',o:['lernen','wohnen','aufstehen','heißen'],a:2,f:'aufstehen has prefix "auf-"!'},
-    {q:'Complete: "Der Zug ___ um 9 ___." (abfahren)',o:['fährt / ab','abfährt / -','fahrt / ab','ab / fährt'],a:0,f:'abfahren → fährt...ab!'},
-    {q:'Where does the prefix go in a separable verb sentence?',o:['Before verb','After subject','At the end','In position 2'],a:2,f:'Prefix goes to the END!'},
-    {q:'"Machst du mit?" uses which verb?',o:['machen','mitmachen','mitma','machen mit'],a:1,f:'mitmachen = to join in!'},
-    {q:'Complete: "Ich ___ um 22 Uhr ___." (einschlafen)',o:['schlafe / ein','einschlafe / -','schlaf / eine','schlafe / einen'],a:0,f:'einschlafen → schlafe...ein!'}
+    {q:'\"Ich stehe auf\" — \"auf\" কোন verb থেকে?',o:['stehen','aufgehen','aufstehen','stehenauf'],a:2,f:'auf = aufstehen এর prefix!'},
+    {q:'\"আমি তোমাকে ফোন করি\" — blank পূরণ: \"Ich ___ dich ___.\" (anrufen)',o:['anrufe / -','rufe / an','anruf / e','ruf / ane'],a:1,f:'anrufen → Ich rufe...an — prefix শেষে!'},
+    {q:'\"Er kauft heute ein.\" এর infinitive কী?',o:['kaufen','einkaufen','kaufein','einkauf'],a:1,f:'ein + kaufen = einkaufen (কেনাকাটা করা)!'},
+    {q:'\"আমরা সন্ধ্যায় TV দেখি\" — blank: \"Wir sehen abends ___.\" (fernsehen)',o:['sehen','fern','sieht','ferne'],a:1,f:'fernsehen → sehen...fern — prefix শেষে!'},
+    {q:'\"Wann kommst du an?\" এর infinitive কী?',o:['kommen','ankommen','ankom','kommten'],a:1,f:'ankommen = পৌঁছানো!'},
+    {q:'কোনটি separable verb?',o:['lernen','wohnen','aufstehen','heißen'],a:2,f:'aufstehen-এর prefix \"auf-\" আছে!'},
+    {q:'\"ট্রেন ৯টায় ছাড়ে\" — blank: \"Der Zug ___ um 9 ___.\" (abfahren)',o:['fährt / ab','abfährt / -','fahrt / ab','ab / fährt'],a:0,f:'abfahren → fährt...ab!'},
+    {q:'Separable verb sentence-এ prefix কোথায় যায়?',o:['verb-এর আগে','subject-এর পরে','বাক্যের মাঝে','বাক্যের শেষে'],a:3,f:'Prefix সবসময় বাক্যের শেষে যায়!'},
+    {q:'\"Machst du mit?\" কোন verb ব্যবহার করে?',o:['machen','mitmachen','mitma','machen mit'],a:1,f:'mitmachen = অংশ নেওয়া!'},
+    {q:'\"আমি রাত ১০টায় ঘুমাই\" — blank: \"Ich ___ um 22 Uhr ___.\" (einschlafen)',o:['schlafe / ein','einschlafe / -','schlaf / eine','schlafe / einen'],a:0,f:'einschlafen → schlafe...ein!'}
   ],
   d3prq:[
-    {q:'"Ich bin in der Schule." "in der" indicates?',o:['Movement toward','Location','Origin','Possession'],a:1,f:'"in + Dative" = location!'},
-    {q:'How do you say "I go to Berlin"?',o:['Ich gehe in Berlin','Ich gehe nach Berlin','Ich gehe zu Berlin','Ich gehe bei Berlin'],a:1,f:'"nach" + city = direction!'},
-    {q:'"Ich fahre mit dem Zug." means?',o:['to the train','from the train','by train','at the train'],a:2,f:'"mit + Dative" = by/with!'},
-    {q:'"zum" is a contraction of?',o:['zu + das','zu + dem','zu + den','zu + der'],a:1,f:'zum = zu + dem!'},
-    {q:'"zur Schule" means?',o:['from school','at school','to school (fem.)','in school'],a:2,f:'zur = zu + der (feminine)!'},
-    {q:'What case does "bei" take?',o:['Nominative','Accusative','Dative','Genitive'],a:2,f:'"bei" always takes Dative!'},
-    {q:'"im Büro" — "im" is a contraction of?',o:['in + dem','in + der','in + das','in + den'],a:0,f:'im = in + dem!'},
-    {q:'"Das Buch liegt auf dem Tisch." means?',o:['under the table','on the table','beside the table','in the table'],a:1,f:'"auf + Dative" = on (location)!'},
-    {q:'"Ich komme von der Arbeit." means?',o:['to work','at work','from work','for work'],a:2,f:'"von + Dative" = from!'},
-    {q:'"am" is a contraction of?',o:['an + dem','an + der','an + das','an + den'],a:0,f:'am = an + dem!'}
+    {q:'\"Ich bin in der Schule.\" — \"in der\" কী বোঝায়?',o:['গতিশীলতা','অবস্থান','উৎস','অধিকার'],a:1,f:'in + Dative = অবস্থান!'},
+    {q:'\"আমি বার্লিনে যাচ্ছি\" German-এ?',o:['Ich gehe in Berlin','Ich gehe nach Berlin','Ich gehe zu Berlin','Ich gehe bei Berlin'],a:1,f:'nach + শহর/দেশ = দিকনির্দেশ!'},
+    {q:'\"Ich fahre mit dem Zug.\" মানে কী?',o:['ট্রেনের দিকে','ট্রেন থেকে','ট্রেনে (দিয়ে)','ট্রেনে (কাছে)'],a:2,f:'mit + Dative = দিয়ে/সাথে!'},
+    {q:'\"zum\" হলো কোন দুটো শব্দের সংক্ষিপ্ত রূপ?',o:['zu + das','zu + dem','zu + den','zu + der'],a:1,f:'zum = zu + dem!'},
+    {q:'\"zur Schule\" মানে কী?',o:['স্কুল থেকে','স্কুলে (অবস্থান)','স্কুলে (যাচ্ছি — feminine)','স্কুলের ভেতরে'],a:2,f:'zur = zu + der (feminine) — স্কুলের দিকে!'},
+    {q:'\"bei\" সবসময় কোন case নেয়?',o:['Nominative','Accusative','Dative','Genitive'],a:2,f:'bei + Dative!'},
+    {q:'\"im Büro\" — \"im\" কোন দুটো শব্দের সংক্ষিপ্ত রূপ?',o:['in + dem','in + der','in + das','in + den'],a:0,f:'im = in + dem!'},
+    {q:'\"Das Buch liegt auf dem Tisch.\" মানে কী?',o:['টেবিলের নিচে','টেবিলের উপরে','টেবিলের পাশে','টেবিলের ভেতরে'],a:1,f:'auf + Dative = উপরে (অবস্থান)!'},
+    {q:'\"Ich komme von der Arbeit.\" মানে কী?',o:['কাজের দিকে','কাজে','কাজ থেকে','কাজের জন্য'],a:2,f:'von + Dative = থেকে!'},
+    {q:'\"am\" হলো কোন দুটো শব্দের সংক্ষিপ্ত রূপ?',o:['an + dem','an + der','an + das','an + den'],a:0,f:'am = an + dem!'}
   ],
   d4mvq:[
-    {q:'Which modal verb means "can"?',o:['müssen','wollen','können','dürfen'],a:2,f:'können = can!'},
-    {q:'Complete: "Ich ___ Deutsch lernen." (want to)',o:['muss','kann','will','darf'],a:2,f:'wollen: ich will = I want!'},
-    {q:'Where does the main verb go with a modal?',o:['Position 1','Position 2','Middle','End'],a:3,f:'Modal verb pos.2, main verb at END!'},
-    {q:'"Darf ich hier sitzen?" uses which modal?',o:['können','müssen','wollen','dürfen'],a:3,f:'dürfen = may/allowed to!'},
-    {q:'"Ich möchte einen Kaffee" — möchten means?',o:['I must have','I would like','I can have','I should have'],a:1,f:'möchten = would like!'},
-    {q:'Complete: "Du ___ jetzt gehen." (must)',o:['kannst','willst','musst','darfst'],a:2,f:'müssen: du musst = you must!'},
-    {q:'"Ich soll um 9 da sein." sollen means?',o:['I want to','I can','I am supposed to','I may'],a:2,f:'sollen = supposed to!'},
-    {q:'Complete: "Wir ___ dir helfen." (can)',o:['müssen','können','wollen','sollen'],a:1,f:'können: wir können = we can!'},
-    {q:'"Kannst du mir helfen?" means?',o:['Do you want to help me?','Can you help me?','Should you help?','Must you help?'],a:1,f:'kannst du = can you!'},
-    {q:'Which is CORRECT word order?',o:['Ich sprechen kann Deutsch.','Kann ich Deutsch sprechen.','Ich kann Deutsch sprechen.','Ich kann sprechen Deutsch.'],a:2,f:'Modal (pos.2) + infinitive (end)!'}
+    {q:'\"পারা\" অর্থে কোন modal verb?',o:['müssen','wollen','können','dürfen'],a:2,f:'পারা = können!'},
+    {q:'\"আমি German শিখতে চাই\" — blank: \"Ich ___ Deutsch lernen.\"',o:['muss','kann','will','darf'],a:2,f:'চাওয়া = wollen → ich will!'},
+    {q:'Modal verb সহ main verb কোথায় যায়?',o:['Position 1','Position 2','মাঝে','বাক্যের শেষে'],a:3,f:'Modal verb position 2, main verb শেষে!'},
+    {q:'\"Darf ich hier sitzen?\" কোন modal verb ব্যবহার করে?',o:['können','müssen','wollen','dürfen'],a:3,f:'dürfen = অনুমতি চাওয়া!'},
+    {q:'\"Ich möchte einen Kaffee\" — möchten মানে?',o:['আমাকে অবশ্যই','আমি চাই (বিনয়ী)','আমি পারি','আমার উচিত'],a:1,f:'möchten = would like (বিনয়ী চাওয়া)!'},
+    {q:'\"তোমাকে এখন যেতে হবে\" — blank: \"Du ___ jetzt gehen.\"',o:['kannst','willst','musst','darfst'],a:2,f:'বাধ্যবাধকতা = müssen → du musst!'},
+    {q:'\"Ich soll um 9 da sein.\" — sollen মানে?',o:['আমি চাই','আমি পারি','আমার কথা ছিল','আমি পারি (অনুমতি)'],a:2,f:'sollen = অন্যের প্রত্যাশায় করা উচিত!'},
+    {q:'\"আমরা তোমাকে সাহায্য করতে পারি\" — blank: \"Wir ___ dir helfen.\"',o:['müssen','können','wollen','sollen'],a:1,f:'পারা = können → wir können!'},
+    {q:'\"Kannst du mir helfen?\" মানে কী?',o:['তুমি কি আমাকে সাহায্য করতে চাও?','তুমি কি আমাকে সাহায্য করতে পারবে?','তোমার কি সাহায্য করা উচিত?','তোমাকে কি সাহায্য করতে হবে?'],a:1,f:'kannst du = তুমি কি পারো!'},
+    {q:'কোন word order টি সঠিক?',o:['Ich sprechen kann Deutsch.','Kann ich Deutsch sprechen.','Ich kann Deutsch sprechen.','Ich kann sprechen Deutsch.'],a:2,f:'Modal (position 2) + ... + infinitive (শেষে)!'}
   ],
   d4acq:[
-    {q:'Which article changes in Accusative?',o:['die → den','das → den','der → den','ein → eine'],a:2,f:'Only masculine changes: der → den!'},
-    {q:'Complete: "Ich kaufe ___ Apfel." (der Apfel)',o:['ein','eine','einen','den'],a:2,f:'der Apfel (masculine) → einen!'},
-    {q:'Complete: "Ich esse ___ Banane." (die Banane)',o:['einen','ein','eine','der'],a:2,f:'die Banane (feminine) → eine (no change)!'},
-    {q:'Complete: "Ich lese ___ Buch." (das Buch)',o:['einen','eine','ein','das'],a:2,f:'das Buch (neuter) → ein (no change)!'},
-    {q:'Complete: "Ich sehe ___ Mann."',o:['der','die','das','den'],a:3,f:'der Mann → Accusative → den!'},
-    {q:'"Was kaufst du?" — Was is the?',o:['subject','verb','Accusative object','adverb'],a:2,f:'Was = Accusative question word!'},
-    {q:'Complete: "Er hat ___ Bruder." (a brother)',o:['ein Bruder','einen Bruder','eine Bruder','der Bruder'],a:1,f:'der Bruder (masculine) → einen!'},
-    {q:'Complete: "Ich trinke ___ Tee." (der Tee)',o:['einen','eine','ein','den'],a:0,f:'der Tee (masculine) → einen!'},
-    {q:'"Wen siehst du?" — Wen is Accusative of?',o:['Was','Wo','Wer','Wie'],a:2,f:'Wer (who) → Wen (whom)!'},
-    {q:'Which is CORRECT?',o:['Ich kaufe ein Apfel.','Ich kaufe einen Apfel.','Ich kaufe der Apfel.','Ich kaufe eine Apfel.'],a:1,f:'der Apfel → Accusative → einen!'}
+    {q:'Accusative-এ কোন article পরিবর্তন হয়?',o:['die → den','das → den','der → den','ein → eine'],a:2,f:'শুধু masculine পরিবর্তন হয়: der → den!'},
+    {q:'\"আমি একটা আপেল কিনি\" — blank: \"Ich kaufe ___ Apfel.\" (der Apfel)',o:['ein','eine','einen','den'],a:2,f:'der Apfel (masculine) → Accusative → einen!'},
+    {q:'\"আমি একটা কলা খাই\" — blank: \"Ich esse ___ Banane.\" (die Banane)',o:['einen','ein','eine','der'],a:2,f:'die Banane (feminine) → eine (পরিবর্তন নেই)!'},
+    {q:'\"আমি একটা বই পড়ি\" — blank: \"Ich lese ___ Buch.\" (das Buch)',o:['einen','eine','ein','das'],a:2,f:'das Buch (neuter) → ein (পরিবর্তন নেই)!'},
+    {q:'\"আমি লোকটাকে দেখি\" — blank: \"Ich sehe ___ Mann.\"',o:['der','die','das','den'],a:3,f:'der Mann → Accusative → den!'},
+    {q:'\"Was kaufst du?\" — Was এখানে কী?',o:['subject','verb','Accusative object','adverb'],a:2,f:'Was = Accusative question word!'},
+    {q:'\"তার একটা ভাই আছে\" — blank: \"Er hat ___ Bruder.\"',o:['ein Bruder','einen Bruder','eine Bruder','der Bruder'],a:1,f:'der Bruder (masculine) → einen!'},
+    {q:'\"আমি এক কাপ চা পান করি\" — blank: \"Ich trinke ___ Tee.\" (der Tee)',o:['einen','eine','ein','den'],a:0,f:'der Tee (masculine) → einen!'},
+    {q:'\"Wen siehst du?\" — Wen হলো কোন শব্দের Accusative?',o:['Was','Wo','Wer','Wie'],a:2,f:'Wer (কে) → Wen (কাকে) Accusative-এ!'},
+    {q:'কোন sentence টি সঠিক?',o:['Ich kaufe ein Apfel.','Ich kaufe einen Apfel.','Ich kaufe der Apfel.','Ich kaufe eine Apfel.'],a:1,f:'der Apfel → Accusative → einen Apfel!'}
   ],
   d4ngq:[
-    {q:'When do you use "kein" instead of "nicht"?',o:['Before verbs','Before adjectives','Before nouns','At sentence end'],a:2,f:'kein before nouns!'},
-    {q:'Complete: "Ich arbeite ___."',o:['kein','keine','nicht','keinen'],a:2,f:'No noun → use nicht!'},
-    {q:'Complete: "Ich habe ___ Auto." (das Auto)',o:['nicht','keine','keinen','kein'],a:3,f:'das Auto (neuter noun) → kein!'},
-    {q:'Complete: "Ich habe ___ Zeit." (die Zeit)',o:['nicht','kein','keinen','keine'],a:3,f:'die Zeit (feminine noun) → keine!'},
-    {q:'Complete: "Das ist ___ gut."',o:['kein','keine','nicht','keinen'],a:2,f:'gut is adjective → nicht!'},
-    {q:'Complete: "Er hat ___ Bruder." (no brother)',o:['nicht','kein','keine','keinen'],a:3,f:'Bruder (masculine Accusative) → keinen!'},
-    {q:'"Ich kann ___ kommen."',o:['kein','keine','keinen','nicht'],a:3,f:'kommen is a verb → nicht!'},
-    {q:'Complete: "Das ist ___ Problem." (das Problem)',o:['nicht','kein','keine','keinen'],a:1,f:'Problem (neuter noun) → kein!'},
-    {q:'Which is CORRECT?',o:['Ich habe nicht Geld.','Ich habe kein Geld.','Ich habe keinen Geld.','Ich habe keine Geld.'],a:1,f:'Geld (das) → kein!'},
-    {q:'"Ich esse keine Pizza." — keine because?',o:['Pizza is feminine','Pizza is adjective','Pizza is verb','Always with food'],a:0,f:'die Pizza (feminine) → keine!'}
+    {q:'\"kein\" কখন ব্যবহার হয়?',o:['verb-এর আগে','adjective-এর আগে','noun-এর আগে','বাক্যের শেষে'],a:2,f:'noun নেগেট করতে kein!'},
+    {q:'\"আমি কাজ করি না\" German-এ — blank: \"Ich arbeite ___.\"',o:['kein','keine','nicht','keinen'],a:2,f:'Noun নেই → nicht ব্যবহার!'},
+    {q:'\"আমার কোনো গাড়ি নেই\" — blank: \"Ich habe ___ Auto.\" (das Auto)',o:['nicht','keine','keinen','kein'],a:3,f:'das Auto (neuter noun) → kein!'},
+    {q:'\"আমার সময় নেই\" — blank: \"Ich habe ___ Zeit.\" (die Zeit)',o:['nicht','kein','keinen','keine'],a:3,f:'die Zeit (feminine noun) → keine!'},
+    {q:'\"এটা ভালো না\" — blank: \"Das ist ___ gut.\"',o:['kein','keine','nicht','keinen'],a:2,f:'gut = adjective → nicht!'},
+    {q:'\"তার কোনো ভাই নেই\" — blank: \"Er hat ___ Bruder.\"',o:['nicht','kein','keine','keinen'],a:3,f:'Bruder (masculine Accusative) → keinen!'},
+    {q:'\"আমি আসতে পারব না\" — blank: \"Ich kann ___ kommen.\"',o:['kein','keine','keinen','nicht'],a:3,f:'kommen = verb → nicht!'},
+    {q:'\"এটা কোনো সমস্যা না\" — blank: \"Das ist ___ Problem.\" (das Problem)',o:['nicht','kein','keine','keinen'],a:1,f:'das Problem (neuter noun) → kein!'},
+    {q:'কোনটি সঠিক?',o:['Ich habe nicht Geld.','Ich habe kein Geld.','Ich habe keinen Geld.','Ich habe keine Geld.'],a:1,f:'Geld (das) = neuter noun → kein!'},
+    {q:'\"Ich esse keine Pizza.\" — keine কেন ব্যবহার হয়েছে?',o:['Pizza feminine','Pizza adjective','Pizza verb','সবসময় খাবারের সাথে'],a:0,f:'die Pizza (feminine) → keine!'}
   ],
   d5pfq:[
-    {q:'Perfekt uses haben/sein + what?',o:['Infinitive','Partizip II','Present tense','Imperative'],a:1,f:'Perfekt = haben/sein + Partizip II!'},
-    {q:'Partizip II of "lernen"?',o:['gelernen','gelernt','lernte','gelern'],a:1,f:'Regular: ge + stem + t → gelernt!'},
-    {q:'Partizip II of "essen"?',o:['geessen','geast','gegessen','geesst'],a:2,f:'essen is irregular → gegessen!'},
-    {q:'"Ich bin gegangen." uses sein because?',o:['Ends in -en','gehen shows movement','sein always used','Random'],a:1,f:'gehen = movement → sein!'},
-    {q:'Which verb uses SEIN in Perfekt?',o:['essen','kaufen','fahren','trinken'],a:2,f:'fahren = movement → sein!'},
-    {q:'Complete: "Ich ___ ein Buch ___." (lesen)',o:['bin / gelesen','habe / gelesen','bin / lesen','habe / lesen'],a:1,f:'lesen → haben + gelesen!'},
-    {q:'Partizip II of "machen"?',o:['gemachen','macht','gemacht','machen'],a:2,f:'ge + mach + t = gemacht!'},
-    {q:'Complete: "Er ___ nach Berlin ___." (fahren)',o:['hat / gefahren','ist / gefahren','hat / fahren','ist / fahren'],a:1,f:'fahren = movement → sein!'},
-    {q:'"Was hast du gestern gemacht?" means?',o:['What will you do?','What are you doing?','What did you do yesterday?','What should you do?'],a:2,f:'hast gemacht = Perfekt of machen!'},
-    {q:'Correct Perfekt of "schlafen"?',o:['hat geschlafen','ist geschlafen','hat schlafte','ist schlaft'],a:0,f:'schlafen → haben + geschlafen!'}
+    {q:'Perfekt tense-এ haben/sein এর পরে কী ব্যবহার হয়?',o:['Infinitive','Partizip II','Present tense','Imperative'],a:1,f:'Perfekt = haben/sein + Partizip II!'},
+    {q:'\"lernen\" এর Partizip II কী?',o:['gelernen','gelernt','lernte','gelern'],a:1,f:'Regular: ge + stem + t → gelernt!'},
+    {q:'\"essen\" এর Partizip II কী?',o:['geessen','geast','gegessen','geesst'],a:2,f:'essen irregular → gegessen!'},
+    {q:'\"Ich bin gegangen.\" — sein কেন ব্যবহার হয়েছে?',o:['gegangen -en দিয়ে শেষ','gehen movement বোঝায়','sein সবসময় ব্যবহার হয়','Random নিয়ম'],a:1,f:'gehen = গতিশীলতা → sein!'},
+    {q:'Perfekt-এ কোন verb sein নেয়?',o:['essen','kaufen','fahren','trinken'],a:2,f:'fahren = movement → sein!'},
+    {q:'\"আমি একটা বই পড়েছি\" — blank: \"Ich ___ ein Buch ___.\" (lesen)',o:['bin / gelesen','habe / gelesen','bin / lesen','habe / lesen'],a:1,f:'lesen (movement নয়) → haben + gelesen!'},
+    {q:'\"machen\" এর Partizip II কী?',o:['gemachen','macht','gemacht','machen'],a:2,f:'ge + mach + t = gemacht!'},
+    {q:'\"সে বার্লিনে গিয়েছে\" — blank: \"Er ___ nach Berlin ___.\" (fahren)',o:['hat / gefahren','ist / gefahren','hat / fahren','ist / fahren'],a:1,f:'fahren = movement → sein!'},
+    {q:'\"Was hast du gestern gemacht?\" মানে কী?',o:['কাল কী করবে?','এখন কী করছ?','গতকাল কী করেছিলে?','কী করা উচিত?'],a:2,f:'hast gemacht = machen-এর Perfekt!'},
+    {q:'\"schlafen\" এর সঠিক Perfekt form কোনটি?',o:['hat geschlafen','ist geschlafen','hat schlafte','ist schlaft'],a:0,f:'schlafen (movement নয়) → haben + geschlafen!'}
   ],
   d5wdq:[
-    {q:'After "weil", where does the verb go?',o:['Position 1','Position 2','Middle','End'],a:3,f:'After weil/dass/wenn → verb to END!'},
-    {q:'Which is CORRECT?',o:['Ich lerne Deutsch, weil will ich arbeiten.','Ich lerne Deutsch, weil ich arbeiten will.','Ich lerne, weil Deutsch ich will.','Weil ich will, lerne Deutsch.'],a:1,f:'weil clause: verb at END!'},
-    {q:'"weil" means?',o:['that','when','because','although'],a:2,f:'weil = because!'},
-    {q:'"dass" means?',o:['because','although','when','that'],a:3,f:'dass = that!'},
-    {q:'Complete: "Ich bleibe zu Hause, weil ich ___ ___." (müde sein)',o:['sein müde','müde bin','bin müde','müde ist'],a:1,f:'After weil → verb to end: müde bin!'},
-    {q:'"wenn" means?',o:['because','although','when/if','that'],a:2,f:'wenn = when/if!'},
-    {q:'Which is CORRECT?',o:['Ich weiß, dass er spricht Deutsch.','Ich weiß, dass er Deutsch spricht.','Ich weiß dass, er Deutsch spricht.','Dass Deutsch er spricht, ich weiß.'],a:1,f:'dass clause: verb at END!'},
-    {q:'"obwohl" means?',o:['because','when','that','although'],a:3,f:'obwohl = although!'},
-    {q:'Complete: "Ich lese, ___ ich schlafe." (before)',o:['weil','wenn','bevor','obwohl'],a:2,f:'bevor = before!'},
-    {q:'Complete: "Es ist gut, ___ du hier ___."',o:['dass, bist du','dass, du bist','weil, du bist','weil, bist du'],a:1,f:'dass + verb at END: dass du hier bist!'}
+    {q:'\"weil\" এর পরে verb কোথায় যায়?',o:['Position 1','Position 2','মাঝে','বাক্যের শেষে'],a:3,f:'weil/dass/wenn এর পরে verb শেষে!'},
+    {q:'কোন sentence টি সঠিক?',o:['Ich lerne Deutsch, weil will ich arbeiten.','Ich lerne Deutsch, weil ich arbeiten will.','Ich lerne, weil Deutsch ich will.','Weil ich will, lerne Deutsch.'],a:1,f:'weil clause: verb শেষে!'},
+    {q:'\"weil\" মানে কী?',o:['যে','যখন','কারণ','যদিও'],a:2,f:'weil = কারণ!'},
+    {q:'\"dass\" মানে কী?',o:['কারণ','যদিও','যখন','যে'],a:3,f:'dass = যে!'},
+    {q:'\"আমি বাড়িতে থাকি কারণ আমি ক্লান্ত\" — blank: \"Ich bleibe zu Hause, weil ich ___ ___.\" (müde sein)',o:['sein müde','müde bin','bin müde','müde ist'],a:1,f:'weil এর পরে verb শেষে: müde bin!'},
+    {q:'\"wenn\" মানে কী?',o:['কারণ','যদিও','যখন/যদি','যে'],a:2,f:'wenn = যখন/যদি!'},
+    {q:'কোন sentence টি সঠিক?',o:['Ich weiß, dass er spricht Deutsch.','Ich weiß, dass er Deutsch spricht.','Ich weiß dass, er Deutsch spricht.','Dass Deutsch er spricht, ich weiß.'],a:1,f:'dass clause: verb শেষে!'},
+    {q:'\"obwohl\" মানে কী?',o:['কারণ','যখন','যে','যদিও'],a:3,f:'obwohl = যদিও!'},
+    {q:'\"ঘুমানোর আগে পড়ি\" — blank: \"Ich lese, ___ ich schlafe.\"',o:['weil','wenn','bevor','obwohl'],a:2,f:'bevor = আগে!'},
+    {q:'\"তুমি এখানে আছ ভালো হয়েছে\" — blank: \"Es ist gut, ___ du hier ___.\"',o:['dass, bist du','dass, du bist','weil, du bist','weil, bist du'],a:1,f:'dass clause: ...dass du hier bist — verb শেষে!'}
   ],
   d5dtq:[
-    {q:'Dative of "der Mann"?',o:['den Mann','die Mann','dem Mann','der Mann'],a:2,f:'der (masc.) → Dative → dem!'},
-    {q:'Dative of "die Frau"?',o:['den Frau','der Frau','dem Frau','die Frau'],a:1,f:'die (fem.) → Dative → der!'},
-    {q:'"Ich helfe ___ Mann."',o:['der','die','den','dem'],a:3,f:'helfen takes Dative → dem!'},
-    {q:'Dative of "ich"?',o:['mich','mir','ich','me'],a:1,f:'ich → mir (Dative)!'},
-    {q:'Dative of "du"?',o:['dich','du','dir','dein'],a:2,f:'du → dir (Dative)!'},
-    {q:'"Das gefällt mir." means?',o:['That belongs to me.','I like that.','That is mine.','I give that.'],a:1,f:'gefallen + Dative = to like!'},
-    {q:'Which verb ALWAYS takes Dative?',o:['kaufen','sehen','helfen','lernen'],a:2,f:'helfen always takes Dative!'},
-    {q:'"Kann ich Ihnen helfen?" — Ihnen is Dative of?',o:['ihr','er','Sie (formal)','wir'],a:2,f:'Sie (formal) → Ihnen (Dative)!'},
-    {q:'Complete: "Ich gebe ___ das Buch." (you informal)',o:['dich','du','dir','dein'],a:2,f:'du → dir (Dative)!'},
-    {q:'What question word asks for Dative?',o:['Wen?','Was?','Wer?','Wem?'],a:3,f:'Wem? (To whom?) → Dative!'}
+    {q:'\"der Mann\" এর Dative form কী?',o:['den Mann','die Mann','dem Mann','der Mann'],a:2,f:'der (masculine) → Dative → dem!'},
+    {q:'\"die Frau\" এর Dative form কী?',o:['den Frau','der Frau','dem Frau','die Frau'],a:1,f:'die (feminine) → Dative → der!'},
+    {q:'\"আমি লোকটাকে সাহায্য করি\" — blank: \"Ich helfe ___ Mann.\"',o:['der','die','den','dem'],a:3,f:'helfen সবসময় Dative নেয় → dem!'},
+    {q:'\"ich\" এর Dative form কী?',o:['mich','mir','ich','me'],a:1,f:'ich → mir (Dative)!'},
+    {q:'\"du\" এর Dative form কী?',o:['dich','du','dir','dein'],a:2,f:'du → dir (Dative)!'},
+    {q:'\"Das gefällt mir.\" মানে কী?',o:['এটা আমার।','এটা আমার পছন্দ।','এটা আমার।','আমি এটা দিচ্ছি।'],a:1,f:'gefallen + Dative = পছন্দ হওয়া!'},
+    {q:'কোন verb সবসময় Dative নেয়?',o:['kaufen','sehen','helfen','lernen'],a:2,f:'helfen সবসময় Dative!'},
+    {q:'\"Kann ich Ihnen helfen?\" — Ihnen কোন শব্দের Dative?',o:['ihr','er','Sie (formal)','wir'],a:2,f:'Sie (formal) → Ihnen (Dative)!'},
+    {q:'\"আমি তোমাকে বইটা দিচ্ছি\" — blank: \"Ich gebe ___ das Buch.\"',o:['dich','du','dir','dein'],a:2,f:'du → dir (Dative)!'},
+    {q:'Dative জিজ্ঞেস করতে কোন question word?',o:['Wen?','Was?','Wer?','Wem?'],a:3,f:'Wem? (কাকে?) → Dative!'}
   ]
 };
 var qzAns={d1q:{},d2q:{},d3q:{},d4q:{},d5q:{}};
+var qzMistakes={d1q:[],d2q:[],d3q:[],d4q:[],d5q:[]};
+
 var qzMistakes={d1q:[],d2q:[],d3q:[],d4q:[],d5q:[]};
 var fitbData={
   d1w:[{q:'Guten ___! (Morgen)',blank:'Morgen',hint:'Guten Morgen = Good Morning'},{q:'Wie ___ du? (heißen)',blank:'heißt',hint:'heißen: du heißt = your name is'},{q:'Ich ___ aus Bangladesch. (kommen)',blank:'komme',hint:'kommen: ich komme = I come'},{q:'Auf ___! (Wiedersehen)',blank:'Wiedersehen',hint:'Auf Wiedersehen = Goodbye'},{q:'___ gut, danke! (Sehr)',blank:'Sehr',hint:'Sehr gut = Very good'}],
@@ -3766,288 +3689,6 @@ try {
 }
 
 
-
-// ============================================================
-// REWARD SYSTEM — Daily Goal, Badges, Leaderboard, Levels
-// ============================================================
-var DAILY_GOAL = 30;
-var SK_DAILY = 'de_dailyXP';
-var SK_DAILY_DATE = 'de_dailyDate';
-var SK_BADGES = 'de_badges';
-var SK_LB = 'de_lb_week';
-var SK_LB_DATE = 'de_lb_date';
-
-// Level thresholds
-var LEVELS = [
-  {min:0,    name:'Anfänger',    icon:'🌱', label:'শিক্ষার্থী'},
-  {min:100,  name:'Lerner',      icon:'📚', label:'শিক্ষার্থী+'},
-  {min:300,  name:'Schüler',     icon:'✏️', label:'ছাত্র'},
-  {min:600,  name:'Fortschritt', icon:'⚡', label:'অগ্রগতি'},
-  {min:1000, name:'Könner',      icon:'🔥', label:'দক্ষ'},
-  {min:1500, name:'Meister',     icon:'🏆', label:'মাস্টার'},
-  {min:2500, name:'Experte',     icon:'🌟', label:'বিশেষজ্ঞ'}
-];
-
-// Badge definitions
-var BADGES = [
-  {id:'first',   icon:'🌅', name:'প্রথম পাঠ',    cond:function(s){return s.xp>=10;},        tip:'প্রথম XP অর্জন!'},
-  {id:'streak3', icon:'🔥', name:'৩ দিন ধারা',   cond:function(s){return s.streak>=3;},     tip:'৩ দিন টানা পড়া!'},
-  {id:'streak7', icon:'🌟', name:'৭ দিন ধারা',   cond:function(s){return s.streak>=7;},     tip:'১ সপ্তাহ streak!'},
-  {id:'xp100',   icon:'💯', name:'১০০ XP',        cond:function(s){return s.xp>=100;},       tip:'১০০ XP অর্জন!'},
-  {id:'xp500',   icon:'⚡', name:'৫০০ XP',        cond:function(s){return s.xp>=500;},       tip:'৫০০ XP অর্জন!'},
-  {id:'quiz1',   icon:'📝', name:'প্রথম কুইজ',    cond:function(s){return s.quizzes>=1;},    tip:'প্রথম কুইজ দিলেন!'},
-  {id:'quiz5',   icon:'🎯', name:'৫টি কুইজ',      cond:function(s){return s.quizzes>=5;},    tip:'৫টি কুইজ সম্পন্ন!'},
-  {id:'speak1',  icon:'🎤', name:'প্রথম উচ্চারণ',  cond:function(s){return s.speaks>=1;},    tip:'প্রথম speaking test!'},
-  {id:'ch1',     icon:'🏅', name:'অধ্যায় ১',      cond:function(s){return s.lessons>=7;},    tip:'অধ্যায় ১ শেষ!'},
-  {id:'ch2',     icon:'🥈', name:'অধ্যায় ২',      cond:function(s){return s.lessons>=14;},   tip:'অধ্যায় ২ শেষ!'},
-  {id:'ch3',     icon:'🥇', name:'অধ্যায় ৩',      cond:function(s){return s.lessons>=21;},   tip:'অধ্যায় ৩ শেষ!'},
-  {id:'a1done',  icon:'🎓', name:'A1 সম্পন্ন',    cond:function(s){return s.lessons>=35;},   tip:'A1 শেষ!'}
-];
-
-// Mock leaderboard competitors (static AI opponents)
-var LB_RIVALS = [
-  {name:'Farhan (Dhaka)',   xp:280},
-  {name:'Mitu (Berlin)',    xp:195},
-  {name:'Arif (Hamburg)',   xp:150},
-  {name:'Nadia (Köln)',     xp:90},
-  {name:'Rahim (Frankfurt)',xp:45}
-];
-
-function getStats() {
-  var xp = getXP();
-  var streak = 0;
-  try { streak = parseInt(localStorage.getItem(SK.streak)||'0'); } catch(e){}
-  var prog = getProg();
-  var lessons = Object.keys(prog).length;
-  var quizzes = 0;
-  var speaks = 0;
-  try {
-    var qkeys = Object.keys(prog).filter(function(k){return k.indexOf('q')>0 || k.slice(-1)==='q';});
-    quizzes = qkeys.length;
-    var skeys = Object.keys(prog).filter(function(k){return k.slice(-1)==='s';});
-    speaks = skeys.length;
-  } catch(e){}
-  return {xp:xp, streak:streak, lessons:lessons, quizzes:quizzes, speaks:speaks};
-}
-
-function getLevel(xp) {
-  var lvl = LEVELS[0];
-  for (var i=0; i<LEVELS.length; i++) {
-    if (xp >= LEVELS[i].min) lvl = LEVELS[i];
-  }
-  return lvl;
-}
-
-function getDailyXP() {
-  try {
-    var today = new Date().toISOString().slice(0,10);
-    var savedDate = localStorage.getItem(SK_DAILY_DATE)||'';
-    if (savedDate !== today) {
-      localStorage.setItem(SK_DAILY, '0');
-      localStorage.setItem(SK_DAILY_DATE, today);
-      return 0;
-    }
-    return parseInt(localStorage.getItem(SK_DAILY)||'0');
-  } catch(e){ return 0; }
-}
-
-function addDailyXP(n) {
-  try {
-    var today = new Date().toISOString().slice(0,10);
-    var savedDate = localStorage.getItem(SK_DAILY_DATE)||'';
-    var current = 0;
-    if (savedDate === today) {
-      current = parseInt(localStorage.getItem(SK_DAILY)||'0');
-    } else {
-      localStorage.setItem(SK_DAILY_DATE, today);
-    }
-    var newVal = current + n;
-    localStorage.setItem(SK_DAILY, newVal);
-    return newVal;
-  } catch(e){ return n; }
-}
-
-function getEarnedBadges() {
-  try { return JSON.parse(localStorage.getItem(SK_BADGES)||'[]'); } catch(e){ return []; }
-}
-
-function checkBadges() {
-  var stats = getStats();
-  var earned = getEarnedBadges();
-  var newBadges = [];
-  for (var i=0; i<BADGES.length; i++) {
-    var b = BADGES[i];
-    if (earned.indexOf(b.id) < 0 && b.cond(stats)) {
-      earned.push(b.id);
-      newBadges.push(b);
-    }
-  }
-  if (newBadges.length > 0) {
-    try { localStorage.setItem(SK_BADGES, JSON.stringify(earned)); } catch(e){}
-    for (var j=0; j<newBadges.length; j++) {
-      showBadgeToast(newBadges[j]);
-    }
-  }
-  return earned;
-}
-
-function showBadgeToast(badge) {
-  var t = document.getElementById('xpToast');
-  if (!t) return;
-  t.textContent = badge.icon + ' ব্যাজ পেলেন: ' + badge.name + '!';
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2500);
-}
-
-function showXPToast(n) {
-  var t = document.getElementById('xpToast');
-  if (!t) return;
-  t.textContent = '+' + n + ' XP!';
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 1500);
-}
-
-function buildBadgesGrid() {
-  var grid = document.getElementById('badgesGrid');
-  if (!grid) return;
-  var earned = getEarnedBadges();
-  var html = '';
-  for (var i=0; i<BADGES.length; i++) {
-    var b = BADGES[i];
-    var isEarned = earned.indexOf(b.id) >= 0;
-    html += '<div class="badge-card ' + (isEarned ? 'earned' : 'locked') + '" title="' + b.tip + '">';
-    html += '<div class="badge-icon">' + b.icon + '</div>';
-    html += '<div class="badge-name">' + b.name + '</div>';
-    html += '</div>';
-  }
-  grid.innerHTML = html;
-}
-
-function buildLeaderboard() {
-  var rows = document.getElementById('leaderboardRows');
-  if (!rows) return;
-  var myXP = getXP();
-  var entries = [{name:'আপনি (Shajedur)', xp:myXP, isYou:true}];
-  for (var i=0; i<LB_RIVALS.length; i++) {
-    entries.push({name:LB_RIVALS[i].name, xp:LB_RIVALS[i].xp, isYou:false});
-  }
-  entries.sort(function(a,b){return b.xp - a.xp;});
-  var maxXP = entries[0].xp || 1;
-  var html = '';
-  for (var j=0; j<entries.length; j++) {
-    var e = entries[j];
-    var rankClass = j===0 ? 'gold' : j===1 ? 'silver' : j===2 ? 'bronze' : '';
-    var rankIcon = j===0 ? '🥇' : j===1 ? '🥈' : j===2 ? '🥉' : (j+1);
-    var pct = Math.round((e.xp/maxXP)*100);
-    html += '<div class="lb-row">';
-    html += '<div class="lb-rank ' + rankClass + '">' + rankIcon + '</div>';
-    html += '<div class="lb-name ' + (e.isYou?'you':'') + '">' + e.name + (e.isYou?' ★':'') + '</div>';
-    html += '<div class="lb-bar"><div class="lb-bar-fill" style="width:' + pct + '%"></div></div>';
-    html += '<div class="lb-xp-val">' + e.xp + ' XP</div>';
-    html += '</div>';
-  }
-  rows.innerHTML = html;
-}
-
-function buildDailyGoal() {
-  var daily = getDailyXP();
-  var pct = Math.min(100, Math.round((daily/DAILY_GOAL)*100));
-  var bar = document.getElementById('dgBar');
-  var label = document.getElementById('dgXpLabel');
-  var status = document.getElementById('dgStatus');
-  if (bar) bar.style.width = pct + '%';
-  if (label) label.textContent = daily + ' / ' + DAILY_GOAL + ' XP';
-  if (status) {
-    if (daily >= DAILY_GOAL) {
-      status.className = 'dg-status done';
-      status.textContent = '✅ আজকের লক্ষ্য পূরণ হয়েছে! চমৎকার! 🎉';
-    } else {
-      status.className = 'dg-status';
-      var left = DAILY_GOAL - daily;
-      status.textContent = 'আরও ' + left + ' XP অর্জন করুন — streak বাঁচিয়ে রাখুন! 🔥';
-    }
-  }
-}
-
-function buildStreakHero() {
-  var streak = 0;
-  try { streak = parseInt(localStorage.getItem(SK.streak)||'0'); } catch(e){}
-  var daily = getDailyXP();
-  var hero = document.getElementById('streakHero');
-  var fire = document.getElementById('streakFire');
-  var lbl = document.getElementById('streakLabel');
-  var sh = document.getElementById('streakHome');
-  var xpEl = document.getElementById('xpHome');
-  var lvlEl = document.getElementById('levelLabel');
-  var comeback = document.getElementById('comebackBanner');
-
-  if (sh) sh.textContent = streak;
-  if (xpEl) xpEl.textContent = getXP();
-
-  var lvl = getLevel(getXP());
-  if (lvlEl) lvlEl.textContent = lvl.icon + ' ' + lvl.name;
-
-  // Check if streak was broken (last day not yesterday or today)
-  var today = new Date().toISOString().slice(0,10);
-  var yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
-  var lastDay = '';
-  try { lastDay = localStorage.getItem(SK.lastDay)||''; } catch(e){}
-
-  var streakBroken = streak === 0 && lastDay !== '' && lastDay !== today && lastDay !== yesterday;
-  var streakAtRisk = lastDay === yesterday && daily < DAILY_GOAL;
-  var streakSafe = lastDay === today && daily >= DAILY_GOAL;
-
-  if (comeback) comeback.className = streakBroken ? 'comeback show' : 'comeback';
-
-  if (hero) {
-    if (streakAtRisk && streak > 0) {
-      hero.className = 'streak-hero streak-danger';
-      if (fire) fire.textContent = '⚠️';
-      if (lbl) lbl.textContent = 'Streak বিপদে! আজ পড়ুন!';
-    } else if (streakSafe || daily >= DAILY_GOAL) {
-      hero.className = 'streak-hero streak-safe';
-      if (fire) fire.textContent = '🔥';
-      if (lbl) lbl.textContent = streak + ' দিনের ধারা — চালিয়ে যান!';
-    } else {
-      hero.className = 'streak-hero';
-      if (fire) fire.textContent = '🔥';
-      if (lbl) lbl.textContent = 'দিনের ধারা (Streak)';
-    }
-  }
-}
-
-function refreshRewardUI() {
-  buildStreakHero();
-  buildDailyGoal();
-  buildBadgesGrid();
-  buildLeaderboard();
-  checkBadges();
-}
-
-// Override addXP to also add daily XP and trigger reward check
-var _origAddXP = addXP;
-addXP = function(n) {
-  _origAddXP(n);
-  addDailyXP(n);
-  showXPToast(n);
-  buildDailyGoal();
-  buildStreakHero();
-  buildLeaderboard();
-  checkBadges();
-  buildBadgesGrid();
-};
-
-// Call refreshRewardUI whenever home is opened
-var _origGo = go;
-go = function(page, navId) {
-  _origGo(page, navId);
-  if (page === 'home') {
-    setTimeout(refreshRewardUI, 50);
-  }
-};
-
-// Init on load
-setTimeout(refreshRewardUI, 100);
 </script>
 </body>
 </html>
