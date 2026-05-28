@@ -1,14 +1,23 @@
 # =============================================================================
 # Shopnil Academy - Auto-publish Watcher
-# Monitors E:\SA for new .html/.css files and routes them to the correct
-# location in the local repo, then commits and pushes to GitHub Pages.
+# Monitors E:\SA for new .html/.css files and syncs them to the repo,
+# then commits and pushes to GitHub Pages.
 #
-# Filename routing conventions:
-#   course-[name].html        → courses/[name]/index.html
-#   course-[name].css         → courses/[name]/[filename]
-#   blog-[name].html/.css     → blog/[name].[ext]
-#   lesson-[course]-[name].*  → courses/[course]/lessons/[name].[ext]
-#   anything else             → repo root
+# TWO routing modes — detected automatically:
+#
+#   MIRROR MODE  (files inside a subfolder of E:\SA)
+#     E:\SA\courses\german-bangla\index.html
+#       → repo\courses\german-bangla\index.html
+#     E:\SA\blog\my-post.html
+#       → repo\blog\my-post.html
+#     Works for any subfolder depth — the path is mirrored as-is.
+#
+#   FILENAME MODE  (files dropped directly into the root of E:\SA)
+#     course-[name].html  → courses/[name]/index.html
+#     course-[name].css   → courses/[name]/[filename]
+#     blog-[name].html    → blog/[name].html
+#     lesson-[course]-[name].* → courses/[course]/lessons/[name].*
+#     anything else       → repo root
 #
 # Usage: powershell -ExecutionPolicy Bypass -File watcher.ps1
 # =============================================================================
@@ -31,85 +40,115 @@ function Write-Log {
     }
 }
 
-# ── File routing ─────────────────────────────────────────────────────────────
+# ── Filename-mode routing (root-level files only) ─────────────────────────────
 
-function Get-Destination {
+function Get-FilenameDestination {
     param([string]$FileName)
 
     $base = [System.IO.Path]::GetFileNameWithoutExtension($FileName)
     $ext  = [System.IO.Path]::GetExtension($FileName).ToLower()
 
     if ($base -match '^course-(.+)$') {
-        $courseName = $Matches[1]
-        $destFile   = if ($ext -eq '.html') { 'index.html' } else { $FileName }
-        return @{ RelPath = "courses\$courseName\$destFile"; Dir = "courses\$courseName" }
+        $n = $Matches[1]
+        $f = if ($ext -eq '.html') { 'index.html' } else { $FileName }
+        return "courses\$n\$f"
     }
 
     if ($base -match '^blog-(.+)$') {
-        $blogName = $Matches[1]
-        return @{ RelPath = "blog\$blogName$ext"; Dir = "blog" }
+        $n = $Matches[1]
+        return "blog\$n$ext"
     }
 
     if ($base -match '^lesson-(.+)$') {
-        $remainder   = $Matches[1]   # everything after "lesson-"
+        $remainder   = $Matches[1]
         $coursesRoot = Join-Path $RepoFolder "courses"
-
-        # Find the longest known course-folder name that is a prefix of $remainder
-        # e.g. remainder = "german-bangla-unit1", known folders = ["german-bangla","spanish-bangla"]
-        # → matched course = "german-bangla", lesson = "unit1"
         $matchedCourse = $null
         $matchedLesson = $null
 
         if (Test-Path $coursesRoot) {
             $courseFolders = Get-ChildItem -Path $coursesRoot -Directory |
                              Select-Object -ExpandProperty Name |
-                             Sort-Object { $_.Length } -Descending   # longest first
-
+                             Sort-Object { $_.Length } -Descending
             foreach ($cf in $courseFolders) {
-                $prefix = "$cf-"
-                if ($remainder.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+                if ($remainder.StartsWith("$cf-", [System.StringComparison]::OrdinalIgnoreCase)) {
                     $matchedCourse = $cf
-                    $matchedLesson = $remainder.Substring($prefix.Length)
+                    $matchedLesson = $remainder.Substring($cf.Length + 1)
                     break
                 }
             }
         }
-
-        # Fallback: first hyphen-delimited segment is the course name
         if (-not $matchedCourse) {
             if ($remainder -match '^([^-]+)-(.+)$') {
-                $matchedCourse = $Matches[1]
-                $matchedLesson = $Matches[2]
+                $matchedCourse = $Matches[1]; $matchedLesson = $Matches[2]
             } else {
-                $matchedCourse = $remainder
-                $matchedLesson = "index"
+                $matchedCourse = $remainder; $matchedLesson = "index"
             }
         }
-
-        return @{ RelPath = "courses\$matchedCourse\lessons\$matchedLesson$ext"
-                  Dir     = "courses\$matchedCourse\lessons" }
+        return "courses\$matchedCourse\lessons\$matchedLesson$ext"
     }
 
-    # Fallback: repo root
-    return @{ RelPath = $FileName; Dir = "" }
+    return $FileName   # repo root
 }
 
-# ── Git push ─────────────────────────────────────────────────────────────────
+# ── Resolve destination path for any file ────────────────────────────────────
+
+function Get-Destination {
+    param([string]$FilePath)
+
+    $watchRoot = $WatchFolder.TrimEnd('\') + '\'
+
+    # Is the file inside a subfolder of E:\SA ?
+    $relativePath = $FilePath.Substring($watchRoot.Length)   # e.g. "courses\german-bangla\index.html"
+    $parts        = $relativePath -split '\\'
+
+    if ($parts.Count -gt 1) {
+        # MIRROR MODE — preserve the full relative path
+        return $relativePath
+    } else {
+        # FILENAME MODE — route by filename prefix
+        return Get-FilenameDestination -FileName $parts[0]
+    }
+}
+
+# ── Wait until a file is fully written ───────────────────────────────────────
+
+function Wait-FileReady {
+    param([string]$FilePath)
+    $retries = 0
+    while ($retries -lt 15) {
+        try {
+            $s = [System.IO.File]::Open($FilePath, 'Open', 'Read', 'None')
+            $s.Close()
+            return $true
+        } catch {
+            Start-Sleep -Seconds 1
+            $retries++
+        }
+    }
+    return $false
+}
+
+# ── Git commit + push ─────────────────────────────────────────────────────────
 
 function Invoke-GitPublish {
-    param([string]$CommitMessage)
+    param([string[]]$MovedFiles)
+
+    if ($MovedFiles.Count -eq 0) { return }
+
+    $summary = if ($MovedFiles.Count -eq 1) { $MovedFiles[0] } else { "$($MovedFiles.Count) files" }
+    $msg     = "publish: $summary"
 
     Push-Location $RepoFolder
     try {
-        $addOut    = git add . 2>&1
-        $commitOut = git commit -m $CommitMessage 2>&1
-        if ($LASTEXITCODE -ne 0 -and $commitOut -match 'nothing to commit') {
+        git add . | Out-Null
+        $commitOut = git commit -m $msg 2>&1
+        if ($commitOut -match 'nothing to commit') {
             Write-Log "Nothing new to commit."
             return
         }
         $pushOut = git push origin main 2>&1
         if ($LASTEXITCODE -eq 0) {
-            Write-Log "Pushed: $CommitMessage"
+            Write-Log "Pushed: $msg"
         } else {
             Write-Log "Push failed: $pushOut" "ERROR"
         }
@@ -120,47 +159,7 @@ function Invoke-GitPublish {
     }
 }
 
-# ── Process a single file ────────────────────────────────────────────────────
-
-function Invoke-ProcessFile {
-    param([string]$FilePath)
-
-    $fileName = [System.IO.Path]::GetFileName($FilePath)
-    $ext      = [System.IO.Path]::GetExtension($fileName).ToLower()
-
-    if ($ext -notin @('.html', '.css')) { return }
-    if (-not (Test-Path $FilePath))     { return }
-
-    # Wait for the file to finish writing (e.g. browser download still flushing)
-    $retries = 0
-    while ($retries -lt 10) {
-        try {
-            $stream = [System.IO.File]::Open($FilePath, 'Open', 'Read', 'None')
-            $stream.Close()
-            break
-        } catch {
-            Start-Sleep -Seconds 1
-            $retries++
-        }
-    }
-
-    $dest     = Get-Destination -FileName $fileName
-    $destFull = Join-Path $RepoFolder $dest.RelPath
-
-    # Create destination directory if it doesn't exist
-    $destDir = [System.IO.Path]::GetDirectoryName($destFull)
-    if (-not (Test-Path $destDir)) {
-        New-Item -ItemType Directory -Path $destDir -Force | Out-Null
-        Write-Log "Created directory: $destDir"
-    }
-
-    Move-Item -Path $FilePath -Destination $destFull -Force
-    Write-Log "Moved  $fileName  →  $($dest.RelPath)"
-
-    Invoke-GitPublish -CommitMessage "publish: $fileName"
-}
-
-# ── Main polling loop ────────────────────────────────────────────────────────
+# ── Main polling loop ─────────────────────────────────────────────────────────
 
 if (-not (Test-Path $WatchFolder)) {
     Write-Log "Watch folder not found: $WatchFolder" "ERROR"
@@ -179,21 +178,47 @@ Write-Host ""
 $inProgress = @{}
 
 while ($true) {
-    $files = Get-ChildItem -Path $WatchFolder -File -ErrorAction SilentlyContinue |
+    # Scan recursively for all .html and .css files anywhere under E:\SA
+    $files = Get-ChildItem -Path $WatchFolder -Recurse -File -ErrorAction SilentlyContinue |
              Where-Object { $_.Extension -in @('.html', '.css') }
+
+    $movedThisCycle = [System.Collections.Generic.List[string]]::new()
 
     foreach ($file in $files) {
         $key = $file.FullName
-        if (-not $inProgress.ContainsKey($key)) {
-            $inProgress[$key] = $true
-            try {
-                Invoke-ProcessFile -FilePath $file.FullName
-            } catch {
-                Write-Log "Failed to process $($file.Name): $_" "ERROR"
-            } finally {
-                $inProgress.Remove($key)
+        if ($inProgress.ContainsKey($key)) { continue }
+        $inProgress[$key] = $true
+
+        try {
+            if (-not (Wait-FileReady -FilePath $file.FullName)) {
+                Write-Log "Skipped (file locked after 15s): $($file.Name)" "ERROR"
+                continue
             }
+
+            $relDest  = Get-Destination -FilePath $file.FullName
+            $destFull = Join-Path $RepoFolder $relDest
+            $destDir  = [System.IO.Path]::GetDirectoryName($destFull)
+
+            if (-not (Test-Path $destDir)) {
+                New-Item -ItemType Directory -Path $destDir -Force | Out-Null
+                Write-Log "Created dir : $destDir"
+            }
+
+            Copy-Item -Path $file.FullName -Destination $destFull -Force
+            Remove-Item -Path $file.FullName -Force
+            Write-Log "Moved  $($file.Name)  →  $relDest"
+            $movedThisCycle.Add($file.Name)
+
+        } catch {
+            Write-Log "Error processing $($file.Name): $_" "ERROR"
+        } finally {
+            $inProgress.Remove($key)
         }
+    }
+
+    # One git push per cycle (batches all files moved this round)
+    if ($movedThisCycle.Count -gt 0) {
+        Invoke-GitPublish -MovedFiles $movedThisCycle.ToArray()
     }
 
     Start-Sleep -Seconds 3
