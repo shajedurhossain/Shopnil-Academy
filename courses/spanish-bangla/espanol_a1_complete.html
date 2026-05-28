@@ -1,0 +1,2033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Español A1 Complete 🇪🇸</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1208;--paper:#faf6ee;--cream:#f2ead8;
+  --red:#c0392b;--red-s:#e8d5d3;--gold:#c8860a;--gold-s:#fdf0d0;
+  --green:#2d6a4f;--green-s:#d8eddf;--blue:#1a4a7a;--blue-s:#d6e8f8;
+  --muted:#7a6e5a;--rule:#d8cdb8;--shadow:rgba(26,18,8,0.11);
+  --sb:236px;--nav:54px;
+}
+body{background:var(--paper);color:var(--ink);font-family:'DM Sans',sans-serif;min-height:100vh}
+.bn{font-family:'Hind Siliguri',sans-serif}
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav);background:var(--ink);display:flex;align-items:center;gap:12px;padding:0 16px;z-index:300;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.burger{background:none;border:none;color:#faf6ee;font-size:20px;cursor:pointer;padding:6px 8px;border-radius:6px;line-height:1;flex-shrink:0}
+.burger:hover{background:rgba(255,255,255,.1)}
+.nav-title{font-family:'DM Serif Display',serif;font-size:16px;color:#f5d98a;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chips{display:flex;gap:6px;flex-shrink:0}
+.chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;color:#faf6ee;white-space:nowrap}
+.chip.t{color:#f5d98a}.chip.x{color:#90ee90}
+/* SIDEBAR */
+#sb{position:fixed;top:var(--nav);left:0;bottom:0;width:var(--sb);background:#13100a;border-right:1px solid #1e1a12;overflow-y:auto;z-index:250;transition:transform .25s ease;padding-bottom:60px}
+#sb::-webkit-scrollbar{width:3px}
+#sb::-webkit-scrollbar-thumb{background:#2a2010}
+#sb.off{transform:translateX(-100%)}
+.sb-home{display:flex;align-items:center;gap:8px;padding:12px 14px;font-size:13px;font-weight:700;color:#f5d98a;cursor:pointer;border-bottom:1px solid #1e1a12}
+.sb-home:hover{background:rgba(255,255,255,.04)}
+.sb-ch-header{padding:10px 14px 4px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .15s}
+.sb-ch-header:hover{background:rgba(255,255,255,.03)}
+.sb-ch-badge{font-size:10px;font-weight:800;padding:2px 7px;border-radius:8px;color:#fff;flex-shrink:0}
+.sb-ch-name{font-size:11.5px;font-weight:700;color:#8a7860;flex:1}
+.sb-ch-arrow{font-size:10px;color:#4a4030;transition:transform .2s}
+.sb-ch-header.open .sb-ch-arrow{transform:rotate(90deg)}
+.sb-lessons{display:none;padding-bottom:4px}
+.sb-ch-header.open + .sb-progress + .sb-lessons{display:block}
+.sb-item{display:flex;align-items:flex-start;gap:7px;padding:7px 14px 7px 22px;font-size:12px;font-weight:600;color:#6a6050;cursor:pointer;border-left:3px solid transparent;transition:all .15s;line-height:1.4}
+.sb-item:hover{color:#faf6ee;background:rgba(255,255,255,.04)}
+.sb-item.active{color:#f5d98a;border-left-color:#f5d98a;background:rgba(245,217,138,.06)}
+.sb-item.done{color:#4a9a68}
+.sb-icon{font-size:12px;flex-shrink:0;margin-top:1px}
+.sb-sub{font-family:'Hind Siliguri',sans-serif;font-size:10px;color:#3a3028;margin-top:1px}
+.sb-item.done .sb-sub{color:#2a6a48}
+.sb-progress{height:2px;background:#2a2010;margin:0 14px 6px}
+.sb-progress-fill{height:100%;background:var(--gold);border-radius:1px;transition:width .4s}
+/* LAYOUT */
+#lay{margin-top:var(--nav);margin-left:var(--sb);transition:margin-left .25s ease;min-height:calc(100vh - var(--nav))}
+.lnav{background:#fff;border-bottom:1px solid var(--rule);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.lnav-label{font-size:10px;color:var(--muted);font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.lpill{padding:4px 11px;border-radius:20px;font-size:10.5px;font-weight:800;cursor:pointer;border:1.5px solid var(--rule);color:var(--muted);background:var(--cream);transition:all .15s;white-space:nowrap}
+.lpill:hover{border-color:var(--gold);color:var(--gold)}
+.lpill.on{background:var(--red);color:#fff;border-color:var(--red)}
+.lpill.done{background:var(--green-s);color:var(--green);border-color:var(--green)}
+.tabs{display:flex;background:var(--cream);border-bottom:1px solid var(--rule);padding:0 16px;overflow-x:auto;gap:2px}
+.tab{padding:9px 14px;font-size:11px;font-weight:700;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;letter-spacing:.04em;text-transform:uppercase;transition:color .15s;border:none;background:none;font-family:'DM Sans',sans-serif}
+.tab:hover{color:var(--ink)}.tab.on{color:var(--red);border-bottom:2px solid var(--red)}.tab.done{color:var(--green)}
+/* PAGES */
+.pg{display:none}.pg.show{display:block}
+.wrap{max-width:700px;margin:0 auto;padding:22px 18px 52px}
+.wrap.wide{max-width:640px}
+/* CULTURE CARD */
+.cult{background:linear-gradient(135deg,#1a1208,#2d1a08);color:#faf6ee;border-radius:14px;padding:15px 18px;display:flex;gap:12px;margin-bottom:20px;position:relative;overflow:hidden}
+.cult::after{content:attr(data-word);position:absolute;right:-6px;top:4px;font-family:'DM Serif Display',serif;font-size:48px;color:rgba(245,217,138,.07);pointer-events:none;white-space:nowrap}
+.cult-flag{font-size:28px;flex-shrink:0;margin-top:2px}
+.cult-bn{font-family:'Hind Siliguri',sans-serif;font-size:13.5px;color:#f5d98a;margin-bottom:4px;line-height:1.55}
+.cult-en{font-size:11.5px;color:rgba(250,246,238,.6);line-height:1.5;font-style:italic}
+/* SECTION HEAD */
+.sh{display:flex;align-items:center;gap:9px;margin-bottom:12px;flex-wrap:wrap}
+.sh-tag{font-size:10px;font-weight:800;color:var(--red);background:var(--red-s);border-radius:5px;padding:2px 8px;letter-spacing:.07em;text-transform:uppercase;white-space:nowrap}
+.sh-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--ink)}
+.sh-bn{font-family:'Hind Siliguri',sans-serif;font-size:12.5px;color:var(--muted);margin-top:2px}
+/* GRAMMAR BOX */
+.gram{background:linear-gradient(135deg,#f0f7ff,#e8f4ee);border:1px solid rgba(26,74,122,.18);border-radius:13px;padding:14px 16px;margin-bottom:16px}
+.gram-title{font-size:10.5px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px}
+.gram-en{font-size:12.5px;color:var(--ink);line-height:1.65;margin-bottom:7px}
+.gram-bn{font-family:'Hind Siliguri',sans-serif;font-size:13px;color:#1a3a6a;line-height:1.65}
+.gram table{width:100%;border-collapse:collapse;margin-top:9px;font-size:12.5px}
+.gram th{background:rgba(26,74,122,.1);padding:5px 9px;text-align:left;font-size:10.5px;color:var(--muted);font-weight:700}
+.gram td{padding:6px 9px;border-bottom:1px solid rgba(26,74,122,.1)}
+.gram td.es{font-weight:700;color:var(--red)}
+.gram td.bn2{font-family:'Hind Siliguri',sans-serif;color:var(--blue)}
+/* VOCAB */
+.vg{display:grid;gap:6px;margin-bottom:20px}
+.vc{background:#fff;border:1px solid var(--rule);border-radius:10px;display:grid;grid-template-columns:42px 1.1fr 1fr 1fr 36px;align-items:center;padding:9px 11px;gap:8px;cursor:pointer;transition:all .17s;box-shadow:0 1px 3px var(--shadow)}
+.vc:hover{border-color:var(--gold);transform:translateY(-1px);box-shadow:0 3px 10px rgba(200,134,10,.13)}
+.ve{font-size:20px;text-align:center}
+.ves{font-weight:700;font-size:14px;color:var(--red)}
+.ven{font-size:11.5px;color:var(--muted)}
+.vbn{font-family:'Hind Siliguri',sans-serif;font-size:12.5px;color:var(--blue)}
+.ab{background:var(--ink);color:#faf6ee;border:none;border-radius:6px;width:30px;height:30px;font-size:13px;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ab:hover{background:var(--red)}
+/* MNEMONIC */
+.mn{background:var(--green-s);border:1px solid rgba(45,106,79,.2);border-radius:12px;padding:13px 15px;margin-bottom:20px}
+.mn-title{font-size:10.5px;font-weight:800;color:var(--green);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px}
+.mn-row{padding:6px 0;border-bottom:1px solid rgba(45,106,79,.12);font-size:12.5px;line-height:1.6}
+.mn-row:last-child{border-bottom:none}
+.mn-bn{font-family:'Hind Siliguri',sans-serif;color:#1e5a38;display:block;margin-bottom:2px;font-size:12.5px}
+.mn-en{color:var(--muted);font-size:12px}
+/* BUTTON */
+.go{display:block;width:100%;background:var(--red);color:#fff;border:none;border-radius:10px;padding:12px 18px;font-family:'Hind Siliguri',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;text-align:center}
+.go:hover{background:#a93226;transform:translateY(-1px);box-shadow:0 4px 14px rgba(192,57,43,.28)}
+/* FITB */
+.fc{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:15px;margin-bottom:9px;box-shadow:0 1px 3px var(--shadow);transition:border-color .2s,background .2s}
+.fc.ok{border-color:var(--green);background:var(--green-s)}
+.fc.bad{border-color:var(--red);background:var(--red-s)}
+.fq{font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.5}
+.fr{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.fi{background:var(--cream);border:2px solid var(--rule);border-radius:7px;padding:6px 11px;font-family:'DM Sans',sans-serif;font-size:14.5px;color:var(--ink);min-width:100px;transition:border-color .2s}
+.fi:focus{outline:none;border-color:var(--gold);background:#fff}
+.fi.ok{border-color:var(--green);background:var(--green-s)}
+.fi.bad{border-color:var(--red);background:var(--red-s)}
+.ck{background:var(--gold-s);border:1px solid var(--gold);color:var(--gold);border-radius:6px;padding:6px 12px;font-weight:700;font-size:11.5px;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.ck:hover{background:var(--gold);color:#fff}
+.fhint{font-family:'Hind Siliguri',sans-serif;font-size:11px;color:var(--muted);margin-top:4px}
+.ffb{margin-top:6px;font-size:12.5px;font-weight:600}
+.score-strip{background:var(--cream);border:1px solid var(--rule);border-radius:8px;padding:9px 14px;margin-top:11px;display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.sv{font-weight:800;color:var(--green);font-size:14px}
+/* SPEAKING */
+.sp-tip{background:var(--blue-s);border:1px solid rgba(26,74,122,.18);border-radius:9px;padding:10px 14px;font-size:12px;color:var(--blue);margin-bottom:14px;line-height:1.6}
+.sp-tip-bn{font-family:'Hind Siliguri',sans-serif;font-size:12.5px;display:block;margin-bottom:2px}
+.spc{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:15px;margin-bottom:9px;box-shadow:0 1px 3px var(--shadow)}
+.sp-num{font-size:10px;font-weight:800;color:var(--red);text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px}
+.sp-es{font-family:'DM Serif Display',serif;font-size:19px;color:var(--ink);margin-bottom:3px}
+.sp-ph{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:3px}
+.sp-en{font-size:12px;color:var(--muted);margin-bottom:3px}
+.sp-bn{font-family:'Hind Siliguri',sans-serif;font-size:12.5px;color:var(--blue);margin-bottom:11px}
+.sp-btns{display:flex;gap:6px;flex-wrap:wrap}
+.spb{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:7px;border:1.5px solid;font-size:11.5px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'DM Sans',sans-serif}
+.spb.li{background:var(--ink);color:#faf6ee;border-color:var(--ink)}.spb.li:hover{background:var(--red);border-color:var(--red)}
+.spb.sp{background:#fff;color:var(--blue);border-color:rgba(26,74,122,.38)}.spb.sp:hover{background:var(--blue-s)}
+.spb.rec{background:var(--red);color:#fff;border-color:var(--red);animation:rec 1s infinite}
+@keyframes rec{0%,100%{opacity:1}50%{opacity:.7}}
+.sp-res{margin-top:7px;font-size:12px;font-weight:600;padding:6px 10px;border-radius:6px;display:none}
+.sp-res.pass{background:var(--green-s);color:var(--green);display:block}
+.sp-res.fail{background:var(--red-s);color:var(--red);display:block}
+/* QUIZ */
+.qz-dots{display:flex;gap:4px;margin-bottom:14px}
+.qd{flex:1;height:5px;border-radius:3px;background:var(--rule);transition:background .3s}
+.qd.on{background:var(--gold)}.qd.ok{background:var(--green)}.qd.bad{background:var(--red)}
+.qcard{background:#fff;border:1px solid var(--rule);border-radius:14px;padding:20px;box-shadow:0 2px 10px var(--shadow);animation:fadeUp .22s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.qn{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.09em;text-transform:uppercase;margin-bottom:7px}
+.qq{font-family:'Hind Siliguri',sans-serif;font-size:15.5px;font-weight:700;color:var(--ink);margin-bottom:14px;line-height:1.5}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.qo{background:var(--cream);border:2px solid var(--rule);border-radius:9px;padding:10px 12px;font-size:12.5px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;transition:all .14s}
+.qo:hover:not(:disabled){border-color:var(--gold);background:var(--gold-s)}
+.qo:disabled{cursor:default}
+.qo.ok{border-color:var(--green);background:var(--green-s);color:var(--green)}
+.qo.bad{border-color:var(--red);background:var(--red-s);color:var(--red)}
+.qfb{margin-top:11px;padding:8px 12px;border-radius:8px;font-size:12.5px;font-weight:600;display:none;line-height:1.5}
+.qfb.show{display:block}.qfb.ok{background:var(--green-s);color:var(--green)}.qfb.bad{background:var(--red-s);color:var(--red)}
+.qnxt{margin-top:10px;background:var(--ink);color:#faf6ee;border:none;border-radius:8px;padding:8px 16px;font-weight:700;font-size:12.5px;cursor:pointer;display:none;transition:background .15s;font-family:'DM Sans',sans-serif}
+.qnxt.show{display:inline-block}.qnxt:hover{background:var(--red)}
+/* REVIEW */
+.rev-section{margin-bottom:22px}
+.rev-section h3{font-family:'DM Serif Display',serif;font-size:16px;color:var(--ink);margin-bottom:10px;padding-bottom:5px;border-bottom:2px solid var(--rule)}
+.rev-item{background:#fff;border:1px solid var(--rule);border-radius:9px;padding:9px 12px;margin-bottom:6px;display:flex;gap:9px;align-items:center;cursor:pointer;transition:border-color .15s}
+.rev-item:hover{border-color:var(--gold)}
+.rev-em{font-size:17px;width:26px;text-align:center;flex-shrink:0}
+.rev-es{font-weight:700;color:var(--red);font-size:13px;flex:1}
+.rev-en{font-size:11.5px;color:var(--muted);flex:1}
+.rev-bn{font-family:'Hind Siliguri',sans-serif;font-size:12.5px;color:var(--blue);flex:1}
+/* HOME */
+.home-hero{background:linear-gradient(135deg,#1a1208,#2d1408,#1a1a08);color:#faf6ee;border-radius:16px;padding:24px;margin-bottom:20px;text-align:center;position:relative;overflow:hidden}
+.home-hero h1{font-family:'DM Serif Display',serif;font-size:26px;color:#f5d98a;margin-bottom:6px}
+.home-hero p{font-family:'Hind Siliguri',sans-serif;font-size:14px;color:rgba(250,246,238,.7);margin-bottom:16px}
+.overall-prog{background:rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;margin-bottom:12px}
+.op-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;color:rgba(250,246,238,.7)}
+.op-bar{height:8px;background:rgba(255,255,255,.15);border-radius:4px;overflow:hidden}
+.op-fill{height:100%;background:linear-gradient(90deg,var(--gold),#f5d98a);border-radius:4px;transition:width .5s}
+.level-badge{display:inline-block;background:rgba(245,217,138,.15);border:1px solid rgba(245,217,138,.3);border-radius:10px;padding:6px 14px;font-size:13px;font-weight:700;color:#f5d98a}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.ch-card{background:#fff;border:1px solid var(--rule);border-radius:12px;padding:14px;cursor:pointer;transition:all .18s;box-shadow:0 1px 4px var(--shadow)}
+.ch-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 14px rgba(200,134,10,.14)}
+.ch-card.done-ch{border-color:var(--green);background:var(--green-s)}
+.ch-num{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.ch-name{font-family:'DM Serif Display',serif;font-size:14.5px;color:var(--ink);margin-bottom:2px}
+.ch-name-bn{font-family:'Hind Siliguri',sans-serif;font-size:11px;color:var(--muted)}
+.ch-bar{height:4px;background:var(--rule);border-radius:2px;overflow:hidden;margin-top:9px}
+.ch-bar-fill{height:100%;border-radius:2px;transition:width .4s}
+.ch-stat{font-size:10px;color:var(--muted);margin-top:3px}
+/* DONE */
+.done-wrap{max-width:500px;margin:0 auto;padding:32px 18px 52px;text-align:center}
+.done-medal{font-size:60px;display:inline-block;animation:bnc .5s ease;margin-bottom:12px}
+@keyframes bnc{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+.done-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--ink);margin-bottom:6px}
+.done-sub{font-family:'Hind Siliguri',sans-serif;font-size:13.5px;color:var(--muted);margin-bottom:18px}
+.done-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:20px}
+.dst{background:#fff;border:1px solid var(--rule);border-radius:10px;padding:12px 8px}
+.dv{font-family:'DM Serif Display',serif;font-size:22px;color:var(--red)}
+.dl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-top:3px;letter-spacing:.05em}
+.recap{background:var(--cream);border-radius:11px;padding:14px;margin-bottom:16px;text-align:left;max-height:280px;overflow-y:auto}
+.recap h3{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px}
+.rrow{display:flex;gap:8px;align-items:center;padding:5px 0;border-bottom:1px solid var(--rule);font-size:12.5px}
+.rrow:last-child{border-bottom:none}
+.res{font-weight:700;color:var(--red);min-width:120px;font-size:12.5px}
+.ren{color:var(--muted);font-size:11.5px;flex:1}
+.rbn{font-family:'Hind Siliguri',sans-serif;color:var(--blue);font-size:12.5px}
+.next-ch-box{background:linear-gradient(135deg,var(--ink),#2d1a08);color:#faf6ee;border-radius:11px;padding:13px 16px;text-align:left;margin-bottom:14px}
+.next-ch-box h4{font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:#f5d98a;margin-bottom:4px}
+.next-ch-box p{font-size:12.5px;opacity:.78;line-height:1.5}
+.done-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.rst{background:var(--cream);color:var(--ink);border:1px solid var(--rule);border-radius:10px;padding:10px 22px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif}
+.rst:hover{background:var(--rule)}
+.nxt-btn{background:var(--red);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Hind Siliguri',sans-serif}
+.nxt-btn:hover{background:#a93226;transform:translateY(-1px)}
+#toast{position:fixed;top:60px;right:14px;background:var(--gold);color:#fff;border-radius:8px;padding:6px 13px;font-weight:800;font-size:13px;z-index:999;opacity:0;transform:translateY(-5px);transition:all .28s;pointer-events:none}
+#toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:600px){
+  #sb{transform:translateX(-100%)}
+  #sb.mob-open{transform:translateX(0)!important}
+  #lay{margin-left:0!important}
+  .vc{grid-template-columns:34px 1fr 1fr 32px}.ven{display:none}
+  .qopts{grid-template-columns:1fr}
+  .done-stats{grid-template-columns:1fr 1fr}
+  .ch-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <button class="burger" onclick="toggleSB()">☰</button>
+  <div class="nav-title" id="nav-title">Español A1 Complete 🇪🇸</div>
+  <div class="chips">
+    <div class="chip t" id="tc">⏱ 10:00</div>
+    <div class="chip x" id="xc">⭐ 0 XP</div>
+  </div>
+</header>
+<nav id="sb">
+  <div class="sb-home" onclick="goHome()">🏠 Home — সব অধ্যায়</div>
+  <div id="sb-chapters"></div>
+</nav>
+<div id="lay">
+  <div class="lnav" id="lnav" style="display:none">
+    <span class="lnav-label">Lessons:</span>
+    <div id="lpills" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+    <button class="lpill" id="lpR" onclick="openReview()" style="display:none">🏆 Review</button>
+  </div>
+  <div class="tabs" id="tabs" style="display:none">
+    <button class="tab on" id="tab-v" onclick="goPhase('v')">📖 Vocab</button>
+    <button class="tab" id="tab-w" onclick="goPhase('w')">✏️ Fill-in</button>
+    <button class="tab" id="tab-s" onclick="goPhase('s')">🎤 Speaking</button>
+    <button class="tab" id="tab-q" onclick="goPhase('q')">📝 Quiz</button>
+  </div>
+  <!-- HOME PAGE -->
+  <div class="pg show" id="pg-home">
+    <div class="wrap">
+      <div class="home-hero">
+        <h1>Español A1 🇪🇸</h1>
+        <p class="bn">বাংলাদেশি শিক্ষার্থীদের জন্য — ৮ অধ্যায়, ৪৭ পাঠ</p>
+        <div class="level-badge" id="level-badge">🌱 Principiante</div>
+        <div class="overall-prog" style="margin-top:14px">
+          <div class="op-label"><span class="bn">সামগ্রিক অগ্রগতি</span><span id="overall-pct">0%</span></div>
+          <div class="op-bar"><div class="op-fill" id="overall-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+      <div class="ch-grid" id="ch-grid"></div>
+    </div>
+  </div>
+  <!-- LESSON PAGE (dynamic) -->
+  <div class="pg" id="pg-lesson"><div id="lesson-content"></div></div>
+  <!-- REVIEW PAGE (dynamic) -->
+  <div class="pg" id="pg-review"><div id="review-content"></div></div>
+  <!-- QUIZ PAGE -->
+  <div class="pg" id="pg-quiz">
+    <div class="wrap wide">
+      <div class="qz-dots" id="qz-dots"></div>
+      <div class="qcard" id="qcard"></div>
+    </div>
+  </div>
+  <!-- DONE PAGE -->
+  <div class="pg" id="pg-done">
+    <div class="done-wrap">
+      <div class="done-medal" id="d-medal">🥇</div>
+      <div class="done-title" id="d-title">Perfecto!</div>
+      <div class="done-sub bn" id="d-sub">সম্পন্ন!</div>
+      <div class="done-stats">
+        <div class="dst"><div class="dv" id="d-xp">0</div><div class="dl">XP</div></div>
+        <div class="dst"><div class="dv" id="d-words">0</div><div class="dl bn">শব্দ</div></div>
+        <div class="dst"><div class="dv" id="d-score">0%</div><div class="dl">Score</div></div>
+      </div>
+      <div class="recap"><h3 class="bn">এই পাঠের শব্দ</h3><div id="d-recap"></div></div>
+      <div class="next-ch-box" id="d-next-box" style="display:none">
+        <h4 id="d-next-label">পরবর্তী 👀</h4>
+        <p id="d-next-text"></p>
+      </div>
+      <div class="done-btns">
+        <button class="rst" onclick="repeatLesson()">🔄 আবার করুন</button>
+        <button class="nxt-btn" id="d-next-btn" onclick="gotoNext()" style="display:none">পরবর্তী →</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<!-- STEP 2: JS ENGINE GOES HERE -->
+
+<script>
+// ═══════════════════════════════════════════════
+// CURRICULUM STRUCTURE
+// ═══════════════════════════════════════════════
+var CURRICULUM = [
+  {id:'C1',name:'Primera Conexión',bn:'প্রথম সংযোগ',color:'#c0392b',
+   lessons:[
+    {id:'C1L1',icon:'🔤',name:'Alfabeto y Pronunciación',bn:'বর্ণমালা ও উচ্চারণ'},
+    {id:'C1L2',icon:'👋',name:'Saludos y Despedidas',bn:'অভিবাদন ও বিদায়'},
+    {id:'C1L3',icon:'🗣',name:'Presentación Personal',bn:'নিজের পরিচয়'},
+    {id:'C1L4',icon:'❓',name:'Palabras de Pregunta',bn:'প্রশ্নবোধক শব্দ'},
+    {id:'C1L5',icon:'🔢',name:'Números 1–100',bn:'সংখ্যা ১–১০০'}
+  ]},
+  {id:'C2',name:'Identidad',bn:'পরিচয়',color:'#c8860a',
+   lessons:[
+    {id:'C2L1',icon:'🏷',name:'Género y Artículos',bn:'লিঙ্গ ও আর্টিকেল'},
+    {id:'C2L2',icon:'⚖️',name:'Verb SER',bn:'স্থায়ী "হওয়া"'},
+    {id:'C2L3',icon:'🌍',name:'Nacionalidades',bn:'জাতীয়তা ও দেশ'},
+    {id:'C2L4',icon:'📏',name:'Adjetivos Descriptivos',bn:'বর্ণনামূলক বিশেষণ'},
+    {id:'C2L5',icon:'💼',name:'Profesiones',bn:'পেশা ও কাজ'},
+    {id:'C2L6',icon:'👥',name:'Pronombres Personales',bn:'ব্যক্তিবাচক সর্বনাম'}
+  ]},
+  {id:'C3',name:'Mi Mundo',bn:'আমার জগৎ',color:'#2d6a4f',
+   lessons:[
+    {id:'C3L1',icon:'⚖️',name:'Verb ESTAR',bn:'অস্থায়ী "থাকা"'},
+    {id:'C3L2',icon:'🆚',name:'SER vs ESTAR',bn:'গুরুত্বপূর্ণ পার্থক্য'},
+    {id:'C3L3',icon:'❗',name:'HAY vs ESTÁ/ESTÁN',bn:'"আছে" বনাম "কোথায় আছে"'},
+    {id:'C3L4',icon:'👨‍👩‍👧',name:'La Familia',bn:'পরিবার'},
+    {id:'C3L5',icon:'👆',name:'Adjetivos Posesivos',bn:'অধিকারবাচক বিশেষণ'},
+    {id:'C3L6',icon:'📍',name:'Preposiciones de Lugar',bn:'স্থানবাচক অনুসর্গ'}
+  ]},
+  {id:'C4',name:'El Tiempo',bn:'সময়',color:'#1a4a7a',
+   lessons:[
+    {id:'C4L1',icon:'💯',name:'Números 100–1000',bn:'সংখ্যা ১০০–১০০০'},
+    {id:'C4L2',icon:'🕐',name:'La Hora',bn:'সময় বলা'},
+    {id:'C4L3',icon:'📅',name:'Días de la Semana',bn:'সপ্তাহের দিন'},
+    {id:'C4L4',icon:'🗓',name:'Meses y Estaciones',bn:'মাস ও ঋতু'},
+    {id:'C4L5',icon:'📆',name:'Las Fechas',bn:'তারিখ বলা'},
+    {id:'C4L6',icon:'⏰',name:'Expresiones de Tiempo',bn:'সময়ের প্রকাশ'}
+  ]},
+  {id:'C5',name:'La Vida Cotidiana',bn:'দৈনন্দিন জীবন',color:'#6a1a7a',
+   lessons:[
+    {id:'C5L1',icon:'🗣',name:'Verbos Regulares -AR',bn:'-AR নিয়মিত ক্রিয়া'},
+    {id:'C5L2',icon:'🍽',name:'Verbos -ER / -IR',bn:'-ER/-IR নিয়মিত ক্রিয়া'},
+    {id:'C5L3',icon:'🪥',name:'Verbos Reflexivos',bn:'প্রতিফলনমূলক ক্রিয়া'},
+    {id:'C5L4',icon:'🌄',name:'La Rutina Diaria',bn:'দৈনন্দিন রুটিন'},
+    {id:'C5L5',icon:'⚡',name:'Verbos Irregulares',bn:'অনিয়মিত ক্রিয়া'},
+    {id:'C5L6',icon:'🔁',name:'Frecuencia',bn:'নিয়মিততার প্রকাশ'}
+  ]},
+  {id:'C6',name:'El Entorno',bn:'পরিবেশ',color:'#7a4a1a',
+   lessons:[
+    {id:'C6L1',icon:'🏠',name:'La Casa y Muebles',bn:'বাড়ি ও আসবাব'},
+    {id:'C6L2',icon:'🏙',name:'La Ciudad',bn:'শহর'},
+    {id:'C6L3',icon:'🗺',name:'Dar Direcciones',bn:'দিকনির্দেশনা'},
+    {id:'C6L4',icon:'🌦',name:'El Tiempo Atmosférico',bn:'আবহাওয়া'},
+    {id:'C6L5',icon:'🎨',name:'Colores y Tamaño',bn:'রং ও আকার'},
+    {id:'C6L6',icon:'🫀',name:'El Cuerpo Humano',bn:'মানবদেহ'}
+  ]},
+  {id:'C7',name:'Interacciones',bn:'বাস্তব মিথস্ক্রিয়া',color:'#1a5a6a',
+   lessons:[
+    {id:'C7L1',icon:'🍽',name:'La Comida y Bebida',bn:'খাবার ও পানীয়'},
+    {id:'C7L2',icon:'🍷',name:'En el Restaurante',bn:'রেস্তোরাঁয়'},
+    {id:'C7L3',icon:'🛒',name:'De Compras',bn:'কেনাকাটা'},
+    {id:'C7L4',icon:'🚌',name:'El Transporte',bn:'পরিবহন'},
+    {id:'C7L5',icon:'💪',name:'Verbos Modales',bn:'সহায়ক ক্রিয়া'},
+    {id:'C7L6',icon:'❤️',name:'Gustar y Similares',bn:'পছন্দ প্রকাশ'}
+  ]},
+  {id:'C8',name:'Gramática Final',bn:'চূড়ান্ত ব্যাকরণ',color:'#3a3a6a',
+   lessons:[
+    {id:'C8L1',icon:'🚫',name:'La Negación',bn:'নেতিবাচক বাক্য'},
+    {id:'C8L2',icon:'👆',name:'Demostrativos',bn:'নির্দেশক বিশেষণ'},
+    {id:'C8L3',icon:'🔮',name:'Futuro Próximo',bn:'নিকট ভবিষ্যৎ'},
+    {id:'C8L4',icon:'⏮',name:'El Pretérito Indefinido',bn:'সরল অতীত কাল'},
+    {id:'C8L5',icon:'🔗',name:'Conectores y Frases',bn:'সংযোজক ও জটিল বাক্য'},
+    {id:'C8L6',icon:'📊',name:'Muy, Mucho y Adverbios',bn:'তীব্রতাবাচক ও ক্রিয়াবিশেষণ'}
+  ]}
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+var LDATA = {};          // filled by Steps 3-5
+var curCh  = null;
+var curLid = null;
+var curPhase = 'v';
+var sbOpen = true;
+var xp = 0;
+var timerSecs = 600;
+var timerInt  = null;
+var lessonState = {};    // keyed by lid
+var activeQuiz  = null;  // {questions:[], idx:0, score:0, results:[], isReview:false}
+
+function getLState(lid) {
+  if (!lessonState[lid]) {
+    var ld = LDATA[lid];
+    var fl = ld && ld.fitb  ? ld.fitb.length  : 1;
+    var sl = ld && ld.speak ? ld.speak.length : 1;
+    var fc = [], sa = [];
+    for (var i=0;i<fl;i++){fc.push(false);}
+    for (var j=0;j<sl;j++){sa.push(false);}
+    lessonState[lid] = {
+      fitbChecked:fc, fitbCorrect:0, fitbResults:[],
+      spAttempted:sa, spCorrect:0,   spResults:[],
+      qzIdx:0, qzScore:0, qzResults:[], done:false
+    };
+  }
+  return lessonState[lid];
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+function init() {
+  buildSidebar();
+  buildHomeGrid();
+  startTimer();
+  if (window.innerWidth <= 600) {
+    sbOpen = false;
+    document.getElementById('sb').classList.add('off');
+    document.getElementById('lay').style.marginLeft = '0';
+  }
+}
+
+// ═══════════════════════════════════════════════
+// SIDEBAR
+// ═══════════════════════════════════════════════
+function buildSidebar() {
+  var html = '';
+  CURRICULUM.forEach(function(ch, ci) {
+    html += '<div class="sb-ch-header" id="sbh-'+ch.id+'" data-chid="'+ch.id+'" onclick="toggleSBCh(this.getAttribute(\'data-chid\'))">'; 
+    html += '<span class="sb-ch-badge" style="background:'+ch.color+'">'+(ci+1)+'</span>';
+    html += '<span class="sb-ch-name">'+ch.name+'</span>';
+    html += '<span class="sb-ch-arrow">▶</span></div>';
+    html += '<div class="sb-progress"><div class="sb-progress-fill" id="sbp-'+ch.id+'" style="width:0%"></div></div>';
+    html += '<div class="sb-lessons" id="sbl-'+ch.id+'">';
+    ch.lessons.forEach(function(l) {
+    html += '<div class="sb-item" id="sbi-'+l.id+'" data-chid="'+ch.id+'" data-lid="'+l.id+'" onclick="openLesson(this.getAttribute(\'data-chid\'),this.getAttribute(\'data-lid\'))">';
+
+      html += '<span class="sb-icon">'+l.icon+'</span>';
+      html += '<div><div>'+l.name+'</div><div class="sb-sub">'+l.bn+'</div></div></div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('sb-chapters').innerHTML = html;
+  // open C1 by default
+  openSBCh('C1');
+}
+
+function openSBCh(chId) {
+  var h = document.getElementById('sbh-'+chId);
+  var l = document.getElementById('sbl-'+chId);
+  if (h && l) { h.classList.add('open'); l.style.display = 'block'; }
+}
+
+function toggleSBCh(chId) {
+  var h = document.getElementById('sbh-'+chId);
+  var l = document.getElementById('sbl-'+chId);
+  if (!h || !l) { return; }
+  var isOpen = h.classList.contains('open');
+  h.classList.toggle('open');
+  l.style.display = isOpen ? 'none' : 'block';
+}
+
+function toggleSB() {
+  sbOpen = !sbOpen;
+  var sb  = document.getElementById('sb');
+  var lay = document.getElementById('lay');
+  if (sbOpen) {
+    sb.classList.remove('off');
+    if (window.innerWidth > 600) { lay.style.marginLeft = ''; }
+    else { sb.classList.add('mob-open'); }
+  } else {
+    sb.classList.add('off');
+    sb.classList.remove('mob-open');
+    lay.style.marginLeft = '0';
+  }
+}
+
+function updateSBItem(lid) {
+  var el = document.getElementById('sbi-'+lid);
+  if (!el) { return; }
+  var st = getLState(lid);
+  el.className = 'sb-item' + (st.done ? ' done' : (lid===curLid ? ' active' : ''));
+  var sub = el.querySelector('.sb-sub');
+  if (sub) { sub.className = 'sb-sub' + (st.done ? ' done' : ''); }
+}
+
+function updateSBProgress(chId) {
+  var ch = getCh(chId);
+  if (!ch) { return; }
+  var done = 0;
+  ch.lessons.forEach(function(l){ if (getLState(l.id).done) { done++; } });
+  var el = document.getElementById('sbp-'+chId);
+  if (el) { el.style.width = Math.round(done/ch.lessons.length*100)+'%'; }
+}
+
+// ═══════════════════════════════════════════════
+// HOME
+// ═══════════════════════════════════════════════
+function buildHomeGrid() {
+  var html = '';
+  CURRICULUM.forEach(function(ch, ci) {
+    html += '<div class="ch-card" data-chid="'+ch.id+'" onclick="openChapter(this.getAttribute(\'data-chid\'))" id="chcard-'+ch.id+'">';
+    html += '<div class="ch-num" style="color:'+ch.color+'">Chapter '+(ci+1)+'</div>';
+    html += '<div class="ch-name">'+ch.name+'</div>';
+    html += '<div class="ch-name-bn bn">'+ch.bn+'</div>';
+    html += '<div class="ch-bar"><div class="ch-bar-fill" id="chbar-'+ch.id+'" style="width:0%;background:'+ch.color+'"></div></div>';
+    html += '<div class="ch-stat" id="chstat-'+ch.id+'">0/'+ch.lessons.length+' lessons</div></div>';
+  });
+  document.getElementById('ch-grid').innerHTML = html;
+}
+
+function refreshHome() {
+  var total = 0, done = 0;
+  CURRICULUM.forEach(function(ch) {
+    var d = 0;
+    ch.lessons.forEach(function(l){ if(getLState(l.id).done){d++;done++;} });
+    total += ch.lessons.length;
+    var pct = Math.round(d/ch.lessons.length*100);
+    var bar  = document.getElementById('chbar-'+ch.id);
+    var stat = document.getElementById('chstat-'+ch.id);
+    var card = document.getElementById('chcard-'+ch.id);
+    if (bar)  { bar.style.width = pct+'%'; }
+    if (stat) { stat.textContent = d+'/'+ch.lessons.length+' lessons'; }
+    if (card) { card.className = 'ch-card'+(pct===100?' done-ch':''); }
+  });
+  var pct = total>0 ? Math.round(done/total*100) : 0;
+  var fill = document.getElementById('overall-fill');
+  var pctEl = document.getElementById('overall-pct');
+  if (fill)  { fill.style.width = pct+'%'; }
+  if (pctEl) { pctEl.textContent = pct+'%'; }
+  var lvls = [
+    {min:0,lbl:'🌱 Principiante'},{min:15,lbl:'📚 Aprendiz'},
+    {min:30,lbl:'✏️ Estudiante'},{min:50,lbl:'⚡ Progresando'},
+    {min:70,lbl:'🔥 Hablante'},{min:90,lbl:'🏆 Avanzado'},{min:100,lbl:'🌟 Experto'}
+  ];
+  var lbl = lvls[0].lbl;
+  lvls.forEach(function(l){ if(pct>=l.min){lbl=l.lbl;} });
+  var lb = document.getElementById('level-badge');
+  if (lb) { lb.textContent = lbl; }
+}
+
+function goHome() {
+  curLid = null; curCh = null;
+  showPage('pg-home');
+  document.getElementById('lnav').style.display = 'none';
+  document.getElementById('tabs').style.display = 'none';
+  document.getElementById('nav-title').textContent = 'Español A1 Complete 🇪🇸';
+  refreshHome();
+  if (window.innerWidth <= 600 && sbOpen) { toggleSB(); }
+}
+
+function openChapter(chId) {
+  var ch = getCh(chId);
+  if (!ch) { return; }
+  openSBCh(chId);
+  // find first undone lesson
+  var target = ch.lessons[0].id;
+  for (var i=0; i<ch.lessons.length; i++) {
+    if (!getLState(ch.lessons[i].id).done) { target = ch.lessons[i].id; break; }
+  }
+  openLesson(chId, target);
+}
+
+// ═══════════════════════════════════════════════
+// LESSON NAVIGATION
+// ═══════════════════════════════════════════════
+function openLesson(chId, lid) {
+  if (!LDATA[lid]) { showToast('পাঠটি শীঘ্রই আসছে! 🚧'); return; }
+  curCh = chId; curLid = lid; curPhase = 'v';
+  var li = getLessonInfo(lid);
+  document.getElementById('nav-title').textContent = li ? li.icon+' '+li.name : lid;
+  buildPills(chId);
+  document.getElementById('lnav').style.display = 'flex';
+  document.getElementById('tabs').style.display = 'flex';
+  var rBtn = document.getElementById('lpR');
+  if (rBtn) { rBtn.style.display = 'inline-block'; }
+  renderPhase('v');
+  updateAllSBItems();
+  updateSBProgress(chId);
+  if (window.innerWidth <= 600 && sbOpen) { toggleSB(); }
+}
+
+function buildPills(chId) {
+  var ch = getCh(chId);
+  if (!ch) { return; }
+  var html = '';
+  ch.lessons.forEach(function(l, i) {
+    var st = getLState(l.id);
+    var cls = 'lpill'+(l.id===curLid?' on':st.done?' done':'');
+    html += '<button class="'+cls+'" id="lp-'+l.id+'" onclick="openLesson(\''+ch.id+'\',\''+l.id+'\')">'+
+            'L'+(i+1)+' '+l.icon+'</button>';
+  });
+  document.getElementById('lpills').innerHTML = html;
+}
+
+function refreshPills() {
+  if (!curCh) { return; }
+  var ch = getCh(curCh);
+  if (!ch) { return; }
+  ch.lessons.forEach(function(l) {
+    var el = document.getElementById('lp-'+l.id);
+    if (!el) { return; }
+    var st = getLState(l.id);
+    el.className = 'lpill'+(l.id===curLid?' on':st.done?' done':'');
+  });
+}
+
+function updateAllSBItems() {
+  CURRICULUM.forEach(function(ch){ ch.lessons.forEach(function(l){ updateSBItem(l.id); }); });
+}
+
+function openReview() {
+  if (!curCh) { return; }
+  renderReview(curCh);
+}
+
+// ═══════════════════════════════════════════════
+// PHASE RENDERING
+// ═══════════════════════════════════════════════
+function goPhase(ph) {
+  curPhase = ph;
+  renderPhase(ph);
+  updateTabs(ph);
+  window.scrollTo(0,0);
+}
+
+function updateTabs(ph) {
+  var order = ['v','w','s','q'];
+  var ci = order.indexOf(ph);
+  order.forEach(function(p, i) {
+    var t = document.getElementById('tab-'+p);
+    if (!t) { return; }
+    t.className = 'tab'+(i<ci?' done':i===ci?' on':'');
+  });
+}
+
+function renderPhase(ph) {
+  var ld = LDATA[curLid];
+  if (!ld) { return; }
+  if (ph === 'q') { startLessonQuiz(); return; }
+  showPage('pg-lesson');
+  var c = document.getElementById('lesson-content');
+  if      (ph==='v') { c.innerHTML = buildVocabHTML(ld); }
+  else if (ph==='w') { c.innerHTML = buildFitbHTML(ld);  attachFitbEvents(); }
+  else if (ph==='s') { c.innerHTML = buildSpeakHTML(ld); attachSpeakEvents(); }
+  updateTabs(ph);
+}
+
+// ── VOCAB ──
+function buildVocabHTML(ld) {
+  var li  = getLessonInfo(curLid);
+  var chn = curLid.replace('C','').split('L')[0];
+  var lnn = curLid.split('L')[1];
+  var h = '<div class="wrap">';
+  h += '<div class="cult" data-word="'+esc(ld.cult.word)+'">';
+  h += '<div class="cult-flag">'+ld.cult.flag+'</div><div>';
+  h += '<div class="cult-bn bn">'+ld.cult.bn+'</div>';
+  h += '<div class="cult-en">'+ld.cult.en+'</div></div></div>';
+  h += '<div class="sh"><span class="sh-tag">Ch'+chn+' · L'+lnn+'</span>';
+  if (li) { h += '<div><div class="sh-title">'+li.name+'</div><div class="sh-bn bn">'+li.bn+'</div></div>'; }
+  h += '</div>';
+  if (ld.gram) {
+    h += '<div class="gram"><div class="gram-title">'+ld.gram.title+'</div>';
+    h += '<div class="gram-en">'+ld.gram.en+'</div>';
+    h += '<div class="gram-bn bn">'+ld.gram.bn+'</div></div>';
+  }
+  h += '<div class="vg">';
+  ld.vocab.forEach(function(v) {
+    var e = esc(v.es);
+    h += '<div class="vc" data-es="'+e+'" onclick="playAudio(this.getAttribute(\'data-es\'))">'; 
+    h += '<div class="ve">'+v.em+'</div>';
+    h += '<div class="ves">'+v.es+'</div>';
+    h += '<div class="ven">'+v.en+'</div>';
+    h += '<div class="vbn bn">'+v.bn+'</div>';
+    h += '<button class="ab" onclick="event.stopPropagation();playAudio(this.parentNode.getAttribute(\'data-es\'))">🔊</button>';
+    h += '</div>';
+  });
+  h += '</div>';
+  if (ld.mnems && ld.mnems.length) {
+    h += '<div class="mn"><div class="mn-title">🧠 মনে রাখার কৌশল</div>';
+    ld.mnems.forEach(function(m) {
+      h += '<div class="mn-row"><span class="mn-bn">'+m.bn+'</span><span class="mn-en">'+m.en+'</span></div>';
+    });
+    h += '</div>';
+  }
+  h += '<button class="go" onclick="goPhase(&quot;w&quot;)">পরবর্তী → Fill-in-Blank ✏️</button>';
+  h += '</div>';
+  return h;
+}
+
+// ── FILL-IN-BLANK ──
+function buildFitbHTML(ld) {
+  var chn = curLid.replace('C','').split('L')[0];
+  var lnn = curLid.split('L')[1];
+  var st  = getLState(curLid);
+  var h = '<div class="wrap">';
+  h += '<div class="sh"><span class="sh-tag">Ch'+chn+' · L'+lnn+' · Fill-in</span>';
+  h += '<div class="sh-title">শূন্যস্থান পূরণ</div></div>';
+  ld.fitb.forEach(function(q, i) {
+    var checked = st.fitbChecked[i];
+    var ok      = st.fitbResults[i];
+    h += '<div class="fc'+(checked?(ok?' ok':' bad'):'') +'" id="fc'+i+'">';
+    h += '<div class="fq"><span class="bn" style="font-size:15px;font-weight:700">'+(i+1)+'. '+q.hint+'</span>'
+         + '<div style="font-size:11.5px;color:var(--muted);margin-top:3px">'+q.q+'</div></div>';
+    h += '<div class="fr">';
+    h += '<input class="fi'+(checked?(ok?' ok':' bad'):'') +'" id="fi'+i+'" type="text" '
+       + 'placeholder="লিখুন..." data-i="'+i+'"'+(checked?' disabled':'')+' value="'+(checked?q.blank:'')+'">';
+    h += '<button class="ck" data-i="'+i+'">Check ✓</button>';
+    h += '</div>';
+    h += '<div class="fhint bn">'+q.hint+'</div>';
+    h += '<div class="ffb" id="ff'+i+'">';
+    if (checked) {
+      h += ok ? '<span style="color:var(--green)">✅ সঠিক! '+q.blank+'</span>'
+              : '<span style="color:var(--red)">❌ সঠিক: '+q.blank+'</span>';
+    }
+    h += '</div></div>';
+  });
+  h += '<div class="score-strip"><span class="bn">স্কোর</span>';
+  h += '<span class="sv" id="fitb-score">'+st.fitbCorrect+'/'+ld.fitb.length+'</span></div>';
+  h += '<button class="go" style="margin-top:12px" onclick="goPhase(&quot;s&quot;)">পরবর্তী → Speaking 🎤</button>';
+  h += '</div>';
+  return h;
+}
+
+function attachFitbEvents() {
+  document.querySelectorAll('.fi').forEach(function(inp) {
+    inp.addEventListener('keydown', function(e) {
+      if (e.key==='Enter') { checkFitb(parseInt(this.getAttribute('data-i'))); }
+    });
+  });
+  document.querySelectorAll('.ck').forEach(function(btn) {
+    btn.addEventListener('click', function() { checkFitb(parseInt(this.getAttribute('data-i'))); });
+  });
+}
+
+function checkFitb(i) {
+  var st = getLState(curLid);
+  if (st.fitbChecked[i]) { return; }
+  var ld  = LDATA[curLid];
+  var q   = ld.fitb[i];
+  var val = (document.getElementById('fi'+i).value||'').trim().toLowerCase();
+  var ok  = false;
+  q.accept.forEach(function(a){ if (val===a.toLowerCase()) { ok=true; } });
+  st.fitbChecked[i] = true;
+  st.fitbResults[i] = ok;
+  var inp  = document.getElementById('fi'+i);
+  var card = document.getElementById('fc'+i);
+  var fb   = document.getElementById('ff'+i);
+  inp.disabled = true;
+  inp.className  = 'fi'+(ok?' ok':' bad');
+  card.className = 'fc'+(ok?' ok':' bad');
+  fb.innerHTML   = ok
+    ? '<span style="color:var(--green)">✅ সঠিক! '+q.blank+'</span>'
+    : '<span style="color:var(--red)">❌ সঠিক: '+q.blank+'</span>';
+  if (ok) { st.fitbCorrect++; addXP(10); }
+  var sc = document.getElementById('fitb-score');
+  if (sc) { sc.textContent = st.fitbCorrect+'/'+ld.fitb.length; }
+}
+
+// ── SPEAKING ──
+function buildSpeakHTML(ld) {
+  var chn = curLid.replace('C','').split('L')[0];
+  var lnn = curLid.split('L')[1];
+  var st  = getLState(curLid);
+  var h = '<div class="wrap">';
+  h += '<div class="sh"><span class="sh-tag">Ch'+chn+' · L'+lnn+' · Speaking</span>';
+  h += '<div class="sh-title">Speaking Test 🎤</div></div>';
+  h += '<div class="sp-tip"><span class="sp-tip-bn bn">🔊 আগে শুনুন → তারপর 🎤 বলুন। Chrome/Edge-এ সবচেয়ে ভালো।</span></div>';
+  ld.speak.forEach(function(s, i) {
+    var e = esc(s.es);
+    h += '<div class="spc" style="cursor:pointer" data-es="'+e+'" onclick="playAudio(this.getAttribute(\'data-es\'))">';
+    h += '<div class="sp-num">বাক্য '+(i+1)+'/'+ld.speak.length+'</div>';
+    h += '<div class="sp-es">'+s.es+'</div>';
+    h += '<div class="sp-ph">('+s.h+')</div>';
+    h += '<div class="sp-en">'+s.en+'</div>';
+    h += '<div class="sp-bn bn">'+s.bn+'</div>';
+    h += '<div class="sp-btns">';
+    h += '<button class="spb li" data-es="'+e+'">🔊 শুনুন</button>';
+    h += '<button class="spb sp" id="spmb'+i+'" data-i="'+i+'">🎤 বলুন</button>';
+    h += '</div>';
+    var res = st.spResults[i];
+    var resCls = res===true?'pass':res===false?'fail':'';
+    var resTxt = res===true?'✅ দারুণ!':res===false?'❌ আবার চেষ্টা!':'';
+    h += '<div class="sp-res'+( resCls?' '+resCls:'')+'" id="spr'+i+'">'+resTxt+'</div>';
+    h += '</div>';
+  });
+  h += '<div class="score-strip"><span class="bn">Speaking স্কোর</span>';
+  h += '<span class="sv" id="sp-score">'+st.spCorrect+'/'+ld.speak.length+'</span></div>';
+  h += '<button class="go" style="margin-top:12px" onclick="goPhase(&quot;q&quot;)">পরবর্তী → Quiz 📝</button>';
+  h += '</div>';
+  return h;
+}
+
+function attachSpeakEvents() {
+  document.querySelectorAll('.spb.li').forEach(function(btn) {
+    btn.addEventListener('click', function() { playAudio(btn.getAttribute('data-es')); });
+  });
+  document.querySelectorAll('.spb.sp').forEach(function(btn) {
+    btn.addEventListener('click', function() { doSpeech(parseInt(btn.getAttribute('data-i'))); });
+  });
+}
+
+function doSpeech(i) {
+  var RC = window.webkitSpeechRecognition || window.SpeechRecognition || null;
+  var res = document.getElementById('spr'+i);
+  if (!RC) {
+    res.className='sp-res fail'; res.textContent='⚠️ Chrome/Edge browser ব্যবহার করুন।'; return;
+  }
+  var rec = new RC();
+  rec.lang='es-ES'; rec.interimResults=false; rec.maxAlternatives=3;
+  var btn = document.getElementById('spmb'+i);
+  if (btn) { btn.className='spb rec'; btn.textContent='⏺ শুনছি...'; }
+  rec.onresult = function(e) {
+    var heard = '';
+    for (var j=0;j<e.results[0].length;j++){heard+=e.results[0][j].transcript+' ';}
+    heard = heard.trim().toLowerCase();
+    var ld  = LDATA[curLid];
+    var tgt = ld.speak[i].es.toLowerCase().replace(/[¿¡.,]/g,'');
+    var ok  = simScore(heard, tgt) >= 0.5;
+    var st  = getLState(curLid);
+    if (ok && !st.spAttempted[i]) { st.spCorrect++; addXP(10); }
+    st.spAttempted[i] = true;
+    st.spResults[i]   = ok;
+    res.className = 'sp-res '+(ok?'pass':'fail');
+    res.textContent = ok ? '✅ দারুণ! শুনলাম: "'+heard+'"'
+                         : '❌ শুনলাম: "'+heard+'" — আবার চেষ্টা! সঠিক: '+ld.speak[i].es;
+    var sc = document.getElementById('sp-score');
+    if (sc) { sc.textContent = st.spCorrect+'/'+ld.speak.length; }
+    if (btn) { btn.className='spb sp'; btn.textContent='🎤 আবার বলুন'; }
+    // Auto-play correct pronunciation after attempt
+    setTimeout(function() { playAudio(ld.speak[i].es); }, 600);
+  };
+  rec.onerror = function(err) {
+    if (res) { res.className='sp-res fail'; res.textContent='⚠️ শুনতে পাইনি ('+err.error+')'; }
+    if (btn) { btn.className='spb sp'; btn.textContent='🎤 বলুন'; }
+  };
+  rec.onend = function() { if(btn&&btn.textContent==='⏺ শুনছি...'){btn.className='spb sp';btn.textContent='🎤 বলুন';} };
+  rec.start();
+}
+
+function simScore(a,b) {
+  a=a.replace(/[^a-záéíóúüñ ]/gi,'').trim();
+  b=b.replace(/[^a-záéíóúüñ ]/gi,'').trim();
+  if (a===b) { return 1; }
+  var aw=a.split(' '),bw=b.split(' '),m=0;
+  aw.forEach(function(w){ if(w.length<2){return;} bw.forEach(function(x){ if(w===x){m++;} }); });
+  return m/Math.max(aw.length,bw.length,1);
+}
+
+// ═══════════════════════════════════════════════
+// QUIZ ENGINE
+// ═══════════════════════════════════════════════
+function startLessonQuiz() {
+  var ld = LDATA[curLid];
+  if (!ld || !ld.quiz) { return; }
+  var st = getLState(curLid);
+  // reset if already done so user can replay
+  if (st.qzIdx >= ld.quiz.length) {
+    st.qzIdx=0; st.qzScore=0; st.qzResults=[];
+  }
+  activeQuiz = {questions:ld.quiz, idx:st.qzIdx, score:st.qzScore, results:st.qzResults, isReview:false, lid:curLid};
+  renderQuizPage();
+}
+
+function renderReview(chId) {
+  var ch = getCh(chId);
+  if (!ch) { return; }
+  showPage('pg-review');
+  document.getElementById('tabs').style.display = 'none';
+  var chn = chId.replace('C','');
+  var h = '<div class="wrap">';
+  h += '<div class="sh"><span class="sh-tag">Ch'+chn+' · Review</span>';
+  h += '<div><div class="sh-title">'+ch.name+' — সব শব্দ</div>';
+  h += '<div class="sh-bn bn">All vocabulary — click to hear 🔊</div></div></div>';
+  ch.lessons.forEach(function(l) {
+    var ld = LDATA[l.id];
+    if (!ld) { return; }
+    h += '<div class="rev-section"><h3>'+l.icon+' '+l.name+'</h3>';
+    ld.vocab.forEach(function(v) {
+      var e = esc(v.es);
+      h += '<div class="rev-item" data-es="'+e+'" onclick="playAudio(this.getAttribute(\'data-es\'))">';
+      h += '<div class="rev-em">'+v.em+'</div>';
+      h += '<div class="rev-es">'+v.es+'</div>';
+      h += '<div class="rev-en">'+v.en+'</div>';
+      h += '<div class="rev-bn bn">'+v.bn+'</div></div>';
+    });
+    h += '</div>';
+  });
+  h += '<button class="go" data-chid="'+chId+'" onclick="startChapterQuiz(this.getAttribute(\'data-chid\'))">🎯 Chapter Quiz শুরু করুন →</button>';
+  h += '</div>';
+  document.getElementById('review-content').innerHTML = h;
+}
+
+function startChapterQuiz(chId) {
+  var ch = getCh(chId);
+  if (!ch) { return; }
+  var allQ = [];
+  ch.lessons.forEach(function(l){ var ld=LDATA[l.id]; if(ld&&ld.quiz){ld.quiz.forEach(function(q){allQ.push(q);});} });
+  // shuffle
+  for (var i=allQ.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1)); var tmp=allQ[i]; allQ[i]=allQ[j]; allQ[j]=tmp;
+  }
+  allQ = allQ.slice(0, Math.min(15, allQ.length));
+  activeQuiz = {questions:allQ, idx:0, score:0, results:[], isReview:true, chId:chId};
+  renderQuizPage();
+}
+
+function renderQuizPage() {
+  var aq = activeQuiz;
+  if (aq.idx >= aq.questions.length) { finishQuiz(); return; }
+  showPage('pg-quiz');
+  // dots
+  var dh='';
+  aq.questions.forEach(function(q,i){ dh+='<div class="qd" id="qdot'+i+'"></div>'; });
+  document.getElementById('qz-dots').innerHTML = dh;
+  renderQCard();
+}
+
+function renderQCard() {
+  var aq = activeQuiz;
+  if (aq.idx >= aq.questions.length) { finishQuiz(); return; }
+  // update dots
+  aq.questions.forEach(function(q,i){
+    var d=document.getElementById('qdot'+i);
+    if(!d){return;}
+    d.className='qd'+(i<aq.idx?(aq.results[i]?' ok':' bad'):i===aq.idx?' on':'');
+  });
+  var q  = aq.questions[aq.idx];
+  var oh = '';
+  q.o.forEach(function(opt,j){ oh+='<button class="qo" data-j="'+j+'">'+opt+'</button>'; });
+  var label = aq.isReview ? 'Ch Quiz ' : 'প্রশ্ন ';
+  document.getElementById('qcard').innerHTML =
+    '<div class="qn">'+label+(aq.idx+1)+' / '+aq.questions.length+'</div>'+
+    '<div class="qq bn">'+q.q+'</div>'+
+    '<div class="qopts">'+oh+'</div>'+
+    '<div class="qfb" id="qfb"></div>'+
+    '<button class="qnxt" id="qnxt">পরবর্তী →</button>';
+  document.getElementById('qcard').querySelectorAll('.qo').forEach(function(btn){
+    btn.addEventListener('click', function(){ answerQ(parseInt(btn.getAttribute('data-j'))); });
+  });
+  document.getElementById('qnxt').addEventListener('click', function(){
+    aq.idx++; renderQCard();
+  });
+}
+
+function answerQ(chosen) {
+  var aq = activeQuiz;
+  var q  = aq.questions[aq.idx];
+  var ok = (chosen===q.a);
+  document.getElementById('qcard').querySelectorAll('.qo').forEach(function(btn,i){
+    btn.disabled=true;
+    if(i===q.a){btn.className='qo ok';}
+    else if(i===chosen&&!ok){btn.className='qo bad';}
+  });
+  var fb=document.getElementById('qfb');
+  fb.className='qfb '+(ok?'ok':'bad')+' show';
+  fb.textContent = ok ? '✅ সঠিক! '+q.f : '❌ ভুল! সঠিক: '+q.o[q.a]+' — '+q.f;
+  if (ok) { aq.score++; addXP(10); }
+  aq.results.push(ok);
+  // sync lesson state if not review
+  if (!aq.isReview && aq.lid) {
+    var st = getLState(aq.lid);
+    st.qzIdx = aq.idx; st.qzScore = aq.score; st.qzResults = aq.results;
+  }
+  var nb=document.getElementById('qnxt');
+  if(nb){nb.className='qnxt show';}
+}
+
+function finishQuiz() {
+  var aq  = activeQuiz;
+  var pct = Math.round(aq.score/aq.questions.length*100);
+  var medal = pct>=90?'🥇':pct>=70?'🥈':pct>=50?'🥉':'📚';
+  var title = pct>=90?'¡Perfecto!':pct>=70?'¡Muy bien!':pct>=50?'¡Bien!':'Sigue intentando!';
+  var sub   = pct>=70?'দারুণ! পরবর্তী পাঠে যান!':'আরেকবার চেষ্টা করুন!';
+  // if lesson quiz, mark done
+  if (!aq.isReview && aq.lid) {
+    var st = getLState(aq.lid);
+    st.done=true;
+    updateAllSBItems();
+    updateSBProgress(curCh);
+    refreshPills();
+    refreshHome();
+  }
+  document.getElementById('d-medal').textContent = medal;
+  document.getElementById('d-title').textContent = title;
+  document.getElementById('d-sub').textContent   = sub;
+  document.getElementById('d-xp').textContent    = xp;
+  // vocab recap
+  var rh='';
+  var lid = aq.isReview ? null : aq.lid;
+  if (lid && LDATA[lid]) {
+    LDATA[lid].vocab.forEach(function(v){
+      rh+='<div class="rrow"><span class="res">'+v.em+' '+v.es+'</span>';
+      rh+='<span class="ren">'+v.en+'</span>';
+      rh+='<span class="rbn bn">'+v.bn+'</span></div>';
+    });
+    document.getElementById('d-words').textContent = LDATA[lid].vocab.length;
+  } else {
+    rh='<div class="bn" style="color:var(--muted);text-align:center;padding:16px">Chapter review সম্পন্ন! 🎉</div>';
+    document.getElementById('d-words').textContent = aq.questions.length;
+  }
+  document.getElementById('d-recap').innerHTML = rh;
+  document.getElementById('d-score').textContent = pct+'%';
+  // next lesson button
+  var nextInfo = lid ? getNextLesson(lid) : null;
+  var nBox = document.getElementById('d-next-box');
+  var nBtn = document.getElementById('d-next-btn');
+  var ld   = lid ? LDATA[lid] : null;
+  if (nextInfo && ld && ld.next) {
+    nBox.style.display='block';
+    document.getElementById('d-next-label').textContent='পরবর্তী 👀';
+    document.getElementById('d-next-text').textContent=ld.next;
+    nBtn.style.display='inline-block';
+    nBtn._next = nextInfo;
+  } else {
+    nBox.style.display='none'; nBtn.style.display='none';
+  }
+  document.getElementById('tabs').style.display = 'none';
+  showPage('pg-done');
+}
+
+function gotoNext() {
+  var n = document.getElementById('d-next-btn')._next;
+  if (!n) { return; }
+  document.getElementById('tabs').style.display = 'flex';
+  openLesson(n.chId, n.lid);
+}
+
+function repeatLesson() {
+  if (!curLid) { goHome(); return; }
+  var st = getLState(curLid);
+  var ld = LDATA[curLid];
+  st.fitbChecked=[]; for(var i=0;i<ld.fitb.length;i++){st.fitbChecked.push(false);}
+  st.fitbCorrect=0; st.fitbResults=[];
+  st.spAttempted=[]; for(var j=0;j<ld.speak.length;j++){st.spAttempted.push(false);}
+  st.spCorrect=0; st.spResults=[];
+  st.qzIdx=0; st.qzScore=0; st.qzResults=[];
+  document.getElementById('tabs').style.display='flex';
+  openLesson(curCh, curLid);
+}
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function getCh(chId) {
+  for (var i=0;i<CURRICULUM.length;i++){if(CURRICULUM[i].id===chId){return CURRICULUM[i];}}
+  return null;
+}
+function getLessonInfo(lid) {
+  for (var i=0;i<CURRICULUM.length;i++){
+    for (var j=0;j<CURRICULUM[i].lessons.length;j++){
+      if(CURRICULUM[i].lessons[j].id===lid){return CURRICULUM[i].lessons[j];}
+    }
+  }
+  return null;
+}
+function getNextLesson(lid) {
+  var all=[];
+  CURRICULUM.forEach(function(ch){ ch.lessons.forEach(function(l){ all.push({lid:l.id,chId:ch.id}); }); });
+  for (var i=0;i<all.length-1;i++){ if(all[i].lid===lid){return all[i+1];} }
+  return null;
+}
+function showPage(id) {
+  document.querySelectorAll('.pg').forEach(function(p){p.className='pg';});
+  var el=document.getElementById(id);
+  if(el){el.className='pg show';}
+  window.scrollTo(0,0);
+}
+function esc(s) { return (s||'').replace(/'/g, "\\'"); }
+
+// ═══════════════════════════════════════════════
+// TIMER / XP / AUDIO
+// ═══════════════════════════════════════════════
+function startTimer() {
+  timerInt = setInterval(function(){
+    timerSecs--;
+    if(timerSecs<0){timerSecs=0;clearInterval(timerInt);}
+    var m=Math.floor(timerSecs/60), s=timerSecs%60;
+    var el=document.getElementById('tc');
+    if(el){el.textContent='⏱ '+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;}
+  },1000);
+}
+function addXP(n){ xp+=n; var el=document.getElementById('xc'); if(el){el.textContent='⭐ '+xp+' XP';} showToast('+'+n+' XP! ⭐'); }
+function showToast(msg){
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.className='show';
+  setTimeout(function(){t.className='';},1700);
+}
+function playAudio(word){
+  var url='https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=es&q='+encodeURIComponent(word);
+  var a=new Audio(url);
+  a.onerror=function(){ttsFallback(word);};
+  a.play().catch(function(){ttsFallback(word);});
+}
+function ttsFallback(word){
+  if(!window.speechSynthesis){return;}
+  var u=new SpeechSynthesisUtterance(word);
+  u.lang='es-ES'; u.rate=0.85;
+  window.speechSynthesis.speak(u);
+}
+
+// ═══════════════════════════════════════════════
+// CHAPTER 1 DATA
+// ═══════════════════════════════════════════════
+LDATA['C1L1'] = {
+  cult:{flag:'🇪🇸',word:'Hola',
+    bn:'স্পেনিশে "H" সবসময় নীরব! "Hola"="ওলা"। আর "ñ" (এনিয়ে) শুধু স্পেনিশেই আছে — পৃথিবীর অন্য কোনো বড় ভাষায় নেই!',
+    en:'Spanish "H" is always silent. "Hola"="OH-la". And "ñ" is unique to Spanish worldwide!'},
+  gram:{title:'📖 5 Golden Pronunciation Rules',
+    en:'1. <strong>Vowels NEVER change:</strong> a=ah, e=eh, i=ee, o=oh, u=oo — always!<br>2. <strong>H is always SILENT:</strong> hola="OH-la", hotel="oh-TEL"<br>3. <strong>LL sounds like Y:</strong> llama="YA-ma", me llamo="me YA-mo"<br>4. <strong>RR is rolled:</strong> perro="PEH-rroh" — vibrate your tongue!<br>5. <strong>J sounds like KH:</strong> jardín="khar-DEEN", jefe="KHE-fe"',
+    bn:'১. স্বরবর্ণ সবসময় একই: a=আ, e=এ, i=ই, o=ও, u=উ — কখনো বদলায় না!<br>২. H সবসময় নীরব: hola="ওলা"<br>৩. LL = ইয়ের মতো: llama="ইয়ামা"<br>৪. RR = জিভ গড়ানো র-র-র: perro="পেরো"<br>৫. J = খ শব্দ: jardín="খার্দিন"'},
+  vocab:[
+    {em:'🔤',es:'a, e, i, o, u',en:'Vowels — always same sound',bn:'স্বরবর্ণ — সবসময় একই'},
+    {em:'🔇',es:'h (hache)',en:'H — always SILENT',bn:'H — সবসময় নীরব'},
+    {em:'🦙',es:'ll (elle)',en:'LL — sounds like Y',bn:'LL — ইয়ের মতো শব্দ'},
+    {em:'🐕',es:'rr (erre)',en:'RR — rolled/trilled R',bn:'RR — গড়ানো র-র-র'},
+    {em:'🌵',es:'ñ (eñe)',en:'Ñ — NY sound (España)',bn:'Ñ — নি-য়া শব্দ (এস্পানিয়া)'},
+    {em:'🌬',es:'j (jota)',en:'J — KH sound (jardín)',bn:'J — খ শব্দ (খার্দিন)'},
+    {em:'🔄',es:'v = b',en:'V and B sound the same!',bn:'V এবং B একই উচ্চারণ!'},
+    {em:'❓',es:'¿ ... ?',en:'Inverted ? starts questions',bn:'প্রশ্নের শুরুতে উল্টো চিহ্ন'}
+  ],
+  mnems:[
+    {bn:'🔴 Spanish vowels চিনুন: "Ah-Eh-Ee-Oh-Oo" — বাংলার "আ-এ-ই-ও-উ"-র মতোই! সবসময় একই, ইংরেজির মতো বদলায় না।',en:'🟡 Spanish vowels NEVER change sound — unlike English "a" in cat vs cake. Consistency is your friend!'},
+    {bn:'🔴 "ñ" মনে রাখুন: N-এর উপর টিল্ডা = "নি-য়া" শব্দ। España=এস-পান-য়া। Mañana(আগামীকাল)=মা-নি-য়ানা।',en:'🟡 "ñ"="ny" sound. España=es-PAHN-ya. Mañana(tomorrow)=ma-NYAH-na.'},
+    {bn:'🔴 "v" এবং "b" স্পেনিশে একই উচ্চারণ! Vino(ওয়াইন) এবং bueno(ভালো) — দুটোই "ব"-এর মতো।',en:'🟡 "v" and "b" sound the same — both like English "b". Vino and bueno both start with "b" sound!'},
+    {bn:'🔴 প্রশ্নে দুটো চিহ্ন: শুরুতে ¿ এবং শেষে ? — শুধু স্পেনিশেই এটা আছে! পৃথিবীর একমাত্র ভাষা।',en:'🟡 Spanish questions use ¿...? — upside-down mark at start AND end. Unique to Spanish worldwide!'}
+  ],
+  fitb:[
+    {q:'The letter "H" in Spanish is always ___.', blank:'silent', hint:'নীরব', accept:['silent']},
+    {q:'"ll" in Spanish sounds like the letter ___ in English.', blank:'Y', hint:'ইয়ের মতো', accept:['y']},
+    {q:'The special Spanish letter that sounds like "ny" is ___.', blank:'ñ', hint:'এনিয়ে', accept:['ñ','n','eñe']},
+    {q:'Spanish vowels (a,e,i,o,u) always have the ___ sound.', blank:'same', hint:'পরিবর্তন হয় না', accept:['same']},
+    {q:'"j" in Spanish sounds like ___ (write the Bangla/English sound).', blank:'kh', hint:'খ শব্দ', accept:['kh','kha','khe']}
+  ],
+  speak:[
+    {es:'Hola. H es silenciosa.',en:'Hello. H is silent.',bn:'হ্যালো। H নীরব।',h:'OH-la. a-che es si-LEN-thyo-sa'},
+    {es:'Me llamo María.',en:'My name is María.',bn:'আমার নাম মারিয়া।',h:'me YA-mo ma-REE-a'},
+    {es:'España tiene la letra ñ.',en:'Spain has the letter ñ.',bn:'স্পেনে ñ অক্ষর আছে।',h:'es-PA-nya TYEH-ne la LE-tra EN-ye'},
+    {es:'El perro corre rápido.',en:'The dog runs fast.',bn:'কুকুরটা দ্রুত দৌড়ায়।',h:'el PE-ro KO-re RA-pee-do'},
+    {es:'Vivo en Dhaka.',en:'I live in Dhaka.',bn:'আমি ঢাকায় থাকি।',h:'BEE-bo en DA-ka'}
+  ],
+  quiz:[
+    {q:'স্পেনিশে "H" সবসময়—',o:['উচ্চারিত হয়','নীরব থাকে','R-এর মতো','Y-এর মতো'],a:1,f:'"H" is always silent! "Hola"="OH-la"'},
+    {q:'"LL" কোন ইংরেজি অক্ষরের মতো শোনায়?',o:['L','R','Y','N'],a:2,f:'"LL" sounds like Y! "Me llamo"="me YA-mo"'},
+    {q:'"ñ" কীভাবে উচ্চারিত হয়?',o:['এন','নি-য়া','এনএন','ইনি'],a:1,f:'"ñ"="ny" sound! España=es-PAHN-ya'},
+    {q:'Spanish vowels সম্পর্কে সত্য কোনটি?',o:['Context-এ বদলায়','সবসময় একই','ইংরেজির মতো','কখনো নীরব'],a:1,f:'Spanish vowels NEVER change! a=ah always.'},
+    {q:'"J" স্পেনিশে কোন শব্দের মতো?',o:['ইংরেজি J','বাংলা জ','খ শব্দ','বাংলা ঝ'],a:2,f:'"J"=KH sound. "Jardín"="khar-DEEN"'},
+    {q:'V এবং B স্পেনিশে—',o:['সম্পূর্ণ আলাদা','একই উচ্চারণ','V নীরব','B নীরব'],a:1,f:'V and B sound the same — both like English "b"!'},
+    {q:'প্রশ্নের শুরুতে কোন চিহ্ন?',o:['?','!','¿','¡'],a:2,f:'Spanish questions start with ¿ — unique to Spanish!'}
+  ],
+  next:'L2: Saludos y Despedidas — অভিবাদন ও বিদায়!'
+};
+
+LDATA['C1L2'] = {
+  cult:{flag:'🇪🇸',word:'Hola',
+    bn:'স্পেনে দুটো অভিবাদন পদ্ধতি: বন্ধুদের সাথে "tú" (তুমি), আর অপরিচিত বা বড়দের সাথে "usted" (আপনি)। ভুল করলে অসম্মানজনক মনে হতে পারে!',
+    en:'Spanish has formal (usted) vs informal (tú) "you". Using the wrong one can seem rude — like calling your boss by nickname!'},
+  gram:null,
+  vocab:[
+    {em:'👋',es:'Hola',en:'Hello',bn:'হ্যালো'},
+    {em:'🌅',es:'Buenos días',en:'Good morning',bn:'শুভ সকাল'},
+    {em:'🌆',es:'Buenas tardes',en:'Good afternoon',bn:'শুভ বিকাল'},
+    {em:'🌙',es:'Buenas noches',en:'Good evening / night',bn:'শুভ সন্ধ্যা / রাত'},
+    {em:'🤔',es:'¿Cómo estás?',en:'How are you? (informal)',bn:'তুমি কেমন আছ? (অনানুষ্ঠানিক)'},
+    {em:'🤵',es:'¿Cómo está usted?',en:'How are you? (formal)',bn:'আপনি কেমন আছেন? (আনুষ্ঠানিক)'},
+    {em:'😊',es:'Bien, gracias',en:'Fine, thank you',bn:'ভালো, ধন্যবাদ'},
+    {em:'🙏',es:'Por favor',en:'Please',bn:'দয়া করে'},
+    {em:'💛',es:'Gracias',en:'Thank you',bn:'ধন্যবাদ'},
+    {em:'😌',es:'De nada',en:"You're welcome",bn:'কোনো ব্যাপার না'},
+    {em:'😅',es:'Perdón / Disculpa',en:'Sorry / Excuse me',bn:'মাফ করবেন'},
+    {em:'✌',es:'Adiós',en:'Goodbye',bn:'বিদায়'},
+    {em:'🔁',es:'Hasta luego',en:'See you later',bn:'পরে দেখা হবে'},
+    {em:'🌞',es:'Hasta mañana',en:'See you tomorrow',bn:'কাল দেখা হবে'}
+  ],
+  mnems:[
+    {bn:'🔴 "Hola"=ওলা — H নীরব! "Hello"-র স্পেনিশ ভাই। শুধু "OH-la" বলুন।',en:'🟡 "Hola"=Hello\'s twin — H is silent. Just say "OH-la"!'},
+    {bn:'🔴 "Gracias"=গ্রাসিয়াস — "Gracious" মানুষ ধন্যবাদ বলে! Gracious→Gracias।',en:'🟡 "Gracias" sounds like "gracious" — gracious people always say thanks!'},
+    {bn:'🔴 "Buenos días/tardes/noches" — শুধু শেষ শব্দটা বদলান! días=দিন, tardes=বিকাল, noches=রাত।',en:'🟡 Buenos + [time of day]. Just swap the last word: días/tardes/noches!'},
+    {bn:'🔴 "Hasta luego"=আস্তা লুয়েগো — "hasta"=পর্যন্ত, "luego"=পরে। পরে দেখা পর্যন্ত!',en:'🟡 "Hasta luego"=until later. "hasta"=until, "luego"=later. See you later!'}
+  ],
+  fitb:[
+    {q:'"Good morning" = Buenos ___.', blank:'días', hint:'দিন', accept:['días','dias']},
+    {q:'Muchas ___ ! (Thank you very much)', blank:'gracias', hint:'ধন্যবাদ', accept:['gracias']},
+    {q:'"___ favor" means "please".', blank:'Por', hint:'দয়া করে', accept:['por']},
+    {q:'"De ___" means "you\'re welcome".', blank:'nada', hint:'কিছুই না', accept:['nada']},
+    {q:'"Hasta ___" means "see you later".', blank:'luego', hint:'পরে', accept:['luego']}
+  ],
+  speak:[
+    {es:'Hola, buenos días.',en:'Hello, good morning.',bn:'হ্যালো, শুভ সকাল।',h:'OH-la BWEH-nos DEE-as'},
+    {es:'¿Cómo estás? Bien, gracias.',en:'How are you? Fine, thanks.',bn:'কেমন আছ? ভালো, ধন্যবাদ।',h:'KOH-mo es-TAS / BYEN GRA-thyas'},
+    {es:'Por favor y gracias.',en:'Please and thank you.',bn:'দয়া করে এবং ধন্যবাদ।',h:'por fa-VOR ee GRA-thyas'},
+    {es:'Adiós, hasta luego.',en:'Goodbye, see you later.',bn:'বিদায়, পরে দেখা হবে।',h:'a-DYOS AS-ta LWEH-go'},
+    {es:'Perdón, no entiendo.',en:'Sorry, I don\'t understand.',bn:'মাফ করবেন, বুঝছি না।',h:'per-DON no en-TYEH-ndo'}
+  ],
+  quiz:[
+    {q:'"হ্যালো" Spanish-এ?',o:['Adiós','Hola','Gracias','Perdón'],a:1,f:'Hola=Hello! H নীরব — "OH-la"!'},
+    {q:'"Good morning" Spanish-এ?',o:['Buenas noches','Buenas tardes','Buenos días','Hasta luego'],a:2,f:'Buenos días=শুভ সকাল! días=day(s).'},
+    {q:'"Gracias" মানে?',o:['দয়া করে','মাফ করবেন','ধন্যবাদ','বিদায়'],a:2,f:'Gracias=ধন্যবাদ! Think "gracious"→Gracias.'},
+    {q:'"De nada" মানে?',o:['বিদায়','কোনো ব্যাপার না','কেমন আছ?','মাফ করবেন'],a:1,f:'De nada=কোনো ব্যাপার না! "nada"=nothing.'},
+    {q:'Informal "কেমন আছ?"',o:['¿Cómo está usted?','¿Qué tal?','¿Cómo estás?','Hasta luego'],a:2,f:'¿Cómo estás?=informal "How are you?"'},
+    {q:'"Please" Spanish-এ?',o:['Gracias','De nada','Por favor','Perdón'],a:2,f:'Por favor=Please!'},
+    {q:'"See you later" Spanish-এ?',o:['Adiós','Hasta luego','Buenas noches','De nada'],a:1,f:'Hasta luego=See you later!'}
+  ],
+  next:'L3: Presentación Personal — নিজেকে পরিচয় করান!'
+};
+
+LDATA['C1L3'] = {
+  cult:{flag:'🇪🇸',word:'Me llamo',
+    bn:'স্পেনে "Me llamo" (আমাকে ডাকা হয়) বলা হয়। আর age বলতে "Tengo X años" — বাংলায় যেমন "আমার ২৫ বছর বয়স", Spanish-এও বয়স "থাকে"!',
+    en:'"Me llamo" = "I am called". And Spanish says you HAVE an age (tengo años), like Bangla — not that you ARE an age!'},
+  gram:null,
+  vocab:[
+    {em:'🗣',es:'Me llamo ...',en:'My name is ...',bn:'আমার নাম ...'},
+    {em:'🌍',es:'Soy de ...',en:'I am from ...',bn:'আমি ... থেকে'},
+    {em:'🎂',es:'Tengo X años',en:'I am X years old',bn:'আমার X বছর বয়স'},
+    {em:'📚',es:'Soy estudiante',en:'I am a student',bn:'আমি ছাত্র/ছাত্রী'},
+    {em:'🤝',es:'Mucho gusto',en:'Nice to meet you',bn:'পরিচিত হয়ে ভালো লাগলো'},
+    {em:'😊',es:'Encantado / Encantada',en:'Delighted (male / female)',bn:'অনেক আনন্দিত (পুং/স্ত্রী)'},
+    {em:'❓',es:'¿Y tú? / ¿Y usted?',en:'And you? (informal / formal)',bn:'আর তুমি? / আর আপনি?'},
+    {em:'📞',es:'¿Cómo te llamas?',en:'What is your name?',bn:'তোমার নাম কী?'}
+  ],
+  mnems:[
+    {bn:'🔴 "Me llamo"=মে ইয়ামো — Me=আমাকে, llamo=ডাকা হয়। LL=ইয়ের মতো! "আমাকে ... ডাকা হয়"।',en:'🟡 "Me llamo"="I am called/named." LL sounds like Y — say "me YA-mo"!'},
+    {bn:'🔴 "Soy de Bangladesh" — de=from, soy=I am। বাংলায় যেমন "আমি বাংলাদেশ থেকে"!',en:'🟡 "Soy de Bangladesh". "de"=from, "soy"=I am (from SER verb).'},
+    {bn:'🔴 "Mucho gusto"=মুচো গুস্তো — Mucho=much/অনেক, gusto=pleasure/আনন্দ। "Much pleasure!"',en:'🟡 "Mucho gusto"=nice to meet you. Literally "much pleasure" — elegant!'},
+    {bn:'🔴 "Tengo 25 años" — বাংলায়ও "আমার ২৫ বছর বয়স"! Spanish-এও HAVE করে। tener=to have।',en:'🟡 "Tengo 25 años"=I have 25 years. Spanish "has" an age — just like Bangla!'}
+  ],
+  fitb:[
+    {q:'"My name is Ana" = Me ___ Ana.', blank:'llamo', hint:'আমাকে ডাকা হয়', accept:['llamo']},
+    {q:'"I am from Bangladesh" = Soy ___ Bangladesh.', blank:'de', hint:'থেকে / from', accept:['de']},
+    {q:'"Nice to meet you" = Mucho ___.', blank:'gusto', hint:'আনন্দ / pleasure', accept:['gusto']},
+    {q:'"I am 20 years old" = Tengo 20 ___.', blank:'años', hint:'বছর / years', accept:['años','anos']},
+    {q:'"What is your name?" = ¿Cómo te ___?', blank:'llamas', hint:'তোমাকে ডাকা হয়', accept:['llamas']}
+  ],
+  speak:[
+    {es:'Me llamo Shajedur.',en:'My name is Shajedur.',bn:'আমার নাম শাহজাদুর।',h:'me YA-mo sha-khe-DUR'},
+    {es:'Soy de Bangladesh.',en:'I am from Bangladesh.',bn:'আমি বাংলাদেশ থেকে।',h:'SOY de ban-gla-DESH'},
+    {es:'Tengo veinticinco años.',en:'I am twenty-five years old.',bn:'আমার পঁচিশ বছর বয়স।',h:'TEN-go bayn-tee-THIN-ko A-nyos'},
+    {es:'Mucho gusto, encantado.',en:'Nice to meet you, delighted.',bn:'পরিচিত হয়ে ভালো লাগলো।',h:'MOO-cho GOOS-to en-kan-TA-do'},
+    {es:'¿Cómo te llamas?',en:'What is your name?',bn:'তোমার নাম কী?',h:'KOH-mo te YA-mas'}
+  ],
+  quiz:[
+    {q:'"আমার নাম Ana" Spanish-এ?',o:['Soy Ana','Me llamo Ana','Yo Ana','Tengo Ana'],a:1,f:'Me llamo Ana! "llamo" from "llamar"=to call.'},
+    {q:'"আমি বাংলাদেশ থেকে"?',o:['Soy Bangladesh','Estoy Bangladesh','Soy de Bangladesh','De Bangladesh'],a:2,f:'Soy de Bangladesh. "de"=from!'},
+    {q:'"Mucho gusto" মানে?',o:['বিদায়','পরিচিত হয়ে ভালো লাগলো','ধন্যবাদ','দয়া করে'],a:1,f:'Mucho gusto=Nice to meet you. Literally "much pleasure"!'},
+    {q:'"আমার ২৫ বছর বয়স"?',o:['Soy 25 años','Estoy 25 años','Tengo 25 años','Hay 25 años'],a:2,f:'Tengo 25 años. Spanish "has" an age — like Bangla!'},
+    {q:'"¿Cómo te llamas?" মানে?',o:['তুমি কোথায়?','তোমার নাম কী?','কেমন আছ?','বয়স কত?'],a:1,f:'¿Cómo te llamas?=What is your name?'},
+    {q:'"Encantada" বলবে কে?',o:['পুরুষ','মহিলা','দুইজনই','শিশু'],a:1,f:'Encantada=feminine. Man says "encantado", woman says "encantada"!'}
+  ],
+  next:'L4: Palabras de Pregunta — ¿Qué? ¿Dónde? ¿Por qué?'
+};
+
+LDATA['C1L4'] = {
+  cult:{flag:'🇪🇸',word:'Por qué',
+    bn:'স্পেনিশে প্রশ্নের শুরুতে ¿ এবং শেষে ? — দুটো চিহ্ন! পৃথিবীর একমাত্র ভাষা যেখানে শুরুতে উল্টো প্রশ্নচিহ্ন ব্যবহার হয়।',
+    en:'Spanish is the only language with ¿ at the START! It tells you a question is coming before you finish reading.'},
+  gram:null,
+  vocab:[
+    {em:'❓',es:'¿Qué?',en:'What?',bn:'কী?'},
+    {em:'👤',es:'¿Quién?',en:'Who?',bn:'কে?'},
+    {em:'📍',es:'¿Dónde?',en:'Where?',bn:'কোথায়?'},
+    {em:'🕐',es:'¿Cuándo?',en:'When?',bn:'কখন?'},
+    {em:'🤷',es:'¿Por qué?',en:'Why?',bn:'কেন?'},
+    {em:'🤔',es:'¿Cómo?',en:'How?',bn:'কীভাবে?'},
+    {em:'🔢',es:'¿Cuánto/a?',en:'How much / many?',bn:'কতটুকু / কতজন?'},
+    {em:'🎯',es:'¿Cuál? / ¿Cuáles?',en:'Which? / Which ones?',bn:'কোনটা? / কোনগুলো?'}
+  ],
+  mnems:[
+    {bn:'🔴 "¿Qué?"=কে — "What?" এর জন্য। বাংলায় "কি?" জিজ্ঞেস করুন, Spanish-এ "¿Qué?" বলুন!',en:'🟡 "¿Qué?"=What? Think "Kay, what\'s that?" Sounds like the letter K.'},
+    {bn:'🔴 "¿Dónde?"=দোন্দে — "Where?" এর জন্য। "Don, where are you?" — Don কোথায়? Dónde!',en:'🟡 "¿Dónde?"=Where? Think "Don, where are you?" The "d" starts both!'},
+    {bn:'🔴 "¿Por qué?" (দুই শব্দ)=কেন? "porque" (এক শব্দ)=because। দুটো আলাদা!',en:'🟡 "¿Por qué?" (two words)=Why? "porque" (one word)=because. Different!'},
+    {bn:'🔴 "¿Cuánto?"=কুয়ান্তো — "quantum" (পরিমাণ) থেকে এসেছে। How much quantity? Cuánto!',en:'🟡 "¿Cuánto?"=How much/many? Think "quantum"=quantity — same Latin root!'}
+  ],
+  fitb:[
+    {q:'"What?" in Spanish = ¿___?', blank:'Qué', hint:'কী?', accept:['qué','que']},
+    {q:'"¿___ está el banco?" = Where is the bank?', blank:'Dónde', hint:'কোথায়?', accept:['dónde','donde']},
+    {q:'"¿___ cuesta?" = How much does it cost?', blank:'Cuánto', hint:'কতটুকু?', accept:['cuánto','cuanto']},
+    {q:'"¿___ qué?" = Why?', blank:'Por', hint:'কেন?', accept:['por']},
+    {q:'"¿___ estás?" = How are you?', blank:'Cómo', hint:'কীভাবে?', accept:['cómo','como']}
+  ],
+  speak:[
+    {es:'¿Qué es esto?',en:'What is this?',bn:'এটা কী?',h:'KE es ES-to'},
+    {es:'¿Dónde está el banco?',en:'Where is the bank?',bn:'ব্যাংক কোথায়?',h:'DON-de es-TA el BAN-ko'},
+    {es:'¿Por qué estudias español?',en:'Why do you study Spanish?',bn:'কেন স্পেনিশ পড়ো?',h:'por KE es-TOO-dyas es-pa-NYOL'},
+    {es:'¿Cuánto cuesta?',en:'How much does it cost?',bn:'কত দাম?',h:'KWAN-to KWES-ta'},
+    {es:'¿Cómo te llamas?',en:'What is your name?',bn:'তোমার নাম কী?',h:'KOH-mo te YA-mas'}
+  ],
+  quiz:[
+    {q:'"কী?" Spanish-এ?',o:['¿Quién?','¿Dónde?','¿Qué?','¿Cuándo?'],a:2,f:'¿Qué?=What? Like the letter "K"!'},
+    {q:'"কোথায়?" Spanish-এ?',o:['¿Cuándo?','¿Dónde?','¿Cómo?','¿Por qué?'],a:1,f:'¿Dónde?=Where? "Don, where are you?"'},
+    {q:'"কেন?" Spanish-এ?',o:['¿Qué?','¿Cómo?','¿Por qué?','¿Cuándo?'],a:2,f:'¿Por qué?=Why? Two words! "porque"(one word)=because.'},
+    {q:'"কত দাম?" — কোন question word?',o:['¿Qué?','¿Cómo?','¿Cuándo?','¿Cuánto?'],a:3,f:'¿Cuánto cuesta?=How much? Cuánto=how much/many.'},
+    {q:'"¿Quién?" মানে?',o:['কখন?','কী?','কে?','কোথায়?'],a:2,f:'¿Quién?=Who?'},
+    {q:'"¿Cuándo?" মানে?',o:['কীভাবে?','কখন?','কেন?','কোনটা?'],a:1,f:'¿Cuándo?=When?'}
+  ],
+  next:'L5: Números 1–100 — সংখ্যা শিখুন!'
+};
+
+LDATA['C1L5'] = {
+  cult:{flag:'🇪🇸',word:'cien',
+    bn:'স্পেনিশে ১১–১৫ একদম আলাদা শব্দ। কিন্তু ১৬–১৯ একসাথে লেখা হয়: dieciséis = "diez y seis" (দশ+ছয়) জুড়ে দেওয়া!',
+    en:'11–15 are unique words, but 16–19 are written as one fused word: "dieciséis"="diez y seis" (ten+six) combined!'},
+  gram:null,
+  vocab:[
+    {em:'1️⃣',es:'uno',en:'one',bn:'এক'},{em:'2️⃣',es:'dos',en:'two',bn:'দুই'},{em:'3️⃣',es:'tres',en:'three',bn:'তিন'},
+    {em:'4️⃣',es:'cuatro',en:'four',bn:'চার'},{em:'5️⃣',es:'cinco',en:'five',bn:'পাঁচ'},{em:'6️⃣',es:'seis',en:'six',bn:'ছয়'},
+    {em:'7️⃣',es:'siete',en:'seven',bn:'সাত'},{em:'8️⃣',es:'ocho',en:'eight',bn:'আট'},{em:'9️⃣',es:'nueve',en:'nine',bn:'নয়'},
+    {em:'🔟',es:'diez',en:'ten',bn:'দশ'},{em:'🔢',es:'once',en:'eleven',bn:'এগারো'},{em:'🔢',es:'doce',en:'twelve',bn:'বারো'},
+    {em:'🔢',es:'veinte',en:'twenty',bn:'বিশ'},{em:'🔢',es:'treinta',en:'thirty',bn:'ত্রিশ'},
+    {em:'🔢',es:'cuarenta',en:'forty',bn:'চল্লিশ'},{em:'🔢',es:'cincuenta',en:'fifty',bn:'পঞ্চাশ'},
+    {em:'💯',es:'cien',en:'one hundred',bn:'একশো'}
+  ],
+  mnems:[
+    {bn:'🔴 uno-dos-tres — ইংরেজির one-two-three মনে পড়ে! দুটোই Latin থেকে এসেছে।',en:'🟡 uno/dos/tres ≈ one/two/three — both from Latin! The similarity is no coincidence.'},
+    {bn:'🔴 "cuatro"(৪)="quarter"(১/৪) — চারভাগের এক ভাগ। quarter=cuatro থেকে!',en:'🟡 "cuatro"(4)→"quarter"=4 parts! Same Latin root: "quattr-".'},
+    {bn:'🔴 "diez"(১০) = "decade"(দশক) মনে করুন! ১ decade = ১০ বছর।',en:'🟡 "diez"(10)→"decade"=10 years! Same root word.'},
+    {bn:'🔴 ৩০-৪০-৫০ = treinta-cuarenta-cincuenta। সব শেষে "-enta"! Pattern শিখলেই সব হয়।',en:'🟡 30-40-50 all end in "-enta": treinta, cuarenta, cincuenta. Learn the pattern!'}
+  ],
+  fitb:[
+    {q:'uno, dos, ___ (1, 2, 3)', blank:'tres', hint:'তিন', accept:['tres']},
+    {q:'ocho, nueve, ___ (8, 9, 10)', blank:'diez', hint:'দশ', accept:['diez']},
+    {q:'"twenty" in Spanish = ___.', blank:'veinte', hint:'বিশ', accept:['veinte']},
+    {q:'"fifty" in Spanish = ___.', blank:'cincuenta', hint:'পঞ্চাশ', accept:['cincuenta']},
+    {q:'"one hundred" = ___.', blank:'cien', hint:'একশো', accept:['cien']}
+  ],
+  speak:[
+    {es:'Uno, dos, tres, cuatro, cinco.',en:'One, two, three, four, five.',bn:'এক, দুই, তিন, চার, পাঁচ।',h:'OO-no DOS TRES KWAT-ro THIN-ko'},
+    {es:'Tengo veinte años.',en:'I am twenty years old.',bn:'আমার বিশ বছর বয়স।',h:'TEN-go BAYN-te A-nyos'},
+    {es:'Son las diez.',en:'It is ten o\'clock.',bn:'দশটা বাজে।',h:'son las DYETH'},
+    {es:'Hay cincuenta estudiantes.',en:'There are fifty students.',bn:'পঞ্চাশজন ছাত্র আছে।',h:'eye thin-KWEN-ta es-too-DYAN-tes'},
+    {es:'El número es cien.',en:'The number is one hundred.',bn:'সংখ্যাটা একশো।',h:'el NOO-me-ro es THYEN'}
+  ],
+  quiz:[
+    {q:'"পাঁচ" Spanish-এ?',o:['cuatro','cinco','seis','siete'],a:1,f:'cinco=পাঁচ! Cinco de Mayo=5th of May!'},
+    {q:'"diez" মানে?',o:['সাত','আট','নয়','দশ'],a:3,f:'diez=দশ/ten. "decade"=10 years!'},
+    {q:'"বিশ" Spanish-এ?',o:['diez','quince','veinte','treinta'],a:2,f:'veinte=বিশ/twenty!'},
+    {q:'"once" মানে?',o:['এগারো','বারো','তেরো','চৌদ্দ'],a:0,f:'once=এগারো/eleven! (English "once"=একবার — different!)'},
+    {q:'"cuatro" মানে?',o:['তিন','চার','পাঁচ','ছয়'],a:1,f:'cuatro=চার. "quarter"=4 parts!'},
+    {q:'"একশো" Spanish-এ?',o:['cincuenta','setenta','noventa','cien'],a:3,f:'cien=একশো! "ciento" for 101+.'},
+    {q:'"treinta" মানে?',o:['বিশ','ত্রিশ','চল্লিশ','পঞ্চাশ'],a:1,f:'treinta=ত্রিশ. tre- like tres(3)!'}
+  ],
+  next:'Chapter 2: Identidad — লিঙ্গ, SER verb, জাতীয়তা!'
+};
+
+// ═══════════════════════════════════════════════
+// CHAPTER 2 DATA
+// ═══════════════════════════════════════════════
+LDATA['C2L1'] = {
+  cult:{flag:'🇪🇸',word:'el/la',
+    bn:'সুখবর! Spanish-এ মাত্র ২টো লিঙ্গ: el (পুং) এবং la (স্ত্রী)। German-এ ৩টো (der/die/das)! বাংলায় লিঙ্গ নেই — তাই একটু মনে রাখতে হবে, কিন্তু মাত্র ২টো নিয়ম!',
+    en:'Good news! Spanish has only 2 genders: el (masculine) and la (feminine). German has 3! Just 2 rules to learn.'},
+  gram:{title:'📖 The 2-Gender System',
+    en:'<strong>Masculine</strong> → el (the) / un (a)<br><strong>Feminine</strong> → la (the) / una (a)<br><br>Golden rule: words ending <strong>-o</strong> = usually masculine. Words ending <strong>-a</strong> = usually feminine.<br>Exceptions to memorise: <em>el día</em> (day ♂), <em>la mano</em> (hand ♀)',
+    bn:'-o শেষে সাধারণত পুং → <strong>el</strong><br>-a শেষে সাধারণত স্ত্রী → <strong>la</strong><br>সবসময় article-সহ শিখুন: "el libro" মুখস্থ করুন, শুধু "libro" নয়!'},
+  vocab:[
+    {em:'📗',es:'el libro',en:'the book (m)',bn:'বইটা (পুং)'},
+    {em:'🏠',es:'la casa',en:'the house (f)',bn:'বাড়িটা (স্ত্রী)'},
+    {em:'🐕',es:'el perro',en:'the dog (m)',bn:'কুকুরটা (পুং)'},
+    {em:'🐱',es:'la gata',en:'the cat (f)',bn:'বিড়ালটা (স্ত্রী)'},
+    {em:'🚗',es:'el coche',en:'the car (m)',bn:'গাড়িটা (পুং)'},
+    {em:'🪑',es:'la silla',en:'the chair (f)',bn:'চেয়ারটা (স্ত্রী)'},
+    {em:'☀️',es:'el día',en:'the day — EXCEPTION (m)',bn:'দিন — ব্যতিক্রম (পুং)'},
+    {em:'✋',es:'la mano',en:'the hand — EXCEPTION (f)',bn:'হাত — ব্যতিক্রম (স্ত্রী)'},
+    {em:'📚',es:'los libros',en:'the books (m. plural)',bn:'বইগুলো (পুং বহু)'},
+    {em:'🏘',es:'las casas',en:'the houses (f. plural)',bn:'বাড়িগুলো (স্ত্রী বহু)'},
+    {em:'📖',es:'un libro',en:'a book (indefinite)',bn:'একটা বই'},
+    {em:'🏡',es:'una casa',en:'a house (indefinite)',bn:'একটা বাড়ি'}
+  ],
+  mnems:[
+    {bn:'🔴 -o শেষে = el (পুং): el libro, el perro, el coche। মনে রাখুন: O = hO = he = পুরুষ!',en:'🟡 Words ending -o = masculine (el). "O for bOy"!'},
+    {bn:'🔴 -a শেষে = la (স্ত্রী): la casa, la silla, la mesa। মনে রাখুন: A = femAlA!',en:'🟡 Words ending -a = feminine (la). "A for femAlA"!'},
+    {bn:'🔴 ব্যতিক্রম মুখস্থ করুন: "el día" (দিন = পুং!), "la mano" (হাত = স্ত্রী!)।',en:'🟡 Exceptions: "el día" (day, masculine!), "la mano" (hand, feminine!). Memorise these two!'},
+    {bn:'🔴 বহুবচন: el→los, la→las। libro→libros (+s), ciudad→ciudades (+es)।',en:'🟡 Plural: el→los, la→las. Add -s (vowel ending) or -es (consonant ending).'}
+  ],
+  fitb:[
+    {q:'"The book" (masculine) = ___ libro.',blank:'el',hint:'পুং আর্টিকেল',accept:['el']},
+    {q:'"The house" (feminine) = ___ casa.',blank:'la',hint:'স্ত্রী আর্টিকেল',accept:['la']},
+    {q:'"A dog" = ___ perro.',blank:'un',hint:'অনির্দিষ্ট পুং',accept:['un']},
+    {q:'"The books" (plural) = ___ libros.',blank:'los',hint:'পুং বহু',accept:['los']},
+    {q:'"The day" is masculine exception = ___ día.',blank:'el',hint:'ব্যতিক্রম — পুং!',accept:['el']}
+  ],
+  speak:[
+    {es:'El libro es interesante.',en:'The book is interesting.',bn:'বইটা আকর্ষণীয়।',h:'el LEE-bro es in-te-re-SAN-te'},
+    {es:'La casa es grande.',en:'The house is big.',bn:'বাড়িটা বড়।',h:'la KA-sa es GRAN-de'},
+    {es:'Los perros son simpáticos.',en:'The dogs are friendly.',bn:'কুকুরগুলো বন্ধুত্বপূর্ণ।',h:'los PE-ros son sim-PA-tee-kos'},
+    {es:'Un gato y una gata.',en:'A male cat and a female cat.',bn:'একটা পুরুষ ও স্ত্রী বিড়াল।',h:'oon GA-to ee OO-na GA-ta'},
+    {es:'El día es bonito.',en:'The day is beautiful.',bn:'দিনটা সুন্দর।',h:'el DEE-a es bo-NEE-to'}
+  ],
+  quiz:[
+    {q:'"বইটা" (the book) Spanish-এ?',o:['la libro','el libro','un libra','los libro'],a:1,f:'"libro" ends -o = masculine → "el libro"!'},
+    {q:'"বাড়িটা" (the house) Spanish-এ?',o:['el casa','un casa','la casa','los casa'],a:2,f:'"casa" ends -a = feminine → "la casa"!'},
+    {q:'"A dog" (indefinite) = ___',o:['un perro','la perro','una perro','el perro'],a:0,f:'"un" = a/an (masculine). "un perro" = a dog.'},
+    {q:'"los libros" মানে?',o:['a book','the book','the books','some books'],a:2,f:'"los" = the (masc. plural). "los libros" = the books!'},
+    {q:'"el día" কেন masculine?',o:['-a শেষে তাই','-o শেষে তাই','ব্যতিক্রম — মুখস্থ!','সব দিন পুং'],a:2,f:'"el día" is an exception despite ending in -a!'},
+    {q:'"las casas" মানে?',o:['a house','the house','the houses','some houses'],a:2,f:'"las" = the (fem. plural). "las casas" = the houses!'}
+  ],
+  next:'L2: Verb SER — সবচেয়ে গুরুত্বপূর্ণ verb!'
+};
+
+LDATA['C2L2'] = {
+  cult:{flag:'🇪🇸',word:'soy',
+    bn:'Spanish-এ "to be"-র জন্য দুটো verb: SER এবং ESTAR। আজকে SER — স্থায়ী বিষয়ের জন্য। পরবর্তী Chapter-এ ESTAR শিখব। এটাই Spanish-এর সবচেয়ে গুরুত্বপূর্ণ verb!',
+    en:'Spanish has TWO "to be" verbs! Today: SER for permanent things. ESTAR (temporary) comes in Ch3. Most important verb in Spanish!'},
+  gram:{title:'📖 SER — Full Conjugation',
+    en:'SER = permanent identity: <strong>name, nationality, profession, personality, origin, time/date</strong><br>Memory trick: <strong>DOCTOR</strong> = <u>D</u>escription, <u>O</u>rigin, <u>C</u>haracteristics, <u>T</u>ime, <u>O</u>ccupation, <u>R</u>elationship<br><br><strong>yo</strong>=soy (I am) · <strong>tú</strong>=eres · <strong>él/ella</strong>=es · <strong>nosotros</strong>=somos · <strong>vosotros</strong>=sois · <strong>ellos</strong>=son',
+    bn:'SER = স্থায়ী পরিচয়: নাম, জাতীয়তা, পেশা, স্বভাব, উৎপত্তি, সময়<br>মনে রাখুন DOCTOR ট্রিক!'},
+  vocab:[
+    {em:'👤',es:'soy',en:'I am (yo)',bn:'আমি হই / আছি'},
+    {em:'👆',es:'eres',en:'you are (tú)',bn:'তুমি হও / আছ'},
+    {em:'🧑',es:'es',en:'he/she/you(formal) is',bn:'সে / আপনি হয়'},
+    {em:'👫',es:'somos',en:'we are',bn:'আমরা হই'},
+    {em:'👥',es:'sois',en:'you all are (Spain)',bn:'তোমরা হও (স্পেন)'},
+    {em:'👥',es:'son',en:'they / you all are',bn:'তারা হয়'},
+    {em:'🧑‍🎓',es:'Soy estudiante',en:'I am a student',bn:'আমি ছাত্র/ছাত্রী'},
+    {em:'🌍',es:'Soy de Bangladesh',en:'I am from Bangladesh',bn:'আমি বাংলাদেশ থেকে'},
+    {em:'📏',es:'Es alto',en:'He is tall',bn:'সে লম্বা'},
+    {em:'🕐',es:'Son las tres',en:'It is three o\'clock',bn:'তিনটা বাজে'}
+  ],
+  mnems:[
+    {bn:'🔴 "SOY" = I am। soy sauce (সয়াবিন সস) মনে করুন — "soy" সব জায়গায়! Soy = আমি।',en:'🟡 "Soy"=I am. Think: soy sauce, soy milk — "soy" is everywhere!'},
+    {bn:'🔴 DOCTOR ট্রিক: SER ব্যবহার = Description, Origin, Characteristics, Time, Occupation, Relationship।',en:'🟡 DOCTOR = SER uses: Description, Origin, Characteristics, Time, Occupation, Relationship.'},
+    {bn:'🔴 Profession-এ article নেই: "Soy médico" (আমি ডাক্তার) — "un" বলা হয় না! ইংরেজির উল্টো।',en:'🟡 No article with professions! "Soy médico" NOT "Soy un médico". Drop the article!'}
+  ],
+  fitb:[
+    {q:'"I am" = ___.',blank:'soy',hint:'yo + ser',accept:['soy']},
+    {q:'"You are" (tú) = ___.',blank:'eres',hint:'tú + ser',accept:['eres']},
+    {q:'"He/She is" = ___.',blank:'es',hint:'él/ella + ser',accept:['es']},
+    {q:'"We are" = ___.',blank:'somos',hint:'nosotros + ser',accept:['somos']},
+    {q:'"They are" = ___.',blank:'son',hint:'ellos + ser',accept:['son']}
+  ],
+  speak:[
+    {es:'Soy de Bangladesh.',en:'I am from Bangladesh.',bn:'আমি বাংলাদেশ থেকে।',h:'SOY de ban-gla-DESH'},
+    {es:'Eres muy inteligente.',en:'You are very intelligent.',bn:'তুমি খুব বুদ্ধিমান।',h:'E-res mwee in-te-lee-HEN-te'},
+    {es:'Ella es médica.',en:'She is a doctor.',bn:'সে ডাক্তার।',h:'E-ya es ME-dee-ka'},
+    {es:'Somos estudiantes.',en:'We are students.',bn:'আমরা ছাত্র।',h:'SO-mos es-too-DYAN-tes'},
+    {es:'Son las tres de la tarde.',en:'It is three in the afternoon.',bn:'বিকাল তিনটা বাজে।',h:'son las TRES de la TAR-de'}
+  ],
+  quiz:[
+    {q:'"আমি হই" Spanish-এ?',o:['eres','es','soy','somos'],a:2,f:'"soy"=I am. Think: soy sauce!'},
+    {q:'"তুমি হও" (tú) = ___',o:['soy','eres','es','somos'],a:1,f:'"eres"=you are (tú + ser).'},
+    {q:'"সে হয়" = ___',o:['soy','eres','es','son'],a:2,f:'"es"=he/she/it is. Also used with usted.'},
+    {q:'"আমরা হই" = ___',o:['son','sois','somos','eres'],a:2,f:'"somos"=we are. "Somos estudiantes"!'},
+    {q:'Profession-এ article থাকে?',o:['হ্যাঁ সবসময়','হ্যাঁ un/una','না, article নেই','হ্যাঁ el/la'],a:2,f:'No article! "Soy médico" not "Soy un médico"!'},
+    {q:'SER কখন ব্যবহার?',o:['সব ক্ষেত্রে','স্থায়ী বিষয়ে','অস্থায়ী বিষয়ে','শুধু নাম বলতে'],a:1,f:'SER = permanent things! DOCTOR trick.'}
+  ],
+  next:'L3: Nacionalidades — জাতীয়তা ও দেশ!'
+};
+
+LDATA['C2L3'] = {
+  cult:{flag:'🇪🇸',word:'español',
+    bn:'Spanish-এ nationality adjective লিঙ্গ অনুযায়ী বদলায়! "español" (পুরুষ) কিন্তু "española" (মহিলা)। আর country names capital letter-এ কিন্তু nationality ছোট হাতে!',
+    en:'Nationalities change by gender! "español"(m) → "española"(f). Also: country names are capitalised, nationalities are not!'},
+  gram:null,
+  vocab:[
+    {em:'🇪🇸',es:'español / española',en:'Spanish (m/f)',bn:'স্পেনিশ (পুং/স্ত্রী)'},
+    {em:'🇧🇩',es:'bangladesí',en:'Bangladeshi (same m+f)',bn:'বাংলাদেশি (উভয় লিঙ্গে একই)'},
+    {em:'🇬🇧',es:'inglés / inglesa',en:'English (m/f)',bn:'ইংরেজ (পুং/স্ত্রী)'},
+    {em:'🇫🇷',es:'francés / francesa',en:'French (m/f)',bn:'ফরাসি (পুং/স্ত্রী)'},
+    {em:'🇩🇪',es:'alemán / alemana',en:'German (m/f)',bn:'জার্মান (পুং/স্ত্রী)'},
+    {em:'🇺🇸',es:'americano / americana',en:'American (m/f)',bn:'আমেরিকান (পুং/স্ত্রী)'},
+    {em:'🇧🇷',es:'brasileño / brasileña',en:'Brazilian (m/f)',bn:'ব্রাজিলিয়ান (পুং/স্ত্রী)'},
+    {em:'🌍',es:'¿De dónde eres?',en:'Where are you from?',bn:'তুমি কোথা থেকে?'},
+    {em:'🗺',es:'Soy de España',en:'I am from Spain',bn:'আমি স্পেন থেকে'},
+    {em:'🏙',es:'Vivo en Dhaka',en:'I live in Dhaka',bn:'আমি ঢাকায় থাকি'}
+  ],
+  mnems:[
+    {bn:'🔴 "Soy bangladesí" — উভয় লিঙ্গে একই! -í শেষে হলে লিঙ্গে বদলায় না।',en:'🟡 "Soy bangladesí" works for both male and female! Nationalities ending in -í don\'t change.'},
+    {bn:'🔴 দেশ capital letter: España, Bangladesh। কিন্তু nationality ছোট হাতে: español, bangladesí!',en:'🟡 Country names: CAPITALISED (España). Nationalities: lowercase (español). Opposite of English!'},
+    {bn:'🔴 "¿De dónde eres?" = তুমি কোথা থেকে? "Soy de ..." দিয়ে উত্তর দাও।',en:'🟡 "¿De dónde eres?"=Where are you from? Answer: "Soy de [country]."'}
+  ],
+  fitb:[
+    {q:'"I am Bangladeshi" = Soy ___.',blank:'bangladesí',hint:'বাংলাদেশি',accept:['bangladesí','bangladesi']},
+    {q:'"Where are you from?" = ¿De ___ eres?',blank:'dónde',hint:'কোথা থেকে?',accept:['dónde','donde']},
+    {q:'A Spanish woman says: "Soy ___"',blank:'española',hint:'স্পেনিশ মহিলা → স্ত্রীলিঙ্গ',accept:['española','espanola']},
+    {q:'"I am from Spain" = Soy ___ España.',blank:'de',hint:'থেকে / from',accept:['de']},
+    {q:'A French man says: "Soy ___"',blank:'francés',hint:'ফরাসি পুরুষ',accept:['francés','frances']}
+  ],
+  speak:[
+    {es:'Soy bangladesí.',en:'I am Bangladeshi.',bn:'আমি বাংলাদেশি।',h:'SOY ban-gla-de-SEE'},
+    {es:'¿De dónde eres tú?',en:'Where are you from?',bn:'তুমি কোথা থেকে?',h:'de DON-de E-res TOO'},
+    {es:'Ella es española.',en:'She is Spanish.',bn:'সে স্পেনিশ।',h:'E-ya es es-pa-NYO-la'},
+    {es:'Somos de Dhaka, Bangladesh.',en:'We are from Dhaka.',bn:'আমরা ঢাকা থেকে।',h:'SO-mos de DA-ka'},
+    {es:'Él es inglés.',en:'He is English.',bn:'সে ইংরেজ।',h:'el es in-GLES'}
+  ],
+  quiz:[
+    {q:'"আমি বাংলাদেশি" Spanish-এ?',o:['Soy de bangladesí','Soy bangladesí','Estoy bangladesí','Es bangladesí'],a:1,f:'"Soy bangladesí." No article. Same for m/f!'},
+    {q:'Spanish woman states her nationality:',o:['Soy español','Soy española','Es española','Estoy española'],a:1,f:'"Española"=feminine. español(m) → española(f)!'},
+    {q:'"¿De dónde eres?" মানে?',o:['তুমি কে?','তুমি কোথায়?','তুমি কোথা থেকে?','তোমার নাম কী?'],a:2,f:'"¿De dónde eres?"=Where are you from?'},
+    {q:'Country name-এ কোনটা সঠিক?',o:['españa','ESPAÑA','España','espana'],a:2,f:'Country names are capitalised: España, Bangladesh, Francia.'},
+    {q:'"bangladesí" — gender change হয়?',o:['মহিলার জন্য আলাদা','একটাই রূপ সব লিঙ্গে','পুরুষের জন্য আলাদা','বহুবচনে বদলায়'],a:1,f:'"bangladesí" ends -í — does NOT change for gender!'},
+    {q:'"Vivo en Dhaka" মানে?',o:['I am from Dhaka','I live in Dhaka','I visit Dhaka','Dhaka is big'],a:1,f:'"Vivo en Dhaka"=I live in Dhaka. "vivir"=to live.'}
+  ],
+  next:'L4: Adjetivos Descriptivos — alto, joven, inteligente!'
+};
+
+LDATA['C2L4'] = {
+  cult:{flag:'🇪🇸',word:'alto/a',
+    bn:'Spanish-এ বিশেষণ সাধারণত বিশেষ্যের পরে আসে — বাংলার উল্টো! "casa roja" (বাড়ি লাল)। বিশেষণ noun-এর gender এবং number মেলাতে হবে।',
+    en:'Adjectives come AFTER the noun in Spanish! "casa roja" (red house). And they must agree in gender AND number with the noun!'},
+  gram:{title:'📖 Adjective Agreement Rules',
+    en:'Adjectives <strong>must match</strong> noun in gender AND number:<br>el chico <strong>alto</strong> → la chica <strong>alta</strong> → los chicos <strong>altos</strong> → las chicas <strong>altas</strong><br>Adjectives ending <strong>-e</strong> or consonant: same for m/f (joven, inteligente, azul)',
+    bn:'বিশেষণ noun-এর লিঙ্গ ও বচন মেলাতে হবে!<br>-o/-a/-os/-as: alto→alta→altos→altas<br>-e বা ব্যঞ্জনবর্ণ শেষে: লিঙ্গে বদলায় না (joven, inteligente)'},
+  vocab:[
+    {em:'📏',es:'alto / alta',en:'tall (m/f)',bn:'লম্বা (পুং/স্ত্রী)'},
+    {em:'📏',es:'bajo / baja',en:'short (m/f)',bn:'বেঁটে (পুং/স্ত্রী)'},
+    {em:'🌿',es:'delgado / delgada',en:'thin (m/f)',bn:'চিকন (পুং/স্ত্রী)'},
+    {em:'💪',es:'gordo / gorda',en:'fat / heavy (m/f)',bn:'মোটা (পুং/স্ত্রী)'},
+    {em:'🌱',es:'joven',en:'young (same m+f)',bn:'তরুণ (উভয় লিঙ্গে একই)'},
+    {em:'👴',es:'viejo / vieja',en:'old (m/f)',bn:'বৃদ্ধ (পুং/স্ত্রী)'},
+    {em:'😊',es:'simpático / simpática',en:'friendly / nice (m/f)',bn:'বন্ধুত্বপূর্ণ (পুং/স্ত্রী)'},
+    {em:'😒',es:'antipático / antipática',en:'unfriendly (m/f)',bn:'অমিলনসই (পুং/স্ত্রী)'},
+    {em:'🧠',es:'inteligente',en:'intelligent (same m+f)',bn:'বুদ্ধিমান (উভয় লিঙ্গে একই)'},
+    {em:'😴',es:'perezoso / perezosa',en:'lazy (m/f)',bn:'অলস (পুং/স্ত্রী)'},
+    {em:'🤩',es:'guapo / guapa',en:'handsome / beautiful',bn:'সুদর্শন / সুন্দরী'},
+    {em:'🏠',es:'La casa es grande.',en:'The house is big.',bn:'বাড়িটা বড়।'}
+  ],
+  mnems:[
+    {bn:'🔴 "alto/alta" (লম্বা) — "altitude" (উচ্চতা) মনে করুন! উঁচু = লম্বা। -o পুং, -a স্ত্রী।',en:'🟡 "alto" (tall) → "altitude" = high up! Tall people have altitude.'},
+    {bn:'🔴 "joven" (তরুণ) — "juvenile" (কিশোর) মনে করুন! Juvenile = তরুণ। লিঙ্গে বদলায় না।',en:'🟡 "joven" (young) → "juvenile" = young person! Doesn\'t change for gender.'},
+    {bn:'🔴 "simpático" (বন্ধুত্বপূর্ণ) — "sympathetic" মনে করুন! Sympathetic = বোঝাপড়া।',en:'🟡 "simpático" (nice/friendly) → "sympathetic" — someone who understands you!'},
+    {bn:'🔴 "inteligente" (বুদ্ধিমান) — "intelligent" একদম একই শব্দ! শুধু উচ্চারণ ভিন্ন।',en:'🟡 "inteligente" = intelligent! Same word, same meaning!'}
+  ],
+  fitb:[
+    {q:'"She is tall" = Ella es ___.',blank:'alta',hint:'লম্বা (স্ত্রী)',accept:['alta']},
+    {q:'"He is young" = Él es ___.',blank:'joven',hint:'তরুণ — লিঙ্গ বদলায় না!',accept:['joven']},
+    {q:'"She is intelligent" = Ella es ___.',blank:'inteligente',hint:'বুদ্ধিমান — লিঙ্গ বদলায় না!',accept:['inteligente']},
+    {q:'"He is lazy" = Él es ___.',blank:'perezoso',hint:'অলস (পুং)',accept:['perezoso']},
+    {q:'"They (f) are friendly" = Ellas son ___.',blank:'simpáticas',hint:'বন্ধুত্বপূর্ণ (স্ত্রী বহু)',accept:['simpáticas','simpaticas']}
+  ],
+  speak:[
+    {es:'Mi hermano es alto y delgado.',en:'My brother is tall and thin.',bn:'আমার ভাই লম্বা ও চিকন।',h:'mee er-MA-no es AL-to ee del-GA-do'},
+    {es:'Ella es joven e inteligente.',en:'She is young and intelligent.',bn:'সে তরুণ ও বুদ্ধিমান।',h:'E-ya es HO-ben ee in-te-lee-HEN-te'},
+    {es:'El profesor es simpático.',en:'The teacher is friendly.',bn:'শিক্ষক বন্ধুত্বপূর্ণ।',h:'el pro-fe-SOR es sim-PA-tee-ko'},
+    {es:'Somos jóvenes y guapos.',en:'We are young and handsome.',bn:'আমরা তরুণ ও সুদর্শন।',h:'SO-mos HO-be-nes ee GWA-pos'},
+    {es:'La chica es guapa e inteligente.',en:'The girl is beautiful and intelligent.',bn:'মেয়েটা সুন্দরী ও বুদ্ধিমান।',h:'la CHEE-ka es GWA-pa'}
+  ],
+  quiz:[
+    {q:'"সে লম্বা" (মেয়ে) = ?',o:['Ella es alto','Ella es alta','Ella es altos','Él es alta'],a:1,f:'"alta"=tall (feminine). alto(m) → alta(f)!'},
+    {q:'"inteligente" লিঙ্গে কী হয়?',o:['inteligento (m)','inteligenta (f)','উভয়ে একই','inteligents (m)'],a:2,f:'"inteligente" ends -e, same for m and f!'},
+    {q:'Adjective সাধারণত কোথায় যায়?',o:['noun আগে','noun পরে','verb আগে','sentence শেষে'],a:1,f:'Adjectives come AFTER the noun! "casa roja" not "roja casa"!'},
+    {q:'"alto" plural masculine = ?',o:['altos','altas','alto','alte'],a:0,f:'"altos"=tall (m.pl). alto→altos, alta→altas.'},
+    {q:'"joven" মানে?',o:['বৃদ্ধ','তরুণ','সুন্দর','লম্বা'],a:1,f:'"joven"=young. Like "juvenile"!'},
+    {q:'"perezoso" (m) → feminine?',o:['perezosa','perezose','perezosos','perezosi'],a:0,f:'"perezosa"=lazy (f). -o → -a for feminine!'}
+  ],
+  next:'L5: Profesiones — পেশা ও কাজ!'
+};
+
+LDATA['C2L5'] = {
+  cult:{flag:'🇪🇸',word:'trabajo',
+    bn:'Spanish-এ পেশা বলার সময় article নেই: "Soy médico" (আমি ডাক্তার) — "un" বলা হয় না। ইংরেজিতে "I am A doctor" হলেও Spanish-এ article drop করতে হয়!',
+    en:'Spanish drops the article with professions! "Soy médico" NOT "Soy un médico". Unlike English "I am A doctor" — Spanish is more direct!'},
+  gram:null,
+  vocab:[
+    {em:'👨‍⚕️',es:'médico / médica',en:'doctor (m/f)',bn:'ডাক্তার (পুং/স্ত্রী)'},
+    {em:'👨‍🏫',es:'profesor / profesora',en:'teacher (m/f)',bn:'শিক্ষক/শিক্ষিকা'},
+    {em:'👷',es:'ingeniero / ingeniera',en:'engineer (m/f)',bn:'প্রকৌশলী (পুং/স্ত্রী)'},
+    {em:'⚖️',es:'abogado / abogada',en:'lawyer (m/f)',bn:'আইনজীবী (পুং/স্ত্রী)'},
+    {em:'👨‍🎓',es:'estudiante',en:'student (same m+f)',bn:'ছাত্র/ছাত্রী (উভয়)'},
+    {em:'👨‍💼',es:'empresario / empresaria',en:'businessman/woman',bn:'ব্যবসায়ী (পুং/স্ত্রী)'},
+    {em:'👨‍🍳',es:'cocinero / cocinera',en:'chef (m/f)',bn:'পাচক (পুং/স্ত্রী)'},
+    {em:'💻',es:'programador / programadora',en:'programmer (m/f)',bn:'প্রোগ্রামার (পুং/স্ত্রী)'},
+    {em:'🦷',es:'dentista',en:'dentist (same m+f)',bn:'দাঁতের ডাক্তার (উভয়)'},
+    {em:'📰',es:'periodista',en:'journalist (same m+f)',bn:'সাংবাদিক (উভয়)'}
+  ],
+  mnems:[
+    {bn:'🔴 "médico/médica" (ডাক্তার) — "medical" মনে করুন! -o পুং, -a স্ত্রী।',en:'🟡 "médico" (doctor) → "medical"! -o=male, -a=female doctor.'},
+    {bn:'🔴 "ingeniero" (প্রকৌশলী) — "engineer" একই শব্দ প্রায়! একই Latin মূল।',en:'🟡 "ingeniero" (engineer) → almost "engineer"! Both from Latin "ingenium".'},
+    {bn:'🔴 "abogado/a" (আইনজীবী) — "advocate" মনে করুন! Lawyers advocate for clients.',en:'🟡 "abogado" (lawyer) → "advocate"! Lawyers advocate for their clients.'}
+  ],
+  fitb:[
+    {q:'"I am a doctor (male)" = Soy ___.',blank:'médico',hint:'ডাক্তার পুং — article নেই!',accept:['médico','medico']},
+    {q:'"She is a teacher" = Ella es ___.',blank:'profesora',hint:'শিক্ষিকা (স্ত্রী)',accept:['profesora']},
+    {q:'"He is an engineer" = Él es ___.',blank:'ingeniero',hint:'প্রকৌশলী (পুং)',accept:['ingeniero']},
+    {q:'"I am a student" = Soy ___.',blank:'estudiante',hint:'উভয় লিঙ্গে একই!',accept:['estudiante']},
+    {q:'"She is a lawyer" = Ella es ___.',blank:'abogada',hint:'আইনজীবী (স্ত্রী)',accept:['abogada']}
+  ],
+  speak:[
+    {es:'Soy médico.',en:'I am a doctor.',bn:'আমি ডাক্তার।',h:'SOY ME-dee-ko'},
+    {es:'Ella es profesora de español.',en:'She is a Spanish teacher.',bn:'সে স্পেনিশের শিক্ষিকা।',h:'E-ya es pro-fe-SO-ra de es-pa-NYOL'},
+    {es:'Mi padre es ingeniero.',en:'My father is an engineer.',bn:'আমার বাবা প্রকৌশলী।',h:'mee PA-dre es in-he-NYE-ro'},
+    {es:'Somos estudiantes de español.',en:'We are Spanish students.',bn:'আমরা স্পেনিশের ছাত্র।',h:'SO-mos es-too-DYAN-tes'},
+    {es:'¿Eres programador?',en:'Are you a programmer?',bn:'তুমি কি প্রোগ্রামার?',h:'E-res pro-gra-ma-DOR'}
+  ],
+  quiz:[
+    {q:'"আমি ডাক্তার (পুরুষ)" = ?',o:['Soy un médico','Soy médico','Estoy médico','Es médico'],a:1,f:'"Soy médico" — no article! "Soy UN médico" is incorrect.'},
+    {q:'"profesora" মানে?',o:['professor','female teacher','male teacher','student'],a:1,f:'"profesora"=female teacher. "profesor"=male teacher.'},
+    {q:'"estudiante" কোন লিঙ্গ?',o:['শুধু পুরুষ','শুধু মহিলা','উভয় লিঙ্গে একই','শুধু শিশু'],a:2,f:'"estudiante" ends -e, same for male and female students!'},
+    {q:'"Soy ingeniero" বলবে কে?',o:['মহিলা প্রকৌশলী','পুরুষ প্রকৌশলী','আইনজীবী','ডাক্তার'],a:1,f:'"ingeniero"=male engineer. Female: "ingeniera" (-o→-a).'},
+    {q:'কোন বাক্যটা সঠিক?',o:['Soy un profesor','Soy profesora','Soy una profesora','Estoy profesora'],a:1,f:'"Soy profesora" — no article before profession!'}
+  ],
+  next:'L6: Pronombres Personales — yo, tú, él, ella...'
+};
+
+LDATA['C2L6'] = {
+  cult:{flag:'🇪🇸',word:'yo/tú',
+    bn:'Spanish-এ subject pronoun (আমি/তুমি/সে) প্রায়ই বাদ দেওয়া হয়! Verb-এর ending দেখেই বোঝা যায়। "Soy" মানেই "I am" — "yo soy" বলার দরকার নেই।',
+    en:'Spanish often drops subject pronouns! The verb ending tells you who is speaking. "Soy" already means "I am" — no need to say "yo soy"!'},
+  gram:{title:'📖 Subject Pronouns Table',
+    en:'Pronouns are <strong>optional</strong> — verb ending carries the meaning.<br>Special: <strong>vosotros</strong> = only in Spain. Latin America uses <strong>ustedes</strong> for both.<br><br><strong>yo</strong>=I · <strong>tú</strong>=you(inf) · <strong>usted</strong>=you(formal) · <strong>él/ella</strong>=he/she<br><strong>nosotros/as</strong>=we · <strong>vosotros/as</strong>=you all(Spain) · <strong>ustedes</strong>=you all · <strong>ellos/ellas</strong>=they',
+    bn:'Pronoun ব্যবহার optional! Verb ending বলে দেয়।<br><strong>vosotros</strong> শুধু স্পেনে। লাতিন আমেরিকায় <strong>ustedes</strong> সবক্ষেত্রে।'},
+  vocab:[
+    {em:'👤',es:'yo',en:'I',bn:'আমি'},
+    {em:'👆',es:'tú',en:'you (informal)',bn:'তুমি (অনানুষ্ঠানিক)'},
+    {em:'🤵',es:'usted',en:'you (formal)',bn:'আপনি (আনুষ্ঠানিক)'},
+    {em:'👦',es:'él',en:'he',bn:'সে (পুং)'},
+    {em:'👧',es:'ella',en:'she',bn:'সে (স্ত্রী)'},
+    {em:'👥',es:'nosotros / nosotras',en:'we (mixed / all female)',bn:'আমরা (মিশ্র / সব মেয়ে)'},
+    {em:'👥',es:'vosotros / vosotras',en:'you all — Spain informal',bn:'তোমরা (স্পেন, অনানু.)'},
+    {em:'🤝',es:'ustedes',en:'you all — formal / LatAm',bn:'আপনারা / তোমরা (আনু./ল্যাটাম)'},
+    {em:'👨‍👩‍👦',es:'ellos / ellas',en:'they (mixed / all female)',bn:'তারা (মিশ্র / সব মেয়ে)'}
+  ],
+  mnems:[
+    {bn:'🔴 "yo" (আমি) = ইও — ইংরেজিতে "I" যেমন, Spanish-এ "yo"। Pronounce: "YO"!',en:'🟡 "yo"=I. In English "I" is always capitalised — in Spanish "yo" is lowercase!'},
+    {bn:'🔴 "tú" vs "tu": accent mark আলাদা করে! "tú" (তুমি) accent সহ। "tu" (তোমার) accent ছাড়া।',en:'🟡 "tú" (you) has accent mark. "tu" (your) has no accent. Small difference, big meaning!'},
+    {bn:'🔴 "usted" = formal "আপনি"। Verb-এ él/ella-র মতো আচরণ করে: usted es।',en:'🟡 "usted" (formal you) uses the same verb form as él/ella. "usted es"="he/she is"="you are (formal)"!'},
+    {bn:'🔴 Pronoun বাদ দেওয়া যায়: "Soy bangladesí" — "yo" না বললেও চলে। Verb ending বলে দেয়!',en:'🟡 "Soy bangladesí" = "I am Bangladeshi" — no "yo" needed! Verb ending does the job.'}
+  ],
+  fitb:[
+    {q:'"I" in Spanish = ___.',blank:'yo',hint:'আমি',accept:['yo']},
+    {q:'"You" (informal) = ___.',blank:'tú',hint:'তুমি',accept:['tú','tu']},
+    {q:'"You" (formal) = ___.',blank:'usted',hint:'আপনি',accept:['usted']},
+    {q:'"We" (mixed group) = ___.',blank:'nosotros',hint:'আমরা (মিশ্র)',accept:['nosotros']},
+    {q:'"They" (all female) = ___.',blank:'ellas',hint:'তারা (সব মেয়ে)',accept:['ellas']}
+  ],
+  speak:[
+    {es:'Yo soy de Bangladesh.',en:'I am from Bangladesh.',bn:'আমি বাংলাদেশ থেকে।',h:'YO SOY de ban-gla-DESH'},
+    {es:'Tú eres muy simpático.',en:'You are very friendly.',bn:'তুমি খুব বন্ধুত্বপূর্ণ।',h:'TOO E-res mwee sim-PA-tee-ko'},
+    {es:'Él y ella son estudiantes.',en:'He and she are students.',bn:'সে ও সে ছাত্র।',h:'el ee E-ya son es-too-DYAN-tes'},
+    {es:'Nosotros somos amigos.',en:'We are friends.',bn:'আমরা বন্ধু।',h:'no-SO-tros SO-mos a-MEE-gos'},
+    {es:'Ustedes son bienvenidos.',en:'You all are welcome.',bn:'আপনারা স্বাগত।',h:'oos-TE-des son byen-be-NEE-dos'}
+  ],
+  quiz:[
+    {q:'"আমি" Spanish-এ?',o:['tú','yo','él','usted'],a:1,f:'"yo"=I. Often dropped — "Soy"=I am.'},
+    {q:'"usted" কখন?',o:['বন্ধুর সাথে','ছোটদের সাথে','বড়/অপরিচিতদের সাথে','সবসময়'],a:2,f:'"usted"=formal you. Use with strangers, elders, formal situations.'},
+    {q:'"vosotros" কোথায় ব্যবহার হয়?',o:['মেক্সিকো','শুধু স্পেনে','সব দেশে','শুধু formal-এ'],a:1,f:'"vosotros" only in Spain! Latin America uses "ustedes" for informal "you all" too.'},
+    {q:'"nosotras" কখন বলব?',o:['মিশ্র দলে','সব মেয়েদের দলে','সব ছেলেদের','একজনে'],a:1,f:'"nosotras"=we (all female). "nosotros"=we (mixed or all male).'},
+    {q:'Subject pronoun কি সবসময় দরকার?',o:['হ্যাঁ','না, optional','formal-এ হ্যাঁ','প্রশ্নে হ্যাঁ'],a:1,f:'Optional! Verb ending tells who is speaking. "Soy"=I am.'},
+    {q:'"ellas" মানে?',o:['they (mixed)','they (all female)','you all','she'],a:1,f:'"ellas"=they (all female). "ellos"=they (mixed or all male).'}
+  ],
+  next:'Chapter 3: Mi Mundo — ESTAR verb, SER vs ESTAR, পরিবার!'
+};
+
+// ═══════════════════════════════════════════════
+// CHAPTERS 3–8 PLACEHOLDERS
+// ═══════════════════════════════════════════════
+
+var PLACEHOLDER_META = {
+  'C3L1':{icon:'⚖️',topic:'Verb ESTAR',bn:'ESTAR = অস্থায়ী "থাকা"। estoy/estás/está/estamos/estáis/están',preview:'estoy, estás, está, estamos, están'},
+  'C3L2':{icon:'🆚',topic:'SER vs ESTAR',bn:'SER=স্থায়ী (DOCTOR), ESTAR=অস্থায়ী (PLACE/FEELING)',preview:'Soy alto (স্থায়ী) vs Estoy cansado (অস্থায়ী)'},
+  'C3L3':{icon:'❗',topic:'HAY vs ESTÁ/ESTÁN',bn:'HAY="আছে" (existence), ESTÁ="কোথায় আছে" (location)',preview:'Hay un banco. El banco está aquí.'},
+  'C3L4':{icon:'👨‍👩‍👧',topic:'La Familia',bn:'পরিবারের সদস্যরা: padre, madre, hermano, hermana...',preview:'padre, madre, hermano, hermana, hijo, hija'},
+  'C3L5':{icon:'👆',topic:'Adjetivos Posesivos',bn:'mi/tu/su/nuestro/vuestro/su — possessive adjectives',preview:'mi libro, tu casa, su padre, nuestro amigo'},
+  'C3L6':{icon:'📍',topic:'Preposiciones de Lugar',bn:'en, a, de, con, sin, sobre, cerca de, lejos de, entre',preview:'El banco está cerca de la farmacia.'},
+  'C4L1':{icon:'💯',topic:'Números 100–1000',bn:'cien, ciento, doscientos, quinientos, mil...',preview:'100=cien, 200=doscientos, 500=quinientos, 1000=mil'},
+  'C4L2':{icon:'🕐',topic:'La Hora',bn:'¿Qué hora es? Es la una. Son las dos y media.',preview:'Es la una. Son las dos. Son las tres y cuarto.'},
+  'C4L3':{icon:'📅',topic:'Días de la Semana',bn:'lunes, martes, miércoles, jueves, viernes, sábado, domingo',preview:'lunes, martes, miércoles, jueves, viernes'},
+  'C4L4':{icon:'🗓',topic:'Meses y Estaciones',bn:'enero–diciembre (lowercase!), primavera/verano/otoño/invierno',preview:'enero, febrero, marzo... primavera, verano, otoño, invierno'},
+  'C4L5':{icon:'📆',topic:'Las Fechas',bn:'El 5 de mayo de 2025 — তারিখ বলার নিয়ম',preview:'¿Cuál es la fecha hoy? Hoy es el cinco de mayo.'},
+  'C4L6':{icon:'⏰',topic:'Expresiones de Tiempo',bn:'hoy, mañana, ayer, esta semana, el fin de semana, siempre, nunca',preview:'hoy, mañana, ayer, esta semana, a veces, siempre'},
+  'C5L1':{icon:'🗣',topic:'Verbos Regulares -AR',bn:'hablar, trabajar, escuchar, comprar — hablo/hablas/habla...',preview:'hablar→hablo, hablas, habla, hablamos, habláis, hablan'},
+  'C5L2':{icon:'🍽',topic:'Verbos -ER / -IR',bn:'comer, beber, vivir, escribir — como/comes/come...',preview:'comer→como, comes, come / vivir→vivo, vives, vive'},
+  'C5L3':{icon:'🪥',topic:'Verbos Reflexivos',bn:'levantarse, ducharse, acostarse, llamarse — me levanto...',preview:'me levanto, te duchas, se llama, nos acostamos'},
+  'C5L4':{icon:'🌄',topic:'La Rutina Diaria',bn:'primero, luego, después, por la mañana/tarde/noche',preview:'Me levanto. Luego me ducho. Después desayuno.'},
+  'C5L5':{icon:'⚡',topic:'Verbos Irregulares',bn:'ir, tener, hacer, venir, salir, poner, dar, ver, saber, poder',preview:'voy, tengo, hago, vengo, salgo, pongo, doy, veo'},
+  'C5L6':{icon:'🔁',topic:'Frecuencia',bn:'siempre, normalmente, a veces, nunca, cada día, los lunes',preview:'Siempre desayuno. A veces como pizza. Nunca fumo.'},
+  'C6L1':{icon:'🏠',topic:'La Casa y Muebles',bn:'salón, cocina, dormitorio, baño + silla, cama, mesa, sofá',preview:'salón, cocina, dormitorio, baño, jardín, silla, cama'},
+  'C6L2':{icon:'🏙',topic:'La Ciudad',bn:'banco, hospital, farmacia, parque, estación, supermercado',preview:'banco, hospital, farmacia, parque, estación, iglesia'},
+  'C6L3':{icon:'🗺',topic:'Dar Direcciones',bn:'a la derecha, a la izquierda, todo recto, gira, está cerca',preview:'Gira a la derecha. Sigue todo recto. Está cerca.'},
+  'C6L4':{icon:'🌦',topic:'El Tiempo Atmosférico',bn:'hace calor/frío, llueve, nieva, nublado, soleado, viento',preview:'Hace sol. Llueve mucho. Hace frío. Está nublado.'},
+  'C6L5':{icon:'🎨',topic:'Colores y Tamaño',bn:'rojo, azul, verde, grande, pequeño — agreement with noun!',preview:'rojo/a, azul, verde, blanco/a, negro/a, grande, pequeño/a'},
+  'C6L6':{icon:'🫀',topic:'El Cuerpo Humano',bn:'cabeza, brazo, pierna, ojo, nariz + me duele la cabeza',preview:'cabeza, ojo, nariz, boca, brazo, mano, pierna, pie'},
+  'C7L1':{icon:'🍽',topic:'La Comida y Bebida',bn:'pan, leche, arroz, carne, fruta, agua, café, verdura',preview:'pan, leche, arroz, carne, pollo, fruta, agua, café'},
+  'C7L2':{icon:'🍷',topic:'En el Restaurante',bn:'Quisiera, la carta, la cuenta, ¿qué recomienda?, está rico',preview:'Quisiera... La carta, por favor. ¿Qué recomienda?'},
+  'C7L3':{icon:'🛒',topic:'De Compras',bn:'¿Cuánto cuesta? Es caro/barato, la talla, pagar, la tarjeta',preview:'¿Cuánto cuesta? Es caro. ¿Tiene la talla 40?'},
+  'C7L4':{icon:'🚌',topic:'El Transporte',bn:'autobús, metro, tren, avión, taxi + ¿cómo llego a...?',preview:'el autobús, el metro, el tren, el avión, el taxi'},
+  'C7L5':{icon:'💪',topic:'Verbos Modales',bn:'poder (can), querer (want), deber (must), necesitar, preferir',preview:'puedo, quiero, debo, necesito, prefiero + infinitive'},
+  'C7L6':{icon:'❤️',topic:'Gustar y Similares',bn:'Me gusta, me encanta, no me gusta nada, me interesa',preview:'Me gusta el café. Me encantan los libros. ¿Te gusta?'},
+  'C8L1':{icon:'🚫',topic:'La Negación',bn:'no + verb, nunca/nadie/nada — double negatives ARE correct!',preview:'No como carne. No tengo nada. Nunca voy allí.'},
+  'C8L2':{icon:'👆',topic:'Demostrativos',bn:'este/esta/estos/estas (this/these), ese/esa/esos/esas (that)',preview:'este libro, esta casa, ese chico, esa chica'},
+  'C8L3':{icon:'🔮',topic:'Futuro Próximo',bn:'ir + a + infinitive — "voy a comer" = I am going to eat',preview:'Voy a comer. Vas a estudiar. Va a llover mañana.'},
+  'C8L4':{icon:'⏮',topic:'El Pretérito Indefinido',bn:'Past tense: -é/-aste/-ó (AR), -í/-iste/-ió (ER/IR) + fui/tuve',preview:'hablé, comí, fui, tuve, hice, vine — simple past'},
+  'C8L5':{icon:'🔗',topic:'Conectores y Frases',bn:'porque, que, cuando, pero, y, también, aunque — building sentences',preview:'Estudio porque quiero hablar español. Pero es difícil.'},
+  'C8L6':{icon:'📊',topic:'Muy, Mucho y Adverbios',bn:'muy + adj, mucho + noun, adverbs in -mente, más/menos',preview:'muy alto, mucho trabajo, rápidamente, más fácil'}
+};
+
+Object.keys(PLACEHOLDER_META).forEach(function(lid) {
+  var m = PLACEHOLDER_META[lid];
+  var chNum = lid.charAt(1);
+  LDATA[lid] = {
+    cult:{flag:'🚧',word:'Próximo',
+      bn:'এই পাঠটি শীঘ্রই যুক্ত হবে! এখন Chapter 1 ও 2 ভালো করে শিখুন — ভিত্তি মজবুত করুন। আপনি Chapter ' + chNum + '-এ এলে এটা ready থাকবে!',
+      en:'This lesson content is coming soon! Master Ch1 and Ch2 first. Content will be added as you progress through the course.'},
+    gram:null,
+    vocab:[
+      {em:m.icon, es:m.topic, en:'Coming soon — '+m.topic, bn:m.bn},
+      {em:'💡', es:m.preview, en:'Preview of what you will learn', bn:'শীঘ্রই শিখবেন'}
+    ],
+    mnems:[
+      {bn:'🔴 এই পাঠটি শীঘ্রই যুক্ত হবে। Chapter 1 ও 2 সম্পন্ন করুন প্রথমে!',
+       en:'🟡 Content coming soon! Complete Ch1 and Ch2 first to build your foundation.'}
+    ],
+    fitb:[
+      {q:'এই পাঠের বিষয় কী?', blank:m.topic, hint:m.bn.substring(0,30), accept:[m.topic.toLowerCase(), 'coming soon', 'soon']}
+    ],
+    speak:[
+      {es:m.preview.split(',')[0].trim()+'.', en:m.topic, bn:m.bn, h:'শীঘ্রই আসছে!'}
+    ],
+    quiz:[
+      {q:'Chapter '+chNum+' এই পাঠের বিষয় কী?',
+       o:[m.topic, 'Saludos', 'Números', 'Artículos'],
+       a:0,
+       f:m.topic+' — '+m.bn.substring(0,60)}
+    ],
+    next: 'Chapter '+chNum+' সম্পন্ন করতে থাকুন!'
+  };
+});
+
+// ═══════════════════════════════════════════════
+// CHAPTER 3 DATA — Mi Mundo
+// ═══════════════════════════════════════════════
+LDATA['C3L1'] = {
+  cult:{flag:'🇪🇸',word:'estoy',
+    bn:'ESTAR মানে "থাকা" — কিন্তু শুধু অস্থায়ী অবস্থার জন্য! অনুভূতি, স্বাস্থ্য, অবস্থান — এগুলো ESTAR দিয়ে বলা হয়। SER = স্থায়ী, ESTAR = অস্থায়ী।',
+    en:'ESTAR = "to be" for temporary states! Feelings, health, location — all use ESTAR. SER = permanent identity, ESTAR = temporary condition.'},
+  gram:{title:'📖 ESTAR — Full Conjugation',
+    en:'<strong>yo</strong>=estoy · <strong>tú</strong>=estás · <strong>él/ella</strong>=está · <strong>nosotros</strong>=estamos · <strong>vosotros</strong>=estáis · <strong>ellos</strong>=están<br><br>Use ESTAR for: <strong>P</strong>osition, <strong>L</strong>ocation, <strong>A</strong>ction, <strong>C</strong>ondition, <strong>E</strong>motion = <strong>PLACE</strong>',
+    bn:'yo=estoy · tú=estás · él/ella=está · nosotros=estamos · ellos=están<br><br>ESTAR মনে রাখুন: PLACE = Position, Location, Action, Condition, Emotion'},
+  vocab:[
+    {em:'👤',es:'estoy',en:'I am (temporary)',bn:'আমি আছি (অস্থায়ী)'},
+    {em:'👆',es:'estás',en:'you are (temporary)',bn:'তুমি আছ'},
+    {em:'🧑',es:'está',en:'he/she is (temporary)',bn:'সে আছে'},
+    {em:'👫',es:'estamos',en:'we are (temporary)',bn:'আমরা আছি'},
+    {em:'👥',es:'estáis',en:'you all are (Spain)',bn:'তোমরা আছ'},
+    {em:'👥',es:'están',en:'they are (temporary)',bn:'তারা আছে'},
+    {em:'😊',es:'Estoy bien',en:'I am well/fine',bn:'আমি ভালো আছি'},
+    {em:'😴',es:'Estoy cansado/a',en:'I am tired (m/f)',bn:'আমি ক্লান্ত'},
+    {em:'🤒',es:'Estoy enfermo/a',en:'I am sick (m/f)',bn:'আমি অসুস্থ'},
+    {em:'😄',es:'Estoy contento/a',en:'I am happy (m/f)',bn:'আমি খুশি'},
+    {em:'😟',es:'Estoy triste',en:'I am sad',bn:'আমি দুঃখিত'},
+    {em:'📍',es:'Estoy en Dhaka',en:'I am in Dhaka',bn:'আমি ঢাকায় আছি'}
+  ],
+  mnems:[
+    {bn:'🔴 "estoy" = এস-তোই — "I stay" মনে করুন! Estoy = আমি আছি। ESTAR থেকে।',en:'🟡 "estoy"=I am (temporary). Think "I stay here" — estar ≈ stay!'},
+    {bn:'🔴 PLACE ট্রিক: ESTAR ব্যবহার = Position, Location, Action, Condition, Emotion।',en:'🟡 PLACE = ESTAR uses: Position, Location, Action, Condition, Emotion.'},
+    {bn:'🔴 "Estoy cansado" = আমি ক্লান্ত (আজকে, সবসময় না)। "Soy alto" = আমি লম্বা (স্থায়ী)।',en:'🟡 "Estoy cansado"=I am tired (today). "Soy alto"=I am tall (always). Temporary vs permanent!'},
+    {bn:'🔴 Feeling-এ সবসময় ESTAR: খুশি, দুঃখিত, রাগী, ক্লান্ত — এগুলো বদলায়, তাই ESTAR।',en:'🟡 Emotions always use ESTAR — they change! Happy today, sad tomorrow.'}
+  ],
+  fitb:[
+    {q:'আমি ভালো আছি = Estoy ___.', blank:'bien', hint:'ভালো / well', accept:['bien']},
+    {q:'সে অসুস্থ = ___ enfermo.', blank:'Está', hint:'সে আছে', accept:['está','esta']},
+    {q:'আমরা ঢাকায় আছি = ___ en Dhaka.', blank:'Estamos', hint:'আমরা আছি', accept:['estamos']},
+    {q:'তুমি কেমন আছ? = ¿Cómo ___?', blank:'estás', hint:'তুমি আছ', accept:['estás','estas']},
+    {q:'তারা ক্লান্ত = ___ cansados.', blank:'Están', hint:'তারা আছে', accept:['están','estan']}
+  ],
+  speak:[
+    {es:'Estoy muy bien, gracias.',en:'I am very well, thank you.',bn:'আমি খুব ভালো আছি, ধন্যবাদ।',h:'es-TOY mwee BYEN GRA-thyas'},
+    {es:'¿Cómo estás? Estoy cansado.',en:'How are you? I am tired.',bn:'কেমন আছ? আমি ক্লান্ত।',h:'KOH-mo es-TAS / es-TOY kan-SA-do'},
+    {es:'Estoy en Dhaka ahora.',en:'I am in Dhaka now.',bn:'আমি এখন ঢাকায় আছি।',h:'es-TOY en DA-ka a-OH-ra'},
+    {es:'Ella está triste hoy.',en:'She is sad today.',bn:'সে আজকে দুঃখিত।',h:'E-ya es-TA TREES-te oy'},
+    {es:'Estamos listos para estudiar.',en:'We are ready to study.',bn:'আমরা পড়তে প্রস্তুত।',h:'es-TA-mos LEES-tos PA-ra es-too-DYAR'}
+  ],
+  quiz:[
+    {q:'"আমি ক্লান্ত" Spanish-এ?',o:['Soy cansado','Estoy cansado','Está cansado','Estamos cansados'],a:1,f:'Estoy cansado! অনুভূতি = ESTAR. Tired is temporary!'},
+    {q:'"estamos" মানে?',o:['আমি আছি','তুমি আছ','আমরা আছি','তারা আছে'],a:2,f:'estamos = we are (nosotros + estar).'},
+    {q:'"Estoy en Dhaka" মানে?',o:['I am from Dhaka','I live in Dhaka','I am in Dhaka','I like Dhaka'],a:2,f:'Estoy en Dhaka = I am in Dhaka. Location uses ESTAR!'},
+    {q:'Feeling/emotion-এ কোন verb?',o:['SER','ESTAR','TENER','IR'],a:1,f:'Emotions use ESTAR! They are temporary — PLACE trick.'},
+    {q:'"está" কে ব্যবহার করে?',o:['yo','tú','él/ella','nosotros'],a:2,f:'está = he/she/it is (él/ella/usted + estar).'},
+    {q:'"Estoy bien" মানে?',o:['আমি ভালো','আমি খারাপ','আমি ক্লান্ত','আমি অসুস্থ'],a:0,f:'Estoy bien = I am well/fine. Standard response to ¿Cómo estás?'}
+  ],
+  next:'L2: SER vs ESTAR — সবচেয়ে গুরুত্বপূর্ণ পার্থক্য!'
+};
+
+LDATA['C3L2'] = {
+  cult:{flag:'🇪🇸',word:'ser/estar',
+    bn:'SER vs ESTAR — এটাই Spanish-এর সবচেয়ে কঠিন বিষয়! দুটোই "to be" কিন্তু আলাদা ক্ষেত্রে। মনে রাখুন: SER = DOCTOR (স্থায়ী), ESTAR = PLACE (অস্থায়ী)।',
+    en:'SER vs ESTAR — the hardest thing in Spanish! Both mean "to be" but used differently. SER=DOCTOR (permanent), ESTAR=PLACE (temporary).'},
+  gram:{title:'📖 SER vs ESTAR — The Key Difference',
+    en:'<strong>SER</strong> (DOCTOR) = Description, Origin, Characteristics, Time, Occupation, Relationship<br><strong>ESTAR</strong> (PLACE) = Position, Location, Action, Condition, Emotion<br><br>Same adjective, different meaning!<br>Él es aburrido = He IS boring (personality)<br>Él está aburrido = He IS bored (right now)',
+    bn:'<strong>SER</strong> = স্থায়ী পরিচয় (DOCTOR)<br><strong>ESTAR</strong> = অস্থায়ী অবস্থা (PLACE)<br><br>একই adjective, ভিন্ন অর্থ!<br>Es aburrido = সে বিরক্তিকর (স্বভাব)<br>Está aburrido = সে বিরক্ত (এখন)'},
+  vocab:[
+    {em:'⚖️',es:'Soy alto — Estoy de pie',en:'I am tall (perm.) — I am standing (temp.)',bn:'আমি লম্বা (স্থায়ী) — আমি দাঁড়িয়ে আছি (অস্থায়ী)'},
+    {em:'🎨',es:'La casa es blanca',en:'The house IS white (permanent)',bn:'বাড়িটা সাদা (স্থায়ী রং)'},
+    {em:'🍎',es:'La manzana está verde',en:'The apple IS green (not ripe yet)',bn:'আপেলটা সবুজ (এখনো পাকেনি)'},
+    {em:'😊',es:'Es feliz / Está feliz',en:'He is a happy person / He is happy now',bn:'সে সুখী মানুষ / সে এখন খুশি'},
+    {em:'🤒',es:'Estar enfermo',en:'To be sick (temporary condition)',bn:'অসুস্থ থাকা (অস্থায়ী)'},
+    {em:'🧍',es:'Estar de pie',en:'To be standing',bn:'দাঁড়িয়ে থাকা'},
+    {em:'💍',es:'Estar casado/a',en:'To be married (state)',bn:'বিবাহিত থাকা'},
+    {em:'💀',es:'Estar muerto/a',en:'To be dead (state)',bn:'মৃত অবস্থায় থাকা'},
+    {em:'🏠',es:'La tienda está cerrada',en:'The shop is closed (state)',bn:'দোকানটা বন্ধ (অবস্থা)'},
+    {em:'👶',es:'Ser joven',en:'To be young (characteristic)',bn:'তরুণ হওয়া (বৈশিষ্ট্য)'}
+  ],
+  mnems:[
+    {bn:'🔴 SER = চিরস্থায়ী বিষয়: জন্মস্থান, জাতীয়তা, পেশা, স্বভাব, সম্পর্ক। এগুলো বদলায় না।',en:'🟡 SER = permanent: origin, nationality, profession, personality, relationships. These don\'t change.'},
+    {bn:'🔴 ESTAR = পরিবর্তনশীল: অনুভূতি, স্বাস্থ্য, অবস্থান, অবস্থা। আজকে আছে, কালকে নাও থাকতে পারে।',en:'🟡 ESTAR = changeable: feelings, health, location, condition. Here today, gone tomorrow!'},
+    {bn:'🔴 "Es aburrido" (সে বিরক্তিকর স্বভাবের) vs "Está aburrido" (সে এখন বিরক্ত)। Context-এ বোঝে।',en:'🟡 "Es aburrido"=He IS boring (always). "Está aburrido"=He IS bored (right now). Same word, huge difference!'},
+    {bn:'🔴 সহজ নিয়ম: পরিবর্তন হতে পারে? → ESTAR। কখনো পরিবর্তন হয় না? → SER।',en:'🟡 Quick rule: Can it change? → ESTAR. Never changes? → SER.'}
+  ],
+  fitb:[
+    {q:'আমি বাংলাদেশি (জাতীয়তা) = ___ bangladesí.', blank:'Soy', hint:'স্থায়ী পরিচয় = SER', accept:['soy']},
+    {q:'আমি ক্লান্ত (এখন) = ___ cansado.', blank:'Estoy', hint:'অস্থায়ী অবস্থা = ESTAR', accept:['estoy']},
+    {q:'দোকান বন্ধ = La tienda ___ cerrada.', blank:'está', hint:'অবস্থা = ESTAR', accept:['está','esta']},
+    {q:'সে ডাক্তার (পেশা) = ___ médico.', blank:'Es', hint:'স্থায়ী পেশা = SER', accept:['es']},
+    {q:'আমরা ঢাকায় আছি (অবস্থান) = ___ en Dhaka.', blank:'Estamos', hint:'অবস্থান = ESTAR', accept:['estamos']}
+  ],
+  speak:[
+    {es:'Soy bangladesí y estoy en Dhaka.',en:'I am Bangladeshi and I am in Dhaka.',bn:'আমি বাংলাদেশি এবং আমি ঢাকায় আছি।',h:'SOY ban-gla-de-SEE ee es-TOY en DA-ka'},
+    {es:'Él es inteligente pero está cansado.',en:'He is intelligent but he is tired.',bn:'সে বুদ্ধিমান কিন্তু সে ক্লান্ত।',h:'el es in-te-lee-HEN-te PEH-ro es-TA kan-SA-do'},
+    {es:'La casa es grande y está limpia.',en:'The house is big and it is clean.',bn:'বাড়িটা বড় এবং পরিষ্কার।',h:'la KA-sa es GRAN-de ee es-TA LEEM-pya'},
+    {es:'¿Eres médico? Sí, soy médico.',en:'Are you a doctor? Yes, I am a doctor.',bn:'তুমি কি ডাক্তার? হ্যাঁ, আমি ডাক্তার।',h:'E-res ME-dee-ko / SEE SOY ME-dee-ko'},
+    {es:'Estoy feliz porque es viernes.',en:'I am happy because it is Friday.',bn:'আমি খুশি কারণ আজকে শুক্রবার।',h:'es-TOY fe-LEES POR-ke es BYER-nes'}
+  ],
+  quiz:[
+    {q:'"আমি বাংলাদেশি" — কোন verb?',o:['ESTAR','SER','TENER','IR'],a:1,f:'Soy bangladesí! জাতীয়তা = SER (DOCTOR — Origin).'},
+    {q:'"আমি ক্লান্ত" — কোন verb?',o:['ESTAR','SER','TENER','IR'],a:0,f:'Estoy cansado! অনুভূতি = ESTAR (PLACE — Emotion/Condition).'},
+    {q:'"La tienda está cerrada" মানে?',o:['দোকান সুন্দর','দোকান বন্ধ','দোকান খোলা','দোকান বড়'],a:1,f:'La tienda está cerrada = The shop is closed. State/condition = ESTAR.'},
+    {q:'"Es aburrido" vs "Está aburrido" — পার্থক্য?',o:['কোনো পার্থক্য নেই','স্বভাব vs এখনকার অবস্থা','অতীত vs বর্তমান','formal vs informal'],a:1,f:'"Es aburrido"=He IS boring (personality). "Está aburrido"=He IS bored (right now)!'},
+    {q:'অবস্থান (location) বলতে কোন verb?',o:['SER','ESTAR','TENER','HABER'],a:1,f:'Location always uses ESTAR! "Estoy en Dhaka" = I am in Dhaka.'},
+    {q:'"Soy médico" — কেন SER?',o:['অস্থায়ী অবস্থা','এখনকার অনুভূতি','স্থায়ী পেশা','অবস্থান'],a:2,f:'Profession = SER (DOCTOR — Occupation). Permanent identity!'}
+  ],
+  next:'L3: HAY vs ESTÁ/ESTÁN — "আছে" বনাম "কোথায় আছে"!'
+};
+
+LDATA['C3L3'] = {
+  cult:{flag:'🇪🇸',word:'hay',
+    bn:'"Hay" মানে "আছে" (existence) — কিন্তু "está" মানে "কোথায় আছে" (location)। "Hay un banco" = একটা ব্যাংক আছে। "El banco está aquí" = ব্যাংকটা এখানে আছে।',
+    en:'"Hay" = there is/are (existence). "Está/están" = location of something specific. "Hay un banco" = there is a bank. "El banco está aquí" = The bank is here.'},
+  gram:{title:'📖 HAY vs ESTÁ/ESTÁN',
+    en:'<strong>HAY</strong> (from HABER) = there is / there are — existence, general<br>Never changes: hay (singular AND plural)<br><strong>ESTÁ/ESTÁN</strong> (from ESTAR) = specific thing is located somewhere<br>está = one thing · están = multiple things',
+    bn:'<strong>HAY</strong> = আছে (অস্তিত্ব) — singular ও plural উভয়ে একই!<br><strong>ESTÁ</strong> = নির্দিষ্ট জিনিস কোথায় আছে (একটা)<br><strong>ESTÁN</strong> = নির্দিষ্ট জিনিসগুলো কোথায় আছে (একাধিক)'},
+  vocab:[
+    {em:'🏦',es:'Hay un banco',en:'There is a bank',bn:'একটা ব্যাংক আছে'},
+    {em:'🏦',es:'El banco está aquí',en:'The bank is here',bn:'ব্যাংকটা এখানে আছে'},
+    {em:'👥',es:'Hay muchas personas',en:'There are many people',bn:'অনেক মানুষ আছে'},
+    {em:'📚',es:'¿Hay una biblioteca?',en:'Is there a library?',bn:'কোনো লাইব্রেরি আছে?'},
+    {em:'🚫',es:'No hay problema',en:'There is no problem',bn:'কোনো সমস্যা নেই'},
+    {em:'📍',es:'¿Dónde está el baño?',en:'Where is the bathroom?',bn:'বাথরুম কোথায়?'},
+    {em:'🏠',es:'¿Dónde están las llaves?',en:'Where are the keys?',bn:'চাবিগুলো কোথায়?'},
+    {em:'🔑',es:'Las llaves están en la mesa',en:'The keys are on the table',bn:'চাবিগুলো টেবিলে আছে'},
+    {em:'❓',es:'¿Hay alguien?',en:'Is there someone / anyone?',bn:'কেউ আছে?'},
+    {em:'🌟',es:'Hay que estudiar',en:'One must study / It is necessary to study',bn:'পড়তে হবে (hay que + infinitive)'}
+  ],
+  mnems:[
+    {bn:'🔴 HAY = existence (আছে কি না): "¿Hay un banco?" — এখানে কোনো ব্যাংক আছে?',en:'🟡 HAY = existence: "Is there a bank?" — does it exist? Use with indefinite articles (un/una/unos/unas).'},
+    {bn:'🔴 ESTÁ/ESTÁN = location (কোথায় আছে): "¿Dónde está el banco?" — ব্যাংকটা কোথায়?',en:'🟡 ESTÁ/ESTÁN = location: "Where IS the bank?" — specific thing, where is it? Use with definite articles (el/la/los/las).'},
+    {bn:'🔴 "No hay problema" = কোনো সমস্যা নেই। HAY কখনো বদলায় না — singular ও plural-এ একই!',en:'🟡 "No hay problema" = No problem! HAY never changes form — same for one or many things.'},
+    {bn:'🔴 "Hay que + infinitive" = করতে হবে। "Hay que estudiar" = পড়তে হবে। Very useful phrase!',en:'🟡 "Hay que + infinitive" = one must / it is necessary to. "Hay que estudiar" = One must study!'}
+  ],
+  fitb:[
+    {q:'একটা ব্যাংক আছে = ___ un banco.', blank:'Hay', hint:'আছে (existence)', accept:['hay']},
+    {q:'ব্যাংকটা কোথায়? = ¿Dónde ___ el banco?', blank:'está', hint:'কোথায় আছে (location)', accept:['está','esta']},
+    {q:'চাবিগুলো কোথায়? = ¿Dónde ___ las llaves?', blank:'están', hint:'একাধিক জিনিসের অবস্থান', accept:['están','estan']},
+    {q:'কোনো সমস্যা নেই = No ___ problema.', blank:'hay', hint:'নেই (no existence)', accept:['hay']},
+    {q:'পড়তে হবে = ___ que estudiar.', blank:'Hay', hint:'করতে হবে', accept:['hay']}
+  ],
+  speak:[
+    {es:'Hay un restaurante cerca.',en:'There is a restaurant nearby.',bn:'কাছে একটা রেস্তোরাঁ আছে।',h:'eye oon res-tow-RAN-te THER-ka'},
+    {es:'¿Dónde está el baño?',en:'Where is the bathroom?',bn:'বাথরুম কোথায়?',h:'DON-de es-TA el BA-nyo'},
+    {es:'Las llaves están en la mesa.',en:'The keys are on the table.',bn:'চাবিগুলো টেবিলে আছে।',h:'las YA-bes es-TAN en la ME-sa'},
+    {es:'No hay problema, tranquilo.',en:'No problem, relax.',bn:'কোনো সমস্যা নেই, শান্ত থাকো।',h:'no eye pro-BLE-ma tran-KEE-lo'},
+    {es:'Hay que hablar español cada día.',en:'One must speak Spanish every day.',bn:'প্রতিদিন Spanish বলতে হবে।',h:'eye ke a-BLAR es-pa-NYOL KA-da DEE-a'}
+  ],
+  quiz:[
+    {q:'"একটা ব্যাংক আছে" Spanish-এ?',o:['El banco está aquí','Hay un banco','Está un banco','Un banco hay'],a:1,f:'Hay un banco! Existence = HAY + indefinite article (un/una).'},
+    {q:'"ব্যাংকটা কোথায়?" Spanish-এ?',o:['¿Hay un banco?','¿Dónde hay banco?','¿Dónde está el banco?','¿Hay el banco?'],a:2,f:'¿Dónde está el banco? Location of specific thing = ESTÁ + definite article (el/la).'},
+    {q:'"Hay" singular ও plural-এ কী হয়?',o:['hay / han','hay / hayan','hay / hay','hay / están'],a:2,f:'HAY never changes! "Hay un banco" AND "Hay muchos bancos" — same form!'},
+    {q:'"No hay problema" মানে?',o:['সমস্যা আছে','কোনো সমস্যা নেই','বড় সমস্যা','অনেক সমস্যা'],a:1,f:'No hay problema = No problem/issue! Very common Spanish phrase.'},
+    {q:'"Las llaves están en la mesa" মানে?',o:['চাবি টেবিলে নেই','চাবিগুলো টেবিলে আছে','একটা চাবি আছে','চাবি কোথায়?'],a:1,f:'Las llaves están en la mesa = The keys are on the table. Specific + location = ESTÁN.'},
+    {q:'"Hay que estudiar" মানে?',o:['পড়া মজার','পড়তে হবে','আমি পড়ি','তুমি পড়?'],a:1,f:'Hay que + infinitive = one must / it is necessary to. "Hay que estudiar" = must study!'}
+  ],
+  next:'L4: La Familia — পরিবারের সদস্যরা!'
+};
+
+LDATA['C3L4'] = {
+  cult:{flag:'🇪🇸',word:'familia',
+    bn:'Spanish পরিবারে "padres" মানে "মা-বাবা" (plural)। "padre" = বাবা, "madre" = মা। আর "abuelos" = দাদা-দাদি উভয়। Masculine plural সবাইকে cover করে!',
+    en:'In Spanish, "padres" = parents (both). "padre"=father, "madre"=mother. "Abuelos"=grandparents (both). Masculine plural covers everyone!'},
+  gram:null,
+  vocab:[
+    {em:'👨',es:'el padre',en:'father',bn:'বাবা'},
+    {em:'👩',es:'la madre',en:'mother',bn:'মা'},
+    {em:'👨‍👩‍👦',es:'los padres',en:'parents',bn:'মা-বাবা'},
+    {em:'👦',es:'el hijo',en:'son',bn:'ছেলে'},
+    {em:'👧',es:'la hija',en:'daughter',bn:'মেয়ে'},
+    {em:'👦👧',es:'los hijos',en:'children (sons/daughters)',bn:'সন্তানরা'},
+    {em:'👱',es:'el hermano',en:'brother',bn:'ভাই'},
+    {em:'👱‍♀️',es:'la hermana',en:'sister',bn:'বোন'},
+    {em:'👴',es:'el abuelo',en:'grandfather',bn:'দাদা / নানা'},
+    {em:'👵',es:'la abuela',en:'grandmother',bn:'দাদি / নানি'},
+    {em:'👴👵',es:'los abuelos',en:'grandparents',bn:'দাদা-দাদি / নানা-নানি'},
+    {em:'👨‍👦',es:'el tío',en:'uncle',bn:'চাচা / মামা'},
+    {em:'👩‍👦',es:'la tía',en:'aunt',bn:'চাচি / মামি'},
+    {em:'👦',es:'el primo / la prima',en:'cousin (m/f)',bn:'চাচাতো/মামাতো ভাই/বোন'},
+    {em:'💑',es:'el marido / la esposa',en:'husband / wife',bn:'স্বামী / স্ত্রী'}
+  ],
+  mnems:[
+    {bn:'🔴 "padre/madre" — "paternal/maternal" মনে করুন! Paternal = বাবার দিক, Maternal = মায়ের দিক।',en:'🟡 "padre/madre" → "paternal/maternal"! Same Latin roots. Easy link!'},
+    {bn:'🔴 "hermano/hermana" (ভাই/বোন) — "hermit" (সন্ন্যাসী) মনে করুন! একা থাকলে hermano-hermana থাকে না।',en:'🟡 "hermano/hermana" (sibling) — think "Herman" = a German name, brothers stick together!'},
+    {bn:'🔴 "abuelo/abuela" = দাদা/দাদি। "Abu" বাংলা/আরবিতে মানে "বাবা" — abuelo ≈ grandfather!',en:'🟡 "abuelo/abuela" (grandparent) — "abu" in Arabic/Bangla means "father" — abuelo is one step up!'},
+    {bn:'🔴 Masculine plural সবাইকে cover করে: "hermanos" = ভাই + বোন উভয়। "los hijos" = ছেলে ও মেয়ে।',en:'🟡 Masculine plural covers all genders: "hermanos"=brothers AND sisters. "los hijos"=sons AND daughters.'}
+  ],
+  fitb:[
+    {q:'বাবা Spanish-এ = el ___.', blank:'padre', hint:'বাবা', accept:['padre']},
+    {q:'মা Spanish-এ = la ___.', blank:'madre', hint:'মা', accept:['madre']},
+    {q:'মা-বাবা (plural) = los ___.', blank:'padres', hint:'মা-বাবা উভয়', accept:['padres']},
+    {q:'ভাই = el ___.', blank:'hermano', hint:'ভাই', accept:['hermano']},
+    {q:'দাদি / নানি = la ___.', blank:'abuela', hint:'দাদি', accept:['abuela']}
+  ],
+  speak:[
+    {es:'Mi padre se llama Karim.',en:'My father\'s name is Karim.',bn:'আমার বাবার নাম করিম।',h:'mee PA-dre se YA-ma ka-REEM'},
+    {es:'Tengo dos hermanos y una hermana.',en:'I have two brothers and one sister.',bn:'আমার দুই ভাই ও একজন বোন আছে।',h:'TEN-go DOS er-MA-nos ee OO-na er-MA-na'},
+    {es:'Mis abuelos viven en Dhaka.',en:'My grandparents live in Dhaka.',bn:'আমার দাদা-দাদি ঢাকায় থাকেন।',h:'mees a-BWEH-los BEE-ben en DA-ka'},
+    {es:'¿Cuántos hermanos tienes?',en:'How many siblings do you have?',bn:'তোমার কতজন ভাই-বোন আছে?',h:'KWAN-tos er-MA-nos TYEH-nes'},
+    {es:'Mi familia es muy grande.',en:'My family is very big.',bn:'আমার পরিবার অনেক বড়।',h:'mee fa-MEE-lya es mwee GRAN-de'}
+  ],
+  quiz:[
+    {q:'"মা" Spanish-এ?',o:['padre','madre','hermana','abuela'],a:1,f:'madre = মা! Think "maternal" — same root!'},
+    {q:'"los padres" মানে?',o:['বাবারা (plural)','মা-বাবা উভয়','বাচ্চারা','দাদা-দাদি'],a:1,f:'los padres = parents (both mother AND father). Masculine plural covers both!'},
+    {q:'"abuelo" মানে?',o:['বাবা','ভাই','দাদা/নানা','চাচা'],a:2,f:'abuelo = grandfather. "abuela" = grandmother. Think "abu" (father) + one generation!'},
+    {q:'"Tengo dos hermanos" মানে?',o:['আমার দুই বোন আছে','আমার দুই ভাই আছে','আমার দুই বন্ধু আছে','আমার দুই ছেলে আছে'],a:1,f:'Tengo dos hermanos = I have two brothers (or siblings). "hermano"=brother.'},
+    {q:'"prima" মানে?',o:['ভাই','বোন','চাচাতো বোন','মামি'],a:2,f:'"prima" = female cousin. "primo" = male cousin. Same family, different gender ending!'},
+    {q:'স্ত্রী Spanish-এ?',o:['el marido','la esposa','la hermana','la madre'],a:1,f:'la esposa = wife. "el marido" = husband. Also: "la mujer" = wife (informal).'}
+  ],
+  next:'L5: Adjetivos Posesivos — mi, tu, su, nuestro!'
+};
+
+LDATA['C3L5'] = {
+  cult:{flag:'🇪🇸',word:'mi/tu/su',
+    bn:'Spanish-এ possessive adjective noun-এর সাথে agree করে। "mi libro" (আমার বই) কিন্তু "mis libros" (আমার বইগুলো)। Singular/plural বদলায়, gender নয় (mi/tu/su-তে)!',
+    en:'Possessive adjectives agree with the NOUN (not the owner!) in number. "mi libro" but "mis libros". Gender doesn\'t change for mi/tu/su!'},
+  gram:{title:'📖 Possessive Adjectives Table',
+    en:'<strong>mi/mis</strong> = my · <strong>tu/tus</strong> = your(inf) · <strong>su/sus</strong> = his/her/your(f)/their<br><strong>nuestro/a/os/as</strong> = our · <strong>vuestro/a/os/as</strong> = your all (Spain)<br>su/sus is used for all 3rd person — context tells you who!',
+    bn:'<strong>mi/mis</strong> = আমার · <strong>tu/tus</strong> = তোমার · <strong>su/sus</strong> = তার/আপনার/তাদের<br><strong>nuestro/nuestra/nuestros/nuestras</strong> = আমাদের<br>su/sus = তার, আপনার, তাদের — context দেখে বুঝতে হয়!'},
+  vocab:[
+    {em:'📖',es:'mi libro / mis libros',en:'my book / my books',bn:'আমার বই / আমার বইগুলো'},
+    {em:'🏠',es:'tu casa / tus casas',en:'your house / your houses',bn:'তোমার বাড়ি / তোমার বাড়িগুলো'},
+    {em:'👨',es:'su padre / sus padres',en:'his/her/their father/parents',bn:'তার বাবা / তাদের মা-বাবা'},
+    {em:'👫',es:'nuestro amigo',en:'our friend (m)',bn:'আমাদের বন্ধু (পুং)'},
+    {em:'👭',es:'nuestra amiga',en:'our friend (f)',bn:'আমাদের বন্ধু (স্ত্রী)'},
+    {em:'🏡',es:'nuestra casa',en:'our house',bn:'আমাদের বাড়ি'},
+    {em:'📚',es:'vuestros libros',en:'your (all) books — Spain',bn:'তোমাদের বইগুলো (স্পেন)'},
+    {em:'👨‍👩‍👧',es:'su familia',en:'his/her/their family',bn:'তার/তাদের পরিবার'},
+    {em:'🐕',es:'mi perro',en:'my dog',bn:'আমার কুকুর'},
+    {em:'💼',es:'tu trabajo',en:'your job/work',bn:'তোমার কাজ/চাকরি'}
+  ],
+  mnems:[
+    {bn:'🔴 "mi/tu/su" লিঙ্গে বদলায় না: "mi padre" এবং "mi madre" — দুটোই "mi"।',en:'🟡 "mi/tu/su" don\'t change for gender! "mi padre" AND "mi madre" — same "mi".'},
+    {bn:'🔴 কিন্তু বচনে বদলায়: "mi libro" (একটা) → "mis libros" (অনেক)। -s যোগ হয়।',en:'🟡 But they DO change for number: "mi libro" (one) → "mis libros" (many). Just add -s!'},
+    {bn:'🔴 "nuestro/nuestra" লিঙ্গ ও বচন উভয়ে বদলায়: nuestro amigo / nuestra amiga / nuestros amigos।',en:'🟡 "nuestro/nuestra" changes for BOTH gender and number: nuestro/nuestra/nuestros/nuestras.'},
+    {bn:'🔴 "su" মানে হতে পারে তার (পুং), তার (স্ত্রী), আপনার, বা তাদের — context দেখে বুঝতে হয়!',en:'🟡 "su" can mean his, her, your(formal), or their — context is key! "su padre" = his/her/their father.'}
+  ],
+  fitb:[
+    {q:'আমার বই = ___ libro.', blank:'mi', hint:'আমার (singular)', accept:['mi']},
+    {q:'তোমার বাড়ি = ___ casa.', blank:'tu', hint:'তোমার (singular)', accept:['tu']},
+    {q:'আমাদের বাড়ি (f) = ___ casa.', blank:'nuestra', hint:'আমাদের (স্ত্রীলিঙ্গ)', accept:['nuestra']},
+    {q:'আমার বইগুলো = ___ libros.', blank:'mis', hint:'আমার (plural)', accept:['mis']},
+    {q:'তার পরিবার = ___ familia.', blank:'su', hint:'তার (singular)', accept:['su']}
+  ],
+  speak:[
+    {es:'Mi familia vive en Bangladesh.',en:'My family lives in Bangladesh.',bn:'আমার পরিবার বাংলাদেশে থাকে।',h:'mee fa-MEE-lya BEE-be en ban-gla-DESH'},
+    {es:'Tu casa es muy bonita.',en:'Your house is very pretty.',bn:'তোমার বাড়ি খুব সুন্দর।',h:'too KA-sa es mwee bo-NEE-ta'},
+    {es:'Nuestro profesor es simpático.',en:'Our teacher is friendly.',bn:'আমাদের শিক্ষক বন্ধুত্বপূর্ণ।',h:'nwes-tro pro-fe-SOR es sim-PA-tee-ko'},
+    {es:'Sus padres están en Dhaka.',en:'His/her parents are in Dhaka.',bn:'তার মা-বাবা ঢাকায় আছেন।',h:'soos PA-dres es-TAN en DA-ka'},
+    {es:'¿Cómo se llama tu madre?',en:'What is your mother\'s name?',bn:'তোমার মায়ের নাম কী?',h:'KOH-mo se YA-ma too MA-dre'}
+  ],
+  quiz:[
+    {q:'"আমার বই" Spanish-এ?',o:['tu libro','mi libro','su libro','nuestro libro'],a:1,f:'mi libro = my book! "mi" = my (no gender change).'},
+    {q:'"mi libro" → বহুবচন?',o:['mis libro','mi libros','mis libros','mu libros'],a:2,f:'mis libros = my books! mi → mis (add -s for plural).'},
+    {q:'"nuestra" কখন ব্যবহার?',o:['আমার (f)','তোমার (f)','আমাদের (f)','তাদের (f)'],a:2,f:'nuestra = our (feminine). nuestro = our (masculine). Changes for gender AND number!'},
+    {q:'"su padre" কে বলতে পারে?',o:['শুধু পুরুষ','শুধু মহিলা','যেকোনো একজন (তার/তাদের)','শুধু আপনি'],a:2,f:'"su" = his/her/your(formal)/their. Context decides! "su padre" could be his/her/their father.'},
+    {q:'"tu" vs "tú" — পার্থক্য?',o:['কোনো পার্থক্য নেই','tu=তোমার, tú=তুমি','তু=তোমার, tú=তুমি','উচ্চারণ আলাদা'],a:1,f:'"tu" (no accent) = your. "tú" (with accent) = you. Small mark, big difference!'},
+    {q:'"vuestros libros" মানে?',o:['আমাদের বইগুলো','তোমার বইগুলো','তোমাদের বইগুলো (স্পেন)','তাদের বইগুলো'],a:2,f:'"vuestros libros" = your (all, plural) books. "vuestro" used in Spain only!'}
+  ],
+  next:'L6: Preposiciones de Lugar — কোথায়, কার কাছে, কার পাশে!'
+};
+
+LDATA['C3L6'] = {
+  cult:{flag:'🇪🇸',word:'en/a/de',
+    bn:'Spanish prepositions ছোট কিন্তু শক্তিশালী! "a" মানে "to" বা "at", "de" মানে "of/from", "en" মানে "in/on/at"। এগুলো মুখস্থ করতে হবে — ইংরেজির সাথে সবসময় মিলবে না!',
+    en:'Spanish prepositions are small but powerful! "a"=to/at, "de"=of/from, "en"=in/on/at. Memorise them — they don\'t always match English!'},
+  gram:{title:'📖 Prepositions of Place',
+    en:'<strong>en</strong>=in/on/at · <strong>a</strong>=to/at · <strong>de</strong>=from/of · <strong>con</strong>=with · <strong>sin</strong>=without<br><strong>sobre</strong>=on top of · <strong>debajo de</strong>=under · <strong>delante de</strong>=in front of<br><strong>detrás de</strong>=behind · <strong>cerca de</strong>=near · <strong>lejos de</strong>=far from<br><strong>al lado de</strong>=next to · <strong>entre</strong>=between',
+    bn:'en=ভিতরে/উপরে/এ · a=এ/তে/দিকে · de=থেকে/এর · con=সাথে · sin=ছাড়া<br>sobre=উপরে · debajo de=নিচে · delante de=সামনে<br>detrás de=পিছনে · cerca de=কাছে · lejos de=দূরে · al lado de=পাশে · entre=মাঝে'},
+  vocab:[
+    {em:'🏠',es:'en casa',en:'at home / in the house',bn:'বাড়িতে'},
+    {em:'📍',es:'en Dhaka',en:'in Dhaka',bn:'ঢাকায়'},
+    {em:'⬆️',es:'sobre la mesa',en:'on the table',bn:'টেবিলের উপরে'},
+    {em:'⬇️',es:'debajo de la silla',en:'under the chair',bn:'চেয়ারের নিচে'},
+    {em:'⬅️',es:'delante del banco',en:'in front of the bank',bn:'ব্যাংকের সামনে'},
+    {em:'➡️',es:'detrás de la casa',en:'behind the house',bn:'বাড়ির পিছনে'},
+    {em:'🔵',es:'cerca del colegio',en:'near the school',bn:'স্কুলের কাছে'},
+    {em:'🔴',es:'lejos del aeropuerto',en:'far from the airport',bn:'বিমানবন্দর থেকে দূরে'},
+    {em:'↔️',es:'al lado del banco',en:'next to the bank',bn:'ব্যাংকের পাশে'},
+    {em:'↕️',es:'entre la tienda y el banco',en:'between the shop and the bank',bn:'দোকান ও ব্যাংকের মাঝে'},
+    {em:'🏃',es:'ir a la escuela',en:'to go to school',bn:'স্কুলে যাওয়া'},
+    {em:'🚶',es:'venir de casa',en:'to come from home',bn:'বাড়ি থেকে আসা'}
+  ],
+  mnems:[
+    {bn:'🔴 "en" = in/on/at সবকিছুর জন্য: en casa (বাড়িতে), en Dhaka (ঢাকায়), en la mesa (টেবিলে)।',en:'🟡 "en" covers in/on/at for most places: en casa, en Dhaka, en la mesa.'},
+    {bn:'🔴 "de + el" = "del" (সংক্ষিপ্ত): "cerca del banco" = cerca de + el banco। অবশ্যই জুড়তে হবে!',en:'🟡 "de + el" = "del" (contracted!). "cerca del banco" = cerca de + el banco. Mandatory contraction!'},
+    {bn:'🔴 "a + el" = "al" (সংক্ষিপ্ত): "voy al banco" = voy a + el banco। Same rule!',en:'🟡 "a + el" = "al" (contracted!). "Voy al banco" = voy a + el banco. Another mandatory contraction!'},
+    {bn:'🔴 Compound prepositions সবই "de" দিয়ে শেষ: cerca DE, lejos DE, al lado DE, delante DE।',en:'🟡 Compound prepositions all end with "de": cerca de, lejos de, al lado de, delante de.'}
+  ],
+  fitb:[
+    {q:'টেবিলের উপরে = ___ la mesa.', blank:'sobre', hint:'উপরে', accept:['sobre']},
+    {q:'বাড়ির পিছনে = ___ la casa.', blank:'detrás de', hint:'পিছনে', accept:['detrás de','detras de']},
+    {q:'স্কুলের কাছে = ___ del colegio.', blank:'cerca', hint:'কাছে', accept:['cerca']},
+    {q:'ব্যাংকে যাচ্ছি = Voy ___ banco. (de + el = ?)', blank:'al', hint:'a + el = al', accept:['al']},
+    {q:'দোকান ও বাড়ির মাঝে = ___ la tienda y la casa.', blank:'entre', hint:'মাঝে', accept:['entre']}
+  ],
+  speak:[
+    {es:'El libro está sobre la mesa.',en:'The book is on the table.',bn:'বইটা টেবিলের উপরে আছে।',h:'el LEE-bro es-TA SO-bre la ME-sa'},
+    {es:'La farmacia está cerca del banco.',en:'The pharmacy is near the bank.',bn:'ফার্মেসিটা ব্যাংকের কাছে।',h:'la far-MA-thya es-TA THER-ka del BAN-ko'},
+    {es:'Voy al colegio cada mañana.',en:'I go to school every morning.',bn:'আমি প্রতি সকালে স্কুলে যাই।',h:'BOY al ko-LEH-hyo KA-da ma-NYA-na'},
+    {es:'Mi casa está lejos del centro.',en:'My house is far from the centre.',bn:'আমার বাড়ি কেন্দ্র থেকে অনেক দূরে।',h:'mee KA-sa es-TA LEH-khos del THEN-tro'},
+    {es:'El gato está debajo de la silla.',en:'The cat is under the chair.',bn:'বিড়ালটা চেয়ারের নিচে আছে।',h:'el GA-to es-TA de-BA-kho de la SEE-ya'}
+  ],
+  quiz:[
+    {q:'"টেবিলের উপরে" Spanish-এ?',o:['debajo de la mesa','sobre la mesa','al lado de la mesa','entre la mesa'],a:1,f:'sobre la mesa = on the table. "sobre" = on top of/above.'},
+    {q:'"a + el" = ?',o:['a el','al','del','de'],a:1,f:'"a + el" = "al" (mandatory contraction). "Voy al banco" not "Voy a el banco"!'},
+    {q:'"cerca de" মানে?',o:['দূরে','কাছে','মাঝে','পিছনে'],a:1,f:'"cerca de" = near. "lejos de" = far from. Think "cerca" ≈ "circle" around you!'},
+    {q:'"de + el" = ?',o:['de el','del','al','en'],a:1,f:'"de + el" = "del" (mandatory contraction). "cerca del banco" not "cerca de el banco"!'},
+    {q:'"entre la tienda y la casa" মানে?',o:['দোকানের সামনে','বাড়ির পিছনে','দোকান ও বাড়ির মাঝে','দোকান থেকে দূরে'],a:2,f:'"entre...y..." = between...and... "entre la tienda y la casa" = between the shop and the house.'},
+    {q:'"detrás de" মানে?',o:['সামনে','পাশে','পিছনে','নিচে'],a:2,f:'"detrás de" = behind. "delante de" = in front of. Think: "de" + tras (back) + "de".'}
+  ],
+  next:'Chapter 4: El Tiempo — সংখ্যা ১০০+, সময়, দিন ও মাস!'
+};
+
+init();
+</script>
+</body>
+</html>
