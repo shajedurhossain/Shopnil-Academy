@@ -1,23 +1,25 @@
 # =============================================================================
 # Shopnil Academy - Auto-publish Watcher
-# Monitors E:\SA for new .html/.css files and syncs them to the repo,
-# then commits and pushes to GitHub Pages.
+# Monitors TWO locations and auto-pushes changes to GitHub Pages:
 #
-# TWO routing modes — detected automatically:
+#   1. E:\SA  (drop zone)
+#      Files are moved into the repo using two routing modes:
 #
-#   MIRROR MODE  (files inside a subfolder of E:\SA)
-#     E:\SA\courses\german-bangla\index.html
-#       → repo\courses\german-bangla\index.html
-#     E:\SA\blog\my-post.html
-#       → repo\blog\my-post.html
-#     Works for any subfolder depth — the path is mirrored as-is.
+#      MIRROR MODE  (files inside a subfolder of E:\SA)
+#        E:\SA\courses\german-bangla\index.html
+#          → repo\courses\german-bangla\index.html
+#        Works for any subfolder depth — path is mirrored as-is.
 #
-#   FILENAME MODE  (files dropped directly into the root of E:\SA)
-#     course-[name].html  → courses/[name]/index.html
-#     course-[name].css   → courses/[name]/[filename]
-#     blog-[name].html    → blog/[name].html
-#     lesson-[course]-[name].* → courses/[course]/lessons/[name].*
-#     anything else       → repo root
+#      FILENAME MODE  (files dropped directly into root of E:\SA)
+#        course-[name].html       → courses/[name]/index.html
+#        course-[name].css        → courses/[name]/[filename]
+#        blog-[name].html/.css    → blog/[name].[ext]
+#        lesson-[course]-[name].* → courses/[course]/lessons/[name].*
+#        anything else            → repo root
+#
+#   2. G:\My Drive\Shopnil-Academy  (repo folder)
+#      Any .html/.css file you save/edit directly here is auto-committed
+#      and pushed. Subfolders .git\ and .automation\ are ignored.
 #
 # Usage: powershell -ExecutionPolicy Bypass -File watcher.ps1
 # =============================================================================
@@ -25,6 +27,9 @@
 $WatchFolder = "E:\SA"
 $RepoFolder  = "G:\My Drive\Shopnil-Academy"
 $LogFile     = Join-Path $PSScriptRoot "watcher.log"
+
+# Subfolders inside the repo to ignore when watching for direct edits
+$RepoIgnoreDirs = @('.git', '.automation')
 
 # ── Logging ──────────────────────────────────────────────────────────────────
 
@@ -40,7 +45,7 @@ function Write-Log {
     }
 }
 
-# ── Filename-mode routing (root-level files only) ─────────────────────────────
+# ── Filename-mode routing (root-level E:\SA files) ───────────────────────────
 
 function Get-FilenameDestination {
     param([string]$FileName)
@@ -60,8 +65,8 @@ function Get-FilenameDestination {
     }
 
     if ($base -match '^lesson-(.+)$') {
-        $remainder   = $Matches[1]
-        $coursesRoot = Join-Path $RepoFolder "courses"
+        $remainder     = $Matches[1]
+        $coursesRoot   = Join-Path $RepoFolder "courses"
         $matchedCourse = $null
         $matchedLesson = $null
 
@@ -90,23 +95,19 @@ function Get-FilenameDestination {
     return $FileName   # repo root
 }
 
-# ── Resolve destination path for any file ────────────────────────────────────
+# ── Resolve destination path for a file from E:\SA ───────────────────────────
 
-function Get-Destination {
+function Get-DropZoneDestination {
     param([string]$FilePath)
 
-    $watchRoot = $WatchFolder.TrimEnd('\') + '\'
-
-    # Is the file inside a subfolder of E:\SA ?
-    $relativePath = $FilePath.Substring($watchRoot.Length)   # e.g. "courses\german-bangla\index.html"
+    $watchRoot    = $WatchFolder.TrimEnd('\') + '\'
+    $relativePath = $FilePath.Substring($watchRoot.Length)
     $parts        = $relativePath -split '\\'
 
     if ($parts.Count -gt 1) {
-        # MIRROR MODE — preserve the full relative path
-        return $relativePath
+        return $relativePath          # Mirror mode
     } else {
-        # FILENAME MODE — route by filename prefix
-        return Get-FilenameDestination -FileName $parts[0]
+        return Get-FilenameDestination -FileName $parts[0]   # Filename mode
     }
 }
 
@@ -128,15 +129,28 @@ function Wait-FileReady {
     return $false
 }
 
+# ── Check if repo has any uncommitted changes (via git status) ────────────────
+
+function Get-RepoDirty {
+    Push-Location $RepoFolder
+    try {
+        $status = git status --porcelain 2>&1
+        return ($status -ne $null -and $status.ToString().Trim() -ne '')
+    } finally {
+        Pop-Location
+    }
+}
+
 # ── Git commit + push ─────────────────────────────────────────────────────────
 
 function Invoke-GitPublish {
-    param([string[]]$MovedFiles)
+    param([string[]]$ChangedFiles, [string]$Source = "")
 
-    if ($MovedFiles.Count -eq 0) { return }
+    if ($ChangedFiles.Count -eq 0) { return }
 
-    $summary = if ($MovedFiles.Count -eq 1) { $MovedFiles[0] } else { "$($MovedFiles.Count) files" }
-    $msg     = "publish: $summary"
+    $summary = if ($ChangedFiles.Count -eq 1) { $ChangedFiles[0] } else { "$($ChangedFiles.Count) files" }
+    $prefix  = if ($Source) { "[$Source] " } else { "" }
+    $msg     = "publish: $prefix$summary"
 
     Push-Location $RepoFolder
     try {
@@ -159,43 +173,50 @@ function Invoke-GitPublish {
     }
 }
 
-# ── Main polling loop ─────────────────────────────────────────────────────────
+# ── Startup checks ────────────────────────────────────────────────────────────
 
 if (-not (Test-Path $WatchFolder)) {
-    Write-Log "Watch folder not found: $WatchFolder" "ERROR"
+    Write-Log "Drop zone not found: $WatchFolder" "ERROR"
+    exit 1
+}
+if (-not (Test-Path $RepoFolder)) {
+    Write-Log "Repo folder not found: $RepoFolder" "ERROR"
     exit 1
 }
 
-Write-Log "Watcher started. Monitoring: $WatchFolder"
+Write-Log "Watcher started."
 Write-Host ""
 Write-Host "  Shopnil Academy Auto-Publisher" -ForegroundColor Green
-Write-Host "  Watching : $WatchFolder"
-Write-Host "  Repo     : $RepoFolder"
-Write-Host "  Log      : $LogFile"
+Write-Host "  Drop zone : $WatchFolder"
+Write-Host "  Repo      : $RepoFolder"
+Write-Host "  Log       : $LogFile"
 Write-Host "  Press Ctrl+C to stop."
 Write-Host ""
 
 $inProgress = @{}
 
+# ── Main polling loop ─────────────────────────────────────────────────────────
+
 while ($true) {
-    # Scan recursively for all .html and .css files anywhere under E:\SA
-    $files = Get-ChildItem -Path $WatchFolder -Recurse -File -ErrorAction SilentlyContinue |
-             Where-Object { $_.Extension -in @('.html', '.css') }
+
+    # ── 1. Process drop zone (E:\SA) ─────────────────────────────────────────
+    $dropFiles = Get-ChildItem -Path $WatchFolder -Recurse -File -ErrorAction SilentlyContinue |
+                 Where-Object { $_.Extension -in @('.html', '.css') }
 
     $movedThisCycle = [System.Collections.Generic.List[string]]::new()
 
-    foreach ($file in $files) {
+    foreach ($file in $dropFiles) {
         $key = $file.FullName
         if ($inProgress.ContainsKey($key)) { continue }
         $inProgress[$key] = $true
 
         try {
             if (-not (Wait-FileReady -FilePath $file.FullName)) {
-                Write-Log "Skipped (file locked after 15s): $($file.Name)" "ERROR"
+                Write-Log "Skipped (locked): $($file.Name)" "ERROR"
                 continue
             }
 
-            $relDest  = Get-Destination -FilePath $file.FullName
+            $relDest  = Get-DropZoneDestination -FilePath $file.FullName
             $destFull = Join-Path $RepoFolder $relDest
             $destDir  = [System.IO.Path]::GetDirectoryName($destFull)
 
@@ -209,16 +230,24 @@ while ($true) {
             Write-Log "Moved  $($file.Name)  →  $relDest"
             $movedThisCycle.Add($file.Name)
 
+            # Update snapshot so this file doesn't also trigger a repo-watch push
+            $repoSnapshot[$destFull] = (Get-Item $destFull).LastWriteTimeUtc
+
         } catch {
-            Write-Log "Error processing $($file.Name): $_" "ERROR"
+            Write-Log "Error (drop zone) $($file.Name): $_" "ERROR"
         } finally {
             $inProgress.Remove($key)
         }
     }
 
-    # One git push per cycle (batches all files moved this round)
     if ($movedThisCycle.Count -gt 0) {
-        Invoke-GitPublish -MovedFiles $movedThisCycle.ToArray()
+        Invoke-GitPublish -ChangedFiles $movedThisCycle.ToArray() -Source "drop"
+    }
+
+    # ── 2. Watch repo folder for direct edits (via git status) ───────────────
+    if ($movedThisCycle.Count -eq 0 -and (Get-RepoDirty)) {
+        Write-Log "Repo has uncommitted changes — pushing..."
+        Invoke-GitPublish -ChangedFiles @("repo update") -Source "repo"
     }
 
     Start-Sleep -Seconds 3
