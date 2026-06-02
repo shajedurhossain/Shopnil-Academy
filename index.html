@@ -341,7 +341,46 @@
   /* Ad placement after categories */
   .ad-band { padding: 40px 0; background: var(--bg); }
 
+  /* ---- Flying Bangladesh flag ---- */
+  .flag-fly { position: absolute; top: -30px; right: 2px; z-index: 4; pointer-events: none; }
+  .flag-pole {
+    position: absolute; top: 0; right: 0;
+    width: 7px; height: 250px;
+    background: linear-gradient(90deg, #868f8c 0%, #eef2f0 38%, #c4ccc9 62%, #79827f 100%);
+    border-radius: 4px;
+    box-shadow: 0 8px 18px rgba(15,36,24,.16);
+  }
+  .flag-pole .finial {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    width: 19px; height: 19px; border-radius: 50%;
+    background: radial-gradient(circle at 34% 30%, #f7e09a, var(--gold) 52%, #a6800d 100%);
+    box-shadow: 0 3px 7px rgba(15,36,24,.28);
+  }
+  .flag-cloth {
+    position: absolute; top: 14px; right: 7px;
+    display: flex; height: 102px; width: 170px;
+    transform-origin: right center;
+    filter: drop-shadow(-7px 11px 11px rgba(15,36,24,.18));
+  }
+  .flag-col {
+    height: 100%; flex: none;
+    background-color: var(--green);
+    background-image: radial-gradient(circle 34px at 93.5px 51px, var(--red) 0 33px, transparent 33.5px);
+    background-repeat: no-repeat;
+    background-size: 170px 102px;
+    animation: flagWave 1.5s ease-in-out infinite;
+    will-change: transform, filter;
+  }
+  @keyframes flagWave {
+    0%, 100% { transform: translateY(0); filter: brightness(1); }
+    25%      { transform: translateY(calc(var(--k) * -7px)); filter: brightness(1.1); }
+    50%      { transform: translateY(0); filter: brightness(.93); }
+    75%      { transform: translateY(calc(var(--k) * 7px)); filter: brightness(1.05); }
+  }
+  @media (prefers-reduced-motion: reduce) { .flag-col { animation: none; } }
+
   @media (max-width: 980px) {
+    .flag-fly { display: none; }
     .hero-grid { grid-template-columns: 1fr; gap: 80px; }
     .hero-visual { height: 500px; max-width: 460px; margin: 0 auto; }
     .cat-grid { grid-template-columns: repeat(2, 1fr); }
@@ -418,6 +457,10 @@
 <!-- HERO -->
 <section class="hero">
   <div class="wrap hero-grid">
+    <div class="flag-fly" role="img" aria-label="The national flag of Bangladesh, flying">
+      <div class="flag-pole"><span class="finial"></span></div>
+      <div class="flag-cloth" id="bdFlag"></div>
+    </div>
     <div>
       <span class="hero-pill">
         <span class="av"><span>⭐</span><span>De</span><span>🚀</span></span>
@@ -466,6 +509,25 @@
     </div>
   </div>
 </section>
+
+<!-- Build the fluttering flag cloth -->
+<script>
+  (function () {
+    var flag = document.getElementById('bdFlag');
+    if (!flag) return;
+    var N = 18, W = 170, dur = 1.5, colW = W / N;
+    for (var i = 0; i < N; i++) {
+      var c = document.createElement('span');
+      c.className = 'flag-col';
+      c.style.width = colW + 'px';
+      c.style.backgroundPosition = (-(i * colW)) + 'px 0';
+      var k = (N - 1 - i) / (N - 1);          /* 0 at pole (right), 1 at fly end (left) */
+      c.style.setProperty('--k', k.toFixed(3));
+      c.style.animationDelay = (-k * dur).toFixed(3) + 's';
+      flag.appendChild(c);
+    }
+  })();
+</script>
 
 <!-- Press strip - removed for honest launch -->
 
