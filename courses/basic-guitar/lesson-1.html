@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#006A4E">
+<title>Guitar Trainer — Basic Guitar · Shopnil Academy</title>
+<meta name="description" content="The free Shopnil Academy guitar trainer: 7 interactive lessons from holding the guitar to scales and finger technique, with a live fretboard explorer and animated exercise player." />
+<link rel="icon" href="../../assets/logo.png" />
+<link rel="canonical" href="https://shopnilacademy.com/courses/basic-guitar/lesson-1.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../styles.css" />
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TBSKG50L36"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TBSKG50L36');
+</script>
+<style>
+/* ── DESIGN TOKENS (from shopnilacademy.com) ─────────────────── */
+:root {
+  --green:       #006A4E;
+  --green-dark:  #052B1F;
+  --green-deep:  #00513B;
+  --green-soft:  #E6F0EC;
+  --gold:        #E8B72A;
+  --gold-soft:   #FDF3D4;
+  --red:         #F42A41;
+  --red-soft:    #FFE5E8;
+  --cream:       #FBF8F0;
+  --white:       #FFFFFF;
+  --ink:         #0F2418;
+  --muted:       #65766E;
+  --line:        #E7E2D6;
+  --shadow-sm:   0 1px 4px rgba(15,36,24,0.06), 0 2px 10px rgba(15,36,24,0.05);
+  --shadow-md:   0 4px 16px rgba(15,36,24,0.09);
+  --font-display:'Sora', system-ui, sans-serif;
+  --font-body:   'DM Sans', system-ui, sans-serif;
+  --radius:      16px;
+  --radius-sm:   10px;
+  --navh:        76px;
+}
+
+/* ── RESET ── */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--cream); color: var(--ink); display: block; min-height: 100vh; font-size: 15px; line-height: 1.6; padding-top: var(--navh); }
+a { color: var(--green); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1,h2,h3,h4 { font-family: var(--font-display); }
+
+/* ── APP SHELL (sidebar + main) ── */
+.app-shell { display: flex; align-items: flex-start; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 240px; flex-shrink: 0;
+  background: var(--green-dark);
+  position: sticky; top: var(--navh);
+  height: calc(100vh - var(--navh));
+  align-self: flex-start;
+  overflow-y: auto; display: flex; flex-direction: column;
+  z-index: 50;
+}
+.sidebar-header {
+  padding: 20px 16px 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.sidebar-logo {
+  font-family: var(--font-display);
+  font-size: 14px; font-weight: 700;
+  color: #fff; display: flex; align-items: center; gap: 8px;
+}
+.sidebar-logo small {
+  display: block; font-family: var(--font-body);
+  font-size: 10px; font-weight: 400;
+  color: rgba(255,255,255,0.45); letter-spacing: 0.06em;
+  text-transform: uppercase; margin-top: 1px;
+}
+.sidebar-course {
+  margin-top: 10px; font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+
+/* sidebar progress */
+.s-progress { padding: 14px 14px 0; }
+.s-prog-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.s-prog-lbl { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.06em; }
+.s-prog-pct { font-family: var(--font-display); font-weight: 700; color: var(--gold); font-size: 14px; }
+.s-pbar { height: 5px; border-radius: 99px; background: rgba(255,255,255,0.1); overflow: hidden; }
+.s-pbar > span { display: block; height: 100%; background: var(--gold); border-radius: 99px; width: 0; transition: width 0.4s ease; }
+
+/* nav list */
+.nav-list { padding: 12px 8px; flex: 1; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 10px; border-radius: var(--radius-sm);
+  cursor: pointer; transition: all 0.14s; margin-bottom: 2px;
+}
+.nav-item:hover { background: rgba(255,255,255,0.07); }
+.nav-item.active { background: rgba(232,183,42,0.15); }
+.nav-num {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.4);
+  font-size: 10px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.nav-item.active .nav-num { background: var(--gold); color: var(--green-dark); }
+.nav-item.done .nav-num { background: var(--green); color: #fff; }
+.nav-item.done .nav-num::after { content: '✓'; font-size: 11px; }
+.nav-title { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.55); line-height: 1.3; }
+.nav-item.active .nav-title { color: var(--gold); font-weight: 700; }
+.nav-item.done .nav-title { color: rgba(255,255,255,0.7); }
+
+/* ── MAIN ── */
+.main { flex: 1; min-width: 0; min-height: calc(100vh - var(--navh)); }
+
+/* ── LESSON PANEL ── */
+.lesson-panel { display: none; }
+.lesson-panel.active { display: block; }
+
+/* lesson hero */
+.l-hero {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(232,183,42,.18), transparent 50%),
+    var(--green-dark);
+  color: #fff; padding: 28px 36px 32px;
+}
+.l-hero .eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 10px;
+}
+.l-hero h2 { font-size: clamp(22px, 3vw, 32px); color: #fff; margin-bottom: 8px; font-weight: 700; }
+.l-hero p { color: rgba(255,255,255,0.75); font-size: 15px; max-width: 580px; }
+
+/* lesson body */
+.l-body { padding: 28px 36px 56px; max-width: 800px; }
+
+/* ── SECTION ── */
+.l-sec { margin-bottom: 52px; scroll-margin-top: 20px; }
+.step-tag {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--green); background: var(--green-soft);
+  padding: 5px 12px; border-radius: 99px; margin-bottom: 12px;
+}
+.l-sec h3 { font-family: var(--font-display); font-size: clamp(20px, 2.5vw, 26px); font-weight: 700; margin-bottom: 10px; color: var(--ink); }
+.l-sec > p { color: #2E3D36; font-size: 15px; line-height: 1.75; margin-bottom: 12px; }
+.l-sec p .hl { color: var(--green); font-weight: 600; }
+
+/* ── CARD ── */
+.card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 22px;
+  margin: 14px 0; box-shadow: var(--shadow-sm);
+}
+
+/* ── CALLOUT TIP ── */
+.callout {
+  background: var(--gold-soft); border: 1px solid rgba(184,136,21,.25);
+  border-radius: 14px; padding: 14px 18px;
+  margin: 16px 0; display: flex; gap: 12px; align-items: flex-start;
+}
+.callout .ic { font-size: 20px; line-height: 1.3; flex-shrink: 0; }
+.callout .bd { font-size: 14px; line-height: 1.65; color: #5a4a13; }
+.callout .bd strong { color: #3f3409; font-weight: 700; }
+
+/* ── PARTS LIST ── */
+.parts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; margin: 6px 0; }
+.pl { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.55; }
+.pl .n {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--green); color: #fff;
+  font-size: 11px; font-weight: 700;
+  display: grid; place-items: center; flex-shrink: 0; margin-top: 1px;
+}
+.pl strong { color: var(--ink); }
+.pl .d { color: var(--muted); }
+
+/* ── TABLES ── */
+.l-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0; }
+.l-table th { background: var(--green-soft); padding: 8px 12px; text-align: left; color: var(--green-dark); font-weight: 700; border-bottom: 1px solid var(--line); font-size: 12px; letter-spacing: 0.03em; text-transform: uppercase; }
+.l-table td { padding: 8px 12px; border-bottom: 1px solid #F0ECE4; color: #333; }
+.l-table tr:last-child td { border-bottom: none; }
+
+/* ── CODE / MONO ── */
+.mono {
+  font-family: 'Courier New', monospace; background: var(--green-soft);
+  border: 1px solid rgba(0,106,78,.15); padding: 12px 16px;
+  border-radius: var(--radius-sm); font-size: 13px; line-height: 1.9;
+  letter-spacing: 0.04em; margin: 8px 0; color: var(--green-dark);
+}
+
+/* ── MARK DONE BUTTON ── */
+.sec-done { margin-top: 20px; }
+.mark-btn {
+  border: 1.5px solid var(--green); background: var(--white);
+  color: var(--green); border-radius: 99px;
+  padding: 9px 20px; font-weight: 600; font-size: 13px;
+  font-family: var(--font-body); cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.15s ease;
+}
+.mark-btn:hover { background: var(--green-soft); }
+.mark-btn.done { background: var(--green); color: #fff; }
+.mark-btn .chk-i { font-size: 14px; }
+
+/* ── NAV BUTTONS ── */
+.nav-btns { display: flex; gap: 10px; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
+.nbtn {
+  padding: 10px 22px; border-radius: 99px;
+  border: 1.5px solid var(--line); background: var(--white);
+  font-size: 14px; font-weight: 600; color: var(--muted);
+  cursor: pointer; font-family: var(--font-body); transition: all 0.12s;
+}
+.nbtn:hover { border-color: var(--green); color: var(--green); }
+.nbtn.primary { background: var(--green); color: #fff; border-color: var(--green); }
+.nbtn.primary:hover { background: var(--green-dark); }
+
+/* ── TOOL BOX ── */
+.tool-box {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius); padding: 18px;
+  margin: 18px 0; box-shadow: var(--shadow-sm);
+}
+.tool-title {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 7px;
+}
+
+/* ── PILLS ── */
+.pill-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.pill-lbl { font-size: 11px; color: var(--muted); margin-right: 2px; font-weight: 500; }
+.pill {
+  padding: 5px 13px; border-radius: 99px;
+  border: 1.5px solid var(--line); background: var(--white);
+  font-size: 12px; color: var(--muted); cursor: pointer;
+  font-family: var(--font-body); font-weight: 600; transition: all 0.12s;
+}
+.pill:hover { border-color: var(--green); color: var(--green); }
+.pill.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+/* ── FRETBOARD ── */
+.fb-outer { overflow-x: auto; margin-bottom: 10px; }
+.fb-wrap { min-width: 460px; }
+table.fb { border-collapse: collapse; width: 100%; }
+table.fb td, table.fb th { padding: 0; }
+.sl { width: 28px; font-size: 10px; font-weight: 700; color: var(--muted); text-align: right; padding-right: 6px; }
+.fn { width: 34px; height: 18px; font-size: 9px; color: #C0BFBA; text-align: center; vertical-align: middle; }
+.fn.mk { color: var(--green); font-weight: 700; }
+.fc { width: 34px; height: 34px; text-align: center; vertical-align: middle; border-left: 1px solid var(--line); position: relative; cursor: pointer; }
+.fc.nut { border-left: 3px solid var(--ink); }
+.fc::after { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--line); transform: translateY(-50%); pointer-events: none; z-index: 0; }
+.dot { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; position: relative; z-index: 1; transition: transform 0.08s; font-family: var(--font-display); }
+.d-note  { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
+.d-scale { background: var(--green-soft); color: var(--green-dark); }
+.d-root  { background: var(--green); color: #fff; }
+.d-hidden { display: none; }
+.d-idle  { background: var(--cream); color: var(--muted); border: 1px solid var(--line); display: inline-flex; }
+.d-active { background: var(--gold); color: var(--green-dark); display: inline-flex; transform: scale(1.25); }
+.d-played { background: #FDE9B8; color: #7A4A00; display: inline-flex; }
+.d-ri    { background: var(--green); color: #fff; display: inline-flex; }
+.d-ra    { background: var(--red); color: #fff; display: inline-flex; transform: scale(1.25); }
+.d-rp    { background: var(--green-soft); color: var(--green); display: inline-flex; }
+.fb-infobar { font-size: 12px; color: var(--muted); min-height: 18px; margin-top: 8px; }
+
+/* ── LEGEND ── */
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin: 8px 0; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
+.leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── EXERCISE GRID ── */
+.ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px,1fr)); gap: 7px; margin-bottom: 12px; }
+.ex-card {
+  padding: 9px 11px; border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line); background: var(--white);
+  cursor: pointer; transition: all 0.12s;
+}
+.ex-card:hover { border-color: var(--green); box-shadow: 0 4px 12px rgba(0,106,78,.1); }
+.ex-card.active { border-color: var(--green); background: var(--green-soft); }
+.ec-name { font-size: 12px; font-weight: 600; color: var(--ink); line-height: 1.35; }
+.ec-sub  { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.ex-card.active .ec-name { color: var(--green-dark); }
+.ec-tag  { font-size: 10px; margin-top: 4px; padding: 2px 7px; border-radius: 99px; display: inline-block; font-weight: 600; }
+.tb { background: var(--green-soft); color: var(--green); }
+.ti { background: #FFF3E0; color: #E65100; }
+.ta { background: var(--red-soft); color: var(--red); }
+.sec-div { font-size: 10px; font-weight: 700; color: #C0BFBA; text-transform: uppercase; letter-spacing: 0.07em; margin: 8px 0 3px; grid-column: 1/-1; }
+.ex-desc-box { background: var(--cream); border-radius: var(--radius-sm); border: 1px solid var(--line); padding: 9px 12px; font-size: 13px; color: var(--muted); line-height: 1.55; margin-bottom: 12px; min-height: 36px; }
+
+/* ── PLAYER CONTROLS ── */
+.ctrl-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+.ctrl-lbl { font-size: 12px; color: var(--muted); font-weight: 500; }
+.ctrl-val { font-size: 12px; font-weight: 700; color: var(--ink); min-width: 54px; font-family: var(--font-display); }
+input[type=range] { accent-color: var(--green); }
+.btn-play {
+  padding: 7px 20px; border-radius: 99px; border: none;
+  background: var(--green); color: #fff;
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  font-family: var(--font-body); display: inline-flex; align-items: center; gap: 6px;
+  transition: all 0.12s;
+}
+.btn-play:hover { background: var(--green-dark); }
+.btn-play.playing { background: var(--red); }
+.btn-restart { padding: 7px 13px; border-radius: 99px; border: 1.5px solid var(--line); background: var(--white); color: var(--muted); font-size: 13px; cursor: pointer; transition: all 0.12s; }
+.btn-restart:hover { border-color: var(--green); color: var(--green); }
+.tone-pill { padding: 5px 12px; border-radius: 99px; border: 1.5px solid var(--line); background: var(--white); font-size: 12px; color: var(--muted); cursor: pointer; font-weight: 600; font-family: var(--font-body); transition: all 0.12s; }
+.tone-pill.active { background: var(--green); color: #fff; border-color: var(--green); }
+
+.step-info-box { font-size: 12px; color: var(--muted); min-height: 18px; margin-bottom: 6px; }
+.step-info-box strong { color: var(--green-dark); font-weight: 700; }
+.prog-row { display: flex; gap: 3px; flex-wrap: wrap; margin-bottom: 12px; }
+.pd { width: 8px; height: 8px; border-radius: 50%; background: var(--line); transition: background 0.1s; }
+.pd.done { background: var(--green); }
+.pd.cur  { background: var(--gold); }
+
+/* ── COMPLETION BANNER ── */
+.complete-card {
+  background: var(--green-dark); color: #fff;
+  border-radius: 20px; padding: 36px; text-align: center;
+  position: relative; overflow: hidden; margin-top: 16px;
+}
+.complete-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: rgba(232,183,42,.18); border-radius: 50%; }
+.complete-card > * { position: relative; z-index: 2; }
+.complete-card h3 { font-size: 24px; color: #fff; margin-bottom: 8px; }
+.complete-card p { color: rgba(255,255,255,.78); margin-bottom: 20px; }
+.complete-card .nbtn.primary { background: var(--gold); color: var(--green-dark); border-color: var(--gold); }
+/* ── APP TOP BAR ── */
+.app-topbar {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--navh);
+  background: rgba(255,253,248,.92);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 18px;
+  padding: 0 22px; z-index: 300;
+}
+.atb-logo { display: flex; align-items: center; gap: 11px; }
+.atb-logo:hover { text-decoration: none; }
+.atb-logo img { width: 40px; height: 40px; flex-shrink: 0; }
+.atb-name { display: flex; flex-direction: column; line-height: 1.1; }
+.atb-name strong { font-family: var(--font-display); font-size: 16px; color: var(--ink); font-weight: 700; }
+.atb-name small { font-size: 11px; color: var(--muted); font-weight: 500; letter-spacing: .03em; }
+.atb-links { display: flex; gap: 4px; margin-left: 14px; }
+.atb-links a { font-size: 14px; font-weight: 500; color: var(--ink); padding: 8px 14px; border-radius: 999px; transition: background .15s, color .15s; }
+.atb-links a:hover { background: var(--green-soft); color: var(--green); text-decoration: none; }
+.atb-cta {
+  margin-left: auto; font-size: 14px; font-weight: 600;
+  background: var(--green); color: #fff; padding: 10px 18px; border-radius: 999px;
+  transition: background .15s;
+}
+.atb-cta:hover { background: var(--green-deep); text-decoration: none; }
+.atb-toggle { display: none; }
+
+/* ── SIDEBAR BACK LINK ── */
+.sb-back {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 12px; padding: 8px 10px; border-radius: var(--radius-sm);
+  font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.06); transition: all .14s;
+}
+.sb-back:hover { background: rgba(255,255,255,0.12); color: #fff; text-decoration: none; }
+
+/* ── MOBILE OFF-CANVAS SIDEBAR ── */
+.sb-backdrop { display: none; }
+@media (max-width: 860px) {
+  .atb-links { display: none; }
+  .atb-toggle {
+    display: grid; place-items: center; margin-left: 8px;
+    width: 44px; height: 44px; border-radius: 999px;
+    background: transparent; border: 0; font-size: 22px; color: var(--ink); cursor: pointer;
+  }
+  .app-shell { display: block; }
+  .sidebar {
+    position: fixed; top: var(--navh); left: 0;
+    height: calc(100vh - var(--navh));
+    transform: translateX(-100%); transition: transform .26s ease;
+    box-shadow: 0 0 50px rgba(0,0,0,.35); z-index: 250;
+  }
+  body.sb-open .sidebar { transform: none; }
+  .main { width: 100%; }
+  .sb-backdrop {
+    position: fixed; inset: var(--navh) 0 0 0; background: rgba(5,43,31,.5);
+    z-index: 200; opacity: 0; pointer-events: none; transition: opacity .26s ease;
+  }
+  body.sb-open .sb-backdrop { display: block; opacity: 1; pointer-events: auto; }
+  .l-hero, .l-body { padding-left: 22px; padding-right: 22px; }
+}
+@media (max-width: 520px) {
+  .atb-name small { display: none; }
+}
+
+/* ── FOOTER spacing on this page ── */
+footer { margin-top: 0; }
+</style>
+</head>
+<body>
+
+<!-- App top bar -->
+<header class="app-topbar">
+  <a href="../../index.html" class="atb-logo">
+    <img src="../../assets/logo.png" alt="Shopnil Academy" />
+    <span class="atb-name"><strong>Shopnil Academy</strong><small>Basic Guitar · Trainer</small></span>
+  </a>
+  <nav class="atb-links">
+    <a href="../../index.html">Home</a>
+    <a href="../../courses.html">Courses</a>
+    <a href="index.html">Course page</a>
+  </nav>
+  <a href="../../courses.html" class="atb-cta">All courses →</a>
+  <button class="nav-toggle atb-toggle" id="navToggle" aria-label="Lessons menu">☰</button>
+</header>
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        🎸 <span>
+          <strong style="display:block">Basic Guitar</strong>
+          <small>Guitar Trainer · 7 lessons</small>
+        </span>
+      </div>
+      <a href="index.html" class="sb-back">← Back to course page</a>
+    </div>
+    <div class="s-progress">
+      <div class="s-prog-top">
+        <span class="s-prog-lbl">Progress</span>
+        <span class="s-prog-pct" id="s-pct">0%</span>
+      </div>
+      <div class="s-pbar"><span id="s-pbar-fill"></span></div>
+    </div>
+    <nav class="nav-list" id="nav-list"></nav>
+  </aside>
+
+  <main class="main" id="main"></main>
+</div>
+
+<div class="sb-backdrop" id="sbBackdrop"></div>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" />
+          <span class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>LEARN WITHOUT LIMITS</small>
+          </span>
+        </a>
+        <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../../courses.html">All courses</a></li>
+          <li><a href="index.html">Basic Guitar</a></li>
+          <li><a href="../../courses.html#guitar">Guitar track</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── SHARED ───────────────────────────────────────────────────────────
+const SN=['e','B','G','D','A','E'];
+const NN=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+const ON=[4,11,7,2,9,4];
+const SBF=[329.63,246.94,196.00,146.83,110.00,82.41];
+function nAt(s,f){return NN[(ON[s]+f)%12];}
+
+// progress tracking (persisted to localStorage)
+const PROG_KEY = 'sa_guitar_trainer_progress';
+const done = {};
+(function loadProg(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(PROG_KEY)) || {};
+    Object.keys(raw).forEach(k => { done[k] = new Set(raw[k]); });
+  } catch(e) {}
+})();
+function saveProg(){
+  try {
+    const out = {};
+    Object.keys(done).forEach(k => { out[k] = [...done[k]]; });
+    localStorage.setItem(PROG_KEY, JSON.stringify(out));
+  } catch(e) {}
+}
+function markDone(lessonId, sectionKey) {
+  if (!done[lessonId]) done[lessonId] = new Set();
+  done[lessonId].add(sectionKey);
+  saveProg();
+  updateProgress();
+}
+function updateProgress(){
+  const total = LESSONS.reduce((a,l)=>a+(l.sections||1),0);
+  const completed = Object.values(done).reduce((a,s)=>a+s.size,0);
+  const pct = total ? Math.round(completed/total*100) : 0;
+  document.getElementById('s-pct').textContent = pct+'%';
+  document.getElementById('s-pbar-fill').style.width = pct+'%';
+  LESSONS.forEach((l,i)=>{
+    const d=done[l.id];
+    const el=document.getElementById('nav-'+i);
+    if(!el) return;
+    if(d && d.size>=(l.sections||1)) el.classList.add('done');
+    else el.classList.remove('done');
+  });
+}
+
+// ── SCALES ──────────────────────────────────────────────────────────
+const SCALES={
+  cmaj: {name:'C major',       root:0, notes:new Set([0,2,4,5,7,9,11])},
+  cpent:{name:'C pentatonic',  root:0, notes:new Set([0,2,4,7,9])},
+  amin: {name:'A minor',       root:9, notes:new Set([9,11,0,2,4,5,7])},
+  apent:{name:'Am pentatonic', root:9, notes:new Set([9,0,2,4,7])},
+};
+function ud(a){return[...a,...[...a].reverse().slice(1,a.length-1)];}
+
+// ── EXERCISES ───────────────────────────────────────────────────────
+const ALL_EX=[
+  {id:'chromatic',name:'Chromatic crawl',cat:'technique',level:'b',sub:'All 6 strings',desc:'One finger per fret. Index=1 Middle=2 Ring=3 Pinky=4. Do this first every session.',steps:[{s:5,f:1,l:'1'},{s:5,f:2,l:'2'},{s:5,f:3,l:'3'},{s:5,f:4,l:'4'},{s:4,f:1,l:'1'},{s:4,f:2,l:'2'},{s:4,f:3,l:'3'},{s:4,f:4,l:'4'},{s:3,f:1,l:'1'},{s:3,f:2,l:'2'},{s:3,f:3,l:'3'},{s:3,f:4,l:'4'},{s:2,f:1,l:'1'},{s:2,f:2,l:'2'},{s:2,f:3,l:'3'},{s:2,f:4,l:'4'},{s:1,f:1,l:'1'},{s:1,f:2,l:'2'},{s:1,f:3,l:'3'},{s:1,f:4,l:'4'},{s:0,f:1,l:'1'},{s:0,f:2,l:'2'},{s:0,f:3,l:'3'},{s:0,f:4,l:'4'}]},
+  {id:'spider',name:'Spider walk',cat:'technique',level:'b',sub:'Adjacent pairs',desc:'Fingers alternate between two adjacent strings. Index leads on both, then middle, ring, pinky.',steps:[{s:5,f:1,l:'1'},{s:4,f:1,l:'1'},{s:5,f:2,l:'2'},{s:4,f:2,l:'2'},{s:5,f:3,l:'3'},{s:4,f:3,l:'3'},{s:5,f:4,l:'4'},{s:4,f:4,l:'4'},{s:4,f:1,l:'1'},{s:3,f:1,l:'1'},{s:4,f:2,l:'2'},{s:3,f:2,l:'2'},{s:4,f:3,l:'3'},{s:3,f:3,l:'3'},{s:4,f:4,l:'4'},{s:3,f:4,l:'4'},{s:3,f:1,l:'1'},{s:2,f:1,l:'1'},{s:3,f:2,l:'2'},{s:2,f:2,l:'2'},{s:3,f:3,l:'3'},{s:2,f:3,l:'3'},{s:3,f:4,l:'4'},{s:2,f:4,l:'4'}]},
+  {id:'ho',name:'Hammer-ons',cat:'technique',level:'b',sub:'All 6 strings',desc:'Pick fret 5, hammer fret 7 without picking again.',steps:[{s:5,f:5,l:'p'},{s:5,f:7,l:'H'},{s:4,f:5,l:'p'},{s:4,f:7,l:'H'},{s:3,f:5,l:'p'},{s:3,f:7,l:'H'},{s:2,f:5,l:'p'},{s:2,f:7,l:'H'},{s:1,f:5,l:'p'},{s:1,f:7,l:'H'},{s:0,f:5,l:'p'},{s:0,f:7,l:'H'}]},
+  {id:'po',name:'Pull-offs',cat:'technique',level:'b',sub:'All 6 strings',desc:'Hold frets 5 and 7. Pick fret 7, flick off so fret 5 rings.',steps:[{s:5,f:7,l:'p'},{s:5,f:5,l:'P'},{s:4,f:7,l:'p'},{s:4,f:5,l:'P'},{s:3,f:7,l:'p'},{s:3,f:5,l:'P'},{s:2,f:7,l:'p'},{s:2,f:5,l:'P'},{s:1,f:7,l:'p'},{s:1,f:5,l:'P'},{s:0,f:7,l:'p'},{s:0,f:5,l:'P'}]},
+  {id:'altpick',name:'Alternate picking',cat:'technique',level:'a',sub:'Chromatic frets 1–4',desc:'Strictly alternate down-up strokes on every note across all strings.',steps:[{s:5,f:1,l:'↓'},{s:5,f:2,l:'↑'},{s:5,f:3,l:'↓'},{s:5,f:4,l:'↑'},{s:4,f:1,l:'↓'},{s:4,f:2,l:'↑'},{s:4,f:3,l:'↓'},{s:4,f:4,l:'↑'},{s:3,f:1,l:'↓'},{s:3,f:2,l:'↑'},{s:3,f:3,l:'↓'},{s:3,f:4,l:'↑'},{s:2,f:1,l:'↓'},{s:2,f:2,l:'↑'},{s:2,f:3,l:'↓'},{s:2,f:4,l:'↑'},{s:1,f:1,l:'↓'},{s:1,f:2,l:'↑'},{s:1,f:3,l:'↓'},{s:1,f:4,l:'↑'},{s:0,f:1,l:'↓'},{s:0,f:2,l:'↑'},{s:0,f:3,l:'↓'},{s:0,f:4,l:'↑'}]},
+  {id:'cm_1s',name:'C major — 1 string',cat:'cmaj',level:'b',sub:'B string',desc:'C D E F G A B C on the B string. Say each note aloud.',steps:ud([{s:1,f:1,l:'C',r:1},{s:1,f:3,l:'D'},{s:1,f:5,l:'E'},{s:1,f:6,l:'F'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:12,l:'B'},{s:1,f:13,l:'C',r:1}])},
+  {id:'cm_2s_gb',name:'C major — 2 strings',cat:'cmaj',level:'b',sub:'G + B strings',desc:'C major across G and B strings. Up then back down.',steps:ud([{s:2,f:5,l:'C',r:1},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:12,l:'B'},{s:1,f:13,l:'C',r:1}])},
+  {id:'cm_2s_da',name:'C major — 2 strings',cat:'cmaj',level:'b',sub:'A + D strings',desc:'C major across A and D strings. Up then back down.',steps:ud([{s:4,f:3,l:'C',r:1},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:4,f:8,l:'F'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A'},{s:3,f:9,l:'B'},{s:3,f:10,l:'C',r:1}])},
+  {id:'cm_6s',name:'C major — 6 strings',cat:'cmaj',level:'i',sub:'Low E → high e',desc:'Full C major run: 3 notes per string across all 6 strings.',steps:[{s:5,f:8,l:'C',r:1},{s:5,f:10,l:'D'},{s:5,f:12,l:'E'},{s:4,f:8,l:'F'},{s:4,f:10,l:'G'},{s:4,f:12,l:'A'},{s:3,f:9,l:'B'},{s:3,f:10,l:'C',r:1},{s:3,f:12,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:2,f:12,l:'G'},{s:1,f:10,l:'A'},{s:1,f:12,l:'B'},{s:1,f:13,l:'C',r:1},{s:0,f:12,l:'D'},{s:0,f:13,l:'E'},{s:0,f:15,l:'F'},{s:0,f:15,l:'F'},{s:0,f:13,l:'E'},{s:0,f:12,l:'D'},{s:1,f:13,l:'C',r:1},{s:1,f:12,l:'B'},{s:1,f:10,l:'A'},{s:2,f:12,l:'G'},{s:2,f:10,l:'F'},{s:2,f:9,l:'E'},{s:3,f:12,l:'D'},{s:3,f:10,l:'C',r:1},{s:3,f:9,l:'B'},{s:4,f:12,l:'A'},{s:4,f:10,l:'G'},{s:4,f:8,l:'F'},{s:5,f:12,l:'E'},{s:5,f:10,l:'D'},{s:5,f:8,l:'C',r:1}]},
+  {id:'cp_1s',name:'C pent. — 1 string',cat:'cpent',level:'b',sub:'B string',desc:'C major pentatonic: C D E G A. Frets 1–3–5–8–10–13.',steps:ud([{s:1,f:1,l:'C',r:1},{s:1,f:3,l:'D'},{s:1,f:5,l:'E'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:13,l:'C',r:1}])},
+  {id:'cp_2s',name:'C pent. — 2 strings',cat:'cpent',level:'b',sub:'G + B strings',desc:'C pentatonic across G and B. 2-notes-per-string pattern.',steps:ud([{s:2,f:5,l:'C',r:1},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:13,l:'C',r:1}])},
+  {id:'cp_6s',name:'C pent. — 6 strings',cat:'cpent',level:'i',sub:'Low E → high e',desc:'Full C pentatonic: 2 notes per string.',steps:[{s:5,f:8,l:'C',r:1},{s:5,f:10,l:'D'},{s:4,f:7,l:'E'},{s:4,f:10,l:'G'},{s:3,f:9,l:'A'},{s:3,f:12,l:'C',r:1},{s:2,f:10,l:'D'},{s:2,f:12,l:'E'},{s:1,f:10,l:'G'},{s:1,f:13,l:'A'},{s:0,f:12,l:'C',r:1},{s:0,f:15,l:'D'},{s:0,f:15,l:'D'},{s:0,f:12,l:'C',r:1},{s:1,f:13,l:'A'},{s:1,f:10,l:'G'},{s:2,f:12,l:'E'},{s:2,f:10,l:'D'},{s:3,f:12,l:'C',r:1},{s:3,f:9,l:'A'},{s:4,f:10,l:'G'},{s:4,f:7,l:'E'},{s:5,f:10,l:'D'},{s:5,f:8,l:'C',r:1}]},
+  {id:'am_1s',name:'A minor — 1 string',cat:'amin',level:'b',sub:'B string',desc:'A B C D E F G A. Sing La Ti Do Re Mi Fa Sol La.',steps:ud([{s:1,f:2,l:'A',r:1},{s:1,f:4,l:'B'},{s:1,f:5,l:'C'},{s:1,f:7,l:'D'},{s:1,f:9,l:'E'},{s:1,f:10,l:'F'},{s:1,f:12,l:'G'},{s:1,f:14,l:'A',r:1}])},
+  {id:'am_2s_dg',name:'A minor — 2 strings',cat:'amin',level:'b',sub:'D + G strings',desc:'A minor across D and G. Notice half-step gaps at B–C and E–F.',steps:ud([{s:3,f:7,l:'A',r:1},{s:3,f:9,l:'B'},{s:3,f:10,l:'C'},{s:3,f:12,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:2,f:12,l:'G'},{s:2,f:14,l:'A',r:1}])},
+  {id:'am_2s_ae',name:'A minor — 2 strings',cat:'amin',level:'b',sub:'E + A strings',desc:'A minor across low E and A. Deep tone on the thickest strings.',steps:ud([{s:5,f:5,l:'A',r:1},{s:5,f:7,l:'B'},{s:5,f:8,l:'C'},{s:5,f:10,l:'D'},{s:4,f:7,l:'E'},{s:4,f:8,l:'F'},{s:4,f:10,l:'G'},{s:4,f:12,l:'A',r:1}])},
+  {id:'am_6s',name:'A minor — 6 strings',cat:'amin',level:'i',sub:'Low E → high e',desc:'Full A minor run: 3 notes per string across all 6 strings.',steps:[{s:5,f:5,l:'A',r:1},{s:5,f:7,l:'B'},{s:5,f:8,l:'C'},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:4,f:8,l:'F'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A',r:1},{s:3,f:9,l:'B'},{s:2,f:7,l:'C'},{s:2,f:9,l:'D'},{s:2,f:10,l:'E'},{s:1,f:10,l:'F'},{s:1,f:12,l:'G'},{s:1,f:13,l:'A',r:1},{s:0,f:12,l:'B'},{s:0,f:13,l:'C'},{s:0,f:15,l:'D'},{s:0,f:15,l:'D'},{s:0,f:13,l:'C'},{s:0,f:12,l:'B'},{s:1,f:13,l:'A',r:1},{s:1,f:12,l:'G'},{s:1,f:10,l:'F'},{s:2,f:10,l:'E'},{s:2,f:9,l:'D'},{s:2,f:7,l:'C'},{s:3,f:9,l:'B'},{s:3,f:7,l:'A',r:1},{s:3,f:5,l:'G'},{s:4,f:8,l:'F'},{s:4,f:7,l:'E'},{s:4,f:5,l:'D'},{s:5,f:8,l:'C'},{s:5,f:7,l:'B'},{s:5,f:5,l:'A',r:1}]},
+  {id:'ap_1s',name:'Am pent. — 1 string',cat:'apent',level:'b',sub:'B string',desc:'Am pentatonic: A C D E G. Frets 2–5–7–9–12–14.',steps:ud([{s:1,f:2,l:'A',r:1},{s:1,f:5,l:'C'},{s:1,f:7,l:'D'},{s:1,f:9,l:'E'},{s:1,f:12,l:'G'},{s:1,f:14,l:'A',r:1}])},
+  {id:'ap_2s',name:'Am pent. — 2 strings',cat:'apent',level:'b',sub:'D + G strings',desc:'Am pentatonic across D and G. 2-notes-per-string.',steps:ud([{s:3,f:7,l:'A',r:1},{s:3,f:10,l:'C'},{s:3,f:12,l:'D'},{s:2,f:9,l:'E'},{s:2,f:12,l:'G'},{s:2,f:14,l:'A',r:1}])},
+  {id:'ap_6s',name:'Am pent. — 6 strings',cat:'apent',level:'i',sub:'Low E → high e',desc:'Full Am pentatonic across the whole neck.',steps:[{s:5,f:5,l:'A',r:1},{s:5,f:8,l:'C'},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A',r:1},{s:2,f:5,l:'C'},{s:2,f:8,l:'D'},{s:1,f:5,l:'E'},{s:1,f:8,l:'G'},{s:0,f:5,l:'A',r:1},{s:0,f:8,l:'C'},{s:0,f:8,l:'C'},{s:0,f:5,l:'A',r:1},{s:1,f:8,l:'G'},{s:1,f:5,l:'E'},{s:2,f:8,l:'D'},{s:2,f:5,l:'C'},{s:3,f:7,l:'A',r:1},{s:3,f:5,l:'G'},{s:4,f:7,l:'E'},{s:4,f:5,l:'D'},{s:5,f:8,l:'C'},{s:5,f:5,l:'A',r:1}]},
+];
+const LVL={b:'beginner',i:'intermediate',a:'advanced'};
+
+// ── AUDIO ────────────────────────────────────────────────────────────
+let audioCtx=null,globalTone='guitar',globalVol=0.7;
+function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function noteFreq(s,f){return SBF[s]*Math.pow(2,f/12);}
+function playGuitar(freq,vol){
+  const ctx=getCtx(),now=ctx.currentTime,gain=ctx.createGain();gain.connect(ctx.destination);
+  const bufSize=ctx.sampleRate*2,buf=ctx.createBuffer(1,bufSize,ctx.sampleRate),data=buf.getChannelData(0);
+  let y=new Float32Array(Math.round(ctx.sampleRate/freq));
+  for(let i=0;i<y.length;i++)y[i]=(Math.random()*2-1);
+  for(let i=0;i<bufSize;i++){const idx=i%y.length,next=(idx+1)%y.length;y[idx]=0.5*(y[idx]+y[next]);data[i]=y[idx];}
+  const src=ctx.createBufferSource();src.buffer=buf;
+  const bq=ctx.createBiquadFilter();bq.type='lowpass';bq.frequency.value=freq*6;
+  src.connect(bq);bq.connect(gain);
+  gain.gain.setValueAtTime(vol*0.6,now);gain.gain.exponentialRampToValueAtTime(0.001,now+2.0);
+  src.start(now);src.stop(now+2.0);
+}
+function playPluck(freq,vol){
+  const ctx=getCtx(),now=ctx.currentTime;
+  const osc=ctx.createOscillator(),gain=ctx.createGain(),flt=ctx.createBiquadFilter();
+  flt.type='bandpass';flt.frequency.value=freq;flt.Q.value=8;osc.type='triangle';osc.frequency.value=freq;
+  osc.connect(flt);flt.connect(gain);gain.connect(ctx.destination);
+  gain.gain.setValueAtTime(vol*0.5,now);gain.gain.exponentialRampToValueAtTime(0.001,now+1.2);
+  osc.start(now);osc.stop(now+1.2);
+}
+function playNote(s,f){
+  if(globalTone==='mute')return;
+  try{const freq=noteFreq(s,f);globalTone==='guitar'?playGuitar(freq,globalVol):playPluck(freq,globalVol);}catch(e){}
+}
+
+// ── FRETBOARD BUILDER ────────────────────────────────────────────────
+function buildFretboard(cid){
+  const wrap=document.getElementById(cid);if(!wrap)return;
+  let fbMode='all',fbScale='cmaj';
+  wrap.innerHTML=`
+    <div class="pill-row">
+      <span class="pill-lbl">Show:</span>
+      <button class="pill active" onclick="fbM_${cid}('all',this)">All notes</button>
+      <button class="pill" onclick="fbM_${cid}('scale',this)">Scale</button>
+      <button class="pill" onclick="fbM_${cid}('none',this)">Clean</button>
+    </div>
+    <div id="fbsr_${cid}" class="pill-row" style="display:none">
+      <span class="pill-lbl">Scale:</span>
+      <button class="pill active" onclick="fbS_${cid}('cmaj',this)">C major</button>
+      <button class="pill" onclick="fbS_${cid}('cpent',this)">C pentatonic</button>
+      <button class="pill" onclick="fbS_${cid}('amin',this)">A minor</button>
+      <button class="pill" onclick="fbS_${cid}('apent',this)">Am pentatonic</button>
+    </div>
+    <div class="fb-outer"><div class="fb-wrap"><table class="fb" id="fbt_${cid}"></table></div></div>
+    <div class="legend" id="fbl_${cid}">
+      <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Root note</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--green-soft);border:1px solid var(--green)"></div>Scale note</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--cream);border:1px solid var(--line)"></div>Other note</div>
+    </div>
+    <div class="fb-infobar" id="fbi_${cid}">Tap any dot to identify it.</div>`;
+  function render(){
+    const sc=SCALES[fbScale],table=document.getElementById('fbt_'+cid);table.innerHTML='';
+    const hr=document.createElement('tr');const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
+    for(let f=0;f<=12;f++){const th=document.createElement('th');th.className='fn'+([3,5,7,9,12].includes(f)?' mk':'');th.textContent=f===0?'':f;hr.appendChild(th);}
+    table.appendChild(hr);
+    for(let s=0;s<6;s++){
+      const tr=document.createElement('tr');const lbl=document.createElement('td');lbl.className='sl';lbl.textContent=SN[s];tr.appendChild(lbl);
+      for(let f=0;f<=12;f++){
+        const td=document.createElement('td');td.className='fc'+(f===0?' nut':'');
+        const note=(ON[s]+f)%12,name=NN[note],isRoot=note===sc.root,inScale=sc.notes.has(note);
+        const dot=document.createElement('div');
+        if(fbMode==='none'){dot.className='dot d-hidden';}
+        else if(fbMode==='all'){dot.className='dot d-note';dot.textContent=name;}
+        else{if(isRoot){dot.className='dot d-root';dot.textContent=name;}else if(inScale){dot.className='dot d-scale';dot.textContent=name;}else{dot.className='dot d-hidden';}}
+        td.appendChild(dot);
+        td.onclick=()=>{document.getElementById('fbi_'+cid).textContent=name+' — '+SN[s]+' string, '+(f===0?'open':'fret '+f)+(fbMode==='scale'&&isRoot?' — root':fbMode==='scale'&&inScale?' — scale note':'');};
+        tr.appendChild(td);
+      }
+      table.appendChild(tr);
+    }
+    document.getElementById('fbsr_'+cid).style.display=fbMode==='scale'?'flex':'none';
+    document.getElementById('fbl_'+cid).style.display=fbMode==='none'?'none':'flex';
+  }
+  window['fbM_'+cid]=function(m,el){fbMode=m;el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();};
+  window['fbS_'+cid]=function(s,el){fbScale=s;el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();};
+  render();
+}
+
+// ── EXERCISE PLAYER ──────────────────────────────────────────────────
+function buildPlayer(cid,filterCats){
+  const wrap=document.getElementById(cid);if(!wrap)return;
+  const exs=ALL_EX.filter(e=>filterCats.includes(e.cat));
+  let curEx=0,curStep=-1,isPlaying=false,timer=null,bpm=50,maxF=12;
+  const CAT_LABELS={technique:'Technique',cmaj:'C major',cpent:'C pentatonic',amin:'A minor',apent:'Am pentatonic'};
+  let gridHTML='';
+  const cats=[...new Set(exs.map(e=>e.cat))];
+  cats.forEach(cat=>{
+    if(filterCats.length>1)gridHTML+=`<div class="sec-div">${CAT_LABELS[cat]}</div>`;
+    exs.filter(e=>e.cat===cat).forEach((ex,_)=>{
+      const i=exs.indexOf(ex);
+      gridHTML+=`<div class="ex-card${i===0?' active':''}" id="ec_${cid}_${i}" onclick="epL_${cid}(${i})"><div class="ec-name">${ex.name}</div><div class="ec-sub">${ex.sub}</div><div class="ec-tag t${ex.level}">${LVL[ex.level]}</div></div>`;
+    });
+  });
+  wrap.innerHTML=`
+    <div class="ex-grid">${gridHTML}</div>
+    <div class="ex-desc-box" id="edd_${cid}">${exs[0]?exs[0].desc:''}</div>
+    <div class="ctrl-bar">
+      <span class="ctrl-lbl">Tempo</span>
+      <input type="range" min="20" max="180" value="50" step="5" style="width:95px" oninput="epT_${cid}(this.value)">
+      <span class="ctrl-val" id="ebv_${cid}">50 BPM</span>
+      <button class="btn-play" id="epb_${cid}" onclick="epPl_${cid}()">▶ Play</button>
+      <button class="btn-restart" onclick="epR_${cid}()">↺</button>
+      <span class="ctrl-lbl" style="margin-left:6px">Sound</span>
+      <button class="tone-pill active" onclick="epSnd_${cid}('guitar',this)">Guitar</button>
+      <button class="tone-pill" onclick="epSnd_${cid}('pluck',this)">Pluck</button>
+      <button class="tone-pill" onclick="epSnd_${cid}('mute',this)">Mute</button>
+      <span class="ctrl-lbl">Vol</span>
+      <input type="range" min="0" max="100" value="70" step="5" style="width:60px" oninput="epV_${cid}(this.value)">
+    </div>
+    <div class="step-info-box" id="esi_${cid}">Press Play to start</div>
+    <div class="prog-row" id="epr_${cid}"></div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:var(--gold)"></div>Current</div>
+      <div class="leg"><div class="leg-dot" style="background:#FDE9B8;border:1px solid var(--gold)"></div>Played</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Root</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--cream);border:1px solid var(--line)"></div>Coming up</div>
+    </div>
+    <div class="fb-outer"><div class="fb-wrap"><table class="fb" id="efb_${cid}"></table></div></div>`;
+  function getDot(s,f){return document.getElementById('ed_'+cid+'_'+s+'_'+f);}
+  function buildFb(frets){
+    maxF=frets;
+    const table=document.getElementById('efb_'+cid);table.innerHTML='';
+    const hr=document.createElement('tr');const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
+    for(let f=0;f<=frets;f++){const th=document.createElement('th');th.className='fn'+([3,5,7,9,12,15,17].includes(f)?' mk':'');th.textContent=f===0?'':f;hr.appendChild(th);}
+    table.appendChild(hr);
+    for(let s=0;s<6;s++){
+      const tr=document.createElement('tr');const lbl=document.createElement('td');lbl.className='sl';lbl.textContent=SN[s];tr.appendChild(lbl);
+      for(let f=0;f<=frets;f++){
+        const td=document.createElement('td');td.className='fc'+(f===0?' nut':'');
+        const dot=document.createElement('div');dot.className='dot d-hidden';dot.id='ed_'+cid+'_'+s+'_'+f;
+        td.appendChild(dot);tr.appendChild(td);
+      }
+      table.appendChild(tr);
+    }
+  }
+  function buildProg(){const pr=document.getElementById('epr_'+cid);pr.innerHTML='';exs[curEx].steps.forEach(()=>{const d=document.createElement('div');d.className='pd';pr.appendChild(d);});}
+  function renderIdle(){
+    const ex=exs[curEx];
+    for(let s=0;s<6;s++)for(let f=0;f<=maxF;f++){const d=getDot(s,f);if(d)d.className='dot d-hidden';}
+    ex.steps.forEach(st=>{const d=getDot(st.s,st.f);if(d){d.className='dot '+(st.r?'d-ri':'d-idle');d.textContent=st.l||nAt(st.s,st.f);}});
+  }
+  function renderStep(idx){
+    const ex=exs[curEx];renderIdle();
+    ex.steps.forEach((st,i)=>{
+      const d=getDot(st.s,st.f);if(!d)return;
+      if(i<idx)d.className='dot '+(st.r?'d-rp':'d-played');
+      else if(i===idx)d.className='dot '+(st.r?'d-ra':'d-active');
+      d.textContent=st.l||nAt(st.s,st.f);
+    });
+    document.querySelectorAll('#epr_'+cid+' .pd').forEach((d,i)=>{d.classList.remove('done','cur');if(i<idx)d.classList.add('done');else if(i===idx)d.classList.add('cur');});
+    const st=ex.steps[idx];
+    document.getElementById('esi_'+cid).innerHTML='<strong>Step '+(idx+1)+'/'+ex.steps.length+'</strong> — '+SN[st.s]+' string, '+(st.f===0?'open':'fret '+st.f)+' · <strong>'+(st.l||nAt(st.s,st.f))+'</strong>'+(st.r?' · root':'');
+    playNote(st.s,st.f);
+  }
+  function loadEx(i){
+    stopPlay();curEx=i;curStep=-1;
+    document.querySelectorAll('[id^="ec_'+cid+'_"]').forEach((c,j)=>c.classList.toggle('active',j===i));
+    document.getElementById('edd_'+cid).textContent=exs[i].desc;
+    document.getElementById('esi_'+cid).textContent='Press Play to start';
+    const mf=Math.max(...exs[i].steps.map(s=>s.f),12);
+    buildFb(mf);buildProg();renderIdle();
+  }
+  function stopPlay(){
+    isPlaying=false;clearTimeout(timer);
+    const btn=document.getElementById('epb_'+cid);if(btn){btn.innerHTML='▶ Play';btn.classList.remove('playing');}
+  }
+  function schedNext(){if(!isPlaying)return;timer=setTimeout(()=>{curStep++;if(curStep>=exs[curEx].steps.length)curStep=0;renderStep(curStep);schedNext();},Math.round(60000/bpm));}
+  window['epL_'+cid]=loadEx;
+  window['epPl_'+cid]=function(){
+    if(isPlaying){stopPlay();return;}
+    if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
+    isPlaying=true;const btn=document.getElementById('epb_'+cid);btn.innerHTML='⏸ Pause';btn.classList.add('playing');
+    if(curStep<0)curStep=0;renderStep(curStep);schedNext();
+  };
+  window['epR_'+cid]=function(){stopPlay();curStep=-1;renderIdle();document.getElementById('esi_'+cid).textContent='Press Play to start';document.querySelectorAll('#epr_'+cid+' .pd').forEach(d=>d.classList.remove('done','cur'));};
+  window['epT_'+cid]=function(v){bpm=parseInt(v);document.getElementById('ebv_'+cid).textContent=v+' BPM';if(isPlaying){clearTimeout(timer);schedNext();}};
+  window['epV_'+cid]=function(v){globalVol=parseInt(v)/100;};
+  window['epSnd_'+cid]=function(t,el){globalTone=t;el.closest('.ctrl-bar').querySelectorAll('.tone-pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');};
+  loadEx(0);
+}
+
+// ── LESSONS ──────────────────────────────────────────────────────────
+const LESSONS=[
+  {
+    id:'intro', label:'Introduction', num:'Intro', sections:1,
+    eyebrow:'Welcome', title:'Guitar Trainer — Shopnil Academy',
+    sub:'Free, structured guitar lessons. No sign-up. No music reading required.',
+    body:`
+      <div class="l-sec" id="intro-welcome">
+        <span class="step-tag">Start here</span>
+        <h3>Welcome — let's make some sound.</h3>
+        <p>This trainer takes you from complete beginner to playing scales, understanding the full neck, and building real technique — one step at a time. <span class="hl">No theory background needed.</span></p>
+        <p>Every lesson includes interactive tools that play real sound in your browser. Use them to check your own guitar against the reference.</p>
+        <div class="callout"><span class="ic">🔊</span><span class="bd"><strong>Turn your sound on.</strong> The fretboard and exercise player all produce audio. Tap any button once to wake the sound engine if you hear nothing.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">How it works</span>
+        <h3>What's in each lesson</h3>
+        <div class="card">
+          <div class="parts-grid">
+            <div class="pl"><span class="n">1</span><div><strong>Lessons 1–2</strong> <span class="d">— holding the guitar and understanding the fretboard</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Lessons 3–5</strong> <span class="d">— C major, A minor & pentatonic scales with Do Re Mi</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Lesson 6</strong> <span class="d">— daily finger exercises with animated player</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Lesson 7</strong> <span class="d">— running all scales across the full neck</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Daily practice</span>
+        <h3>How to practise</h3>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">✓</span><div><strong>15–20 minutes daily</strong> <span class="d">beats one long session a week</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Always warm up</strong> <span class="d">with the Chromatic Crawl (Lesson 6) before anything else</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Start slower</strong> <span class="d">than feels necessary — speed comes from accuracy, never from forcing</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Stop if it hurts</strong> <span class="d">guitar should never be painful</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>First week:</strong> Your fingertips will be sore. Calluses form after 1–2 weeks and the soreness disappears. Push through gently.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'intro','welcome')"><span class="chk-i">○</span> Mark as done</button></div>`
+  },
+  {
+    id:'holding', label:'Holding the Guitar', num:'1', sections:1,
+    eyebrow:'Stage 1 · Lesson 1', title:'Holding the Guitar',
+    sub:'Posture, hand position, and the names of the six strings.',
+    body:`
+      <div class="l-sec" id="hold-pos">
+        <span class="step-tag">Step 1</span>
+        <h3>Sitting position</h3>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">✓</span><div><strong>Sit up straight.</strong> <span class="d">Rest the guitar's waist on your right thigh (if right-handed).</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Body against stomach.</strong> <span class="d">Don't hunch over to see your fingers.</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Strum from the wrist.</strong> <span class="d">Your strumming arm drapes over the body at the elbow.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 2</span>
+        <h3>Fretting hand</h3>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">✓</span><div><strong>Thumb behind the neck</strong> <span class="d">— opposite your middle finger, not hooked over the top.</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Wrist slightly dropped</strong> <span class="d">— this lets fingers arch naturally over the strings.</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Press just behind the fret wire</strong> <span class="d">— not on top of it or in the middle of the fret.</span></div></div>
+            <div class="pl"><span class="n">✓</span><div><strong>Fingertips, not pads</strong> <span class="d">— keep nails short on your fretting hand.</span></div></div>
+          </div>
+        </div>
+        <p>Fingers are numbered: <span class="hl">1 = index, 2 = middle, 3 = ring, 4 = pinky.</span></p>
+        <div class="callout"><span class="ic">💡</span><span class="bd">Keep fingers hovering just above the strings when not pressing — never lift them high. This one habit builds speed more than anything else.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 3</span>
+        <h3>The six strings</h3>
+        <div class="card">
+          <table class="l-table">
+            <tr><th>String</th><th>Note</th><th>Thickness</th><th>Memory phrase</th></tr>
+            <tr><td>6 (low)</td><td>E</td><td>Thickest</td><td>Eddie</td></tr>
+            <tr><td>5</td><td>A</td><td></td><td>Ate</td></tr>
+            <tr><td>4</td><td>D</td><td></td><td>Dynamite</td></tr>
+            <tr><td>3</td><td>G</td><td></td><td>Good</td></tr>
+            <tr><td>2</td><td>B</td><td></td><td>Bye</td></tr>
+            <tr><td>1 (high)</td><td>e</td><td>Thinnest</td><td>Eddie</td></tr>
+          </table>
+        </div>
+        <p><span class="hl">Memory phrase: Eddie Ate Dynamite, Good Bye Eddie</span></p>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'holding','hold')"><span class="chk-i">○</span> Mark as done</button></div>`
+  },
+  {
+    id:'fretboard', label:'The Fretboard', num:'2', sections:1,
+    eyebrow:'Stage 1 · Lesson 2', title:'The Fretboard',
+    sub:'Notes, frets, and how to navigate the neck.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">Step 1</span>
+        <h3>How frets work</h3>
+        <p>Each fret raises the pitch by one half step — the smallest interval in music. There are only 12 unique notes. After 12 frets everything repeats — <span class="hl">fret 12 is always the same note as the open string</span>, just one octave higher.</p>
+        <div class="card">
+          <table class="l-table">
+            <tr><th>Natural notes</th><td>C · D · E · F · G · A · B</td></tr>
+            <tr><th>Sharps / flats</th><td>C# · D# · F# · G# · A#</td></tr>
+            <tr><th>Special gaps</th><td>E→F and B→C are only 1 fret apart — no sharp between them</td></tr>
+          </table>
+        </div>
+        <div class="callout"><span class="ic">🧭</span><span class="bd"><strong>Fret markers</strong> at frets 3, 5, 7, 9, and 12 are landmarks. Learn to feel for them instead of counting frets one by one — your hand will navigate much faster.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 2</span>
+        <h3>Explore the fretboard</h3>
+        <p>Use the tool below. <span class="hl">All notes</span> shows every note name. <span class="hl">Scale</span> highlights a chosen scale. <span class="hl">Clean</span> lets you quiz yourself. Tap any dot to identify it.</p>
+        <div class="tool-box">
+          <div class="tool-title">🎸 Interactive Fretboard</div>
+          <div id="fbtool_fretboard"></div>
+        </div>
+        <div class="callout"><span class="ic">📝</span><span class="bd"><strong>Daily drill:</strong> Pick a random fret number, name every note on every string at that fret from memory, then check. Two or three frets per day and you'll know the whole neck in weeks.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'fretboard','fb')"><span class="chk-i">○</span> Mark as done</button></div>`,
+    tool:'fretboard'
+  },
+  {
+    id:'cmajor', label:'C Major Scale', num:'3', sections:1,
+    eyebrow:'Stage 2 · Lesson 3', title:'C Major Scale & Solfège',
+    sub:'Do Re Mi Fa Sol La Ti Do — mapped to the guitar neck.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">Step 1</span>
+        <h3>Solfège — your ear's best friend</h3>
+        <p>Solfège assigns a syllable to each note: <span class="hl">Do Re Mi Fa Sol La Ti Do</span>. Singing these as you play connects your ear to the notes. In C major the syllables map directly to letter names.</p>
+        <div class="card">
+          <table class="l-table">
+            <tr><th>Solfège</th><th>Note</th><th>Fret (B string)</th></tr>
+            <tr><td>Do</td><td>C</td><td>1</td></tr>
+            <tr><td>Re</td><td>D</td><td>3</td></tr>
+            <tr><td>Mi</td><td>E</td><td>5</td></tr>
+            <tr><td>Fa</td><td>F</td><td>6</td></tr>
+            <tr><td>Sol</td><td>G</td><td>8</td></tr>
+            <tr><td>La</td><td>A</td><td>10</td></tr>
+            <tr><td>Ti</td><td>B</td><td>12</td></tr>
+            <tr><td>Do</td><td>C</td><td>13</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 2</span>
+        <h3>The step pattern</h3>
+        <p>The major scale follows a fixed pattern of whole steps (W = 2 frets) and half steps (H = 1 fret):</p>
+        <div class="mono">C → D → E → F → G → A → B → C<br>W &nbsp;&nbsp; W &nbsp;&nbsp; H &nbsp;&nbsp; W &nbsp;&nbsp; W &nbsp;&nbsp; W &nbsp;&nbsp; H</div>
+        <p>The two half steps (E→F and B→C) are the small jumps. This pattern gives major its bright, happy character.</p>
+        <div class="callout"><span class="ic">🎵</span><span class="bd"><strong>Practice tip:</strong> Play the 1-string exercise below and <strong>sing Do Re Mi</strong> out loud as each note lights up. Even humming is enough.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 3</span>
+        <h3>Practice exercises</h3>
+        <div class="tool-box">
+          <div class="tool-title">🎵 C Major Exercise Player</div>
+          <div id="eptool_cmajor"></div>
+        </div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'cmajor','cm')"><span class="chk-i">○</span> Mark as done</button></div>`,
+    tool:'exercises', filter:['cmaj']
+  },
+  {
+    id:'aminor', label:'A Minor Scale', num:'4', sections:1,
+    eyebrow:'Stage 2 · Lesson 4', title:'A Minor Scale',
+    sub:'The relative minor — same notes, completely different mood.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">Step 1</span>
+        <h3>What is A minor?</h3>
+        <p>A minor uses the <span class="hl">exact same 7 notes as C major</span> — C D E F G A B — but starts and ends on A. This shift transforms the sound completely: from bright and happy to melancholic and emotional.</p>
+        <p>In solfège: <span class="hl">La Ti Do Re Mi Fa Sol La</span></p>
+        <div class="card">
+          <table class="l-table">
+            <tr><th>Solfège</th><th>Note</th><th>Fret (B string)</th></tr>
+            <tr><td>La</td><td>A</td><td>2</td></tr>
+            <tr><td>Ti</td><td>B</td><td>4</td></tr>
+            <tr><td>Do</td><td>C</td><td>5</td></tr>
+            <tr><td>Re</td><td>D</td><td>7</td></tr>
+            <tr><td>Mi</td><td>E</td><td>9</td></tr>
+            <tr><td>Fa</td><td>F</td><td>10</td></tr>
+            <tr><td>Sol</td><td>G</td><td>12</td></tr>
+            <tr><td>La</td><td>A</td><td>14</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 2</span>
+        <h3>Step pattern</h3>
+        <div class="mono">A → B → C → D → E → F → G → A<br>W &nbsp;&nbsp; H &nbsp;&nbsp; W &nbsp;&nbsp; W &nbsp;&nbsp; H &nbsp;&nbsp; W &nbsp;&nbsp; W</div>
+        <p>Same gaps as C major, just rearranged. A minor is called the <span class="hl">relative minor</span> of C major — siblings from the same family, different moods.</p>
+        <div class="callout"><span class="ic">👂</span><span class="bd"><strong>Listen:</strong> Play C major up and down, then immediately A minor. You'll hear the mood shift — bright vs. melancholic. This contrast is at the heart of folk music.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 3</span>
+        <h3>Practice exercises</h3>
+        <div class="tool-box">
+          <div class="tool-title">🎵 A Minor Exercise Player</div>
+          <div id="eptool_aminor"></div>
+        </div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'aminor','am')"><span class="chk-i">○</span> Mark as done</button></div>`,
+    tool:'exercises', filter:['amin']
+  },
+  {
+    id:'pentatonic', label:'Pentatonic Scales', num:'5', sections:1,
+    eyebrow:'Stage 2 · Lesson 5', title:'Pentatonic Scales',
+    sub:'Five notes that sound good over almost everything.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">Step 1</span>
+        <h3>What is a pentatonic scale?</h3>
+        <p>A pentatonic scale removes 2 of the 7 notes from a major or minor scale — the ones that create tension. What remains sounds smooth and musical in any order.</p>
+        <div class="card">
+          <div class="parts-grid">
+            <div class="pl"><span class="n">C</span><div><strong>C major pentatonic</strong> <span class="d">— C D E G A (removes F and B). Bright, open.</span></div></div>
+            <div class="pl"><span class="n">A</span><div><strong>Am pentatonic</strong> <span class="d">— A C D E G (removes B and F). The most used scale in folk and rock solos.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>Key insight:</strong> C major pentatonic and Am pentatonic use <strong>exactly the same 5 notes</strong> — just starting from different roots. Switch the fretboard below between them to see this.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 2</span>
+        <h3>See it on the fretboard</h3>
+        <div class="tool-box">
+          <div class="tool-title">🎸 Pentatonic Fretboard — switch between scales</div>
+          <div id="fbtool_pentatonic"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 3</span>
+        <h3>Practice exercises</h3>
+        <div class="tool-box">
+          <div class="tool-title">🎵 Pentatonic Exercise Player</div>
+          <div id="eptool_pentatonic"></div>
+        </div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'pentatonic','pent')"><span class="chk-i">○</span> Mark as done</button></div>`,
+    tool:'both', filter:['cpent','apent']
+  },
+  {
+    id:'exercises', label:'Finger Exercises', num:'6', sections:1,
+    eyebrow:'Stage 3 · Lesson 6', title:'Finger Exercises',
+    sub:'Strength, independence, and coordination — the daily drills.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">Why these exercises?</span>
+        <h3>Training your fingers to act independently</h3>
+        <p>Your ring finger and pinky naturally want to move together — they share a tendon. These drills train the neural pathways that allow each finger to move on its own. <span class="hl">Do the chromatic crawl every single session</span> as a warm-up, without exception.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Chromatic crawl</strong> <span class="d">— one finger per fret, all strings. The foundation. Do first, every session.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Spider walk</strong> <span class="d">— fingers alternate between adjacent strings. Two-hand coordination.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Hammer-ons</strong> <span class="d">— sound a note using only fretting force, no pick. Builds left-hand strength.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Pull-offs</strong> <span class="d">— sound a note by flicking off the string. Reverse of hammer-on.</span></div></div>
+            <div class="pl"><span class="n">5</span><div><strong>Alternate picking</strong> <span class="d">— strict down-up strokes. Right-hand consistency and speed.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Daily routine</span>
+        <h3>20-minute practice plan</h3>
+        <div class="card">
+          <table class="l-table">
+            <tr><th>Exercise</th><th>Time</th></tr>
+            <tr><td>Chromatic crawl (warm-up)</td><td>5 min</td></tr>
+            <tr><td>Spider walk</td><td>5 min</td></tr>
+            <tr><td>Hammer-ons + Pull-offs</td><td>5 min</td></tr>
+            <tr><td>Scale run (any scale)</td><td>5 min</td></tr>
+          </table>
+        </div>
+        <div class="callout"><span class="ic">🐢</span><span class="bd"><strong>Tempo rule:</strong> Start at 40–50 BPM. Only increase by 5 BPM when you can play the full exercise cleanly without any mistakes. Speed is earned through accuracy — never forced.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Practice</span>
+        <h3>Animated exercise player</h3>
+        <div class="tool-box">
+          <div class="tool-title">🎵 Technique Exercise Player</div>
+          <div id="eptool_exercises"></div>
+        </div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'exercises','ex')"><span class="chk-i">○</span> Mark as done</button></div>`,
+    tool:'exercises', filter:['technique']
+  },
+  {
+    id:'neck', label:'Scales Across the Neck', num:'7', sections:1,
+    eyebrow:'Stage 3 · Lesson 7', title:'Scales Across the Full Neck',
+    sub:'From one string to all six — connecting everything.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">The big picture</span>
+        <h3>Why cross strings?</h3>
+        <p>Playing a scale on one string teaches you the sequence. Playing it <span class="hl">across all six strings</span> is how you use it in music. As you cross strings, the scale forms shapes your hands start to remember automatically.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>1 string</strong> <span class="d">— learn the note order and solfège. Master this first.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>2 strings</strong> <span class="d">— connect two adjacent strings. Introduces string crossing.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>6 strings (full run)</strong> <span class="d">— 3 notes per string (2 for pentatonic), flowing from low E to high e and back.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">🏆</span><span class="bd"><strong>Goal:</strong> When you can play the 6-string full run up and back at <strong>80 BPM cleanly</strong>, you know that scale across the entire neck.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Practice</span>
+        <h3>All scales — full exercise player</h3>
+        <div class="tool-box">
+          <div class="tool-title">🎵 Full Scale Exercise Player</div>
+          <div id="eptool_neck"></div>
+        </div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'neck','nk')"><span class="chk-i">○</span> Mark as done</button></div>`,
+    tool:'exercises', filter:['cmaj','cpent','amin','apent']
+  },
+];
+
+// ── MARK SECTION ────────────────────────────────────────────────────
+function markSection(btn, lessonId, key){
+  btn.classList.add('done');
+  btn.innerHTML = '<span class="chk-i">✓</span> Completed';
+  markDone(lessonId, key);
+}
+
+// ── NAV ──────────────────────────────────────────────────────────────
+let curLesson=0;
+function renderNav(){
+  const nav=document.getElementById('nav-list');
+  nav.innerHTML=LESSONS.map((l,i)=>`
+    <div class="nav-item${i===curLesson?' active':''}" id="nav-${i}" onclick="goLesson(${i})">
+      <div class="nav-num" id="navnum-${i}">${l.num}</div>
+      <div class="nav-title">${l.label}</div>
+    </div>`).join('');
+}
+
+function renderLesson(l,i){
+  const prevBtn = i>0 ? `<button class="nbtn" onclick="goLesson(${i-1})">← ${LESSONS[i-1].label}</button>` : '';
+  const nextBtn = i<LESSONS.length-1
+    ? `<button class="nbtn primary" onclick="goLesson(${i+1})">Next: ${LESSONS[i+1].label} →</button>`
+    : `<div class="complete-card"><h3>🎉 Course complete!</h3><p>You've worked through all 7 lessons. You know the fretboard, the C major and A minor scales, both pentatonic scales, and your finger technique is underway. Keep the daily practice going.</p></div>`;
+
+  const div=document.createElement('div');
+  div.className='lesson-panel'+(i===curLesson?' active':'');
+  div.id='lesson_'+i;
+
+  div.innerHTML=`
+    <div class="l-hero">
+      <div class="eyebrow">${l.eyebrow}</div>
+      <h2>${l.title}</h2>
+      <p>${l.sub}</p>
+    </div>
+    <div class="l-body">
+      ${l.body}
+      <div class="nav-btns">${prevBtn}${nextBtn}</div>
+    </div>`;
+  document.getElementById('main').appendChild(div);
+
+  // init tools
+  if(l.tool==='fretboard'||l.tool==='both') buildFretboard('fbtool_'+l.id);
+  if(l.tool==='exercises'||l.tool==='both') buildPlayer('eptool_'+l.id, l.filter||[]);
+}
+
+function goLesson(i){
+  curLesson=i;
+  renderNav();
+  document.querySelectorAll('.lesson-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+  if(LESSONS[i]) history.replaceState(null,'','#'+LESSONS[i].id);
+  document.body.classList.remove('sb-open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────
+// Measure the site nav height so the sticky sidebar sits right below it.
+function setNavH(){
+  var nav = document.querySelector('.app-topbar');
+  if(nav) document.documentElement.style.setProperty('--navh', nav.offsetHeight + 'px');
+}
+setNavH();
+window.addEventListener('resize', setNavH);
+
+// Mobile sidebar toggle
+function toggleSidebar(force){
+  document.body.classList.toggle('sb-open', force);
+}
+var navToggle = document.getElementById('navToggle');
+var lessonsFab = document.getElementById('lessonsFab');
+var sbBackdrop = document.getElementById('sbBackdrop');
+if(navToggle) navToggle.addEventListener('click', function(){ toggleSidebar(); });
+if(lessonsFab) lessonsFab.addEventListener('click', function(){ toggleSidebar(true); });
+if(sbBackdrop) sbBackdrop.addEventListener('click', function(){ toggleSidebar(false); });
+
+// Reflect saved progress onto each lesson's "Mark as done" button.
+function reconcileMarks(){
+  document.querySelectorAll('.mark-btn').forEach(function(btn){
+    var oc = btn.getAttribute('onclick') || '';
+    var m = oc.match(/markSection\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/);
+    if(!m) return;
+    var lessonId = m[1], key = m[2];
+    if(done[lessonId] && done[lessonId].has(key)){
+      btn.classList.add('done');
+      btn.innerHTML = '<span class="chk-i">✓</span> Completed';
+    }
+  });
+}
+
+// Pick the starting lesson from the URL hash (deep-link from the landing page).
+function lessonIndexFromHash(){
+  var id = (location.hash || '').replace('#','');
+  var idx = LESSONS.findIndex(function(l){ return l.id === id; });
+  return idx < 0 ? 0 : idx;
+}
+
+renderNav();
+LESSONS.forEach((l,i)=>renderLesson(l,i));
+reconcileMarks();
+updateProgress();
+
+var startIdx = lessonIndexFromHash();
+if(startIdx !== 0) goLesson(startIdx);
+</script>
+</body>
+</html>
