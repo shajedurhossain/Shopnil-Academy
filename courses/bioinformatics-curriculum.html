@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bioinformatics Curriculum — Full Learning Path · Shopnil Academy</title>
+  <meta name="description" content="The complete 42-week bioinformatics learning path. 31 modules, 5 phases, from Bash basics to single-cell RNA-seq. Free at Shopnil Academy." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://shopnilacademy.com/courses/bioinformatics-curriculum.html" />
+
+  <meta property="og:title" content="Bioinformatics Curriculum — Full Learning Path · Shopnil Academy" />
+  <meta property="og:description" content="42 weeks. 31 modules. Everything you need to become a bioinformatician — completely free." />
+  <meta property="og:url" content="https://shopnilacademy.com/courses/bioinformatics-curriculum.html" />
+  <meta property="og:site_name" content="Shopnil Academy" />
+  <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../styles.css" />
+
+  <style>
+    /* ── Page-specific styles ──────────────────────────────── */
+
+    /* Hero header */
+    .curriculum-hero {
+      background:
+        radial-gradient(circle at 8% 0%, rgba(0,106,78,.09), transparent 42%),
+        radial-gradient(circle at 94% 18%, rgba(232,183,42,.11), transparent 44%),
+        var(--cream);
+      border-bottom: 1px solid var(--line);
+      padding: 64px 0 56px;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--green-soft); color: var(--green);
+      border: 1px solid rgba(0,106,78,.18);
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; margin-bottom: 22px;
+    }
+    .curriculum-hero h1 {
+      font-size: clamp(36px, 5vw, 58px);
+      max-width: 780px; margin-bottom: 18px; line-height: 1.1;
+    }
+    .curriculum-hero h1 span { color: var(--green); }
+    .curriculum-hero .lead {
+      font-size: 18px; color: var(--muted);
+      max-width: 620px; line-height: 1.7; margin-bottom: 32px;
+    }
+    .hero-stats {
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .hero-stat { display: flex; flex-direction: column; }
+    .hero-stat .val {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 700; color: var(--ink);
+      line-height: 1;
+    }
+    .hero-stat .lbl {
+      font-size: 13px; color: var(--muted); margin-top: 4px;
+    }
+    .hero-divider {
+      width: 1px; background: var(--line); align-self: stretch;
+    }
+
+    /* Ad slot wrapper */
+    .ad-wrap { padding: 20px 0 4px; }
+
+    /* How to use this page */
+    .how-section {
+      background: var(--ink);
+      padding: 48px 0;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2px;
+      margin-top: 32px;
+    }
+    .how-card {
+      background: rgba(255,255,255,.04);
+      padding: 24px 22px;
+      border-radius: 0;
+    }
+    .how-card:first-child { border-radius: 16px 0 0 16px; }
+    .how-card:last-child  { border-radius: 0 16px 16px 0; }
+    .how-num {
+      font-family: var(--font-display);
+      font-size: 32px; font-weight: 700;
+      color: var(--green); line-height: 1; margin-bottom: 12px;
+    }
+    .how-card h4 {
+      font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 8px;
+    }
+    .how-card p {
+      font-size: 13.5px; color: rgba(255,255,255,.6); line-height: 1.6;
+    }
+    .how-section .eyebrow { color: var(--green-mint); }
+    .how-section .eyebrow::before { background: var(--green-mint); }
+    .how-section h2 { color: #fff; }
+
+    /* Phase filter chips */
+    .filter-bar {
+      padding: 36px 0 0;
+      position: sticky; top: 80px; z-index: 30;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+    }
+    .filter-bar .wrap { padding-bottom: 16px; }
+
+    /* Phase sections */
+    .phases { padding: 56px 0 80px; }
+
+    .phase-block { margin-bottom: 72px; }
+    .phase-block:last-child { margin-bottom: 0; }
+
+    .phase-header {
+      display: flex; align-items: flex-start;
+      gap: 20px; margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+    .phase-icon {
+      width: 56px; height: 56px; border-radius: 18px;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-size: 20px; font-weight: 700;
+      color: #fff; flex-shrink: 0;
+    }
+    .phase-header-text h2 {
+      font-size: clamp(22px, 2.8vw, 30px); margin-bottom: 6px;
+    }
+    .phase-header-text .phase-meta {
+      font-size: 14px; color: var(--muted);
+      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
+    }
+    .phase-header-text .phase-meta span {
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .phase-prereq {
+      margin-top: 10px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.3);
+      padding: 6px 14px; border-radius: 999px;
+      font-size: 12px; font-weight: 600; color: #7a5a00;
+    }
+
+    /* Module cards grid */
+    .modules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+
+    /* Module card */
+    .mod-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+      display: flex; flex-direction: column;
+      transition: transform .18s ease, box-shadow .18s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .mod-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .mod-card.new-mod {
+      border-color: rgba(0,106,78,.25);
+    }
+    .mod-card.new-mod::after {
+      content: 'NEW';
+      position: absolute; top: 14px; right: 14px;
+      background: var(--green); color: #fff;
+      font-size: 9px; font-weight: 700; letter-spacing: .1em;
+      padding: 3px 8px; border-radius: 999px;
+    }
+
+    .mod-top {
+      display: flex; align-items: flex-start;
+      gap: 14px; margin-bottom: 14px;
+    }
+    .mod-num {
+      width: 36px; height: 36px; border-radius: 12px;
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .mod-title-group { flex: 1; min-width: 0; }
+    .mod-week {
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      letter-spacing: .05em; text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .mod-title {
+      font-family: var(--font-display);
+      font-size: 16px; font-weight: 700;
+      color: var(--ink); line-height: 1.2;
+    }
+
+    .mod-desc {
+      font-size: 13.5px; color: var(--muted);
+      line-height: 1.6; margin-bottom: 14px;
+      flex: 1;
+    }
+
+    .mod-tags {
+      display: flex; flex-wrap: wrap; gap: 5px;
+      margin-bottom: 14px;
+    }
+    .mod-tag {
+      font-size: 11px; padding: 3px 9px;
+      background: var(--cream); color: var(--muted);
+      border-radius: 999px; font-weight: 500;
+    }
+
+    .mod-foot {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      margin-top: auto;
+    }
+    .mod-repo {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .mod-repo::before {
+      content: '';
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--green-mint); flex-shrink: 0;
+    }
+    .mod-duration {
+      font-size: 12px; font-weight: 600; color: var(--muted);
+      background: var(--cream); padding: 3px 10px; border-radius: 999px;
+    }
+
+    /* Phase colour themes */
+    .p1 .phase-icon  { background: #185FA5; }
+    .p1 .mod-num     { background: #E6F1FB; color: #0C447C; }
+
+    .p2 .phase-icon  { background: #0F6E56; }
+    .p2 .mod-num     { background: #E1F5EE; color: #085041; }
+
+    .p3 .phase-icon  { background: #534AB7; }
+    .p3 .mod-num     { background: #EEEDFE; color: #3C3489; }
+
+    .p4 .phase-icon  { background: #8B2252; }
+    .p4 .mod-num     { background: #FBEAF0; color: #72243E; }
+
+    .p5 .phase-icon  { background: #854F0B; }
+    .p5 .mod-num     { background: #FAEEDA; color: #633806; }
+
+    /* Learning path connector */
+    .path-connector {
+      display: flex; align-items: center;
+      justify-content: center; gap: 12px;
+      padding: 20px 0; color: var(--muted); font-size: 14px;
+    }
+    .path-connector::before,
+    .path-connector::after {
+      content: '';
+      flex: 1; height: 1px;
+      background: linear-gradient(to right, transparent, var(--line));
+    }
+    .path-connector::after {
+      background: linear-gradient(to left, transparent, var(--line));
+    }
+
+    /* CTA section */
+    .curriculum-cta { padding: 0 0 96px; }
+    .cta-card {
+      background: var(--ink); color: #fff;
+      border-radius: 28px; padding: 56px 48px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .cta-card::before {
+      content: ''; position: absolute; top: -70px; left: -60px;
+      width: 240px; height: 240px;
+      background: rgba(0,106,78,.4); border-radius: 50%;
+    }
+    .cta-card::after {
+      content: ''; position: absolute; bottom: -80px; right: -50px;
+      width: 260px; height: 260px;
+      background: rgba(244,42,65,.18); border-radius: 50%;
+    }
+    .cta-card > * { position: relative; z-index: 2; }
+    .cta-card h2 { color: #fff; font-size: clamp(26px, 3.4vw, 38px); margin-bottom: 14px; }
+    .cta-card p  { color: rgba(255,255,255,.75); font-size: 17px; max-width: 520px; margin: 0 auto 28px; }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .how-card:first-child { border-radius: 16px 16px 0 0; }
+      .how-card:last-child  { border-radius: 0 0 16px 16px; }
+      .how-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+      .hero-stats { gap: 20px; }
+      .phase-header { flex-direction: column; gap: 12px; }
+    }
+    @media (max-width: 640px) {
+      .hero-divider { display: none; }
+      .how-grid { grid-template-columns: 1fr; }
+      .modules-grid { grid-template-columns: 1fr; }
+      .cta-card { padding: 40px 24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════════════════
+       NAV
+  ═══════════════════════════════════════════════════════════ -->
+  <header class="nav-shell">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="../index.html" class="logo">
+        <img src="../assets/logo.png" alt="Shopnil Academy" width="52" height="52" />
+        <div class="logo-text">
+          <strong>Shopnil Academy</strong>
+          <small>LEARN WITHOUT LIMITS</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../courses.html">Courses</a>
+        <a href="bioinformatics-curriculum.html" class="active">Bioinformatics</a>
+        <a href="../about.html">About</a>
+      </div>
+      <div class="nav-cta">
+        <a href="../courses.html" class="btn btn-outline btn-sm">All courses</a>
+        <a href="bash-linux/lesson-1.html" class="btn btn-primary btn-sm">Start learning →</a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle">☰</button>
+    </nav>
+  </header>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="curriculum-hero">
+    <div class="wrap">
+      <div class="hero-badge">Tech &amp; Coding · Bioinformatics Track</div>
+      <h1>Your complete path to becoming a <span>bioinformatician</span></h1>
+      <p class="lead">
+        A structured, job-market-aligned curriculum built from the ground up.
+        Follow the phases in order — each one builds directly on the last.
+        Every module ends with a real GitHub repository you push as proof of skill.
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="val">31</span>
+          <span class="lbl">Modules</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="val">5</span>
+          <span class="lbl">Phases</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="val">42</span>
+          <span class="lbl">Weeks at 1 hr/day</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="val">19</span>
+          <span class="lbl">GitHub repos</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="val">100%</span>
+          <span class="lbl">Free forever</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       AD — Leaderboard top
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="ad-wrap">
+    <div class="wrap">
+      <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+        <strong>Advertisement</strong>
+        <small>728 × 90 leaderboard · AdSense unit goes here</small>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       HOW TO USE THIS PAGE
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="how-section">
+    <div class="wrap">
+      <span class="eyebrow">How this works</span>
+      <h2 style="color:#fff; font-size:clamp(26px,3vw,36px); margin:12px 0 0; max-width:580px;">
+        Follow the phases in order. Don't skip ahead.
+      </h2>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-num">01</div>
+          <h4>Start at Phase 1</h4>
+          <p>Even if you know some R or Python, Phase 1 fills critical gaps — Bash, Git, and Conda are used in every single later module.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">02</div>
+          <h4>One module at a time</h4>
+          <p>Each module is 1–2 weeks at 1 hour per day. Complete all lessons, do all exercises, then move on. Depth beats speed.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">03</div>
+          <h4>Push to GitHub</h4>
+          <p>Every module ends with a real repo push. This is not optional — your GitHub is your portfolio. No repo = no proof.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">04</div>
+          <h4>Use public data</h4>
+          <p>All exercises use freely available datasets from GEO, SRA, or 10x Genomics. You never need to pay for data.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">05</div>
+          <h4>Finish each phase</h4>
+          <p>Each phase ends with a capstone project that ties all modules together. Complete the capstone before starting the next phase.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       FILTER BAR
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="filter-bar" id="filterBar">
+    <div class="wrap">
+      <div class="chips" role="navigation" aria-label="Jump to phase">
+        <button class="chip active" onclick="scrollToPhase('phase1', this)">Phase 1 — Foundations</button>
+        <button class="chip" onclick="scrollToPhase('phase2', this)">Phase 2 — Core bioinformatics</button>
+        <button class="chip" onclick="scrollToPhase('phase3', this)">Phase 3 — Advanced</button>
+        <button class="chip" onclick="scrollToPhase('phase4', this)">Phase 4 — Single-cell</button>
+        <button class="chip" onclick="scrollToPhase('phase5', this)">Phase 5 — Career</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       CURRICULUM PHASES
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="phases">
+    <div class="wrap">
+
+
+      <!-- ── PHASE 1 ─────────────────────────────────────────── -->
+      <div class="phase-block p1" id="phase1">
+        <div class="phase-header">
+          <div class="phase-icon">1</div>
+          <div class="phase-header-text">
+            <h2>Phase 1 — Foundations</h2>
+            <div class="phase-meta">
+              <span>📅 Weeks 1–7</span>
+              <span>📦 5 modules</span>
+              <span>🗂 4 GitHub repos</span>
+            </div>
+            <div class="phase-prereq">
+              ✦ Prerequisites: none — this is where everyone starts
+            </div>
+          </div>
+        </div>
+
+        <div class="modules-grid">
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">01</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 1–2</div>
+                <div class="mod-title">Bash &amp; Linux</div>
+              </div>
+            </div>
+            <p class="mod-desc">The command line is the backbone of all bioinformatics. Every tool — STAR, GATK, Snakemake — runs here. Learn to navigate, write scripts, handle files, and manage processes before touching any bioinformatics software.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Navigation</span>
+              <span class="mod-tag">File operations</span>
+              <span class="mod-tag">Pipes &amp; redirection</span>
+              <span class="mod-tag">Variables &amp; loops</span>
+              <span class="mod-tag">Bash scripting</span>
+              <span class="mod-tag">Permissions</span>
+              <span class="mod-tag">Processes</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">bash-linux-practice</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">02</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 2</div>
+                <div class="mod-title">Git &amp; GitHub</div>
+              </div>
+            </div>
+            <p class="mod-desc">Every repo you build in this curriculum gets pushed to GitHub as proof of skill. Learn Git properly once — branching, commit messages, .gitignore — and use it every single day from here on.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">init · clone · add · commit</span>
+              <span class="mod-tag">Branching &amp; merging</span>
+              <span class="mod-tag">README.md</span>
+              <span class="mod-tag">.gitignore</span>
+              <span class="mod-tag">Push &amp; pull</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">git-practice</span>
+              <span class="mod-duration">~5 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card new-mod">
+            <div class="mod-top">
+              <div class="mod-num">03</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 3</div>
+                <div class="mod-title">Conda &amp; environment management</div>
+              </div>
+            </div>
+            <p class="mod-desc">Bioinformatics tools constantly conflict with each other. Conda environments isolate them perfectly. This is a daily-use skill — every pipeline you build will depend on it.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">conda create · activate</span>
+              <span class="mod-tag">environment.yml</span>
+              <span class="mod-tag">bioconda channel</span>
+              <span class="mod-tag">mamba</span>
+              <span class="mod-tag">Exporting envs</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">conda-envs</span>
+              <span class="mod-duration">~5 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">04</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 4–5</div>
+                <div class="mod-title">R — beyond basics</div>
+              </div>
+            </div>
+            <p class="mod-desc">You know R basics. Now master the tools used in genomics: tidyverse for data wrangling, ggplot2 for publication figures, R Markdown for reproducible reports, and Bioconductor for biology-specific packages.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">tidyverse · dplyr · tidyr</span>
+              <span class="mod-tag">ggplot2</span>
+              <span class="mod-tag">R Markdown</span>
+              <span class="mod-tag">purrr</span>
+              <span class="mod-tag">Bioconductor setup</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">r-genomics-notebooks</span>
+              <span class="mod-duration">~10 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">05</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 6–7</div>
+                <div class="mod-title">Python — bioinformatics focus</div>
+              </div>
+            </div>
+            <p class="mod-desc">Extend your Python basics into bioinformatics-specific tools. pandas and NumPy handle large genomics tables. Biopython reads FASTA and FASTQ files. argparse lets you build command-line tools like the pros.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">pandas · NumPy</span>
+              <span class="mod-tag">matplotlib · seaborn</span>
+              <span class="mod-tag">Biopython</span>
+              <span class="mod-tag">argparse CLI scripts</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">python-bioinfo-scripts</span>
+              <span class="mod-duration">~12 hrs</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="path-connector">▼ Complete Phase 1 before continuing</div>
+
+
+      <!-- ── PHASE 2 ─────────────────────────────────────────── -->
+      <div class="phase-block p2" id="phase2">
+        <div class="phase-header">
+          <div class="phase-icon">2</div>
+          <div class="phase-header-text">
+            <h2>Phase 2 — Core bioinformatics</h2>
+            <div class="phase-meta">
+              <span>📅 Weeks 8–18</span>
+              <span>📦 8 modules</span>
+              <span>🗂 7 GitHub repos</span>
+            </div>
+            <div class="phase-prereq">
+              ✦ Prerequisites: Phase 1 complete — especially Bash, Git, and Conda
+            </div>
+          </div>
+        </div>
+
+        <div class="modules-grid">
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">06</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 8</div>
+                <div class="mod-title">QC &amp; preprocessing</div>
+              </div>
+            </div>
+            <p class="mod-desc">Every sequencing pipeline starts here — before you align a single read you need to check quality and remove adapter contamination. A bad QC step ruins every downstream result.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">FastQC</span>
+              <span class="mod-tag">MultiQC</span>
+              <span class="mod-tag">Trimmomatic</span>
+              <span class="mod-tag">fastp</span>
+              <span class="mod-tag">FASTQ format</span>
+              <span class="mod-tag">Quality scores</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">rnaseq-qc-pipeline</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">07</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 9–10</div>
+                <div class="mod-title">Sequence alignment</div>
+              </div>
+            </div>
+            <p class="mod-desc">Map sequencing reads to a reference genome. Understand SAM/BAM formats, alignment flags, and how to extract useful statistics. You cannot do differential expression or variant calling without this step.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">STAR</span>
+              <span class="mod-tag">HISAT2</span>
+              <span class="mod-tag">SAMtools</span>
+              <span class="mod-tag">SAM/BAM format</span>
+              <span class="mod-tag">featureCounts</span>
+              <span class="mod-tag">IGV</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">rnaseq-alignment-workflow</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">08</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 11–12</div>
+                <div class="mod-title">DESeq2 — differential expression</div>
+              </div>
+            </div>
+            <p class="mod-desc">The most common analysis in RNA-seq biology. Go deep — understand the negative binomial model, produce publication-quality volcano plots and heatmaps, and build a fully reproducible R Markdown report.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">DESeq2</span>
+              <span class="mod-tag">lfcShrink</span>
+              <span class="mod-tag">Volcano &amp; MA plots</span>
+              <span class="mod-tag">ComplexHeatmap</span>
+              <span class="mod-tag">PCA</span>
+              <span class="mod-tag">clusterProfiler</span>
+              <span class="mod-tag">GO / KEGG</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">deseq2-differential-expression</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+          <!-- In-feed ad slot between modules -->
+          <div class="ad-slot in-feed" role="complementary" aria-label="Advertisement" style="border-radius:18px; align-self:stretch;">
+            <strong>Advertisement</strong>
+            <small>In-feed ad · AdSense unit goes here</small>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">09</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 13–14</div>
+                <div class="mod-title">Variant calling</div>
+              </div>
+            </div>
+            <p class="mod-desc">Call SNPs and indels from sequencing data — the foundation of GWAS, population genomics, and precision medicine. Follow GATK best practices, understand VCF format, and filter variants correctly.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">GATK</span>
+              <span class="mod-tag">HaplotypeCaller</span>
+              <span class="mod-tag">VCF format</span>
+              <span class="mod-tag">BCFtools</span>
+              <span class="mod-tag">BQSR</span>
+              <span class="mod-tag">SnpEff</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">variant-calling-gatk</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">10</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 15</div>
+                <div class="mod-title">BLAST &amp; Minimap2</div>
+              </div>
+            </div>
+            <p class="mod-desc">Sequence similarity search and long-read alignment. BLAST finds homologous sequences across species. Minimap2 aligns long Oxford Nanopore and PacBio reads. Both are used weekly in plant genomics.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">blastn · blastp · blastx</span>
+              <span class="mod-tag">E-value interpretation</span>
+              <span class="mod-tag">Minimap2</span>
+              <span class="mod-tag">PAF format</span>
+              <span class="mod-tag">Output parsing in Python</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">sequence-search-tools</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">11</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 16</div>
+                <div class="mod-title">Biological databases</div>
+              </div>
+            </div>
+            <p class="mod-desc">Know where the data lives and how to fetch it programmatically. Download genomes, annotations, and raw reads from NCBI, Ensembl, and TAIR without clicking through web interfaces — write scripts instead.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">NCBI · SRA</span>
+              <span class="mod-tag">Ensembl BioMart</span>
+              <span class="mod-tag">TAIR</span>
+              <span class="mod-tag">Entrez Direct</span>
+              <span class="mod-tag">Biopython Entrez</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">database-queries</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card new-mod">
+            <div class="mod-top">
+              <div class="mod-num">12</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 17</div>
+                <div class="mod-title">SQL &amp; database querying</div>
+              </div>
+            </div>
+            <p class="mod-desc">Listed in 55% of bioinformatics job postings. Write SELECT queries, JOINs, and aggregations to query genomics databases. Use SQLite locally and connect SQL to pandas — a short module with high career impact.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">SELECT · WHERE · JOIN</span>
+              <span class="mod-tag">GROUP BY · ORDER BY</span>
+              <span class="mod-tag">SQLite</span>
+              <span class="mod-tag">pandas SQL bridge</span>
+              <span class="mod-tag">Genomics table queries</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">sql-bioinfo</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">13</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 18</div>
+                <div class="mod-title">Snakemake — workflow automation</div>
+              </div>
+            </div>
+            <p class="mod-desc">Turn your individual scripts into one reproducible, automated pipeline. Snakemake is increasingly required in job postings — not just nice-to-have. Build the full RNA-seq pipeline end-to-end in a Snakefile.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Rules &amp; wildcards</span>
+              <span class="mod-tag">config.yaml</span>
+              <span class="mod-tag">Conda envs per rule</span>
+              <span class="mod-tag">DAG diagram</span>
+              <span class="mod-tag">HPC cluster profiles</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">rnaseq-snakemake-pipeline</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="path-connector">▼ Complete Phase 2 before continuing</div>
+
+
+      <!-- ── PHASE 3 ─────────────────────────────────────────── -->
+      <div class="phase-block p3" id="phase3">
+        <div class="phase-header">
+          <div class="phase-icon">3</div>
+          <div class="phase-header-text">
+            <h2>Phase 3 — Advanced &amp; specialised</h2>
+            <div class="phase-meta">
+              <span>📅 Weeks 19–30</span>
+              <span>📦 9 modules</span>
+              <span>🗂 8 GitHub repos</span>
+            </div>
+            <div class="phase-prereq">
+              ✦ Prerequisites: Phases 1 &amp; 2 — especially DESeq2, Snakemake, and variant calling
+            </div>
+          </div>
+        </div>
+
+        <div class="modules-grid">
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">14</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 19–20</div>
+                <div class="mod-title">GWAS &amp; genomic prediction</div>
+              </div>
+            </div>
+            <p class="mod-desc">Your MSc thesis skill — and your strongest differentiator. Implement genomic prediction models with rrBLUP and BGLR, calculate BPV, run cross-validation, and produce Manhattan plots. Push your actual thesis code here.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">rrBLUP · BGLR</span>
+              <span class="mod-tag">GRM</span>
+              <span class="mod-tag">BPV &amp; weighting</span>
+              <span class="mod-tag">Cross-validation</span>
+              <span class="mod-tag">Manhattan &amp; QQ plots</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">genomic-selection-bpv</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card new-mod">
+            <div class="mod-top">
+              <div class="mod-num">15</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 21</div>
+                <div class="mod-title">Machine learning basics</div>
+              </div>
+            </div>
+            <p class="mod-desc">60% of life science companies are increasing ML investment. Learn classification, clustering, dimensionality reduction, and cross-validation with scikit-learn — applied directly to genomics datasets.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">scikit-learn</span>
+              <span class="mod-tag">Classification</span>
+              <span class="mod-tag">Clustering</span>
+              <span class="mod-tag">PCA</span>
+              <span class="mod-tag">Cross-validation</span>
+              <span class="mod-tag">Feature importance</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">ml-bioinfo</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">16</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 22</div>
+                <div class="mod-title">Docker</div>
+              </div>
+            </div>
+            <p class="mod-desc">Package your entire analysis so it runs identically on any machine — your laptop, a colleague's server, or a cloud cluster. Docker is now a standard requirement in pharma and biotech roles.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Images &amp; containers</span>
+              <span class="mod-tag">Dockerfile</span>
+              <span class="mod-tag">BioContainers</span>
+              <span class="mod-tag">Volumes</span>
+              <span class="mod-tag">Docker Compose</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">docker-bioinfo</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">17</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 23</div>
+                <div class="mod-title">HPC &amp; SLURM</div>
+              </div>
+            </div>
+            <p class="mod-desc">Most bioinformatics compute happens on HPC clusters. Write SLURM job scripts, run array jobs across dozens of samples in parallel, and integrate Snakemake with your cluster's scheduler.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">sbatch · squeue</span>
+              <span class="mod-tag">Array jobs</span>
+              <span class="mod-tag">Resource requests</span>
+              <span class="mod-tag">Snakemake + SLURM</span>
+              <span class="mod-tag">module load</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">hpc-slurm-scripts</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card new-mod">
+            <div class="mod-top">
+              <div class="mod-num">18</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 24</div>
+                <div class="mod-title">Nextflow &amp; nf-core</div>
+              </div>
+            </div>
+            <p class="mod-desc">Many pharma and biotech companies use Nextflow over Snakemake. nf-core provides 100+ ready-made pipelines including nf-core/rnaseq. Knowing both workflow managers makes you versatile in any team.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Processes &amp; channels</span>
+              <span class="mod-tag">DSL2</span>
+              <span class="mod-tag">nf-core pipelines</span>
+              <span class="mod-tag">Config profiles</span>
+              <span class="mod-tag">nf-core/rnaseq</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">nextflow-pipelines</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">19</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 25</div>
+                <div class="mod-title">Jupyter notebooks</div>
+              </div>
+            </div>
+            <p class="mod-desc">The standard format for shareable, reproducible analysis in Python — and increasingly in R via IRkernel. Every recruiter expects to see rendered notebooks on your GitHub. Learn best practices from day one.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">JupyterLab</span>
+              <span class="mod-tag">Markdown cells</span>
+              <span class="mod-tag">nbconvert to HTML</span>
+              <span class="mod-tag">Best practices</span>
+              <span class="mod-tag">IRkernel for R</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">jupyter-bioinfo-notebooks</span>
+              <span class="mod-duration">~5 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">20</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 26</div>
+                <div class="mod-title">edgeR &amp; limma</div>
+              </div>
+            </div>
+            <p class="mod-desc">Complementary to DESeq2. Many published papers use edgeR or limma-voom. Knowing all three methods and when to use each makes you more versatile and credible in peer review discussions.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">DGEList</span>
+              <span class="mod-tag">TMM normalisation</span>
+              <span class="mod-tag">limma-voom</span>
+              <span class="mod-tag">Contrasts</span>
+              <span class="mod-tag">DESeq2 vs edgeR comparison</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">deseq2-differential-expression</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card new-mod">
+            <div class="mod-top">
+              <div class="mod-num">21</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 27</div>
+                <div class="mod-title">ChIP-seq &amp; ATAC-seq</div>
+              </div>
+            </div>
+            <p class="mod-desc">Epigenomics roles are growing fast. Learn peak calling with MACS2, differential binding analysis with DiffBind, and visualisation in IGV. Connects directly to transcriptomics — chromatin state drives gene expression.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Peak calling · MACS2</span>
+              <span class="mod-tag">Differential binding</span>
+              <span class="mod-tag">DiffBind</span>
+              <span class="mod-tag">IGV visualisation</span>
+              <span class="mod-tag">Motif analysis basics</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">chipseq-atacseq</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">22</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 28</div>
+                <div class="mod-title">Advanced visualisation</div>
+              </div>
+            </div>
+            <p class="mod-desc">Strong visualisation skills are immediately visible on GitHub and in papers. Build multi-panel publication figures, annotated heatmaps, Manhattan plots, and interactive HTML reports with Quarto.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">ggplot2 · patchwork</span>
+              <span class="mod-tag">ComplexHeatmap</span>
+              <span class="mod-tag">Manhattan plots · CMplot</span>
+              <span class="mod-tag">seaborn · plotly</span>
+              <span class="mod-tag">Quarto reports</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">bioinformatics-visualisation</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card" style="border: 2px solid rgba(0,106,78,.3);">
+            <div class="mod-top">
+              <div class="mod-num">23</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 29–30</div>
+                <div class="mod-title">Capstone — plant genomics pipeline</div>
+              </div>
+            </div>
+            <p class="mod-desc">Tie everything from Phases 1–3 together. One polished end-to-end pipeline on public plant data — Snakemake, DESeq2, Docker, Jupyter notebook, full README with workflow diagram. Tag a v1.0 release on GitHub.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Snakemake pipeline</span>
+              <span class="mod-tag">DESeq2 report</span>
+              <span class="mod-tag">Docker container</span>
+              <span class="mod-tag">Jupyter notebook</span>
+              <span class="mod-tag">v1.0 GitHub release</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">plant-genomics-pipeline</span>
+              <span class="mod-duration">~21 hrs</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="path-connector">▼ Complete Phase 3 before continuing</div>
+
+
+      <!-- ── PHASE 4 ─────────────────────────────────────────── -->
+      <div class="phase-block p4" id="phase4">
+        <div class="phase-header">
+          <div class="phase-icon">4</div>
+          <div class="phase-header-text">
+            <h2>Phase 4 — Single-cell RNA-seq</h2>
+            <div class="phase-meta">
+              <span>📅 Weeks 31–40</span>
+              <span>📦 7 modules</span>
+              <span>🗂 4 GitHub repos</span>
+            </div>
+            <div class="phase-prereq">
+              ✦ Prerequisites: DESeq2 (Module 8), Python (Module 5), R beyond basics (Module 4)
+            </div>
+          </div>
+        </div>
+
+        <div class="modules-grid">
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">24</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 31</div>
+                <div class="mod-title">scRNA-seq concepts &amp; data formats</div>
+              </div>
+            </div>
+            <p class="mod-desc">Before writing any code, understand what makes single-cell data fundamentally different from bulk — the dropout problem, sparse matrices, AnnData and Seurat object structures, and which public datasets to use for practice.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">10x Genomics · droplets</span>
+              <span class="mod-tag">Cell Ranger output</span>
+              <span class="mod-tag">Sparse matrices</span>
+              <span class="mod-tag">AnnData structure</span>
+              <span class="mod-tag">Seurat object</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">scrna-seq-learning</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">25</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 32–33</div>
+                <div class="mod-title">Seurat — core workflow</div>
+              </div>
+            </div>
+            <p class="mod-desc">Seurat is the dominant scRNA-seq R package. Master the full standard workflow on the PBMC3k dataset — QC filtering, SCTransform normalisation, PCA, UMAP, Leiden clustering, marker detection, and cell type annotation.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">QC metrics &amp; filtering</span>
+              <span class="mod-tag">SCTransform</span>
+              <span class="mod-tag">PCA · UMAP</span>
+              <span class="mod-tag">FindClusters</span>
+              <span class="mod-tag">FindAllMarkers</span>
+              <span class="mod-tag">Cell type annotation</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">scrna-seurat-pbmc</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">26</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 34</div>
+                <div class="mod-title">Seurat — integration &amp; batch correction</div>
+              </div>
+            </div>
+            <p class="mod-desc">Real experiments have multiple samples from different batches. Learn to integrate them with Harmony and Seurat CCA — and understand when to use each. Remove batch effects without removing real biological signal.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Harmony integration</span>
+              <span class="mod-tag">Seurat CCA</span>
+              <span class="mod-tag">DoubletFinder</span>
+              <span class="mod-tag">Multi-sample UMAP</span>
+              <span class="mod-tag">Before/after comparison</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">scrna-seurat-pbmc</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">27</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 35–36</div>
+                <div class="mod-title">Scanpy — core workflow</div>
+              </div>
+            </div>
+            <p class="mod-desc">Scanpy is the Python equivalent of Seurat and is increasingly preferred for large datasets. Reproduce the exact same PBMC analysis in Python — having both Seurat and Scanpy versions shows bilingual competence that few candidates demonstrate.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">AnnData</span>
+              <span class="mod-tag">sc.pp.normalize_total</span>
+              <span class="mod-tag">PCA · UMAP</span>
+              <span class="mod-tag">Leiden clustering</span>
+              <span class="mod-tag">rank_genes_groups</span>
+              <span class="mod-tag">.h5ad export</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">scrna-scanpy-pbmc</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">28</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 37</div>
+                <div class="mod-title">Trajectory &amp; pseudotime analysis</div>
+              </div>
+            </div>
+            <p class="mod-desc">Model cell differentiation and developmental processes — especially relevant in plant biology. Order cells along a developmental path with Monocle3 in R, then model RNA velocity with scVelo in Python.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Monocle3</span>
+              <span class="mod-tag">Pseudotime ordering</span>
+              <span class="mod-tag">scVelo</span>
+              <span class="mod-tag">RNA velocity</span>
+              <span class="mod-tag">Spliced / unspliced</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">scrna-trajectory-analysis</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card">
+            <div class="mod-top">
+              <div class="mod-num">29</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Week 38</div>
+                <div class="mod-title">Differential expression in scRNA-seq</div>
+              </div>
+            </div>
+            <p class="mod-desc">Your DESeq2 knowledge transfers here. The pseudo-bulk approach — aggregate cells per sample per cluster, then run DESeq2 — is the statistically correct method. Wilcoxon per-cluster testing is exploratory only.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Pseudo-bulk DE</span>
+              <span class="mod-tag">muscat package</span>
+              <span class="mod-tag">DESeq2 on sc data</span>
+              <span class="mod-tag">Wilcoxon vs pseudo-bulk</span>
+              <span class="mod-tag">Multi-condition comparison</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">scrna-seurat-pbmc</span>
+              <span class="mod-duration">~7 hrs</span>
+            </div>
+          </div>
+
+          <div class="mod-card" style="border: 2px solid rgba(139,34,82,.25);">
+            <div class="mod-top">
+              <div class="mod-num">30</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 39–40</div>
+                <div class="mod-title">Plant scRNA-seq capstone</div>
+              </div>
+            </div>
+            <p class="mod-desc">Your flagship GitHub project. Apply everything to a real plant scRNA-seq dataset — Arabidopsis root or rice. Full Seurat and Scanpy workflows, trajectory analysis, pseudo-bulk DE, and TAIR gene annotations. This is the crown jewel of your portfolio.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Seurat + Scanpy on plant data</span>
+              <span class="mod-tag">Trajectory analysis</span>
+              <span class="mod-tag">TAIR annotations</span>
+              <span class="mod-tag">Biological interpretation</span>
+              <span class="mod-tag">v1.0 GitHub release</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">plant-scrna-seq-analysis</span>
+              <span class="mod-duration">~14 hrs</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="path-connector">▼ Final phase — career readiness</div>
+
+
+      <!-- ── PHASE 5 ─────────────────────────────────────────── -->
+      <div class="phase-block p5" id="phase5">
+        <div class="phase-header">
+          <div class="phase-icon">5</div>
+          <div class="phase-header-text">
+            <h2>Phase 5 — Career readiness</h2>
+            <div class="phase-meta">
+              <span>📅 Weeks 41–42</span>
+              <span>📦 1 module</span>
+              <span>🗂 1 GitHub repo</span>
+            </div>
+            <div class="phase-prereq">
+              ✦ Prerequisites: all phases complete — this ties everything together
+            </div>
+          </div>
+        </div>
+
+        <div class="modules-grid">
+
+          <div class="mod-card new-mod">
+            <div class="mod-top">
+              <div class="mod-num">31</div>
+              <div class="mod-title-group">
+                <div class="mod-week">Weeks 41–42</div>
+                <div class="mod-title">Scientific writing &amp; communication</div>
+              </div>
+            </div>
+            <p class="mod-desc">68% of hiring managers say the biggest gap in bioinformatics candidates is communication — not technical skill. Learn to write methods sections, craft compelling READMEs, present results to non-bioinformaticians, and write cover letters that get interviews.</p>
+            <div class="mod-tags">
+              <span class="mod-tag">Methods section writing</span>
+              <span class="mod-tag">README documentation</span>
+              <span class="mod-tag">Results narrative</span>
+              <span class="mod-tag">Presenting to biologists</span>
+              <span class="mod-tag">Cover letters</span>
+            </div>
+            <div class="mod-foot">
+              <span class="mod-repo">scientific-writing</span>
+              <span class="mod-duration">~10 hrs</span>
+            </div>
+          </div>
+
+          <!-- Pad card — what's next -->
+          <div class="mod-card" style="background: var(--green-soft); border-color: rgba(0,106,78,.2);">
+            <div class="mod-top">
+              <div class="mod-num" style="background: var(--green); color: #fff;">✓</div>
+              <div class="mod-title-group">
+                <div class="mod-week">After Week 42</div>
+                <div class="mod-title" style="color: var(--green);">You are job-ready</div>
+              </div>
+            </div>
+            <p class="mod-desc" style="color: var(--green-deep);">
+              At this point you will have 19 GitHub repos with real code, a published plant scRNA-seq analysis, a full RNA-seq pipeline, a genomic selection model from your thesis, and the communication skills to explain all of it in an interview.
+            </p>
+            <div class="mod-tags">
+              <span class="mod-tag" style="background: var(--green-mint); color: var(--green-deep);">19 GitHub repos</span>
+              <span class="mod-tag" style="background: var(--green-mint); color: var(--green-deep);">31 skills proven</span>
+              <span class="mod-tag" style="background: var(--green-mint); color: var(--green-deep);">~100% job coverage</span>
+            </div>
+            <div class="mod-foot" style="border-color: rgba(0,106,78,.15);">
+              <span class="mod-repo" style="color: var(--green);">github.com/shajedurhossain</span>
+              <span class="mod-duration" style="background: var(--green-mint); color: var(--green-deep);">42 weeks total</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       AD — Rectangle bottom
+  ═══════════════════════════════════════════════════════════ -->
+  <div style="padding: 0 0 56px;">
+    <div class="wrap" style="display:flex; justify-content:center;">
+      <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px; width:100%;">
+        <strong>Advertisement</strong>
+        <small>300 × 250 rectangle · AdSense unit goes here</small>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       CTA
+  ═══════════════════════════════════════════════════════════ -->
+  <section class="curriculum-cta">
+    <div class="wrap">
+      <div class="cta-card">
+        <h2>Ready to start?</h2>
+        <p>Phase 1 is live. Open a terminal, boot into Ubuntu, and begin Lesson 1 right now — no sign-up required.</p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="bash-linux/lesson-1.html" class="btn btn-primary btn-lg">Start Lesson 1: Bash &amp; Linux →</a>
+          <a href="../courses.html" class="btn btn-outline btn-lg" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.3);">Browse all courses</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="../index.html" class="logo" style="margin-bottom:12px;">
+            <img src="../assets/logo.png" alt="Shopnil Academy" width="44" height="44" />
+            <div class="logo-text">
+              <strong>Shopnil Academy</strong>
+              <small>LEARN WITHOUT LIMITS</small>
+            </div>
+          </a>
+          <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+          <div class="foot-social">
+            <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook">f</a>
+            <a href="https://x.com/ShopnilAcademy" aria-label="X / Twitter">𝕏</a>
+            <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube">▶</a>
+            <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn">in</a>
+            <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram">◻</a>
+          </div>
+        </div>
+        <div class="foot-col">
+          <h4>This course</h4>
+          <ul>
+            <li><a href="bash-linux/lesson-1.html">Start Lesson 1</a></li>
+            <li><a href="#phase1">Phase 1 — Foundations</a></li>
+            <li><a href="#phase2">Phase 2 — Core</a></li>
+            <li><a href="#phase3">Phase 3 — Advanced</a></li>
+            <li><a href="#phase4">Phase 4 — Single-cell</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="../courses.html">All courses</a></li>
+            <li><a href="../courses.html?track=tech">Tech &amp; Coding</a></li>
+            <li><a href="../courses.html?track=math">Math &amp; Science</a></li>
+            <li><a href="../courses.html?track=lang">Languages</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="../about.html">About</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+            <li><a href="../advertise.html">Advertise</a></li>
+            <li><a href="../faq.html">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="../privacy.html">Privacy</a></li>
+            <li><a href="../terms.html">Terms</a></li>
+            <li><a href="../cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bot">
+        <span>© 2026 Shopnil Academy. All rights reserved. Made with care for learners worldwide. 🌍</span>
+        <span>Bioinformatics · Full curriculum</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════════════ -->
+  <script>
+    /* Mobile nav */
+    document.getElementById('navToggle').addEventListener('click', function () {
+      const links = document.querySelector('.nav-links');
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      links.style.display = expanded ? '' : 'flex';
+    });
+
+    /* Phase filter chips — smooth scroll */
+    function scrollToPhase(id, btn) {
+      document.querySelectorAll('.filter-bar .chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const el = document.getElementById(id);
+      if (el) {
+        const offset = document.getElementById('filterBar').offsetHeight + 88;
+        const top = el.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    }
+
+    /* Highlight active chip on scroll */
+    const phases = ['phase1','phase2','phase3','phase4','phase5'];
+    const chips = document.querySelectorAll('.filter-bar .chip');
+    const filterH = () => document.getElementById('filterBar').offsetHeight + 100;
+
+    window.addEventListener('scroll', () => {
+      let current = 0;
+      phases.forEach((id, i) => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= filterH()) current = i;
+      });
+      chips.forEach((c, i) => c.classList.toggle('active', i === current));
+    }, { passive: true });
+  </script>
+
+</body>
+</html>

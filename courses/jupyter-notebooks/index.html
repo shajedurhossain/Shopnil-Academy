@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jupyter Notebooks — Bioinformatics Module 19 · Shopnil Academy</title>
+<meta name="description" content="The standard format for shareable, reproducible analysis in Python — and increasingly in R via IRkernel. Every recruiter expects to see rendered notebooks " />
+<link rel="icon" href="../../assets/logo.png" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Shopnil Academy" />
+<meta property="og:title" content="Jupyter Notebooks — Free · Shopnil Academy" />
+<meta property="og:description" content="The standard format for shareable, reproducible analysis in Python — and increasingly in R via IRkernel. Every recruiter expects to see rendered notebooks " />
+<meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+<meta property="og:url" content="https://shopnilacademy.com/courses/jupyter-notebooks/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@ShopnilAcademy" />
+<link rel="canonical" href="https://shopnilacademy.com/courses/jupyter-notebooks/" />
+<meta name="theme-color" content="#006A4E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../../styles.css" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TBSKG50L36"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-TBSKG50L36');
+</script>
+<style>
+  .mod-hero {
+    background:
+      radial-gradient(circle at 10% 0%, rgba(0,106,78,.22), transparent 48%),
+      radial-gradient(circle at 92% 25%, rgba(232,183,42,.14), transparent 44%),
+      var(--green-dark);
+    color: #fff;
+    padding: 52px 0 72px;
+    position: relative; overflow: hidden;
+  }
+  .mod-hero .breadcrumb { color: rgba(255,255,255,.6); margin-bottom: 16px; font-size: 13px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .mod-hero .breadcrumb a { color: rgba(255,255,255,.7); text-decoration: none; }
+  .mod-hero .breadcrumb a:hover { color: var(--gold); }
+  .mod-hero .breadcrumb .sep { opacity: .4; }
+  .phase-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 12px; font-weight: 700; letter-spacing: .04em;
+    text-transform: uppercase; margin-bottom: 18px;
+    color: var(--gold);
+  }
+  .mod-num-large {
+    font-family: var(--font-display); font-size: 13px; font-weight: 700;
+    color: rgba(255,255,255,.5); letter-spacing: .1em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .mod-hero h1 { color: #fff; font-size: clamp(34px, 5vw, 58px); margin-bottom: 14px; line-height: 1.08; }
+  .mod-hero h1 .accent { color: var(--gold); }
+  .mod-hero .lead { font-size: 17px; color: rgba(255,255,255,.82); max-width: 620px; line-height: 1.65; margin-bottom: 28px; }
+  .mod-stats { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 32px; }
+  .mod-stat { display: flex; flex-direction: column; }
+  .mod-stat .val { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: #fff; line-height: 1; }
+  .mod-stat .lbl { font-size: 12px; color: rgba(255,255,255,.55); margin-top: 3px; }
+  .mod-stat-div { width: 1px; background: rgba(255,255,255,.15); align-self: stretch; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-cta .btn-gold { background: var(--gold); color: var(--green-dark); font-weight: 700; padding: 14px 28px; border-radius: 999px; font-size: 15px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: background .15s; }
+  .hero-cta .btn-gold:hover { background: #f3d060; }
+  .hero-cta .btn-ghost-white { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.3); padding: 13px 24px; border-radius: 999px; font-size: 15px; text-decoration: none; font-weight: 500; transition: border-color .15s; }
+  .hero-cta .btn-ghost-white:hover { border-color: #fff; }
+
+  /* Topics */
+  .topics-section { padding: 56px 0; background: var(--cream); border-bottom: 1px solid var(--line); }
+  .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 28px; }
+  .topic-chip {
+    background: #fff; border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 16px; font-size: 13.5px; font-weight: 500; color: var(--ink);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .topic-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+
+  /* Coming soon */
+  .coming-section { padding: 64px 0; }
+  .coming-card {
+    background: var(--ink); color: #fff; border-radius: 24px; padding: 48px 40px;
+    display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
+  }
+  .coming-card h2 { color: #fff; font-size: clamp(22px, 3vw, 32px); margin-bottom: 10px; }
+  .coming-card p { color: rgba(255,255,255,.7); font-size: 15px; max-width: 480px; line-height: 1.6; }
+  .notify-form { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+  .notify-form input { padding: 12px 16px; border: 1.5px solid rgba(255,255,255,.2); border-radius: 999px; font-family: inherit; font-size: 14px; background: rgba(255,255,255,.08); color: #fff; min-width: 220px; }
+  .notify-form input::placeholder { color: rgba(255,255,255,.4); }
+  .notify-form input:focus { outline: none; border-color: var(--gold); }
+  .notify-form button { background: var(--gold); color: var(--green-dark); font-weight: 700; padding: 12px 22px; border-radius: 999px; border: none; cursor: pointer; font-family: inherit; font-size: 14px; white-space: nowrap; }
+  .coming-weeks { text-align: center; }
+  .coming-weeks .big { font-family: var(--font-display); font-size: 56px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .coming-weeks .sub { font-size: 13px; color: rgba(255,255,255,.55); margin-top: 6px; }
+
+  /* Curriculum CTA */
+  .curriculum-cta-bar {
+    background: var(--green-soft); border-top: 1px solid rgba(0,106,78,.12); border-bottom: 1px solid rgba(0,106,78,.12);
+    padding: 28px 0;
+  }
+  .cta-bar-inner { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .cta-bar-inner p { font-size: 15px; color: var(--ink); flex: 1; min-width: 260px; }
+  .cta-bar-inner p strong { color: var(--green); }
+
+  @media(max-width:760px){
+    .coming-card { grid-template-columns: 1fr; }
+    .coming-weeks { display: none; }
+    .mod-stat-div { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<div class="nav-shell">
+  <nav class="nav" aria-label="Main navigation">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy" />
+      <span class="logo-text"><strong>Shopnil Academy</strong><small>LEARN WITHOUT LIMITS</small></span>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html">Courses</a>
+      <a href="../bioinformatics-curriculum.html" class="active">Bioinformatics</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-ghost btn-sm">All courses</a>
+      <a href="../bioinformatics-curriculum.html" class="btn btn-primary btn-sm">View curriculum →</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+  </nav>
+</div>
+
+<!-- Hero -->
+<section class="mod-hero">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a><span class="sep">/</span>
+      <a href="../../courses.html">Courses</a><span class="sep">/</span>
+      <a href="../bioinformatics-curriculum.html">Bioinformatics</a><span class="sep">/</span>
+      <span>Jupyter Notebooks</span>
+    </div>
+    <div class="phase-badge">Phase 3 — Advanced & Specialised</div>
+    <div class="mod-num-large">Module 19</div>
+    <h1>Jupyter Notebooks</h1>
+    <p class="lead">The standard format for shareable, reproducible analysis in Python — and increasingly in R via IRkernel. Every recruiter expects to see rendered notebooks on your GitHub. Learn best practices from day one.</p>
+    <div class="mod-stats">
+      <div class="mod-stat"><span class="val">Week 25</span><span class="lbl">Timeline</span></div>
+      <div class="mod-stat-div"></div>
+      <div class="mod-stat"><span class="val">~5 hrs</span><span class="lbl">Study time</span></div>
+      <div class="mod-stat-div"></div>
+      <div class="mod-stat"><span class="val">FREE</span><span class="lbl">Always</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="../bioinformatics-curriculum.html#phase3" class="btn-ghost-white">View in curriculum →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Topics -->
+<section class="topics-section">
+  <div class="wrap">
+    <span class="eyebrow">What you'll learn</span>
+    <h2 style="margin-top: 10px; font-size: clamp(24px, 3vw, 34px);">Topics covered in this module</h2>
+    <div class="topics-grid">
+      <div class="topic-chip">JupyterLab</div>
+      <div class="topic-chip">Markdown cells</div>
+      <div class="topic-chip">nbconvert to HTML</div>
+      <div class="topic-chip">Best practices</div>
+      <div class="topic-chip">IRkernel for R</div>
+    </div>
+  </div>
+</section>
+
+<!-- Curriculum CTA bar -->
+<div class="curriculum-cta-bar">
+  <div class="wrap">
+    <div class="cta-bar-inner">
+      <p>📋 Not sure where this fits? <strong>Module 19</strong> is part of the full bioinformatics curriculum — a structured 42-week learning path from Bash to single-cell RNA-seq.</p>
+      <a href="../bioinformatics-curriculum.html" class="btn btn-primary">See full curriculum →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Coming Soon -->
+<section class="coming-section">
+  <div class="wrap">
+    <div class="coming-card">
+      <div>
+        <h2>Lessons are on their way.</h2>
+        <p>We're building this module carefully — every lesson comes with exercises, datasets, and a GitHub repository you push as proof of skill. Sign up to be notified the moment it goes live.</p>
+        <form class="notify-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ You're on the list';">
+          <input type="email" placeholder="your@email.com" required />
+          <button type="submit">Notify me</button>
+        </form>
+      </div>
+      <div class="coming-weeks">
+        <div class="big">19</div>
+        <div class="sub">Module 19 of 31</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo" style="margin-bottom:12px;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" width="44" height="44" />
+          <div class="logo-text"><strong>Shopnil Academy</strong><small>LEARN WITHOUT LIMITS</small></div>
+        </a>
+        <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+      </div>
+      <div class="foot-col">
+        <h4>This course</h4>
+        <ul>
+          <li><a href="../bioinformatics-curriculum.html">Full curriculum</a></li>
+          <li><a href="../bioinformatics-curriculum.html#phase1">Phase 1 — Foundations</a></li>
+          <li><a href="../bioinformatics-curriculum.html#phase2">Phase 2 — Core</a></li>
+          <li><a href="../bioinformatics-curriculum.html#phase3">Phase 3 — Advanced</a></li>
+          <li><a href="../bioinformatics-curriculum.html#phase4">Phase 4 — Single-cell</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../../courses.html">All courses</a></li>
+          <li><a href="../../courses.html#tech">Tech &amp; Coding</a></li>
+          <li><a href="../../courses.html#languages">Languages</a></li>
+          <li><a href="../../courses.html#guitar">Guitar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../contact.html">Contact</a></li>
+          <li><a href="../../faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+          <li><a href="../../cookies.html">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('navToggle').addEventListener('click', function() {
+    const links = document.querySelector('.nav-links');
+    const expanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', String(!expanded));
+    links.style.display = expanded ? '' : 'flex';
+  });
+</script>
+
+</body>
+</html>
