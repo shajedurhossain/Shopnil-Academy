@@ -141,6 +141,12 @@ function Invoke-GitPublish {
             Write-Log "Nothing new to commit."
             return
         }
+        # Pull first to avoid non-fast-forward rejections
+        $pullOut = git pull origin main --rebase 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Write-Log "Pull failed before push: $pullOut" "ERROR"
+            return
+        }
         $pushOut = git push origin main 2>&1
         if ($LASTEXITCODE -eq 0) {
             Write-Log "Pushed: $msg"
