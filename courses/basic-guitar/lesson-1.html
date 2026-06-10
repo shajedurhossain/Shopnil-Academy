@@ -434,6 +434,43 @@ footer { margin-top: 0; }
 .chord-play-btn:active{transform:scale(.96);}
 .chord-tip{font-size:11px;color:var(--muted);line-height:1.45;text-align:left;width:100%;}
 
+
+/* ── LESSON 9: STRUMMING ── */
+.strum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:12px 0;}
+.sp-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow-sm);}
+.sp-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:8px;}
+.sp-name{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--ink);}
+.sp-badges{display:flex;gap:5px;flex-shrink:0;}
+.sp-sig{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--green-soft);color:var(--green);}
+.sp-diff{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--gold-soft);color:#7A4A00;}
+.sp-diff.adv{background:var(--red-soft);color:var(--red);}
+.sp-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.sp-beats{display:flex;gap:4px;margin-bottom:4px;flex-wrap:nowrap;}
+.sp-beat{min-width:28px;flex:1;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;transition:all .1s;border:1.5px solid var(--line);background:var(--cream);}
+.sp-beat.D{background:var(--green-soft);color:var(--green);border-color:var(--green);}
+.sp-beat.U{background:#EDF6FF;color:#1565C0;border-color:#1565C0;}
+.sp-beat.skip{background:var(--cream);color:var(--line);border-style:dashed;}
+.sp-beat.lit{transform:scale(1.15);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.sp-beat.D.lit{background:var(--green);color:#fff;}
+.sp-beat.U.lit{background:#1565C0;color:#fff;}
+.sp-labels{display:flex;gap:4px;margin-bottom:12px;}
+.sp-lbl{flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--muted);}
+.sp-lbl.strong{color:var(--ink);}
+.sp-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.sp-play{padding:6px 16px;border-radius:99px;border:1.5px solid var(--green);background:var(--white);color:var(--green);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .12s;}
+.sp-play:hover{background:var(--green);color:#fff;}
+.sp-play.playing{background:var(--red);border-color:var(--red);color:#fff;}
+.sp-tempo{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
+.sp-tempo input{width:70px;accent-color:var(--green);}
+.strum-notation{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin:8px 0;}
+.sn-item{display:flex;align-items:center;gap:10px;}
+.sn-symbol{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;}
+.sn-D{background:var(--green-soft);color:var(--green);border:2px solid var(--green);}
+.sn-U{background:#EDF6FF;color:#1565C0;border:2px solid #1565C0;}
+.sn-skip{background:var(--cream);color:var(--line);border:2px dashed var(--line);}
+.sn-text strong{display:block;font-size:13px;font-weight:600;color:var(--ink);}
+.sn-text span{font-size:12px;color:var(--muted);}
+
 /* ── CHORD TYPE NAVIGATION ── */
 .ctype-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
 .ctype-pill{padding:7px 14px;border-radius:99px;border:1.5px solid var(--line);background:var(--white);font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .12s;white-space:nowrap;}
@@ -1082,6 +1119,9 @@ function initVis(id){
   }
   if(id==='neck'){
     buildNeckStages('vis_stages');
+  }
+  if(id==='strumming'){
+    buildStrumVis('vis_strum');
   }
   if(id==='chords'){
     buildChordTypes('vis_chord_types');
@@ -1973,6 +2013,121 @@ function lessonIndexFromHash(){
 }
 
 
+// ── LESSON 9: Strumming patterns ─────────────────────────────────────
+function buildStrumVis(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  const P=[
+    {id:'p1',name:'All Down',       sig:'4/4',diff:'b',bpm:60,
+     desc:'Four downstrokes on the beat. The absolute starting point.',
+     beats:['D',null,'D',null,'D',null,'D',null],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p2',name:'Eighth Notes',   sig:'4/4',diff:'b',bpm:65,
+     desc:'Alternate down-up on every eighth note. Keep your arm swinging constantly, even on skipped beats.',
+     beats:['D','U','D','U','D','U','D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p3',name:'The Essential',  sig:'4/4',diff:'b',bpm:65,
+     desc:'D DU UDU — the most common acoustic pattern in folk, pop and rock. Learn this one first.',
+     beats:['D',null,'D','U',null,'U','D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p4',name:'Folk / Country', sig:'4/4',diff:'b',bpm:70,
+     desc:'D DU D DU — strong downstrokes with light ups between beats 2 and 4.',
+     beats:['D',null,'D','U','D',null,'D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p5',name:'Syncopated',     sig:'4/4',diff:'i',bpm:70,
+     desc:'D DU UDU with a skipped beat 3 — creates a forward-leaning feel used in pop and indie.',
+     beats:['D',null,'D','U',null,'U',null,'U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p6',name:'Reggae / Ska',   sig:'4/4',diff:'i',bpm:75,
+     desc:'Up strums on every off-beat only. The iconic reggae chop. Mute on the downbeats.',
+     beats:[null,'U',null,'U',null,'U',null,'U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p7',name:'Waltz',          sig:'3/4',diff:'b',bpm:80,
+     desc:'Three beats per bar — count 1-2-3. Used in folk ballads and traditional music.',
+     beats:['D',null,'U','D',null,'U'],
+     labels:['1','+','2','+','3','+']},
+    {id:'p8',name:'Boom-Chick',     sig:'4/4',diff:'i',bpm:70,
+     desc:'Bass note on 1 & 3, strum on 2 & 4. Classic country feel.',
+     beats:['D',null,'U',null,'D',null,'U',null],
+     labels:['1','+','2','+','3','+','4','+']},
+  ];
+
+  const STRUM_D=[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]];
+  const STRUM_U=[[0,0],[1,0],[2,0],[3,2],[4,2]];
+
+  function playStrum(type){
+    if(globalTone==='mute') return;
+    const notes=type==='D'?STRUM_D:STRUM_U;
+    const vol=type==='D'?globalVol*0.7:globalVol*0.45;
+    notes.forEach(([si,f],i)=>{
+      setTimeout(()=>{try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}},i*(type==='D'?18:12));
+    });
+  }
+
+  function cardHTML(p){
+    const diffCls=p.diff==='b'?'':'adv';
+    const diffLabel=p.diff==='b'?'Beginner':'Intermediate';
+    const beatBoxes=p.beats.map((b,i)=>
+      `<div class="sp-beat ${b||'skip'}" id="sb_${p.id}_${i}">${b==='D'?'↓':b==='U'?'↑':'-'}</div>`
+    ).join('');
+    const lbls=p.labels.map((l,i)=>
+      `<div class="sp-lbl${l==='+'?'':' strong'}">${l}</div>`
+    ).join('');
+    return `<div class="sp-card">
+      <div class="sp-head">
+        <div class="sp-name">${p.name}</div>
+        <div class="sp-badges"><span class="sp-sig">${p.sig}</span><span class="sp-diff ${diffCls}">${diffLabel}</span></div>
+      </div>
+      <p class="sp-desc">${p.desc}</p>
+      <div class="sp-beats">${beatBoxes}</div>
+      <div class="sp-labels">${lbls}</div>
+      <div class="sp-footer">
+        <button class="sp-play" id="spbtn_${p.id}" onclick="spPlay_${cid}('${p.id}')">&#9654; Play</button>
+        <div class="sp-tempo">
+          <span>BPM</span>
+          <input type="range" min="40" max="140" value="${p.bpm}" step="5"
+            oninput="spBpm_${cid}('${p.id}',this.value)">
+          <span id="spbpm_${p.id}">${p.bpm}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  el.innerHTML=`<div class="strum-grid">${P.map(cardHTML).join('')}</div>`;
+
+  const state={};
+  P.forEach(p=>{state[p.id]={bpm:p.bpm,timer:null,step:0,playing:false};});
+
+  window[`spBpm_${cid}`]=function(id,v){
+    state[id].bpm=parseInt(v);
+    document.getElementById('spbpm_'+id).textContent=v;
+  };
+
+  window[`spPlay_${cid}`]=function(id){
+    const s=state[id];
+    const p=P.find(x=>x.id===id);
+    if(s.playing){
+      clearTimeout(s.timer);s.playing=false;s.step=0;
+      p.beats.forEach((_,i)=>{const e=document.getElementById('sb_'+id+'_'+i);if(e)e.classList.remove('lit');});
+      const btn=document.getElementById('spbtn_'+id);
+      if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+      return;
+    }
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    s.playing=true;
+    const btn=document.getElementById('spbtn_'+id);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    function tick(){
+      if(!s.playing)return;
+      p.beats.forEach((_,i)=>{const e=document.getElementById('sb_'+id+'_'+i);if(e)e.classList.remove('lit');});
+      const e=document.getElementById('sb_'+id+'_'+s.step);if(e)e.classList.add('lit');
+      if(p.beats[s.step])playStrum(p.beats[s.step]);
+      s.step=(s.step+1)%p.beats.length;
+      s.timer=setTimeout(tick,Math.round(60000/(s.bpm*2)));
+    }
+    tick();
+  };
+}
 
 const LESSONS=[
   {
@@ -2386,6 +2541,57 @@ const LESSONS=[
         <div class="callout"><span class="ic">⏱️</span><span class="bd"><strong>The 1-minute change:</strong> Set a timer and switch between two chords as many times as you can cleanly. Beat your score each day.</span></div>
       </div>
       <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'chords','ch')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'strumming', label:'Strumming', num:'9', sections:1,
+    eyebrow:'Stage 4 · Lesson 9', title:'Strumming Patterns',
+    sub:'Rhythm and timing — how to turn chords into music.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">The basics</span>
+        <h3>Down strokes, up strokes and skips</h3>
+        <p>Strumming is about <span class="hl">rhythm, not speed</span>. The most important thing is keeping your arm moving at a steady tempo — even when you skip a beat, your arm should still swing in that direction. Only the string contact is removed, not the motion.</p>
+        <div class="card">
+          <div class="strum-notation">
+            <div class="sn-item"><div class="sn-symbol sn-D">↓</div><div class="sn-text"><strong>Down stroke</strong><span>Strum toward the floor — thick strings first</span></div></div>
+            <div class="sn-item"><div class="sn-symbol sn-U">↑</div><div class="sn-text"><strong>Up stroke</strong><span>Strum toward the ceiling — thin strings first</span></div></div>
+            <div class="sn-item"><div class="sn-symbol sn-skip">-</div><div class="sn-text"><strong>Skip (ghost strum)</strong><span>Arm moves but doesn't touch strings</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>The golden rule:</strong> Your strumming arm swings like a pendulum — down on the beat, up on the off-beat — at a constant tempo. Even when you skip, keep the motion going.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Reading the notation</span>
+        <h3>Beat notation</h3>
+        <p>Each box is one <strong>eighth note</strong> (half a beat). Labels show the count — <strong>1 + 2 + 3 + 4 +</strong> — numbers are downbeats, + (and) are off-beats.</p>
+        <div class="mono">Count:  1    +    2    +    3    +    4    +
+Strum:  ↓    -    ↓    ↑    -    ↑    ↓    ↑</div>
+        <p>Start slow — 50 BPM. Speed comes from accuracy, never the other way around.</p>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">8 patterns</span>
+        <h3>Interactive pattern player</h3>
+        <p>The lit box shows where you are. Start with <strong>All Down</strong>, then <strong>Eighth Notes</strong>, then <strong>The Essential</strong>.</p>
+        <div class="vis-box">
+          <div class="vis-title">🎵 Strumming patterns — press ▶ Play to follow along</div>
+          <div id="vis_strum"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Practice tips</span>
+        <h3>Building accuracy</h3>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Start with Em or Am</strong> <span class="d">— easy chord, full sound. Don't worry about chord changes yet.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Count out loud</strong> <span class="d">— say "1 and 2 and 3 and 4 and" while you strum. This wires the rhythm in.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Keep the arm moving</strong> <span class="d">— ghost strum on skipped beats. The arm never stops.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Add chord changes last</strong> <span class="d">— only switch chords once the pattern feels automatic.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">🎸</span><span class="bd"><strong>First song practice:</strong> Em for one bar, Am for one bar, repeat. Use Pattern 3 (The Essential). This is how most acoustic songs work.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'strumming','strum')"><span class="chk-i">○</span> Mark as done</button></div>`,
   }
 ];
 renderNav();
