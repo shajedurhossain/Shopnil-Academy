@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: Navigation &amp; the Filesystem — Bash &amp; Linux · Shopnil Academy</title>
+  <meta name="description" content="Learn to navigate the Linux filesystem with pwd, ls, cd, and mkdir. Lesson 1 of the free Bash &amp; Linux course at Shopnil Academy." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://shopnilacademy.com/courses/bash-linux/lesson-1.html" />
+
+  <meta property="og:title" content="Lesson 1: Navigation &amp; the Filesystem — Bash &amp; Linux · Shopnil Academy" />
+  <meta property="og:description" content="Learn to navigate Linux like a bioinformatician. Free lesson at Shopnil Academy." />
+  <meta property="og:url" content="https://shopnilacademy.com/courses/bash-linux/lesson-1.html" />
+  <meta property="og:site_name" content="Shopnil Academy" />
+  <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+  <meta property="og:type" content="article" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Shared site stylesheet -->
+  <link rel="stylesheet" href="../../assets/styles.css" />
+
+  <style>
+    /* ── Lesson sidebar nav (left panel) ──────────────────── */
+    .sidebar-course-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 6px; display: block;
+    }
+    .sidebar-course-title {
+      font-size: 15px; font-weight: 700; color: var(--ink);
+      line-height: 1.25; margin-bottom: 18px;
+      padding-bottom: 18px; border-bottom: 1px solid var(--line);
+    }
+
+    /* Progress bar */
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 7px;
+    }
+    .prog-track {
+      height: 5px; background: var(--green-soft);
+      border-radius: 99px; overflow: hidden; margin-bottom: 20px;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green);
+      border-radius: 99px; transition: width .4s ease;
+    }
+
+    /* Module group accordion */
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0 4px;
+      font-size: 10px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      cursor: pointer; user-select: none;
+    }
+    .mod-group-label .chev { font-size: 10px; transition: transform .2s ease; }
+    .mod-group.open .chev { transform: rotate(180deg); }
+    .mod-lessons { display: none; }
+    .mod-group.open .mod-lessons { display: block; }
+
+    /* Lesson link */
+    .lesson-link {
+      display: flex; align-items: flex-start; gap: 9px;
+      padding: 8px 10px 8px 0;
+      font-size: 13px; color: var(--muted);
+      border-left: 2px solid transparent;
+      transition: color .15s ease, border-color .15s ease;
+      line-height: 1.35;
+    }
+    .lesson-link:hover { color: var(--ink); }
+    .lesson-link.active {
+      color: var(--green); border-left-color: var(--green);
+      font-weight: 600; padding-left: 10px;
+    }
+    .lesson-link.done { color: var(--green); }
+    .l-icon {
+      width: 18px; height: 18px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 9px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    }
+    .l-icon.done  { background: var(--green); color: #fff; }
+    .l-icon.active { background: var(--green); color: #fff; }
+    .l-icon.todo  { background: var(--cream); border: 1.5px solid var(--line); color: var(--muted); }
+
+    /* ── Lesson header strip ───────────────────────────────── */
+    .lesson-meta-strip {
+      display: flex; align-items: center; gap: 8px;
+      flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: 11px; font-weight: 700; letter-spacing: .04em;
+    }
+    .lm-num  { background: var(--green-soft); color: var(--green); }
+    .lm-time { background: var(--cream); color: var(--muted); }
+    .lm-sep  { color: var(--muted); opacity: .4; font-size: 13px; }
+
+    /* ── Code blocks ───────────────────────────────────────── */
+    .code-wrap { margin: 18px 0; }
+    .code-header {
+      background: var(--ink);
+      padding: 10px 16px; border-radius: 12px 12px 0 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .code-lang {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.5); letter-spacing: .06em; text-transform: uppercase;
+    }
+    .copy-btn {
+      font-size: 11px; font-weight: 600; color: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.1); border: none;
+      padding: 4px 10px; border-radius: 6px; cursor: pointer;
+      transition: background .15s ease;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
+    pre {
+      margin: 0; background: #0F2418;
+      border-radius: 0 0 12px 12px;
+      padding: 18px 20px; overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px; line-height: 1.8;
+    }
+    .c-cmd     { color: #5DCAA5; }
+    .c-flag    { color: #9FE1CB; }
+    .c-path    { color: #FAC775; }
+    .c-out     { color: rgba(255,255,255,.6); }
+    .c-comment { color: rgba(255,255,255,.32); font-style: italic; }
+
+    /* Standalone pre (no header) */
+    pre.bare {
+      border-radius: 12px;
+      background: #0F2418;
+      padding: 18px 20px;
+      margin: 14px 0;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px; line-height: 1.8;
+    }
+
+    /* ── Command reference table ───────────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse;
+      margin: 20px 0; border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .cmd-table th {
+      background: var(--cream); text-align: left;
+      padding: 12px 16px; font-size: 12px; font-weight: 700;
+      color: var(--muted); letter-spacing: .06em; text-transform: uppercase;
+      border-bottom: 1px solid var(--line);
+    }
+    .cmd-table td {
+      padding: 13px 16px; font-size: 14px;
+      border-bottom: 1px solid var(--line); vertical-align: top;
+      color: #33433b; line-height: 1.5;
+    }
+    .cmd-table tr:last-child td { border-bottom: none; }
+    .cmd-table .cmd-cell {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--green-deep); font-weight: 500; white-space: nowrap;
+    }
+
+    /* ── Exercise block ────────────────────────────────────── */
+    .exercise {
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 16px 16px 0;
+      padding: 20px 22px; margin: 20px 0;
+      background: #fff;
+    }
+    .ex-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .ex-num {
+      background: var(--gold); color: var(--ink);
+      font-size: 11px; font-weight: 700; letter-spacing: .06em;
+      padding: 3px 10px; border-radius: 999px; text-transform: uppercase;
+    }
+    .ex-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+    .exercise p { font-size: 15px; color: #33433b; line-height: 1.65; margin-bottom: 10px; }
+    .ex-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+    details.answer {
+      margin-top: 12px;
+      border: 1px solid rgba(0,106,78,.2);
+      border-radius: 12px; overflow: hidden;
+    }
+    details.answer summary {
+      list-style: none; cursor: pointer;
+      padding: 11px 16px;
+      font-size: 13px; font-weight: 600; color: var(--green);
+      background: var(--green-soft);
+      display: flex; align-items: center; gap: 8px;
+      user-select: none;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer summary::before { content: '▶'; font-size: 9px; transition: transform .2s ease; }
+    details.answer[open] summary::before { transform: rotate(90deg); }
+    details.answer .answer-body { background: #0F2418; }
+    details.answer .answer-body pre { border-radius: 0; margin: 0; }
+
+    /* ── Tip / warning callouts ────────────────────────────── */
+    .tip, .warn {
+      border-radius: 14px; padding: 16px 20px;
+      margin: 18px 0; display: flex; align-items: flex-start; gap: 12px;
+    }
+    .tip  { background: var(--green-soft); border: 1px solid rgba(0,106,78,.18); }
+    .warn { background: var(--gold-soft);  border: 1px solid rgba(232,183,42,.3); }
+    .tip-icon, .warn-icon {
+      width: 26px; height: 26px; border-radius: 8px;
+      display: grid; place-items: center;
+      font-size: 13px; flex-shrink: 0;
+    }
+    .tip-icon  { background: var(--green); color: #fff; }
+    .warn-icon { background: var(--gold);  color: var(--ink); }
+    .tip p  { font-size: 14.5px; color: var(--green-deep); line-height: 1.6; margin: 0; }
+    .warn p { font-size: 14.5px; color: #7a5a00; line-height: 1.6; margin: 0; }
+
+    /* ── Mark complete ─────────────────────────────────────── */
+    .mark-complete-wrap { text-align: center; margin: 32px 0 0; }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: 999px;
+      font-size: 14px; font-weight: 700;
+      background: var(--green); color: #fff; border: none;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--green-soft); color: var(--green); pointer-events: none; }
+
+    /* ── Lesson nav footer ─────────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 32px; border-top: 1px solid var(--line);
+      margin-top: 44px; gap: 16px; flex-wrap: wrap;
+    }
+
+    /* ── Responsive: hide sidebars on small screens ────────── */
+    @media (max-width: 860px) {
+      .toc { display: none; }
+    }
+  </style>
+
+  <!-- AdSense: uncomment and replace publisher ID when approved -->
+  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════════════════════════
+       NAV — using shared .nav-shell / .nav from styles.css
+  ═══════════════════════════════════════════════════════════ -->
+  <header class="nav-shell">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="https://shopnilacademy.com/index.html" class="logo">
+        <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy logo" width="52" height="52" />
+        <div class="logo-text">
+          <strong>Shopnil Academy</strong>
+          <small>BASH &amp; LINUX · LESSON 1</small>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="https://shopnilacademy.com/index.html">Home</a>
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <a href="index.html" class="active">Bash &amp; Linux</a>
+        <a href="https://shopnilacademy.com/about.html">About</a>
+      </div>
+      <div class="nav-cta">
+        <a href="https://shopnilacademy.com/courses.html" class="btn btn-outline btn-sm">All courses</a>
+        <a href="lesson-2.html" class="btn btn-primary btn-sm">Next lesson →</a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle">☰</button>
+    </nav>
+  </header>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       INNER HEADER — using .inner-header from styles.css
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="inner-header">
+    <div class="wrap">
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <span class="sep">›</span>
+        <a href="index.html">Bash &amp; Linux</a>
+        <span class="sep">›</span>
+        <span>Lesson 1</span>
+      </div>
+
+      <!-- Lesson metadata pills -->
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 1 of 13</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill lm-time">⏱ 45 min</span>
+        <span class="lm-sep">·</span>
+        <span class="free-pill">✓ Free</span>
+      </div>
+
+      <h1>Navigation &amp; the Filesystem</h1>
+      <p class="lead">
+        Every bioinformatics tool — STAR, GATK, DESeq2, Snakemake — runs from the command line.
+        Before you can use any of them, you need to move around Linux confidently.
+        This lesson teaches you exactly that.
+      </p>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       AD — Leaderboard (728×90), AdSense-compliant
+  ═══════════════════════════════════════════════════════════ -->
+  <div style="max-width:970px; margin:16px auto; padding:0 32px;">
+    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+      <strong>Advertisement</strong>
+      <small>728 × 90 leaderboard · AdSense unit goes here</small>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ARTICLE — using .article / .article-grid / .toc / .prose
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="article">
+    <div class="wrap">
+      <div class="article-grid">
+
+
+        <!-- ── LEFT: TOC — reuses .toc from styles.css ───────── -->
+        <aside class="toc" aria-label="Course navigation">
+
+          <span class="sidebar-course-label">Tech &amp; Coding</span>
+          <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
+
+          <div class="prog-label">
+            <span>Your progress</span>
+            <span id="progPct">0%</span>
+          </div>
+          <div class="prog-track">
+            <div class="prog-fill" id="progFill" style="width:0%"></div>
+          </div>
+
+          <!-- Module 1 -->
+          <div class="mod-group open" id="mg1">
+            <div class="mod-group-label" onclick="toggleMod('mg1')">
+              Module 1 — Foundations <span class="chev">▾</span>
+            </div>
+            <div class="mod-lessons">
+              <a href="lesson-1.html" class="lesson-link active">
+                <span class="l-icon active">1</span>Navigation &amp; the Filesystem
+              </a>
+              <a href="lesson-2.html" class="lesson-link">
+                <span class="l-icon todo">2</span>File Operations
+              </a>
+              <a href="lesson-3.html" class="lesson-link">
+                <span class="l-icon todo">3</span>Pipes &amp; Redirection
+              </a>
+              <a href="lesson-4.html" class="lesson-link">
+                <span class="l-icon todo">4</span>Variables &amp; Loops
+              </a>
+            </div>
+          </div>
+
+          <!-- Module 2 -->
+          <div class="mod-group" id="mg2">
+            <div class="mod-group-label" onclick="toggleMod('mg2')">
+              Module 2 — Scripting <span class="chev">▾</span>
+            </div>
+            <div class="mod-lessons">
+              <a href="lesson-5.html" class="lesson-link">
+                <span class="l-icon todo">5</span>Writing Bash Scripts
+              </a>
+              <a href="lesson-6.html" class="lesson-link">
+                <span class="l-icon todo">6</span>Conditionals &amp; Functions
+              </a>
+              <a href="lesson-7.html" class="lesson-link">
+                <span class="l-icon todo">7</span>Permissions &amp; Users
+              </a>
+            </div>
+          </div>
+
+          <!-- Module 3 -->
+          <div class="mod-group" id="mg3">
+            <div class="mod-group-label" onclick="toggleMod('mg3')">
+              Module 3 — Processes <span class="chev">▾</span>
+            </div>
+            <div class="mod-lessons">
+              <a href="lesson-8.html" class="lesson-link">
+                <span class="l-icon todo">8</span>Processes &amp; Jobs
+              </a>
+              <a href="lesson-9.html" class="lesson-link">
+                <span class="l-icon todo">9</span>Text Processing: grep, sed, awk
+              </a>
+              <a href="lesson-10.html" class="lesson-link">
+                <span class="l-icon todo">10</span>Working with Data Files
+              </a>
+            </div>
+          </div>
+
+          <!-- Module 4 -->
+          <div class="mod-group" id="mg4">
+            <div class="mod-group-label" onclick="toggleMod('mg4')">
+              Module 4 — Bioinformatics Bash <span class="chev">▾</span>
+            </div>
+            <div class="mod-lessons">
+              <a href="lesson-11.html" class="lesson-link">
+                <span class="l-icon todo">11</span>FASTQ &amp; FASTA on the CLI
+              </a>
+              <a href="lesson-12.html" class="lesson-link">
+                <span class="l-icon todo">12</span>Automating Bioinformatics Tasks
+              </a>
+              <a href="lesson-13.html" class="lesson-link">
+                <span class="l-icon todo">13</span>Capstone: Pipeline Script
+              </a>
+            </div>
+          </div>
+
+          <!-- On this page -->
+          <h5 style="margin-top:28px;">On this page</h5>
+          <ul>
+            <li><a href="#mental-model">The mental model</a></li>
+            <li><a href="#core-commands">Core commands</a></li>
+            <li><a href="#reference">Quick reference</a></li>
+            <li><a href="#exercises">Exercises</a></li>
+          </ul>
+
+        </aside>
+
+
+        <!-- ── RIGHT: Lesson prose — uses .prose from styles.css ─ -->
+        <div class="prose">
+
+
+          <!-- ── SECTION 1: The mental model ─────────────────── -->
+          <section id="mental-model">
+
+            <h2><span class="n">01</span> The mental model</h2>
+
+            <p>
+              Everything in Linux lives in one giant tree starting at <code>/</code> — called the <strong>root</strong>.
+              Your home folder lives at <code>/home/yourusername</code>. You are always "inside" one folder at a time —
+              this is called your <strong>working directory</strong>. Think of it like standing inside a room in a building:
+              you can look around, walk to another room, or give someone your full address from the front door.
+            </p>
+
+            <div class="callout">
+              <p>
+                <strong>Absolute path</strong> — starts from <code>/</code> and works from anywhere.<br>
+                <strong>Relative path</strong> — starts from wherever you are right now.
+              </p>
+            </div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">filesystem tree</span>
+              </div>
+              <pre><span class="c-out">/                          </span><span class="c-comment"># root — the top of everything</span>
+<span class="c-out">├── home/</span>
+<span class="c-out">│   └── shajedur/          </span><span class="c-comment"># your home folder, also written as ~</span>
+<span class="c-out">│       ├── projects/</span>
+<span class="c-out">│       └── data/</span>
+<span class="c-out">├── etc/                   </span><span class="c-comment"># system configuration files</span>
+<span class="c-out">├── usr/                   </span><span class="c-comment"># installed programs</span>
+<span class="c-out">└── tmp/                   </span><span class="c-comment"># temporary files, cleared on reboot</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>
+                Press <strong>Tab</strong> to autocomplete folder and file names — and press it twice to see all options.
+                This prevents typos and saves enormous time. Use it constantly.
+              </p>
+            </div>
+
+          </section>
+
+
+          <!-- ── SECTION 2: Core commands ────────────────────── -->
+          <section id="core-commands">
+
+            <h2><span class="n">02</span> Core navigation commands</h2>
+
+            <p>
+              Open your Ubuntu terminal now and type along. These are the commands you will use every single day
+              as a bioinformatician.
+            </p>
+
+            <!-- pwd -->
+            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">pwd</code> — Print Working Directory</h3>
+            <p>Shows exactly where you are right now. Run this whenever you feel lost.</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-cmd">pwd</span>
+<span class="c-out">/home/shajedur</span></pre>
+            </div>
+
+            <!-- ls -->
+            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">ls</code> — List directory contents</h3>
+            <p>Shows everything in your current folder. Flags change what you see and how.</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-cmd">ls</span>                     <span class="c-comment"># basic list</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-l</span>                  <span class="c-comment"># long format: permissions, owner, size, date</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span>                 <span class="c-comment"># same but sizes in KB / MB (human-readable)</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-a</span>                  <span class="c-comment"># show hidden files (names starting with .)</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-la</span>                 <span class="c-comment"># long format + hidden files combined</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">~/projects</span>     <span class="c-comment"># list a specific folder without going there</span>
+
+<span class="c-comment"># Example output of ls -lh</span>
+<span class="c-out">total 24K</span>
+<span class="c-out">drwxr-xr-x 3 shajedur shajedur 4.0K Jun  7 09:12 projects</span>
+<span class="c-out">drwxr-xr-x 2 shajedur shajedur 4.0K Jun  7 08:44 data</span>
+<span class="c-out">-rw-r--r-- 1 shajedur shajedur 1.2K Jun  6 17:30 notes.txt</span></pre>
+            </div>
+
+            <!-- cd -->
+            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">cd</code> — Change Directory</h3>
+            <p>Move into a different folder. This is how you walk around the filesystem tree.</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-cmd">cd</span> <span class="c-path">projects</span>                       <span class="c-comment"># go into projects/ (relative path)</span>
+<span class="c-cmd">cd</span> <span class="c-path">..</span>                             <span class="c-comment"># go UP one level to the parent folder</span>
+<span class="c-cmd">cd</span> <span class="c-path">../..</span>                          <span class="c-comment"># go up two levels at once</span>
+<span class="c-cmd">cd</span> <span class="c-path">~</span>                              <span class="c-comment"># go home from anywhere</span>
+<span class="c-cmd">cd</span> <span class="c-path">/home/shajedur/projects</span>        <span class="c-comment"># absolute path — works from anywhere</span>
+<span class="c-cmd">cd</span> <span class="c-path">-</span>                              <span class="c-comment"># jump back to the previous directory</span></pre>
+            </div>
+
+            <!-- mkdir -->
+            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">mkdir</code> — Make Directory</h3>
+            <p>Create new folders. The <code>-p</code> flag lets you create nested folders in one command.</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-cmd">mkdir</span> <span class="c-path">projects</span>                          <span class="c-comment"># create one folder</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">projects/rnaseq/data</span>           <span class="c-comment"># create nested folders in one command</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/bash-linux-practice/scripts</span>  <span class="c-comment"># create your course working directory</span></pre>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠</span>
+              <p>
+                Linux has <strong>no recycle bin</strong>. When you delete a file with <code>rm</code> it is gone permanently.
+                Always double-check before deleting anything. We will cover <code>rm</code> in Lesson 2.
+              </p>
+            </div>
+
+            <!-- Getting help -->
+            <h3>Getting help inside the terminal</h3>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-cmd">man</span> <span class="c-path">ls</span>           <span class="c-comment"># full manual for ls — press q to quit</span>
+<span class="c-cmd">ls</span> <span class="c-flag">--help</span>       <span class="c-comment"># quick summary of all flags</span>
+<span class="c-cmd">which</span> <span class="c-path">python3</span>   <span class="c-comment"># shows where a program is installed</span></pre>
+            </div>
+
+          </section>
+
+
+          <!-- ── SECTION 3: Quick reference ──────────────────── -->
+          <section id="reference">
+
+            <h2><span class="n">03</span> Quick reference</h2>
+
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>Command</th>
+                  <th>What it does</th>
+                  <th>Common flags</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="cmd-cell">pwd</td>
+                  <td>Print current working directory</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td class="cmd-cell">ls</td>
+                  <td>List files and folders</td>
+                  <td><code>-l</code> long &nbsp;·&nbsp; <code>-h</code> human sizes &nbsp;·&nbsp; <code>-a</code> hidden</td>
+                </tr>
+                <tr>
+                  <td class="cmd-cell">cd [path]</td>
+                  <td>Move into a directory</td>
+                  <td><code>..</code> up &nbsp;·&nbsp; <code>~</code> home &nbsp;·&nbsp; <code>-</code> previous</td>
+                </tr>
+                <tr>
+                  <td class="cmd-cell">mkdir [name]</td>
+                  <td>Create a new directory</td>
+                  <td><code>-p</code> create parent dirs too</td>
+                </tr>
+                <tr>
+                  <td class="cmd-cell">man [cmd]</td>
+                  <td>Read the manual for a command</td>
+                  <td>press <code>q</code> to quit</td>
+                </tr>
+                <tr>
+                  <td class="cmd-cell">which [cmd]</td>
+                  <td>Find where a program is installed</td>
+                  <td>—</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </section>
+
+
+          <!-- ── Ad slot — in-article ─────────────────────────── -->
+          <div class="ad-slot in-feed" role="complementary" aria-label="Advertisement" style="margin:32px 0;">
+            <strong>Advertisement</strong>
+            <small>In-article ad · AdSense unit goes here</small>
+          </div>
+
+
+          <!-- ── SECTION 4: Exercises ─────────────────────────── -->
+          <section id="exercises">
+
+            <h2><span class="n">04</span> Exercises</h2>
+
+            <p>
+              Open your Ubuntu terminal and complete all four exercises below.
+              <strong>Type every command yourself — do not copy-paste.</strong>
+              Muscle memory is how you really learn the command line.
+            </p>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">Exercise 1</span>
+                <span class="ex-title">Where am I?</span>
+              </div>
+              <p>Open a fresh terminal. Find out exactly where you are. Then list everything in your home folder in long format with human-readable file sizes.</p>
+              <p class="ex-hint">💬 Hint: two commands, one after the other.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <pre><span class="c-cmd">pwd</span>
+<span class="c-out">/home/shajedur</span>
+
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">~</span>
+<span class="c-out">total 8.0K</span>
+<span class="c-out">drwxr-xr-x 2 shajedur shajedur 4.0K Jun  7 09:00 Desktop</span>
+<span class="c-out">drwxr-xr-x 2 shajedur shajedur 4.0K Jun  7 09:00 Documents</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">Exercise 2</span>
+                <span class="ex-title">Build your working directory</span>
+              </div>
+              <p>
+                Create the following folder structure in a single command:
+                <code>~/bash-linux-practice/scripts</code>.
+                Then navigate into it and confirm you are there.
+              </p>
+              <p class="ex-hint">💬 Hint: use <code>mkdir -p</code> to create nested folders in one shot.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <pre><span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/bash-linux-practice/scripts</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-practice/scripts</span>
+<span class="c-cmd">pwd</span>
+<span class="c-out">/home/shajedur/bash-linux-practice/scripts</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">Exercise 3</span>
+                <span class="ex-title">Navigate up</span>
+              </div>
+              <p>
+                While inside <code>scripts/</code>, navigate up two levels with a single <code>cd</code> command.
+                Where does that put you? Confirm with <code>pwd</code>.
+              </p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <pre><span class="c-cmd">cd</span> <span class="c-path">../..</span>
+<span class="c-cmd">pwd</span>
+<span class="c-out">/home/shajedur</span>
+<span class="c-comment"># Two levels up puts you back at your home directory</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">Exercise 4 · Challenge</span>
+                <span class="ex-title">List without moving</span>
+              </div>
+              <p>
+                Without navigating away from your home directory, list all files including hidden ones inside <code>/etc</code>.
+                How many items can you see?
+              </p>
+              <p class="ex-hint">💬 Hint: <code>ls</code> accepts a path as an argument — you do not need to <code>cd</code> there first.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <pre><span class="c-cmd">ls</span> <span class="c-flag">-la</span> <span class="c-path">/etc</span>
+<span class="c-comment"># -l = long format, -a = all including hidden files</span>
+<span class="c-comment"># You will see system config files: passwd, hosts, fstab, etc.</span></pre>
+                </div>
+              </details>
+            </div>
+
+          </section>
+
+
+          <!-- ── Mark complete ────────────────────────────────── -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="markBtn" onclick="markComplete()">
+              ✓ Mark lesson complete
+            </button>
+          </div>
+
+          <!-- ── Lesson nav footer ────────────────────────────── -->
+          <div class="lesson-nav-footer">
+            <span style="font-size:13px;color:var(--muted);">Module 1 · Lesson 1 of 13</span>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="index.html" class="btn btn-outline btn-sm">← Course overview</a>
+              <a href="lesson-2.html" class="btn btn-primary btn-sm">Next: File Operations →</a>
+            </div>
+          </div>
+
+
+        </div>
+        <!-- /prose -->
+
+      </div>
+      <!-- /article-grid -->
+    </div>
+    <!-- /wrap -->
+  </div>
+  <!-- /article -->
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       AD — Rectangle, below article
+  ═══════════════════════════════════════════════════════════ -->
+  <div style="padding:0 0 56px;">
+    <div class="wrap" style="display:flex;justify-content:center;">
+      <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px;width:100%;">
+        <strong>Advertisement</strong>
+        <small>300 × 250 medium rectangle · AdSense unit goes here</small>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       FOOTER — using shared .foot-grid / .foot-col from styles.css
+  ═══════════════════════════════════════════════════════════ -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+
+        <div>
+          <a href="https://shopnilacademy.com/index.html" class="logo" style="margin-bottom:14px;">
+            <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy" width="44" height="44" />
+            <div class="logo-text">
+              <strong>Shopnil Academy</strong>
+              <small>LEARN WITHOUT LIMITS</small>
+            </div>
+          </a>
+          <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+          <div class="foot-social">
+            <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook" title="Facebook">f</a>
+            <a href="https://x.com/ShopnilAcademy" aria-label="X / Twitter" title="X / Twitter">𝕏</a>
+            <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube" title="YouTube">▶</a>
+            <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn" title="LinkedIn">in</a>
+            <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram" title="Instagram">◻</a>
+          </div>
+        </div>
+
+        <div class="foot-col">
+          <h4>This course</h4>
+          <ul>
+            <li><a href="index.html">Course overview</a></li>
+            <li><a href="lesson-1.html">Lesson 1 — Navigation</a></li>
+            <li><a href="lesson-2.html">Lesson 2 — File ops</a></li>
+            <li><a href="lesson-3.html">Lesson 3 — Pipes</a></li>
+            <li><a href="lesson-4.html">Lesson 4 — Loops</a></li>
+          </ul>
+        </div>
+
+        <div class="foot-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
+            <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
+            <li><a href="https://shopnilacademy.com/courses.html?track=math">Math &amp; Science</a></li>
+            <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
+            <li><a href="https://shopnilacademy.com/courses.html?track=guitar">Guitar</a></li>
+          </ul>
+        </div>
+
+        <div class="foot-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="https://shopnilacademy.com/about.html">About</a></li>
+            <li><a href="https://shopnilacademy.com/contact.html">Contact</a></li>
+            <li><a href="https://shopnilacademy.com/advertise.html">Advertise</a></li>
+            <li><a href="https://shopnilacademy.com/faq.html">FAQ</a></li>
+          </ul>
+        </div>
+
+        <div class="foot-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="https://shopnilacademy.com/privacy.html">Privacy</a></li>
+            <li><a href="https://shopnilacademy.com/terms.html">Terms</a></li>
+            <li><a href="https://shopnilacademy.com/cookies.html">Cookies</a></li>
+          </ul>
+        </div>
+
+      </div>
+      <div class="foot-bot">
+        <span>© 2026 Shopnil Academy. All rights reserved. Made with care for learners worldwide. 🌍</span>
+        <span>Bash &amp; Linux · Lesson 1</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════════════════ -->
+  <script>
+    /* Mobile nav toggle */
+    document.getElementById('navToggle').addEventListener('click', function () {
+      const links = document.querySelector('.nav-links');
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', String(!expanded));
+      links.style.display = expanded ? '' : 'flex';
+    });
+
+    /* Module accordion */
+    function toggleMod(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+    /* Copy code button */
+    function copyCode(btn) {
+      const pre = btn.closest('.code-wrap').querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(() => {
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = 'Copy', 2000);
+      });
+    }
+
+    /* Mark lesson complete — persisted in localStorage */
+    function markComplete() {
+      const completed = JSON.parse(localStorage.getItem('sa_bash_done') || '[]');
+      if (!completed.includes('lesson-1')) {
+        completed.push('lesson-1');
+        localStorage.setItem('sa_bash_done', JSON.stringify(completed));
+      }
+      const btn = document.getElementById('markBtn');
+      btn.textContent = '✓ Lesson completed!';
+      btn.classList.add('done');
+      updateProgress(completed.length);
+    }
+
+    /* Progress bar */
+    function updateProgress(count) {
+      const pct = Math.round((count / 13) * 100);
+      document.getElementById('progFill').style.width = pct + '%';
+      document.getElementById('progPct').textContent = pct + '%';
+    }
+
+    /* Restore state on load */
+    window.addEventListener('DOMContentLoaded', () => {
+      const completed = JSON.parse(localStorage.getItem('sa_bash_done') || '[]');
+      updateProgress(completed.length);
+      if (completed.includes('lesson-1')) {
+        const btn = document.getElementById('markBtn');
+        btn.textContent = '✓ Lesson completed!';
+        btn.classList.add('done');
+      }
+      /* Mark done lessons in sidebar */
+      completed.forEach(id => {
+        const link = document.querySelector(`.lesson-link[href="${id}.html"]`);
+        if (link) {
+          link.classList.add('done');
+          const icon = link.querySelector('.l-icon');
+          if (icon) { icon.classList.remove('todo'); icon.classList.add('done'); }
+        }
+      });
+    });
+
+    /* Active TOC link on scroll */
+    const sections = document.querySelectorAll('section[id]');
+    const tocLinks = document.querySelectorAll('.toc a[href^="#"]');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(a => a.style.removeProperty('color'));
+          const a = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+          if (a) a.style.color = 'var(--green)';
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    sections.forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>
