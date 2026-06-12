@@ -248,9 +248,9 @@ h1,h2,h3,h4 { font-family: var(--font-display); }
 .pill.active { background: var(--green); color: #fff; border-color: var(--green); }
 
 /* ── FRETBOARD ── */
-.fb-outer { overflow-x: auto; margin-bottom: 10px; }
-.fb-wrap { min-width: 460px; }
-table.fb { border-collapse: collapse; width: 100%; }
+.fb-outer { overflow-x: hidden; margin-bottom: 10px; }
+.fb-wrap { min-width: 0; }
+table.fb { border-collapse: collapse; width: 100%; table-layout: fixed; }
 table.fb td, table.fb th { padding: 0; }
 .sl { width: 28px; font-size: 10px; font-weight: 700; color: var(--muted); text-align: right; padding-right: 6px; }
 .fn { width: 34px; height: 18px; font-size: 9px; color: #C0BFBA; text-align: center; vertical-align: middle; }
@@ -399,6 +399,24 @@ input[type=range] { accent-color: var(--green); }
 /* ── FOOTER spacing on this page ── */
 footer { margin-top: 0; }
 
+/* ── RESPONSIVE FRETBOARD ── */
+.sl { width: 28px; min-width: 28px; }
+@media (max-width: 600px) {
+  .fb-wrap { min-width: 0 !important; }
+  .fn  { width: auto !important; height: 14px; font-size: 8px; }
+  .fc  { width: auto !important; height: 26px; }
+  .sl  { width: 20px !important; min-width: 20px; font-size: 9px; padding-right: 3px; }
+  .dot { width: 20px !important; height: 20px !important; font-size: 8px; }
+  .fc::after { height: 1px; }
+}
+@media (max-width: 400px) {
+  .fn  { height: 12px; font-size: 7px; }
+  .fc  { height: 22px; }
+  .sl  { width: 16px !important; min-width: 16px; font-size: 8px; padding-right: 1px; }
+  .dot { width: 16px !important; height: 16px !important; font-size: 7px; }
+}
+
+
 
 
 
@@ -434,6 +452,57 @@ footer { margin-top: 0; }
 .chord-play-btn:active{transform:scale(.96);}
 .chord-tip{font-size:11px;color:var(--muted);line-height:1.45;text-align:left;width:100%;}
 
+
+
+
+.sc-group-label{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.07em;padding:10px 0 4px;border-top:1px solid var(--line);margin-top:4px;}
+.sc-group-label:first-child{border-top:none;margin-top:0;padding-top:0;}
+.home-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--gold-soft);color:#7A4A00;white-space:nowrap;flex-shrink:0;}
+.prog-card.selected .home-badge{background:rgba(232,183,42,.3);color:#5a3800;}
+
+/* ── LESSON 10: STRUMMING WITH CHORDS ── */
+.sc-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.sc-section-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.prog-list{display:flex;flex-direction:column;gap:7px;}
+.prog-card{border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .12s;background:var(--white);}
+.prog-card:hover{border-color:var(--green);}
+.prog-card.selected{border-color:var(--green);background:var(--green-soft);}
+.prog-name{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--ink);}
+.prog-card.selected .prog-name{color:var(--green-dark);}
+.prog-genre{font-size:10px;color:var(--muted);margin-top:2px;}
+.prog-seq{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+.prog-cb{padding:4px 10px;border-radius:6px;background:var(--cream);border:1px solid var(--line);font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--ink);}
+.prog-card.selected .prog-cb{background:var(--white);}
+.pat-list{display:flex;flex-direction:column;gap:7px;}
+.pat-opt{border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer;transition:all .12s;background:var(--white);}
+.pat-opt:hover{border-color:var(--green);}
+.pat-opt.selected{border-color:var(--green);background:var(--green-soft);}
+.pat-opt-name{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--font-display);}
+.pat-opt.selected .pat-opt-name{color:var(--green-dark);}
+.pat-opt-beats{display:flex;gap:3px;margin-top:6px;}
+.pat-mini{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.pat-mini.D{background:var(--green-soft);color:var(--green);}
+.pat-mini.U{background:#EDF6FF;color:#1565C0;}
+.pat-mini.n{background:var(--cream);color:#CCC;border:1px dashed #CCC;}
+.sc-player{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-top:4px;}
+.sc-chord-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+.sc-chord{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;border-radius:10px;border:2px solid var(--line);background:var(--cream);transition:all .15s;min-width:60px;}
+.sc-chord.active{border-color:var(--green);background:var(--green);transform:scale(1.12);box-shadow:0 6px 20px rgba(0,106,78,.25);}
+.sc-chord-name{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--ink);}
+.sc-chord.active .sc-chord-name{color:#fff;}
+.sc-chord-label{font-size:10px;color:var(--muted);font-weight:500;}
+.sc-chord.active .sc-chord-label{color:rgba(255,255,255,.75);}
+.sc-beat-row{display:flex;gap:4px;justify-content:center;margin-bottom:14px;}
+.sc-beat-dot{width:10px;height:10px;border-radius:50%;background:var(--line);transition:background .08s;}
+.sc-beat-dot.cur{background:var(--green);}
+.sc-beat-dot.bar-start{background:var(--green-dark);}
+.sc-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sc-play-btn{padding:8px 24px;border-radius:99px;border:none;background:var(--green);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .12s;}
+.sc-play-btn:hover{background:var(--green-dark);}
+.sc-play-btn.playing{background:var(--red);}
+.sc-bpm{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
+.sc-bpm input{width:80px;accent-color:var(--green);}
+@media(max-width:600px){.sc-layout{grid-template-columns:1fr;}}
 
 /* ── LESSON 9: STRUMMING ── */
 .strum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:12px 0;}
@@ -628,6 +697,7 @@ footer { margin-top: 0; }
 
 <!-- App top bar -->
 <header class="app-topbar">
+  <button class="nav-toggle atb-toggle" id="navToggle" aria-label="Lessons menu">☰</button>
   <a href="../../index.html" class="atb-logo">
     <img src="../../assets/logo.png" alt="Shopnil Academy" />
     <span class="atb-name"><strong>Shopnil Academy</strong><small>Basic Guitar · Trainer</small></span>
@@ -638,7 +708,6 @@ footer { margin-top: 0; }
     <a href="index.html">Course page</a>
   </nav>
   <a href="../../courses.html" class="atb-cta">All courses →</a>
-  <button class="nav-toggle atb-toggle" id="navToggle" aria-label="Lessons menu">☰</button>
 </header>
 
 <div class="app-shell">
@@ -821,7 +890,20 @@ function playNote(s,f){
 // ── FRETBOARD BUILDER ────────────────────────────────────────────────
 function buildFretboard(cid){
   const wrap=document.getElementById(cid);if(!wrap)return;
-  let fbMode='all',fbScale='cmaj';
+
+  // ── All 12 major + 12 minor scales generated from intervals ──────
+  const NOTE_NAMES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  const MAJ_INT=[0,2,4,5,7,9,11];   // W W H W W W H
+  const MIN_INT=[0,2,3,5,7,8,10];   // W H W W H W W
+
+  function makeScale(root,intervals){
+    return {root, notes:new Set(intervals.map(i=>(root+i)%12))};
+  }
+
+  let fbMode='all', scaleType='major', scaleRoot=0;
+  function curScale(){ return makeScale(scaleRoot, scaleType==='major'?MAJ_INT:MIN_INT); }
+
+  // ── Build UI ──────────────────────────────────────────────────────
   wrap.innerHTML=`
     <div class="pill-row">
       <span class="pill-lbl">Show:</span>
@@ -829,47 +911,105 @@ function buildFretboard(cid){
       <button class="pill" onclick="fbM_${cid}('scale',this)">Scale</button>
       <button class="pill" onclick="fbM_${cid}('none',this)">Clean</button>
     </div>
-    <div id="fbsr_${cid}" class="pill-row" style="display:none">
-      <span class="pill-lbl">Scale:</span>
-      <button class="pill active" onclick="fbS_${cid}('cmaj',this)">C major</button>
-      <button class="pill" onclick="fbS_${cid}('cpent',this)">C pentatonic</button>
-      <button class="pill" onclick="fbS_${cid}('amin',this)">A minor</button>
-      <button class="pill" onclick="fbS_${cid}('apent',this)">Am pentatonic</button>
+    <div id="fbsr_${cid}" style="display:none;margin-top:4px;">
+      <div class="pill-row">
+        <span class="pill-lbl">Type:</span>
+        <button class="pill active" id="fbtype_${cid}_major" onclick="fbT_${cid}('major',this)">Major</button>
+        <button class="pill"        id="fbtype_${cid}_minor" onclick="fbT_${cid}('minor',this)">Minor</button>
+      </div>
+      <div class="pill-row" style="flex-wrap:wrap;gap:4px;margin-top:4px;">
+        <span class="pill-lbl">Root:</span>
+        ${NOTE_NAMES.map((n,i)=>`<button class="pill${i===0?' active':''}" id="fbroot_${cid}_${i}" onclick="fbR_${cid}(${i},this)">${n}</button>`).join('')}
+      </div>
     </div>
-    <div class="fb-outer"><div class="fb-wrap"><table class="fb" id="fbt_${cid}"></table></div></div>
+    <div class="fb-outer" style="margin-top:8px;">
+      <div class="fb-wrap"><table class="fb" id="fbt_${cid}"></table></div>
+    </div>
     <div class="legend" id="fbl_${cid}">
-      <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Root note</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Root</div>
       <div class="leg"><div class="leg-dot" style="background:var(--green-soft);border:1px solid var(--green)"></div>Scale note</div>
       <div class="leg"><div class="leg-dot" style="background:var(--cream);border:1px solid var(--line)"></div>Other note</div>
     </div>
     <div class="fb-infobar" id="fbi_${cid}">Tap any dot to identify it.</div>`;
+
+  // ── Render fretboard ──────────────────────────────────────────────
   function render(){
-    const sc=SCALES[fbScale],table=document.getElementById('fbt_'+cid);table.innerHTML='';
-    const hr=document.createElement('tr');const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
-    for(let f=0;f<=12;f++){const th=document.createElement('th');th.className='fn'+([3,5,7,9,12].includes(f)?' mk':'');th.textContent=f===0?'':f;hr.appendChild(th);}
+    const sc=curScale();
+    const scaleName=NOTE_NAMES[scaleRoot]+' '+(scaleType==='major'?'major':'minor');
+    const table=document.getElementById('fbt_'+cid);
+    table.innerHTML='';
+
+    // Header row (fret numbers)
+    const hr=document.createElement('tr');
+    const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
+    for(let f=0;f<=12;f++){
+      const th=document.createElement('th');
+      th.className='fn'+([3,5,7,9,12].includes(f)?' mk':'');
+      th.textContent=f===0?'':f;
+      hr.appendChild(th);
+    }
     table.appendChild(hr);
+
+    // String rows
     for(let s=0;s<6;s++){
-      const tr=document.createElement('tr');const lbl=document.createElement('td');lbl.className='sl';lbl.textContent=SN[s];tr.appendChild(lbl);
+      const tr=document.createElement('tr');
+      const lbl=document.createElement('td');lbl.className='sl';lbl.textContent=SN[s];tr.appendChild(lbl);
       for(let f=0;f<=12;f++){
         const td=document.createElement('td');td.className='fc'+(f===0?' nut':'');
-        const note=(ON[s]+f)%12,name=NN[note],isRoot=note===sc.root,inScale=sc.notes.has(note);
+        const note=(ON[s]+f)%12, name=NN[note];
+        const isRoot=note===sc.root, inScale=sc.notes.has(note);
         const dot=document.createElement('div');
-        if(fbMode==='none'){dot.className='dot d-hidden';}
-        else if(fbMode==='all'){dot.className='dot d-note';dot.textContent=name;}
-        else{if(isRoot){dot.className='dot d-root';dot.textContent=name;}else if(inScale){dot.className='dot d-scale';dot.textContent=name;}else{dot.className='dot d-hidden';}}
+        if(fbMode==='none'){
+          dot.className='dot d-hidden';
+        } else if(fbMode==='all'){
+          dot.className='dot d-note';dot.textContent=name;
+        } else {
+          if(isRoot){dot.className='dot d-root';dot.textContent=name;}
+          else if(inScale){dot.className='dot d-scale';dot.textContent=name;}
+          else{dot.className='dot d-hidden';}
+        }
         td.appendChild(dot);
-        td.onclick=()=>{document.getElementById('fbi_'+cid).textContent=name+' — '+SN[s]+' string, '+(f===0?'open':'fret '+f)+(fbMode==='scale'&&isRoot?' — root':fbMode==='scale'&&inScale?' — scale note':'');};
+        td.onclick=()=>{
+          const info=document.getElementById('fbi_'+cid);
+          info.textContent=name+' — '+SN[s]+' string, '+(f===0?'open':'fret '+f)
+            +(fbMode==='scale'&&isRoot?' — root ('+scaleName+')'
+             :fbMode==='scale'&&inScale?' — in '+scaleName:'');
+        };
         tr.appendChild(td);
       }
       table.appendChild(tr);
     }
-    document.getElementById('fbsr_'+cid).style.display=fbMode==='scale'?'flex':'none';
+    document.getElementById('fbsr_'+cid).style.display=fbMode==='scale'?'block':'none';
     document.getElementById('fbl_'+cid).style.display=fbMode==='none'?'none':'flex';
   }
-  window['fbM_'+cid]=function(m,el){fbMode=m;el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();};
-  window['fbS_'+cid]=function(s,el){fbScale=s;el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();};
+
+  // ── Event handlers ────────────────────────────────────────────────
+  window['fbM_'+cid]=function(m,el){
+    fbMode=m;
+    el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    render();
+  };
+  window['fbT_'+cid]=function(t,el){
+    scaleType=t;
+    ['major','minor'].forEach(x=>{
+      const b=document.getElementById('fbtype_'+cid+'_'+x);
+      if(b) b.classList.toggle('active',x===t);
+    });
+    render();
+  };
+  window['fbR_'+cid]=function(r,el){
+    scaleRoot=r;
+    NOTE_NAMES.forEach((_,x)=>{
+      const b=document.getElementById('fbroot_'+cid+'_'+x);
+      if(b) b.classList.toggle('active',x===r);
+    });
+    render();
+  };
+
   render();
 }
+
 
 // ── EXERCISE PLAYER ──────────────────────────────────────────────────
 function buildPlayer(cid,filterCats){
@@ -1122,6 +1262,9 @@ function initVis(id){
   }
   if(id==='strumming'){
     buildStrumVis('vis_strum');
+  }
+  if(id==='strumchords'){
+    buildStrumChords('vis_strumchords');
   }
   if(id==='chords'){
     buildChordTypes('vis_chord_types');
@@ -2129,6 +2272,235 @@ function buildStrumVis(cid){
   };
 }
 
+// ── LESSON 10: Strumming with chords ─────────────────────────────────
+function buildStrumChords(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  // Chord audio: [SN_index, fret] pairs (low to high for down, reversed for up)
+  const CAUDIO={
+    Em: [[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],
+    Am: [[4,0],[3,2],[2,2],[1,1],[0,0]],
+    G:  [[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],
+    C:  [[4,3],[3,2],[2,0],[1,1],[0,0]],
+    D:  [[3,0],[2,2],[1,3],[0,2]],
+    E:  [[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
+    Dm: [[3,0],[2,2],[1,3],[0,1]],
+    A:  [[4,0],[3,2],[2,2],[1,2],[0,0]],
+    F:  [[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+  };
+
+  function playChordStrum(chordName, type){
+    if(globalTone==='mute') return;
+    const notes=CAUDIO[chordName]||[];
+    const vol=type==='D'?globalVol*0.7:globalVol*0.4;
+    const ordered=type==='D'?notes:[...notes].reverse();
+    ordered.forEach(([si,f],i)=>{
+      setTimeout(()=>{try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}},
+        i*(type==='D'?18:12));
+    });
+  }
+
+  const PROGRESSIONS=[
+    // ── 2-CHORD ──────────────────────────────────────────────────
+    {id:'em_am',  group:2, home:'Em', name:'Em → Am',
+     genre:'Folk · Minor feel',
+     desc:'The easiest change on guitar. Both open minor chords — melancholic and beautiful.',
+     chords:['Em','Am']},
+    {id:'g_d',    group:2, home:'G',  name:'G → D',
+     genre:'Folk · Country',
+     desc:'Two bright, open-sounding major chords. Very common in folk and country.',
+     chords:['G','D']},
+    {id:'a_e',    group:2, home:'A',  name:'A → E',
+     genre:'Rock · Blues',
+     desc:'Full and resonant. Great for practicing wide chord changes.',
+     chords:['A','E']},
+    {id:'c_am',   group:2, home:'C',  name:'C → Am',
+     genre:'Pop · Emotional',
+     desc:'C major and its relative minor. Listen to the mood shift between bright and sad.',
+     chords:['C','Am']},
+    // ── 3-CHORD ──────────────────────────────────────────────────
+    {id:'g_c_d',  group:3, home:'G',  name:'G → C → D',
+     genre:'Country · Folk · I-IV-V',
+     desc:'The classic I-IV-V in G major. This one combination unlocks hundreds of songs.',
+     chords:['G','C','D']},
+    {id:'a_d_e',  group:3, home:'A',  name:'A → D → E',
+     genre:'Rock · Blues · I-IV-V',
+     desc:'I-IV-V in A. Bright and punchy — the foundation of blues and early rock.',
+     chords:['A','D','E']},
+    {id:'am_dm_e',group:3, home:'Am', name:'Am → Dm → E',
+     genre:'Flamenco · Spanish · i-iv-V',
+     desc:'Minor i-iv-V. The E chord (major) at the end creates strong tension that pulls back to Am.',
+     chords:['Am','Dm','E']},
+    {id:'d_g_a',  group:3, home:'D',  name:'D → G → A',
+     genre:'Folk · Pop · I-IV-V',
+     desc:'I-IV-V in D. Bright, open voicing — easy to strum loudly and confidently.',
+     chords:['D','G','A']},
+    // ── 4-CHORD ──────────────────────────────────────────────────
+    {id:'g_em_c_d', group:4, home:'G',  name:'G → Em → C → D',
+     genre:'Pop · Folk · I-vi-IV-V',
+     desc:'The most-used 4-chord progression in folk and pop. G is home — everything else leads back to it.',
+     chords:['G','Em','C','D']},
+    {id:'c_g_am_f', group:4, home:'C',  name:'C → G → Am → F',
+     genre:'Pop · I-V-vi-IV',
+     desc:'I-V-vi-IV in C. Used in countless pop songs. C is home — it feels resolved and complete.',
+     chords:['C','G','Am','F']},
+    {id:'am_f_c_g', group:4, home:'Am', name:'Am → F → C → G',
+     genre:'Pop · Minor · i-VI-III-VII',
+     desc:'Same 4 chords as above but starting on Am. Darker, more emotional. Am is home here.',
+     chords:['Am','F','C','G']},
+    {id:'d_a_g_d',  group:4, home:'D',  name:'D → A → G → D',
+     genre:'Country · Rock · I-V-IV-I',
+     desc:'I-V-IV-I in D. Returns to D at the end — D is clearly home. Very satisfying to play.',
+     chords:['D','A','G','D']},
+  ];
+
+  const PATTERNS=[
+    {id:'pp1',name:'All Down',    beats:['D',null,'D',null,'D',null,'D',null]},
+    {id:'pp3',name:'The Essential',beats:['D',null,'D','U',null,'U','D','U']},
+    {id:'pp4',name:'Folk / Country',beats:['D',null,'D','U','D',null,'D','U']},
+    {id:'pp2',name:'Eighth Notes', beats:['D','U','D','U','D','U','D','U']},
+  ];
+
+  let selProg=PROGRESSIONS[0], selPat=PATTERNS[0], bpm=65;
+  let playing=false, timer=null, step=0, chordIdx=0;
+  const beatsPerBar=8; // eighth notes
+
+  // ── Render UI ────────────────────────────────────────────────────
+  function progCards(){
+    const groups=[2,3,4];
+    const groupLabel={2:'2-Chord Progressions',3:'3-Chord Progressions',4:'4-Chord Progressions'};
+    return groups.map(g=>{
+      const items=PROGRESSIONS.filter(p=>p.group===g);
+      return `<div class="sc-group-label">${groupLabel[g]}</div>`+
+        items.map(p=>`
+        <div class="prog-card${p.id===selProg.id?' selected':''}"
+             onclick="scProg_${cid}('${p.id}')">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;">
+            <div class="prog-name">${p.name}</div>
+            <span class="home-badge">Home: ${p.home}</span>
+          </div>
+          <div class="prog-genre">${p.genre}</div>
+          <div class="prog-seq">${p.chords.map(c=>`<span class="prog-cb">${c}</span>`).join('<span style="font-size:11px;color:var(--muted);align-self:center;padding:0 1px">→</span>')}</div>
+        </div>`).join('');
+    }).join('');
+  }
+
+  function patCards(){
+    return PATTERNS.map(p=>`
+      <div class="pat-opt${p.id===selPat.id?' selected':''}"
+           onclick="scPat_${cid}('${p.id}')">
+        <div class="pat-opt-name">${p.name}</div>
+        <div class="pat-opt-beats">${p.beats.map(b=>`<div class="pat-mini ${b||'n'}">${b==='D'?'↓':b==='U'?'↑':'-'}</div>`).join('')}</div>
+      </div>`).join('');
+  }
+
+  function chordRow(){
+    return selProg.chords.map((c,i)=>`
+      <div class="sc-chord${i===chordIdx?' active':''}" id="scch_${cid}_${i}">
+        <div class="sc-chord-name">${c}</div>
+        <div class="sc-chord-label">Bar ${i+1}</div>
+      </div>`).join('');
+  }
+
+  function beatDots(){
+    const totalBeats=selProg.chords.length*beatsPerBar;
+    return Array.from({length:totalBeats},(_,i)=>{
+      const isBarStart=i%beatsPerBar===0;
+      const isCur=i===step;
+      return `<div class="sc-beat-dot${isCur?' cur':''}${isBarStart?' bar-start':''}" id="scbd_${cid}_${i}"></div>`;
+    }).join('');
+  }
+
+  function render(){
+    el.innerHTML=`
+      <div class="sc-layout">
+        <div>
+          <div class="sc-section-title">Choose a progression</div>
+          <div class="prog-list">${progCards()}</div>
+        </div>
+        <div>
+          <div class="sc-section-title">Choose a pattern</div>
+          <div class="pat-list">${patCards()}</div>
+        </div>
+      </div>
+      <div class="sc-player">
+        <div class="sc-chord-row" id="sccr_${cid}">${chordRow()}</div>
+        <div class="sc-beat-row" id="scbr_${cid}">${beatDots()}</div>
+        <div class="sc-controls">
+          <button class="sc-play-btn${playing?' playing':''}" id="scbtn_${cid}"
+                  onclick="scToggle_${cid}()">
+            ${playing?'&#9646;&#9646; Stop':'&#9654; Play'}
+          </button>
+          <div class="sc-bpm">
+            <span>BPM</span>
+            <input type="range" min="40" max="120" value="${bpm}" step="5"
+                   oninput="scBpm_${cid}(this.value)">
+            <span id="scbpmv_${cid}">${bpm}</span>
+          </div>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin-top:10px;">${selProg.desc}</p>
+      </div>`;
+  }
+
+  // ── Playback ─────────────────────────────────────────────────────
+  function stop(){
+    playing=false;clearTimeout(timer);step=0;chordIdx=0;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+    // Reset highlights
+    selProg.chords.forEach((_,i)=>{
+      const e=document.getElementById('scch_'+cid+'_'+i);if(e)e.classList.remove('active');
+    });
+    document.querySelectorAll(`[id^="scbd_${cid}_"]`).forEach(e=>e.classList.remove('cur'));
+    const c0=document.getElementById('scch_'+cid+'_0');if(c0)c0.classList.add('active');
+  }
+
+  function tick(){
+    if(!playing)return;
+    const totalBeats=selProg.chords.length*beatsPerBar;
+    chordIdx=Math.floor(step/beatsPerBar)%selProg.chords.length;
+    const patStep=step%beatsPerBar;
+    const beatType=selPat.beats[patStep];
+
+    // Update chord highlights
+    selProg.chords.forEach((_,i)=>{
+      const e=document.getElementById('scch_'+cid+'_'+i);
+      if(e)e.classList.toggle('active',i===chordIdx);
+    });
+    // Update beat dots
+    document.querySelectorAll(`[id^="scbd_${cid}_"]`).forEach((e,i)=>e.classList.toggle('cur',i===step));
+
+    // Play strum
+    if(beatType) playChordStrum(selProg.chords[chordIdx], beatType);
+
+    step=(step+1)%totalBeats;
+    timer=setTimeout(tick, Math.round(60000/(bpm*2)));
+  }
+
+  // ── Handlers ─────────────────────────────────────────────────────
+  window[`scToggle_${cid}`]=function(){
+    if(playing){stop();return;}
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    playing=true;step=0;chordIdx=0;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    tick();
+  };
+  window[`scProg_${cid}`]=function(id){
+    stop();selProg=PROGRESSIONS.find(p=>p.id===id);render();
+  };
+  window[`scPat_${cid}`]=function(id){
+    const wasPlaying=playing;stop();selPat=PATTERNS.find(p=>p.id===id);render();
+    if(wasPlaying) window[`scToggle_${cid}`]();
+  };
+  window[`scBpm_${cid}`]=function(v){
+    bpm=parseInt(v);
+    const e=document.getElementById('scbpmv_'+cid);if(e)e.textContent=v;
+  };
+
+  render();
+}
+
 const LESSONS=[
   {
     id:'intro', label:'Introduction', num:'Intro', sections:1,
@@ -2592,6 +2964,53 @@ Strum:  ↓    -    ↓    ↑    -    ↑    ↓    ↑</div>
         <div class="callout"><span class="ic">🎸</span><span class="bd"><strong>First song practice:</strong> Em for one bar, Am for one bar, repeat. Use Pattern 3 (The Essential). This is how most acoustic songs work.</span></div>
       </div>
       <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'strumming','strum')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'strumchords', label:'Strumming with Chords', num:'10', sections:1,
+    eyebrow:'Stage 4 · Lesson 10', title:'Strumming with Chords',
+    sub:'Put it all together — rhythm patterns over real chord progressions.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">The big challenge</span>
+        <h3>Combining two skills at once</h3>
+        <p>Learning chords and learning strumming in isolation is straightforward. Combining them is where most beginners hit a wall. The key insight is this: <span class="hl">your strumming arm never stops</span>, and your fretting hand needs to arrive at the new chord shape <strong>just before</strong> beat 1 of each bar — not on it.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Get the chord shape first</strong> <span class="d">— press the new chord half a beat early. It's better to be early than late.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Keep strumming even through bad chords</strong> <span class="d">— rhythm is more important than perfect notes. Keep going.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Use the simplest pattern</strong> <span class="d">— all down-strokes when learning a new progression. Add rhythm complexity later.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Slow down</strong> <span class="d">— drop to 50 BPM if needed. Clean and slow beats fast and sloppy every time.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Interactive player</span>
+        <h3>Pick a progression + pattern and play along</h3>
+        <p>Choose a chord progression on the left and a strumming pattern on the right. Press <span class="hl">▶ Play</span> — the green chord box shows what to fret, and the dots show where you are in the bar.</p>
+        <div class="vis-box">
+          <div class="vis-title">🎸 Strumming with chords — combined player</div>
+          <div id="vis_strumchords"></div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>How to use it:</strong> Start with <strong>Em → Am</strong> and <strong>All Down</strong> at 50 BPM. When changes feel automatic, switch to <strong>The Essential</strong> pattern. Then try a 4-chord progression.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Practice ladder</span>
+        <h3>Work through this order</h3>
+        <div class="card">
+          <table class="l-table">
+            <tr><th>Step</th><th>Progression</th><th>Pattern</th><th>Target BPM</th></tr>
+            <tr><td>1</td><td>Em → Am</td><td>All Down</td><td>60</td></tr>
+            <tr><td>2</td><td>Em → Am</td><td>The Essential</td><td>65</td></tr>
+            <tr><td>3</td><td>G → Em → C → D</td><td>All Down</td><td>60</td></tr>
+            <tr><td>4</td><td>G → Em → C → D</td><td>The Essential</td><td>70</td></tr>
+            <tr><td>5</td><td>Am → F → C → G</td><td>Folk / Country</td><td>70</td></tr>
+            <tr><td>6</td><td>Any progression</td><td>Any pattern</td><td>80+</td></tr>
+          </table>
+        </div>
+        <div class="callout"><span class="ic">🏆</span><span class="bd"><strong>You're done when:</strong> you can play any 4-chord progression with The Essential pattern at 75 BPM without looking at your hands. That's real guitar playing.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'strumchords','sc')"><span class="chk-i">○</span> Mark as done</button></div>`,
   }
 ];
 renderNav();
