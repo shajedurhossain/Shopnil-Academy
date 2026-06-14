@@ -691,15 +691,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <header class="site-nav">
   <a href="../../../index.html" class="sn-logo">
     <img src="../../../assets/logo.png" alt="Shopnil Academy" />
-    <span class="sn-name"><strong>Shopnil Academy</strong><small>German A1 · Course</small></span>
+    <span class="sn-name"><strong>Shopnil Academy</strong><small>German A1 · অধ্যায় 5</small></span>
   </a>
   <nav class="sn-links">
     <a href="../../../index.html">Home</a>
-    <a href="../../../courses.html">Courses</a>
-    <a href="index.html">Course page</a>
+    <a href="index.html">সব অধ্যায়</a>
+    <a href="chapter1.html">অধ্যায় ১</a> <a href="chapter2.html">অধ্যায় ২</a> <a href="chapter3.html">অধ্যায় ৩</a> <a href="chapter4.html">অধ্যায় ৪</a> <a href="chapter5.html" style="font-weight:700;color:var(--gold)">অধ্যায় ৫</a> 
   </nav>
-  <a href="../../../courses.html" class="sn-cta">All courses →</a>
+  <a href="index.html" class="sn-cta">← হোম</a>
 </header>
+
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">☰</button>
   <span class="tb-level">A1</span>
@@ -1504,6 +1505,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- sb-nav -->
 
 </div></div><!-- sidebar -->
+
 <div class="main-wrap">
 <div class="main" id="mainArea">
 
@@ -4284,6 +4286,18 @@ var qzData={
     {q:'"obwohl" means?',o:['because','when','that','although'],a:3,f:'obwohl = although!'},
     {q:'Complete: "Ich lese, ___ ich schlafe." (before)',o:['weil','wenn','bevor','obwohl'],a:2,f:'bevor = before!'},
     {q:'Complete: "Es ist gut, ___ du hier ___."',o:['dass, bist du','dass, du bist','weil, du bist','weil, bist du'],a:1,f:'dass + verb at END: dass du hier bist!'}
+  ],
+  d5dtq:[
+    {q:'Dative of "der Mann"?',o:['den Mann','die Mann','dem Mann','der Mann'],a:2,f:'der (masc.) → Dative → dem!'},
+    {q:'Dative of "die Frau"?',o:['den Frau','der Frau','dem Frau','die Frau'],a:1,f:'die (fem.) → Dative → der!'},
+    {q:'"Ich helfe ___ Mann."',o:['der','die','den','dem'],a:3,f:'helfen takes Dative → dem!'},
+    {q:'Dative of "ich"?',o:['mich','mir','ich','me'],a:1,f:'ich → mir (Dative)!'},
+    {q:'Dative of "du"?',o:['dich','du','dir','dein'],a:2,f:'du → dir (Dative)!'},
+    {q:'"Das gefällt mir." means?',o:['That belongs to me.','I like that.','That is mine.','I give that.'],a:1,f:'gefallen + Dative = to like!'},
+    {q:'Which verb ALWAYS takes Dative?',o:['kaufen','sehen','helfen','lernen'],a:2,f:'helfen always takes Dative!'},
+    {q:'"Kann ich Ihnen helfen?" — Ihnen is Dative of?',o:['ihr','er','Sie (formal)','wir'],a:2,f:'Sie (formal) → Ihnen (Dative)!'},
+    {q:'Complete: "Ich gebe ___ das Buch." (you informal)',o:['dich','du','dir','dein'],a:2,f:'du → dir (Dative)!'},
+    {q:'What question word asks for Dative?',o:['Wen?','Was?','Wer?','Wem?'],a:3,f:'Wem? (To whom?) → Dative!'}
   ]
 };
 
@@ -4298,13 +4312,14 @@ var _CH_SP=['d5pfs','d5wds','d5dts','d20s','d5pfss','d5wdss','d5dtss','d20ss'];
 var _CH_QZ=['d5pfq','d5wdq','d5dtq','d20q'];
 var _CH_FITB=['d5pfw','d5wdw','d5dtw','d5pffw','d5wdfw','d5dtfw','d20fw'];
 
-function addLessonToSRS(lessonKey){
-  var words=srsVocab[lessonKey];
-  if(!words||words.length===0){alert('এই পাঠের শব্দভান্ডার যোগ হয়নি।');return;}
-  var added=0;
-  words.forEach(function(w){addToSRS(w);added++;});
-  alert('✅ '+added+'টি শব্দ SRS-এ যোগ হয়েছে!');
-  go('srs','nav-srs');
+
+function addLessonToSRS(lessonKey) {
+  var words = srsVocab[lessonKey];
+  if (!words || words.length === 0) { alert('এই পাঠের শব্দভান্ডার এখনো যোগ হয়নি।'); return; }
+  var added = 0;
+  words.forEach(function(w) { addToSRS(w); added++; });
+  alert('✅ ' + added + 'টি শব্দ SRS ফ্ল্যাশকার্ডে যোগ হয়েছে!');
+  go('srs', 'nav-srs');
 }
 
 document.addEventListener("DOMContentLoaded",function(){
