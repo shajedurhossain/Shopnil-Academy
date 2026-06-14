@@ -691,15 +691,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <header class="site-nav">
   <a href="../../../index.html" class="sn-logo">
     <img src="../../../assets/logo.png" alt="Shopnil Academy" />
-    <span class="sn-name"><strong>Shopnil Academy</strong><small>German A1 · Course</small></span>
+    <span class="sn-name"><strong>Shopnil Academy</strong><small>German A1 · অধ্যায় 3</small></span>
   </a>
   <nav class="sn-links">
     <a href="../../../index.html">Home</a>
-    <a href="../../../courses.html">Courses</a>
-    <a href="index.html">Course page</a>
+    <a href="index.html">সব অধ্যায়</a>
+    <a href="chapter1.html">অধ্যায় ১</a> <a href="chapter2.html">অধ্যায় ২</a> <a href="chapter3.html" style="font-weight:700;color:var(--gold)">অধ্যায় ৩</a> <a href="chapter4.html">অধ্যায় ৪</a> <a href="chapter5.html">অধ্যায় ৫</a> 
   </nav>
-  <a href="../../../courses.html" class="sn-cta">All courses →</a>
+  <a href="index.html" class="sn-cta">← হোম</a>
 </header>
+
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">☰</button>
   <span class="tb-level">A1</span>
@@ -1504,6 +1505,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- sb-nav -->
 
 </div></div><!-- sidebar -->
+
 <div class="main-wrap">
 <div class="main" id="mainArea">
 
@@ -6967,13 +6969,14 @@ var _CH_SP=['d11s','d12s','d13s','d14s','d3dms','d3svs','d3prs','d15s','d11ss','
 var _CH_QZ=['d11q','d12q','d13q','d14q','d3dmq','d3svq','d3prq','d15q'];
 var _CH_FITB=['d11w','d12w','d13w','d14w','d3dmw','d3svw','d3prw','d11fw','d12fw','d13fw','d14fw','d3dmfw','d3svfw','d3prfw','d15fw'];
 
-function addLessonToSRS(lessonKey){
-  var words=srsVocab[lessonKey];
-  if(!words||words.length===0){alert('এই পাঠের শব্দভান্ডার যোগ হয়নি।');return;}
-  var added=0;
-  words.forEach(function(w){addToSRS(w);added++;});
-  alert('✅ '+added+'টি শব্দ SRS-এ যোগ হয়েছে!');
-  go('srs','nav-srs');
+
+function addLessonToSRS(lessonKey) {
+  var words = srsVocab[lessonKey];
+  if (!words || words.length === 0) { alert('এই পাঠের শব্দভান্ডার এখনো যোগ হয়নি।'); return; }
+  var added = 0;
+  words.forEach(function(w) { addToSRS(w); added++; });
+  alert('✅ ' + added + 'টি শব্দ SRS ফ্ল্যাশকার্ডে যোগ হয়েছে!');
+  go('srs', 'nav-srs');
 }
 
 document.addEventListener("DOMContentLoaded",function(){
