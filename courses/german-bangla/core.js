@@ -84,15 +84,15 @@ function markVisit(day,tab){
 function go(page,navId){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  var _pg=document.getElementById('page-'+page);if(_pg)_pg.classList.add('active');
+  var _pg=document.getElementById('page-'+page);if(_pg){_pg.classList.add('active');}else{return;}
   var ni=document.getElementById(navId);if(ni){ni.classList.add('active');ni.classList.add('visited');}
   var ma=document.getElementById('mainArea');if(ma)ma.scrollTop=0;
   if(window.innerWidth<=640){var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');}
-  var allSpPages=['d1s','d2s','d3s','d4s','d5s','d1als','d1qws','d1vbs','d2pps','d2pls','d2grs','d3dms','d3svs','d3prs','d4mvs','d4acs','d4ngs','d5pfs','d5wds','d5dts','d6s','d7s','d8s','d9s','d10s','d11s','d12s','d13s','d14s','d15s','d16s','d17s','d18s','d19s','d20s'];
+  var allSpPages=(typeof _CH_SP!=='undefined')?_CH_SP:['d1s','d2s','d3s','d4s','d5s','d1als','d1qws','d1vbs','d2pps','d2pls','d2grs','d3dms','d3svs','d3prs','d4mvs','d4acs','d4ngs','d5pfs','d5wds','d5dts','d6s','d7s','d8s','d9s','d10s','d11s','d12s','d13s','d14s','d15s','d16s','d17s','d18s','d19s','d20s'];
   if(allSpPages.indexOf(page)>=0)buildSp(page);
-  var allQzPages=['d1q','d2q','d3q','d4q','d5q','d1alq','d1qwq','d1vbq','d2ppq','d2plq','d2grq','d3dmq','d3svq','d3prq','d4mvq','d4acq','d4ngq','d5pfq','d5wdq','d5dtq','d6q','d7q','d8q','d9q','d10q','d11q','d12q','d13q','d14q','d15q','d16q','d17q','d18q','d19q','d20q'];
+  var allQzPages=(typeof _CH_QZ!=='undefined')?_CH_QZ:['d1q','d2q','d3q','d4q','d5q','d1alq','d1qwq','d1vbq','d2ppq','d2plq','d2grq','d3dmq','d3svq','d3prq','d4mvq','d4acq','d4ngq','d5pfq','d5wdq','d5dtq','d6q','d7q','d8q','d9q','d10q','d11q','d12q','d13q','d14q','d15q','d16q','d17q','d18q','d19q','d20q'];
   if(allQzPages.indexOf(page)>=0)buildQuiz(page);
-  var allFitbPages=['d1w','d2w','d3w','d4w','d1alw','d1qww','d1vbw','d2ppw','d2plw','d2grw','d3dmw','d3svw','d3prw','d4mvw','d4acw','d4ngw','d5pfw','d5wdw','d5dtw','d6w','d7w','d8w','d9w','d11w','d12w','d13w','d14w','d16w','d17w','d18w','d19w'];
+  var allFitbPages=(typeof _CH_FITB!=='undefined')?_CH_FITB:['d1w','d2w','d3w','d4w','d1alw','d1qww','d1vbw','d2ppw','d2plw','d2grw','d3dmw','d3svw','d3prw','d4mvw','d4acw','d4ngw','d5pfw','d5wdw','d5dtw','d6w','d7w','d8w','d9w','d11w','d12w','d13w','d14w','d16w','d17w','d18w','d19w'];
   if(allFitbPages.indexOf(page)>=0)buildFITB(page);
   if(page==='d20q'){var el=document.getElementById('certXP');if(el)el.textContent=getXP();}
   if(page==='srs')buildSRS();
