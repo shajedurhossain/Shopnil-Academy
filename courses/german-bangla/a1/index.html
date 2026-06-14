@@ -1009,7 +1009,26 @@ var qzData={};
 var fitbData={};
 var srsVocab={};
 function addLessonToSRS() { alert('পাঠের ফাইলে যান এবং সেখান থেকে যোগ করুন।'); }
-window.onload = function() { updateUI(); buildRewardUI(); go('home','nav-home'); };
+window.onload = function() {
+  updateUI(); buildRewardUI(); go('home','nav-home');
+  // Build map of page ID → chapter file from sidebar week blocks
+  var pageToChapter = {};
+  document.querySelectorAll('.week-block').forEach(function(block, idx) {
+    var chNum = Math.min(idx + 1, 5);
+    block.querySelectorAll('.nav-item[onclick]').forEach(function(item) {
+      var m = item.getAttribute('onclick').match(/go\('([^']+)'/);
+      if (m) pageToChapter[m[1]] = 'chapter' + chNum + '.html';
+    });
+  });
+  // Override go() to redirect to the correct chapter file
+  var _orig = window.go;
+  window.go = function(page, navId) {
+    if (page === 'home' || page === 'srs') return _orig(page, navId);
+    var ch = pageToChapter[page];
+    if (ch) { window.location.href = ch + '?lesson=' + page; return; }
+    _orig(page, navId);
+  };
+};
 </script>
 </body>
 </html>
