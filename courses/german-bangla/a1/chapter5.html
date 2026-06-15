@@ -15,11 +15,7 @@
     <img src="../../../assets/logo.png" alt="Shopnil Academy" />
     <span class="sn-name"><strong>Shopnil Academy</strong><small>German A1 · অধ্যায় 5</small></span>
   </a>
-  <nav class="sn-links">
-    <a href="../../../index.html">Home</a>
-    <a href="index.html">সব অধ্যায়</a>
-    <a href="chapter1.html">অধ্যায় ১</a> <a href="chapter2.html">অধ্যায় ২</a> <a href="chapter3.html">অধ্যায় ৩</a> <a href="chapter4.html">অধ্যায় ৪</a> <a href="chapter5.html" style="font-weight:700;color:var(--gold)">অধ্যায় ৫</a> 
-  </nav>
+  
   <a href="index.html" class="sn-cta">← হোম</a>
 </header>
 
@@ -2766,6 +2762,15 @@ function addLessonToSRS(lessonKey) {
   words.forEach(function(w) { addToSRS(w); added++; });
   alert('✅ ' + added + 'টি শব্দ SRS ফ্ল্যাশকার্ডে যোগ হয়েছে!');
   go('srs', 'nav-srs');
+}
+
+
+// Merge W234 data now that qzData/fitbData are defined
+if(typeof W234!=='undefined'){
+  if(typeof qzData!=='undefined')Object.assign(qzData,W234.quizData);
+  if(typeof fitbData!=='undefined')Object.assign(fitbData,W234.fitbData);
+  if(typeof qzData!=='undefined')Object.keys(W234.quizData).forEach(function(k){qzAns[k]={};});
+  if(typeof qzData!=='undefined')Object.keys(W234.quizData).forEach(function(k){qzMistakes[k]=[];});
 }
 
 window.onload = function() {
