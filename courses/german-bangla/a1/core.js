@@ -1182,6 +1182,14 @@ function buildStreakHero() {
   }
 }
 
+function buildRewardUI() {
+  buildStreakHero();
+  buildDailyGoal();
+  buildBadgesGrid();
+  buildLeaderboard();
+  checkBadges();
+}
+
 function refreshRewardUI() {
   buildStreakHero();
   buildDailyGoal();
