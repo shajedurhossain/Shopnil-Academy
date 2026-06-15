@@ -5966,13 +5966,17 @@ function addLessonToSRS(lessonKey) {
 window.onload = function() {
   updateUI();
   buildRewardUI();
-  // Open this chapter's week automatically
-  toggleWeek(1);
-  // Navigate to first page of first lesson
-  var firstPage = document.querySelector('.page');
-  if (firstPage) {
-    var firstId = firstPage.id.replace('page-','');
-    go(firstId, 'nav-' + firstId);
+  var params = new URLSearchParams(window.location.search);
+  var lesson = params.get('lesson');
+  if (lesson && document.getElementById('page-' + lesson)) {
+    go(lesson, 'nav-' + lesson);
+  } else {
+    toggleWeek(1);
+    var firstPage = document.querySelector('.page');
+    if (firstPage) {
+      var firstId = firstPage.id.replace('page-','');
+      go(firstId, 'nav-' + firstId);
+    }
   }
 };
 </script>

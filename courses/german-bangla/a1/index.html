@@ -1009,23 +1009,60 @@ var qzData={};
 var fitbData={};
 var srsVocab={};
 function addLessonToSRS() { alert('পাঠের ফাইলে যান এবং সেখান থেকে যোগ করুন।'); }
+var pageToChapter = {
+  'd1g':'chapter1','d1i':'chapter1','d1n':'chapter1','d1w':'chapter1','d1s':'chapter1','d1gr':'chapter1','d1l':'chapter1','d1rd':'chapter1','d1fw':'chapter1','d1ss':'chapter1','d1q':'chapter1',
+  'd2a':'chapter1','d2f':'chapter1','d2se':'chapter1','d2w':'chapter1','d2s':'chapter1','d2gr':'chapter1','d2l':'chapter1','d2rd':'chapter1','d2fw':'chapter1','d2ss':'chapter1','d2q':'chapter1',
+  'd3c':'chapter1','d3a':'chapter1','d3w':'chapter1','d3s':'chapter1','d3gr':'chapter1','d3l':'chapter1','d3rd':'chapter1','d3fw':'chapter1','d3ss':'chapter1','d3q':'chapter1',
+  'd4t':'chapter1','d4r':'chapter1','d4w':'chapter1','d4s':'chapter1','d4gr':'chapter1','d4l':'chapter1','d4rd':'chapter1','d4fw':'chapter1','d4ss':'chapter1','d4q':'chapter1',
+  'd1alv':'chapter1','d1alw':'chapter1','d1als':'chapter1','d1algr':'chapter1','d1all':'chapter1','d1alrd':'chapter1','d1alfw':'chapter1','d1alss':'chapter1','d1alq':'chapter1',
+  'd1qwv':'chapter1','d1qww':'chapter1','d1qws':'chapter1','d1qwgr':'chapter1','d1qwl':'chapter1','d1qwrd':'chapter1','d1qwfw':'chapter1','d1qwss':'chapter1','d1qwq':'chapter1',
+  'd1vbv':'chapter1','d1vbw':'chapter1','d1vbs':'chapter1','d1vbgr':'chapter1','d1vbl':'chapter1','d1vbrd':'chapter1','d1vbfw':'chapter1','d1vbss':'chapter1','d1vbq':'chapter1',
+  'd5r':'chapter1','d5s':'chapter1','d5q':'chapter1','d2ppv':'chapter1','d2ppw':'chapter1','d2pps':'chapter1','d2ppq':'chapter1',
+  'd6v':'chapter1','d6w':'chapter1','d6s':'chapter1','d6q':'chapter1','d7v':'chapter1','d7w':'chapter1','d7s':'chapter1','d7q':'chapter1',
+  'd8v':'chapter1','d8w':'chapter1','d8s':'chapter1','d8q':'chapter1','d9v':'chapter1','d9w':'chapter1','d9s':'chapter1','d9q':'chapter1',
+  'd6gr':'chapter2','d6l':'chapter2','d6rd':'chapter2','d6fw':'chapter2','d6ss':'chapter2',
+  'd7gr':'chapter2','d7l':'chapter2','d7rd':'chapter2','d7fw':'chapter2','d7ss':'chapter2',
+  'd8gr':'chapter2','d8l':'chapter2','d8rd':'chapter2','d8fw':'chapter2','d8ss':'chapter2',
+  'd9gr':'chapter2','d9l':'chapter2','d9rd':'chapter2','d9fw':'chapter2','d9ss':'chapter2',
+  'd2ppgr':'chapter2','d2ppl':'chapter2','d2pprd':'chapter2','d2ppfw':'chapter2','d2ppss':'chapter2',
+  'd2plv':'chapter2','d2plw':'chapter2','d2pls':'chapter2','d2plgr':'chapter2','d2pll':'chapter2','d2plrd':'chapter2','d2plfw':'chapter2','d2plss':'chapter2','d2plq':'chapter2',
+  'd2grv':'chapter2','d2grw':'chapter2','d2grs':'chapter2','d2grgr':'chapter2','d2grl':'chapter2','d2grrd':'chapter2','d2grfw':'chapter2','d2grss':'chapter2','d2grq':'chapter2',
+  'd10r':'chapter2','d10s':'chapter2','d10gr':'chapter2','d10l':'chapter2','d10rd':'chapter2','d10fw':'chapter2','d10ss':'chapter2','d10q':'chapter2',
+  'd11v':'chapter2','d11w':'chapter2','d11s':'chapter2','d11q':'chapter2','d12v':'chapter2','d12w':'chapter2','d12s':'chapter2','d12q':'chapter2',
+  'd13v':'chapter2','d13w':'chapter2','d13s':'chapter2','d13q':'chapter2','d14v':'chapter2','d14w':'chapter2','d14s':'chapter2','d14q':'chapter2',
+  'd3dmv':'chapter2','d3dmw':'chapter2','d3dms':'chapter2','d3dmq':'chapter2',
+  'd11gr':'chapter3','d11l':'chapter3','d11rd':'chapter3','d11fw':'chapter3','d11ss':'chapter3',
+  'd12gr':'chapter3','d12l':'chapter3','d12rd':'chapter3','d12fw':'chapter3','d12ss':'chapter3',
+  'd13gr':'chapter3','d13l':'chapter3','d13rd':'chapter3','d13fw':'chapter3','d13ss':'chapter3',
+  'd14gr':'chapter3','d14l':'chapter3','d14rd':'chapter3','d14fw':'chapter3','d14ss':'chapter3',
+  'd3dmgr':'chapter3','d3dml':'chapter3','d3dmrd':'chapter3','d3dmfw':'chapter3','d3dmss':'chapter3',
+  'd3svv':'chapter3','d3svw':'chapter3','d3svs':'chapter3','d3svgr':'chapter3','d3svl':'chapter3','d3svrd':'chapter3','d3svfw':'chapter3','d3svss':'chapter3','d3svq':'chapter3',
+  'd3prv':'chapter3','d3prw':'chapter3','d3prs':'chapter3','d3prgr':'chapter3','d3prl':'chapter3','d3prrd':'chapter3','d3prfw':'chapter3','d3prss':'chapter3','d3prq':'chapter3',
+  'd15r':'chapter3','d15s':'chapter3','d15gr':'chapter3','d15l':'chapter3','d15rd':'chapter3','d15fw':'chapter3','d15ss':'chapter3','d15q':'chapter3',
+  'd16v':'chapter3','d16w':'chapter3','d16s':'chapter3','d16q':'chapter3','d17v':'chapter3','d17w':'chapter3','d17s':'chapter3','d17q':'chapter3',
+  'd18v':'chapter3','d18w':'chapter3','d18s':'chapter3','d18q':'chapter3',
+  'd5pfv':'chapter3','d5pfw':'chapter3','d5pfs':'chapter3','d5pfq':'chapter3',
+  'd4rss':'chapter4','d4rfw':'chapter4','d4rgr':'chapter4','d4rrd':'chapter4','d4rl':'chapter4',
+  'd16gr':'chapter4','d16l':'chapter4','d16rd':'chapter4','d16fw':'chapter4','d16ss':'chapter4',
+  'd17gr':'chapter4','d17l':'chapter4','d17rd':'chapter4','d17fw':'chapter4','d17ss':'chapter4',
+  'd18gr':'chapter4','d18l':'chapter4','d18rd':'chapter4','d18fw':'chapter4','d18ss':'chapter4',
+  'd19v':'chapter4','d19w':'chapter4','d19s':'chapter4','d19gr':'chapter4','d19l':'chapter4','d19rd':'chapter4','d19fw':'chapter4','d19ss':'chapter4','d19q':'chapter4',
+  'd4mvv':'chapter4','d4mvw':'chapter4','d4mvs':'chapter4','d4mvgr':'chapter4','d4mvl':'chapter4','d4mvrd':'chapter4','d4mvfw':'chapter4','d4mvss':'chapter4','d4mvq':'chapter4',
+  'd4acv':'chapter4','d4acw':'chapter4','d4acs':'chapter4','d4acgr':'chapter4','d4acl':'chapter4','d4acrd':'chapter4','d4acfw':'chapter4','d4acss':'chapter4','d4acq':'chapter4',
+  'd4ngv':'chapter4','d4ngw':'chapter4','d4ngs':'chapter4','d4nggr':'chapter4','d4ngl':'chapter4','d4ngrd':'chapter4','d4ngfw':'chapter4','d4ngss':'chapter4','d4ngq':'chapter4',
+  'd5dtv':'chapter4','d5dtw':'chapter4','d5dts':'chapter4','d5dtq':'chapter4',
+  'd5pfgr':'chapter5','d5pfl':'chapter5','d5pfrd':'chapter5','d5pffw':'chapter5','d5pfss':'chapter5',
+  'd5wdv':'chapter5','d5wdw':'chapter5','d5wds':'chapter5','d5wdgr':'chapter5','d5wdl':'chapter5','d5wdrd':'chapter5','d5wdfw':'chapter5','d5wdss':'chapter5','d5wdq':'chapter5',
+  'd5dtgr':'chapter5','d5dtl':'chapter5','d5dtrd':'chapter5','d5dtfw':'chapter5','d5dtss':'chapter5',
+  'd20v':'chapter5','d20s':'chapter5','d20gr':'chapter5','d20l':'chapter5','d20rd':'chapter5','d20fw':'chapter5','d20ss':'chapter5','d20q':'chapter5'
+};
 window.onload = function() {
   updateUI(); buildRewardUI(); go('home','nav-home');
-  // Build map of page ID → chapter file from sidebar week blocks
-  var pageToChapter = {};
-  document.querySelectorAll('.week-block').forEach(function(block, idx) {
-    var chNum = Math.min(idx + 1, 5);
-    block.querySelectorAll('.nav-item[onclick]').forEach(function(item) {
-      var m = item.getAttribute('onclick').match(/go\('([^']+)'/);
-      if (m) pageToChapter[m[1]] = 'chapter' + chNum + '.html';
-    });
-  });
-  // Override go() to redirect to the correct chapter file
   var _orig = window.go;
   window.go = function(page, navId) {
     if (page === 'home' || page === 'srs') return _orig(page, navId);
     var ch = pageToChapter[page];
-    if (ch) { window.location.href = ch + '?lesson=' + page; return; }
+    if (ch) { window.location.href = ch + '.html?lesson=' + page; return; }
     _orig(page, navId);
   };
 };
