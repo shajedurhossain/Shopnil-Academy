@@ -906,13 +906,15 @@ var W234 = {
   }
 };
 // ===== EXTEND DATA =====
+try {
 Object.keys(W234.fitbData).forEach(function(k){if(!fitbScores[k])fitbScores[k]={correct:0,total:5,done:[]};});
 Object.assign(spData, W234.spData);
-Object.assign(qzData, W234.quizData);
-Object.assign(fitbData, W234.fitbData);
-Object.keys(W234.quizData).forEach(function(k){qzAns[k]={};});
-Object.keys(W234.quizData).forEach(function(k){qzMistakes[k]=[];});
+if(typeof qzData!=='undefined')Object.assign(qzData, W234.quizData);
+if(typeof fitbData!=='undefined')Object.assign(fitbData, W234.fitbData);
+if(typeof qzData!=='undefined')Object.keys(W234.quizData).forEach(function(k){qzAns[k]={};});
+if(typeof qzData!=='undefined')Object.keys(W234.quizData).forEach(function(k){qzMistakes[k]=[];});
 Object.keys(W234.spData).forEach(function(k){spRes[k]={};});
+} catch(e) {}
 // ===== INIT =====
 try {
   checkStreak();
