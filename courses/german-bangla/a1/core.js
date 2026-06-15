@@ -82,6 +82,9 @@ function markVisit(day,tab){
 }
 // ===== NAVIGATION =====
 function go(page,navId){
+  if(page!=='home'&&page!=='srs'&&!document.getElementById('page-'+page)&&typeof pageToChapter!=='undefined'&&pageToChapter[page]){
+    window.location.href=pageToChapter[page]+'.html?lesson='+page;return;
+  }
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   var _pg=document.getElementById('page-'+page);if(_pg)_pg.classList.add('active');

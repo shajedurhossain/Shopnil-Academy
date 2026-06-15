@@ -1056,16 +1056,7 @@ var pageToChapter = {
   'd5dtgr':'chapter5','d5dtl':'chapter5','d5dtrd':'chapter5','d5dtfw':'chapter5','d5dtss':'chapter5',
   'd20v':'chapter5','d20s':'chapter5','d20gr':'chapter5','d20l':'chapter5','d20rd':'chapter5','d20fw':'chapter5','d20ss':'chapter5','d20q':'chapter5'
 };
-window.onload = function() {
-  updateUI(); buildRewardUI(); go('home','nav-home');
-  var _orig = window.go;
-  window.go = function(page, navId) {
-    if (page === 'home' || page === 'srs') return _orig(page, navId);
-    var ch = pageToChapter[page];
-    if (ch) { window.location.href = ch + '.html?lesson=' + page; return; }
-    _orig(page, navId);
-  };
-};
+window.onload = function() { updateUI(); buildRewardUI(); go('home','nav-home'); };
 </script>
 </body>
 </html>
