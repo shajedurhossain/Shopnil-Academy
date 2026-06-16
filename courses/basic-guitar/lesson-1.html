@@ -460,6 +460,231 @@ footer { margin-top: 0; }
 .home-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--gold-soft);color:#7A4A00;white-space:nowrap;flex-shrink:0;}
 .prog-card.selected .home-badge{background:rgba(232,183,42,.3);color:#5a3800;}
 
+
+
+
+/* chord diagram in sticky player */
+.sc-player-row{display:flex;align-items:stretch;gap:8px;padding:8px 8px 0;}
+.sc-player-row .sc-win{flex:1;min-width:0;}
+.sc-chord-diag{
+  width:172px;flex-shrink:0;
+  background:var(--white);border-radius:8px;
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  transition:all .2s ease;
+}
+.sc-chord-diag svg{max-width:100%;height:auto;}
+@media(max-width:420px){
+  .sc-player-row{flex-direction:column;}
+  .sc-chord-diag{width:100%;height:90px;}
+}
+
+/* ── STICKY PLAYER + TWO-COLUMN LAYOUT ── */
+.sc-sticky{
+  position:sticky;top:56px;z-index:20;
+  background:var(--white);
+  border-radius:12px;
+  border:1px solid var(--line);
+  box-shadow:0 4px 20px rgba(0,0,0,.10);
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.sc-bottom-bar{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:10px 14px;border-top:1px solid var(--line);
+}
+.sc-cur{
+  font-family:var(--font-display);font-size:26px;font-weight:800;
+  color:var(--ink);min-width:70px;
+}
+.sc-cols{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  align-items:start;
+}
+.sc-col{
+  max-height:52vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:2px;
+}
+.sc-col::-webkit-scrollbar{width:3px;}
+.sc-col::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+.sc-col::-webkit-scrollbar-track{background:transparent;}
+.sc-col-title{
+  position:sticky;top:0;z-index:2;
+  background:var(--white);
+  padding-top:2px;padding-bottom:4px;
+}
+.sc-col-title{
+  font-size:11px;font-weight:700;color:var(--green);
+  text-transform:uppercase;letter-spacing:.07em;
+  margin-bottom:8px;padding-bottom:4px;
+  border-bottom:2px solid var(--green-soft);
+}
+.sc-cols .prog-card{padding:8px;}
+.sc-cols .prog-name{font-size:12px;}
+.sc-cols .prog-genre{font-size:10px;margin-top:1px;}
+.sc-cols .prog-seq{margin-top:5px;gap:3px;}
+.sc-cols .prog-cb{font-size:11px;padding:3px 6px;}
+.sc-cols .home-badge{font-size:9px;padding:2px 5px;}
+.sc-cols .sc-group-label{font-size:9px;padding:8px 0 3px;}
+.sc-cols .pat-opt{padding:8px;}
+.sc-cols .pat-opt-name{font-size:12px;}
+.sc-cols .pat-mini{width:17px;height:17px;font-size:10px;border-radius:3px;}
+.sc-cols .pat-opt-beats{gap:2px;margin-top:5px;}
+
+/* ── SCROLLING TAPE PLAYER ── */
+.sc-win{position:relative;width:100%;height:88px;overflow:hidden;
+  background:var(--cream);border-radius:10px;border:1px solid var(--line);
+  margin-bottom:10px;}
+.sc-track{position:absolute;top:0;left:0;height:100%;display:flex;
+  align-items:center;will-change:transform;}
+.sc-now-line{position:absolute;left:64px;top:8px;bottom:8px;width:3px;
+  background:var(--green);border-radius:2px;z-index:5;}
+.sc-fade-l{position:absolute;left:0;top:0;bottom:0;width:56px;z-index:4;
+  background:linear-gradient(to right,var(--cream) 30%,transparent);}
+.sc-fade-r{position:absolute;right:0;top:0;bottom:0;width:60px;z-index:4;
+  background:linear-gradient(to left,var(--cream) 20%,transparent);}
+.sc-bar{display:flex;flex-direction:column;padding:6px 3px 6px 4px;
+  border-right:2px solid var(--line);margin-right:2px;flex-shrink:0;}
+.sc-bl{font-size:10px;font-weight:800;color:var(--green);margin-bottom:4px;
+  letter-spacing:.03em;}
+.sc-bb{display:flex;gap:2px;}
+.sc-tb{width:26px;height:38px;border-radius:4px;display:flex;align-items:center;
+  justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+.sD{background:var(--green-soft);color:var(--green);}
+.sU{background:#EDF6FF;color:#1565C0;}
+.sS{color:#CCC;border:1px dashed #DDD;}
+.sc-cur{font-family:var(--font-display);font-size:32px;font-weight:800;
+  color:var(--ink);text-align:center;line-height:1;margin-bottom:10px;}
+.sc-desc{font-size:12px;color:var(--muted);margin-top:10px;text-align:center;}
+
+
+
+
+/* search panel */
+.fcc-two-panel{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:center;margin-bottom:16px;}
+.fcc-or{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 14px;}
+.fcc-or-line{width:1px;height:40px;background:var(--line);}
+.fcc-or span{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;}
+.fcc-search-panel{background:var(--cream);border-radius:14px;padding:20px;text-align:center;}
+.fcc-search-title{font-size:16px;font-weight:700;font-family:var(--font-display);color:var(--ink);margin-bottom:4px;}
+.fcc-search-sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.fcc-search-row{display:flex;gap:6px;}
+.fcc-search-input{flex:1;padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;
+  font-size:13px;font-family:var(--font-body);background:var(--white);color:var(--ink);}
+.fcc-search-input:focus{outline:none;border-color:var(--green);}
+.fcc-search-btn{padding:9px 16px;border:none;border-radius:8px;background:var(--green);
+  color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);white-space:nowrap;}
+.fcc-search-btn:hover{background:var(--green-dark);}
+.fcc-search-examples{font-size:11px;color:#B0B3C0;margin-top:8px;}
+.fcc-search-examples em{color:var(--green);font-style:normal;}
+.sr-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.sr-title{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--ink);}
+.sr-artist{font-size:13px;color:var(--muted);margin-top:2px;}
+.sr-badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+.sr-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;
+  background:var(--cream);border:1px solid var(--line);color:var(--ink);}
+.sr-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.sr-pat-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;
+  background:var(--cream);border-radius:8px;margin-bottom:10px;}
+.sr-pat-label{font-size:12px;color:var(--muted);}
+.sr-note{font-size:12px;color:var(--muted);background:var(--green-soft);
+  border:1px solid var(--green-soft);border-radius:8px;padding:8px 12px;margin-top:8px;line-height:1.5;}
+@media(max-width:540px){
+  .fcc-two-panel{grid-template-columns:1fr;gap:10px;}
+  .fcc-or{flex-direction:row;padding:0;}
+  .fcc-or-line{width:40px;height:1px;}
+}
+
+
+.sr-prog-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap;
+  padding:8px 10px;background:var(--cream);border-radius:8px;margin-bottom:6px;}
+.sr-prog-ch{font-family:var(--font-display);font-size:15px;font-weight:700;
+  padding:4px 12px;border-radius:8px;background:var(--white);
+  border:1.5px solid var(--line);color:var(--ink);}
+.sr-prog-arr{font-size:13px;color:var(--muted);}
+/* Smaller beat boxes inside search result tape */
+.sr-win .sc-tb{width:18px;height:32px;font-size:11px;border-radius:3px;}
+.sr-win .sc-bar{padding:4px 2px 4px 3px;}
+.sr-win .sc-bb{gap:1px;}
+.sr-win .sc-bl{font-size:9px;margin-bottom:2px;}
+
+
+.fcc-coming-soon{margin-top:12px;background:var(--cream);border:1.5px dashed var(--line);
+  border-radius:14px;padding:24px 20px;text-align:center;}
+.fcs-icon{font-size:28px;margin-bottom:8px;}
+.fcs-title{font-family:var(--font-display);font-size:15px;font-weight:700;
+  color:var(--muted);margin-bottom:6px;}
+.fcs-desc{font-size:12px;color:#B0B3C0;line-height:1.6;max-width:320px;margin:0 auto;}
+
+/* ── LESSON 12: FIND THE CHORDS ── */
+.fcc-drop{border:2px dashed var(--line);border-radius:14px;padding:36px 20px;
+  text-align:center;cursor:pointer;transition:all .15s;background:var(--cream);}
+.fcc-drop:hover,.fcc-drop.drag{border-color:var(--green);background:var(--green-soft);}
+.fcc-drop-icon{font-size:40px;margin-bottom:10px;}
+.fcc-drop-title{font-family:var(--font-display);font-size:18px;font-weight:700;
+  color:var(--ink);margin-bottom:4px;}
+.fcc-drop-sub{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.fcc-drop-note{font-size:11px;color:#B0B3C0;background:var(--white);
+  border-radius:8px;padding:6px 12px;display:inline-block;margin-top:6px;}
+.fcc-analyzing{text-align:center;padding:40px 20px;}
+.fcc-spinner{font-size:36px;animation:spin 1.5s linear infinite;display:inline-block;margin-bottom:12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.fcc-prog-label{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.fcc-prog-track{height:8px;background:var(--line);border-radius:99px;margin:0 auto 8px;max-width:300px;}
+.fcc-prog-bar{height:100%;background:var(--green);border-radius:99px;transition:width .3s;}
+.fcc-prog-pct{font-size:12px;color:var(--muted);}
+.fcc-results{}
+.fcc-meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:16px;}
+.fcc-meta-item{background:var(--cream);border-radius:10px;padding:10px 12px;}
+.fcc-mlbl{display:block;font-size:10px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.fcc-mval{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--ink);}
+.fcc-section-label{font-size:11px;font-weight:700;color:var(--green);
+  text-transform:uppercase;letter-spacing:.07em;margin:14px 0 7px;}
+.fcc-timeline{display:flex;flex-direction:column;gap:5px;
+  max-height:280px;overflow-y:auto;padding-right:4px;}
+.fcc-timeline::-webkit-scrollbar{width:3px;}
+.fcc-timeline::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+.fcc-cbar{display:flex;align-items:center;gap:8px;padding:6px 10px;
+  background:var(--cream);border-radius:8px;}
+.fcc-ctime{font-size:11px;color:var(--muted);width:32px;flex-shrink:0;}
+.fcc-cname{font-family:var(--font-display);font-size:15px;font-weight:700;
+  color:var(--ink);width:42px;flex-shrink:0;}
+.fcc-cconf{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden;}
+.fcc-cconf-fill{height:100%;border-radius:99px;}
+.fcc-cconf-fill.hi{background:var(--green);}
+.fcc-cconf-fill.mid{background:var(--gold);}
+.fcc-cconf-fill.lo{background:#E0C0C0;}
+.fcc-cpct{font-size:10px;color:var(--muted);width:30px;text-align:right;flex-shrink:0;}
+.fcc-diags{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;}
+.fcc-diag{display:flex;flex-direction:column;align-items:center;gap:4px;
+  background:var(--white);border:1px solid var(--line);border-radius:10px;padding:8px;}
+.fcc-diag-name{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--ink);}
+.fcc-restart{margin-top:16px;padding:8px 20px;border-radius:99px;border:1.5px solid var(--green);
+  background:var(--white);color:var(--green);font-size:13px;font-weight:700;
+  cursor:pointer;font-family:var(--font-body);}
+.fcc-restart:hover{background:var(--green);color:#fff;}
+.fcc-error{padding:24px;text-align:center;color:var(--red);font-size:13px;
+  background:#FFF5F5;border-radius:12px;border:1px solid #FFCCCC;}
+.fcc-disclaimer{font-size:11px;color:#B0B3C0;text-align:center;margin-top:12px;line-height:1.5;}
+
+/* ── LESSON 11: FIRST SONG ── */
+.song-card{border:1.5px solid var(--line);border-radius:10px;padding:8px;
+  cursor:pointer;transition:all .12s;background:var(--white);}
+.song-card:hover{border-color:var(--green);}
+.song-card.selected{border-color:var(--green);background:var(--green-soft);}
+.song-title{font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--ink);}
+.song-card.selected .song-title{color:var(--green-dark);}
+.song-artist{font-size:10px;color:var(--muted);margin-top:1px;font-style:italic;}
+.song-meta{display:flex;align-items:center;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.song-bpm{font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;
+  background:#F0F0F0;color:var(--muted);}
+.sc-song-label{font-size:10px;font-weight:700;color:var(--muted);
+  text-align:center;letter-spacing:.04em;padding:4px 0 6px;}
+
 /* ── LESSON 10: STRUMMING WITH CHORDS ── */
 .sc-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .sc-section-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
@@ -503,6 +728,30 @@ footer { margin-top: 0; }
 .sc-bpm{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
 .sc-bpm input{width:80px;accent-color:var(--green);}
 @media(max-width:600px){.sc-layout{grid-template-columns:1fr;}}
+
+
+/* pick + string targeting + palm mute visuals */
+.pick-tips{display:flex;flex-direction:column;gap:10px;}
+.pick-tip{display:flex;gap:12px;align-items:flex-start;}
+.pt-icon{font-size:20px;flex-shrink:0;width:28px;text-align:center;}
+.pick-tip div{display:flex;flex-direction:column;gap:2px;}
+.pick-tip strong{font-size:13px;color:var(--ink);}
+.pick-tip span{font-size:12px;color:var(--muted);line-height:1.5;}
+.string-target-wrap{display:flex;flex-direction:column;gap:12px;}
+.st-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.st-dir{font-size:14px;font-weight:700;width:58px;flex-shrink:0;text-align:center;padding:6px 8px;border-radius:8px;}
+.down-dir{background:var(--green-soft);color:var(--green);}
+.up-dir{background:#EDF6FF;color:#1565C0;}
+.st-strings{display:flex;gap:4px;}
+.st-str{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.st-str.hit{background:var(--green);color:#fff;}
+.st-str.soft{background:var(--green-soft);color:var(--green);border:1px solid var(--green);}
+.st-str.miss{background:var(--cream);color:#CCC;border:1px solid var(--line);}
+.st-note{font-size:12px;color:var(--muted);flex:1;min-width:120px;}
+.sp-beat.acc{border-width:2px;border-color:var(--gold);}
+.sp-beat.D.acc{background:#FFF3C4;color:#7A4A00;border-color:var(--gold);}
+.sp-beat.D.acc.lit{background:var(--gold);color:#fff;}
+.sp-beat.muted{opacity:.75;font-style:italic;}
 
 /* ── LESSON 9: STRUMMING ── */
 .strum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:12px 0;}
@@ -1265,6 +1514,12 @@ function initVis(id){
   }
   if(id==='strumchords'){
     buildStrumChords('vis_strumchords');
+  }
+  if(id==='firstsong'){
+    buildFirstSong('vis_firstsong');
+  }
+  if(id==='findchords'){
+    buildFindChords('vis_findchords');
   }
   if(id==='chords'){
     buildChordTypes('vis_chord_types');
@@ -2189,9 +2444,43 @@ function buildStrumVis(cid){
      desc:'Three beats per bar — count 1-2-3. Used in folk ballads and traditional music.',
      beats:['D',null,'U','D',null,'U'],
      labels:['1','+','2','+','3','+']},
-    {id:'p8',name:'Boom-Chick',     sig:'4/4',diff:'i',bpm:70,
+    {id:'p8',name:'Boom-Chick',      sig:'4/4',diff:'i',bpm:70,
      desc:'Bass note on 1 & 3, strum on 2 & 4. Classic country feel.',
      beats:['D',null,'U',null,'D',null,'U',null],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p9', name:'6/8 Ballad',      sig:'6/8',diff:'b',bpm:70,
+     desc:'Two groups of three — 1-2-3 / 2-2-3. Used in House of the Rising Sun, Nothing Else Matters, and most ballads. Count in 6, not 4.',
+     beats:['D','U','U','D','U','U'],
+     labels:['1','+','a','2','+','a']},
+    {id:'p10',name:'Accented Backbeat',sig:'4/4',diff:'i',bpm:70,
+     desc:'Hit beats 2 and 4 harder (the "backbeat"). This is what makes pop and rock feel rhythmic rather than mechanical. Accent = strum louder.',
+     beats:['D',null,'D','U',null,'U','D','U'],
+     labels:['1','+','2','+','3','+','4','+'],
+     accent:[2,5]},
+    {id:'p11',name:'Palm Mute Chug',   sig:'4/4',diff:'i',bpm:75,
+     desc:'Rest the fleshy edge of your strumming hand on the strings just above the bridge — then strum. Creates a muffled "chunk" sound used in rock and country.',
+     beats:['D','D','D','D','D','D','D','D'],
+     labels:['1','+','2','+','3','+','4','+'],
+     mute:true},
+    {id:'p12',name:'Blues Shuffle',     sig:'12/8',diff:'i',bpm:72,
+     desc:'Triplet feel — each beat splits into three (1-and-a). The heartbeat of blues and swing. Once you hear it you cannot unhear it.',
+     beats:['D','U','U','D','U','U','D','U','U','D','U','U'],
+     labels:['1','+','a','2','+','a','3','+','a','4','+','a']},
+    {id:'p13',name:'Flamenco Rumba',    sig:'4/4',diff:'i',bpm:95,
+     desc:'Quick D-U-U burst on beat 1 followed by off-beat ups. The bounce behind La Bamba, Bamboleo and Spanish rumba. Fast right hand, light touch.',
+     beats:['D','U','U',null,'U',null,'D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p14',name:'Pop Ballad',        sig:'4/4',diff:'b',bpm:55,
+     desc:'Slow, floating pattern — the upstrokes on the ands carry the emotion. Common in slow pop and singer-songwriter acoustic tracks.',
+     beats:['D',null,'U','U','D','U',null,'U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p15',name:'Indie / Brit Rock', sig:'4/4',diff:'i',bpm:82,
+     desc:'Starts on the "and" of beat 1 rather than on the beat. Creates a restless, forward-driving feel common in indie, Britpop and alternative rock.',
+     beats:[null,'D','U',null,'D',null,'D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p16',name:'Power Rock',        sig:'4/4',diff:'i',bpm:88,
+     desc:'Heavy consecutive downstrokes with strategic gaps — aggressive and driving. Pair with palm muting on the first two hits for maximum punch.',
+     beats:['D','D',null,'D',null,'D','D',null],
      labels:['1','+','2','+','3','+','4','+']},
   ];
 
@@ -2210,9 +2499,13 @@ function buildStrumVis(cid){
   function cardHTML(p){
     const diffCls=p.diff==='b'?'':'adv';
     const diffLabel=p.diff==='b'?'Beginner':'Intermediate';
-    const beatBoxes=p.beats.map((b,i)=>
-      `<div class="sp-beat ${b||'skip'}" id="sb_${p.id}_${i}">${b==='D'?'↓':b==='U'?'↑':'-'}</div>`
-    ).join('');
+    const beatBoxes=p.beats.map((b,i)=>{
+      const isAccent=p.accent&&p.accent.includes(i);
+      const isMute=p.mute;
+      const cls='sp-beat '+(b||'skip')+(isAccent?' acc':'')+(isMute?' muted':'');
+      const sym=b==='D'?'↓':b==='U'?'↑':'-';
+      return '<div class="'+cls+'" id="sb_'+p.id+'_'+i+'">'+sym+(isAccent?'<sup>!</sup>':'')+'</div>';
+    }).join('');
     const lbls=p.labels.map((l,i)=>
       `<div class="sp-lbl${l==='+'?'':' strong'}">${l}</div>`
     ).join('');
@@ -2276,229 +2569,999 @@ function buildStrumVis(cid){
 function buildStrumChords(cid){
   const el=document.getElementById(cid);if(!el)return;
 
-  // Chord audio: [SN_index, fret] pairs (low to high for down, reversed for up)
   const CAUDIO={
-    Em: [[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],
-    Am: [[4,0],[3,2],[2,2],[1,1],[0,0]],
-    G:  [[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],
-    C:  [[4,3],[3,2],[2,0],[1,1],[0,0]],
-    D:  [[3,0],[2,2],[1,3],[0,2]],
-    E:  [[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
-    Dm: [[3,0],[2,2],[1,3],[0,1]],
-    A:  [[4,0],[3,2],[2,2],[1,2],[0,0]],
-    F:  [[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+    Em:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],Am:[[4,0],[3,2],[2,2],[1,1],[0,0]],
+    G:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],C:[[4,3],[3,2],[2,0],[1,1],[0,0]],
+    D:[[3,0],[2,2],[1,3],[0,2]],E:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
+    Dm:[[3,0],[2,2],[1,3],[0,1]],A:[[4,0],[3,2],[2,2],[1,2],[0,0]],
+    F:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
   };
-
-  function playChordStrum(chordName, type){
-    if(globalTone==='mute') return;
-    const notes=CAUDIO[chordName]||[];
-    const vol=type==='D'?globalVol*0.7:globalVol*0.4;
-    const ordered=type==='D'?notes:[...notes].reverse();
-    ordered.forEach(([si,f],i)=>{
-      setTimeout(()=>{try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}},
-        i*(type==='D'?18:12));
-    });
+  function playChordStrum(ch,type){
+    if(globalTone==='mute')return;
+    const notes=CAUDIO[ch]||[],vol=type==='D'?globalVol*0.7:globalVol*0.4;
+    const arr=type==='D'?notes:[...notes].reverse();
+    arr.forEach(([si,f],i)=>setTimeout(()=>{
+      try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}
+    },i*(type==='D'?18:12)));
   }
 
   const PROGRESSIONS=[
-    // ── 2-CHORD ──────────────────────────────────────────────────
-    {id:'em_am',  group:2, home:'Em', name:'Em → Am',
-     genre:'Folk · Minor feel',
-     desc:'The easiest change on guitar. Both open minor chords — melancholic and beautiful.',
-     chords:['Em','Am']},
-    {id:'g_d',    group:2, home:'G',  name:'G → D',
-     genre:'Folk · Country',
-     desc:'Two bright, open-sounding major chords. Very common in folk and country.',
-     chords:['G','D']},
-    {id:'a_e',    group:2, home:'A',  name:'A → E',
-     genre:'Rock · Blues',
-     desc:'Full and resonant. Great for practicing wide chord changes.',
-     chords:['A','E']},
-    {id:'c_am',   group:2, home:'C',  name:'C → Am',
-     genre:'Pop · Emotional',
-     desc:'C major and its relative minor. Listen to the mood shift between bright and sad.',
-     chords:['C','Am']},
-    // ── 3-CHORD ──────────────────────────────────────────────────
-    {id:'g_c_d',  group:3, home:'G',  name:'G → C → D',
-     genre:'Country · Folk · I-IV-V',
-     desc:'The classic I-IV-V in G major. This one combination unlocks hundreds of songs.',
-     chords:['G','C','D']},
-    {id:'a_d_e',  group:3, home:'A',  name:'A → D → E',
-     genre:'Rock · Blues · I-IV-V',
-     desc:'I-IV-V in A. Bright and punchy — the foundation of blues and early rock.',
-     chords:['A','D','E']},
-    {id:'am_dm_e',group:3, home:'Am', name:'Am → Dm → E',
-     genre:'Flamenco · Spanish · i-iv-V',
-     desc:'Minor i-iv-V. The E chord (major) at the end creates strong tension that pulls back to Am.',
-     chords:['Am','Dm','E']},
-    {id:'d_g_a',  group:3, home:'D',  name:'D → G → A',
-     genre:'Folk · Pop · I-IV-V',
-     desc:'I-IV-V in D. Bright, open voicing — easy to strum loudly and confidently.',
-     chords:['D','G','A']},
-    // ── 4-CHORD ──────────────────────────────────────────────────
-    {id:'g_em_c_d', group:4, home:'G',  name:'G → Em → C → D',
-     genre:'Pop · Folk · I-vi-IV-V',
-     desc:'The most-used 4-chord progression in folk and pop. G is home — everything else leads back to it.',
-     chords:['G','Em','C','D']},
-    {id:'c_g_am_f', group:4, home:'C',  name:'C → G → Am → F',
-     genre:'Pop · I-V-vi-IV',
-     desc:'I-V-vi-IV in C. Used in countless pop songs. C is home — it feels resolved and complete.',
-     chords:['C','G','Am','F']},
-    {id:'am_f_c_g', group:4, home:'Am', name:'Am → F → C → G',
-     genre:'Pop · Minor · i-VI-III-VII',
-     desc:'Same 4 chords as above but starting on Am. Darker, more emotional. Am is home here.',
-     chords:['Am','F','C','G']},
-    {id:'d_a_g_d',  group:4, home:'D',  name:'D → A → G → D',
-     genre:'Country · Rock · I-V-IV-I',
-     desc:'I-V-IV-I in D. Returns to D at the end — D is clearly home. Very satisfying to play.',
-     chords:['D','A','G','D']},
+    {id:'em_am',  group:2,home:'Em',name:'Em → Am',genre:'Folk · Minor',
+     desc:'Easiest change. Both open minor chords.',chords:['Em','Am']},
+    {id:'g_d',    group:2,home:'G', name:'G → D',  genre:'Folk · Country',
+     desc:'Two bright major chords.',chords:['G','D']},
+    {id:'a_e',    group:2,home:'A', name:'A → E',  genre:'Rock · Blues',
+     desc:'Full, resonant. Great for wide changes.',chords:['A','E']},
+    {id:'c_am',   group:2,home:'C', name:'C → Am', genre:'Pop · Emotional',
+     desc:'Major to its relative minor.',chords:['C','Am']},
+    {id:'g_c_d',  group:3,home:'G', name:'G → C → D',  genre:'Country · I-IV-V',
+     desc:'The classic I-IV-V in G.',chords:['G','C','D']},
+    {id:'a_d_e',  group:3,home:'A', name:'A → D → E',  genre:'Rock · I-IV-V',
+     desc:'I-IV-V in A. Blues and early rock.',chords:['A','D','E']},
+    {id:'am_dm_e',group:3,home:'Am',name:'Am → Dm → E',genre:'Flamenco · i-iv-V',
+     desc:'E at the end pulls strongly back to Am.',chords:['Am','Dm','E']},
+    {id:'d_g_a',  group:3,home:'D', name:'D → G → A',  genre:'Folk · I-IV-V',
+     desc:'I-IV-V in D. Bright and open.',chords:['D','G','A']},
+    {id:'g_em_c_d',group:4,home:'G', name:'G → Em → C → D',genre:'Pop · I-vi-IV-V',
+     desc:'Most used 4-chord progression.',chords:['G','Em','C','D']},
+    {id:'c_g_am_f',group:4,home:'C', name:'C → G → Am → F',genre:'Pop · I-V-vi-IV',
+     desc:'Countless pop songs. C is home.',chords:['C','G','Am','F']},
+    {id:'am_f_c_g',group:4,home:'Am',name:'Am → F → C → G',genre:'Minor Pop',
+     desc:'Same chords, darker feel.',chords:['Am','F','C','G']},
+    {id:'d_a_g_d', group:4,home:'D', name:'D → A → G → D',genre:'Country · I-V-IV-I',
+     desc:'Returns to D — very satisfying.',chords:['D','A','G','D']},
   ];
 
   const PATTERNS=[
-    {id:'pp1',name:'All Down',    beats:['D',null,'D',null,'D',null,'D',null]},
-    {id:'pp3',name:'The Essential',beats:['D',null,'D','U',null,'U','D','U']},
-    {id:'pp4',name:'Folk / Country',beats:['D',null,'D','U','D',null,'D','U']},
-    {id:'pp2',name:'Eighth Notes', beats:['D','U','D','U','D','U','D','U']},
+    // 4/4 — 8 eighth-note slots
+    {id:'pp1', name:'All Down',        sig:'4/4', beats:['D',null,'D',null,'D',null,'D',null]},
+    {id:'pp3', name:'The Essential',   sig:'4/4', beats:['D',null,'D','U',null,'U','D','U']},
+    {id:'pp4', name:'Folk / Country',  sig:'4/4', beats:['D',null,'D','U','D',null,'D','U']},
+    {id:'pp2', name:'Eighth Notes',    sig:'4/4', beats:['D','U','D','U','D','U','D','U']},
+    {id:'pp5', name:'Syncopated',      sig:'4/4', beats:['D',null,'D','U',null,'U',null,'U']},
+    {id:'pp6', name:'Reggae',          sig:'4/4', beats:[null,'U',null,'U',null,'U',null,'U']},
+    {id:'pp8', name:'Boom-Chick',      sig:'4/4', beats:['D',null,'U',null,'D',null,'U',null]},
+    {id:'pp10',name:'Accented Backbeat',sig:'4/4',beats:['D',null,'D','U',null,'U','D','U']},
+    {id:'pp11',name:'Palm Mute Chug',  sig:'4/4', beats:['D','D','D','D','D','D','D','D']},
+    {id:'pp13',name:'Flamenco Rumba',  sig:'4/4', beats:['D','U','U',null,'U',null,'D','U']},
+    {id:'pp14',name:'Pop Ballad',      sig:'4/4', beats:['D',null,'U','U','D','U',null,'U']},
+    {id:'pp15',name:'Indie / Brit Rock',sig:'4/4',beats:[null,'D','U',null,'D',null,'D','U']},
+    {id:'pp16',name:'Power Rock',      sig:'4/4', beats:['D','D',null,'D',null,'D','D',null]},
+    // 6-slot patterns (Waltz 3/4, 6/8 Ballad)
+    {id:'pp7', name:'Waltz',           sig:'3/4', beats:['D',null,'U','D',null,'U']},
+    {id:'pp9', name:'6/8 Ballad',      sig:'6/8', beats:['D','U','U','D','U','U']},
+    // 12-slot (Blues Shuffle 12/8)
+    {id:'pp12',name:'Blues Shuffle',   sig:'12/8',beats:['D','U','U','D','U','U','D','U','U','D','U','U']},
   ];
 
   let selProg=PROGRESSIONS[0], selPat=PATTERNS[0], bpm=65;
-  let playing=false, timer=null, step=0, chordIdx=0;
-  const beatsPerBar=8; // eighth notes
+  let playing=false, timer=null, step=0;
 
-  // ── Render UI ────────────────────────────────────────────────────
+  const BW=30, NOW_X=64, LOOPS=3;
+
+  function buildTape(){
+    const track=document.getElementById('sct_'+cid);
+    if(!track)return;
+    let h='';
+    for(let loop=0;loop<LOOPS;loop++){
+      selProg.chords.forEach(chord=>{
+        const beats=selPat.beats.map(b=>{
+          const cls=b==='D'?'sD':b==='U'?'sU':'sS';
+          return '<div class="sc-tb '+cls+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>';
+        }).join('');
+        h+='<div class="sc-bar"><div class="sc-bl">'+chord+'</div>'
+          +'<div class="sc-bb">'+beats+'</div></div>';
+      });
+    }
+    track.innerHTML=h;
+    track.style.transition='none';
+    track.style.transform='translateX('+NOW_X+'px)';
+  }
+
   function progCards(){
-    const groups=[2,3,4];
-    const groupLabel={2:'2-Chord Progressions',3:'3-Chord Progressions',4:'4-Chord Progressions'};
-    return groups.map(g=>{
-      const items=PROGRESSIONS.filter(p=>p.group===g);
-      return `<div class="sc-group-label">${groupLabel[g]}</div>`+
-        items.map(p=>`
-        <div class="prog-card${p.id===selProg.id?' selected':''}"
-             onclick="scProg_${cid}('${p.id}')">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;">
-            <div class="prog-name">${p.name}</div>
-            <span class="home-badge">Home: ${p.home}</span>
-          </div>
-          <div class="prog-genre">${p.genre}</div>
-          <div class="prog-seq">${p.chords.map(c=>`<span class="prog-cb">${c}</span>`).join('<span style="font-size:11px;color:var(--muted);align-self:center;padding:0 1px">→</span>')}</div>
-        </div>`).join('');
+    const arrow='<span style="font-size:10px;color:var(--muted)">→</span>';
+    const groupLabel={2:'2-Chord',3:'3-Chord',4:'4-Chord'};
+    return [2,3,4].map(g=>{
+      const hdr='<div class="sc-group-label">'+groupLabel[g]+' Progressions</div>';
+      const cards=PROGRESSIONS.filter(p=>p.group===g).map(p=>{
+        const sel=p.id===selProg.id?' selected':'';
+        const seq=p.chords.map(c=>'<span class="prog-cb">'+c+'</span>').join(arrow);
+        return '<div class="prog-card'+sel+'" onclick="scProg_'+cid+'(\''+p.id+'\')">'
+          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px">'
+          +'<div class="prog-name">'+p.name+'</div>'
+          +'<span class="home-badge">'+p.home+'</span></div>'
+          +'<div class="prog-genre">'+p.genre+'</div>'
+          +'<div class="prog-seq">'+seq+'</div></div>';
+      }).join('');
+      return hdr+cards;
     }).join('');
   }
 
   function patCards(){
-    return PATTERNS.map(p=>`
-      <div class="pat-opt${p.id===selPat.id?' selected':''}"
-           onclick="scPat_${cid}('${p.id}')">
-        <div class="pat-opt-name">${p.name}</div>
-        <div class="pat-opt-beats">${p.beats.map(b=>`<div class="pat-mini ${b||'n'}">${b==='D'?'↓':b==='U'?'↑':'-'}</div>`).join('')}</div>
-      </div>`).join('');
-  }
-
-  function chordRow(){
-    return selProg.chords.map((c,i)=>`
-      <div class="sc-chord${i===chordIdx?' active':''}" id="scch_${cid}_${i}">
-        <div class="sc-chord-name">${c}</div>
-        <div class="sc-chord-label">Bar ${i+1}</div>
-      </div>`).join('');
-  }
-
-  function beatDots(){
-    const totalBeats=selProg.chords.length*beatsPerBar;
-    return Array.from({length:totalBeats},(_,i)=>{
-      const isBarStart=i%beatsPerBar===0;
-      const isCur=i===step;
-      return `<div class="sc-beat-dot${isCur?' cur':''}${isBarStart?' bar-start':''}" id="scbd_${cid}_${i}"></div>`;
+    return PATTERNS.map(p=>{
+      const sel=p.id===selPat.id?' selected':'';
+      const slots=p.beats.slice(0,8);
+      const minis=slots.map(b=>'<div class="pat-mini '+(b||'n')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+      const extra=p.beats.length>8?'<span style="font-size:9px;color:var(--muted);align-self:center">+'+( p.beats.length-8)+'</span>':'';
+      return '<div class="pat-opt'+sel+'" onclick="scPat_'+cid+'(\''+p.id+'\')">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;gap:4px">'
+        +'<div class="pat-opt-name">'+p.name+'</div>'
+        +'<span class="sp-sig" style="font-size:9px;flex-shrink:0">'+p.sig+'</span>'
+        +'</div>'
+        +'<div class="pat-opt-beats">'+minis+extra+'</div></div>';
     }).join('');
   }
 
   function render(){
-    el.innerHTML=`
-      <div class="sc-layout">
-        <div>
-          <div class="sc-section-title">Choose a progression</div>
-          <div class="prog-list">${progCards()}</div>
-        </div>
-        <div>
-          <div class="sc-section-title">Choose a pattern</div>
-          <div class="pat-list">${patCards()}</div>
-        </div>
-      </div>
-      <div class="sc-player">
-        <div class="sc-chord-row" id="sccr_${cid}">${chordRow()}</div>
-        <div class="sc-beat-row" id="scbr_${cid}">${beatDots()}</div>
-        <div class="sc-controls">
-          <button class="sc-play-btn${playing?' playing':''}" id="scbtn_${cid}"
-                  onclick="scToggle_${cid}()">
-            ${playing?'&#9646;&#9646; Stop':'&#9654; Play'}
-          </button>
-          <div class="sc-bpm">
-            <span>BPM</span>
-            <input type="range" min="40" max="120" value="${bpm}" step="5"
-                   oninput="scBpm_${cid}(this.value)">
-            <span id="scbpmv_${cid}">${bpm}</span>
-          </div>
-        </div>
-        <p style="font-size:12px;color:var(--muted);margin-top:10px;">${selProg.desc}</p>
-      </div>`;
+    el.innerHTML=
+      // ── STICKY TOP: tape + chord label + controls ──────────────
+      '<div class="sc-sticky" id="scsticky_'+cid+'">'
+        +'<div class="sc-player-row">'
+          +'<div class="sc-win">'
+            +'<div class="sc-now-line"></div>'
+            +'<div class="sc-track" id="sct_'+cid+'"></div>'
+            +'<div class="sc-fade-l"></div>'
+            +'<div class="sc-fade-r"></div>'
+          +'</div>'
+          +'<div class="sc-chord-diag" id="scdiag_'+cid+'"></div>'
+        +'</div>'
+        +'<div class="sc-bottom-bar">'
+          +'<div class="sc-cur" id="sccur_'+cid+'">'+selProg.chords[0]+'</div>'
+          +'<button class="sc-play-btn" id="scbtn_'+cid+'" onclick="scToggle_'+cid+'()">&#9654; Play</button>'
+          +'<div class="sc-bpm">'
+            +'<span>BPM</span>'
+            +'<input type="range" min="40" max="120" value="'+bpm+'" step="5"'
+            +' oninput="scBpm_'+cid+'(this.value)">'
+            +'<span id="scbpmv_'+cid+'">'+bpm+'</span>'
+          +'</div>'
+        +'</div>'
+      +'</div>'
+      // ── TWO COLUMNS BELOW ───────────────────────────────────────
+      +'<div class="sc-cols">'
+        +'<div class="sc-col">'
+          +'<div class="sc-col-title">Chord Progressions</div>'
+          +'<div class="prog-list">'+progCards()+'</div>'
+        +'</div>'
+        +'<div class="sc-col">'
+          +'<div class="sc-col-title">Strumming Patterns</div>'
+          +'<div class="pat-list">'+patCards()+'</div>'
+        +'</div>'
+      +'</div>';
+
+    buildTape();
+    prevChordIdx=-1;
+    updateChordDiagram(selProg.chords[0]);
   }
 
-  // ── Playback ─────────────────────────────────────────────────────
-  function stop(){
-    playing=false;clearTimeout(timer);step=0;chordIdx=0;
-    const btn=document.getElementById('scbtn_'+cid);
-    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
-    // Reset highlights
-    selProg.chords.forEach((_,i)=>{
-      const e=document.getElementById('scch_'+cid+'_'+i);if(e)e.classList.remove('active');
-    });
-    document.querySelectorAll(`[id^="scbd_${cid}_"]`).forEach(e=>e.classList.remove('cur'));
-    const c0=document.getElementById('scch_'+cid+'_0');if(c0)c0.classList.add('active');
+  let prevChordIdx=-1;
+  function updateChordDiagram(name){
+    const diagEl=document.getElementById('scdiag_'+cid);
+    if(!diagEl)return;
+    const ch=CHORDS.find(c=>c.name===name&&c.cat==='open')
+            ||CHORDS.find(c=>c.name===name&&c.cat==='barre')
+            ||CHORDS.find(c=>c.name===name);
+    diagEl.innerHTML=ch?chordSVG(ch)
+      :'<div style="text-align:center;padding:24px 8px;font-size:13px;font-weight:700;color:var(--ink)">'+name+'</div>';
   }
 
   function tick(){
     if(!playing)return;
-    const totalBeats=selProg.chords.length*beatsPerBar;
-    chordIdx=Math.floor(step/beatsPerBar)%selProg.chords.length;
-    const patStep=step%beatsPerBar;
-    const beatType=selPat.beats[patStep];
-
-    // Update chord highlights
-    selProg.chords.forEach((_,i)=>{
-      const e=document.getElementById('scch_'+cid+'_'+i);
-      if(e)e.classList.toggle('active',i===chordIdx);
-    });
-    // Update beat dots
-    document.querySelectorAll(`[id^="scbd_${cid}_"]`).forEach((e,i)=>e.classList.toggle('cur',i===step));
-
-    // Play strum
-    if(beatType) playChordStrum(selProg.chords[chordIdx], beatType);
-
-    step=(step+1)%totalBeats;
-    timer=setTimeout(tick, Math.round(60000/(bpm*2)));
+    const PL=selPat.beats.length;
+    const loopLen=selProg.chords.length*PL;
+    const loopStep=step%loopLen;
+    const chordIdx=Math.floor(loopStep/PL);
+    const beatType=selPat.beats[loopStep%PL];
+    if(chordIdx!==prevChordIdx){prevChordIdx=chordIdx;updateChordDiagram(selProg.chords[chordIdx]);}
+    const track=document.getElementById('sct_'+cid);
+    if(track){
+      const newX=NOW_X-loopStep*BW;
+      if(loopStep===0&&step>0){
+        track.style.transition='none';
+        track.style.transform='translateX('+newX+'px)';
+        requestAnimationFrame(()=>{track.style.transition='transform 0.1s linear';});
+      } else {
+        track.style.transition='transform 0.1s linear';
+        track.style.transform='translateX('+newX+'px)';
+      }
+    }
+    const cur=document.getElementById('sccur_'+cid);
+    if(cur)cur.textContent=selProg.chords[chordIdx];
+    if(beatType)playChordStrum(selProg.chords[chordIdx],beatType);
+    step++;
+    timer=setTimeout(tick,Math.round(60000/(bpm*2)));
   }
 
-  // ── Handlers ─────────────────────────────────────────────────────
-  window[`scToggle_${cid}`]=function(){
+  function stop(){
+    playing=false;clearTimeout(timer);step=0;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+    const cur=document.getElementById('sccur_'+cid);
+    if(cur)cur.textContent=selProg.chords[0];
+    prevChordIdx=-1;updateChordDiagram(selProg.chords[0]);
+    const track=document.getElementById('sct_'+cid);
+    if(track){track.style.transition='none';track.style.transform='translateX('+NOW_X+'px)';}
+  }
+
+  window['scToggle_'+cid]=function(){
     if(playing){stop();return;}
     if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
-    playing=true;step=0;chordIdx=0;
+    playing=true;step=0;
     const btn=document.getElementById('scbtn_'+cid);
     if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
     tick();
   };
-  window[`scProg_${cid}`]=function(id){
+  window['scProg_'+cid]=function(id){
     stop();selProg=PROGRESSIONS.find(p=>p.id===id);render();
   };
-  window[`scPat_${cid}`]=function(id){
-    const wasPlaying=playing;stop();selPat=PATTERNS.find(p=>p.id===id);render();
-    if(wasPlaying) window[`scToggle_${cid}`]();
+  window['scPat_'+cid]=function(id){
+    const was=playing;stop();selPat=PATTERNS.find(p=>p.id===id);render();
+    if(was)window['scToggle_'+cid]();
   };
-  window[`scBpm_${cid}`]=function(v){
+  window['scBpm_'+cid]=function(v){
     bpm=parseInt(v);
     const e=document.getElementById('scbpmv_'+cid);if(e)e.textContent=v;
   };
 
   render();
+}
+
+
+
+// ── LESSON 11: First Song ─────────────────────────────────────────────
+function buildFirstSong(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  const CAUDIO={
+    Em:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],Am:[[4,0],[3,2],[2,2],[1,1],[0,0]],
+    G:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],C:[[4,3],[3,2],[2,0],[1,1],[0,0]],
+    D:[[3,0],[2,2],[1,3],[0,2]],E:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
+    Dm:[[3,0],[2,2],[1,3],[0,1]],A:[[4,0],[3,2],[2,2],[1,2],[0,0]],
+    F:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+  };
+  function playChordStrum(ch,type){
+    if(globalTone==='mute')return;
+    const notes=CAUDIO[ch]||[],vol=type==='D'?globalVol*0.7:globalVol*0.4;
+    const arr=type==='D'?notes:[...notes].reverse();
+    arr.forEach(([si,f],i)=>setTimeout(()=>{
+      try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}
+    },i*(type==='D'?18:12)));
+  }
+
+  const SONGS=[
+    // ── 2-CHORD ──────────────────────────────────────────────────────
+    // rec pattern rationale in comments
+    {id:'s1',group:2,home:'Em',bpm:68,rec:'pp1',
+     name:'Horse With No Name',artist:'America (1971)',
+     desc:'One of the few truly 2-chord songs. Em and D for the entire song — just keep it steady.',
+     chords:['Em','D']},
+    {id:'s2',group:2,home:'Em',bpm:66,rec:'pp3',
+     name:'Eleanor Rigby',artist:'The Beatles (1966)',
+     desc:'The verse alternates Em and C throughout. A timeless melody that sounds beautiful on guitar.',
+     chords:['Em','C']},
+    {id:'s3',group:2,home:'G',bpm:63,rec:'pp14',
+     name:'Wonderful Tonight',artist:'Eric Clapton (1977)',
+     desc:'Slow and tender. Clapton plays soft downstrokes — use the Pop Ballad pattern for the right feel.',
+     chords:['G','D']},
+    {id:'s4',group:2,home:'Am',bpm:72,rec:'pp5',
+     name:'Hit the Road Jack',artist:'Ray Charles (1961)',
+     desc:'Am and G drive the whole song. The syncopated pattern captures the swinging R&B groove.',
+     chords:['Am','G']},
+    // ── 3-CHORD ──────────────────────────────────────────────────────
+    {id:'s5',group:3,home:'G',bpm:65,rec:'pp3',
+     name:"Knockin' on Heaven's Door",artist:'Bob Dylan (1973)',
+     desc:"G-D-Am repeated. Dylan's most-covered song — slow, spacious and deeply moving.",
+     chords:['G','D','Am']},
+    {id:'s6',group:3,home:'D',bpm:97,rec:'pp8',
+     name:'Sweet Home Alabama',artist:'Lynyrd Skynyrd (1974)',
+     desc:'D-C-G in a driving southern rock groove. Use Boom-Chick for that signature rhythm section feel.',
+     chords:['D','C','G']},
+    {id:'s7',group:3,home:'G',bpm:75,rec:'pp4',
+     name:'Brown Eyed Girl',artist:'Van Morrison (1967)',
+     desc:'G-C-D-G for the whole song. A classic that sounds great with a steady Folk/Country strum.',
+     chords:['G','C','D']},
+    {id:'s8',group:3,home:'C',bpm:95,rec:'pp13',
+     name:'La Bamba',artist:'Ritchie Valens (1958)',
+     desc:'C-F-G in a fast rumba rhythm. The Flamenco Rumba pattern matches the original perfectly.',
+     chords:['C','F','G']},
+    // ── 4-CHORD ──────────────────────────────────────────────────────
+    {id:'s9',group:4,home:'Em',bpm:87,rec:'pp3',
+     name:'Wonderwall',artist:'Oasis (1995)',
+     desc:'Em-G-D-Am. Noel Gallagher plays D DU UDU — exactly The Essential pattern. The most-requested song at guitar shops worldwide.',
+     chords:['Em','G','D','Am']},
+    {id:'s10',group:4,home:'C',bpm:67,rec:'pp14',
+     name:'Let It Be',artist:'The Beatles (1970)',
+     desc:'C-G-Am-F. McCartney plays slow deliberate strokes — Pop Ballad captures the gentle feel of the original.',
+     chords:['C','G','Am','F']},
+    {id:'s11',group:4,home:'G',bpm:68,rec:'pp3',
+     name:'Stand By Me',artist:'Ben E. King (1961)',
+     desc:'G-Em-C-D and repeat forever. One of the most beautiful chord progressions ever written.',
+     chords:['G','Em','C','D']},
+    {id:'s12',group:4,home:'G',bpm:78,rec:'pp8',
+     name:'Take Me Home, Country Roads',artist:'John Denver (1971)',
+     desc:'G-D-Em-C. A Boom-Chick strum gives it the classic country-folk feel of the original.',
+     chords:['G','D','Em','C']},
+  ];
+
+  const PATTERNS=[
+    {id:'pp1', name:'All Down',        sig:'4/4',beats:['D',null,'D',null,'D',null,'D',null]},
+    {id:'pp3', name:'The Essential',   sig:'4/4',beats:['D',null,'D','U',null,'U','D','U']},
+    {id:'pp4', name:'Folk / Country',  sig:'4/4',beats:['D',null,'D','U','D',null,'D','U']},
+    {id:'pp2', name:'Eighth Notes',    sig:'4/4',beats:['D','U','D','U','D','U','D','U']},
+    {id:'pp5', name:'Syncopated',      sig:'4/4',beats:['D',null,'D','U',null,'U',null,'U']},
+    {id:'pp6', name:'Reggae',          sig:'4/4',beats:[null,'U',null,'U',null,'U',null,'U']},
+    {id:'pp8', name:'Boom-Chick',      sig:'4/4',beats:['D',null,'U',null,'D',null,'U',null]},
+    {id:'pp14',name:'Pop Ballad',      sig:'4/4',beats:['D',null,'U','U','D','U',null,'U']},
+    {id:'pp13',name:'Flamenco Rumba',  sig:'4/4',beats:['D','U','U',null,'U',null,'D','U']},
+    {id:'pp7', name:'Waltz',           sig:'3/4',beats:['D',null,'U','D',null,'U']},
+    {id:'pp9', name:'6/8 Ballad',      sig:'6/8',beats:['D','U','U','D','U','U']},
+    {id:'pp12',name:'Blues Shuffle',   sig:'12/8',beats:['D','U','U','D','U','U','D','U','U','D','U','U']},
+  ];
+
+  let selSong=SONGS[0], selPat=PATTERNS[0], bpm=SONGS[0].bpm;
+  let playing=false,timer=null,step=0,prevChordIdx=-1;
+
+  const BW=30,NOW_X=64,LOOPS=3;
+
+  function updateChordDiagram(name){
+    const d=document.getElementById('scdiag_'+cid);if(!d)return;
+    const ch=CHORDS.find(c=>c.name===name&&c.cat==='open')
+            ||CHORDS.find(c=>c.name===name&&c.cat==='barre')
+            ||CHORDS.find(c=>c.name===name);
+    d.innerHTML=ch?chordSVG(ch)
+      :'<div style="text-align:center;padding:20px;font-size:13px;font-weight:700;color:var(--ink)">'+name+'</div>';
+  }
+
+  function buildTape(){
+    const track=document.getElementById('sct_'+cid);if(!track)return;
+    let h='';
+    for(let loop=0;loop<LOOPS;loop++){
+      selSong.chords.forEach(chord=>{
+        const beats=selPat.beats.map(b=>'<div class="sc-tb '+(b==='D'?'sD':b==='U'?'sU':'sS')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+        h+='<div class="sc-bar"><div class="sc-bl">'+chord+'</div><div class="sc-bb">'+beats+'</div></div>';
+      });
+    }
+    track.innerHTML=h;
+    track.style.transition='none';
+    track.style.transform='translateX('+NOW_X+'px)';
+    prevChordIdx=-1;
+    updateChordDiagram(selSong.chords[0]);
+  }
+
+  function songCards(){
+    const gl={2:'2-Chord Songs',3:'3-Chord Songs',4:'4-Chord Songs'};
+    const arrow='<span style="font-size:10px;color:var(--muted)">→</span>';
+    return [2,3,4].map(g=>{
+      const hdr='<div class="sc-group-label">'+gl[g]+'</div>';
+      const cards=SONGS.filter(s=>s.group===g).map(s=>{
+        const sel=s.id===selSong.id?' selected':'';
+        const seq=s.chords.map(c=>'<span class="prog-cb">'+c+'</span>').join(arrow);
+        return '<div class="song-card'+sel+'" onclick="fsSong_'+cid+'(\''+s.id+'\')">'
+          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px">'
+          +'<div class="song-title">'+s.name+'</div>'
+          +'<span class="home-badge">'+s.home+'</span></div>'
+          +'<div class="song-artist">'+s.artist+'</div>'
+          +'<div class="song-meta"><div class="prog-seq" style="margin:0">'+seq+'</div>'
+          +'<span class="song-bpm">'+s.bpm+' BPM</span></div>'
+          +'</div>';
+      }).join('');
+      return hdr+cards;
+    }).join('');
+  }
+
+  function patCards(){
+    return PATTERNS.map(p=>{
+      const sel=p.id===selPat.id?' selected':'';
+      const minis=p.beats.slice(0,8).map(b=>'<div class="pat-mini '+(b||'n')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+      const extra=p.beats.length>8?'<span style="font-size:9px;color:var(--muted);align-self:center">+'+(p.beats.length-8)+'</span>':'';
+      const isRec=p.id===selSong.rec;
+      return '<div class="pat-opt'+sel+'" onclick="fsPat_'+cid+'(\''+p.id+'\')">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;gap:4px">'
+        +'<div class="pat-opt-name">'+p.name+(isRec?' <span style="font-size:9px;color:var(--green);font-weight:700">★ rec</span>':'')+'</div>'
+        +'<span class="sp-sig" style="font-size:9px;flex-shrink:0">'+p.sig+'</span>'
+        +'</div>'
+        +'<div class="pat-opt-beats">'+minis+extra+'</div></div>';
+    }).join('');
+  }
+
+  function render(){
+    el.innerHTML=
+      '<div class="sc-sticky">'
+        +'<div class="sc-player-row">'
+          +'<div class="sc-win">'
+            +'<div class="sc-now-line"></div>'
+            +'<div class="sc-track" id="sct_'+cid+'"></div>'
+            +'<div class="sc-fade-l"></div>'
+            +'<div class="sc-fade-r"></div>'
+          +'</div>'
+          +'<div class="sc-chord-diag" id="scdiag_'+cid+'"></div>'
+        +'</div>'
+        +'<div class="sc-bottom-bar">'
+          +'<div style="flex:1;min-width:0">'
+            +'<div class="sc-cur" id="sccur_'+cid+'">'+selSong.chords[0]+'</div>'
+            +'<div class="sc-song-label" id="scsl_'+cid+'">'+selSong.name+'</div>'
+          +'</div>'
+          +'<button class="sc-play-btn" id="scbtn_'+cid+'" onclick="fsToggle_'+cid+'()">&#9654; Play</button>'
+          +'<div class="sc-bpm"><span>BPM</span>'
+          +'<input type="range" min="40" max="120" value="'+bpm+'" step="5"'
+          +' oninput="fsBpm_'+cid+'(this.value)"><span id="scbpmv_'+cid+'">'+bpm+'</span></div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="sc-cols">'
+        +'<div class="sc-col"><div class="sc-col-title">Songs</div>'
+        +'<div class="prog-list">'+songCards()+'</div></div>'
+        +'<div class="sc-col"><div class="sc-col-title">Strumming Pattern</div>'
+        +'<div class="pat-list">'+patCards()+'</div></div>'
+      +'</div>';
+    buildTape();
+  }
+
+  function tick(){
+    if(!playing)return;
+    const PL=selPat.beats.length;
+    const loopLen=selSong.chords.length*PL;
+    const loopStep=step%loopLen;
+    const chordIdx=Math.floor(loopStep/PL);
+    const beatType=selPat.beats[loopStep%PL];
+    if(chordIdx!==prevChordIdx){
+      prevChordIdx=chordIdx;
+      updateChordDiagram(selSong.chords[chordIdx]);
+      const cur=document.getElementById('sccur_'+cid);
+      if(cur)cur.textContent=selSong.chords[chordIdx];
+    }
+    const track=document.getElementById('sct_'+cid);
+    if(track){
+      const newX=NOW_X-loopStep*BW;
+      if(loopStep===0&&step>0){
+        track.style.transition='none';
+        track.style.transform='translateX('+newX+'px)';
+        requestAnimationFrame(()=>{track.style.transition='transform 0.1s linear';});
+      } else {
+        track.style.transition='transform 0.1s linear';
+        track.style.transform='translateX('+newX+'px)';
+      }
+    }
+    if(beatType)playChordStrum(selSong.chords[chordIdx],beatType);
+    step++;
+    timer=setTimeout(tick,Math.round(60000/(bpm*2)));
+  }
+
+  function stop(){
+    playing=false;clearTimeout(timer);step=0;prevChordIdx=-1;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+    const cur=document.getElementById('sccur_'+cid);
+    if(cur)cur.textContent=selSong.chords[0];
+    const track=document.getElementById('sct_'+cid);
+    if(track){track.style.transition='none';track.style.transform='translateX('+NOW_X+'px)';}
+    updateChordDiagram(selSong.chords[0]);
+  }
+
+  window['fsToggle_'+cid]=function(){
+    if(playing){stop();return;}
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    playing=true;step=0;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    tick();
+  };
+  window['fsSong_'+cid]=function(id){
+    stop();selSong=SONGS.find(s=>s.id===id);
+    bpm=selSong.bpm;
+    selPat=PATTERNS.find(p=>p.id===selSong.rec)||PATTERNS[0];
+    render();
+    // Scroll recommended pattern into view
+    setTimeout(()=>{
+      const el2=document.querySelector('#'+cid+' .pat-opt.selected');
+      if(el2)el2.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },80);
+  };
+  window['fsPat_'+cid]=function(id){
+    const was=playing;stop();selPat=PATTERNS.find(p=>p.id===id);render();
+    if(was)window['fsToggle_'+cid]();
+  };
+  window['fsBpm_'+cid]=function(v){
+    bpm=parseInt(v);
+    const e=document.getElementById('scbpmv_'+cid);if(e)e.textContent=v;
+  };
+
+  render();
+}
+
+// ── LESSON 12: Find the Chords ───────────────────────────────────────
+function buildFindChords(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  // ── Chord templates: 12 major + 12 minor ─────────────────────────
+  const NN=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  function makeVec(root,ivs){
+    const v=new Array(12).fill(0);
+    ivs.forEach((s,i)=>{v[(root+s)%12]=i===0?1:s===7?0.8:0.6;});
+    return v;
+  }
+  const TMPLS=[];
+  NN.forEach((n,r)=>{
+    TMPLS.push({name:n,    type:'major',vec:makeVec(r,[0,4,7])});
+    TMPLS.push({name:n+'m',type:'minor',vec:makeVec(r,[0,3,7])});
+  });
+
+  function cosSim(a,b){
+    let d=0,na=0,nb=0;
+    for(let i=0;i<12;i++){d+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i];}
+    return d/(Math.sqrt(na*nb)+1e-9);
+  }
+
+  function detectChord(chroma){
+    let best=TMPLS[0],bscore=-1;
+    TMPLS.forEach(t=>{const s=cosSim(chroma,t.vec);if(s>bscore){bscore=s;best=t;}});
+    return {...best,confidence:Math.round(Math.max(0,bscore)*100)};
+  }
+
+  // ── Chroma extraction via sinusoidal correlation ──────────────────
+  function chromaFrom(samples,sr){
+    const N=samples.length;
+    // Hanning window
+    const win=samples.map((s,i)=>s*(0.5-0.5*Math.cos(2*Math.PI*i/N)));
+    const chroma=new Array(12).fill(0);
+    for(let pc=0;pc<12;pc++){
+      let energy=0;
+      for(let oct=2;oct<=5;oct++){
+        const f=440*Math.pow(2,(pc-9+(oct-4)*12)/12);
+        if(f<60||f>sr/2-1)continue;
+        const w=2*Math.PI*f/sr;
+        let si=0,co=0;
+        for(let i=0;i<N;i++){si+=win[i]*Math.sin(w*i);co+=win[i]*Math.cos(w*i);}
+        energy+=Math.sqrt(si*si+co*co)/N;
+      }
+      chroma[pc]=energy;
+    }
+    const mx=Math.max(...chroma);
+    return mx>0?chroma.map(v=>v/mx):chroma;
+  }
+
+  // ── BPM from energy onset ─────────────────────────────────────────
+  function detectBPM(samples,sr){
+    const fLen=Math.round(sr*0.05); // 50ms frames
+    const energies=[];
+    for(let i=0;i<samples.length-fLen;i+=fLen){
+      let e=0;for(let j=0;j<fLen;j++)e+=samples[i+j]*samples[i+j];
+      energies.push(Math.sqrt(e/fLen));
+    }
+    const avg=energies.reduce((a,b)=>a+b,0)/energies.length;
+    const thresh=avg*1.6;
+    const peaks=[];
+    for(let i=1;i<energies.length-1;i++){
+      if(energies[i]>thresh&&energies[i]>=energies[i-1]&&energies[i]>=energies[i+1]){
+        if(!peaks.length||i-peaks[peaks.length-1]>3)peaks.push(i);
+      }
+    }
+    if(peaks.length<4)return 80;
+    const iois=[];
+    for(let i=1;i<peaks.length;i++)iois.push((peaks[i]-peaks[i-1])*50);
+    iois.sort((a,b)=>a-b);
+    const med=iois[Math.floor(iois.length/2)];
+    return Math.max(50,Math.min(180,Math.round(60000/med)));
+  }
+
+  function suggestPattern(bpm){
+    if(bpm<60)return'Pop Ballad';
+    if(bpm<72)return'The Essential';
+    if(bpm<85)return'Folk / Country';
+    if(bpm<100)return'Eighth Notes';
+    return'Flamenco Rumba';
+  }
+
+  // ── Group consecutive same chords ────────────────────────────────
+  function groupChords(dets){
+    if(!dets.length)return[];
+    const out=[];
+    let cur={...dets[0],end:dets[0].time+0.5,confSum:dets[0].chord.confidence,cnt:1};
+    for(let i=1;i<dets.length;i++){
+      const d=dets[i];
+      if(d.chord.name===cur.chord.name){
+        cur.end=d.time+0.5;cur.confSum+=d.chord.confidence;cur.cnt++;
+      } else {
+        out.push({...cur,chord:{...cur.chord,confidence:Math.round(cur.confSum/cur.cnt)}});
+        cur={...d,end:d.time+0.5,confSum:d.chord.confidence,cnt:1};
+      }
+    }
+    out.push({...cur,chord:{...cur.chord,confidence:Math.round(cur.confSum/cur.cnt)}});
+    return out.filter(c=>(c.end-c.time)>=0.35);
+  }
+
+  // ── Key detection ─────────────────────────────────────────────────
+  function detectKey(grouped){
+    const dur={};
+    grouped.forEach(c=>{
+      const k=c.chord.name;
+      dur[k]=(dur[k]||0)+(c.end-c.time);
+    });
+    let best='',bestT=0;
+    Object.entries(dur).forEach(([k,t])=>{if(t>bestT){bestT=t;best=k;}});
+    const root=best.replace('m','');
+    const minT=grouped.filter(c=>c.chord.name===root+'m').reduce((a,c)=>a+c.end-c.time,0);
+    const majT=grouped.filter(c=>c.chord.name===root).reduce((a,c)=>a+c.end-c.time,0);
+    return {root,quality:minT>majT?'minor':'major'};
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────
+  function fmtTime(t){
+    const m=Math.floor(t/60),s=Math.floor(t%60);
+    return m+':'+(s<10?'0':'')+s;
+  }
+
+  // ── Render states ─────────────────────────────────────────────────
+  // Extra CAUDIO entries for search results (more chords than Lesson 10)
+  const CAUDIO_EX={
+    C:[[4,3],[3,2],[2,0],[1,1],[0,0]],D:[[3,0],[2,2],[1,3],[0,2]],
+    Dm:[[3,0],[2,2],[1,3],[0,1]],E:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
+    Em:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],F:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+    G:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],A:[[4,0],[3,2],[2,2],[1,2],[0,0]],
+    Am:[[4,0],[3,2],[2,2],[1,1],[0,0]],B:[[4,2],[3,4],[2,4],[1,4],[0,2]],
+    Bm:[[4,2],[3,4],[2,4],[1,3],[0,2]],'C#':[[4,4],[3,3],[2,1],[1,2],[0,4]],
+    'F#':[[5,2],[4,4],[3,4],[2,3],[1,2],[0,2]],'G#':[[4,6],[3,8],[2,8],[1,7],[0,6]],
+  };
+  function playSearchStrum(ch,type){
+    if(globalTone==='mute')return;
+    const notes=CAUDIO_EX[ch]||[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]];
+    const vol=type==='D'?globalVol*0.7:globalVol*0.4;
+    const arr=type==='D'?notes:[...notes].reverse();
+    arr.forEach(([si,f],i)=>setTimeout(()=>{
+      try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}
+    },i*(type==='D'?18:12)));
+  }
+
+  const PAT_BEATS={
+    'All Down':       ['D',null,'D',null,'D',null,'D',null],
+    'The Essential':  ['D',null,'D','U',null,'U','D','U'],
+    'Folk / Country': ['D',null,'D','U','D',null,'D','U'],
+    'Eighth Notes':   ['D','U','D','U','D','U','D','U'],
+    'Pop Ballad':     ['D',null,'U','U','D','U',null,'U'],
+    'Flamenco Rumba': ['D','U','U',null,'U',null,'D','U'],
+    'Waltz':          ['D',null,'U','D',null,'U'],
+  };
+
+  // ── Mini tape player for search results ──────────────────────────
+  let srPlaying=false, srTimer=null, srStep=0, _srProg=[], _srPatName='The Essential';
+  const SR_BW=30, SR_NOW=64, SR_LOOPS=3;
+
+  function buildSRTape(chords,patBeats){
+    const track=document.getElementById('srt_'+cid);if(!track)return;
+    let h='';
+    for(let loop=0;loop<SR_LOOPS;loop++){
+      chords.forEach(ch=>{
+        const beats=patBeats.map(b=>'<div class="sc-tb '+(b==='D'?'sD':b==='U'?'sU':'sS')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+        h+='<div class="sc-bar"><div class="sc-bl">'+ch+'</div><div class="sc-bb">'+beats+'</div></div>';
+      });
+    }
+    track.innerHTML=h;
+    track.style.transition='none';
+    track.style.transform='translateX('+SR_NOW+'px)';
+  }
+
+  function stopSR(){
+    srPlaying=false;clearTimeout(srTimer);srStep=0;
+    const btn=document.getElementById('srbtn_'+cid);
+    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+    const track=document.getElementById('srt_'+cid);
+    if(track){track.style.transition='none';track.style.transform='translateX('+SR_NOW+'px)';}
+  }
+
+  window['srToggle_'+cid]=function(){
+    const chords=_srProg, patName=_srPatName;
+    if(srPlaying){stopSR();return;}
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    srPlaying=true;srStep=0;
+    const btn=document.getElementById('srbtn_'+cid);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    const beats=PAT_BEATS[patName]||PAT_BEATS['The Essential'];
+    const PL=beats.length, loopLen=chords.length*PL;
+    let srBpm=parseInt(document.getElementById('srbpm_'+cid)?.value||70);
+    function tick(){
+      if(!srPlaying)return;
+      const loopStep=srStep%loopLen;
+      const chordIdx=Math.floor(loopStep/PL);
+      const beatType=beats[loopStep%PL];
+      const track=document.getElementById('srt_'+cid);
+      if(track){
+        const newX=SR_NOW-loopStep*SR_BW;
+        if(loopStep===0&&srStep>0){
+          track.style.transition='none';track.style.transform='translateX('+newX+'px)';
+          requestAnimationFrame(()=>{track.style.transition='transform 0.1s linear';});
+        } else {
+          track.style.transition='transform 0.1s linear';
+          track.style.transform='translateX('+newX+'px)';
+        }
+      }
+      const cur=document.getElementById('srcur_'+cid);
+      if(cur)cur.textContent=chords[chordIdx];
+      if(beatType)playSearchStrum(chords[chordIdx],beatType);
+      srStep++;
+      srBpm=parseInt(document.getElementById('srbpm_'+cid)?.value||70);
+      srTimer=setTimeout(tick,Math.round(60000/(srBpm*2)));
+    }
+    tick();
+  };
+
+  // ── Claude API search ─────────────────────────────────────────────
+  async function doSearch(query){
+    const resultsEl=document.getElementById('fcresults_'+cid);
+    if(!resultsEl)return;
+    stopSR();
+    resultsEl.innerHTML=
+      '<div class="fcc-analyzing" style="padding:24px">'
+      +'<div class="fcc-spinner">🔍</div>'
+      +'<div class="fcc-prog-label">Searching for "'+query+'"...</div>'
+      +'</div>';
+
+    const prompt='You are a guitar chord database. Return chord info for this song as JSON only.\n\n'
+      +'Query: "'+query+'"\n\n'
+      +'Rules:\n'
+      +'- Use only beginner-friendly chord names: C D E F G A B and minors (Am Em etc), sharps ok (C# F# etc)\n'
+      +'- progression: main repeating sequence, max 6 chords\n'
+      +'- strumming: use D (down) U (up) - (skip) e.g. "D - DU - UDU"\n'
+      +'- pattern_name: one of: All Down / The Essential / Folk / Country / Eighth Notes / Pop Ballad / Waltz\n'
+      +'- notes: one helpful sentence for a beginner learning this song\n\n'
+      +'Respond ONLY with this JSON (no markdown, no backticks):\n'
+      +'{"found":true,"song":"title","artist":"artist","year":"year","key":"e.g. G major",'
+      +'"capo":0,"bpm":80,"progression":["G","Em","C","D"],"strumming":"D - DU - UDU",'
+      +'"pattern_name":"The Essential","difficulty":"beginner","notes":"tip"}\n\n'
+      +'If unknown: {"found":false,"message":"not found"}';
+
+    try{
+      const resp=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-6',max_tokens:1000,
+          messages:[{role:'user',content:prompt}]
+        })
+      });
+      const data=await resp.json();
+      const raw=data.content[0].text||'';
+      const text=raw.replace(/```[a-z]*/gi,'').replace(/```/g,'').trim();
+      // Extract JSON object even if there's extra text
+      const jsonMatch=text.match(/\{[\s\S]*\}/);
+      if(!jsonMatch) throw new Error('No JSON in response: '+text.slice(0,100));
+      const result=JSON.parse(jsonMatch[0]);
+      renderSearchResult(result,query);
+    }catch(e){
+      resultsEl.innerHTML='<div class="fcc-error">⚠️ Search failed. Check your connection and try again.</div>';
+      console.error(e);
+    }
+  }
+  window['fcSearch_'+cid]=doSearch;
+
+  function renderSearchResult(r,query){
+    const resultsEl=document.getElementById('fcresults_'+cid);
+    if(!resultsEl)return;
+    if(!r.found){
+      resultsEl.innerHTML='<div class="fcc-error" style="background:var(--cream);color:var(--muted);border-color:var(--line)">'
+        +'🎸 Couldn\'t find chord data for "'+query+'". Try including the artist name — e.g. "Wonderwall Oasis".</div>';
+      return;
+    }
+
+    const prog=r.progression||[];
+    _srProg=prog;
+    _srPatName=r.pattern_name||'The Essential';
+    const patName=r.pattern_name||'The Essential';
+    const patBeats=PAT_BEATS[patName]||PAT_BEATS['The Essential'];
+    const bpm=r.bpm||70;
+
+    // Chord diagrams
+    const diagrams=prog.map(ch=>{
+      const chData=CHORDS.find(c=>c.name===ch&&c.cat==='open')
+                 ||CHORDS.find(c=>c.name===ch&&c.cat==='barre')
+                 ||CHORDS.find(c=>c.name===ch);
+      return '<div class="fcc-diag"><div class="fcc-diag-name">'+ch+'</div>'
+        +(chData?chordSVG(chData):'<div style="padding:10px;font-size:11px;color:var(--muted)">—</div>')
+        +'</div>';
+    }).join('');
+
+    // Strumming mini visual
+    const miniBeats=patBeats.map(b=>'<div class="pat-mini '+(b||'n')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+
+    const diffColor=r.difficulty==='beginner'?'var(--green)':r.difficulty==='intermediate'?'var(--gold)':'var(--red)';
+
+    resultsEl.innerHTML=
+      // Header
+      '<div class="sr-header">'
+        +'<div>'
+          +'<div class="sr-title">'+r.song+'</div>'
+          +'<div class="sr-artist">'+r.artist+(r.year?' · '+r.year:'')+'</div>'
+        +'</div>'
+        +'<div class="sr-badges">'
+          +(r.capo>0?'<span class="sr-badge">Capo '+r.capo+'</span>':'')
+          +'<span class="sr-badge">'+r.key+'</span>'
+          +'<span class="sr-badge" style="color:'+diffColor+'">'+r.difficulty+'</span>'
+        +'</div>'
+      +'</div>'
+      // Static chord progression row
+      +'<div class="sr-prog-row">'
+      +prog.map((ch,i)=>'<span class="sr-prog-ch'+(_srProg.indexOf(ch)===i?' sp-first':'')+'">'+ch+'</span>'+(i<prog.length-1?'<span class="sr-prog-arr">→</span>':'')).join('')
+      +'</div>'
+      // Tape player
+      +'<div class="sc-win sr-win" style="margin:6px 0;">'
+        +'<div class="sc-now-line"></div>'
+        +'<div class="sc-track" id="srt_'+cid+'"></div>'
+        +'<div class="sc-fade-l"></div>'
+        +'<div class="sc-fade-r"></div>'
+      +'</div>'
+      +'<div class="sr-controls">'
+        +'<div class="sc-cur" id="srcur_'+cid+'" style="font-size:22px">'+prog[0]+'</div>'
+     +'<button class="sc-play-btn" id="srbtn_'+cid+'">&#9654; Play</button>'+'<div class="sc-bpm"><span>BPM</span>'
+        +'<input type="range" id="srbpm_'+cid+'" min="40" max="160" value="'+bpm+'" step="5"'
+        +' oninput="document.getElementById(\'srbpmv_'+cid+'\').textContent=this.value">'
+        +'<span id="srbpmv_'+cid+'">'+bpm+'</span></div>'
+      +'</div>'
+      // Strumming pattern
+      +'<div class="sr-pat-row">'
+        +'<span class="sr-pat-label">Pattern: <strong>'+patName+'</strong></span>'
+        +'<div class="pat-opt-beats" style="gap:3px">'+miniBeats+'</div>'
+        +'<span style="font-size:11px;color:var(--muted)">'+r.strumming+'</span>'
+      +'</div>'
+      // Chord diagrams
+      +'<div class="fcc-section-label">Chord Diagrams</div>'
+      +'<div class="fcc-diags">'+diagrams+'</div>'
+      // Notes
+      +(r.notes?'<div class="sr-note">💡 '+r.notes+'</div>':'')
+      +(r.capo>0?'<div class="sr-note" style="background:#FFF9E6;border-color:var(--gold)">🎸 This song uses a capo at fret '+r.capo+'. The chord shapes shown are played relative to the capo.</div>':'');
+
+    // Build the tape
+    setTimeout(()=>{
+      buildSRTape(prog,patBeats);
+      const btn=document.getElementById('srbtn_'+cid);
+      if(btn) btn.addEventListener('click',()=>window['srToggle_'+cid]());
+    },50);
+  }
+
+  // ── renderUpload — now includes search bar ────────────────────────
+  function renderUpload(){
+    el.innerHTML=
+      '<div class="fcc-drop" id="fcdrop_'+cid+'">'
+      +'<div class="fcc-drop-icon">🎵</div>'
+      +'<div class="fcc-drop-title">Upload an audio file</div>'
+      +'<div class="fcc-drop-sub">Drop or tap to browse — MP3, WAV, OGG, M4A</div>'
+      +'<div class="fcc-drop-note">💡 Best results: solo acoustic guitar, clean recording</div>'
+      +'<input type="file" id="fcfile_'+cid+'" accept="audio/*" style="display:none">'
+      +'</div>'
+      +'<div class="fcc-coming-soon">'
+        +'<div class="fcs-icon">🔍</div>'
+        +'<div class="fcs-title">Search by song — coming soon</div>'
+        +'<div class="fcs-desc">Type a song name and get the chords instantly. This feature requires a secure server connection and will be available when the site moves to Hostinger.</div>'
+      +'</div>';
+
+    const dropEl=document.getElementById('fcdrop_'+cid);
+    const fileEl=document.getElementById('fcfile_'+cid);
+    if(dropEl){
+      dropEl.addEventListener('click',()=>fileEl&&fileEl.click());
+      dropEl.addEventListener('dragover',e=>{e.preventDefault();dropEl.classList.add('drag');});
+      dropEl.addEventListener('dragleave',()=>dropEl.classList.remove('drag'));
+      dropEl.addEventListener('drop',e=>{
+        e.preventDefault();dropEl.classList.remove('drag');
+        if(e.dataTransfer.files[0]) window['fcDrop_'+cid](e.dataTransfer.files[0]);
+      });
+    }
+    if(fileEl) fileEl.addEventListener('change',()=>{
+      if(fileEl.files[0]) window['fcDrop_'+cid](fileEl.files[0]);
+    });
+  }
+
+  function renderProgress(pct,msg){
+    const b=document.querySelector('#'+cid+' .fcc-prog-bar');
+    if(b){b.style.width=pct+'%';b.previousElementSibling&&(b.previousElementSibling.textContent=msg);}
+    else el.innerHTML=
+      '<div class="fcc-analyzing">'
+      +'<div class="fcc-spinner">🎸</div>'
+      +'<div class="fcc-prog-label">'+msg+'</div>'
+      +'<div class="fcc-prog-track"><div class="fcc-prog-bar" style="width:'+pct+'%"></div></div>'
+      +'<div class="fcc-prog-pct">'+Math.round(pct)+'%</div>'
+      +'</div>';
+  }
+
+  function renderResults(grouped,bpm,key){
+    const unique=[...new Map(grouped.map(c=>[c.chord.name,c.chord])).values()];
+    const pattern=suggestPattern(bpm);
+
+    const timeline=grouped.map(c=>{
+      const conf=c.chord.confidence;
+      const cls=conf>74?'hi':conf>54?'mid':'lo';
+      return '<div class="fcc-cbar">'
+        +'<span class="fcc-ctime">'+fmtTime(c.time)+'</span>'
+        +'<span class="fcc-cname">'+c.chord.name+'</span>'
+        +'<div class="fcc-cconf"><div class="fcc-cconf-fill '+cls+'" style="width:'+conf+'%"></div></div>'
+        +'<span class="fcc-cpct">'+conf+'%</span>'
+        +'</div>';
+    }).join('');
+
+    const diagrams=unique.slice(0,8).map(ch=>{
+      const chData=CHORDS.find(c=>c.name===ch.name&&c.cat==='open')
+                 ||CHORDS.find(c=>c.name===ch.name&&c.cat==='barre')
+                 ||CHORDS.find(c=>c.name===ch.name);
+      return '<div class="fcc-diag"><div class="fcc-diag-name">'+ch.name+'</div>'
+        +(chData?chordSVG(chData):'<div style="font-size:11px;color:var(--muted);padding:8px">—</div>')
+        +'</div>';
+    }).join('');
+
+    el.innerHTML=
+      '<div class="fcc-results">'
+      +'<div class="fcc-meta">'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Detected Key</span><span class="fcc-mval">'+key.root+' '+key.quality+'</span></div>'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Est. BPM</span><span class="fcc-mval">~'+bpm+'</span></div>'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Try this pattern</span><span class="fcc-mval">'+pattern+'</span></div>'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Unique chords</span><span class="fcc-mval">'+unique.length+'</span></div>'
+      +'</div>'
+      +'<div class="fcc-section-label">Chord Timeline</div>'
+      +'<div class="fcc-timeline">'+timeline+'</div>'
+      +'<div class="fcc-section-label">Detected Chord Diagrams</div>'
+      +'<div class="fcc-diags">'+diagrams+'</div>'
+      +'<button class="fcc-restart" onclick="buildFindChords(\''+cid+'\')">↩ Analyse another file</button>'
+      +'<div class="fcc-disclaimer">Results are algorithmic estimates — most accurate on solo acoustic guitar recordings with minimal effects. Complex arrangements, keys with capo, or songs with heavy production may reduce accuracy.</div>'
+      +'</div>';
+  }
+
+  // ── Main entry ────────────────────────────────────────────────────
+  window['fcDrop_'+cid]=async function(file){
+    if(!file||!file.type.startsWith('audio/')){return;}
+    renderProgress(0,'Reading file...');
+    try{
+      const buf=await file.arrayBuffer();
+      renderProgress(5,'Decoding audio...');
+      const actx=new AudioContext();
+      const audioBuf=await actx.decodeAudioData(buf);
+      const sr=audioBuf.sampleRate;
+      // Mono mix
+      let raw=audioBuf.getChannelData(0);
+      if(audioBuf.numberOfChannels>1){
+        const ch1=audioBuf.getChannelData(1);
+        raw=raw.map((s,i)=>(s+ch1[i])*0.5);
+      }
+      // Downsample ×4
+      const samples=[];
+      const maxSec=180; // analyse first 3 minutes max
+      const maxSamples=Math.min(raw.length,sr*maxSec);
+      for(let i=0;i<maxSamples;i+=4)samples.push(raw[i]);
+      const dsr=sr/4;
+
+      renderProgress(15,'Detecting tempo...');
+      await new Promise(r=>setTimeout(r,0));
+      const bpm=detectBPM(samples,dsr);
+
+      // Chord detection windows
+      const winLen=Math.round(dsr*0.8);
+      const hopLen=Math.round(dsr*0.4);
+      const detections=[];
+      let batch=0;
+
+      for(let off=0;off<samples.length-winLen;off+=hopLen){
+        const win=samples.slice(off,off+winLen);
+        const chroma=chromaFrom(win,dsr);
+        const chord=detectChord(chroma);
+        detections.push({time:off/dsr,chord});
+        batch++;
+        if(batch%6===0){
+          renderProgress(15+75*(off/samples.length),'Analysing '+fmtTime(off/dsr)+' …');
+          await new Promise(r=>setTimeout(r,0));
+        }
+      }
+
+      renderProgress(92,'Grouping chords...');
+      await new Promise(r=>setTimeout(r,0));
+      const grouped=groupChords(detections);
+      const key=detectKey(grouped);
+
+      renderProgress(100,'Done!');
+      await new Promise(r=>setTimeout(r,120));
+      renderResults(grouped,bpm,key);
+      actx.close();
+
+    }catch(err){
+      el.innerHTML='<div class="fcc-error">⚠️ Could not analyse this file.<br>Try converting to WAV first, or use a different recording.</div>'
+        +'<br><button class="fcc-restart" onclick="buildFindChords(\''+cid+'\')">↩ Try again</button>';
+      console.error(err);
+    }
+  };
+
+  renderUpload();
 }
 
 const LESSONS=[
@@ -2933,6 +3996,68 @@ const LESSONS=[
         </div>
         <div class="callout"><span class="ic">💡</span><span class="bd"><strong>The golden rule:</strong> Your strumming arm swings like a pendulum — down on the beat, up on the off-beat — at a constant tempo. Even when you skip, keep the motion going.</span></div>
       </div>
+
+      <div class="l-sec">
+        <span class="step-tag">Pick technique</span>
+        <h3>How to hold a pick</h3>
+        <p>Most beginners grip the pick too hard and too deep. A relaxed grip gives you better tone and lets you strum faster without tension.</p>
+        <div class="card">
+          <div class="pick-tips">
+            <div class="pick-tip"><span class="pt-icon">✋</span><div><strong>Grip</strong><span>Pinch between the flat of your thumb and the side of your index finger. The pick should point straight out to the right.</span></div></div>
+            <div class="pick-tip"><span class="pt-icon">📐</span><div><strong>Exposure</strong><span>Only about a third of the pick should stick out past your fingers — too much exposure causes wobble and poor tone.</span></div></div>
+            <div class="pick-tip"><span class="pt-icon">💨</span><div><strong>Angle</strong><span>Tilt the pick slightly so it glides across strings at an angle — not flat. This reduces resistance and sounds smoother.</span></div></div>
+            <div class="pick-tip"><span class="pt-icon">🔄</span><div><strong>Motion source</strong><span>For slow strumming use your whole arm from the elbow. For fast patterns, lock the elbow and use wrist rotation only.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>No pick?</strong> You can strum with your thumbnail (nail side down on downstrokes, flesh side on upstrokes). Many folk and acoustic players prefer this for a warmer tone.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">String targeting</span>
+        <h3>You don't have to hit all 6 strings every time</h3>
+        <p>Hitting all 6 strings on every strum makes everything sound muddy and uniform. Professional guitarists target different string groups on down vs. up strokes — this is what creates the natural "thud-chick" sound of acoustic rhythm guitar.</p>
+        <div class="card">
+          <div class="string-target-wrap">
+            <div class="st-row">
+              <div class="st-dir down-dir">↓ Down</div>
+              <div class="st-strings">
+                <div class="st-str hit">E</div>
+                <div class="st-str hit">A</div>
+                <div class="st-str hit">D</div>
+                <div class="st-str hit">G</div>
+                <div class="st-str soft">B</div>
+                <div class="st-str miss">e</div>
+              </div>
+              <div class="st-note">Target the low 4–5 strings. The bass strings carry the beat.</div>
+            </div>
+            <div class="st-row">
+              <div class="st-dir up-dir">↑ Up</div>
+              <div class="st-strings">
+                <div class="st-str miss">E</div>
+                <div class="st-str miss">A</div>
+                <div class="st-str miss">D</div>
+                <div class="st-str soft">G</div>
+                <div class="st-str hit">B</div>
+                <div class="st-str hit">e</div>
+              </div>
+              <div class="st-note">Brush only the top 2–3 strings. Light and airy — the "chick".</div>
+            </div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>Accents:</strong> To accent a beat (beat 2 or 4 in rock and pop), simply hit a down stroke harder and catch more strings. Your strumming arm does this naturally once you stop thinking about it.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Palm muting</span>
+        <h3>The muted "chunk" sound</h3>
+        <p>Palm muting is one of the most widely used techniques in rock, pop and country. It changes a full open strum into a tight, controlled sound and adds rhythmic texture.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Position your hand</strong> <span class="d">— rest the fleshy edge of your strumming hand (the little-finger side) lightly on the strings, very close to the saddle/bridge.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Location is everything</strong> <span class="d">— too far from the bridge sounds completely dead. Too close sounds like a normal strum. Experiment until you hear a muffled "chunk".</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Vary the pressure</strong> <span class="d">— light pressure = slightly muted. Heavy pressure = very muted thud. You can vary this mid-song for dynamics.</span></div></div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);">Try <strong>Pattern 11 (Palm Mute Chug)</strong> below — all eighth-note down strokes are best for palm muting practice.</p>
+      </div>
       <div class="l-sec">
         <span class="step-tag">Reading the notation</span>
         <h3>Beat notation</h3>
@@ -2942,9 +4067,9 @@ Strum:  ↓    -    ↓    ↑    -    ↑    ↓    ↑</div>
         <p>Start slow — 50 BPM. Speed comes from accuracy, never the other way around.</p>
       </div>
       <div class="l-sec">
-        <span class="step-tag">8 patterns</span>
-        <h3>Interactive pattern player</h3>
-        <p>The lit box shows where you are. Start with <strong>All Down</strong>, then <strong>Eighth Notes</strong>, then <strong>The Essential</strong>.</p>
+        <span class="step-tag">16 patterns</span>
+        <h3>Interactive pattern player — 16 patterns</h3>
+        <p>The lit box shows where you are. Start with <strong>All Down</strong> → <strong>The Essential</strong> → <strong>6/8 Ballad</strong>. Try <strong>Palm Mute Chug</strong> with your hand resting on the bridge.</p>
         <div class="vis-box">
           <div class="vis-title">🎵 Strumming patterns — press ▶ Play to follow along</div>
           <div id="vis_strum"></div>
@@ -3011,6 +4136,83 @@ Strum:  ↓    -    ↓    ↑    -    ↑    ↓    ↑</div>
         <div class="callout"><span class="ic">🏆</span><span class="bd"><strong>You're done when:</strong> you can play any 4-chord progression with The Essential pattern at 75 BPM without looking at your hands. That's real guitar playing.</span></div>
       </div>
       <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'strumchords','sc')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'firstsong', label:'First Song', num:'11', sections:1,
+    eyebrow:'Stage 5 · Lesson 11', title:'Your First Songs',
+    sub:'Real songs — from 2 chords to 4 chords.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">How to learn a song</span>
+        <h3>The right order</h3>
+        <p>Most beginners try to learn a song at full speed and get frustrated. The right way is the opposite — slow it right down until every chord change is clean, then gradually increase tempo.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Learn the chord shapes first</strong> <span class="d">— play each chord slowly without strumming. Make sure every note rings clean.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Practise the change in isolation</strong> <span class="d">— just go back and forth between two chords until the transition is automatic. Use the 1-minute change exercise.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Add All Down strumming</strong> <span class="d">— one downstroke per beat at 50 BPM. Don't add complexity until the changes are solid.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Add the real pattern</strong> <span class="d">— once changes are automatic, switch to the recommended pattern. Then slowly raise the BPM.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>The 80% rule:</strong> If you can play a song cleanly at 80% of its real tempo, you're ready to try it at full speed. Practising too fast builds bad habits that are hard to undo.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Play along</span>
+        <h3>Pick a song and a pattern — press ▶ Play</h3>
+        <p>Each song has a <span style="color:var(--green);font-weight:700">★ rec</span> pattern that matches the original feel. Start with <strong>All Down</strong> first, then switch to the recommended pattern once the chord changes feel comfortable.</p>
+        <div class="vis-box">
+          <div class="vis-title">🎵 First Songs — play along</div>
+          <div id="vis_firstsong"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">What next</span>
+        <h3>You're playing real songs</h3>
+        <p>Once you can play any song in this list with its recommended pattern at the original BPM — without looking at your hands — you have crossed the most important threshold in learning guitar.</p>
+        <div class="callout"><span class="ic">🏆</span><span class="bd"><strong>Your goal:</strong> Pick one 4-chord song and learn it all the way through. "Stand By Me", "Let It Be", or "Take Me Home Country Roads" are perfect first songs. Put on the original recording and play along.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'firstsong','fs')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'findchords',label:'Find the Chords',num:'12',sections:1,
+    eyebrow:'Stage 5 · Lesson 12',title:'Find the Chords',
+    sub:'Upload any acoustic recording — we analyse the chords automatically.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">How it works</span>
+        <h3>Chord detection from audio</h3>
+        <p>This tool analyses the frequency content of your audio file and extracts a <span class="hl">chroma fingerprint</span> — a measure of how much each of the 12 musical notes is present at each moment. It then compares that fingerprint against all 24 major and minor chord templates and picks the best match.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">✓</span><div><strong>Works well on</strong> <span class="d">— solo acoustic guitar, clean studio recordings, simple arrangements with 1-2 instruments.</span></div></div>
+            <div class="pl"><span class="n">△</span><div><strong>Reduced accuracy on</strong> <span class="d">— full band recordings, heavy distortion, songs with capo (chords will show in the wrong key), songs with complex jazz chords.</span></div></div>
+            <div class="pl"><span class="n">✕</span><div><strong>Cannot detect</strong> <span class="d">— sus, add9, or extended chords beyond major/minor. These will be mapped to the closest match.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>Tip:</strong> WAV files give the best results. If you have an MP3, try converting it to WAV first. Longer recordings may take 5–10 seconds to analyse.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Chord analyser</span>
+        <h3>Upload an audio file</h3>
+        <div class="vis-box">
+          <div id="vis_findchords"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Using the results</span>
+        <h3>What to do with the output</h3>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Check the key</strong> <span class="d">— the key tells you which scale to use for improvising or writing your own parts.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Learn the unique chords</strong> <span class="d">— find the detected chord diagrams in Lesson 8, practise each shape, then put them together.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Try the suggested pattern</strong> <span class="d">— based on the detected BPM, we suggest a strumming pattern from Lesson 9. Start there and adjust to taste.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Use Lesson 10 to practise</strong> <span class="d">— once you know the chords, build your own progression in the Lesson 10 player and strum along.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'findchords','fc')"><span class="chk-i">○</span> Mark as done</button></div>`,
   }
 ];
 renderNav();
