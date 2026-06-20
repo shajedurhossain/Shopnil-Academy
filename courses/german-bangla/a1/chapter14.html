@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>অধ্যায় ৬: Prüfungsvorbereitung | Shopnil Academy German A1</title>
+  <title>অধ্যায় ১৩: Prüfungsvorbereitung | Shopnil Academy German A1</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans:wght@400;500;600;700&subset=latin,latin-ext&display=swap" rel="stylesheet">
   <style>
@@ -693,13 +693,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <img src="../../../assets/logo.png" alt="Shopnil Academy" />
     <span class="sn-name"><strong>Shopnil Academy</strong><small>German A1 · Course</small></span>
   </a>
-  
+  <nav class="sn-links">
+    <a href="../../../index.html">Home</a>
+    <a href="../../../courses.html">Courses</a>
+    <a href="index.html">Course page</a>
+  </nav>
   <a href="../../../courses.html" class="sn-cta">All courses →</a>
 </header>
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">☰</button>
   <span class="tb-level">A1</span>
-  <div class="tb-title">অধ্যায় ৬ — Prüfungsvorbereitung</div>
+  <div class="tb-title">অধ্যায় ১৩ — Prüfungsvorbereitung</div>
   <div class="tb-right">
     <div class="streak-chip" onclick="go('home','nav-home')" title="Streak">
       <span class="streak-fire">🔥</span>
@@ -1426,7 +1430,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
     <div class="week-hdr" id="wh6" onclick="toggleWeek(6)">
-      <span class="week-pill">অধ্যায় ৬</span>
+      <span class="week-pill">অধ্যায় ১৩</span>
       <span class="week-name">Prüfungsvorbereitung<br><span style="font-size:.65rem;font-weight:400;opacity:.6">Goethe · Telc A1</span></span>
       <span class="week-arr">▶</span>
     </div>
@@ -4155,24 +4159,12 @@ function addLessonToSRS(){
   alert('এই পাঠের ফাইলে যান ও শব্দ যোগ করুন।');
 }
 
-// Merge W234 data
-if(typeof W234!=='undefined'){
-  if(typeof qzData!=='undefined')Object.assign(qzData,W234.quizData);
-  if(typeof fitbData!=='undefined')Object.assign(fitbData,W234.fitbData);
-}
-
-window.onload = function() {
+document.addEventListener("DOMContentLoaded",function(){
   updateUI();
-  buildRewardUI();
-  var params = new URLSearchParams(window.location.search);
-  var lesson = params.get('lesson');
-  if (lesson && document.getElementById('page-' + lesson)) {
-    go(lesson, 'nav-' + lesson);
-  } else {
-    toggleWeek(14);
-    go('schr-intro','nav-schr');
-  }
-};
+  refreshRewardUI();
+  toggleWeek(6);
+  go('schr-intro','nav-schr');
+});
 </script>
 </body>
 </html>
