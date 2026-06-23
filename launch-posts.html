@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Launch posts — German A1 · Shopnil Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --green: #006A4E;
+    --green-dark: #052B1F;
+    --gold: #E8B72A;
+    --red: #F42A41;
+    --cream: #FBF8F0;
+    --ink: #0F2418;
+    --muted: #65766E;
+    --line: rgba(15, 36, 24, .08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    color: var(--ink);
+    background: #FBF8F0;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .bn { font-family: 'Hind Siliguri', sans-serif; }
+  h1, h2, h3, h4 { font-family: 'Sora', sans-serif; letter-spacing: -.02em; margin: 0; line-height: 1.15; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header.page-head {
+    background: var(--green-dark); color: #fff;
+    padding: 48px 0 36px;
+    border-bottom: 4px solid var(--gold);
+  }
+  header h1 { color: #fff; font-size: clamp(32px, 4vw, 44px); margin-bottom: 10px; }
+  header p.sub { font-size: 17px; color: rgba(255,255,255,.75); max-width: 640px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--gold); color: var(--green-dark);
+    padding: 5px 12px; border-radius: 999px;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: .04em;
+    margin-bottom: 18px;
+  }
+
+  /* Nav (tabs) */
+  .platform-nav {
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 10;
+    padding: 14px 0;
+  }
+  .platform-nav .wrap {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+  }
+  .platform-nav .label {
+    font-size: 13px; color: var(--muted); margin-right: 8px; font-weight: 600;
+    letter-spacing: .04em;
+  }
+  .plat-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 999px;
+    background: var(--cream); border: 1px solid var(--line);
+    font-size: 13px; font-weight: 600;
+    text-decoration: none; color: var(--ink);
+    cursor: pointer;
+    transition: all .15s ease;
+  }
+  .plat-pill:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .plat-pill .ic { font-size: 14px; }
+
+  /* Platform section */
+  .platform {
+    padding: 56px 0 32px;
+    scroll-margin-top: 80px;
+  }
+  .platform-head {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 12px;
+  }
+  .platform-head .badge {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: grid; place-items: center; font-size: 22px;
+    color: #fff;
+  }
+  .badge.fb { background: #1877F2; }
+  .badge.ig { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+  .badge.x { background: #000; }
+  .badge.li { background: #0A66C2; }
+  .badge.yt { background: #FF0000; }
+  .platform h2 { font-size: 30px; }
+  .platform .stats {
+    margin-left: auto; display: flex; gap: 14px;
+    font-size: 12px; color: var(--muted);
+  }
+  .platform .stats span strong { color: var(--ink); font-family: 'Sora'; font-weight: 600; }
+  .platform p.meta { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+  /* Toggle for English / Bangla */
+  .lang-toggle {
+    display: inline-flex;
+    background: var(--cream); border: 1px solid var(--line);
+    border-radius: 999px; padding: 4px;
+    margin-bottom: 20px;
+  }
+  .lang-btn {
+    padding: 7px 16px; border-radius: 999px;
+    border: 0; background: transparent;
+    font-family: inherit; font-size: 13px; font-weight: 600;
+    color: var(--muted); cursor: pointer;
+  }
+  .lang-btn.active { background: var(--green); color: #fff; }
+
+  /* Post card */
+  .post-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 0;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .post-head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 20px;
+    background: var(--cream);
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .post-head .label { font-family: 'Sora'; font-weight: 600; color: var(--ink); }
+  .post-head .copy-btn {
+    background: var(--green); color: #fff;
+    padding: 7px 14px; border-radius: 999px;
+    border: 0; font-family: inherit; font-size: 12px; font-weight: 700;
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .post-head .copy-btn:hover { background: var(--green-dark); }
+  .post-head .copy-btn.copied { background: var(--gold); color: var(--green-dark); }
+  .post-body {
+    padding: 22px 24px;
+    white-space: pre-wrap;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    font-family: inherit;
+  }
+  .post-body.bn { font-family: 'Hind Siliguri', sans-serif; font-size: 16px; line-height: 1.7; }
+  .post-body[hidden] { display: none; }
+
+  .hashtags {
+    margin-top: 14px;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* Tip box */
+  .tip {
+    background: linear-gradient(135deg, rgba(232,183,42,.12), rgba(0,106,78,.08));
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .tip strong { font-family: 'Sora'; font-weight: 600; }
+
+  /* Universal section */
+  .universal-list {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 32px;
+  }
+  .universal-list ul {
+    list-style: none; padding: 0; margin: 12px 0 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .universal-list li {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 14px; background: var(--cream); border-radius: 10px;
+    font-size: 14px;
+  }
+  .universal-list .ic {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: var(--green); color: #fff;
+    display: grid; place-items: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  footer.page-foot {
+    background: var(--ink); color: rgba(255,255,255,.7);
+    padding: 32px 0; margin-top: 40px;
+    text-align: center;
+    font-size: 13px;
+  }
+  footer a { color: var(--gold); }
+
+  @media (max-width: 640px) {
+    .universal-list ul { grid-template-columns: 1fr; }
+    .platform .stats { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="pill">📣 LAUNCH KIT</span>
+    <h1>German A1 Launch — Social Posts</h1>
+    <p class="sub">Ready-to-copy launch posts for Facebook, Instagram, X, LinkedIn, and YouTube. <strong>English and Bangla</strong> versions for each. Click "Copy" to grab the text.</p>
+  </div>
+</header>
+
+<nav class="platform-nav">
+  <div class="wrap">
+    <span class="label">JUMP TO:</span>
+    <a href="#facebook" class="plat-pill"><span class="ic">📘</span> Facebook</a>
+    <a href="#instagram" class="plat-pill"><span class="ic">📷</span> Instagram</a>
+    <a href="#twitter" class="plat-pill"><span class="ic">𝕏</span> X / Twitter</a>
+    <a href="#linkedin" class="plat-pill"><span class="ic">💼</span> LinkedIn</a>
+    <a href="#youtube" class="plat-pill"><span class="ic">▶</span> YouTube</a>
+    <a href="#universal" class="plat-pill"><span class="ic">🌍</span> Universal</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- =================== UNIVERSAL ASSETS =================== -->
+  <section class="platform" id="universal">
+    <div class="platform-head">
+      <div class="badge" style="background: linear-gradient(135deg, var(--green), var(--gold));">🌍</div>
+      <h2>Universal — use everywhere</h2>
+    </div>
+    <p class="meta">These work on every platform. Use these as your profile bio, "about" sections, and link descriptions.</p>
+
+    <div class="universal-list">
+      <h3 style="font-size: 18px; margin-bottom: 6px;">📌 Bio / "About us" text (~140 chars)</h3>
+      <p style="font-size: 13px; color: var(--muted); margin-bottom: 16px;">Put this on every social profile's bio field. Same text everywhere = consistent branding.</p>
+
+      <div class="post-card">
+        <div class="post-head">
+          <span class="label">English bio</span>
+          <button class="copy-btn" data-copy="Free online courses in bioinformatics, languages, math & guitar. Built for learners worldwide. 🌱 German A1 live now. shopnilacademy.com">Copy</button>
+        </div>
+        <div class="post-body">Free online courses in bioinformatics, languages, math & guitar. Built for learners worldwide. 🌱 German A1 live now. shopnilacademy.com</div>
+      </div>
+
+      <div class="post-card">
+        <div class="post-head">
+          <span class="label">Bangla bio</span>
+          <button class="copy-btn" data-copy="🎓 ১০০% ফ্রি অনলাইন কোর্স — ভাষা, গণিত, বিজ্ঞান ও গিটার। জার্মান A1 এখন লাইভ! shopnilacademy.com">Copy</button>
+        </div>
+        <div class="post-body bn">🎓 ১০০% ফ্রি অনলাইন কোর্স — ভাষা, গণিত, বিজ্ঞান ও গিটার। জার্মান A1 এখন লাইভ! shopnilacademy.com</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 Pro tip:</strong> After posting your launch, <strong>pin the post</strong> to the top of each profile so visitors see it first. Most platforms let you pin via the post's "..." menu.
+    </div>
+  </section>
+
+  <!-- =================== FACEBOOK =================== -->
+  <section class="platform" id="facebook">
+    <div class="platform-head">
+      <div class="badge fb">f</div>
+      <h2>Facebook</h2>
+      <div class="stats">
+        <span>Limit: <strong>~5000 chars</strong></span>
+        <span>Best length: <strong>~150 words</strong></span>
+        <span>Use: <strong>1-3 hashtags</strong></span>
+      </div>
+    </div>
+    <p class="meta">Facebook rewards storytelling and community-style posts. Be warm. Tag friends who'd love it. The link preview will show your share image.</p>
+
+    <div class="lang-toggle" data-section="fb">
+      <button class="lang-btn active" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="bn">বাংলা</button>
+    </div>
+
+    <div class="post-card" data-section="fb" data-lang="en">
+      <div class="post-head">
+        <span class="label">📘 Facebook launch post (English)</span>
+        <button class="copy-btn" data-copy="Something I've been quietly building for months is finally live. ✨
+
+I made a 100% free German A1 course — taught entirely in Bangla — at Shopnil Academy.
+
+Here's why: I watched too many Bangla speakers struggle to learn German through expensive English-only courses. Trying to learn two languages at once is brutal. So I built something different: explained from scratch, in the language you already think in.
+
+🎯 What's in it:
+• Complete A1 curriculum (alphabet to first conversations)
+• Grammar explained in Bangla, examples from real life
+• Exercises, vocabulary, pronunciation guides
+• Track your progress, build a streak
+
+It's 100% free, forever. No paywall. No premium tier. Funded entirely by tasteful ads — that's our promise.
+
+A2 through C2 are being built. If you (or someone you know) wants to learn German for university, work, or travel — start here:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+Tag a friend who's planning to go to Germany. 🇩🇪🇧🇩">Copy</button>
+      </div>
+      <div class="post-body">Something I've been quietly building for months is finally live. ✨
+
+I made a 100% free German A1 course — taught entirely in Bangla — at Shopnil Academy.
+
+Here's why: I watched too many Bangla speakers struggle to learn German through expensive English-only courses. Trying to learn two languages at once is brutal. So I built something different: explained from scratch, in the language you already think in.
+
+🎯 What's in it:
+• Complete A1 curriculum (alphabet to first conversations)
+• Grammar explained in Bangla, examples from real life
+• Exercises, vocabulary, pronunciation guides
+• Track your progress, build a streak
+
+It's 100% free, forever. No paywall. No premium tier. Funded entirely by tasteful ads — that's our promise.
+
+A2 through C2 are being built. If you (or someone you know) wants to learn German for university, work, or travel — start here:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+Tag a friend who's planning to go to Germany. 🇩🇪🇧🇩
+
+<span class="hashtags">#LearnGerman #FreeEducation #ShopnilAcademy #StudyInGermany #BanglaLearners</span></div>
+    </div>
+
+    <div class="post-card" data-section="fb" data-lang="bn" hidden>
+      <div class="post-head">
+        <span class="label">📘 Facebook launch post (Bangla)</span>
+        <button class="copy-btn" data-copy="মাসের পর মাস কাজ করেছি যেটা নিয়ে — সেটা অবশেষে লাইভ! ✨
+
+স্বপ্নীল একাডেমিতে আমি বানিয়েছি একটি ১০০% ফ্রি জার্মান A1 কোর্স — সম্পূর্ণ বাংলায়।
+
+কেন বানালাম? অনেক বাংলাভাষীকে দেখেছি যারা ইংরেজি মাধ্যমের জার্মান কোর্স কিনে কষ্ট করছেন। একসাথে দুইটা ভাষা শেখা ভয়াবহ কঠিন। তাই বানালাম এমন একটি কোর্স — যেটা আপনার মাতৃভাষায় ব্যাখ্যা করা।
+
+🎯 কোর্সে যা পাবেন:
+• সম্পূর্ণ A1 পাঠ্যক্রম (বর্ণমালা থেকে প্রথম কথোপকথন)
+• বাংলায় ব্যাকরণ ব্যাখ্যা, বাস্তব জীবনের উদাহরণ
+• অনুশীলনী, শব্দভাণ্ডার, উচ্চারণ গাইড
+• অগ্রগতি ট্র্যাকিং, স্ট্রিক ফিচার
+
+১০০% ফ্রি — আজীবন। কোনো পেওয়াল নেই, কোনো প্রিমিয়াম টিয়ার নেই। শুধু রুচিশীল বিজ্ঞাপনের মাধ্যমে চলে — এটাই আমাদের প্রতিশ্রুতি।
+
+A2 থেকে C2 — ধাপে ধাপে তৈরি হচ্ছে। আপনি বা আপনার পরিচিত কেউ যদি পড়াশোনা, চাকরি বা ভ্রমণের জন্য জার্মান শিখতে চান — এখান থেকে শুরু করুন:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+জার্মানি যাওয়ার পরিকল্পনা আছে এমন বন্ধুকে ট্যাগ করুন। 🇩🇪🇧🇩">Copy</button>
+      </div>
+      <div class="post-body bn">মাসের পর মাস কাজ করেছি যেটা নিয়ে — সেটা অবশেষে লাইভ! ✨
+
+স্বপ্নীল একাডেমিতে আমি বানিয়েছি একটি ১০০% ফ্রি জার্মান A1 কোর্স — সম্পূর্ণ বাংলায়।
+
+কেন বানালাম? অনেক বাংলাভাষীকে দেখেছি যারা ইংরেজি মাধ্যমের জার্মান কোর্স কিনে কষ্ট করছেন। একসাথে দুইটা ভাষা শেখা ভয়াবহ কঠিন। তাই বানালাম এমন একটি কোর্স — যেটা আপনার মাতৃভাষায় ব্যাখ্যা করা।
+
+🎯 কোর্সে যা পাবেন:
+• সম্পূর্ণ A1 পাঠ্যক্রম (বর্ণমালা থেকে প্রথম কথোপকথন)
+• বাংলায় ব্যাকরণ ব্যাখ্যা, বাস্তব জীবনের উদাহরণ
+• অনুশীলনী, শব্দভাণ্ডার, উচ্চারণ গাইড
+• অগ্রগতি ট্র্যাকিং, স্ট্রিক ফিচার
+
+১০০% ফ্রি — আজীবন। কোনো পেওয়াল নেই, কোনো প্রিমিয়াম টিয়ার নেই। শুধু রুচিশীল বিজ্ঞাপনের মাধ্যমে চলে — এটাই আমাদের প্রতিশ্রুতি।
+
+A2 থেকে C2 — ধাপে ধাপে তৈরি হচ্ছে। আপনি বা আপনার পরিচিত কেউ যদি পড়াশোনা, চাকরি বা ভ্রমণের জন্য জার্মান শিখতে চান — এখান থেকে শুরু করুন:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+জার্মানি যাওয়ার পরিকল্পনা আছে এমন বন্ধুকে ট্যাগ করুন। 🇩🇪🇧🇩
+
+<span class="hashtags">#স্বপ্নীল_একাডেমি #জার্মান_শিখুন #ফ্রি_কোর্স #StudyInGermany #LearnGerman</span></div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 Where to share on Facebook:</strong> Post on your <strong>page</strong> first. Then share it to relevant groups: <em>"Bangladeshi Students in Germany"</em>, <em>"Study in Germany Bangladesh"</em>, <em>"DAAD Bangladesh"</em>, <em>"German Language Learners Bangladesh"</em>. Search for these — most have 10k+ members.
+    </div>
+  </section>
+
+  <!-- =================== INSTAGRAM =================== -->
+  <section class="platform" id="instagram">
+    <div class="platform-head">
+      <div class="badge ig">📷</div>
+      <h2>Instagram</h2>
+      <div class="stats">
+        <span>Caption limit: <strong>2,200 chars</strong></span>
+        <span>Best length: <strong>~125 words</strong></span>
+        <span>Hashtags: <strong>5-10 max</strong></span>
+      </div>
+    </div>
+    <p class="meta">Instagram is visual — your launch graphic does the heavy lifting. Caption should hook in the first 1-2 lines (before the "...more"). Put hashtags in the <strong>first comment</strong>, not the caption.</p>
+
+    <div class="lang-toggle" data-section="ig">
+      <button class="lang-btn active" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="bn">বাংলা</button>
+    </div>
+
+    <div class="post-card" data-section="ig" data-lang="en">
+      <div class="post-head">
+        <span class="label">📷 Instagram caption (English)</span>
+        <button class="copy-btn" data-copy="Learn German. Pay nothing. Forever. 🇩🇪✨
+
+Something I've been quietly building for months: a 100% free German A1 course, taught entirely in Bangla.
+
+Why? Trying to learn German through English-only courses is learning two languages at once. Exhausting. So I built one that starts where you actually are — in your native language.
+
+✅ Complete A1 curriculum
+✅ Grammar in Bangla, examples from real life
+✅ Pronunciation, vocabulary, exercises
+✅ Track your progress
+✅ 100% free, forever — no paywall ever
+
+A2 through C2 are coming. Link in bio to start learning.
+
+Tag a friend planning to study or work in Germany 🇩🇪🇧🇩">Copy</button>
+      </div>
+      <div class="post-body">Learn German. Pay nothing. Forever. 🇩🇪✨
+
+Something I've been quietly building for months: a 100% free German A1 course, taught entirely in Bangla.
+
+Why? Trying to learn German through English-only courses is learning two languages at once. Exhausting. So I built one that starts where you actually are — in your native language.
+
+✅ Complete A1 curriculum
+✅ Grammar in Bangla, examples from real life
+✅ Pronunciation, vocabulary, exercises
+✅ Track your progress
+✅ 100% free, forever — no paywall ever
+
+A2 through C2 are coming. Link in bio to start learning.
+
+Tag a friend planning to study or work in Germany 🇩🇪🇧🇩</div>
+    </div>
+
+    <div class="post-card" data-section="ig" data-lang="bn" hidden>
+      <div class="post-head">
+        <span class="label">📷 Instagram caption (Bangla)</span>
+        <button class="copy-btn" data-copy="জার্মান শিখুন। কোনো টাকা লাগবে না। আজীবন ফ্রি। 🇩🇪✨
+
+মাসের পর মাস চুপচাপ যেটা বানিয়েছি — সম্পূর্ণ বাংলায় শেখানো ১০০% ফ্রি জার্মান A1 কোর্স।
+
+কেন? ইংরেজি মাধ্যমে জার্মান শেখা মানে একসাথে দুটো ভাষা শেখা। অসহনীয়। তাই এমন একটি কোর্স বানালাম — যেটা শুরু হয় আপনার মাতৃভাষা থেকে।
+
+✅ সম্পূর্ণ A1 পাঠ্যক্রম
+✅ বাংলায় ব্যাকরণ, বাস্তব উদাহরণ
+✅ উচ্চারণ, শব্দভাণ্ডার, অনুশীলনী
+✅ অগ্রগতি ট্র্যাকিং
+✅ ১০০% ফ্রি, আজীবন — কোনো পেওয়াল নেই
+
+A2 থেকে C2 আসছে। বায়োতে লিংক — এখনই শুরু করুন।
+
+জার্মানিতে পড়াশোনা বা চাকরির পরিকল্পনা আছে এমন বন্ধুকে ট্যাগ করুন 🇩🇪🇧🇩">Copy</button>
+      </div>
+      <div class="post-body bn">জার্মান শিখুন। কোনো টাকা লাগবে না। আজীবন ফ্রি। 🇩🇪✨
+
+মাসের পর মাস চুপচাপ যেটা বানিয়েছি — সম্পূর্ণ বাংলায় শেখানো ১০০% ফ্রি জার্মান A1 কোর্স।
+
+কেন? ইংরেজি মাধ্যমে জার্মান শেখা মানে একসাথে দুটো ভাষা শেখা। অসহনীয়। তাই এমন একটি কোর্স বানালাম — যেটা শুরু হয় আপনার মাতৃভাষা থেকে।
+
+✅ সম্পূর্ণ A1 পাঠ্যক্রম
+✅ বাংলায় ব্যাকরণ, বাস্তব উদাহরণ
+✅ উচ্চারণ, শব্দভাণ্ডার, অনুশীলনী
+✅ অগ্রগতি ট্র্যাকিং
+✅ ১০০% ফ্রি, আজীবন — কোনো পেওয়াল নেই
+
+A2 থেকে C2 আসছে। বায়োতে লিংক — এখনই শুরু করুন।
+
+জার্মানিতে পড়াশোনা বা চাকরির পরিকল্পনা আছে এমন বন্ধুকে ট্যাগ করুন 🇩🇪🇧🇩</div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-head">
+        <span class="label">🏷️ Hashtags — paste in first comment (works for both languages)</span>
+        <button class="copy-btn" data-copy="#LearnGerman #GermanForBeginners #FreeGermanCourse #BanglaLearners #StudyInGermany #ShopnilAcademy #DAADBangladesh #GermanLanguage #BanglaToGerman #DeutschLernen #স্বপ্নীল_একাডেমি #জার্মান_শিখুন #বাংলায়_জার্মান">Copy</button>
+      </div>
+      <div class="post-body">#LearnGerman #GermanForBeginners #FreeGermanCourse #BanglaLearners #StudyInGermany #ShopnilAcademy #DAADBangladesh #GermanLanguage #BanglaToGerman #DeutschLernen #স্বপ্নীল_একাডেমি #জার্মান_শিখুন #বাংলায়_জার্মান</div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 Instagram strategy:</strong> Don't just post once. Make it a <strong>carousel of 5 slides</strong>: (1) "Learn German. Pay nothing. Ever." (2) "Built for Bangla speakers", (3) "What's in A1", (4) "Why free?", (5) "Link in bio". Carousels get 3x the reach of single posts.
+    </div>
+  </section>
+
+  <!-- =================== TWITTER / X =================== -->
+  <section class="platform" id="twitter">
+    <div class="platform-head">
+      <div class="badge x">𝕏</div>
+      <h2>X (Twitter)</h2>
+      <div class="stats">
+        <span>Char limit: <strong>280</strong></span>
+        <span>Threads: <strong>unlimited</strong></span>
+        <span>Hashtags: <strong>1-2 max</strong></span>
+      </div>
+    </div>
+    <p class="meta">X rewards punchy + clear. Lead with the hook. Use a thread to share more context. Image attached = 2x engagement.</p>
+
+    <div class="lang-toggle" data-section="x">
+      <button class="lang-btn active" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="bn">বাংলা</button>
+    </div>
+
+    <!-- English single tweet -->
+    <div class="post-card" data-section="x" data-lang="en">
+      <div class="post-head">
+        <span class="label">𝕏 Single tweet (English)</span>
+        <button class="copy-btn" data-copy="Launched: a 100% free German A1 course — taught entirely in Bangla.
+
+Because learning German through English is learning two languages at once. Exhausting.
+
+This is just the start. A2→C2 coming. No paywall. Ever.
+
+🇩🇪🇧🇩 shopnilacademy.com/courses/german-bangla/">Copy</button>
+      </div>
+      <div class="post-body">Launched: a 100% free German A1 course — taught entirely in Bangla.
+
+Because learning German through English is learning two languages at once. Exhausting.
+
+This is just the start. A2→C2 coming. No paywall. Ever.
+
+🇩🇪🇧🇩 shopnilacademy.com/courses/german-bangla/</div>
+    </div>
+
+    <!-- English thread -->
+    <div class="post-card" data-section="x" data-lang="en">
+      <div class="post-head">
+        <span class="label">𝕏 Thread (English) — 5 tweets</span>
+        <button class="copy-btn" data-copy="1/ Today I'm launching something I've been quietly building for months.
+
+A 100% free German A1 course — taught entirely in Bangla. 🇩🇪🇧🇩
+
+shopnilacademy.com/courses/german-bangla/
+
+---
+
+2/ Most online German courses for Bangla speakers are taught in English.
+
+Which means you're learning two languages at once. It's exhausting and most people quit.
+
+---
+
+3/ So I built one that starts where you actually are: in your mother tongue.
+
+Bangla explanations. Bangla examples. The German you'll actually use, taught the way it should be.
+
+---
+
+4/ What's in A1:
+• Alphabet & pronunciation
+• Greetings, numbers, dates
+• Present tense + basic grammar
+• 500+ vocabulary words
+• Exercises & quizzes
+• Progress tracking
+
+100% free. Forever.
+
+---
+
+5/ This is just the beginning. A2 through C2 are being built — same approach, same promise.
+
+Try the A1 course today, completely free:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+If you find it useful, RT to help a Bangla speaker discover it. 🙏">Copy</button>
+      </div>
+      <div class="post-body">1/ Today I'm launching something I've been quietly building for months.
+
+A 100% free German A1 course — taught entirely in Bangla. 🇩🇪🇧🇩
+
+shopnilacademy.com/courses/german-bangla/
+
+—
+
+2/ Most online German courses for Bangla speakers are taught in English.
+
+Which means you're learning two languages at once. It's exhausting and most people quit.
+
+—
+
+3/ So I built one that starts where you actually are: in your mother tongue.
+
+Bangla explanations. Bangla examples. The German you'll actually use, taught the way it should be.
+
+—
+
+4/ What's in A1:
+• Alphabet & pronunciation
+• Greetings, numbers, dates
+• Present tense + basic grammar
+• 500+ vocabulary words
+• Exercises & quizzes
+• Progress tracking
+
+100% free. Forever.
+
+—
+
+5/ This is just the beginning. A2 through C2 are being built — same approach, same promise.
+
+Try the A1 course today, completely free:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+If you find it useful, RT to help a Bangla speaker discover it. 🙏</div>
+    </div>
+
+    <!-- Bangla single tweet -->
+    <div class="post-card" data-section="x" data-lang="bn" hidden>
+      <div class="post-head">
+        <span class="label">𝕏 Single tweet (Bangla)</span>
+        <button class="copy-btn" data-copy="লঞ্চ হয়ে গেছে: সম্পূর্ণ বাংলায় শেখানো ১০০% ফ্রি জার্মান A1 কোর্স।
+
+কেন বাংলায়? কারণ ইংরেজি মাধ্যমে জার্মান শেখা মানে দুটো ভাষা একসাথে শেখা। অসহনীয়।
+
+এটা শুধু শুরু। A2→C2 আসছে। কোনো পেওয়াল নেই, কোনোদিনও না।
+
+🇩🇪🇧🇩 shopnilacademy.com/courses/german-bangla/">Copy</button>
+      </div>
+      <div class="post-body bn">লঞ্চ হয়ে গেছে: সম্পূর্ণ বাংলায় শেখানো ১০০% ফ্রি জার্মান A1 কোর্স।
+
+কেন বাংলায়? কারণ ইংরেজি মাধ্যমে জার্মান শেখা মানে দুটো ভাষা একসাথে শেখা। অসহনীয়।
+
+এটা শুধু শুরু। A2→C2 আসছে। কোনো পেওয়াল নেই, কোনোদিনও না।
+
+🇩🇪🇧🇩 shopnilacademy.com/courses/german-bangla/</div>
+    </div>
+
+    <!-- Bangla thread -->
+    <div class="post-card" data-section="x" data-lang="bn" hidden>
+      <div class="post-head">
+        <span class="label">𝕏 Thread (Bangla) — 5 টুইট</span>
+        <button class="copy-btn" data-copy="১/ মাসের পর মাস চুপচাপ যা বানিয়েছি — আজ সেটা লঞ্চ করছি।
+
+সম্পূর্ণ বাংলায় শেখানো ১০০% ফ্রি জার্মান A1 কোর্স। 🇩🇪🇧🇩
+
+shopnilacademy.com/courses/german-bangla/
+
+---
+
+২/ বেশিরভাগ অনলাইন জার্মান কোর্স ইংরেজিতে শেখায়।
+
+মানে আপনি একসাথে দুটো ভাষা শিখছেন। যেটা অসহনীয়, এবং বেশিরভাগ মানুষ মাঝপথেই হাল ছেড়ে দেয়।
+
+---
+
+৩/ তাই বানালাম এমন একটি কোর্স — যেটা আপনার মাতৃভাষা থেকে শুরু হয়।
+
+বাংলায় ব্যাখ্যা। বাংলায় উদাহরণ। প্রকৃত কাজে আসা জার্মান, শেখানো হবে যেভাবে শেখানো উচিত।
+
+---
+
+৪/ A1 কোর্সে যা আছে:
+• বর্ণমালা ও উচ্চারণ
+• সম্ভাষণ, সংখ্যা, তারিখ
+• বর্তমান কাল + মৌলিক ব্যাকরণ
+• ৫০০+ শব্দভাণ্ডার
+• অনুশীলনী ও কুইজ
+• অগ্রগতি ট্র্যাকিং
+
+১০০% ফ্রি। আজীবন।
+
+---
+
+৫/ এটা শুধু শুরু। A2 থেকে C2 — একই পদ্ধতিতে, একই প্রতিশ্রুতিতে তৈরি হচ্ছে।
+
+আজই A1 কোর্সটি ফ্রি ট্রাই করুন:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+ভালো লাগলে RT করে অন্য বাংলাভাষীদের জানতে সাহায্য করুন। 🙏">Copy</button>
+      </div>
+      <div class="post-body bn">১/ মাসের পর মাস চুপচাপ যা বানিয়েছি — আজ সেটা লঞ্চ করছি।
+
+সম্পূর্ণ বাংলায় শেখানো ১০০% ফ্রি জার্মান A1 কোর্স। 🇩🇪🇧🇩
+
+shopnilacademy.com/courses/german-bangla/
+
+—
+
+২/ বেশিরভাগ অনলাইন জার্মান কোর্স ইংরেজিতে শেখায়।
+
+মানে আপনি একসাথে দুটো ভাষা শিখছেন। যেটা অসহনীয়, এবং বেশিরভাগ মানুষ মাঝপথেই হাল ছেড়ে দেয়।
+
+—
+
+৩/ তাই বানালাম এমন একটি কোর্স — যেটা আপনার মাতৃভাষা থেকে শুরু হয়।
+
+বাংলায় ব্যাখ্যা। বাংলায় উদাহরণ। প্রকৃত কাজে আসা জার্মান, শেখানো হবে যেভাবে শেখানো উচিত।
+
+—
+
+৪/ A1 কোর্সে যা আছে:
+• বর্ণমালা ও উচ্চারণ
+• সম্ভাষণ, সংখ্যা, তারিখ
+• বর্তমান কাল + মৌলিক ব্যাকরণ
+• ৫০০+ শব্দভাণ্ডার
+• অনুশীলনী ও কুইজ
+• অগ্রগতি ট্র্যাকিং
+
+১০০% ফ্রি। আজীবন।
+
+—
+
+৫/ এটা শুধু শুরু। A2 থেকে C2 — একই পদ্ধতিতে, একই প্রতিশ্রুতিতে তৈরি হচ্ছে।
+
+আজই A1 কোর্সটি ফ্রি ট্রাই করুন:
+
+👉 shopnilacademy.com/courses/german-bangla/
+
+ভালো লাগলে RT করে অন্য বাংলাভাষীদের জানতে সাহায্য করুন। 🙏</div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 X strategy:</strong> Post the <strong>thread first</strong>, pin it. Then 24h later post the <strong>single tweet</strong> as a follow-up reminder. Use both English & Bangla on separate days to reach different audiences.
+    </div>
+  </section>
+
+  <!-- =================== LINKEDIN =================== -->
+  <section class="platform" id="linkedin">
+    <div class="platform-head">
+      <div class="badge li">in</div>
+      <h2>LinkedIn</h2>
+      <div class="stats">
+        <span>Char limit: <strong>3,000</strong></span>
+        <span>Best length: <strong>~200 words</strong></span>
+        <span>Hashtags: <strong>3-5</strong></span>
+      </div>
+    </div>
+    <p class="meta">LinkedIn rewards professional + mission-driven content. Lead with insight or observation. End with a clear CTA.</p>
+
+    <div class="lang-toggle" data-section="li">
+      <button class="lang-btn active" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="bn">বাংলা</button>
+    </div>
+
+    <div class="post-card" data-section="li" data-lang="en">
+      <div class="post-head">
+        <span class="label">💼 LinkedIn launch post (English)</span>
+        <button class="copy-btn" data-copy="Most online language courses fail Bangla speakers.
+
+Not because the curriculum is bad — but because they're taught in English.
+
+When a Bangla-speaking student opens a typical online German course, they're not just learning German. They're translating English explanations into Bangla in their head, while trying to absorb German vocabulary at the same time. It's three mental tasks running in parallel.
+
+The result? High drop-off rates, especially for those who haven't fully mastered academic English first.
+
+So we built something different.
+
+Today I'm launching Shopnil Academy's first course: a complete German A1 curriculum, taught entirely in Bangla — by Bangla speakers, for Bangla speakers.
+
+What's inside A1:
+→ Alphabet, pronunciation, and the sounds unique to German
+→ Greetings, numbers, dates, and survival phrases
+→ Present-tense grammar with examples from Bangladeshi life
+→ 500+ essential vocabulary with Bangla equivalents
+→ Exercises and quizzes after every module
+→ Progress tracking and streaks for accountability
+
+The whole course is 100% free, forever. No subscription. No premium tier. No paywall surprise. Funded through tasteful, hand-vetted sponsorships only.
+
+A2 through C2 are being built next, with the same mother-tongue-first approach.
+
+If you know a student preparing for university in Germany, a professional planning to work there, or anyone who's tried and failed to learn German before — please share this with them.
+
+The course is here, free forever:
+👉 shopnilacademy.com/courses/german-bangla/
+
+#LanguageLearning #EducationForAll #FreeEducation #StudyInGermany #BangladeshEducation">Copy</button>
+      </div>
+      <div class="post-body">Most online language courses fail Bangla speakers.
+
+Not because the curriculum is bad — but because they're taught in English.
+
+When a Bangla-speaking student opens a typical online German course, they're not just learning German. They're translating English explanations into Bangla in their head, while trying to absorb German vocabulary at the same time. It's three mental tasks running in parallel.
+
+The result? High drop-off rates, especially for those who haven't fully mastered academic English first.
+
+So we built something different.
+
+Today I'm launching Shopnil Academy's first course: a complete German A1 curriculum, taught entirely in Bangla — by Bangla speakers, for Bangla speakers.
+
+What's inside A1:
+→ Alphabet, pronunciation, and the sounds unique to German
+→ Greetings, numbers, dates, and survival phrases
+→ Present-tense grammar with examples from Bangladeshi life
+→ 500+ essential vocabulary with Bangla equivalents
+→ Exercises and quizzes after every module
+→ Progress tracking and streaks for accountability
+
+The whole course is 100% free, forever. No subscription. No premium tier. No paywall surprise. Funded through tasteful, hand-vetted sponsorships only.
+
+A2 through C2 are being built next, with the same mother-tongue-first approach.
+
+If you know a student preparing for university in Germany, a professional planning to work there, or anyone who's tried and failed to learn German before — please share this with them.
+
+The course is here, free forever:
+👉 shopnilacademy.com/courses/german-bangla/
+
+<span class="hashtags">#LanguageLearning #EducationForAll #FreeEducation #StudyInGermany #BangladeshEducation</span></div>
+    </div>
+
+    <div class="post-card" data-section="li" data-lang="bn" hidden>
+      <div class="post-head">
+        <span class="label">💼 LinkedIn launch post (Bangla)</span>
+        <button class="copy-btn" data-copy="বেশিরভাগ অনলাইন ভাষা কোর্স বাংলাভাষীদের জন্য ব্যর্থ হয়।
+
+কারণ পাঠ্যক্রম খারাপ তা নয় — কারণ সেগুলো ইংরেজিতে শেখানো।
+
+একজন বাংলাভাষী ছাত্র যখন কোনো সাধারণ অনলাইন জার্মান কোর্স খোলেন, তখন তিনি শুধু জার্মান শিখছেন না। তিনি একইসাথে ইংরেজি ব্যাখ্যা মাথায় বাংলায় অনুবাদ করছেন, আর জার্মান শব্দভাণ্ডার গ্রহণ করার চেষ্টা করছেন। তিন তিনটি মানসিক কাজ একসাথে।
+
+ফলাফল? উচ্চ ড্রপ-অফ রেট, বিশেষ করে যাদের একাডেমিক ইংরেজি এখনও পুরোপুরি দক্ষ নয়।
+
+তাই আমরা ভিন্ন কিছু বানালাম।
+
+আজ স্বপ্নীল একাডেমির প্রথম কোর্স লঞ্চ করছি: সম্পূর্ণ জার্মান A1 পাঠ্যক্রম, সম্পূর্ণ বাংলায় শেখানো — বাংলাভাষীদের দ্বারা, বাংলাভাষীদের জন্য।
+
+A1 কোর্সে যা আছে:
+→ বর্ণমালা, উচ্চারণ এবং জার্মানির অনন্য ধ্বনি
+→ সম্ভাষণ, সংখ্যা, তারিখ এবং দৈনন্দিন বাক্যাংশ
+→ বাংলাদেশি জীবনের উদাহরণ সহ বর্তমান কালের ব্যাকরণ
+→ বাংলা অর্থ সহ ৫০০+ মূল শব্দভাণ্ডার
+→ প্রতিটি মডিউলের পর অনুশীলনী ও কুইজ
+→ অগ্রগতি ট্র্যাকিং ও স্ট্রিক
+
+পুরো কোর্সটি ১০০% ফ্রি, আজীবন। কোনো সাবস্ক্রিপশন নেই। কোনো প্রিমিয়াম টিয়ার নেই। কোনো হঠাৎ পেওয়াল নেই। শুধু সাবধানে নির্বাচিত স্পনসরশিপের মাধ্যমে চলে।
+
+A2 থেকে C2 — পরবর্তী ধাপে, একই মাতৃভাষা-প্রথম পদ্ধতিতে তৈরি হচ্ছে।
+
+জার্মানিতে বিশ্ববিদ্যালয়ের প্রস্তুতি নিচ্ছেন এমন কোনো ছাত্র, সেখানে চাকরির পরিকল্পনা করছেন এমন কোনো পেশাজীবী, বা যিনি আগে চেষ্টা করেও জার্মান শিখতে পারেননি — তাঁদের সাথে দয়া করে এই পোস্টটি শেয়ার করুন।
+
+কোর্সটি এখানে, আজীবন ফ্রি:
+👉 shopnilacademy.com/courses/german-bangla/
+
+#স্বপ্নীল_একাডেমি #ভাষা_শিক্ষা #ফ্রি_শিক্ষা #StudyInGermany #BangladeshEducation">Copy</button>
+      </div>
+      <div class="post-body bn">বেশিরভাগ অনলাইন ভাষা কোর্স বাংলাভাষীদের জন্য ব্যর্থ হয়।
+
+কারণ পাঠ্যক্রম খারাপ তা নয় — কারণ সেগুলো ইংরেজিতে শেখানো।
+
+একজন বাংলাভাষী ছাত্র যখন কোনো সাধারণ অনলাইন জার্মান কোর্স খোলেন, তখন তিনি শুধু জার্মান শিখছেন না। তিনি একইসাথে ইংরেজি ব্যাখ্যা মাথায় বাংলায় অনুবাদ করছেন, আর জার্মান শব্দভাণ্ডার গ্রহণ করার চেষ্টা করছেন। তিন তিনটি মানসিক কাজ একসাথে।
+
+ফলাফল? উচ্চ ড্রপ-অফ রেট, বিশেষ করে যাদের একাডেমিক ইংরেজি এখনও পুরোপুরি দক্ষ নয়।
+
+তাই আমরা ভিন্ন কিছু বানালাম।
+
+আজ স্বপ্নীল একাডেমির প্রথম কোর্স লঞ্চ করছি: সম্পূর্ণ জার্মান A1 পাঠ্যক্রম, সম্পূর্ণ বাংলায় শেখানো — বাংলাভাষীদের দ্বারা, বাংলাভাষীদের জন্য।
+
+A1 কোর্সে যা আছে:
+→ বর্ণমালা, উচ্চারণ এবং জার্মানির অনন্য ধ্বনি
+→ সম্ভাষণ, সংখ্যা, তারিখ এবং দৈনন্দিন বাক্যাংশ
+→ বাংলাদেশি জীবনের উদাহরণ সহ বর্তমান কালের ব্যাকরণ
+→ বাংলা অর্থ সহ ৫০০+ মূল শব্দভাণ্ডার
+→ প্রতিটি মডিউলের পর অনুশীলনী ও কুইজ
+→ অগ্রগতি ট্র্যাকিং ও স্ট্রিক
+
+পুরো কোর্সটি ১০০% ফ্রি, আজীবন। কোনো সাবস্ক্রিপশন নেই। কোনো প্রিমিয়াম টিয়ার নেই। কোনো হঠাৎ পেওয়াল নেই। শুধু সাবধানে নির্বাচিত স্পনসরশিপের মাধ্যমে চলে।
+
+A2 থেকে C2 — পরবর্তী ধাপে, একই মাতৃভাষা-প্রথম পদ্ধতিতে তৈরি হচ্ছে।
+
+জার্মানিতে বিশ্ববিদ্যালয়ের প্রস্তুতি নিচ্ছেন এমন কোনো ছাত্র, সেখানে চাকরির পরিকল্পনা করছেন এমন কোনো পেশাজীবী, বা যিনি আগে চেষ্টা করেও জার্মান শিখতে পারেননি — তাঁদের সাথে দয়া করে এই পোস্টটি শেয়ার করুন।
+
+কোর্সটি এখানে, আজীবন ফ্রি:
+👉 shopnilacademy.com/courses/german-bangla/
+
+<span class="hashtags">#স্বপ্নীল_একাডেমি #ভাষা_শিক্ষা #ফ্রি_শিক্ষা #StudyInGermany #BangladeshEducation</span></div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 LinkedIn tip:</strong> Post during weekday mornings (9-11am Bangladesh time) for max reach. Comment on a few related posts in your feed before posting yours — primes the algorithm to show your post.
+    </div>
+  </section>
+
+  <!-- =================== YOUTUBE =================== -->
+  <section class="platform" id="youtube">
+    <div class="platform-head">
+      <div class="badge yt">▶</div>
+      <h2>YouTube</h2>
+      <div class="stats">
+        <span>Channel desc: <strong>1,000 chars</strong></span>
+        <span>Community: <strong>uncapped</strong></span>
+      </div>
+    </div>
+    <p class="meta">Even without videos yet, YouTube is powerful: your channel becomes the destination for course teaser clips later. Set up the channel right and use a Community post for the launch.</p>
+
+    <div class="lang-toggle" data-section="yt">
+      <button class="lang-btn active" data-lang="en">English</button>
+      <button class="lang-btn" data-lang="bn">বাংলা</button>
+    </div>
+
+    <!-- Channel description -->
+    <div class="post-card" data-section="yt" data-lang="en">
+      <div class="post-head">
+        <span class="label">📺 Channel "About" description (English)</span>
+        <button class="copy-btn" data-copy="Welcome to Shopnil Academy — a 100% free online academy for learners worldwide. 🌱
+
+We make structured, project-based courses in:
+🇩🇪 Languages (German, Spanish, Mandarin, Arabic, French, Russian)
+🧬 Tech & Coding (Python, R, bioinformatics, infrastructure)
+📐 Math & Science (high school math, biology)
+🎸 Guitar (beginner-friendly)
+
+Our promise: every course is free forever. No paywall. No premium tier. Funded entirely through tasteful sponsorships.
+
+Currently live: German A1 for Bangla speakers — a complete beginner course in your mother tongue.
+
+🌐 shopnilacademy.com
+📧 info@shopnilacademy.com">Copy</button>
+      </div>
+      <div class="post-body">Welcome to Shopnil Academy — a 100% free online academy for learners worldwide. 🌱
+
+We make structured, project-based courses in:
+🇩🇪 Languages (German, Spanish, Mandarin, Arabic, French, Russian)
+🧬 Tech & Coding (Python, R, bioinformatics, infrastructure)
+📐 Math & Science (high school math, biology)
+🎸 Guitar (beginner-friendly)
+
+Our promise: every course is free forever. No paywall. No premium tier. Funded entirely through tasteful sponsorships.
+
+Currently live: German A1 for Bangla speakers — a complete beginner course in your mother tongue.
+
+🌐 shopnilacademy.com
+📧 info@shopnilacademy.com</div>
+    </div>
+
+    <!-- Community post -->
+    <div class="post-card" data-section="yt" data-lang="en">
+      <div class="post-head">
+        <span class="label">📺 Community Post — Launch announcement (English)</span>
+        <button class="copy-btn" data-copy="🎉 We're live!
+
+Our first course is here: German A1 for Bangla speakers — 100% free, forever.
+
+Built specifically for Bangla speakers, taught in Bangla, with examples from real life.
+
+What's inside:
+✅ Complete A1 curriculum
+✅ Grammar in Bangla
+✅ Pronunciation & exercises
+✅ Progress tracking
+✅ No paywall, ever
+
+A2 → C2 coming soon. More tracks (Tech, Math, Guitar) also being built.
+
+Start learning now:
+👉 shopnilacademy.com/courses/german-bangla/
+
+Drop a 🇩🇪 in the comments if you've ever wanted to learn German!">Copy</button>
+      </div>
+      <div class="post-body">🎉 We're live!
+
+Our first course is here: German A1 for Bangla speakers — 100% free, forever.
+
+Built specifically for Bangla speakers, taught in Bangla, with examples from real life.
+
+What's inside:
+✅ Complete A1 curriculum
+✅ Grammar in Bangla
+✅ Pronunciation & exercises
+✅ Progress tracking
+✅ No paywall, ever
+
+A2 → C2 coming soon. More tracks (Tech, Math, Guitar) also being built.
+
+Start learning now:
+👉 shopnilacademy.com/courses/german-bangla/
+
+Drop a 🇩🇪 in the comments if you've ever wanted to learn German!</div>
+    </div>
+
+    <!-- Bangla channel desc -->
+    <div class="post-card" data-section="yt" data-lang="bn" hidden>
+      <div class="post-head">
+        <span class="label">📺 চ্যানেল "About" বর্ণনা (বাংলা)</span>
+        <button class="copy-btn" data-copy="স্বাগতম স্বপ্নীল একাডেমিতে — বিশ্বজুড়ে শিক্ষার্থীদের জন্য ১০০% ফ্রি অনলাইন একাডেমি। 🌱
+
+আমরা বানাই প্রজেক্ট-ভিত্তিক, সুসংগঠিত কোর্স:
+🇩🇪 ভাষা (জার্মান, স্প্যানিশ, ম্যান্ডারিন, আরবি, ফরাসি, রাশিয়ান)
+🧬 প্রযুক্তি ও কোডিং (পাইথন, R, বায়োইনফরম্যাটিক্স, ইনফ্রাস্ট্রাকচার)
+📐 গণিত ও বিজ্ঞান (উচ্চ মাধ্যমিক)
+🎸 গিটার (শিক্ষানবিশ-বান্ধব)
+
+আমাদের প্রতিশ্রুতি: প্রতিটি কোর্স আজীবন ফ্রি। কোনো পেওয়াল নেই। কোনো প্রিমিয়াম টিয়ার নেই। শুধু রুচিশীল স্পনসরশিপের মাধ্যমে চলে।
+
+বর্তমানে লাইভ: বাংলাভাষীদের জন্য জার্মান A1 — মাতৃভাষায় সম্পূর্ণ শিক্ষানবিশ কোর্স।
+
+🌐 shopnilacademy.com
+📧 info@shopnilacademy.com">Copy</button>
+      </div>
+      <div class="post-body bn">স্বাগতম স্বপ্নীল একাডেমিতে — বিশ্বজুড়ে শিক্ষার্থীদের জন্য ১০০% ফ্রি অনলাইন একাডেমি। 🌱
+
+আমরা বানাই প্রজেক্ট-ভিত্তিক, সুসংগঠিত কোর্স:
+🇩🇪 ভাষা (জার্মান, স্প্যানিশ, ম্যান্ডারিন, আরবি, ফরাসি, রাশিয়ান)
+🧬 প্রযুক্তি ও কোডিং (পাইথন, R, বায়োইনফরম্যাটিক্স, ইনফ্রাস্ট্রাকচার)
+📐 গণিত ও বিজ্ঞান (উচ্চ মাধ্যমিক)
+🎸 গিটার (শিক্ষানবিশ-বান্ধব)
+
+আমাদের প্রতিশ্রুতি: প্রতিটি কোর্স আজীবন ফ্রি। কোনো পেওয়াল নেই। কোনো প্রিমিয়াম টিয়ার নেই। শুধু রুচিশীল স্পনসরশিপের মাধ্যমে চলে।
+
+বর্তমানে লাইভ: বাংলাভাষীদের জন্য জার্মান A1 — মাতৃভাষায় সম্পূর্ণ শিক্ষানবিশ কোর্স।
+
+🌐 shopnilacademy.com
+📧 info@shopnilacademy.com</div>
+    </div>
+
+    <!-- Bangla community post -->
+    <div class="post-card" data-section="yt" data-lang="bn" hidden>
+      <div class="post-head">
+        <span class="label">📺 কমিউনিটি পোস্ট — লঞ্চ ঘোষণা (বাংলা)</span>
+        <button class="copy-btn" data-copy="🎉 লঞ্চ হয়েছে!
+
+আমাদের প্রথম কোর্স এখানে: বাংলাভাষীদের জন্য জার্মান A1 — ১০০% ফ্রি, আজীবন।
+
+বাংলাভাষীদের জন্য বিশেষভাবে তৈরি, বাংলায় শেখানো, বাস্তব জীবনের উদাহরণ সহ।
+
+কোর্সে যা আছে:
+✅ সম্পূর্ণ A1 পাঠ্যক্রম
+✅ বাংলায় ব্যাকরণ
+✅ উচ্চারণ ও অনুশীলনী
+✅ অগ্রগতি ট্র্যাকিং
+✅ কোনো পেওয়াল নেই, কোনোদিনও না
+
+A2 → C2 শীঘ্রই আসছে। অন্যান্য ট্র্যাকও (প্রযুক্তি, গণিত, গিটার) তৈরি হচ্ছে।
+
+এখনই শেখা শুরু করুন:
+👉 shopnilacademy.com/courses/german-bangla/
+
+কখনো জার্মান শিখতে চেয়েছেন? কমেন্টে 🇩🇪 দিন!">Copy</button>
+      </div>
+      <div class="post-body bn">🎉 লঞ্চ হয়েছে!
+
+আমাদের প্রথম কোর্স এখানে: বাংলাভাষীদের জন্য জার্মান A1 — ১০০% ফ্রি, আজীবন।
+
+বাংলাভাষীদের জন্য বিশেষভাবে তৈরি, বাংলায় শেখানো, বাস্তব জীবনের উদাহরণ সহ।
+
+কোর্সে যা আছে:
+✅ সম্পূর্ণ A1 পাঠ্যক্রম
+✅ বাংলায় ব্যাকরণ
+✅ উচ্চারণ ও অনুশীলনী
+✅ অগ্রগতি ট্র্যাকিং
+✅ কোনো পেওয়াল নেই, কোনোদিনও না
+
+A2 → C2 শীঘ্রই আসছে। অন্যান্য ট্র্যাকও (প্রযুক্তি, গণিত, গিটার) তৈরি হচ্ছে।
+
+এখনই শেখা শুরু করুন:
+👉 shopnilacademy.com/courses/german-bangla/
+
+কখনো জার্মান শিখতে চেয়েছেন? কমেন্টে 🇩🇪 দিন!</div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 YouTube heads-up:</strong> Community posts only appear once your channel has <strong>500+ subscribers</strong>. Until then, just focus on uploading 1-2 short channel trailer videos (60–90 sec) and using the channel description above. Once you cross 500 subs, come back and post the community announcement.
+    </div>
+  </section>
+
+</main>
+
+<footer class="page-foot">
+  <div class="wrap">
+    Made for Shopnil Academy 🌱 · <a href="https://shopnilacademy.com">shopnilacademy.com</a>
+  </div>
+</footer>
+
+<script>
+  // Language toggle
+  document.querySelectorAll('.lang-toggle').forEach(toggle => {
+    const section = toggle.dataset.section;
+    toggle.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        toggle.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b === btn));
+        document.querySelectorAll(`.post-card[data-section="${section}"]`).forEach(card => {
+          card.hidden = card.dataset.lang !== lang;
+        });
+      });
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        const original = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1800);
+      } catch (e) {
+        alert('Copy failed — please select and copy manually.');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
