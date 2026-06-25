@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#006A4E">
-<title>Guitar Lesson — Basic Guitar · Shopnil Academy</title>
-<meta name="description" content="The free Shopnil Academy guitar lesson: 7 interactive lessons from holding the guitar to scales and finger technique, with a live fretboard explorer and animated exercise player." />
+<title>Guitar Trainer — Basic Guitar · Shopnil Academy</title>
+<meta name="description" content="The free Shopnil Academy guitar trainer: 7 interactive lessons from holding the guitar to scales and finger technique, with a live fretboard explorer and animated exercise player." />
 <link rel="icon" href="../../assets/logo.png" />
 <link rel="canonical" href="https://shopnilacademy.com/courses/basic-guitar/lesson-1.html" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -248,9 +248,9 @@ h1,h2,h3,h4 { font-family: var(--font-display); }
 .pill.active { background: var(--green); color: #fff; border-color: var(--green); }
 
 /* ── FRETBOARD ── */
-.fb-outer { overflow-x: auto; margin-bottom: 10px; }
-.fb-wrap { min-width: 460px; }
-table.fb { border-collapse: collapse; width: 100%; }
+.fb-outer { overflow-x: hidden; margin-bottom: 10px; }
+.fb-wrap { min-width: 0; }
+table.fb { border-collapse: collapse; width: 100%; table-layout: fixed; }
 table.fb td, table.fb th { padding: 0; }
 .sl { width: 28px; font-size: 10px; font-weight: 700; color: var(--muted); text-align: right; padding-right: 6px; }
 .fn { width: 34px; height: 18px; font-size: 9px; color: #C0BFBA; text-align: center; vertical-align: middle; }
@@ -371,8 +371,9 @@ input[type=range] { accent-color: var(--green); }
 .sb-backdrop { display: none; }
 @media (max-width: 860px) {
   .atb-links { display: none; }
+  .atb-cta { margin-left: 0; }
   .atb-toggle {
-    display: grid; place-items: center; margin-left: 8px;
+    display: grid; place-items: center; margin-left: auto;
     width: 44px; height: 44px; border-radius: 999px;
     background: transparent; border: 0; font-size: 22px; color: var(--ink); cursor: pointer;
   }
@@ -398,8 +399,549 @@ input[type=range] { accent-color: var(--green); }
 
 /* ── FOOTER spacing on this page ── */
 footer { margin-top: 0; }
+
+/* ── RESPONSIVE FRETBOARD ── */
+.sl { width: 28px; min-width: 28px; }
+@media (max-width: 600px) {
+  .fb-wrap { min-width: 0 !important; }
+  .fn  { width: auto !important; height: 14px; font-size: 8px; }
+  .fc  { width: auto !important; height: 26px; }
+  .sl  { width: 20px !important; min-width: 20px; font-size: 9px; padding-right: 3px; }
+  .dot { width: 20px !important; height: 20px !important; font-size: 8px; }
+  .fc::after { height: 1px; }
+}
+@media (max-width: 400px) {
+  .fn  { height: 12px; font-size: 7px; }
+  .fc  { height: 22px; }
+  .sl  { width: 16px !important; min-width: 16px; font-size: 8px; padding-right: 1px; }
+  .dot { width: 16px !important; height: 16px !important; font-size: 7px; }
+}
+
+
+
+
+
+
+
+
+
+
+/* ── CHORD TYPES GRID ── */
+.chord-types-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin:12px 0;}
+.ctt{border:1px solid var(--line);border-radius:10px;padding:11px 14px 13px;background:var(--white);position:relative;}
+.ctt.beg{border-left:3px solid var(--green);}
+.ctt.mid{border-left:3px solid var(--gold);}
+.ctt.adv{border-left:3px solid var(--red);}
+.ctt-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
+.ctt-name{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--ink);line-height:1.3;}
+.ctt-lvl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 7px;border-radius:99px;flex-shrink:0;margin-left:6px;margin-top:1px;}
+.ctt.beg .ctt-lvl{background:var(--green-soft);color:var(--green);}
+.ctt.mid .ctt-lvl{background:var(--gold-soft);color:#7A4A00;}
+.ctt.adv .ctt-lvl{background:var(--red-soft);color:var(--red);}
+.ctt-sound{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.4;}
+.ctt-egs{display:flex;gap:4px;flex-wrap:wrap;}
+.ctt-eg{font-size:10px;font-family:var(--font-display);font-weight:700;padding:2px 7px;border-radius:99px;background:var(--cream);color:var(--ink);border:1px solid var(--line);}
+
+/* ── LESSON 8: CHORD DIAGRAMS ── */
+.chord-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px;margin:12px 0;}
+.chord-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:12px 8px 10px;text-align:center;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:6px;overflow:visible;}
+.chord-card-name{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--ink);}
+.chord-card-full{font-size:11px;color:var(--muted);}
+.chord-card-diff{font-size:10px;font-weight:600;padding:2px 8px;border-radius:99px;background:var(--green-soft);color:var(--green);}
+.chord-play-btn{padding:6px 18px;border-radius:99px;border:1.5px solid var(--green);background:var(--white);color:var(--green);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .12s;margin-top:2px;}
+.chord-play-btn:hover{background:var(--green);color:#fff;}
+.chord-play-btn:active{transform:scale(.96);}
+.chord-tip{font-size:11px;color:var(--muted);line-height:1.45;text-align:left;width:100%;}
+
+
+
+
+.sc-group-label{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.07em;padding:10px 0 4px;border-top:1px solid var(--line);margin-top:4px;}
+.sc-group-label:first-child{border-top:none;margin-top:0;padding-top:0;}
+.home-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--gold-soft);color:#7A4A00;white-space:nowrap;flex-shrink:0;}
+.prog-card.selected .home-badge{background:rgba(232,183,42,.3);color:#5a3800;}
+
+
+
+
+/* chord diagram in sticky player */
+.sc-player-row{display:flex;align-items:stretch;gap:8px;padding:8px 8px 0;}
+.sc-player-row .sc-win{flex:1;min-width:0;}
+.sc-chord-diag{
+  width:172px;flex-shrink:0;
+  background:var(--white);border-radius:8px;
+  border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  transition:all .2s ease;
+}
+.sc-chord-diag svg{max-width:100%;height:auto;}
+@media(max-width:420px){
+  .sc-player-row{flex-direction:column;}
+  .sc-chord-diag{width:100%;height:90px;}
+}
+
+/* ── STICKY PLAYER + TWO-COLUMN LAYOUT ── */
+.sc-sticky{
+  position:sticky;top:56px;z-index:20;
+  background:var(--white);
+  border-radius:12px;
+  border:1px solid var(--line);
+  box-shadow:0 4px 20px rgba(0,0,0,.10);
+  margin-bottom:16px;
+  overflow:hidden;
+}
+.sc-bottom-bar{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:10px 14px;border-top:1px solid var(--line);
+}
+.sc-cur{
+  font-family:var(--font-display);font-size:26px;font-weight:800;
+  color:var(--ink);min-width:70px;
+}
+.sc-cols{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  align-items:start;
+}
+.sc-col{
+  max-height:52vh;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:2px;
+}
+.sc-col::-webkit-scrollbar{width:3px;}
+.sc-col::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+.sc-col::-webkit-scrollbar-track{background:transparent;}
+.sc-col-title{
+  position:sticky;top:0;z-index:2;
+  background:var(--white);
+  padding-top:2px;padding-bottom:4px;
+}
+.sc-col-title{
+  font-size:11px;font-weight:700;color:var(--green);
+  text-transform:uppercase;letter-spacing:.07em;
+  margin-bottom:8px;padding-bottom:4px;
+  border-bottom:2px solid var(--green-soft);
+}
+.sc-cols .prog-card{padding:8px;}
+.sc-cols .prog-name{font-size:12px;}
+.sc-cols .prog-genre{font-size:10px;margin-top:1px;}
+.sc-cols .prog-seq{margin-top:5px;gap:3px;}
+.sc-cols .prog-cb{font-size:11px;padding:3px 6px;}
+.sc-cols .home-badge{font-size:9px;padding:2px 5px;}
+.sc-cols .sc-group-label{font-size:9px;padding:8px 0 3px;}
+.sc-cols .pat-opt{padding:8px;}
+.sc-cols .pat-opt-name{font-size:12px;}
+.sc-cols .pat-mini{width:17px;height:17px;font-size:10px;border-radius:3px;}
+.sc-cols .pat-opt-beats{gap:2px;margin-top:5px;}
+
+/* ── SCROLLING TAPE PLAYER ── */
+.sc-win{position:relative;width:100%;height:88px;overflow:hidden;
+  background:var(--cream);border-radius:10px;border:1px solid var(--line);
+  margin-bottom:10px;}
+.sc-track{position:absolute;top:0;left:0;height:100%;display:flex;
+  align-items:center;will-change:transform;}
+.sc-now-line{position:absolute;left:64px;top:8px;bottom:8px;width:3px;
+  background:var(--green);border-radius:2px;z-index:5;}
+.sc-fade-l{position:absolute;left:0;top:0;bottom:0;width:56px;z-index:4;
+  background:linear-gradient(to right,var(--cream) 30%,transparent);}
+.sc-fade-r{position:absolute;right:0;top:0;bottom:0;width:60px;z-index:4;
+  background:linear-gradient(to left,var(--cream) 20%,transparent);}
+.sc-bar{display:flex;flex-direction:column;padding:6px 3px 6px 4px;
+  border-right:2px solid var(--line);margin-right:2px;flex-shrink:0;}
+.sc-bl{font-size:10px;font-weight:800;color:var(--green);margin-bottom:4px;
+  letter-spacing:.03em;}
+.sc-bb{display:flex;gap:2px;}
+.sc-tb{width:26px;height:38px;border-radius:4px;display:flex;align-items:center;
+  justify-content:center;font-size:14px;font-weight:700;flex-shrink:0;}
+.sD{background:var(--green-soft);color:var(--green);}
+.sU{background:#EDF6FF;color:#1565C0;}
+.sS{color:#CCC;border:1px dashed #DDD;}
+.sc-cur{font-family:var(--font-display);font-size:32px;font-weight:800;
+  color:var(--ink);text-align:center;line-height:1;margin-bottom:10px;}
+.sc-desc{font-size:12px;color:var(--muted);margin-top:10px;text-align:center;}
+
+
+
+
+/* search panel */
+.fcc-two-panel{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:center;margin-bottom:16px;}
+.fcc-or{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 14px;}
+.fcc-or-line{width:1px;height:40px;background:var(--line);}
+.fcc-or span{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;}
+.fcc-search-panel{background:var(--cream);border-radius:14px;padding:20px;text-align:center;}
+.fcc-search-title{font-size:16px;font-weight:700;font-family:var(--font-display);color:var(--ink);margin-bottom:4px;}
+.fcc-search-sub{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.fcc-search-row{display:flex;gap:6px;}
+.fcc-search-input{flex:1;padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;
+  font-size:13px;font-family:var(--font-body);background:var(--white);color:var(--ink);}
+.fcc-search-input:focus{outline:none;border-color:var(--green);}
+.fcc-search-btn{padding:9px 16px;border:none;border-radius:8px;background:var(--green);
+  color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font-body);white-space:nowrap;}
+.fcc-search-btn:hover{background:var(--green-dark);}
+.fcc-search-examples{font-size:11px;color:#B0B3C0;margin-top:8px;}
+.fcc-search-examples em{color:var(--green);font-style:normal;}
+.sr-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.sr-title{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--ink);}
+.sr-artist{font-size:13px;color:var(--muted);margin-top:2px;}
+.sr-badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+.sr-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;
+  background:var(--cream);border:1px solid var(--line);color:var(--ink);}
+.sr-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.sr-pat-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;
+  background:var(--cream);border-radius:8px;margin-bottom:10px;}
+.sr-pat-label{font-size:12px;color:var(--muted);}
+.sr-note{font-size:12px;color:var(--muted);background:var(--green-soft);
+  border:1px solid var(--green-soft);border-radius:8px;padding:8px 12px;margin-top:8px;line-height:1.5;}
+@media(max-width:540px){
+  .fcc-two-panel{grid-template-columns:1fr;gap:10px;}
+  .fcc-or{flex-direction:row;padding:0;}
+  .fcc-or-line{width:40px;height:1px;}
+}
+
+
+.sr-prog-row{display:flex;align-items:center;gap:4px;flex-wrap:wrap;
+  padding:8px 10px;background:var(--cream);border-radius:8px;margin-bottom:6px;}
+.sr-prog-ch{font-family:var(--font-display);font-size:15px;font-weight:700;
+  padding:4px 12px;border-radius:8px;background:var(--white);
+  border:1.5px solid var(--line);color:var(--ink);}
+.sr-prog-arr{font-size:13px;color:var(--muted);}
+/* Smaller beat boxes inside search result tape */
+.sr-win .sc-tb{width:18px;height:32px;font-size:11px;border-radius:3px;}
+.sr-win .sc-bar{padding:4px 2px 4px 3px;}
+.sr-win .sc-bb{gap:1px;}
+.sr-win .sc-bl{font-size:9px;margin-bottom:2px;}
+
+
+.fcc-coming-soon{margin-top:12px;background:var(--cream);border:1.5px dashed var(--line);
+  border-radius:14px;padding:24px 20px;text-align:center;}
+.fcs-icon{font-size:28px;margin-bottom:8px;}
+.fcs-title{font-family:var(--font-display);font-size:15px;font-weight:700;
+  color:var(--muted);margin-bottom:6px;}
+.fcs-desc{font-size:12px;color:#B0B3C0;line-height:1.6;max-width:320px;margin:0 auto;}
+
+/* ── LESSON 12: FIND THE CHORDS ── */
+.fcc-drop{border:2px dashed var(--line);border-radius:14px;padding:36px 20px;
+  text-align:center;cursor:pointer;transition:all .15s;background:var(--cream);}
+.fcc-drop:hover,.fcc-drop.drag{border-color:var(--green);background:var(--green-soft);}
+.fcc-drop-icon{font-size:40px;margin-bottom:10px;}
+.fcc-drop-title{font-family:var(--font-display);font-size:18px;font-weight:700;
+  color:var(--ink);margin-bottom:4px;}
+.fcc-drop-sub{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.fcc-drop-note{font-size:11px;color:#B0B3C0;background:var(--white);
+  border-radius:8px;padding:6px 12px;display:inline-block;margin-top:6px;}
+.fcc-analyzing{text-align:center;padding:40px 20px;}
+.fcc-spinner{font-size:36px;animation:spin 1.5s linear infinite;display:inline-block;margin-bottom:12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.fcc-prog-label{font-size:13px;color:var(--muted);margin-bottom:10px;}
+.fcc-prog-track{height:8px;background:var(--line);border-radius:99px;margin:0 auto 8px;max-width:300px;}
+.fcc-prog-bar{height:100%;background:var(--green);border-radius:99px;transition:width .3s;}
+.fcc-prog-pct{font-size:12px;color:var(--muted);}
+.fcc-results{}
+.fcc-meta{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:16px;}
+.fcc-meta-item{background:var(--cream);border-radius:10px;padding:10px 12px;}
+.fcc-mlbl{display:block;font-size:10px;font-weight:700;color:var(--muted);
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.fcc-mval{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--ink);}
+.fcc-section-label{font-size:11px;font-weight:700;color:var(--green);
+  text-transform:uppercase;letter-spacing:.07em;margin:14px 0 7px;}
+.fcc-timeline{display:flex;flex-direction:column;gap:5px;
+  max-height:280px;overflow-y:auto;padding-right:4px;}
+.fcc-timeline::-webkit-scrollbar{width:3px;}
+.fcc-timeline::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+.fcc-cbar{display:flex;align-items:center;gap:8px;padding:6px 10px;
+  background:var(--cream);border-radius:8px;}
+.fcc-ctime{font-size:11px;color:var(--muted);width:32px;flex-shrink:0;}
+.fcc-cname{font-family:var(--font-display);font-size:15px;font-weight:700;
+  color:var(--ink);width:42px;flex-shrink:0;}
+.fcc-cconf{flex:1;height:6px;background:var(--line);border-radius:99px;overflow:hidden;}
+.fcc-cconf-fill{height:100%;border-radius:99px;}
+.fcc-cconf-fill.hi{background:var(--green);}
+.fcc-cconf-fill.mid{background:var(--gold);}
+.fcc-cconf-fill.lo{background:#E0C0C0;}
+.fcc-cpct{font-size:10px;color:var(--muted);width:30px;text-align:right;flex-shrink:0;}
+.fcc-diags{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;}
+.fcc-diag{display:flex;flex-direction:column;align-items:center;gap:4px;
+  background:var(--white);border:1px solid var(--line);border-radius:10px;padding:8px;}
+.fcc-diag-name{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--ink);}
+.fcc-restart{margin-top:16px;padding:8px 20px;border-radius:99px;border:1.5px solid var(--green);
+  background:var(--white);color:var(--green);font-size:13px;font-weight:700;
+  cursor:pointer;font-family:var(--font-body);}
+.fcc-restart:hover{background:var(--green);color:#fff;}
+.fcc-error{padding:24px;text-align:center;color:var(--red);font-size:13px;
+  background:#FFF5F5;border-radius:12px;border:1px solid #FFCCCC;}
+.fcc-disclaimer{font-size:11px;color:#B0B3C0;text-align:center;margin-top:12px;line-height:1.5;}
+
+/* ── LESSON 11: FIRST SONG ── */
+.song-card{border:1.5px solid var(--line);border-radius:10px;padding:8px;
+  cursor:pointer;transition:all .12s;background:var(--white);}
+.song-card:hover{border-color:var(--green);}
+.song-card.selected{border-color:var(--green);background:var(--green-soft);}
+.song-title{font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--ink);}
+.song-card.selected .song-title{color:var(--green-dark);}
+.song-artist{font-size:10px;color:var(--muted);margin-top:1px;font-style:italic;}
+.song-meta{display:flex;align-items:center;gap:5px;margin-top:5px;flex-wrap:wrap;}
+.song-bpm{font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;
+  background:#F0F0F0;color:var(--muted);}
+.sc-song-label{font-size:10px;font-weight:700;color:var(--muted);
+  text-align:center;letter-spacing:.04em;padding:4px 0 6px;}
+
+/* ── LESSON 10: STRUMMING WITH CHORDS ── */
+.sc-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.sc-section-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.prog-list{display:flex;flex-direction:column;gap:7px;}
+.prog-card{border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;transition:all .12s;background:var(--white);}
+.prog-card:hover{border-color:var(--green);}
+.prog-card.selected{border-color:var(--green);background:var(--green-soft);}
+.prog-name{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--ink);}
+.prog-card.selected .prog-name{color:var(--green-dark);}
+.prog-genre{font-size:10px;color:var(--muted);margin-top:2px;}
+.prog-seq{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+.prog-cb{padding:4px 10px;border-radius:6px;background:var(--cream);border:1px solid var(--line);font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--ink);}
+.prog-card.selected .prog-cb{background:var(--white);}
+.pat-list{display:flex;flex-direction:column;gap:7px;}
+.pat-opt{border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer;transition:all .12s;background:var(--white);}
+.pat-opt:hover{border-color:var(--green);}
+.pat-opt.selected{border-color:var(--green);background:var(--green-soft);}
+.pat-opt-name{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--font-display);}
+.pat-opt.selected .pat-opt-name{color:var(--green-dark);}
+.pat-opt-beats{display:flex;gap:3px;margin-top:6px;}
+.pat-mini{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.pat-mini.D{background:var(--green-soft);color:var(--green);}
+.pat-mini.U{background:#EDF6FF;color:#1565C0;}
+.pat-mini.n{background:var(--cream);color:#CCC;border:1px dashed #CCC;}
+.sc-player{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-top:4px;}
+.sc-chord-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px;}
+.sc-chord{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 14px;border-radius:10px;border:2px solid var(--line);background:var(--cream);transition:all .15s;min-width:60px;}
+.sc-chord.active{border-color:var(--green);background:var(--green);transform:scale(1.12);box-shadow:0 6px 20px rgba(0,106,78,.25);}
+.sc-chord-name{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--ink);}
+.sc-chord.active .sc-chord-name{color:#fff;}
+.sc-chord-label{font-size:10px;color:var(--muted);font-weight:500;}
+.sc-chord.active .sc-chord-label{color:rgba(255,255,255,.75);}
+.sc-beat-row{display:flex;gap:4px;justify-content:center;margin-bottom:14px;}
+.sc-beat-dot{width:10px;height:10px;border-radius:50%;background:var(--line);transition:background .08s;}
+.sc-beat-dot.cur{background:var(--green);}
+.sc-beat-dot.bar-start{background:var(--green-dark);}
+.sc-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sc-play-btn{padding:8px 24px;border-radius:99px;border:none;background:var(--green);color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .12s;}
+.sc-play-btn:hover{background:var(--green-dark);}
+.sc-play-btn.playing{background:var(--red);}
+.sc-bpm{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);}
+.sc-bpm input{width:80px;accent-color:var(--green);}
+@media(max-width:600px){.sc-layout{grid-template-columns:1fr;}}
+
+
+/* pick + string targeting + palm mute visuals */
+.pick-tips{display:flex;flex-direction:column;gap:10px;}
+.pick-tip{display:flex;gap:12px;align-items:flex-start;}
+.pt-icon{font-size:20px;flex-shrink:0;width:28px;text-align:center;}
+.pick-tip div{display:flex;flex-direction:column;gap:2px;}
+.pick-tip strong{font-size:13px;color:var(--ink);}
+.pick-tip span{font-size:12px;color:var(--muted);line-height:1.5;}
+.string-target-wrap{display:flex;flex-direction:column;gap:12px;}
+.st-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.st-dir{font-size:14px;font-weight:700;width:58px;flex-shrink:0;text-align:center;padding:6px 8px;border-radius:8px;}
+.down-dir{background:var(--green-soft);color:var(--green);}
+.up-dir{background:#EDF6FF;color:#1565C0;}
+.st-strings{display:flex;gap:4px;}
+.st-str{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.st-str.hit{background:var(--green);color:#fff;}
+.st-str.soft{background:var(--green-soft);color:var(--green);border:1px solid var(--green);}
+.st-str.miss{background:var(--cream);color:#CCC;border:1px solid var(--line);}
+.st-note{font-size:12px;color:var(--muted);flex:1;min-width:120px;}
+.sp-beat.acc{border-width:2px;border-color:var(--gold);}
+.sp-beat.D.acc{background:#FFF3C4;color:#7A4A00;border-color:var(--gold);}
+.sp-beat.D.acc.lit{background:var(--gold);color:#fff;}
+.sp-beat.muted{opacity:.75;font-style:italic;}
+
+/* ── LESSON 9: STRUMMING ── */
+.strum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:12px 0;}
+.sp-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow-sm);}
+.sp-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:8px;}
+.sp-name{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--ink);}
+.sp-badges{display:flex;gap:5px;flex-shrink:0;}
+.sp-sig{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--green-soft);color:var(--green);}
+.sp-diff{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--gold-soft);color:#7A4A00;}
+.sp-diff.adv{background:var(--red-soft);color:var(--red);}
+.sp-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5;}
+.sp-beats{display:flex;gap:4px;margin-bottom:4px;flex-wrap:nowrap;}
+.sp-beat{min-width:28px;flex:1;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;transition:all .1s;border:1.5px solid var(--line);background:var(--cream);}
+.sp-beat.D{background:var(--green-soft);color:var(--green);border-color:var(--green);}
+.sp-beat.U{background:#EDF6FF;color:#1565C0;border-color:#1565C0;}
+.sp-beat.skip{background:var(--cream);color:var(--line);border-style:dashed;}
+.sp-beat.lit{transform:scale(1.15);box-shadow:0 4px 12px rgba(0,0,0,.15);}
+.sp-beat.D.lit{background:var(--green);color:#fff;}
+.sp-beat.U.lit{background:#1565C0;color:#fff;}
+.sp-labels{display:flex;gap:4px;margin-bottom:12px;}
+.sp-lbl{flex:1;text-align:center;font-size:10px;font-weight:700;color:var(--muted);}
+.sp-lbl.strong{color:var(--ink);}
+.sp-footer{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.sp-play{padding:6px 16px;border-radius:99px;border:1.5px solid var(--green);background:var(--white);color:var(--green);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .12s;}
+.sp-play:hover{background:var(--green);color:#fff;}
+.sp-play.playing{background:var(--red);border-color:var(--red);color:#fff;}
+.sp-tempo{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);}
+.sp-tempo input{width:70px;accent-color:var(--green);}
+.strum-notation{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap;margin:8px 0;}
+.sn-item{display:flex;align-items:center;gap:10px;}
+.sn-symbol{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;flex-shrink:0;}
+.sn-D{background:var(--green-soft);color:var(--green);border:2px solid var(--green);}
+.sn-U{background:#EDF6FF;color:#1565C0;border:2px solid #1565C0;}
+.sn-skip{background:var(--cream);color:var(--line);border:2px dashed var(--line);}
+.sn-text strong{display:block;font-size:13px;font-weight:600;color:var(--ink);}
+.sn-text span{font-size:12px;color:var(--muted);}
+
+/* ── CHORD TYPE NAVIGATION ── */
+.ctype-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.ctype-pill{padding:7px 14px;border-radius:99px;border:1.5px solid var(--line);background:var(--white);font-family:var(--font-body);font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .12s;white-space:nowrap;}
+.ctype-pill:hover{border-color:var(--green);color:var(--green);}
+.ctype-pill.active{background:var(--green);color:#fff;border-color:var(--green);}
+.ctype-header{margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--line);}
+.ctype-title{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--ink);margin-bottom:4px;}
+.ctype-desc{font-size:13px;color:var(--muted);}
+
+.chord-section-label{grid-column:1/-1;font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--green-dark);text-transform:uppercase;letter-spacing:.06em;padding:14px 0 2px;border-bottom:1px solid var(--line);margin-bottom:4px;}
+.chord-ref-wrap{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.chord-ref-key{flex:1;min-width:180px;}
+.chord-ref-key li{font-size:13px;color:#2E3D36;line-height:1.75;list-style:none;display:flex;align-items:baseline;gap:8px;}
+.chord-ref-key li::before{content:'→';color:var(--green);font-weight:700;flex-shrink:0;}
+.chord-transitions{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:10px 0;}
+.ct-chord{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--green);padding:8px 14px;border:1.5px solid var(--green);border-radius:8px;background:var(--green-soft);}
+.ct-arrow{font-size:14px;color:var(--muted);padding:0 6px;}
+
+/* ── STEP 7: NECK STAGES DIAGRAM ── */
+.stages-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:4px 0;}
+.stage-card{border:1px solid var(--line);border-radius:12px;padding:14px 12px 12px;background:var(--white);display:flex;flex-direction:column;align-items:center;gap:10px;}
+.stage-card.stage-goal{border-color:var(--green);background:var(--green-soft);}
+.stage-num{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;}
+.stage-goal .stage-num{color:var(--green-dark);}
+.stage-heading{font-family:var(--font-display);font-size:13px;font-weight:700;color:var(--ink);text-align:center;line-height:1.3;}
+.stage-goal .stage-heading{color:var(--green-dark);}
+.stage-desc{font-size:11px;color:var(--muted);text-align:center;line-height:1.45;}
+.stage-badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;background:var(--green-soft);color:var(--green);}
+.stage-goal .stage-badge{background:var(--green);color:#fff;}
+.mini-neck{display:flex;flex-direction:column;gap:3px;width:100%;}
+.mn-string{display:flex;align-items:center;height:14px;}
+.mn-line{flex:1;height:1.5px;border-radius:99px;}
+.mn-string.active .mn-line{background:var(--green);}
+.mn-string.inactive .mn-line{background:var(--line);}
+.mn-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin:0 2px;}
+.mn-string.active .mn-dot{background:var(--green);}
+.mn-string.inactive .mn-dot{background:var(--line);}
+@media(max-width:520px){.stages-wrap{grid-template-columns:1fr;}}
+
+/* ── STEP 6: HAND DIAGRAM & CRAWL GRID ── */
+.hand-and-crawl{display:grid;grid-template-columns:160px 1fr;gap:24px;align-items:start;}
+.hand-svg-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
+.hand-note{font-size:11px;color:var(--muted);text-align:center;font-style:italic;line-height:1.4;}
+.crawl-table{width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;}
+.crawl-table th{background:var(--green-soft);padding:8px 10px;font-size:11px;font-weight:700;color:var(--green-dark);border-bottom:1px solid var(--line);text-align:center;}
+.crawl-table th:first-child{text-align:left;}
+.crawl-table td{padding:8px 6px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);text-align:center;vertical-align:middle;}
+.crawl-table td:first-child{font-size:11px;font-weight:700;color:var(--muted);text-align:left;padding-left:10px;background:var(--cream);}
+.crawl-table tr:last-child td{border-bottom:none;}
+.crawl-table td:last-child{border-right:none;}
+.f-badge{width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;font-weight:700;margin:auto;}
+.f1{background:#E6F4EE;color:#006A4E;}
+.f2{background:#C8E8D8;color:#005A40;}
+.f3{background:#A8D8C0;color:#004830;}
+.f4{background:#006A4E;color:#fff;}
+@media(max-width:600px){.hand-and-crawl{grid-template-columns:1fr;}}
+
+/* ── STEP 5: PENTATONIC REMOVAL VISUAL ── */
+.pent-vis{display:flex;flex-direction:column;gap:0;}
+.pent-block{display:flex;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--line);}
+.pent-block:last-child{border-bottom:none;}
+.pent-block-label{width:82px;flex-shrink:0;}
+.pent-block-title{font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--ink);line-height:1.3;}
+.pent-block-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.pent-notes{display:flex;gap:6px;flex-wrap:wrap;}
+.pn{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;font-weight:700;position:relative;transition:transform .1s;}
+.pn.kept{background:var(--green-soft);color:var(--green-dark);border:2px solid var(--green);}
+.pn.root{background:var(--green);color:#fff;border:2px solid var(--green-dark);}
+.pn.removed{background:#F5F5F3;color:#BBB;border:2px dashed #CCC;text-decoration:line-through;text-decoration-color:#E8313A;text-decoration-thickness:2px;}
+.pn.removed::after{content:'✕';position:absolute;top:-5px;right:-5px;width:14px;height:14px;background:var(--red);color:#fff;border-radius:50%;font-size:8px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1;}
+.pent-arrow{padding:6px 0 6px 92px;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.pent-arrow::before{content:'↓';font-size:16px;color:var(--red);}
+.pent-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;}
+.pent-leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.pent-leg-box{width:14px;height:14px;border-radius:3px;flex-shrink:0;}
+
+/* ── STEP 4: SCALE COMPARISON ── */
+.scale-compare{display:flex;flex-direction:column;gap:14px;}
+.sc-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.sc-label{width:76px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;line-height:1.4;}
+.sc-notes{display:flex;gap:5px;flex-wrap:wrap;}
+.sc-note{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;font-weight:700;transition:transform .1s;}
+.sc-note.shared{background:var(--green-soft);color:var(--green-dark);border:2px solid var(--green);}
+.sc-note.root-c{background:var(--green);color:#fff;}
+.sc-note.root-a{background:var(--green-dark);color:#fff;}
+.sc-divider{display:flex;align-items:center;gap:8px;padding:0 0 0 86px;}
+.sc-divider-line{flex:1;height:1px;background:var(--line);max-width:200px;}
+.sc-divider-txt{font-size:11px;color:var(--muted);white-space:nowrap;}
+
+/* ── STEP 3: SCALE STRIP ── */
+.ss-outer{overflow-x:auto;padding:8px 0 4px;}
+.ss-track{display:flex;align-items:flex-end;gap:0;min-width:max-content;}
+.ss-col{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;}
+.ss-col:hover .ss-dot{transform:scale(1.12);box-shadow:0 4px 14px rgba(0,106,78,.22);}
+.ss-col:active .ss-dot{transform:scale(1.05);}
+.ss-sol{font-family:var(--font-display);font-size:11px;font-weight:700;color:var(--green);height:18px;display:flex;align-items:flex-end;}
+.ss-col.root .ss-sol{color:var(--green-dark);}
+.ss-dot{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;font-weight:700;transition:all .12s;position:relative;z-index:1;}
+.ss-col.scale .ss-dot{background:var(--green-soft);color:var(--green-dark);border:2px solid var(--green);}
+.ss-col.root  .ss-dot{background:var(--green);color:#fff;border:2px solid var(--green-dark);}
+.ss-fret{font-size:10px;color:var(--muted);font-weight:500;height:16px;display:flex;align-items:center;}
+.ss-gap{display:flex;flex-direction:column;align-items:center;gap:0;padding-bottom:21px;position:relative;}
+.ss-gap-badge{font-size:10px;font-weight:700;padding:2px 5px;border-radius:4px;margin-bottom:4px;white-space:nowrap;}
+.ss-gap.W .ss-gap-badge{color:var(--green);background:var(--green-soft);}
+.ss-gap.H .ss-gap-badge{color:var(--red);background:var(--red-soft);}
+.ss-gap-line{height:2px;border-radius:99px;}
+.ss-gap.W .ss-gap-line{width:36px;background:var(--green);opacity:.35;}
+.ss-gap.H .ss-gap-line{width:18px;background:var(--red);opacity:.7;}
+.ss-hint{font-size:12px;color:var(--muted);margin-top:10px;display:flex;gap:16px;flex-wrap:wrap;}
+.ss-hint span{display:flex;align-items:center;gap:5px;}
+
+/* ── STEP 2: CHROMATIC STRIP ── */
+.chrom-outer{overflow-x:auto;padding:4px 0 12px;}
+.chrom-row{display:flex;align-items:center;gap:0;min-width:580px;}
+.chrom-cell{display:flex;flex-direction:column;align-items:center;gap:5px;}
+.chrom-dot{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:12px;font-weight:700;flex-shrink:0;}
+.chrom-nat{background:var(--green-soft);color:var(--green-dark);border:2px solid var(--green);}
+.chrom-acc{background:#F0F0EE;color:#666;border:2px solid #CCC;}
+.chrom-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;}
+.chrom-nat .chrom-label{color:var(--green);}
+.chrom-acc .chrom-label{color:#999;}
+.chrom-gap{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 4px;flex-shrink:0;}
+.chrom-gap-line{height:2px;border-radius:99px;background:var(--line);}
+.chrom-gap.whole .chrom-gap-line{width:32px;background:var(--green);opacity:.4;}
+.chrom-gap.half  .chrom-gap-line{width:16px;background:var(--red);}
+.chrom-gap-tag{font-size:10px;font-weight:700;padding:1px 5px;border-radius:99px;}
+.chrom-gap.whole .chrom-gap-tag{color:var(--green);background:var(--green-soft);}
+.chrom-gap.half  .chrom-gap-tag{color:var(--red);background:var(--red-soft);}
+.chrom-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;}
+.chrom-leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);}
+.chrom-leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+
+/* ── STEP 1: GUITAR ANATOMY & STRING STRIP ── */
+.vis-box{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:16px 0;box-shadow:var(--shadow-sm);}
+.vis-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:7px;}
+.guitar-layout{display:grid;grid-template-columns:160px 1fr;gap:28px;align-items:flex-start;}
+.gp-list{display:flex;flex-direction:column;gap:11px;}
+.gp-item{display:flex;gap:11px;align-items:flex-start;}
+.gp-num{width:22px;height:22px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;flex-shrink:0;margin-top:2px;}
+.gp-text strong{display:block;font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.3;}
+.gp-text span{font-size:12px;color:var(--muted);}
+.string-strip{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden;}
+.str-row{display:flex;align-items:center;border-bottom:1px solid var(--line);}
+.str-row:last-child{border-bottom:none;}
+.str-num{width:72px;font-size:11px;font-weight:600;color:var(--muted);padding:11px 10px;background:var(--green-soft);border-right:1px solid var(--line);flex-shrink:0;}
+.str-note{width:44px;font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--green);text-align:center;padding:8px 4px;border-right:1px solid var(--line);flex-shrink:0;}
+.str-line-wrap{flex:1;padding:0 16px;display:flex;align-items:center;}
+.str-line{width:100%;border-radius:99px;background:#8a9490;}
+.str-name{width:90px;font-size:12px;font-style:italic;font-weight:600;color:var(--green);padding:8px 10px;border-left:1px solid var(--line);flex-shrink:0;}
+@media(max-width:640px){.guitar-layout{grid-template-columns:1fr;}}
+
 </style>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -407,15 +949,15 @@ footer { margin-top: 0; }
 <header class="app-topbar">
   <a href="../../index.html" class="atb-logo">
     <img src="../../assets/logo.png" alt="Shopnil Academy" />
-    <span class="atb-name"><strong style="display:inline-block;align-self:flex-start;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase"><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">S</span><span style="color:#006A4E">H</span><span style="color:#F42A41">O</span><span style="color:#F42A41">P</span><span style="color:#F42A41">N</span><span style="color:#006A4E">I</span><span style="color:#006A4E">L</span></span><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">A</span><span style="color:#006A4E">C</span><span style="color:#F42A41">A</span><span style="color:#F42A41">D</span><span style="color:#F42A41">E</span><span style="color:#006A4E">M</span><span style="color:#006A4E">Y</span></span></strong><small>Basic Guitar · Trainer</small></span>
+    <span class="atb-name"><strong>Shopnil Academy</strong><small>Basic Guitar · Trainer</small></span>
   </a>
   <nav class="atb-links">
     <a href="../../index.html">Home</a>
     <a href="../../courses.html">Courses</a>
     <a href="index.html">Course page</a>
   </nav>
-  <a href="../../courses.html" class="atb-cta">All courses →</a>
   <button class="nav-toggle atb-toggle" id="navToggle" aria-label="Lessons menu">☰</button>
+  <a href="../../courses.html" class="atb-cta">All courses →</a>
 </header>
 
 <div class="app-shell">
@@ -424,7 +966,7 @@ footer { margin-top: 0; }
       <div class="sidebar-logo">
         🎸 <span>
           <strong style="display:block">Basic Guitar</strong>
-          <small>Guitar Lesson · 7 lessons</small>
+          <small>Guitar Trainer · 7 lessons</small>
         </span>
       </div>
       <a href="index.html" class="sb-back">← Back to course page</a>
@@ -452,7 +994,7 @@ footer { margin-top: 0; }
         <a href="../../index.html" class="logo">
           <img src="../../assets/logo.png" alt="Shopnil Academy" />
           <span class="logo-text">
-            <strong style="display:inline-block;align-self:flex-start;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase"><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">S</span><span style="color:#006A4E">H</span><span style="color:#F42A41">O</span><span style="color:#F42A41">P</span><span style="color:#F42A41">N</span><span style="color:#006A4E">I</span><span style="color:#006A4E">L</span></span><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">A</span><span style="color:#006A4E">C</span><span style="color:#F42A41">A</span><span style="color:#F42A41">D</span><span style="color:#F42A41">E</span><span style="color:#006A4E">M</span><span style="color:#006A4E">Y</span></span></strong>
+            <strong>Shopnil Academy</strong>
             <small>LEARN WITHOUT LIMITS</small>
           </span>
         </a>
@@ -598,7 +1140,20 @@ function playNote(s,f){
 // ── FRETBOARD BUILDER ────────────────────────────────────────────────
 function buildFretboard(cid){
   const wrap=document.getElementById(cid);if(!wrap)return;
-  let fbMode='all',fbScale='cmaj';
+
+  // ── All 12 major + 12 minor scales generated from intervals ──────
+  const NOTE_NAMES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  const MAJ_INT=[0,2,4,5,7,9,11];   // W W H W W W H
+  const MIN_INT=[0,2,3,5,7,8,10];   // W H W W H W W
+
+  function makeScale(root,intervals){
+    return {root, notes:new Set(intervals.map(i=>(root+i)%12))};
+  }
+
+  let fbMode='all', scaleType='major', scaleRoot=0;
+  function curScale(){ return makeScale(scaleRoot, scaleType==='major'?MAJ_INT:MIN_INT); }
+
+  // ── Build UI ──────────────────────────────────────────────────────
   wrap.innerHTML=`
     <div class="pill-row">
       <span class="pill-lbl">Show:</span>
@@ -606,47 +1161,105 @@ function buildFretboard(cid){
       <button class="pill" onclick="fbM_${cid}('scale',this)">Scale</button>
       <button class="pill" onclick="fbM_${cid}('none',this)">Clean</button>
     </div>
-    <div id="fbsr_${cid}" class="pill-row" style="display:none">
-      <span class="pill-lbl">Scale:</span>
-      <button class="pill active" onclick="fbS_${cid}('cmaj',this)">C major</button>
-      <button class="pill" onclick="fbS_${cid}('cpent',this)">C pentatonic</button>
-      <button class="pill" onclick="fbS_${cid}('amin',this)">A minor</button>
-      <button class="pill" onclick="fbS_${cid}('apent',this)">Am pentatonic</button>
+    <div id="fbsr_${cid}" style="display:none;margin-top:4px;">
+      <div class="pill-row">
+        <span class="pill-lbl">Type:</span>
+        <button class="pill active" id="fbtype_${cid}_major" onclick="fbT_${cid}('major',this)">Major</button>
+        <button class="pill"        id="fbtype_${cid}_minor" onclick="fbT_${cid}('minor',this)">Minor</button>
+      </div>
+      <div class="pill-row" style="flex-wrap:wrap;gap:4px;margin-top:4px;">
+        <span class="pill-lbl">Root:</span>
+        ${NOTE_NAMES.map((n,i)=>`<button class="pill${i===0?' active':''}" id="fbroot_${cid}_${i}" onclick="fbR_${cid}(${i},this)">${n}</button>`).join('')}
+      </div>
     </div>
-    <div class="fb-outer"><div class="fb-wrap"><table class="fb" id="fbt_${cid}"></table></div></div>
+    <div class="fb-outer" style="margin-top:8px;">
+      <div class="fb-wrap"><table class="fb" id="fbt_${cid}"></table></div>
+    </div>
     <div class="legend" id="fbl_${cid}">
-      <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Root note</div>
+      <div class="leg"><div class="leg-dot" style="background:var(--green)"></div>Root</div>
       <div class="leg"><div class="leg-dot" style="background:var(--green-soft);border:1px solid var(--green)"></div>Scale note</div>
       <div class="leg"><div class="leg-dot" style="background:var(--cream);border:1px solid var(--line)"></div>Other note</div>
     </div>
     <div class="fb-infobar" id="fbi_${cid}">Tap any dot to identify it.</div>`;
+
+  // ── Render fretboard ──────────────────────────────────────────────
   function render(){
-    const sc=SCALES[fbScale],table=document.getElementById('fbt_'+cid);table.innerHTML='';
-    const hr=document.createElement('tr');const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
-    for(let f=0;f<=12;f++){const th=document.createElement('th');th.className='fn'+([3,5,7,9,12].includes(f)?' mk':'');th.textContent=f===0?'':f;hr.appendChild(th);}
+    const sc=curScale();
+    const scaleName=NOTE_NAMES[scaleRoot]+' '+(scaleType==='major'?'major':'minor');
+    const table=document.getElementById('fbt_'+cid);
+    table.innerHTML='';
+
+    // Header row (fret numbers)
+    const hr=document.createElement('tr');
+    const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
+    for(let f=0;f<=12;f++){
+      const th=document.createElement('th');
+      th.className='fn'+([3,5,7,9,12].includes(f)?' mk':'');
+      th.textContent=f===0?'':f;
+      hr.appendChild(th);
+    }
     table.appendChild(hr);
+
+    // String rows
     for(let s=0;s<6;s++){
-      const tr=document.createElement('tr');const lbl=document.createElement('td');lbl.className='sl';lbl.textContent=SN[s];tr.appendChild(lbl);
+      const tr=document.createElement('tr');
+      const lbl=document.createElement('td');lbl.className='sl';lbl.textContent=SN[s];tr.appendChild(lbl);
       for(let f=0;f<=12;f++){
         const td=document.createElement('td');td.className='fc'+(f===0?' nut':'');
-        const note=(ON[s]+f)%12,name=NN[note],isRoot=note===sc.root,inScale=sc.notes.has(note);
+        const note=(ON[s]+f)%12, name=NN[note];
+        const isRoot=note===sc.root, inScale=sc.notes.has(note);
         const dot=document.createElement('div');
-        if(fbMode==='none'){dot.className='dot d-hidden';}
-        else if(fbMode==='all'){dot.className='dot d-note';dot.textContent=name;}
-        else{if(isRoot){dot.className='dot d-root';dot.textContent=name;}else if(inScale){dot.className='dot d-scale';dot.textContent=name;}else{dot.className='dot d-hidden';}}
+        if(fbMode==='none'){
+          dot.className='dot d-hidden';
+        } else if(fbMode==='all'){
+          dot.className='dot d-note';dot.textContent=name;
+        } else {
+          if(isRoot){dot.className='dot d-root';dot.textContent=name;}
+          else if(inScale){dot.className='dot d-scale';dot.textContent=name;}
+          else{dot.className='dot d-hidden';}
+        }
         td.appendChild(dot);
-        td.onclick=()=>{document.getElementById('fbi_'+cid).textContent=name+' — '+SN[s]+' string, '+(f===0?'open':'fret '+f)+(fbMode==='scale'&&isRoot?' — root':fbMode==='scale'&&inScale?' — scale note':'');};
+        td.onclick=()=>{
+          const info=document.getElementById('fbi_'+cid);
+          info.textContent=name+' — '+SN[s]+' string, '+(f===0?'open':'fret '+f)
+            +(fbMode==='scale'&&isRoot?' — root ('+scaleName+')'
+             :fbMode==='scale'&&inScale?' — in '+scaleName:'');
+        };
         tr.appendChild(td);
       }
       table.appendChild(tr);
     }
-    document.getElementById('fbsr_'+cid).style.display=fbMode==='scale'?'flex':'none';
+    document.getElementById('fbsr_'+cid).style.display=fbMode==='scale'?'block':'none';
     document.getElementById('fbl_'+cid).style.display=fbMode==='none'?'none':'flex';
   }
-  window['fbM_'+cid]=function(m,el){fbMode=m;el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();};
-  window['fbS_'+cid]=function(s,el){fbScale=s;el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));el.classList.add('active');render();};
+
+  // ── Event handlers ────────────────────────────────────────────────
+  window['fbM_'+cid]=function(m,el){
+    fbMode=m;
+    el.closest('.pill-row').querySelectorAll('.pill').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+    render();
+  };
+  window['fbT_'+cid]=function(t,el){
+    scaleType=t;
+    ['major','minor'].forEach(x=>{
+      const b=document.getElementById('fbtype_'+cid+'_'+x);
+      if(b) b.classList.toggle('active',x===t);
+    });
+    render();
+  };
+  window['fbR_'+cid]=function(r,el){
+    scaleRoot=r;
+    NOTE_NAMES.forEach((_,x)=>{
+      const b=document.getElementById('fbroot_'+cid+'_'+x);
+      if(b) b.classList.toggle('active',x===r);
+    });
+    render();
+  };
+
   render();
 }
+
 
 // ── EXERCISE PLAYER ──────────────────────────────────────────────────
 function buildPlayer(cid,filterCats){
@@ -751,11 +1364,2211 @@ function buildPlayer(cid,filterCats){
   loadEx(0);
 }
 
-// ── LESSONS ──────────────────────────────────────────────────────────
+
+// ══════════════════════════════════════════════════════════════════════
+// VISUAL BUILDERS — Step 1: Guitar anatomy & String strip
+// ══════════════════════════════════════════════════════════════════════
+
+function buildGuitarDiagram(cid){
+  const el=document.getElementById(cid);if(!el)return;
+  const W='#C8956C',WD='#8B5E3C',WN='#A07040',MT='#9AA0A6',SC='rgba(210,195,145,0.9)';
+  el.innerHTML=`<div class="guitar-layout">
+  <svg viewBox="0 0 200 410" width="155" height="390" xmlns="http://www.w3.org/2000/svg" style="display:block">
+    <!-- Body -->
+    <path d="M100,218 C70,218 52,235 52,254 C52,271 64,280 64,284 C53,288 40,300 40,321 C40,365 64,402 100,402 C136,402 160,365 160,321 C160,300 147,288 136,284 C136,280 148,271 148,254 C148,235 130,218 100,218 Z" fill="${W}" stroke="${WD}" stroke-width="1.5"/>
+    <path d="M100,223 C74,223 58,239 58,256 C58,272 69,281 69,285 C59,289 46,300 46,320 C46,362 68,396 100,396 C132,396 154,362 154,320 C154,300 141,289 131,285 C131,281 142,272 142,256 C142,239 126,223 100,223 Z" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="1.2"/>
+    <!-- Sound hole -->
+    <circle cx="100" cy="315" r="27" fill="#1a0c04" stroke="${WD}" stroke-width="2"/>
+    <circle cx="100" cy="315" r="30" fill="none" stroke="rgba(200,160,80,0.5)" stroke-width="1"/>
+    <circle cx="100" cy="315" r="32" fill="none" stroke="rgba(200,160,80,0.25)" stroke-width="1"/>
+    <!-- Bridge -->
+    <rect x="78" y="358" width="44" height="9" rx="3" fill="${WD}"/>
+    <rect x="80" y="356" width="40" height="4" rx="2" fill="rgba(200,160,80,0.7)"/>
+    <!-- Neck -->
+    <rect x="87" y="72" width="26" height="150" rx="1" fill="${WN}" stroke="${WD}" stroke-width="1"/>
+    <!-- Frets -->
+    <line x1="87" y1="92"  x2="113" y2="92"  stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="110" x2="113" y2="110" stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="127" x2="113" y2="127" stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="143" x2="113" y2="143" stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="157" x2="113" y2="157" stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="170" x2="113" y2="170" stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="182" x2="113" y2="182" stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="193" x2="113" y2="193" stroke="${WD}" stroke-width="1.5"/>
+    <line x1="87" y1="203" x2="113" y2="203" stroke="${WD}" stroke-width="1.5"/>
+    <!-- Fret dots -->
+    <circle cx="100" cy="150" r="3" fill="${WD}" opacity="0.45"/>
+    <circle cx="100" cy="176" r="3" fill="${WD}" opacity="0.45"/>
+    <!-- Strings -->
+    <line x1="91"  y1="14" x2="91"  y2="360" stroke="${SC}" stroke-width="0.7"/>
+    <line x1="95"  y1="14" x2="95"  y2="360" stroke="${SC}" stroke-width="0.9"/>
+    <line x1="99"  y1="14" x2="99"  y2="360" stroke="${SC}" stroke-width="1.1"/>
+    <line x1="103" y1="14" x2="103" y2="360" stroke="${SC}" stroke-width="1.3"/>
+    <line x1="107" y1="14" x2="107" y2="360" stroke="${SC}" stroke-width="1.6"/>
+    <line x1="111" y1="14" x2="111" y2="360" stroke="${SC}" stroke-width="2.0"/>
+    <!-- Nut -->
+    <rect x="86" y="68" width="28" height="5" rx="1" fill="#E0D0A8" stroke="${WD}" stroke-width="0.8"/>
+    <!-- Headstock -->
+    <rect x="82" y="8" width="36" height="62" rx="6" fill="${WN}" stroke="${WD}" stroke-width="1"/>
+    <!-- Tuning pegs left -->
+    <line x1="87" y1="21" x2="74" y2="21" stroke="${WD}" stroke-width="1"/><circle cx="71" cy="21" r="5" fill="${MT}" stroke="#666" stroke-width="0.5"/>
+    <line x1="87" y1="38" x2="74" y2="38" stroke="${WD}" stroke-width="1"/><circle cx="71" cy="38" r="5" fill="${MT}" stroke="#666" stroke-width="0.5"/>
+    <line x1="87" y1="55" x2="74" y2="55" stroke="${WD}" stroke-width="1"/><circle cx="71" cy="55" r="5" fill="${MT}" stroke="#666" stroke-width="0.5"/>
+    <!-- Tuning pegs right -->
+    <line x1="113" y1="21" x2="126" y2="21" stroke="${WD}" stroke-width="1"/><circle cx="129" cy="21" r="5" fill="${MT}" stroke="#666" stroke-width="0.5"/>
+    <line x1="113" y1="38" x2="126" y2="38" stroke="${WD}" stroke-width="1"/><circle cx="129" cy="38" r="5" fill="${MT}" stroke="#666" stroke-width="0.5"/>
+    <line x1="113" y1="55" x2="126" y2="55" stroke="${WD}" stroke-width="1"/><circle cx="129" cy="55" r="5" fill="${MT}" stroke="#666" stroke-width="0.5"/>
+    <!-- ① Headstock -->
+    <line x1="119" y1="26" x2="140" y2="26" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="148" cy="26" r="8" fill="var(--green)"/>
+    <text x="148" y="30" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">1</text>
+    <!-- ② Nut -->
+    <line x1="115" y1="71" x2="140" y2="71" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="148" cy="71" r="8" fill="var(--green)"/>
+    <text x="148" y="75" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">2</text>
+    <!-- ③ Neck -->
+    <line x1="114" y1="155" x2="140" y2="135" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="148" cy="133" r="8" fill="var(--green)"/>
+    <text x="148" y="137" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">3</text>
+    <!-- ④ Frets -->
+    <line x1="114" y1="92" x2="140" y2="100" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="148" cy="100" r="8" fill="var(--green)"/>
+    <text x="148" y="104" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">4</text>
+    <!-- ⑤ Strings -->
+    <line x1="114" y1="180" x2="140" y2="168" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="148" cy="166" r="8" fill="var(--green)"/>
+    <text x="148" y="170" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">5</text>
+    <!-- ⑥ Body -->
+    <line x1="53"  y1="260" x2="35"  y2="260" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="27" cy="260" r="8" fill="var(--green)"/>
+    <text x="27" y="264" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">6</text>
+    <!-- ⑦ Sound hole -->
+    <line x1="74"  y1="315" x2="55"  y2="330" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="47" cy="332" r="8" fill="var(--green)"/>
+    <text x="47" y="336" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">7</text>
+    <!-- ⑧ Bridge -->
+    <line x1="123" y1="362" x2="140" y2="362" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,2"/>
+    <circle cx="148" cy="362" r="8" fill="var(--green)"/>
+    <text x="148" y="366" text-anchor="middle" fill="white" font-size="9" font-weight="700" font-family="system-ui,sans-serif">8</text>
+  </svg>
+  <div class="gp-list">
+    ${[
+      ['Headstock','Holds the tuning pegs at the top of the guitar'],
+      ['Tuning pegs','Turn these to tune each string up or down'],
+      ['Neck & fretboard','Where your left hand presses the strings'],
+      ['Frets','Metal strips — each one raises pitch by one half step'],
+      ['Strings','Numbered 1 (thinnest, high) to 6 (thickest, low)'],
+      ['Body','The hollow resonating chamber that amplifies sound'],
+      ['Sound hole','Lets the sound vibrate out of the body'],
+      ['Bridge','Anchors the strings at the bottom of the body'],
+    ].map(([t,d],i)=>`<div class="gp-item">
+      <div class="gp-num">${i+1}</div>
+      <div class="gp-text"><strong>${t}</strong><span>${d}</span></div>
+    </div>`).join('')}
+  </div>
+  </div>`;
+}
+
+function buildStringStrip(cid){
+  const el=document.getElementById(cid);if(!el)return;
+  const strings=[
+    {num:'1',note:'e',height:'1px',name:'Eddie (thin)'},
+    {num:'2',note:'B',height:'1.5px',name:'Bye'},
+    {num:'3',note:'G',height:'2px',name:'Good'},
+    {num:'4',note:'D',height:'2.5px',name:'Dynamite'},
+    {num:'5',note:'A',height:'3px',name:'Ate'},
+    {num:'6',note:'E',height:'3.5px',name:'Eddie (thick)'},
+  ];
+  el.innerHTML=`<div class="string-strip">
+  ${strings.map(s=>`<div class="str-row">
+    <div class="str-num">String ${s.num}${s.num==='1'?' (high)':s.num==='6'?' (low)':''}</div>
+    <div class="str-note">${s.note}</div>
+    <div class="str-line-wrap"><div class="str-line" style="height:${s.height}"></div></div>
+    <div class="str-name">${s.name}</div>
+  </div>`).join('')}
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-top:8px;text-align:center;">
+    Memory phrase: <strong style="color:var(--ink)">E</strong>ddie &nbsp;<strong style="color:var(--ink)">A</strong>te &nbsp;<strong style="color:var(--ink)">D</strong>ynamite, &nbsp;<strong style="color:var(--ink)">G</strong>ood &nbsp;<strong style="color:var(--ink)">B</strong>ye &nbsp;<strong style="color:var(--ink)">E</strong>ddie
+  </p>`;
+}
+
+// Dispatch — grows with each step
+function initVis(id){
+  if(id==='holding'){
+    buildGuitarDiagram('vis_guitar');
+    buildStringStrip('vis_strings');
+  }
+  if(id==='fretboard'){
+    buildChromaticStrip('vis_chrom');
+  }
+  if(id==='pentatonic'){
+    buildPentVis('vis_pent');
+  }
+  if(id==='exercises'){
+    buildHandAndCrawl('vis_hand_crawl');
+  }
+  if(id==='neck'){
+    buildNeckStages('vis_stages');
+  }
+  if(id==='strumming'){
+    buildStrumVis('vis_strum');
+  }
+  if(id==='strumchords'){
+    buildStrumChords('vis_strumchords');
+  }
+  if(id==='firstsong'){
+    buildFirstSong('vis_firstsong');
+  }
+  if(id==='findchords'){
+    buildFindChords('vis_findchords');
+  }
+  if(id==='chords'){
+    buildChordTypes('vis_chord_types');
+    buildChordGrid('vis_chords');
+  }
+  if(id==='aminor'){
+    buildScaleStrip('vis_amstrip',{
+      strIdx:1,
+      notes:[
+        {note:'A',sol:'La', fret:2, root:true},
+        {note:'B',sol:'Ti', fret:4},
+        {note:'C',sol:'Do', fret:5},
+        {note:'D',sol:'Re', fret:7},
+        {note:'E',sol:'Mi', fret:9},
+        {note:'F',sol:'Fa', fret:10},
+        {note:'G',sol:'Sol',fret:12},
+        {note:'A',sol:'La', fret:14,root:true},
+      ]
+    });
+    buildScaleComparison('vis_comp');
+  }
+  if(id==='cmajor'){
+    buildScaleStrip('vis_cmstrip',{
+      strIdx:1,
+      notes:[
+        {note:'C',sol:'Do', fret:1, root:true},
+        {note:'D',sol:'Re', fret:3},
+        {note:'E',sol:'Mi', fret:5},
+        {note:'F',sol:'Fa', fret:6},
+        {note:'G',sol:'Sol',fret:8},
+        {note:'A',sol:'La', fret:10},
+        {note:'B',sol:'Ti', fret:12},
+        {note:'C',sol:'Do', fret:13,root:true},
+      ]
+    });
+  }
+}
+
+
+// ── STEP 2: Chromatic strip ──────────────────────────────────────────
+function buildChromaticStrip(cid){
+  const el=document.getElementById(cid);if(!el)return;
+  // 12 chromatic notes with their types
+  const notes=[
+    {n:'C', acc:false},
+    {n:'C#',acc:true},
+    {n:'D', acc:false},
+    {n:'D#',acc:true},
+    {n:'E', acc:false, halfNext:true},  // E→F is a half step
+    {n:'F', acc:false},
+    {n:'F#',acc:true},
+    {n:'G', acc:false},
+    {n:'G#',acc:true},
+    {n:'A', acc:false},
+    {n:'A#',acc:true},
+    {n:'B', acc:false, halfNext:true},  // B→C is a half step
+  ];
+  let html=`<div class="chrom-outer"><div class="chrom-row">`;
+  notes.forEach((note,i)=>{
+    const cls=note.acc?'chrom-acc':'chrom-nat';
+    html+=`<div class="chrom-cell">
+      <div class="chrom-dot ${cls}">
+        <span>${note.n}</span>
+      </div>
+    </div>`;
+    if(i<notes.length-1){
+      const isHalf=note.halfNext;
+      html+=`<div class="chrom-gap ${isHalf?'half':'whole'}">
+        <div class="chrom-gap-tag">${isHalf?'H':'W'}</div>
+        <div class="chrom-gap-line"></div>
+      </div>`;
+    }
+  });
+  // closing arrow back to C
+  html+=`<div class="chrom-gap half">
+    <div class="chrom-gap-tag">→C</div>
+    <div class="chrom-gap-line"></div>
+  </div>`;
+  html+=`</div></div>`;
+  html+=`<div class="chrom-legend">
+    <div class="chrom-leg"><div class="chrom-leg-dot" style="background:var(--green)"></div>Natural note (C D E F G A B)</div>
+    <div class="chrom-leg"><div class="chrom-leg-dot" style="background:#CCC"></div>Sharp / flat (C# D# F# G# A#)</div>
+    <div class="chrom-leg" style="gap:5px"><span style="background:var(--green-soft);color:var(--green);font-weight:700;padding:1px 6px;border-radius:4px;font-size:11px;">W</span>Whole step = 2 frets</div>
+    <div class="chrom-leg" style="gap:5px"><span style="background:var(--red-soft);color:var(--red);font-weight:700;padding:1px 6px;border-radius:4px;font-size:11px;">H</span>Half step = 1 fret &nbsp;<strong style="color:var(--red)">← only at E→F and B→C</strong></div>
+  </div>`;
+  el.innerHTML=html;
+}
+
+
+// ── STEP 3: Interactive scale strip ─────────────────────────────────
+function buildScaleStrip(cid, config){
+  const el=document.getElementById(cid);if(!el)return;
+  const {notes,strIdx}=config;
+  let html=`<p style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+    <span style="background:var(--green);color:#fff;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;margin-right:6px;">Tap</span>
+    any note to hear it on the B string. Solfège syllable shown above each dot.</p>
+  <div class="ss-outer"><div class="ss-track">`;
+
+  notes.forEach((n,i)=>{
+    const freq = SBF[strIdx] * Math.pow(2, n.fret/12);
+    const cls  = n.root ? 'root' : 'scale';
+    html+=`<div class="ss-col ${cls}" onclick="(function(){try{${n.root?'playGuitar':'playGuitar'}(${freq.toFixed(2)}, globalVol);}catch(e){}})()">
+      <div class="ss-sol">${n.sol}</div>
+      <div class="ss-dot">${n.note}</div>
+      <div class="ss-fret">fret ${n.fret}</div>
+    </div>`;
+    if(i < notes.length-1){
+      const gap = notes[i+1].fret - n.fret; // 1=H, 2=W
+      const type = gap===1 ? 'H' : 'W';
+      html+=`<div class="ss-gap ${type}">
+        <div class="ss-gap-badge">${type}</div>
+        <div class="ss-gap-line"></div>
+      </div>`;
+    }
+  });
+
+  html+=`</div></div>
+  <div class="ss-hint">
+    <span><b style="background:var(--green-soft);color:var(--green);padding:1px 5px;border-radius:4px;">W</b> = whole step (2 frets)</span>
+    <span><b style="background:var(--red-soft);color:var(--red);padding:1px 5px;border-radius:4px;">H</b> = half step (1 fret)</span>
+    <span style="color:var(--green);font-weight:600;">● Root note</span>
+    <span style="color:var(--muted);">○ Scale note</span>
+  </div>`;
+  el.innerHTML=html;
+}
+
+
+// ── STEP 4: Scale comparison ─────────────────────────────────────────
+function buildScaleComparison(cid){
+  const el=document.getElementById(cid);if(!el)return;
+  // C major: C D E F G A B C  — root = C
+  // A minor: A B C D E F G A  — root = A  (same 7 notes, different start)
+  const cmaj=['C','D','E','F','G','A','B','C'];
+  const amin=['A','B','C','D','E','F','G','A'];
+
+  function noteClass(n, scale){
+    if(scale==='cmaj') return n==='C' ? 'root-c' : 'shared';
+    if(scale==='amin') return n==='A' ? 'root-a' : 'shared';
+  }
+
+  const cmajRow = cmaj.map(n=>`<div class="sc-note ${noteClass(n,'cmaj')}">${n}</div>`).join('');
+  const aminRow = amin.map(n=>`<div class="sc-note ${noteClass(n,'amin')}">${n}</div>`).join('');
+
+  el.innerHTML=`<div class="scale-compare">
+    <div class="sc-row">
+      <div class="sc-label">C major</div>
+      <div class="sc-notes">${cmajRow}</div>
+    </div>
+    <div class="sc-divider">
+      <div class="sc-divider-line"></div>
+      <div class="sc-divider-txt">same 7 notes — different starting point</div>
+      <div class="sc-divider-line"></div>
+    </div>
+    <div class="sc-row">
+      <div class="sc-label">A minor</div>
+      <div class="sc-notes">${aminRow}</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;">
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);">
+      <div style="width:14px;height:14px;border-radius:3px;background:var(--green)"></div>C root (Do)
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);">
+      <div style="width:14px;height:14px;border-radius:3px;background:var(--green-dark)"></div>A root (La)
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);">
+      <div style="width:14px;height:14px;border-radius:3px;background:var(--green-soft);border:1.5px solid var(--green)"></div>Shared note
+    </div>
+  </div>`;
+}
+
+
+// ── STEP 5: Pentatonic removal visual ────────────────────────────────
+function buildPentVis(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  const scales=[
+    {
+      title:'C major pentatonic',sub:'Remove F and B from C major',
+      full:[
+        {n:'C',kept:true, root:true},
+        {n:'D',kept:true},
+        {n:'E',kept:true},
+        {n:'F',kept:false},        // ← removed
+        {n:'G',kept:true},
+        {n:'A',kept:true},
+        {n:'B',kept:false},        // ← removed
+        {n:'C',kept:true, root:true},
+      ],
+      arrow:'Remove F and B → 5 notes remain: C D E G A',
+      pent:[
+        {n:'C',root:true},{n:'D'},{n:'E'},{n:'G'},{n:'A'},{n:'C',root:true},
+      ],
+      pentLabel:'C major pentatonic',pentSub:'C D E G A',
+    },
+    {
+      title:'Am pentatonic',sub:'Remove B and F from A minor',
+      full:[
+        {n:'A',kept:true, root:true},
+        {n:'B',kept:false},        // ← removed
+        {n:'C',kept:true},
+        {n:'D',kept:true},
+        {n:'E',kept:true},
+        {n:'F',kept:false},        // ← removed
+        {n:'G',kept:true},
+        {n:'A',kept:true, root:true},
+      ],
+      arrow:'Remove B and F → 5 notes remain: A C D E G',
+      pent:[
+        {n:'A',root:true},{n:'C'},{n:'D'},{n:'E'},{n:'G'},{n:'A',root:true},
+      ],
+      pentLabel:'Am pentatonic',pentSub:'A C D E G',
+    },
+  ];
+
+  let html='<div class="pent-vis">';
+  scales.forEach((s,si)=>{
+    if(si>0) html+=`<div style="height:20px;"></div>`;
+
+    // Full scale row
+    html+=`<div class="pent-block">
+      <div class="pent-block-label">
+        <div class="pent-block-title">${s.title.split(' ').slice(0,-1).join(' ')}<br>full scale</div>
+        <div class="pent-block-sub">7 notes</div>
+      </div>
+      <div class="pent-notes">
+        ${s.full.map(n=>{
+          const cls=n.kept?(n.root?'root':'kept'):'removed';
+          return `<div class="pn ${cls}">${n.n}</div>`;
+        }).join('')}
+      </div>
+    </div>`;
+
+    // Arrow
+    html+=`<div class="pent-arrow">${s.arrow}</div>`;
+
+    // Pentatonic row
+    html+=`<div class="pent-block">
+      <div class="pent-block-label">
+        <div class="pent-block-title">${s.pentLabel}</div>
+        <div class="pent-block-sub">5 notes</div>
+      </div>
+      <div class="pent-notes">
+        ${s.pent.map(n=>`<div class="pn ${n.root?'root':'kept'}">${n.n}</div>`).join('')}
+      </div>
+    </div>`;
+  });
+
+  html+=`</div>
+  <div class="pent-legend">
+    <div class="pent-leg"><div class="pent-leg-box" style="background:var(--green)"></div>Root</div>
+    <div class="pent-leg"><div class="pent-leg-box" style="background:var(--green-soft);border:1.5px solid var(--green)"></div>Kept in pentatonic</div>
+    <div class="pent-leg"><div class="pent-leg-box" style="background:#F5F5F3;border:2px dashed #CCC"></div>Removed (creates tension)</div>
+  </div>`;
+
+  el.innerHTML=html;
+}
+
+
+// ── STEP 6: Hand diagram + Chromatic crawl grid ──────────────────────
+function buildHandAndCrawl(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  // SVG hand: palm + 4 fingers, numbered badges on fingertips
+  const handSVG=`<svg viewBox="0 0 160 230" width="140" height="195" xmlns="http://www.w3.org/2000/svg">
+    <!-- Palm -->
+    <ellipse cx="80" cy="180" rx="58" ry="46" fill="#FDDCC8" stroke="#D4956A" stroke-width="1.5"/>
+    <!-- Index finger (1) — leftmost -->
+    <rect x="22" y="62" width="30" height="100" rx="15" fill="#FDDCC8" stroke="#D4956A" stroke-width="1.5"/>
+    <!-- Middle finger (2) -->
+    <rect x="57" y="42" width="30" height="115" rx="15" fill="#FDDCC8" stroke="#D4956A" stroke-width="1.5"/>
+    <!-- Ring finger (3) -->
+    <rect x="92" y="50" width="30" height="108" rx="15" fill="#FDDCC8" stroke="#D4956A" stroke-width="1.5"/>
+    <!-- Pinky (4) — rightmost -->
+    <rect x="127" y="76" width="26" height="84" rx="13" fill="#FDDCC8" stroke="#D4956A" stroke-width="1.5"/>
+    <!-- Knuckle lines -->
+    <line x1="22" y1="140" x2="52" y2="140" stroke="#D4956A" stroke-width="1" opacity=".4"/>
+    <line x1="57" y1="135" x2="87" y2="135" stroke="#D4956A" stroke-width="1" opacity=".4"/>
+    <line x1="92" y1="137" x2="122" y2="137" stroke="#D4956A" stroke-width="1" opacity=".4"/>
+    <line x1="127" y1="140" x2="153" y2="140" stroke="#D4956A" stroke-width="1" opacity=".4"/>
+    <!-- Finger number badges -->
+    <circle cx="37"  cy="74" r="12" fill="#006A4E"/>
+    <text   x="37"  y="79" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="system-ui">1</text>
+    <circle cx="72"  cy="54" r="12" fill="#006A4E"/>
+    <text   x="72"  y="59" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="system-ui">2</text>
+    <circle cx="107" cy="62" r="12" fill="#006A4E"/>
+    <text   x="107" y="67" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="system-ui">3</text>
+    <circle cx="140" cy="88" r="12" fill="#006A4E"/>
+    <text   x="140" y="93" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="system-ui">4</text>
+    <!-- Finger name labels below -->
+    <text x="37"  y="220" text-anchor="middle" fill="#65766E" font-size="10" font-family="system-ui">Index</text>
+    <text x="72"  y="220" text-anchor="middle" fill="#65766E" font-size="10" font-family="system-ui">Middle</text>
+    <text x="107" y="220" text-anchor="middle" fill="#65766E" font-size="10" font-family="system-ui">Ring</text>
+    <text x="140" y="220" text-anchor="middle" fill="#65766E" font-size="10" font-family="system-ui">Pinky</text>
+  </svg>`;
+
+  // Crawl grid: 6 strings (low to high) × 4 frets
+  const strings=[
+    {name:'6 — E (low)',label:'E'},
+    {name:'5 — A',      label:'A'},
+    {name:'4 — D',      label:'D'},
+    {name:'3 — G',      label:'G'},
+    {name:'2 — B',      label:'B'},
+    {name:'1 — e (high)',label:'e'},
+  ];
+
+  let tableHTML=`<table class="crawl-table">
+    <thead><tr>
+      <th>String</th>
+      <th>Fret 1<br><span style="font-weight:400;color:var(--muted)">Index</span></th>
+      <th>Fret 2<br><span style="font-weight:400;color:var(--muted)">Middle</span></th>
+      <th>Fret 3<br><span style="font-weight:400;color:var(--muted)">Ring</span></th>
+      <th>Fret 4<br><span style="font-weight:400;color:var(--muted)">Pinky</span></th>
+    </tr></thead><tbody>`;
+
+  strings.forEach(s=>{
+    tableHTML+=`<tr>
+      <td>${s.name}</td>
+      <td><div class="f-badge f1">1</div></td>
+      <td><div class="f-badge f2">2</div></td>
+      <td><div class="f-badge f3">3</div></td>
+      <td><div class="f-badge f4">4</div></td>
+    </tr>`;
+  });
+  tableHTML+=`</tbody></table>
+  <p style="font-size:12px;color:var(--muted);margin-top:8px;">
+    Play <strong>1 → 2 → 3 → 4</strong> on every string from low E (top row) to high e (bottom). Then reverse: <strong>4 → 3 → 2 → 1</strong>.
+  </p>`;
+
+  el.innerHTML=`<div class="hand-and-crawl">
+    <div class="hand-svg-wrap">
+      ${handSVG}
+      <p class="hand-note">Thumb rests<br>behind the neck</p>
+    </div>
+    <div>${tableHTML}</div>
+  </div>`;
+}
+
+
+// ── STEP 7: Neck stages diagram ──────────────────────────────────────
+function buildNeckStages(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  // Each stage: which strings are "active" (true = highlighted, false = grey)
+  // Strings ordered high-e (top) to low-E (bottom) — how a guitarist sees the neck
+  const stages=[
+    {
+      num:'Stage 1',
+      heading:'1 String',
+      desc:'Learn the note sequence and solfège on one string first.',
+      badge:'Start here',
+      goal:false,
+      // Only the B string (2nd from top) is active; dots shown at 4 positions
+      strings:[
+        {active:false, dots:[false,false,false,false]},  // e (high)
+        {active:true,  dots:[true, true, true, true ]},  // B  ← active
+        {active:false, dots:[false,false,false,false]},  // G
+        {active:false, dots:[false,false,false,false]},  // D
+        {active:false, dots:[false,false,false,false]},  // A
+        {active:false, dots:[false,false,false,false]},  // E (low)
+      ],
+    },
+    {
+      num:'Stage 2',
+      heading:'2 Strings',
+      desc:'Cross to an adjacent string. Introduces real neck movement.',
+      badge:'Then this',
+      goal:false,
+      strings:[
+        {active:false, dots:[false,false,false,false]},
+        {active:true,  dots:[true, true, false,false]},  // B — 2 notes
+        {active:true,  dots:[true, true, false,false]},  // G — 2 notes
+        {active:false, dots:[false,false,false,false]},
+        {active:false, dots:[false,false,false,false]},
+        {active:false, dots:[false,false,false,false]},
+      ],
+    },
+    {
+      num:'Stage 3',
+      heading:'All 6 Strings',
+      desc:'Full neck run — low E to high e and back. The complete scale shape.',
+      badge:'End goal',
+      goal:true,
+      strings:[
+        {active:true, dots:[true, true, false,false]},
+        {active:true, dots:[true, true, false,false]},
+        {active:true, dots:[true, true, false,false]},
+        {active:true, dots:[true, true, false,false]},
+        {active:true, dots:[true, true, false,false]},
+        {active:true, dots:[true, true, false,false]},
+      ],
+    },
+  ];
+
+  function miniNeck(strings){
+    return `<div class="mini-neck">
+      ${strings.map(s=>{
+        const cls = s.active ? 'active' : 'inactive';
+        const dotsHTML = s.dots.map(d=>`<div class="mn-dot${d?'':' inactive'}" style="${d?'':'background:var(--line)'}"></div>`).join('<div class="mn-line"></div>');
+        return `<div class="mn-string ${cls}">
+          <div class="mn-line"></div>
+          ${dotsHTML}
+          <div class="mn-line"></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  el.innerHTML=`<div class="stages-wrap">
+    ${stages.map(s=>`
+    <div class="stage-card${s.goal?' stage-goal':''}">
+      <div class="stage-num">${s.num}</div>
+      <div class="stage-heading">${s.heading}</div>
+      ${miniNeck(s.strings)}
+      <div class="stage-desc">${s.desc}</div>
+      <div class="stage-badge">${s.badge}</div>
+    </div>`).join('')}
+  </div>
+  <p style="font-size:12px;color:var(--muted);margin-top:10px;">
+    Work through each scale in order: <strong style="color:var(--ink)">1 string → 2 strings → 6 strings</strong>. Only move on when the previous level feels automatic.
+  </p>`;
+}
+
+
+
+// ── Chord types reference ────────────────────────────────────────────
+function buildChordTypes(cid){
+  const el=document.getElementById(cid);if(!el)return;
+  const types=[
+    {name:'Major',              sound:'Bright, happy and stable.',                         lvl:'beg', egs:['C','G','D','A','E']},
+    {name:'Minor',              sound:'Sadder, more emotional than major.',                lvl:'beg', egs:['Am','Em','Dm','Cm','Gm']},
+    {name:'Open Chords',        sound:'First-position chords using open strings. The foundation of acoustic guitar.', lvl:'beg', egs:['C','G','D','A','E','Am','Em']},
+    {name:'Power (5)',          sound:'Just root + fifth. Strong and punchy.',             lvl:'beg', egs:['G5','A5','E5','D5']},
+    {name:'Dominant 7th (7)',   sound:'Adds tension; wants to resolve to another chord.',  lvl:'mid', egs:['G7','C7','D7','A7','E7']},
+    {name:'Minor 7th (m7)',     sound:'Warm and mellow — softer than plain minor.',        lvl:'mid', egs:['Am7','Em7','Dm7','Bm7']},
+    {name:'Major 7th (maj7)',   sound:'Smooth, jazzy and sophisticated.',                  lvl:'mid', egs:['Cmaj7','Gmaj7','Fmaj7','Amaj7']},
+    {name:'Suspended (sus2/4)', sound:'Neither major nor minor — open, floating.',         lvl:'mid', egs:['Dsus2','Dsus4','Asus2','Asus4']},
+    {name:'Barre chords',       sound:'A technique: one finger across all strings. Moveable to any key.', lvl:'mid', egs:['F','Bm','G barre']},
+    {name:'Diminished (dim)',   sound:'Tense and unstable — creates a dark effect.',       lvl:'adv', egs:['Bdim','Cdim','F#dim']},
+    {name:'Augmented (aug)',    sound:'Bright but unresolved — creates suspense.',         lvl:'adv', egs:['Caug','Gaug','Aaug']},
+    {name:'Extended (9, 11, 13)','sound':'Layers of notes beyond the 7th — rich and complex.', lvl:'adv', egs:['C9','G9','Am9','C11','C13']},
+    {name:'Added note (add)',   sound:'A standard chord with one extra colour note.',      lvl:'adv', egs:['Cadd9','Gadd9','Dadd11']},
+  ];
+  el.innerHTML=`<div class="chord-types-grid">
+  ${types.map(t=>`<div class="ctt ${t.lvl}">
+    <div class="ctt-top">
+      <div class="ctt-name">${t.name}</div>
+      <div class="ctt-lvl">${t.lvl==='beg'?'Beginner':t.lvl==='mid'?'Intermediate':'Advanced'}</div>
+    </div>
+    <div class="ctt-sound">${t.sound}</div>
+    <div class="ctt-egs">${t.egs.map(e=>`<span class="ctt-eg">${e}</span>`).join('')}</div>
+  </div>`).join('')}
+  </div>`;
+}
+// ── LESSON 8: Chord diagrams ─────────────────────────────────────────
+// ── CHORD DATABASE (generated for all 12 chromatic notes) ─────────────
+const CHORDS = (function(){
+  // Note index: C=0 … B=11
+  const NI = {A:9,'A#':10,B:11,C:0,'C#':1,D:2,'D#':3,E:4,F:5,'F#':6,G:7,'G#':8};
+  // SN audio mapping: chord-strings-index(0=lowE)→SN-index(5=lowE)
+  const SNA = [5,4,3,2,1,0];
+  // Open note (C=0) for each chord-string position
+  const OPEN = [4,9,2,7,11,4]; // lowE,A,D,G,B,highE
+
+  function fr(openNote, target){ return (target - openNote + 60) % 12; }
+  function aud(strings){ return strings.map((s,i)=>s.f>=0?[SNA[i],s.f]:null).filter(Boolean); }
+
+  // ── Shape templates (R = barre fret) ──────────────────────────────
+  function eMaj(R){
+    const s=[{f:R,n:1},{f:R+2,n:3},{f:R+2,n:4},{f:R+1,n:2},{f:R,n:1},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:R>0?{fret:R,from:0,to:5}:null,audio:aud(s)};
+  }
+  function aMaj(R){
+    const s=[{f:-1},{f:R,n:1},{f:R+2,n:3},{f:R+2,n:4},{f:R+2,n:4},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:{fret:R,from:1,to:5},audio:aud(s)};
+  }
+  function eMin(R){
+    const s=[{f:R,n:1},{f:R+2,n:3},{f:R+2,n:4},{f:R,n:1},{f:R,n:1},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:R>0?{fret:R,from:0,to:5}:null,audio:aud(s)};
+  }
+  function aMin(R){
+    const s=[{f:-1},{f:R,n:1},{f:R+2,n:3},{f:R+2,n:4},{f:R+1,n:2},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:{fret:R,from:1,to:5},audio:aud(s)};
+  }
+  function eDom7(R){
+    const s=[{f:R,n:1},{f:R+2,n:3},{f:R,n:1},{f:R+1,n:2},{f:R,n:1},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:R>0?{fret:R,from:0,to:5}:null,audio:aud(s)};
+  }
+  function aDom7(R){
+    const s=[{f:-1},{f:R,n:1},{f:R+2,n:3},{f:R,n:1},{f:R+2,n:2},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:{fret:R,from:1,to:5},audio:aud(s)};
+  }
+  function eMaj7(R){
+    const s=[{f:R,n:1},{f:R+2,n:4},{f:R+1,n:2},{f:R+1,n:3},{f:R,n:1},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:R>0?{fret:R,from:0,to:5}:null,audio:aud(s)};
+  }
+  function aMaj7(R){
+    const s=[{f:-1},{f:R,n:1},{f:R+2,n:3},{f:R+1,n:2},{f:R+2,n:4},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:{fret:R,from:1,to:5},audio:aud(s)};
+  }
+  function eMin7(R){
+    const s=[{f:R,n:1},{f:R+2,n:2},{f:R,n:1},{f:R,n:1},{f:R,n:1},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:R>0?{fret:R,from:0,to:5}:null,audio:aud(s)};
+  }
+  function aMin7(R){
+    const s=[{f:-1},{f:R,n:1},{f:R+2,n:3},{f:R,n:1},{f:R+1,n:2},{f:R,n:1}];
+    return {strings:s,sf:Math.max(1,R),barre:{fret:R,from:1,to:5},audio:aud(s)};
+  }
+  function powerE(R){
+    const s=[{f:R,n:1},{f:R+2,n:3},{f:R+2,n:4},{f:-1},{f:-1},{f:-1}];
+    return {strings:s,sf:Math.max(1,R),barre:null,audio:aud(s)};
+  }
+  function powerA(R){
+    const s=[{f:-1},{f:R,n:1},{f:R+2,n:3},{f:R+2,n:4},{f:-1},{f:-1}];
+    return {strings:s,sf:Math.max(1,R),barre:null,audio:aud(s)};
+  }
+  // Diminished 7: fully symmetrical — shape repeats every 3 frets
+  function dim7Shape(R){
+    // x-R-(R+3)-(R+2)-(R+3)-x  (on A,D,G,B strings)
+    const s=[{f:-1},{f:R,n:1},{f:R+3,n:3},{f:R+2,n:2},{f:R+3,n:4},{f:-1}];
+    return {strings:s,sf:Math.max(1,R),barre:null,audio:aud(s)};
+  }
+  // Augmented: root on D or G string
+  function augShape(R){
+    // x-x-R-(R+4)-(R+4)-(R+3)  — clean 4-string voicing
+    const s=[{f:-1},{f:-1},{f:R,n:1},{f:R+4,n:3},{f:R+4,n:4},{f:R+3,n:2}];
+    return {strings:s,sf:Math.max(1,R),barre:null,audio:aud(s)};
+  }
+
+  // ── Open voicing overrides ─────────────────────────────────────────
+  const OPEN_V = {
+    A_major:  {strings:[{f:-1},{f:0},{f:2,n:1},{f:2,n:2},{f:2,n:3},{f:0}],sf:1,barre:null,audio:[[4,0],[3,2],[2,2],[1,2],[0,0]]},
+    C_major:  {strings:[{f:-1},{f:3,n:3},{f:2,n:2},{f:0},{f:1,n:1},{f:0}],sf:1,barre:null,audio:[[4,3],[3,2],[2,0],[1,1],[0,0]]},
+    D_major:  {strings:[{f:-1},{f:-1},{f:0},{f:2,n:1},{f:3,n:3},{f:2,n:2}],sf:1,barre:null,audio:[[3,0],[2,2],[1,3],[0,2]]},
+    E_major:  {strings:[{f:0},{f:2,n:2},{f:2,n:3},{f:1,n:1},{f:0},{f:0}],sf:1,barre:null,audio:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]]},
+    G_major:  {strings:[{f:3,n:2},{f:2,n:1},{f:0},{f:0},{f:0},{f:3,n:3}],sf:1,barre:null,audio:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]]},
+    Am_minor: {strings:[{f:-1},{f:0},{f:2,n:2},{f:2,n:3},{f:1,n:1},{f:0}],sf:1,barre:null,audio:[[4,0],[3,2],[2,2],[1,1],[0,0]]},
+    Dm_minor: {strings:[{f:-1},{f:-1},{f:0},{f:2,n:2},{f:3,n:3},{f:1,n:1}],sf:1,barre:null,audio:[[3,0],[2,2],[1,3],[0,1]]},
+    Em_minor: {strings:[{f:0},{f:2,n:2},{f:2,n:3},{f:0},{f:0},{f:0}],sf:1,barre:null,audio:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]]},
+    A_dom7:   {strings:[{f:-1},{f:0},{f:2,n:2},{f:0},{f:2,n:3},{f:0}],sf:1,barre:null,audio:[[4,0],[3,2],[2,0],[1,2],[0,0]]},
+    B_dom7:   {strings:[{f:-1},{f:2,n:1},{f:1,n:2},{f:2,n:3},{f:0},{f:2,n:4}],sf:1,barre:null,audio:[[4,2],[3,1],[2,2],[1,0],[0,2]]},
+    C_dom7:   {strings:[{f:-1},{f:3,n:3},{f:2,n:2},{f:3,n:4},{f:1,n:1},{f:0}],sf:1,barre:null,audio:[[4,3],[3,2],[2,3],[1,1],[0,0]]},
+    D_dom7:   {strings:[{f:-1},{f:-1},{f:0},{f:2,n:2},{f:1,n:1},{f:2,n:3}],sf:1,barre:null,audio:[[3,0],[2,2],[1,1],[0,2]]},
+    E_dom7:   {strings:[{f:0},{f:2,n:2},{f:0},{f:1,n:1},{f:0},{f:0}],sf:1,barre:null,audio:[[5,0],[4,2],[3,0],[2,1],[1,0],[0,0]]},
+    G_dom7:   {strings:[{f:3,n:3},{f:2,n:2},{f:0},{f:0},{f:0},{f:1,n:1}],sf:1,barre:null,audio:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,1]]},
+    C_maj7:   {strings:[{f:-1},{f:3,n:3},{f:2,n:2},{f:0},{f:0},{f:0}],sf:1,barre:null,audio:[[4,3],[3,2],[2,0],[1,0],[0,0]]},
+    E_maj7:   {strings:[{f:0},{f:2,n:2},{f:1,n:1},{f:1,n:1},{f:0},{f:0}],sf:1,barre:null,audio:[[5,0],[4,2],[3,1],[2,1],[1,0],[0,0]]},
+    F_maj7:   {strings:[{f:-1},{f:-1},{f:3,n:3},{f:2,n:2},{f:1,n:1},{f:0}],sf:1,barre:null,audio:[[3,3],[2,2],[1,1],[0,0]]},
+    G_maj7:   {strings:[{f:3,n:3},{f:2,n:2},{f:0},{f:0},{f:0},{f:2,n:1}],sf:1,barre:null,audio:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,2]]},
+    A_maj7:   {strings:[{f:-1},{f:0},{f:2,n:3},{f:1,n:1},{f:2,n:2},{f:0}],sf:1,barre:null,audio:[[4,0],[3,2],[2,1],[1,2],[0,0]]},
+    Am_m7:    {strings:[{f:-1},{f:0},{f:2,n:2},{f:0},{f:1,n:1},{f:0}],sf:1,barre:null,audio:[[4,0],[3,2],[2,0],[1,1],[0,0]]},
+    Dm_m7:    {strings:[{f:-1},{f:-1},{f:0},{f:2,n:3},{f:1,n:1},{f:1,n:1}],sf:1,barre:null,audio:[[3,0],[2,2],[1,1],[0,1]]},
+    Em_m7:    {strings:[{f:0},{f:2,n:2},{f:0},{f:0},{f:0},{f:0}],sf:1,barre:null,audio:[[5,0],[4,2],[3,0],[2,0],[1,0],[0,0]]},
+    E_power:  {strings:[{f:0},{f:2,n:1},{f:2,n:2},{f:-1},{f:-1},{f:-1}],sf:1,barre:null,audio:[[5,0],[4,2],[3,2]]},
+    A_power:  {strings:[{f:-1},{f:0},{f:2,n:1},{f:2,n:2},{f:-1},{f:-1}],sf:1,barre:null,audio:[[4,0],[3,2],[2,2]]},
+    D_power:  {strings:[{f:-1},{f:-1},{f:0},{f:2,n:1},{f:2,n:2},{f:-1}],sf:1,barre:null,audio:[[3,0],[2,2],[1,2]]},
+  };
+
+  // ── Shape picker ──────────────────────────────────────────────────
+  function pick(name, type, shapeFns) {
+    const key = name + '_' + type;
+    if(OPEN_V[key]) return OPEN_V[key];
+    const ni = NI[name];
+    const eR = fr(4,ni), aR = fr(9,ni);
+    // Prefer A-shape (lower frets) when root fret on A is 1-6
+    const useA = aR >= 1 && aR <= 6;
+    return useA ? shapeFns.a(aR) : shapeFns.e(eR);
+  }
+
+  const NOTES = ['A','A#','B','C','C#','D','D#','E','F','F#','G','G#'];
+  const db = [];
+
+  const TYPES = [
+    { cat:'major', suffix:'',     label:'major', fns:{a:aMaj,  e:eMaj},   diff:'Open chord' },
+    { cat:'minor', suffix:'m',    label:'minor', fns:{a:aMin,  e:eMin},   diff:'Open chord' },
+    { cat:'dom7',  suffix:'7',    label:'7',     fns:{a:aDom7, e:eDom7},  diff:'Open chord' },
+    { cat:'maj7',  suffix:'maj7', label:'maj7',  fns:{a:aMaj7, e:eMaj7},  diff:'Open chord' },
+    { cat:'m7',    suffix:'m7',   label:'m7',    fns:{a:aMin7, e:eMin7},  diff:'Open chord' },
+    { cat:'power', suffix:'5',    label:'5',     fns:null,                diff:'Power chord' },
+    { cat:'dim',   suffix:'dim',  label:'dim',   fns:null,                diff:'4 fingers'  },
+    { cat:'aug',   suffix:'aug',  label:'aug',   fns:null,                diff:'3 fingers'  },
+  ];
+
+  for(const T of TYPES){
+    for(const name of NOTES){
+      const ni = NI[name];
+      const chordName = name + T.suffix;
+      const id = chordName.replace(/[#]/g,'s').replace(/b$/,'b');
+      let v;
+
+      if(T.cat === 'power'){
+        const keyP = name + '_power';
+        if(OPEN_V[keyP]) { v = OPEN_V[keyP]; }
+        else {
+          const eR=fr(4,ni), aR=fr(9,ni);
+          v = (aR>=1&&aR<=6) ? powerA(aR) : powerE(eR);
+        }
+      } else if(T.cat === 'dim'){
+        // Root on A string for most positions
+        const aR=fr(9,ni);
+        const r = aR===0?12:aR;
+        v = dim7Shape(r);
+      } else if(T.cat === 'aug'){
+        // Root on D string
+        const dR=fr(2,ni);
+        const r = dR===0?12:dR;
+        v = augShape(r);
+      } else {
+        v = pick(name, T.cat==='dom7'?'dom7':T.cat==='maj7'?'maj7':T.cat==='m7'?'m7':T.cat==='minor'?'minor':'major', T.fns);
+      }
+
+      const isOpen = !v.barre;
+      db.push({
+        id, name: chordName,
+        full: `${name} ${T.label}`,
+        cat: T.cat,
+        diff: isOpen ? T.diff : `Barre · fret ${v.sf}`,
+        tip: '',
+        ...v
+      });
+    }
+  }
+
+  // ── Barre chords ─────────────────────────────────────────────────
+  // E-shape (root on low E string): barre covers all 6 strings
+  // A-shape (root on A string):     barre covers strings 1-5
+  const BARRE_CHORDS = [
+    // E-shape major
+    {id:'Fmaj_b', name:'F',   full:'F major (E-shape)',    cat:'barre', diff:'Barre · fret 1', strings:[{f:1,n:1},{f:3,n:3},{f:3,n:4},{f:2,n:2},{f:1,n:1},{f:1,n:1}], sf:1, barre:{fret:1,from:0,to:5}, audio:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]]},
+    {id:'Fs_b',   name:'F#',  full:'F# major (E-shape)',   cat:'barre', diff:'Barre · fret 2', strings:[{f:2,n:1},{f:4,n:3},{f:4,n:4},{f:3,n:2},{f:2,n:1},{f:2,n:1}], sf:2, barre:{fret:2,from:0,to:5}, audio:[[5,2],[4,4],[3,4],[2,3],[1,2],[0,2]]},
+    {id:'Ab_b',   name:'G#',  full:'G# major (E-shape)',   cat:'barre', diff:'Barre · fret 4', strings:[{f:4,n:1},{f:6,n:3},{f:6,n:4},{f:5,n:2},{f:4,n:1},{f:4,n:1}], sf:4, barre:{fret:4,from:0,to:5}, audio:[[5,4],[4,6],[3,6],[2,5],[1,4],[0,4]]},
+    // E-shape minor
+    {id:'Fmin_b', name:'Fm',  full:'F minor (E-shape)',    cat:'barre', diff:'Barre · fret 1', strings:[{f:1,n:1},{f:3,n:3},{f:3,n:4},{f:1,n:1},{f:1,n:1},{f:1,n:1}], sf:1, barre:{fret:1,from:0,to:5}, audio:[[5,1],[4,3],[3,3],[2,1],[1,1],[0,1]]},
+    {id:'Fsm_b',  name:'F#m', full:'F#m (E-shape)',        cat:'barre', diff:'Barre · fret 2', strings:[{f:2,n:1},{f:4,n:3},{f:4,n:4},{f:2,n:1},{f:2,n:1},{f:2,n:1}], sf:2, barre:{fret:2,from:0,to:5}, audio:[[5,2],[4,4],[3,4],[2,2],[1,2],[0,2]]},
+    {id:'Gm_b',   name:'Gm',  full:'Gm (E-shape)',         cat:'barre', diff:'Barre · fret 3', strings:[{f:3,n:1},{f:5,n:3},{f:5,n:4},{f:3,n:1},{f:3,n:1},{f:3,n:1}], sf:3, barre:{fret:3,from:0,to:5}, audio:[[5,3],[4,5],[3,5],[2,3],[1,3],[0,3]]},
+    // A-shape major
+    {id:'Bb_b',   name:'Bb',  full:'Bb major (A-shape)',   cat:'barre', diff:'Barre · fret 1', strings:[{f:-1},{f:1,n:1},{f:3,n:3},{f:3,n:4},{f:3,n:4},{f:1,n:1}], sf:1, barre:{fret:1,from:1,to:5}, audio:[[4,1],[3,3],[2,3],[1,3],[0,1]]},
+    {id:'Bmaj_b', name:'B',   full:'B major (A-shape)',    cat:'barre', diff:'Barre · fret 2', strings:[{f:-1},{f:2,n:1},{f:4,n:3},{f:4,n:4},{f:4,n:4},{f:2,n:1}], sf:2, barre:{fret:2,from:1,to:5}, audio:[[4,2],[3,4],[2,4],[1,4],[0,2]]},
+    {id:'Cs_b',   name:'C#',  full:'C# major (A-shape)',   cat:'barre', diff:'Barre · fret 4', strings:[{f:-1},{f:4,n:1},{f:6,n:3},{f:6,n:4},{f:6,n:4},{f:4,n:1}], sf:4, barre:{fret:4,from:1,to:5}, audio:[[4,4],[3,6],[2,6],[1,6],[0,4]]},
+    // A-shape minor
+    {id:'Bbm_b',  name:'Bbm', full:'Bbm (A-shape)',        cat:'barre', diff:'Barre · fret 1', strings:[{f:-1},{f:1,n:1},{f:3,n:3},{f:3,n:4},{f:2,n:2},{f:1,n:1}], sf:1, barre:{fret:1,from:1,to:5}, audio:[[4,1],[3,3],[2,3],[1,2],[0,1]]},
+    {id:'Bm_b',   name:'Bm',  full:'Bm (A-shape)',         cat:'barre', diff:'Barre · fret 2', strings:[{f:-1},{f:2,n:1},{f:4,n:3},{f:4,n:4},{f:3,n:2},{f:2,n:1}], sf:2, barre:{fret:2,from:1,to:5}, audio:[[4,2],[3,4],[2,4],[1,3],[0,2]]},
+    {id:'Cm_b',   name:'Cm',  full:'Cm (A-shape)',         cat:'barre', diff:'Barre · fret 3', strings:[{f:-1},{f:3,n:1},{f:5,n:3},{f:5,n:4},{f:4,n:2},{f:3,n:1}], sf:3, barre:{fret:3,from:1,to:5}, audio:[[4,3],[3,5],[2,5],[1,4],[0,3]]},
+  ];
+  BARRE_CHORDS.forEach(c=>{c.tip='';db.push(c);});
+
+  // ── Open chords (static, first-position) ──────────────────────────
+  const OPEN_CHORDS = [
+    {id:'Co',  name:'C',     full:'C major',    cat:'open', diff:'3 fingers',    strings:[{f:-1},{f:3,n:3},{f:2,n:2},{f:0},{f:1,n:1},{f:0}],    sf:1,barre:null,audio:[[4,3],[3,2],[2,0],[1,1],[0,0]]},
+    {id:'Go',  name:'G',     full:'G major',    cat:'open', diff:'3 fingers',    strings:[{f:3,n:2},{f:2,n:1},{f:0},{f:0},{f:0},{f:3,n:3}],       sf:1,barre:null,audio:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]]},
+    {id:'Do',  name:'D',     full:'D major',    cat:'open', diff:'3 fingers',    strings:[{f:-1},{f:-1},{f:0},{f:2,n:1},{f:3,n:3},{f:2,n:2}],     sf:1,barre:null,audio:[[3,0],[2,2],[1,3],[0,2]]},
+    {id:'Ao',  name:'A',     full:'A major',    cat:'open', diff:'3 fingers',    strings:[{f:-1},{f:0},{f:2,n:1},{f:2,n:2},{f:2,n:3},{f:0}],      sf:1,barre:null,audio:[[4,0],[3,2],[2,2],[1,2],[0,0]]},
+    {id:'Eo',  name:'E',     full:'E major',    cat:'open', diff:'3 fingers',    strings:[{f:0},{f:2,n:2},{f:2,n:3},{f:1,n:1},{f:0},{f:0}],       sf:1,barre:null,audio:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]]},
+    {id:'Amo', name:'Am',    full:'A minor',    cat:'open', diff:'3 fingers',    strings:[{f:-1},{f:0},{f:2,n:2},{f:2,n:3},{f:1,n:1},{f:0}],      sf:1,barre:null,audio:[[4,0],[3,2],[2,2],[1,1],[0,0]]},
+    {id:'Emo', name:'Em',    full:'E minor',    cat:'open', diff:'2 fingers',    strings:[{f:0},{f:2,n:2},{f:2,n:3},{f:0},{f:0},{f:0}],           sf:1,barre:null,audio:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]]},
+    {id:'Dmo', name:'Dm',    full:'D minor',    cat:'open', diff:'3 fingers',    strings:[{f:-1},{f:-1},{f:0},{f:2,n:2},{f:3,n:3},{f:1,n:1}],     sf:1,barre:null,audio:[[3,0],[2,2],[1,3],[0,1]]},
+    {id:'A7o', name:'A7',    full:'A dom 7',    cat:'open', diff:'2 fingers',    strings:[{f:-1},{f:0},{f:2,n:2},{f:0},{f:2,n:3},{f:0}],          sf:1,barre:null,audio:[[4,0],[3,2],[2,0],[1,2],[0,0]]},
+    {id:'D7o', name:'D7',    full:'D dom 7',    cat:'open', diff:'3 fingers',    strings:[{f:-1},{f:-1},{f:0},{f:2,n:2},{f:1,n:1},{f:2,n:3}],     sf:1,barre:null,audio:[[3,0],[2,2],[1,1],[0,2]]},
+    {id:'E7o', name:'E7',    full:'E dom 7',    cat:'open', diff:'2 fingers',    strings:[{f:0},{f:2,n:2},{f:0},{f:1,n:1},{f:0},{f:0}],           sf:1,barre:null,audio:[[5,0],[4,2],[3,0],[2,1],[1,0],[0,0]]},
+    {id:'G7o', name:'G7',    full:'G dom 7',    cat:'open', diff:'3 fingers',    strings:[{f:3,n:3},{f:2,n:2},{f:0},{f:0},{f:0},{f:1,n:1}],       sf:1,barre:null,audio:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,1]]},
+  ];
+  OPEN_CHORDS.forEach(c=>{c.tip='';db.push(c);});
+
+  return db;
+})();
+
+
+function chordSVG(ch){
+  const sf=ch.sf||1, isOpen=sf===1;
+  // Layout — horizontal: string 1 (e) on top, string 6 (E) on bottom
+  const LP=30, NX=30, FW=30, SG=14, TP=isOpen?16:22;
+  // ch.strings index: 0=lowE…5=highE  |  display row: 0(top)=highE…5(bot)=lowE
+  // rowY[di] = y for display row di
+  const rowY = i => TP + i*SG;
+  // strY(si) = y for ch.strings[si]
+  const strY = si => rowY(5-si);
+  const dotX  = rf => NX + (rf-0.5)*FW;   // rf = relative fret (1-based)
+  const relF  = f  => f - sf + 1;
+  const W=NX+4*FW+10, H=TP+5*SG+14;
+
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:0 auto;">`;
+
+  // Start-fret label
+  if(!isOpen) s+=`<text x="${NX+2}" y="14" font-size="9" font-family="system-ui,sans-serif" fill="#AAA">${sf}fr</text>`;
+
+  // String name labels + open/muted indicators
+  ['e','B','G','D','A','E'].forEach((n,di)=>{
+    const si=5-di, y=rowY(di);
+    s+=`<text x="8" y="${y+4}" font-size="9" font-family="system-ui,sans-serif" fill="#B0B3C0" text-anchor="middle">${n}</text>`;
+    const st=ch.strings[si];
+    if(st.f===0 && isOpen)
+      s+=`<circle cx="${NX-9}" cy="${y}" r="4" fill="none" stroke="#006A4E" stroke-width="1.5"/>`;
+    else if(st.f<0)
+      s+=`<text x="${NX-9}" y="${y+4}" text-anchor="middle" font-size="11" font-weight="700" fill="#CCC" font-family="system-ui,sans-serif">×</text>`;
+  });
+
+  // Nut
+  const y0=rowY(0), y5=rowY(5);
+  s+=`<line x1="${NX}" y1="${y0}" x2="${NX}" y2="${y5}" stroke="#0F2418" stroke-width="${isOpen?4:1.5}" stroke-linecap="round"/>`;
+
+  // Fret lines (vertical)
+  for(let f=1;f<=4;f++) s+=`<line x1="${NX+f*FW}" y1="${y0}" x2="${NX+f*FW}" y2="${y5}" stroke="#E7E2D6" stroke-width="1"/>`;
+
+  // String lines (horizontal)
+  for(let di=0;di<6;di++){
+    const y=rowY(di);
+    s+=`<line x1="${NX}" y1="${y}" x2="${NX+4*FW}" y2="${y}" stroke="#D0C8B8" stroke-width="1"/>`;
+  }
+
+  // Barre (vertical rect spanning rows)
+  if(ch.barre){
+    const rf=relF(ch.barre.fret), bx=dotX(rf);
+    const yTop=Math.min(strY(ch.barre.from),strY(ch.barre.to));
+    const yBot=Math.max(strY(ch.barre.from),strY(ch.barre.to));
+    s+=`<rect x="${bx-5}" y="${yTop-6}" width="10" height="${yBot-yTop+12}" rx="5" fill="#006A4E" opacity="0.9"/>`;
+    s+=`<text x="${bx}" y="${(yTop+yBot)/2+4}" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui,sans-serif">1</text>`;
+  }
+
+  // Finger dots
+  ch.strings.forEach((st,si)=>{
+    if(st.f<=0) return;
+    if(ch.barre && st.f===ch.barre.fret && si>=ch.barre.from && si<=ch.barre.to) return;
+    const rf=relF(st.f);
+    if(rf<1||rf>4) return;
+    const dx=dotX(rf), dy=strY(si);
+    s+=`<circle cx="${dx}" cy="${dy}" r="6" fill="#006A4E"/>`;
+    if(st.n && st.n>1) s+=`<text x="${dx}" y="${dy+3}" text-anchor="middle" fill="white" font-size="8" font-weight="700" font-family="system-ui,sans-serif">${st.n}</text>`;
+  });
+
+  s+=`</svg>`;return s;
+}
+
+function playChord(chordId){
+  const ch=CHORDS.find(c=>c.id===chordId);
+  if(!ch)return;
+  try{if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();}catch(e){}
+  ch.audio.forEach(([si,fret],i)=>{
+    setTimeout(()=>{
+      const freq=SBF[si]*Math.pow(2,fret/12);
+      try{playGuitar(freq,globalVol*0.85);}catch(e){}
+    }, i*70);
+  });
+}
+
+function buildChordGrid(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  const TYPE_INFO={
+    open: {label:'Open Chords',      desc:'First-position chords using open strings — the beginner foundation.'},
+    major:{label:'Major Chords',     desc:'Bright, happy, stable — the foundation of most songs.'},
+    minor:{label:'Minor Chords',     desc:'Sadder and more emotional than major chords.'},
+    dom7: {label:'Dominant 7th',     desc:'Add tension — want to resolve to another chord.'},
+    maj7: {label:'Major 7th',        desc:'Smooth, jazzy and sophisticated.'},
+    m7:   {label:'Minor 7th',        desc:'Warm and mellow — softer than plain minor.'},
+    power:{label:'Power Chords',     desc:'Root + fifth only. Strong and punchy — common in rock.'},
+    barre:{label:'Barre Chords',     desc:'One finger presses all strings — moveable to any key.'},
+    dim:  {label:'Diminished',       desc:'Tense and unstable — dark, dramatic sound.'},
+    aug:  {label:'Augmented',        desc:'Bright but unresolved — creates rising tension.'},
+  };
+  // Fixed order — open first, no duplicates
+  const TYPES=['open','major','minor','dom7','maj7','m7','power','barre','dim','aug'];
+  let activeType=TYPES[0];
+
+  function render(){
+    const pills=TYPES.map(t=>`
+      <button class="ctype-pill${t===activeType?' active':''}" onclick="cTypeClick_${cid}('${t}')">
+        ${TYPE_INFO[t]?TYPE_INFO[t].label.replace(/ \(.*\)/,''):t}
+      </button>`).join('');
+
+    const info=TYPE_INFO[activeType]||{};
+    const chords=activeType==='open'?CHORDS.filter(c=>!c.barre):CHORDS.filter(c=>c.cat===activeType);
+
+    el.innerHTML=`
+      <div class="ctype-pills">${pills}</div>
+      <div class="ctype-header">
+        <h4 class="ctype-title">${info.label||activeType}</h4>
+        <p class="ctype-desc">${info.desc||''}</p>
+      </div>
+      <div class="chord-grid">${chords.map(cardHTML).join('')}</div>`;
+  }
+
+  function cardHTML(ch){
+    return `<div class="chord-card">
+      <div class="chord-card-name">${ch.name}</div>
+      ${chordSVG(ch)}
+      <button class="chord-play-btn" onclick="playChord('${ch.id}')">▶ Play</button>
+      <div class="chord-card-diff">${ch.diff}</div>
+    </div>`;
+  }
+
+  window[`cTypeClick_${cid}`]=function(t){ activeType=t; render(); };
+  render();
+}
+
+
+function markSection(btn, lessonId, key){
+  btn.classList.add('done');
+  btn.innerHTML = '<span class="chk-i">✓</span> Completed';
+  markDone(lessonId, key);
+}
+
+// ── NAV ──────────────────────────────────────────────────────────────
+let curLesson=0;
+function renderNav(){
+  const nav=document.getElementById('nav-list');
+  nav.innerHTML=LESSONS.map((l,i)=>`
+    <div class="nav-item${i===curLesson?' active':''}" id="nav-${i}" onclick="goLesson(${i})">
+      <div class="nav-num" id="navnum-${i}">${l.num}</div>
+      <div class="nav-title">${l.label}</div>
+    </div>`).join('');
+}
+
+function renderLesson(l,i){
+  const prevBtn = i>0 ? `<button class="nbtn" onclick="goLesson(${i-1})">← ${LESSONS[i-1].label}</button>` : '';
+  const nextBtn = i<LESSONS.length-1
+    ? `<button class="nbtn primary" onclick="goLesson(${i+1})">Next: ${LESSONS[i+1].label} →</button>`
+    : `<div class="complete-card"><h3>🎉 Course complete!</h3><p>You've worked through all 7 lessons. You know the fretboard, the C major and A minor scales, both pentatonic scales, and your finger technique is underway. Keep the daily practice going.</p></div>`;
+
+  const div=document.createElement('div');
+  div.className='lesson-panel'+(i===curLesson?' active':'');
+  div.id='lesson_'+i;
+
+  div.innerHTML=`
+    <div class="l-hero">
+      <div class="eyebrow">${l.eyebrow}</div>
+      <h2>${l.title}</h2>
+      <p>${l.sub}</p>
+    </div>
+    <div class="l-body">
+      ${l.body}
+      <div class="nav-btns">${prevBtn}${nextBtn}</div>
+    </div>`;
+  document.getElementById('main').appendChild(div);
+
+  // init tools
+  if(l.tool==='fretboard'||l.tool==='both') buildFretboard('fbtool_'+l.id);
+  if(l.tool==='exercises'||l.tool==='both') buildPlayer('eptool_'+l.id, l.filter||[]);
+  initVis(l.id);
+}
+
+function goLesson(i){
+  curLesson=i;
+  renderNav();
+  document.querySelectorAll('.lesson-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
+  try{ if(LESSONS[i]) history.replaceState(null,'','#'+LESSONS[i].id); }catch(e){}
+  document.body.classList.remove('sb-open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── INIT ─────────────────────────────────────────────────────────────
+// Measure the site nav height so the sticky sidebar sits right below it.
+function setNavH(){
+  var nav = document.querySelector('.app-topbar');
+  if(nav) document.documentElement.style.setProperty('--navh', nav.offsetHeight + 'px');
+}
+setNavH();
+window.addEventListener('resize', setNavH);
+
+// Mobile sidebar toggle
+function toggleSidebar(force){
+  document.body.classList.toggle('sb-open', force);
+}
+var navToggle = document.getElementById('navToggle');
+var lessonsFab = document.getElementById('lessonsFab');
+var sbBackdrop = document.getElementById('sbBackdrop');
+if(navToggle) navToggle.addEventListener('click', function(){ toggleSidebar(); });
+if(lessonsFab) lessonsFab.addEventListener('click', function(){ toggleSidebar(true); });
+if(sbBackdrop) sbBackdrop.addEventListener('click', function(){ toggleSidebar(false); });
+
+// Reflect saved progress onto each lesson's "Mark as done" button.
+function reconcileMarks(){
+  document.querySelectorAll('.mark-btn').forEach(function(btn){
+    var oc = btn.getAttribute('onclick') || '';
+    var m = oc.match(/markSection\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/);
+    if(!m) return;
+    var lessonId = m[1], key = m[2];
+    if(done[lessonId] && done[lessonId].has(key)){
+      btn.classList.add('done');
+      btn.innerHTML = '<span class="chk-i">✓</span> Completed';
+    }
+  });
+}
+
+// Pick the starting lesson from the URL hash (deep-link from the landing page).
+function lessonIndexFromHash(){
+  var id = (location.hash || '').replace('#','');
+  var idx = LESSONS.findIndex(function(l){ return l.id === id; });
+  return idx < 0 ? 0 : idx;
+}
+
+
+// ── LESSON 9: Strumming patterns ─────────────────────────────────────
+function buildStrumVis(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  const P=[
+    {id:'p1',name:'All Down',       sig:'4/4',diff:'b',bpm:60,
+     desc:'Four downstrokes on the beat. The absolute starting point.',
+     beats:['D',null,'D',null,'D',null,'D',null],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p2',name:'Eighth Notes',   sig:'4/4',diff:'b',bpm:65,
+     desc:'Alternate down-up on every eighth note. Keep your arm swinging constantly, even on skipped beats.',
+     beats:['D','U','D','U','D','U','D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p3',name:'The Essential',  sig:'4/4',diff:'b',bpm:65,
+     desc:'D DU UDU — the most common acoustic pattern in folk, pop and rock. Learn this one first.',
+     beats:['D',null,'D','U',null,'U','D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p4',name:'Folk / Country', sig:'4/4',diff:'b',bpm:70,
+     desc:'D DU D DU — strong downstrokes with light ups between beats 2 and 4.',
+     beats:['D',null,'D','U','D',null,'D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p5',name:'Syncopated',     sig:'4/4',diff:'i',bpm:70,
+     desc:'D DU UDU with a skipped beat 3 — creates a forward-leaning feel used in pop and indie.',
+     beats:['D',null,'D','U',null,'U',null,'U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p6',name:'Reggae / Ska',   sig:'4/4',diff:'i',bpm:75,
+     desc:'Up strums on every off-beat only. The iconic reggae chop. Mute on the downbeats.',
+     beats:[null,'U',null,'U',null,'U',null,'U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p7',name:'Waltz',          sig:'3/4',diff:'b',bpm:80,
+     desc:'Three beats per bar — count 1-2-3. Used in folk ballads and traditional music.',
+     beats:['D',null,'U','D',null,'U'],
+     labels:['1','+','2','+','3','+']},
+    {id:'p8',name:'Boom-Chick',      sig:'4/4',diff:'i',bpm:70,
+     desc:'Bass note on 1 & 3, strum on 2 & 4. Classic country feel.',
+     beats:['D',null,'U',null,'D',null,'U',null],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p9', name:'6/8 Ballad',      sig:'6/8',diff:'b',bpm:70,
+     desc:'Two groups of three — 1-2-3 / 2-2-3. Used in House of the Rising Sun, Nothing Else Matters, and most ballads. Count in 6, not 4.',
+     beats:['D','U','U','D','U','U'],
+     labels:['1','+','a','2','+','a']},
+    {id:'p10',name:'Accented Backbeat',sig:'4/4',diff:'i',bpm:70,
+     desc:'Hit beats 2 and 4 harder (the "backbeat"). This is what makes pop and rock feel rhythmic rather than mechanical. Accent = strum louder.',
+     beats:['D',null,'D','U',null,'U','D','U'],
+     labels:['1','+','2','+','3','+','4','+'],
+     accent:[2,5]},
+    {id:'p11',name:'Palm Mute Chug',   sig:'4/4',diff:'i',bpm:75,
+     desc:'Rest the fleshy edge of your strumming hand on the strings just above the bridge — then strum. Creates a muffled "chunk" sound used in rock and country.',
+     beats:['D','D','D','D','D','D','D','D'],
+     labels:['1','+','2','+','3','+','4','+'],
+     mute:true},
+    {id:'p12',name:'Blues Shuffle',     sig:'12/8',diff:'i',bpm:72,
+     desc:'Triplet feel — each beat splits into three (1-and-a). The heartbeat of blues and swing. Once you hear it you cannot unhear it.',
+     beats:['D','U','U','D','U','U','D','U','U','D','U','U'],
+     labels:['1','+','a','2','+','a','3','+','a','4','+','a']},
+    {id:'p13',name:'Flamenco Rumba',    sig:'4/4',diff:'i',bpm:95,
+     desc:'Quick D-U-U burst on beat 1 followed by off-beat ups. The bounce behind La Bamba, Bamboleo and Spanish rumba. Fast right hand, light touch.',
+     beats:['D','U','U',null,'U',null,'D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p14',name:'Pop Ballad',        sig:'4/4',diff:'b',bpm:55,
+     desc:'Slow, floating pattern — the upstrokes on the ands carry the emotion. Common in slow pop and singer-songwriter acoustic tracks.',
+     beats:['D',null,'U','U','D','U',null,'U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p15',name:'Indie / Brit Rock', sig:'4/4',diff:'i',bpm:82,
+     desc:'Starts on the "and" of beat 1 rather than on the beat. Creates a restless, forward-driving feel common in indie, Britpop and alternative rock.',
+     beats:[null,'D','U',null,'D',null,'D','U'],
+     labels:['1','+','2','+','3','+','4','+']},
+    {id:'p16',name:'Power Rock',        sig:'4/4',diff:'i',bpm:88,
+     desc:'Heavy consecutive downstrokes with strategic gaps — aggressive and driving. Pair with palm muting on the first two hits for maximum punch.',
+     beats:['D','D',null,'D',null,'D','D',null],
+     labels:['1','+','2','+','3','+','4','+']},
+  ];
+
+  const STRUM_D=[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]];
+  const STRUM_U=[[0,0],[1,0],[2,0],[3,2],[4,2]];
+
+  function playStrum(type){
+    if(globalTone==='mute') return;
+    const notes=type==='D'?STRUM_D:STRUM_U;
+    const vol=type==='D'?globalVol*0.7:globalVol*0.45;
+    notes.forEach(([si,f],i)=>{
+      setTimeout(()=>{try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}},i*(type==='D'?18:12));
+    });
+  }
+
+  function cardHTML(p){
+    const diffCls=p.diff==='b'?'':'adv';
+    const diffLabel=p.diff==='b'?'Beginner':'Intermediate';
+    const beatBoxes=p.beats.map((b,i)=>{
+      const isAccent=p.accent&&p.accent.includes(i);
+      const isMute=p.mute;
+      const cls='sp-beat '+(b||'skip')+(isAccent?' acc':'')+(isMute?' muted':'');
+      const sym=b==='D'?'↓':b==='U'?'↑':'-';
+      return '<div class="'+cls+'" id="sb_'+p.id+'_'+i+'">'+sym+(isAccent?'<sup>!</sup>':'')+'</div>';
+    }).join('');
+    const lbls=p.labels.map((l,i)=>
+      `<div class="sp-lbl${l==='+'?'':' strong'}">${l}</div>`
+    ).join('');
+    return `<div class="sp-card">
+      <div class="sp-head">
+        <div class="sp-name">${p.name}</div>
+        <div class="sp-badges"><span class="sp-sig">${p.sig}</span><span class="sp-diff ${diffCls}">${diffLabel}</span></div>
+      </div>
+      <p class="sp-desc">${p.desc}</p>
+      <div class="sp-beats">${beatBoxes}</div>
+      <div class="sp-labels">${lbls}</div>
+      <div class="sp-footer">
+        <button class="sp-play" id="spbtn_${p.id}" onclick="spPlay_${cid}('${p.id}')">&#9654; Play</button>
+        <div class="sp-tempo">
+          <span>BPM</span>
+          <input type="range" min="40" max="140" value="${p.bpm}" step="5"
+            oninput="spBpm_${cid}('${p.id}',this.value)">
+          <span id="spbpm_${p.id}">${p.bpm}</span>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  el.innerHTML=`<div class="strum-grid">${P.map(cardHTML).join('')}</div>`;
+
+  const state={};
+  P.forEach(p=>{state[p.id]={bpm:p.bpm,timer:null,step:0,playing:false};});
+
+  window[`spBpm_${cid}`]=function(id,v){
+    state[id].bpm=parseInt(v);
+    document.getElementById('spbpm_'+id).textContent=v;
+  };
+
+  window[`spPlay_${cid}`]=function(id){
+    const s=state[id];
+    const p=P.find(x=>x.id===id);
+    if(s.playing){
+      clearTimeout(s.timer);s.playing=false;s.step=0;
+      p.beats.forEach((_,i)=>{const e=document.getElementById('sb_'+id+'_'+i);if(e)e.classList.remove('lit');});
+      const btn=document.getElementById('spbtn_'+id);
+      if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+      return;
+    }
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    s.playing=true;
+    const btn=document.getElementById('spbtn_'+id);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    function tick(){
+      if(!s.playing)return;
+      p.beats.forEach((_,i)=>{const e=document.getElementById('sb_'+id+'_'+i);if(e)e.classList.remove('lit');});
+      const e=document.getElementById('sb_'+id+'_'+s.step);if(e)e.classList.add('lit');
+      if(p.beats[s.step])playStrum(p.beats[s.step]);
+      s.step=(s.step+1)%p.beats.length;
+      s.timer=setTimeout(tick,Math.round(60000/(s.bpm*2)));
+    }
+    tick();
+  };
+}
+
+// ── LESSON 10: Strumming with chords ─────────────────────────────────
+function buildStrumChords(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  const CAUDIO={
+    Em:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],Am:[[4,0],[3,2],[2,2],[1,1],[0,0]],
+    G:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],C:[[4,3],[3,2],[2,0],[1,1],[0,0]],
+    D:[[3,0],[2,2],[1,3],[0,2]],E:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
+    Dm:[[3,0],[2,2],[1,3],[0,1]],A:[[4,0],[3,2],[2,2],[1,2],[0,0]],
+    F:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+  };
+  function playChordStrum(ch,type){
+    if(globalTone==='mute')return;
+    const notes=CAUDIO[ch]||[],vol=type==='D'?globalVol*0.7:globalVol*0.4;
+    const arr=type==='D'?notes:[...notes].reverse();
+    arr.forEach(([si,f],i)=>setTimeout(()=>{
+      try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}
+    },i*(type==='D'?18:12)));
+  }
+
+  const PROGRESSIONS=[
+    {id:'em_am',  group:2,home:'Em',name:'Em → Am',genre:'Folk · Minor',
+     desc:'Easiest change. Both open minor chords.',chords:['Em','Am']},
+    {id:'g_d',    group:2,home:'G', name:'G → D',  genre:'Folk · Country',
+     desc:'Two bright major chords.',chords:['G','D']},
+    {id:'a_e',    group:2,home:'A', name:'A → E',  genre:'Rock · Blues',
+     desc:'Full, resonant. Great for wide changes.',chords:['A','E']},
+    {id:'c_am',   group:2,home:'C', name:'C → Am', genre:'Pop · Emotional',
+     desc:'Major to its relative minor.',chords:['C','Am']},
+    {id:'g_c_d',  group:3,home:'G', name:'G → C → D',  genre:'Country · I-IV-V',
+     desc:'The classic I-IV-V in G.',chords:['G','C','D']},
+    {id:'a_d_e',  group:3,home:'A', name:'A → D → E',  genre:'Rock · I-IV-V',
+     desc:'I-IV-V in A. Blues and early rock.',chords:['A','D','E']},
+    {id:'am_dm_e',group:3,home:'Am',name:'Am → Dm → E',genre:'Flamenco · i-iv-V',
+     desc:'E at the end pulls strongly back to Am.',chords:['Am','Dm','E']},
+    {id:'d_g_a',  group:3,home:'D', name:'D → G → A',  genre:'Folk · I-IV-V',
+     desc:'I-IV-V in D. Bright and open.',chords:['D','G','A']},
+    {id:'g_em_c_d',group:4,home:'G', name:'G → Em → C → D',genre:'Pop · I-vi-IV-V',
+     desc:'Most used 4-chord progression.',chords:['G','Em','C','D']},
+    {id:'c_g_am_f',group:4,home:'C', name:'C → G → Am → F',genre:'Pop · I-V-vi-IV',
+     desc:'Countless pop songs. C is home.',chords:['C','G','Am','F']},
+    {id:'am_f_c_g',group:4,home:'Am',name:'Am → F → C → G',genre:'Minor Pop',
+     desc:'Same chords, darker feel.',chords:['Am','F','C','G']},
+    {id:'d_a_g_d', group:4,home:'D', name:'D → A → G → D',genre:'Country · I-V-IV-I',
+     desc:'Returns to D — very satisfying.',chords:['D','A','G','D']},
+  ];
+
+  const PATTERNS=[
+    // 4/4 — 8 eighth-note slots
+    {id:'pp1', name:'All Down',        sig:'4/4', beats:['D',null,'D',null,'D',null,'D',null]},
+    {id:'pp3', name:'The Essential',   sig:'4/4', beats:['D',null,'D','U',null,'U','D','U']},
+    {id:'pp4', name:'Folk / Country',  sig:'4/4', beats:['D',null,'D','U','D',null,'D','U']},
+    {id:'pp2', name:'Eighth Notes',    sig:'4/4', beats:['D','U','D','U','D','U','D','U']},
+    {id:'pp5', name:'Syncopated',      sig:'4/4', beats:['D',null,'D','U',null,'U',null,'U']},
+    {id:'pp6', name:'Reggae',          sig:'4/4', beats:[null,'U',null,'U',null,'U',null,'U']},
+    {id:'pp8', name:'Boom-Chick',      sig:'4/4', beats:['D',null,'U',null,'D',null,'U',null]},
+    {id:'pp10',name:'Accented Backbeat',sig:'4/4',beats:['D',null,'D','U',null,'U','D','U']},
+    {id:'pp11',name:'Palm Mute Chug',  sig:'4/4', beats:['D','D','D','D','D','D','D','D']},
+    {id:'pp13',name:'Flamenco Rumba',  sig:'4/4', beats:['D','U','U',null,'U',null,'D','U']},
+    {id:'pp14',name:'Pop Ballad',      sig:'4/4', beats:['D',null,'U','U','D','U',null,'U']},
+    {id:'pp15',name:'Indie / Brit Rock',sig:'4/4',beats:[null,'D','U',null,'D',null,'D','U']},
+    {id:'pp16',name:'Power Rock',      sig:'4/4', beats:['D','D',null,'D',null,'D','D',null]},
+    // 6-slot patterns (Waltz 3/4, 6/8 Ballad)
+    {id:'pp7', name:'Waltz',           sig:'3/4', beats:['D',null,'U','D',null,'U']},
+    {id:'pp9', name:'6/8 Ballad',      sig:'6/8', beats:['D','U','U','D','U','U']},
+    // 12-slot (Blues Shuffle 12/8)
+    {id:'pp12',name:'Blues Shuffle',   sig:'12/8',beats:['D','U','U','D','U','U','D','U','U','D','U','U']},
+  ];
+
+  let selProg=PROGRESSIONS[0], selPat=PATTERNS[0], bpm=65;
+  let playing=false, timer=null, step=0;
+
+  const BW=30, NOW_X=64, LOOPS=3;
+
+  function buildTape(){
+    const track=document.getElementById('sct_'+cid);
+    if(!track)return;
+    let h='';
+    for(let loop=0;loop<LOOPS;loop++){
+      selProg.chords.forEach(chord=>{
+        const beats=selPat.beats.map(b=>{
+          const cls=b==='D'?'sD':b==='U'?'sU':'sS';
+          return '<div class="sc-tb '+cls+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>';
+        }).join('');
+        h+='<div class="sc-bar"><div class="sc-bl">'+chord+'</div>'
+          +'<div class="sc-bb">'+beats+'</div></div>';
+      });
+    }
+    track.innerHTML=h;
+    track.style.transition='none';
+    track.style.transform='translateX('+NOW_X+'px)';
+  }
+
+  function progCards(){
+    const arrow='<span style="font-size:10px;color:var(--muted)">→</span>';
+    const groupLabel={2:'2-Chord',3:'3-Chord',4:'4-Chord'};
+    return [2,3,4].map(g=>{
+      const hdr='<div class="sc-group-label">'+groupLabel[g]+' Progressions</div>';
+      const cards=PROGRESSIONS.filter(p=>p.group===g).map(p=>{
+        const sel=p.id===selProg.id?' selected':'';
+        const seq=p.chords.map(c=>'<span class="prog-cb">'+c+'</span>').join(arrow);
+        return '<div class="prog-card'+sel+'" onclick="scProg_'+cid+'(\''+p.id+'\')">'
+          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px">'
+          +'<div class="prog-name">'+p.name+'</div>'
+          +'<span class="home-badge">'+p.home+'</span></div>'
+          +'<div class="prog-genre">'+p.genre+'</div>'
+          +'<div class="prog-seq">'+seq+'</div></div>';
+      }).join('');
+      return hdr+cards;
+    }).join('');
+  }
+
+  function patCards(){
+    return PATTERNS.map(p=>{
+      const sel=p.id===selPat.id?' selected':'';
+      const slots=p.beats.slice(0,8);
+      const minis=slots.map(b=>'<div class="pat-mini '+(b||'n')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+      const extra=p.beats.length>8?'<span style="font-size:9px;color:var(--muted);align-self:center">+'+( p.beats.length-8)+'</span>':'';
+      return '<div class="pat-opt'+sel+'" onclick="scPat_'+cid+'(\''+p.id+'\')">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;gap:4px">'
+        +'<div class="pat-opt-name">'+p.name+'</div>'
+        +'<span class="sp-sig" style="font-size:9px;flex-shrink:0">'+p.sig+'</span>'
+        +'</div>'
+        +'<div class="pat-opt-beats">'+minis+extra+'</div></div>';
+    }).join('');
+  }
+
+  function render(){
+    el.innerHTML=
+      // ── STICKY TOP: tape + chord label + controls ──────────────
+      '<div class="sc-sticky" id="scsticky_'+cid+'">'
+        +'<div class="sc-player-row">'
+          +'<div class="sc-win">'
+            +'<div class="sc-now-line"></div>'
+            +'<div class="sc-track" id="sct_'+cid+'"></div>'
+            +'<div class="sc-fade-l"></div>'
+            +'<div class="sc-fade-r"></div>'
+          +'</div>'
+          +'<div class="sc-chord-diag" id="scdiag_'+cid+'"></div>'
+        +'</div>'
+        +'<div class="sc-bottom-bar">'
+          +'<div class="sc-cur" id="sccur_'+cid+'">'+selProg.chords[0]+'</div>'
+          +'<button class="sc-play-btn" id="scbtn_'+cid+'" onclick="scToggle_'+cid+'()">&#9654; Play</button>'
+          +'<div class="sc-bpm">'
+            +'<span>BPM</span>'
+            +'<input type="range" min="40" max="120" value="'+bpm+'" step="5"'
+            +' oninput="scBpm_'+cid+'(this.value)">'
+            +'<span id="scbpmv_'+cid+'">'+bpm+'</span>'
+          +'</div>'
+        +'</div>'
+      +'</div>'
+      // ── TWO COLUMNS BELOW ───────────────────────────────────────
+      +'<div class="sc-cols">'
+        +'<div class="sc-col">'
+          +'<div class="sc-col-title">Chord Progressions</div>'
+          +'<div class="prog-list">'+progCards()+'</div>'
+        +'</div>'
+        +'<div class="sc-col">'
+          +'<div class="sc-col-title">Strumming Patterns</div>'
+          +'<div class="pat-list">'+patCards()+'</div>'
+        +'</div>'
+      +'</div>';
+
+    buildTape();
+    prevChordIdx=-1;
+    updateChordDiagram(selProg.chords[0]);
+  }
+
+  let prevChordIdx=-1;
+  function updateChordDiagram(name){
+    const diagEl=document.getElementById('scdiag_'+cid);
+    if(!diagEl)return;
+    const ch=CHORDS.find(c=>c.name===name&&c.cat==='open')
+            ||CHORDS.find(c=>c.name===name&&c.cat==='barre')
+            ||CHORDS.find(c=>c.name===name);
+    diagEl.innerHTML=ch?chordSVG(ch)
+      :'<div style="text-align:center;padding:24px 8px;font-size:13px;font-weight:700;color:var(--ink)">'+name+'</div>';
+  }
+
+  function tick(){
+    if(!playing)return;
+    const PL=selPat.beats.length;
+    const loopLen=selProg.chords.length*PL;
+    const loopStep=step%loopLen;
+    const chordIdx=Math.floor(loopStep/PL);
+    const beatType=selPat.beats[loopStep%PL];
+    if(chordIdx!==prevChordIdx){prevChordIdx=chordIdx;updateChordDiagram(selProg.chords[chordIdx]);}
+    const track=document.getElementById('sct_'+cid);
+    if(track){
+      const newX=NOW_X-loopStep*BW;
+      if(loopStep===0&&step>0){
+        track.style.transition='none';
+        track.style.transform='translateX('+newX+'px)';
+        requestAnimationFrame(()=>{track.style.transition='transform 0.1s linear';});
+      } else {
+        track.style.transition='transform 0.1s linear';
+        track.style.transform='translateX('+newX+'px)';
+      }
+    }
+    const cur=document.getElementById('sccur_'+cid);
+    if(cur)cur.textContent=selProg.chords[chordIdx];
+    if(beatType)playChordStrum(selProg.chords[chordIdx],beatType);
+    step++;
+    timer=setTimeout(tick,Math.round(60000/(bpm*2)));
+  }
+
+  function stop(){
+    playing=false;clearTimeout(timer);step=0;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+    const cur=document.getElementById('sccur_'+cid);
+    if(cur)cur.textContent=selProg.chords[0];
+    prevChordIdx=-1;updateChordDiagram(selProg.chords[0]);
+    const track=document.getElementById('sct_'+cid);
+    if(track){track.style.transition='none';track.style.transform='translateX('+NOW_X+'px)';}
+  }
+
+  window['scToggle_'+cid]=function(){
+    if(playing){stop();return;}
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    playing=true;step=0;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    tick();
+  };
+  window['scProg_'+cid]=function(id){
+    stop();selProg=PROGRESSIONS.find(p=>p.id===id);render();
+  };
+  window['scPat_'+cid]=function(id){
+    const was=playing;stop();selPat=PATTERNS.find(p=>p.id===id);render();
+    if(was)window['scToggle_'+cid]();
+  };
+  window['scBpm_'+cid]=function(v){
+    bpm=parseInt(v);
+    const e=document.getElementById('scbpmv_'+cid);if(e)e.textContent=v;
+  };
+
+  render();
+}
+
+
+
+// ── LESSON 11: First Song ─────────────────────────────────────────────
+function buildFirstSong(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  const CAUDIO={
+    Em:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],Am:[[4,0],[3,2],[2,2],[1,1],[0,0]],
+    G:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],C:[[4,3],[3,2],[2,0],[1,1],[0,0]],
+    D:[[3,0],[2,2],[1,3],[0,2]],E:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
+    Dm:[[3,0],[2,2],[1,3],[0,1]],A:[[4,0],[3,2],[2,2],[1,2],[0,0]],
+    F:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+  };
+  function playChordStrum(ch,type){
+    if(globalTone==='mute')return;
+    const notes=CAUDIO[ch]||[],vol=type==='D'?globalVol*0.7:globalVol*0.4;
+    const arr=type==='D'?notes:[...notes].reverse();
+    arr.forEach(([si,f],i)=>setTimeout(()=>{
+      try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}
+    },i*(type==='D'?18:12)));
+  }
+
+  const SONGS=[
+    // ── 2-CHORD ──────────────────────────────────────────────────────
+    // rec pattern rationale in comments
+    {id:'s1',group:2,home:'Em',bpm:68,rec:'pp1',
+     name:'Horse With No Name',artist:'America (1971)',
+     desc:'One of the few truly 2-chord songs. Em and D for the entire song — just keep it steady.',
+     chords:['Em','D']},
+    {id:'s2',group:2,home:'Em',bpm:66,rec:'pp3',
+     name:'Eleanor Rigby',artist:'The Beatles (1966)',
+     desc:'The verse alternates Em and C throughout. A timeless melody that sounds beautiful on guitar.',
+     chords:['Em','C']},
+    {id:'s3',group:2,home:'G',bpm:63,rec:'pp14',
+     name:'Wonderful Tonight',artist:'Eric Clapton (1977)',
+     desc:'Slow and tender. Clapton plays soft downstrokes — use the Pop Ballad pattern for the right feel.',
+     chords:['G','D']},
+    {id:'s4',group:2,home:'Am',bpm:72,rec:'pp5',
+     name:'Hit the Road Jack',artist:'Ray Charles (1961)',
+     desc:'Am and G drive the whole song. The syncopated pattern captures the swinging R&B groove.',
+     chords:['Am','G']},
+    // ── 3-CHORD ──────────────────────────────────────────────────────
+    {id:'s5',group:3,home:'G',bpm:65,rec:'pp3',
+     name:"Knockin' on Heaven's Door",artist:'Bob Dylan (1973)',
+     desc:"G-D-Am repeated. Dylan's most-covered song — slow, spacious and deeply moving.",
+     chords:['G','D','Am']},
+    {id:'s6',group:3,home:'D',bpm:97,rec:'pp8',
+     name:'Sweet Home Alabama',artist:'Lynyrd Skynyrd (1974)',
+     desc:'D-C-G in a driving southern rock groove. Use Boom-Chick for that signature rhythm section feel.',
+     chords:['D','C','G']},
+    {id:'s7',group:3,home:'G',bpm:75,rec:'pp4',
+     name:'Brown Eyed Girl',artist:'Van Morrison (1967)',
+     desc:'G-C-D-G for the whole song. A classic that sounds great with a steady Folk/Country strum.',
+     chords:['G','C','D']},
+    {id:'s8',group:3,home:'C',bpm:95,rec:'pp13',
+     name:'La Bamba',artist:'Ritchie Valens (1958)',
+     desc:'C-F-G in a fast rumba rhythm. The Flamenco Rumba pattern matches the original perfectly.',
+     chords:['C','F','G']},
+    // ── 4-CHORD ──────────────────────────────────────────────────────
+    {id:'s9',group:4,home:'Em',bpm:87,rec:'pp3',
+     name:'Wonderwall',artist:'Oasis (1995)',
+     desc:'Em-G-D-Am. Noel Gallagher plays D DU UDU — exactly The Essential pattern. The most-requested song at guitar shops worldwide.',
+     chords:['Em','G','D','Am']},
+    {id:'s10',group:4,home:'C',bpm:67,rec:'pp14',
+     name:'Let It Be',artist:'The Beatles (1970)',
+     desc:'C-G-Am-F. McCartney plays slow deliberate strokes — Pop Ballad captures the gentle feel of the original.',
+     chords:['C','G','Am','F']},
+    {id:'s11',group:4,home:'G',bpm:68,rec:'pp3',
+     name:'Stand By Me',artist:'Ben E. King (1961)',
+     desc:'G-Em-C-D and repeat forever. One of the most beautiful chord progressions ever written.',
+     chords:['G','Em','C','D']},
+    {id:'s12',group:4,home:'G',bpm:78,rec:'pp8',
+     name:'Take Me Home, Country Roads',artist:'John Denver (1971)',
+     desc:'G-D-Em-C. A Boom-Chick strum gives it the classic country-folk feel of the original.',
+     chords:['G','D','Em','C']},
+  ];
+
+  const PATTERNS=[
+    {id:'pp1', name:'All Down',        sig:'4/4',beats:['D',null,'D',null,'D',null,'D',null]},
+    {id:'pp3', name:'The Essential',   sig:'4/4',beats:['D',null,'D','U',null,'U','D','U']},
+    {id:'pp4', name:'Folk / Country',  sig:'4/4',beats:['D',null,'D','U','D',null,'D','U']},
+    {id:'pp2', name:'Eighth Notes',    sig:'4/4',beats:['D','U','D','U','D','U','D','U']},
+    {id:'pp5', name:'Syncopated',      sig:'4/4',beats:['D',null,'D','U',null,'U',null,'U']},
+    {id:'pp6', name:'Reggae',          sig:'4/4',beats:[null,'U',null,'U',null,'U',null,'U']},
+    {id:'pp8', name:'Boom-Chick',      sig:'4/4',beats:['D',null,'U',null,'D',null,'U',null]},
+    {id:'pp14',name:'Pop Ballad',      sig:'4/4',beats:['D',null,'U','U','D','U',null,'U']},
+    {id:'pp13',name:'Flamenco Rumba',  sig:'4/4',beats:['D','U','U',null,'U',null,'D','U']},
+    {id:'pp7', name:'Waltz',           sig:'3/4',beats:['D',null,'U','D',null,'U']},
+    {id:'pp9', name:'6/8 Ballad',      sig:'6/8',beats:['D','U','U','D','U','U']},
+    {id:'pp12',name:'Blues Shuffle',   sig:'12/8',beats:['D','U','U','D','U','U','D','U','U','D','U','U']},
+  ];
+
+  let selSong=SONGS[0], selPat=PATTERNS[0], bpm=SONGS[0].bpm;
+  let playing=false,timer=null,step=0,prevChordIdx=-1;
+
+  const BW=30,NOW_X=64,LOOPS=3;
+
+  function updateChordDiagram(name){
+    const d=document.getElementById('scdiag_'+cid);if(!d)return;
+    const ch=CHORDS.find(c=>c.name===name&&c.cat==='open')
+            ||CHORDS.find(c=>c.name===name&&c.cat==='barre')
+            ||CHORDS.find(c=>c.name===name);
+    d.innerHTML=ch?chordSVG(ch)
+      :'<div style="text-align:center;padding:20px;font-size:13px;font-weight:700;color:var(--ink)">'+name+'</div>';
+  }
+
+  function buildTape(){
+    const track=document.getElementById('sct_'+cid);if(!track)return;
+    let h='';
+    for(let loop=0;loop<LOOPS;loop++){
+      selSong.chords.forEach(chord=>{
+        const beats=selPat.beats.map(b=>'<div class="sc-tb '+(b==='D'?'sD':b==='U'?'sU':'sS')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+        h+='<div class="sc-bar"><div class="sc-bl">'+chord+'</div><div class="sc-bb">'+beats+'</div></div>';
+      });
+    }
+    track.innerHTML=h;
+    track.style.transition='none';
+    track.style.transform='translateX('+NOW_X+'px)';
+    prevChordIdx=-1;
+    updateChordDiagram(selSong.chords[0]);
+  }
+
+  function songCards(){
+    const gl={2:'2-Chord Songs',3:'3-Chord Songs',4:'4-Chord Songs'};
+    const arrow='<span style="font-size:10px;color:var(--muted)">→</span>';
+    return [2,3,4].map(g=>{
+      const hdr='<div class="sc-group-label">'+gl[g]+'</div>';
+      const cards=SONGS.filter(s=>s.group===g).map(s=>{
+        const sel=s.id===selSong.id?' selected':'';
+        const seq=s.chords.map(c=>'<span class="prog-cb">'+c+'</span>').join(arrow);
+        return '<div class="song-card'+sel+'" onclick="fsSong_'+cid+'(\''+s.id+'\')">'
+          +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px">'
+          +'<div class="song-title">'+s.name+'</div>'
+          +'<span class="home-badge">'+s.home+'</span></div>'
+          +'<div class="song-artist">'+s.artist+'</div>'
+          +'<div class="song-meta"><div class="prog-seq" style="margin:0">'+seq+'</div>'
+          +'<span class="song-bpm">'+s.bpm+' BPM</span></div>'
+          +'</div>';
+      }).join('');
+      return hdr+cards;
+    }).join('');
+  }
+
+  function patCards(){
+    return PATTERNS.map(p=>{
+      const sel=p.id===selPat.id?' selected':'';
+      const minis=p.beats.slice(0,8).map(b=>'<div class="pat-mini '+(b||'n')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+      const extra=p.beats.length>8?'<span style="font-size:9px;color:var(--muted);align-self:center">+'+(p.beats.length-8)+'</span>':'';
+      const isRec=p.id===selSong.rec;
+      return '<div class="pat-opt'+sel+'" onclick="fsPat_'+cid+'(\''+p.id+'\')">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;gap:4px">'
+        +'<div class="pat-opt-name">'+p.name+(isRec?' <span style="font-size:9px;color:var(--green);font-weight:700">★ rec</span>':'')+'</div>'
+        +'<span class="sp-sig" style="font-size:9px;flex-shrink:0">'+p.sig+'</span>'
+        +'</div>'
+        +'<div class="pat-opt-beats">'+minis+extra+'</div></div>';
+    }).join('');
+  }
+
+  function render(){
+    el.innerHTML=
+      '<div class="sc-sticky">'
+        +'<div class="sc-player-row">'
+          +'<div class="sc-win">'
+            +'<div class="sc-now-line"></div>'
+            +'<div class="sc-track" id="sct_'+cid+'"></div>'
+            +'<div class="sc-fade-l"></div>'
+            +'<div class="sc-fade-r"></div>'
+          +'</div>'
+          +'<div class="sc-chord-diag" id="scdiag_'+cid+'"></div>'
+        +'</div>'
+        +'<div class="sc-bottom-bar">'
+          +'<div style="flex:1;min-width:0">'
+            +'<div class="sc-cur" id="sccur_'+cid+'">'+selSong.chords[0]+'</div>'
+            +'<div class="sc-song-label" id="scsl_'+cid+'">'+selSong.name+'</div>'
+          +'</div>'
+          +'<button class="sc-play-btn" id="scbtn_'+cid+'" onclick="fsToggle_'+cid+'()">&#9654; Play</button>'
+          +'<div class="sc-bpm"><span>BPM</span>'
+          +'<input type="range" min="40" max="120" value="'+bpm+'" step="5"'
+          +' oninput="fsBpm_'+cid+'(this.value)"><span id="scbpmv_'+cid+'">'+bpm+'</span></div>'
+        +'</div>'
+      +'</div>'
+      +'<div class="sc-cols">'
+        +'<div class="sc-col"><div class="sc-col-title">Songs</div>'
+        +'<div class="prog-list">'+songCards()+'</div></div>'
+        +'<div class="sc-col"><div class="sc-col-title">Strumming Pattern</div>'
+        +'<div class="pat-list">'+patCards()+'</div></div>'
+      +'</div>';
+    buildTape();
+  }
+
+  function tick(){
+    if(!playing)return;
+    const PL=selPat.beats.length;
+    const loopLen=selSong.chords.length*PL;
+    const loopStep=step%loopLen;
+    const chordIdx=Math.floor(loopStep/PL);
+    const beatType=selPat.beats[loopStep%PL];
+    if(chordIdx!==prevChordIdx){
+      prevChordIdx=chordIdx;
+      updateChordDiagram(selSong.chords[chordIdx]);
+      const cur=document.getElementById('sccur_'+cid);
+      if(cur)cur.textContent=selSong.chords[chordIdx];
+    }
+    const track=document.getElementById('sct_'+cid);
+    if(track){
+      const newX=NOW_X-loopStep*BW;
+      if(loopStep===0&&step>0){
+        track.style.transition='none';
+        track.style.transform='translateX('+newX+'px)';
+        requestAnimationFrame(()=>{track.style.transition='transform 0.1s linear';});
+      } else {
+        track.style.transition='transform 0.1s linear';
+        track.style.transform='translateX('+newX+'px)';
+      }
+    }
+    if(beatType)playChordStrum(selSong.chords[chordIdx],beatType);
+    step++;
+    timer=setTimeout(tick,Math.round(60000/(bpm*2)));
+  }
+
+  function stop(){
+    playing=false;clearTimeout(timer);step=0;prevChordIdx=-1;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+    const cur=document.getElementById('sccur_'+cid);
+    if(cur)cur.textContent=selSong.chords[0];
+    const track=document.getElementById('sct_'+cid);
+    if(track){track.style.transition='none';track.style.transform='translateX('+NOW_X+'px)';}
+    updateChordDiagram(selSong.chords[0]);
+  }
+
+  window['fsToggle_'+cid]=function(){
+    if(playing){stop();return;}
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    playing=true;step=0;
+    const btn=document.getElementById('scbtn_'+cid);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    tick();
+  };
+  window['fsSong_'+cid]=function(id){
+    stop();selSong=SONGS.find(s=>s.id===id);
+    bpm=selSong.bpm;
+    selPat=PATTERNS.find(p=>p.id===selSong.rec)||PATTERNS[0];
+    render();
+    // Scroll recommended pattern into view
+    setTimeout(()=>{
+      const el2=document.querySelector('#'+cid+' .pat-opt.selected');
+      if(el2)el2.scrollIntoView({behavior:'smooth',block:'nearest'});
+    },80);
+  };
+  window['fsPat_'+cid]=function(id){
+    const was=playing;stop();selPat=PATTERNS.find(p=>p.id===id);render();
+    if(was)window['fsToggle_'+cid]();
+  };
+  window['fsBpm_'+cid]=function(v){
+    bpm=parseInt(v);
+    const e=document.getElementById('scbpmv_'+cid);if(e)e.textContent=v;
+  };
+
+  render();
+}
+
+// ── LESSON 12: Find the Chords ───────────────────────────────────────
+function buildFindChords(cid){
+  const el=document.getElementById(cid);if(!el)return;
+
+  // ── Chord templates: 12 major + 12 minor ─────────────────────────
+  const NN=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  function makeVec(root,ivs){
+    const v=new Array(12).fill(0);
+    ivs.forEach((s,i)=>{v[(root+s)%12]=i===0?1:s===7?0.8:0.6;});
+    return v;
+  }
+  const TMPLS=[];
+  NN.forEach((n,r)=>{
+    TMPLS.push({name:n,    type:'major',vec:makeVec(r,[0,4,7])});
+    TMPLS.push({name:n+'m',type:'minor',vec:makeVec(r,[0,3,7])});
+  });
+
+  function cosSim(a,b){
+    let d=0,na=0,nb=0;
+    for(let i=0;i<12;i++){d+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i];}
+    return d/(Math.sqrt(na*nb)+1e-9);
+  }
+
+  function detectChord(chroma){
+    let best=TMPLS[0],bscore=-1;
+    TMPLS.forEach(t=>{const s=cosSim(chroma,t.vec);if(s>bscore){bscore=s;best=t;}});
+    return {...best,confidence:Math.round(Math.max(0,bscore)*100)};
+  }
+
+  // ── Chroma extraction via sinusoidal correlation ──────────────────
+  function chromaFrom(samples,sr){
+    const N=samples.length;
+    // Hanning window
+    const win=samples.map((s,i)=>s*(0.5-0.5*Math.cos(2*Math.PI*i/N)));
+    const chroma=new Array(12).fill(0);
+    for(let pc=0;pc<12;pc++){
+      let energy=0;
+      for(let oct=2;oct<=5;oct++){
+        const f=440*Math.pow(2,(pc-9+(oct-4)*12)/12);
+        if(f<60||f>sr/2-1)continue;
+        const w=2*Math.PI*f/sr;
+        let si=0,co=0;
+        for(let i=0;i<N;i++){si+=win[i]*Math.sin(w*i);co+=win[i]*Math.cos(w*i);}
+        energy+=Math.sqrt(si*si+co*co)/N;
+      }
+      chroma[pc]=energy;
+    }
+    const mx=Math.max(...chroma);
+    return mx>0?chroma.map(v=>v/mx):chroma;
+  }
+
+  // ── BPM from energy onset ─────────────────────────────────────────
+  function detectBPM(samples,sr){
+    const fLen=Math.round(sr*0.05); // 50ms frames
+    const energies=[];
+    for(let i=0;i<samples.length-fLen;i+=fLen){
+      let e=0;for(let j=0;j<fLen;j++)e+=samples[i+j]*samples[i+j];
+      energies.push(Math.sqrt(e/fLen));
+    }
+    const avg=energies.reduce((a,b)=>a+b,0)/energies.length;
+    const thresh=avg*1.6;
+    const peaks=[];
+    for(let i=1;i<energies.length-1;i++){
+      if(energies[i]>thresh&&energies[i]>=energies[i-1]&&energies[i]>=energies[i+1]){
+        if(!peaks.length||i-peaks[peaks.length-1]>3)peaks.push(i);
+      }
+    }
+    if(peaks.length<4)return 80;
+    const iois=[];
+    for(let i=1;i<peaks.length;i++)iois.push((peaks[i]-peaks[i-1])*50);
+    iois.sort((a,b)=>a-b);
+    const med=iois[Math.floor(iois.length/2)];
+    return Math.max(50,Math.min(180,Math.round(60000/med)));
+  }
+
+  function suggestPattern(bpm){
+    if(bpm<60)return'Pop Ballad';
+    if(bpm<72)return'The Essential';
+    if(bpm<85)return'Folk / Country';
+    if(bpm<100)return'Eighth Notes';
+    return'Flamenco Rumba';
+  }
+
+  // ── Group consecutive same chords ────────────────────────────────
+  function groupChords(dets){
+    if(!dets.length)return[];
+    const out=[];
+    let cur={...dets[0],end:dets[0].time+0.5,confSum:dets[0].chord.confidence,cnt:1};
+    for(let i=1;i<dets.length;i++){
+      const d=dets[i];
+      if(d.chord.name===cur.chord.name){
+        cur.end=d.time+0.5;cur.confSum+=d.chord.confidence;cur.cnt++;
+      } else {
+        out.push({...cur,chord:{...cur.chord,confidence:Math.round(cur.confSum/cur.cnt)}});
+        cur={...d,end:d.time+0.5,confSum:d.chord.confidence,cnt:1};
+      }
+    }
+    out.push({...cur,chord:{...cur.chord,confidence:Math.round(cur.confSum/cur.cnt)}});
+    return out.filter(c=>(c.end-c.time)>=0.35);
+  }
+
+  // ── Key detection ─────────────────────────────────────────────────
+  function detectKey(grouped){
+    const dur={};
+    grouped.forEach(c=>{
+      const k=c.chord.name;
+      dur[k]=(dur[k]||0)+(c.end-c.time);
+    });
+    let best='',bestT=0;
+    Object.entries(dur).forEach(([k,t])=>{if(t>bestT){bestT=t;best=k;}});
+    const root=best.replace('m','');
+    const minT=grouped.filter(c=>c.chord.name===root+'m').reduce((a,c)=>a+c.end-c.time,0);
+    const majT=grouped.filter(c=>c.chord.name===root).reduce((a,c)=>a+c.end-c.time,0);
+    return {root,quality:minT>majT?'minor':'major'};
+  }
+
+  // ── Helpers ───────────────────────────────────────────────────────
+  function fmtTime(t){
+    const m=Math.floor(t/60),s=Math.floor(t%60);
+    return m+':'+(s<10?'0':'')+s;
+  }
+
+  // ── Render states ─────────────────────────────────────────────────
+  // Extra CAUDIO entries for search results (more chords than Lesson 10)
+  const CAUDIO_EX={
+    C:[[4,3],[3,2],[2,0],[1,1],[0,0]],D:[[3,0],[2,2],[1,3],[0,2]],
+    Dm:[[3,0],[2,2],[1,3],[0,1]],E:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
+    Em:[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]],F:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+    G:[[5,3],[4,2],[3,0],[2,0],[1,0],[0,3]],A:[[4,0],[3,2],[2,2],[1,2],[0,0]],
+    Am:[[4,0],[3,2],[2,2],[1,1],[0,0]],B:[[4,2],[3,4],[2,4],[1,4],[0,2]],
+    Bm:[[4,2],[3,4],[2,4],[1,3],[0,2]],'C#':[[4,4],[3,3],[2,1],[1,2],[0,4]],
+    'F#':[[5,2],[4,4],[3,4],[2,3],[1,2],[0,2]],'G#':[[4,6],[3,8],[2,8],[1,7],[0,6]],
+  };
+  function playSearchStrum(ch,type){
+    if(globalTone==='mute')return;
+    const notes=CAUDIO_EX[ch]||[[5,0],[4,2],[3,2],[2,0],[1,0],[0,0]];
+    const vol=type==='D'?globalVol*0.7:globalVol*0.4;
+    const arr=type==='D'?notes:[...notes].reverse();
+    arr.forEach(([si,f],i)=>setTimeout(()=>{
+      try{playGuitar(SBF[si]*Math.pow(2,f/12),vol);}catch(e){}
+    },i*(type==='D'?18:12)));
+  }
+
+  const PAT_BEATS={
+    'All Down':       ['D',null,'D',null,'D',null,'D',null],
+    'The Essential':  ['D',null,'D','U',null,'U','D','U'],
+    'Folk / Country': ['D',null,'D','U','D',null,'D','U'],
+    'Eighth Notes':   ['D','U','D','U','D','U','D','U'],
+    'Pop Ballad':     ['D',null,'U','U','D','U',null,'U'],
+    'Flamenco Rumba': ['D','U','U',null,'U',null,'D','U'],
+    'Waltz':          ['D',null,'U','D',null,'U'],
+  };
+
+  // ── Mini tape player for search results ──────────────────────────
+  let srPlaying=false, srTimer=null, srStep=0, _srProg=[], _srPatName='The Essential';
+  const SR_BW=30, SR_NOW=64, SR_LOOPS=3;
+
+  function buildSRTape(chords,patBeats){
+    const track=document.getElementById('srt_'+cid);if(!track)return;
+    let h='';
+    for(let loop=0;loop<SR_LOOPS;loop++){
+      chords.forEach(ch=>{
+        const beats=patBeats.map(b=>'<div class="sc-tb '+(b==='D'?'sD':b==='U'?'sU':'sS')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+        h+='<div class="sc-bar"><div class="sc-bl">'+ch+'</div><div class="sc-bb">'+beats+'</div></div>';
+      });
+    }
+    track.innerHTML=h;
+    track.style.transition='none';
+    track.style.transform='translateX('+SR_NOW+'px)';
+  }
+
+  function stopSR(){
+    srPlaying=false;clearTimeout(srTimer);srStep=0;
+    const btn=document.getElementById('srbtn_'+cid);
+    if(btn){btn.innerHTML='&#9654; Play';btn.classList.remove('playing');}
+    const track=document.getElementById('srt_'+cid);
+    if(track){track.style.transition='none';track.style.transform='translateX('+SR_NOW+'px)';}
+  }
+
+  window['srToggle_'+cid]=function(){
+    const chords=_srProg, patName=_srPatName;
+    if(srPlaying){stopSR();return;}
+    if(audioCtx&&audioCtx.state==='suspended')try{audioCtx.resume();}catch(e){}
+    srPlaying=true;srStep=0;
+    const btn=document.getElementById('srbtn_'+cid);
+    if(btn){btn.innerHTML='&#9646;&#9646; Stop';btn.classList.add('playing');}
+    const beats=PAT_BEATS[patName]||PAT_BEATS['The Essential'];
+    const PL=beats.length, loopLen=chords.length*PL;
+    let srBpm=parseInt(document.getElementById('srbpm_'+cid)?.value||70);
+    function tick(){
+      if(!srPlaying)return;
+      const loopStep=srStep%loopLen;
+      const chordIdx=Math.floor(loopStep/PL);
+      const beatType=beats[loopStep%PL];
+      const track=document.getElementById('srt_'+cid);
+      if(track){
+        const newX=SR_NOW-loopStep*SR_BW;
+        if(loopStep===0&&srStep>0){
+          track.style.transition='none';track.style.transform='translateX('+newX+'px)';
+          requestAnimationFrame(()=>{track.style.transition='transform 0.1s linear';});
+        } else {
+          track.style.transition='transform 0.1s linear';
+          track.style.transform='translateX('+newX+'px)';
+        }
+      }
+      const cur=document.getElementById('srcur_'+cid);
+      if(cur)cur.textContent=chords[chordIdx];
+      if(beatType)playSearchStrum(chords[chordIdx],beatType);
+      srStep++;
+      srBpm=parseInt(document.getElementById('srbpm_'+cid)?.value||70);
+      srTimer=setTimeout(tick,Math.round(60000/(srBpm*2)));
+    }
+    tick();
+  };
+
+  // ── Claude API search ─────────────────────────────────────────────
+  async function doSearch(query){
+    const resultsEl=document.getElementById('fcresults_'+cid);
+    if(!resultsEl)return;
+    stopSR();
+    resultsEl.innerHTML=
+      '<div class="fcc-analyzing" style="padding:24px">'
+      +'<div class="fcc-spinner">🔍</div>'
+      +'<div class="fcc-prog-label">Searching for "'+query+'"...</div>'
+      +'</div>';
+
+    const prompt='You are a guitar chord database. Return chord info for this song as JSON only.\n\n'
+      +'Query: "'+query+'"\n\n'
+      +'Rules:\n'
+      +'- Use only beginner-friendly chord names: C D E F G A B and minors (Am Em etc), sharps ok (C# F# etc)\n'
+      +'- progression: main repeating sequence, max 6 chords\n'
+      +'- strumming: use D (down) U (up) - (skip) e.g. "D - DU - UDU"\n'
+      +'- pattern_name: one of: All Down / The Essential / Folk / Country / Eighth Notes / Pop Ballad / Waltz\n'
+      +'- notes: one helpful sentence for a beginner learning this song\n\n'
+      +'Respond ONLY with this JSON (no markdown, no backticks):\n'
+      +'{"found":true,"song":"title","artist":"artist","year":"year","key":"e.g. G major",'
+      +'"capo":0,"bpm":80,"progression":["G","Em","C","D"],"strumming":"D - DU - UDU",'
+      +'"pattern_name":"The Essential","difficulty":"beginner","notes":"tip"}\n\n'
+      +'If unknown: {"found":false,"message":"not found"}';
+
+    try{
+      const resp=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          model:'claude-sonnet-4-6',max_tokens:1000,
+          messages:[{role:'user',content:prompt}]
+        })
+      });
+      const data=await resp.json();
+      const raw=data.content[0].text||'';
+      const text=raw.replace(/```[a-z]*/gi,'').replace(/```/g,'').trim();
+      // Extract JSON object even if there's extra text
+      const jsonMatch=text.match(/\{[\s\S]*\}/);
+      if(!jsonMatch) throw new Error('No JSON in response: '+text.slice(0,100));
+      const result=JSON.parse(jsonMatch[0]);
+      renderSearchResult(result,query);
+    }catch(e){
+      resultsEl.innerHTML='<div class="fcc-error">⚠️ Search failed. Check your connection and try again.</div>';
+      console.error(e);
+    }
+  }
+  window['fcSearch_'+cid]=doSearch;
+
+  function renderSearchResult(r,query){
+    const resultsEl=document.getElementById('fcresults_'+cid);
+    if(!resultsEl)return;
+    if(!r.found){
+      resultsEl.innerHTML='<div class="fcc-error" style="background:var(--cream);color:var(--muted);border-color:var(--line)">'
+        +'🎸 Couldn\'t find chord data for "'+query+'". Try including the artist name — e.g. "Wonderwall Oasis".</div>';
+      return;
+    }
+
+    const prog=r.progression||[];
+    _srProg=prog;
+    _srPatName=r.pattern_name||'The Essential';
+    const patName=r.pattern_name||'The Essential';
+    const patBeats=PAT_BEATS[patName]||PAT_BEATS['The Essential'];
+    const bpm=r.bpm||70;
+
+    // Chord diagrams
+    const diagrams=prog.map(ch=>{
+      const chData=CHORDS.find(c=>c.name===ch&&c.cat==='open')
+                 ||CHORDS.find(c=>c.name===ch&&c.cat==='barre')
+                 ||CHORDS.find(c=>c.name===ch);
+      return '<div class="fcc-diag"><div class="fcc-diag-name">'+ch+'</div>'
+        +(chData?chordSVG(chData):'<div style="padding:10px;font-size:11px;color:var(--muted)">—</div>')
+        +'</div>';
+    }).join('');
+
+    // Strumming mini visual
+    const miniBeats=patBeats.map(b=>'<div class="pat-mini '+(b||'n')+'">'+(b==='D'?'↓':b==='U'?'↑':'-')+'</div>').join('');
+
+    const diffColor=r.difficulty==='beginner'?'var(--green)':r.difficulty==='intermediate'?'var(--gold)':'var(--red)';
+
+    resultsEl.innerHTML=
+      // Header
+      '<div class="sr-header">'
+        +'<div>'
+          +'<div class="sr-title">'+r.song+'</div>'
+          +'<div class="sr-artist">'+r.artist+(r.year?' · '+r.year:'')+'</div>'
+        +'</div>'
+        +'<div class="sr-badges">'
+          +(r.capo>0?'<span class="sr-badge">Capo '+r.capo+'</span>':'')
+          +'<span class="sr-badge">'+r.key+'</span>'
+          +'<span class="sr-badge" style="color:'+diffColor+'">'+r.difficulty+'</span>'
+        +'</div>'
+      +'</div>'
+      // Static chord progression row
+      +'<div class="sr-prog-row">'
+      +prog.map((ch,i)=>'<span class="sr-prog-ch'+(_srProg.indexOf(ch)===i?' sp-first':'')+'">'+ch+'</span>'+(i<prog.length-1?'<span class="sr-prog-arr">→</span>':'')).join('')
+      +'</div>'
+      // Tape player
+      +'<div class="sc-win sr-win" style="margin:6px 0;">'
+        +'<div class="sc-now-line"></div>'
+        +'<div class="sc-track" id="srt_'+cid+'"></div>'
+        +'<div class="sc-fade-l"></div>'
+        +'<div class="sc-fade-r"></div>'
+      +'</div>'
+      +'<div class="sr-controls">'
+        +'<div class="sc-cur" id="srcur_'+cid+'" style="font-size:22px">'+prog[0]+'</div>'
+     +'<button class="sc-play-btn" id="srbtn_'+cid+'">&#9654; Play</button>'+'<div class="sc-bpm"><span>BPM</span>'
+        +'<input type="range" id="srbpm_'+cid+'" min="40" max="160" value="'+bpm+'" step="5"'
+        +' oninput="document.getElementById(\'srbpmv_'+cid+'\').textContent=this.value">'
+        +'<span id="srbpmv_'+cid+'">'+bpm+'</span></div>'
+      +'</div>'
+      // Strumming pattern
+      +'<div class="sr-pat-row">'
+        +'<span class="sr-pat-label">Pattern: <strong>'+patName+'</strong></span>'
+        +'<div class="pat-opt-beats" style="gap:3px">'+miniBeats+'</div>'
+        +'<span style="font-size:11px;color:var(--muted)">'+r.strumming+'</span>'
+      +'</div>'
+      // Chord diagrams
+      +'<div class="fcc-section-label">Chord Diagrams</div>'
+      +'<div class="fcc-diags">'+diagrams+'</div>'
+      // Notes
+      +(r.notes?'<div class="sr-note">💡 '+r.notes+'</div>':'')
+      +(r.capo>0?'<div class="sr-note" style="background:#FFF9E6;border-color:var(--gold)">🎸 This song uses a capo at fret '+r.capo+'. The chord shapes shown are played relative to the capo.</div>':'');
+
+    // Build the tape
+    setTimeout(()=>{
+      buildSRTape(prog,patBeats);
+      const btn=document.getElementById('srbtn_'+cid);
+      if(btn) btn.addEventListener('click',()=>window['srToggle_'+cid]());
+    },50);
+  }
+
+  // ── renderUpload — now includes search bar ────────────────────────
+  function renderUpload(){
+    el.innerHTML=
+      '<div class="fcc-drop" id="fcdrop_'+cid+'">'
+      +'<div class="fcc-drop-icon">🎵</div>'
+      +'<div class="fcc-drop-title">Upload an audio file</div>'
+      +'<div class="fcc-drop-sub">Drop or tap to browse — MP3, WAV, OGG, M4A</div>'
+      +'<div class="fcc-drop-note">💡 Best results: solo acoustic guitar, clean recording</div>'
+      +'<input type="file" id="fcfile_'+cid+'" accept="audio/*" style="display:none">'
+      +'</div>'
+      +'<div class="fcc-coming-soon">'
+        +'<div class="fcs-icon">🔍</div>'
+        +'<div class="fcs-title">Search by song — coming soon</div>'
+        +'<div class="fcs-desc">Type a song name and get the chords instantly. This feature requires a secure server connection and will be available when the site moves to Hostinger.</div>'
+      +'</div>';
+
+    const dropEl=document.getElementById('fcdrop_'+cid);
+    const fileEl=document.getElementById('fcfile_'+cid);
+    if(dropEl){
+      dropEl.addEventListener('click',()=>fileEl&&fileEl.click());
+      dropEl.addEventListener('dragover',e=>{e.preventDefault();dropEl.classList.add('drag');});
+      dropEl.addEventListener('dragleave',()=>dropEl.classList.remove('drag'));
+      dropEl.addEventListener('drop',e=>{
+        e.preventDefault();dropEl.classList.remove('drag');
+        if(e.dataTransfer.files[0]) window['fcDrop_'+cid](e.dataTransfer.files[0]);
+      });
+    }
+    if(fileEl) fileEl.addEventListener('change',()=>{
+      if(fileEl.files[0]) window['fcDrop_'+cid](fileEl.files[0]);
+    });
+  }
+
+  function renderProgress(pct,msg){
+    const b=document.querySelector('#'+cid+' .fcc-prog-bar');
+    if(b){b.style.width=pct+'%';b.previousElementSibling&&(b.previousElementSibling.textContent=msg);}
+    else el.innerHTML=
+      '<div class="fcc-analyzing">'
+      +'<div class="fcc-spinner">🎸</div>'
+      +'<div class="fcc-prog-label">'+msg+'</div>'
+      +'<div class="fcc-prog-track"><div class="fcc-prog-bar" style="width:'+pct+'%"></div></div>'
+      +'<div class="fcc-prog-pct">'+Math.round(pct)+'%</div>'
+      +'</div>';
+  }
+
+  function renderResults(grouped,bpm,key){
+    const unique=[...new Map(grouped.map(c=>[c.chord.name,c.chord])).values()];
+    const pattern=suggestPattern(bpm);
+
+    const timeline=grouped.map(c=>{
+      const conf=c.chord.confidence;
+      const cls=conf>74?'hi':conf>54?'mid':'lo';
+      return '<div class="fcc-cbar">'
+        +'<span class="fcc-ctime">'+fmtTime(c.time)+'</span>'
+        +'<span class="fcc-cname">'+c.chord.name+'</span>'
+        +'<div class="fcc-cconf"><div class="fcc-cconf-fill '+cls+'" style="width:'+conf+'%"></div></div>'
+        +'<span class="fcc-cpct">'+conf+'%</span>'
+        +'</div>';
+    }).join('');
+
+    const diagrams=unique.slice(0,8).map(ch=>{
+      const chData=CHORDS.find(c=>c.name===ch.name&&c.cat==='open')
+                 ||CHORDS.find(c=>c.name===ch.name&&c.cat==='barre')
+                 ||CHORDS.find(c=>c.name===ch.name);
+      return '<div class="fcc-diag"><div class="fcc-diag-name">'+ch.name+'</div>'
+        +(chData?chordSVG(chData):'<div style="font-size:11px;color:var(--muted);padding:8px">—</div>')
+        +'</div>';
+    }).join('');
+
+    el.innerHTML=
+      '<div class="fcc-results">'
+      +'<div class="fcc-meta">'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Detected Key</span><span class="fcc-mval">'+key.root+' '+key.quality+'</span></div>'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Est. BPM</span><span class="fcc-mval">~'+bpm+'</span></div>'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Try this pattern</span><span class="fcc-mval">'+pattern+'</span></div>'
+        +'<div class="fcc-meta-item"><span class="fcc-mlbl">Unique chords</span><span class="fcc-mval">'+unique.length+'</span></div>'
+      +'</div>'
+      +'<div class="fcc-section-label">Chord Timeline</div>'
+      +'<div class="fcc-timeline">'+timeline+'</div>'
+      +'<div class="fcc-section-label">Detected Chord Diagrams</div>'
+      +'<div class="fcc-diags">'+diagrams+'</div>'
+      +'<button class="fcc-restart" onclick="buildFindChords(\''+cid+'\')">↩ Analyse another file</button>'
+      +'<div class="fcc-disclaimer">Results are algorithmic estimates — most accurate on solo acoustic guitar recordings with minimal effects. Complex arrangements, keys with capo, or songs with heavy production may reduce accuracy.</div>'
+      +'</div>';
+  }
+
+  // ── Main entry ────────────────────────────────────────────────────
+  window['fcDrop_'+cid]=async function(file){
+    if(!file||!file.type.startsWith('audio/')){return;}
+    renderProgress(0,'Reading file...');
+    try{
+      const buf=await file.arrayBuffer();
+      renderProgress(5,'Decoding audio...');
+      const actx=new AudioContext();
+      const audioBuf=await actx.decodeAudioData(buf);
+      const sr=audioBuf.sampleRate;
+      // Mono mix
+      let raw=audioBuf.getChannelData(0);
+      if(audioBuf.numberOfChannels>1){
+        const ch1=audioBuf.getChannelData(1);
+        raw=raw.map((s,i)=>(s+ch1[i])*0.5);
+      }
+      // Downsample ×4
+      const samples=[];
+      const maxSec=180; // analyse first 3 minutes max
+      const maxSamples=Math.min(raw.length,sr*maxSec);
+      for(let i=0;i<maxSamples;i+=4)samples.push(raw[i]);
+      const dsr=sr/4;
+
+      renderProgress(15,'Detecting tempo...');
+      await new Promise(r=>setTimeout(r,0));
+      const bpm=detectBPM(samples,dsr);
+
+      // Chord detection windows
+      const winLen=Math.round(dsr*0.8);
+      const hopLen=Math.round(dsr*0.4);
+      const detections=[];
+      let batch=0;
+
+      for(let off=0;off<samples.length-winLen;off+=hopLen){
+        const win=samples.slice(off,off+winLen);
+        const chroma=chromaFrom(win,dsr);
+        const chord=detectChord(chroma);
+        detections.push({time:off/dsr,chord});
+        batch++;
+        if(batch%6===0){
+          renderProgress(15+75*(off/samples.length),'Analysing '+fmtTime(off/dsr)+' …');
+          await new Promise(r=>setTimeout(r,0));
+        }
+      }
+
+      renderProgress(92,'Grouping chords...');
+      await new Promise(r=>setTimeout(r,0));
+      const grouped=groupChords(detections);
+      const key=detectKey(grouped);
+
+      renderProgress(100,'Done!');
+      await new Promise(r=>setTimeout(r,120));
+      renderResults(grouped,bpm,key);
+      actx.close();
+
+    }catch(err){
+      el.innerHTML='<div class="fcc-error">⚠️ Could not analyse this file.<br>Try converting to WAV first, or use a different recording.</div>'
+        +'<br><button class="fcc-restart" onclick="buildFindChords(\''+cid+'\')">↩ Try again</button>';
+      console.error(err);
+    }
+  };
+
+  renderUpload();
+}
+
 const LESSONS=[
   {
     id:'intro', label:'Introduction', num:'Intro', sections:1,
-    eyebrow:'Welcome', title:'Guitar Lesson — Shopnil Academy',
+    eyebrow:'Welcome', title:'Guitar Trainer — Shopnil Academy',
     sub:'Free, structured guitar lessons. No sign-up. No music reading required.',
     body:`
       <div class="l-sec" id="intro-welcome">
@@ -788,6 +3601,7 @@ const LESSONS=[
             <div class="pl"><span class="n">✓</span><div><strong>Stop if it hurts</strong> <span class="d">guitar should never be painful</span></div></div>
           </div>
         </div>
+        <div class="vis-box" style="margin-top:2px;"><div class="vis-title">🔎 How the pentatonic is formed</div><div id="vis_pent"></div></div>
         <div class="callout"><span class="ic">💡</span><span class="bd"><strong>First week:</strong> Your fingertips will be sore. Calluses form after 1–2 weeks and the soreness disappears. Push through gently.</span></div>
       </div>
       <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'intro','welcome')"><span class="chk-i">○</span> Mark as done</button></div>`
@@ -799,6 +3613,12 @@ const LESSONS=[
     body:`
       <div class="l-sec" id="hold-pos">
         <span class="step-tag">Step 1</span>
+        <h3>Parts of the guitar</h3>
+        <p>Know what you're holding. Each number below matches the diagram.</p>
+        <div class="vis-box"><div class="vis-title">🎸 Guitar anatomy</div><div id="vis_guitar"></div></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 2</span>
         <h3>Sitting position</h3>
         <div class="card">
           <div class="parts-grid" style="grid-template-columns:1fr;">
@@ -836,7 +3656,7 @@ const LESSONS=[
             <tr><td>1 (high)</td><td>e</td><td>Thinnest</td><td>Eddie</td></tr>
           </table>
         </div>
-        <p><span class="hl">Memory phrase: Eddie Ate Dynamite, Good Bye Eddie</span></p>
+        <div class="vis-box"><div class="vis-title">🎵 String names &amp; thickness</div><div id="vis_strings"></div></div>
       </div>
       <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'holding','hold')"><span class="chk-i">○</span> Mark as done</button></div>`
   },
@@ -856,6 +3676,7 @@ const LESSONS=[
             <tr><th>Special gaps</th><td>E→F and B→C are only 1 fret apart — no sharp between them</td></tr>
           </table>
         </div>
+        <div class="vis-box" style="margin-top:14px;"><div class="vis-title">🎼 All 12 notes &amp; their gaps</div><div id="vis_chrom"></div></div>
         <div class="callout"><span class="ic">🧭</span><span class="bd"><strong>Fret markers</strong> at frets 3, 5, 7, 9, and 12 are landmarks. Learn to feel for them instead of counting frets one by one — your hand will navigate much faster.</span></div>
       </div>
       <div class="l-sec">
@@ -896,6 +3717,12 @@ const LESSONS=[
       </div>
       <div class="l-sec">
         <span class="step-tag">Step 2</span>
+        <h3>See &amp; hear it on the B string</h3>
+        <p><span class="hl">Tap any dot to hear it.</span> Notice the smaller gap between E→F and B→C.</p>
+        <div class="vis-box"><div class="vis-title">🎸 C major — B string (interactive)</div><div id="vis_cmstrip"></div></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 3</span>
         <h3>The step pattern</h3>
         <p>The major scale follows a fixed pattern of whole steps (W = 2 frets) and half steps (H = 1 fret):</p>
         <div class="mono">C → D → E → F → G → A → B → C<br>W &nbsp;&nbsp; W &nbsp;&nbsp; H &nbsp;&nbsp; W &nbsp;&nbsp; W &nbsp;&nbsp; W &nbsp;&nbsp; H</div>
@@ -903,7 +3730,7 @@ const LESSONS=[
         <div class="callout"><span class="ic">🎵</span><span class="bd"><strong>Practice tip:</strong> Play the 1-string exercise below and <strong>sing Do Re Mi</strong> out loud as each note lights up. Even humming is enough.</span></div>
       </div>
       <div class="l-sec">
-        <span class="step-tag">Step 3</span>
+        <span class="step-tag">Step 4</span>
         <h3>Practice exercises</h3>
         <div class="tool-box">
           <div class="tool-title">🎵 C Major Exercise Player</div>
@@ -939,13 +3766,25 @@ const LESSONS=[
       </div>
       <div class="l-sec">
         <span class="step-tag">Step 2</span>
+        <h3>See &amp; hear it on the B string</h3>
+        <p><span class="hl">Tap any dot to hear it.</span></p>
+        <div class="vis-box"><div class="vis-title">🎸 A minor — B string (interactive)</div><div id="vis_amstrip"></div></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 3</span>
         <h3>Step pattern</h3>
         <div class="mono">A → B → C → D → E → F → G → A<br>W &nbsp;&nbsp; H &nbsp;&nbsp; W &nbsp;&nbsp; W &nbsp;&nbsp; H &nbsp;&nbsp; W &nbsp;&nbsp; W</div>
         <p>Same gaps as C major, just rearranged. A minor is called the <span class="hl">relative minor</span> of C major — siblings from the same family, different moods.</p>
         <div class="callout"><span class="ic">👂</span><span class="bd"><strong>Listen:</strong> Play C major up and down, then immediately A minor. You'll hear the mood shift — bright vs. melancholic. This contrast is at the heart of folk music.</span></div>
       </div>
       <div class="l-sec">
-        <span class="step-tag">Step 3</span>
+        <span class="step-tag">Step 4</span>
+        <h3>C major vs A minor — same notes</h3>
+        <p>Both scales use the exact same 7 notes — only the starting point differs.</p>
+        <div class="vis-box"><div class="vis-title">📊 C major vs A minor</div><div id="vis_comp"></div></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Step 5</span>
         <h3>Practice exercises</h3>
         <div class="tool-box">
           <div class="tool-title">🎵 A Minor Exercise Player</div>
@@ -1000,7 +3839,8 @@ const LESSONS=[
         <span class="step-tag">Why these exercises?</span>
         <h3>Training your fingers to act independently</h3>
         <p>Your ring finger and pinky naturally want to move together — they share a tendon. These drills train the neural pathways that allow each finger to move on its own. <span class="hl">Do the chromatic crawl every single session</span> as a warm-up, without exception.</p>
-        <div class="card">
+        <div class="vis-box"><div class="vis-title">✋ Finger numbers &amp; crawl positions</div><div id="vis_hand_crawl"></div></div>
+        <div class="card" style="margin-top:14px;">
           <div class="parts-grid" style="grid-template-columns:1fr;">
             <div class="pl"><span class="n">1</span><div><strong>Chromatic crawl</strong> <span class="d">— one finger per fret, all strings. The foundation. Do first, every session.</span></div></div>
             <div class="pl"><span class="n">2</span><div><strong>Spider walk</strong> <span class="d">— fingers alternate between adjacent strings. Two-hand coordination.</span></div></div>
@@ -1051,6 +3891,7 @@ const LESSONS=[
             <div class="pl"><span class="n">3</span><div><strong>6 strings (full run)</strong> <span class="d">— 3 notes per string (2 for pentatonic), flowing from low E to high e and back.</span></div></div>
           </div>
         </div>
+        <div class="vis-box" style="margin-top:14px;"><div class="vis-title">📊 Three stages of scale mastery</div><div id="vis_stages"></div></div>
         <div class="callout"><span class="ic">🏆</span><span class="bd"><strong>Goal:</strong> When you can play the 6-string full run up and back at <strong>80 BPM cleanly</strong>, you know that scale across the entire neck.</span></div>
       </div>
       <div class="l-sec">
@@ -1064,103 +3905,317 @@ const LESSONS=[
       <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'neck','nk')"><span class="chk-i">○</span> Mark as done</button></div>`,
     tool:'exercises', filter:['cmaj','cpent','amin','apent']
   },
+  {
+    id:'chords', label:'Chords', num:'8', sections:1,
+    eyebrow:'Stage 4 · Lesson 8', title:'Types of Chords',
+    sub:'Types of chords, how to read diagrams, and 40 chords with audio.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">Understanding chords</span>
+        <h3>Types of chords</h3>
+        <p>A chord is three or more notes played at the same time. Here is the full landscape colour-coded by level.</p>
+        <div class="vis-box"><div class="vis-title">🎵 Chord types — beginner to advanced</div><div id="vis_chord_types"></div></div>
+        <div class="callout"><span class="ic">🎯</span><span class="bd"><strong>Where to start:</strong> Major and minor open chords are all you need for months.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">How to read a diagram</span>
+        <h3>Chord diagram key</h3>
+        <div class="card">
+          <div class="chord-ref-wrap">
+            <svg viewBox="0 0 116 158" width="108" height="148" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+              <circle cx="18" cy="30" r="5" fill="none" stroke="#006A4E" stroke-width="1.5"/>
+              <text x="66" y="35" text-anchor="middle" font-size="12" font-weight="700" fill="#BBBBBB" font-family="system-ui">x</text>
+              <circle cx="98" cy="30" r="5" fill="none" stroke="#006A4E" stroke-width="1.5"/>
+              <line x1="18" y1="46" x2="98" y2="46" stroke="#0F2418" stroke-width="4" stroke-linecap="round"/>
+              <line x1="18" y1="68" x2="98" y2="68" stroke="#E7E2D6" stroke-width="1"/>
+              <line x1="18" y1="90" x2="98" y2="90" stroke="#E7E2D6" stroke-width="1"/>
+              <line x1="18" y1="112" x2="98" y2="112" stroke="#E7E2D6" stroke-width="1"/>
+              <line x1="18" y1="134" x2="98" y2="134" stroke="#E7E2D6" stroke-width="1"/>
+              <line x1="18" y1="46" x2="18" y2="134" stroke="#D0C8B8" stroke-width="1"/>
+              <line x1="34" y1="46" x2="34" y2="134" stroke="#D0C8B8" stroke-width="1"/>
+              <line x1="50" y1="46" x2="50" y2="134" stroke="#D0C8B8" stroke-width="1"/>
+              <line x1="66" y1="46" x2="66" y2="134" stroke="#D0C8B8" stroke-width="1"/>
+              <line x1="82" y1="46" x2="82" y2="134" stroke="#D0C8B8" stroke-width="1"/>
+              <line x1="98" y1="46" x2="98" y2="134" stroke="#D0C8B8" stroke-width="1"/>
+              <circle cx="34" cy="57" r="9" fill="#006A4E"/>
+              <text x="34" y="61" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">1</text>
+              <circle cx="50" cy="79" r="9" fill="#006A4E"/>
+              <text x="50" y="83" text-anchor="middle" fill="white" font-size="10" font-weight="700" font-family="system-ui">2</text>
+              <text x="18" y="152" text-anchor="middle" fill="#65766E" font-size="8" font-family="system-ui">E</text>
+              <text x="34" y="152" text-anchor="middle" fill="#65766E" font-size="8" font-family="system-ui">A</text>
+              <text x="50" y="152" text-anchor="middle" fill="#65766E" font-size="8" font-family="system-ui">D</text>
+              <text x="66" y="152" text-anchor="middle" fill="#65766E" font-size="8" font-family="system-ui">G</text>
+              <text x="82" y="152" text-anchor="middle" fill="#65766E" font-size="8" font-family="system-ui">B</text>
+              <text x="98" y="152" text-anchor="middle" fill="#65766E" font-size="8" font-family="system-ui">e</text>
+            </svg>
+            <ul class="chord-ref-key">
+              <li><strong>○</strong> above string — play open</li>
+              <li><strong>×</strong> above string — mute it</li>
+              <li><strong>Thick line</strong> — the nut</li>
+              <li><strong>Horizontal lines</strong> — frets 1–4</li>
+              <li><strong>Green dot + number</strong> — finger placement</li>
+              <li><strong>Xfr label</strong> — chord starts at that fret</li>
+              <li><strong>Green bar</strong> — barre (index finger)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">40 chords</span>
+        <h3>Diagrams &amp; audio — filter by type</h3>
+        <p>Use the filter pills to browse by type. Press <span class="hl">▶ Play</span> on any chord to hear it.</p>
+        <div class="vis-box"><div class="vis-title">🎸 Chord diagrams</div><div id="vis_chords"></div></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Transitions</span>
+        <h3>Chord transitions</h3>
+        <div class="card">
+          <div class="chord-transitions">
+            <span class="ct-chord">Em</span><span class="ct-arrow">→</span><span class="ct-chord">Am</span><span class="ct-arrow">→</span><span class="ct-chord">G</span><span class="ct-arrow">→</span><span class="ct-chord">C</span><span class="ct-arrow">→</span><span class="ct-chord">D</span><span class="ct-arrow">→</span><span class="ct-chord">Em</span>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">⏱️</span><span class="bd"><strong>The 1-minute change:</strong> Set a timer and switch between two chords as many times as you can cleanly. Beat your score each day.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'chords','ch')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'strumming', label:'Strumming', num:'9', sections:1,
+    eyebrow:'Stage 4 · Lesson 9', title:'Strumming Patterns',
+    sub:'Rhythm and timing — how to turn chords into music.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">The basics</span>
+        <h3>Down strokes, up strokes and skips</h3>
+        <p>Strumming is about <span class="hl">rhythm, not speed</span>. The most important thing is keeping your arm moving at a steady tempo — even when you skip a beat, your arm should still swing in that direction. Only the string contact is removed, not the motion.</p>
+        <div class="card">
+          <div class="strum-notation">
+            <div class="sn-item"><div class="sn-symbol sn-D">↓</div><div class="sn-text"><strong>Down stroke</strong><span>Strum toward the floor — thick strings first</span></div></div>
+            <div class="sn-item"><div class="sn-symbol sn-U">↑</div><div class="sn-text"><strong>Up stroke</strong><span>Strum toward the ceiling — thin strings first</span></div></div>
+            <div class="sn-item"><div class="sn-symbol sn-skip">-</div><div class="sn-text"><strong>Skip (ghost strum)</strong><span>Arm moves but doesn't touch strings</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>The golden rule:</strong> Your strumming arm swings like a pendulum — down on the beat, up on the off-beat — at a constant tempo. Even when you skip, keep the motion going.</span></div>
+      </div>
+
+      <div class="l-sec">
+        <span class="step-tag">Pick technique</span>
+        <h3>How to hold a pick</h3>
+        <p>Most beginners grip the pick too hard and too deep. A relaxed grip gives you better tone and lets you strum faster without tension.</p>
+        <div class="card">
+          <div class="pick-tips">
+            <div class="pick-tip"><span class="pt-icon">✋</span><div><strong>Grip</strong><span>Pinch between the flat of your thumb and the side of your index finger. The pick should point straight out to the right.</span></div></div>
+            <div class="pick-tip"><span class="pt-icon">📐</span><div><strong>Exposure</strong><span>Only about a third of the pick should stick out past your fingers — too much exposure causes wobble and poor tone.</span></div></div>
+            <div class="pick-tip"><span class="pt-icon">💨</span><div><strong>Angle</strong><span>Tilt the pick slightly so it glides across strings at an angle — not flat. This reduces resistance and sounds smoother.</span></div></div>
+            <div class="pick-tip"><span class="pt-icon">🔄</span><div><strong>Motion source</strong><span>For slow strumming use your whole arm from the elbow. For fast patterns, lock the elbow and use wrist rotation only.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>No pick?</strong> You can strum with your thumbnail (nail side down on downstrokes, flesh side on upstrokes). Many folk and acoustic players prefer this for a warmer tone.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">String targeting</span>
+        <h3>You don't have to hit all 6 strings every time</h3>
+        <p>Hitting all 6 strings on every strum makes everything sound muddy and uniform. Professional guitarists target different string groups on down vs. up strokes — this is what creates the natural "thud-chick" sound of acoustic rhythm guitar.</p>
+        <div class="card">
+          <div class="string-target-wrap">
+            <div class="st-row">
+              <div class="st-dir down-dir">↓ Down</div>
+              <div class="st-strings">
+                <div class="st-str hit">E</div>
+                <div class="st-str hit">A</div>
+                <div class="st-str hit">D</div>
+                <div class="st-str hit">G</div>
+                <div class="st-str soft">B</div>
+                <div class="st-str miss">e</div>
+              </div>
+              <div class="st-note">Target the low 4–5 strings. The bass strings carry the beat.</div>
+            </div>
+            <div class="st-row">
+              <div class="st-dir up-dir">↑ Up</div>
+              <div class="st-strings">
+                <div class="st-str miss">E</div>
+                <div class="st-str miss">A</div>
+                <div class="st-str miss">D</div>
+                <div class="st-str soft">G</div>
+                <div class="st-str hit">B</div>
+                <div class="st-str hit">e</div>
+              </div>
+              <div class="st-note">Brush only the top 2–3 strings. Light and airy — the "chick".</div>
+            </div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>Accents:</strong> To accent a beat (beat 2 or 4 in rock and pop), simply hit a down stroke harder and catch more strings. Your strumming arm does this naturally once you stop thinking about it.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Palm muting</span>
+        <h3>The muted "chunk" sound</h3>
+        <p>Palm muting is one of the most widely used techniques in rock, pop and country. It changes a full open strum into a tight, controlled sound and adds rhythmic texture.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Position your hand</strong> <span class="d">— rest the fleshy edge of your strumming hand (the little-finger side) lightly on the strings, very close to the saddle/bridge.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Location is everything</strong> <span class="d">— too far from the bridge sounds completely dead. Too close sounds like a normal strum. Experiment until you hear a muffled "chunk".</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Vary the pressure</strong> <span class="d">— light pressure = slightly muted. Heavy pressure = very muted thud. You can vary this mid-song for dynamics.</span></div></div>
+          </div>
+        </div>
+        <p style="font-size:13px;color:var(--muted);">Try <strong>Pattern 11 (Palm Mute Chug)</strong> below — all eighth-note down strokes are best for palm muting practice.</p>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Reading the notation</span>
+        <h3>Beat notation</h3>
+        <p>Each box is one <strong>eighth note</strong> (half a beat). Labels show the count — <strong>1 + 2 + 3 + 4 +</strong> — numbers are downbeats, + (and) are off-beats.</p>
+        <div class="mono">Count:  1    +    2    +    3    +    4    +
+Strum:  ↓    -    ↓    ↑    -    ↑    ↓    ↑</div>
+        <p>Start slow — 50 BPM. Speed comes from accuracy, never the other way around.</p>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">16 patterns</span>
+        <h3>Interactive pattern player — 16 patterns</h3>
+        <p>The lit box shows where you are. Start with <strong>All Down</strong> → <strong>The Essential</strong> → <strong>6/8 Ballad</strong>. Try <strong>Palm Mute Chug</strong> with your hand resting on the bridge.</p>
+        <div class="vis-box">
+          <div class="vis-title">🎵 Strumming patterns — press ▶ Play to follow along</div>
+          <div id="vis_strum"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Practice tips</span>
+        <h3>Building accuracy</h3>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Start with Em or Am</strong> <span class="d">— easy chord, full sound. Don't worry about chord changes yet.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Count out loud</strong> <span class="d">— say "1 and 2 and 3 and 4 and" while you strum. This wires the rhythm in.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Keep the arm moving</strong> <span class="d">— ghost strum on skipped beats. The arm never stops.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Add chord changes last</strong> <span class="d">— only switch chords once the pattern feels automatic.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">🎸</span><span class="bd"><strong>First song practice:</strong> Em for one bar, Am for one bar, repeat. Use Pattern 3 (The Essential). This is how most acoustic songs work.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'strumming','strum')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'strumchords', label:'Strumming with Chords', num:'10', sections:1,
+    eyebrow:'Stage 4 · Lesson 10', title:'Strumming with Chords',
+    sub:'Put it all together — rhythm patterns over real chord progressions.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">The big challenge</span>
+        <h3>Combining two skills at once</h3>
+        <p>Learning chords and learning strumming in isolation is straightforward. Combining them is where most beginners hit a wall. The key insight is this: <span class="hl">your strumming arm never stops</span>, and your fretting hand needs to arrive at the new chord shape <strong>just before</strong> beat 1 of each bar — not on it.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Get the chord shape first</strong> <span class="d">— press the new chord half a beat early. It's better to be early than late.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Keep strumming even through bad chords</strong> <span class="d">— rhythm is more important than perfect notes. Keep going.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Use the simplest pattern</strong> <span class="d">— all down-strokes when learning a new progression. Add rhythm complexity later.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Slow down</strong> <span class="d">— drop to 50 BPM if needed. Clean and slow beats fast and sloppy every time.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Interactive player</span>
+        <h3>Pick a progression + pattern and play along</h3>
+        <p>Choose a chord progression on the left and a strumming pattern on the right. Press <span class="hl">▶ Play</span> — the green chord box shows what to fret, and the dots show where you are in the bar.</p>
+        <div class="vis-box">
+          <div class="vis-title">🎸 Strumming with chords — combined player</div>
+          <div id="vis_strumchords"></div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>How to use it:</strong> Start with <strong>Em → Am</strong> and <strong>All Down</strong> at 50 BPM. When changes feel automatic, switch to <strong>The Essential</strong> pattern. Then try a 4-chord progression.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Practice ladder</span>
+        <h3>Work through this order</h3>
+        <div class="card">
+          <table class="l-table">
+            <tr><th>Step</th><th>Progression</th><th>Pattern</th><th>Target BPM</th></tr>
+            <tr><td>1</td><td>Em → Am</td><td>All Down</td><td>60</td></tr>
+            <tr><td>2</td><td>Em → Am</td><td>The Essential</td><td>65</td></tr>
+            <tr><td>3</td><td>G → Em → C → D</td><td>All Down</td><td>60</td></tr>
+            <tr><td>4</td><td>G → Em → C → D</td><td>The Essential</td><td>70</td></tr>
+            <tr><td>5</td><td>Am → F → C → G</td><td>Folk / Country</td><td>70</td></tr>
+            <tr><td>6</td><td>Any progression</td><td>Any pattern</td><td>80+</td></tr>
+          </table>
+        </div>
+        <div class="callout"><span class="ic">🏆</span><span class="bd"><strong>You're done when:</strong> you can play any 4-chord progression with The Essential pattern at 75 BPM without looking at your hands. That's real guitar playing.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'strumchords','sc')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'firstsong', label:'First Song', num:'11', sections:1,
+    eyebrow:'Stage 5 · Lesson 11', title:'Your First Songs',
+    sub:'Real songs — from 2 chords to 4 chords.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">How to learn a song</span>
+        <h3>The right order</h3>
+        <p>Most beginners try to learn a song at full speed and get frustrated. The right way is the opposite — slow it right down until every chord change is clean, then gradually increase tempo.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Learn the chord shapes first</strong> <span class="d">— play each chord slowly without strumming. Make sure every note rings clean.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Practise the change in isolation</strong> <span class="d">— just go back and forth between two chords until the transition is automatic. Use the 1-minute change exercise.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Add All Down strumming</strong> <span class="d">— one downstroke per beat at 50 BPM. Don't add complexity until the changes are solid.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Add the real pattern</strong> <span class="d">— once changes are automatic, switch to the recommended pattern. Then slowly raise the BPM.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>The 80% rule:</strong> If you can play a song cleanly at 80% of its real tempo, you're ready to try it at full speed. Practising too fast builds bad habits that are hard to undo.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Play along</span>
+        <h3>Pick a song and a pattern — press ▶ Play</h3>
+        <p>Each song has a <span style="color:var(--green);font-weight:700">★ rec</span> pattern that matches the original feel. Start with <strong>All Down</strong> first, then switch to the recommended pattern once the chord changes feel comfortable.</p>
+        <div class="vis-box">
+          <div class="vis-title">🎵 First Songs — play along</div>
+          <div id="vis_firstsong"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">What next</span>
+        <h3>You're playing real songs</h3>
+        <p>Once you can play any song in this list with its recommended pattern at the original BPM — without looking at your hands — you have crossed the most important threshold in learning guitar.</p>
+        <div class="callout"><span class="ic">🏆</span><span class="bd"><strong>Your goal:</strong> Pick one 4-chord song and learn it all the way through. "Stand By Me", "Let It Be", or "Take Me Home Country Roads" are perfect first songs. Put on the original recording and play along.</span></div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'firstsong','fs')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
+
+  ,{
+    id:'findchords',label:'Find the Chords',num:'12',sections:1,
+    eyebrow:'Stage 5 · Lesson 12',title:'Find the Chords',
+    sub:'Upload any acoustic recording — we analyse the chords automatically.',
+    body:`
+      <div class="l-sec">
+        <span class="step-tag">How it works</span>
+        <h3>Chord detection from audio</h3>
+        <p>This tool analyses the frequency content of your audio file and extracts a <span class="hl">chroma fingerprint</span> — a measure of how much each of the 12 musical notes is present at each moment. It then compares that fingerprint against all 24 major and minor chord templates and picks the best match.</p>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">✓</span><div><strong>Works well on</strong> <span class="d">— solo acoustic guitar, clean studio recordings, simple arrangements with 1-2 instruments.</span></div></div>
+            <div class="pl"><span class="n">△</span><div><strong>Reduced accuracy on</strong> <span class="d">— full band recordings, heavy distortion, songs with capo (chords will show in the wrong key), songs with complex jazz chords.</span></div></div>
+            <div class="pl"><span class="n">✕</span><div><strong>Cannot detect</strong> <span class="d">— sus, add9, or extended chords beyond major/minor. These will be mapped to the closest match.</span></div></div>
+          </div>
+        </div>
+        <div class="callout"><span class="ic">💡</span><span class="bd"><strong>Tip:</strong> WAV files give the best results. If you have an MP3, try converting it to WAV first. Longer recordings may take 5–10 seconds to analyse.</span></div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Chord analyser</span>
+        <h3>Upload an audio file</h3>
+        <div class="vis-box">
+          <div id="vis_findchords"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">Using the results</span>
+        <h3>What to do with the output</h3>
+        <div class="card">
+          <div class="parts-grid" style="grid-template-columns:1fr;">
+            <div class="pl"><span class="n">1</span><div><strong>Check the key</strong> <span class="d">— the key tells you which scale to use for improvising or writing your own parts.</span></div></div>
+            <div class="pl"><span class="n">2</span><div><strong>Learn the unique chords</strong> <span class="d">— find the detected chord diagrams in Lesson 8, practise each shape, then put them together.</span></div></div>
+            <div class="pl"><span class="n">3</span><div><strong>Try the suggested pattern</strong> <span class="d">— based on the detected BPM, we suggest a strumming pattern from Lesson 9. Start there and adjust to taste.</span></div></div>
+            <div class="pl"><span class="n">4</span><div><strong>Use Lesson 10 to practise</strong> <span class="d">— once you know the chords, build your own progression in the Lesson 10 player and strum along.</span></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'findchords','fc')"><span class="chk-i">○</span> Mark as done</button></div>`,
+  }
 ];
-
-// ── MARK SECTION ────────────────────────────────────────────────────
-function markSection(btn, lessonId, key){
-  btn.classList.add('done');
-  btn.innerHTML = '<span class="chk-i">✓</span> Completed';
-  markDone(lessonId, key);
-}
-
-// ── NAV ──────────────────────────────────────────────────────────────
-let curLesson=0;
-function renderNav(){
-  const nav=document.getElementById('nav-list');
-  nav.innerHTML=LESSONS.map((l,i)=>`
-    <div class="nav-item${i===curLesson?' active':''}" id="nav-${i}" onclick="goLesson(${i})">
-      <div class="nav-num" id="navnum-${i}">${l.num}</div>
-      <div class="nav-title">${l.label}</div>
-    </div>`).join('');
-}
-
-function renderLesson(l,i){
-  const prevBtn = i>0 ? `<button class="nbtn" onclick="goLesson(${i-1})">← ${LESSONS[i-1].label}</button>` : '';
-  const nextBtn = i<LESSONS.length-1
-    ? `<button class="nbtn primary" onclick="goLesson(${i+1})">Next: ${LESSONS[i+1].label} →</button>`
-    : `<div class="complete-card"><h3>🎉 Course complete!</h3><p>You've worked through all 7 lessons. You know the fretboard, the C major and A minor scales, both pentatonic scales, and your finger technique is underway. Keep the daily practice going.</p></div>`;
-
-  const div=document.createElement('div');
-  div.className='lesson-panel'+(i===curLesson?' active':'');
-  div.id='lesson_'+i;
-
-  div.innerHTML=`
-    <div class="l-hero">
-      <div class="eyebrow">${l.eyebrow}</div>
-      <h2>${l.title}</h2>
-      <p>${l.sub}</p>
-    </div>
-    <div class="l-body">
-      ${l.body}
-      <div class="nav-btns">${prevBtn}${nextBtn}</div>
-    </div>`;
-  document.getElementById('main').appendChild(div);
-
-  // init tools
-  if(l.tool==='fretboard'||l.tool==='both') buildFretboard('fbtool_'+l.id);
-  if(l.tool==='exercises'||l.tool==='both') buildPlayer('eptool_'+l.id, l.filter||[]);
-}
-
-function goLesson(i){
-  curLesson=i;
-  renderNav();
-  document.querySelectorAll('.lesson-panel').forEach((p,j)=>p.classList.toggle('active',j===i));
-  if(LESSONS[i]) history.replaceState(null,'','#'+LESSONS[i].id);
-  document.body.classList.remove('sb-open');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-// ── INIT ─────────────────────────────────────────────────────────────
-// Measure the site nav height so the sticky sidebar sits right below it.
-function setNavH(){
-  var nav = document.querySelector('.app-topbar');
-  if(nav) document.documentElement.style.setProperty('--navh', nav.offsetHeight + 'px');
-}
-setNavH();
-window.addEventListener('resize', setNavH);
-
-// Mobile sidebar toggle
-function toggleSidebar(force){
-  document.body.classList.toggle('sb-open', force);
-}
-var navToggle = document.getElementById('navToggle');
-var lessonsFab = document.getElementById('lessonsFab');
-var sbBackdrop = document.getElementById('sbBackdrop');
-if(navToggle) navToggle.addEventListener('click', function(){ toggleSidebar(); });
-if(lessonsFab) lessonsFab.addEventListener('click', function(){ toggleSidebar(true); });
-if(sbBackdrop) sbBackdrop.addEventListener('click', function(){ toggleSidebar(false); });
-
-// Reflect saved progress onto each lesson's "Mark as done" button.
-function reconcileMarks(){
-  document.querySelectorAll('.mark-btn').forEach(function(btn){
-    var oc = btn.getAttribute('onclick') || '';
-    var m = oc.match(/markSection\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/);
-    if(!m) return;
-    var lessonId = m[1], key = m[2];
-    if(done[lessonId] && done[lessonId].has(key)){
-      btn.classList.add('done');
-      btn.innerHTML = '<span class="chk-i">✓</span> Completed';
-    }
-  });
-}
-
-// Pick the starting lesson from the URL hash (deep-link from the landing page).
-function lessonIndexFromHash(){
-  var id = (location.hash || '').replace('#','');
-  var idx = LESSONS.findIndex(function(l){ return l.id === id; });
-  return idx < 0 ? 0 : idx;
-}
-
 renderNav();
 LESSONS.forEach((l,i)=>renderLesson(l,i));
 reconcileMarks();
@@ -1171,3 +4226,4 @@ if(startIdx !== 0) goLesson(startIdx);
 </script>
 </body>
 </html>
+
