@@ -135,11 +135,11 @@ p { margin: 0; }
 /* Mobile nav */
 .nav-toggle {
   display: none;
-  order: 1; /* keep hamburger to the LEFT of the CTA button when collapsed */
+  order: -1; /* hamburger sits at the FAR LEFT of the bar when collapsed */
   width: 44px; height: 44px;
   border-radius: 999px; background: transparent;
   border: 0; font-size: 22px; color: var(--ink);
-  margin-left: auto;
+  margin-left: 0;
 }
 
 /* -- BIG FREE BADGE (used across pages) ---------------------- */
@@ -458,6 +458,7 @@ footer {
 @media (max-width: 980px) {
   .nav-links { display: none; }
   .nav-toggle { display: grid; place-items: center; }
+  .nav-cta { margin-left: auto; } /* push CTA to far right, hamburger stays far left */
   .nav-cta .btn:not(.btn-primary) { display: none; }
   .logo img { width: 44px; height: 44px; }
   .logo-text strong { font-size: 17px; }
