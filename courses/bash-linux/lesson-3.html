@@ -4,227 +4,104 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lesson 3: Pipes &amp; Redirection — Bash &amp; Linux · Shopnil Academy</title>
-  <meta name="description" content="Learn to connect commands with pipes and redirect output in Linux. Master |, >, >>, grep, sort, and uniq. Lesson 3 of the free Bash &amp; Linux course at Shopnil Academy." />
+  <meta name="description" content="Learn to connect commands with pipes and redirect output in Linux. Master |, &gt;, &gt;&gt;, 2&gt;, grep, sort, and uniq. Lesson 3 of the free Bash &amp; Linux course at Shopnil Academy." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://shopnilacademy.com/courses/bash-linux/lesson-3.html" />
-
   <meta property="og:title" content="Lesson 3: Pipes &amp; Redirection — Bash &amp; Linux · Shopnil Academy" />
   <meta property="og:description" content="Connect Linux commands with pipes and redirect output. Free lesson at Shopnil Academy." />
   <meta property="og:url" content="https://shopnilacademy.com/courses/bash-linux/lesson-3.html" />
   <meta property="og:site_name" content="Shopnil Academy" />
   <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
   <meta property="og:type" content="article" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="../../styles.css" />
-
   <style>
-    .sidebar-course-label {
-      font-size: 10px; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--green);
-      margin-bottom: 6px; display: block;
-    }
-    .sidebar-course-title {
-      font-size: 15px; font-weight: 700; color: var(--ink);
-      line-height: 1.25; margin-bottom: 18px;
-      padding-bottom: 18px; border-bottom: 1px solid var(--line);
-    }
-    .prog-label {
-      display: flex; justify-content: space-between;
-      font-size: 12px; color: var(--muted); margin-bottom: 7px;
-    }
-    .prog-track {
-      height: 5px; background: var(--green-soft);
-      border-radius: 99px; overflow: hidden; margin-bottom: 20px;
-    }
-    .prog-fill {
-      height: 100%; background: var(--green);
-      border-radius: 99px; transition: width .4s ease;
-    }
-    .mod-group { margin-bottom: 6px; }
-    .mod-group-label {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 8px 0 4px;
-      font-size: 10px; font-weight: 700; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--muted);
-      cursor: pointer; user-select: none;
-    }
-    .mod-group-label .chev { font-size: 10px; transition: transform .2s ease; }
-    .mod-group.open .chev { transform: rotate(180deg); }
-    .mod-lessons { display: none; }
-    .mod-group.open .mod-lessons { display: block; }
-    .lesson-link {
-      display: flex; align-items: flex-start; gap: 9px;
-      padding: 8px 10px 8px 0;
-      font-size: 13px; color: var(--muted);
-      border-left: 2px solid transparent;
-      transition: color .15s ease, border-color .15s ease;
-      line-height: 1.35;
-    }
-    .lesson-link:hover { color: var(--ink); }
-    .lesson-link.active {
-      color: var(--green); border-left-color: var(--green);
-      font-weight: 600; padding-left: 10px;
-    }
-    .lesson-link.done { color: var(--green); }
-    .l-icon {
-      width: 18px; height: 18px; border-radius: 50%;
-      display: grid; place-items: center;
-      font-size: 9px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
-    }
-    .l-icon.done   { background: var(--green); color: #fff; }
-    .l-icon.active { background: var(--green); color: #fff; }
-    .l-icon.todo   { background: var(--cream); border: 1.5px solid var(--line); color: var(--muted); }
-    .lesson-meta-strip {
-      display: flex; align-items: center; gap: 8px;
-      flex-wrap: wrap; margin-bottom: 20px;
-    }
-    .lm-pill {
-      display: inline-flex; align-items: center;
-      padding: 4px 12px; border-radius: 999px;
-      font-size: 11px; font-weight: 700; letter-spacing: .04em;
-    }
-    .lm-num  { background: var(--green-soft); color: var(--green); }
-    .lm-time { background: var(--cream); color: var(--muted); }
-    .lm-sep  { color: var(--muted); opacity: .4; font-size: 13px; }
-    .code-wrap { margin: 18px 0; }
-    .code-header {
-      background: var(--ink);
-      padding: 10px 16px; border-radius: 12px 12px 0 0;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .code-lang {
-      font-size: 11px; font-weight: 600;
-      color: rgba(255,255,255,.5); letter-spacing: .06em; text-transform: uppercase;
-    }
-    .copy-btn {
-      font-size: 11px; font-weight: 600; color: rgba(255,255,255,.6);
-      background: rgba(255,255,255,.1); border: none;
-      padding: 4px 10px; border-radius: 6px; cursor: pointer;
-      transition: background .15s ease;
-    }
-    .copy-btn:hover { background: rgba(255,255,255,.2); color: #fff; }
-    pre {
-      margin: 0; background: #0F2418;
-      border-radius: 0 0 12px 12px;
-      padding: 18px 20px; overflow-x: auto;
-      font-family: 'DM Mono', monospace;
-      font-size: 13.5px; line-height: 1.8;
-    }
-    .c-cmd     { color: #5DCAA5; }
-    .c-flag    { color: #9FE1CB; }
-    .c-path    { color: #FAC775; }
-    .c-pipe    { color: #F4A261; }
-    .c-out     { color: rgba(255,255,255,.6); }
-    .c-comment { color: rgba(255,255,255,.32); font-style: italic; }
-    .cmd-table {
-      width: 100%; border-collapse: collapse;
-      margin: 20px 0; border-radius: 14px; overflow: hidden;
-      border: 1px solid var(--line);
-    }
-    .cmd-table th {
-      background: var(--cream); text-align: left;
-      padding: 12px 16px; font-size: 12px; font-weight: 700;
-      color: var(--muted); letter-spacing: .06em; text-transform: uppercase;
-      border-bottom: 1px solid var(--line);
-    }
-    .cmd-table td {
-      padding: 13px 16px; font-size: 14px;
-      border-bottom: 1px solid var(--line); vertical-align: top;
-      color: #33433b; line-height: 1.5;
-    }
-    .cmd-table tr:last-child td { border-bottom: none; }
-    .cmd-table .cmd-cell {
-      font-family: 'DM Mono', monospace; font-size: 13px;
-      color: var(--green-deep); font-weight: 500; white-space: nowrap;
-    }
-    .exercise {
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--gold);
-      border-radius: 0 16px 16px 0;
-      padding: 20px 22px; margin: 20px 0;
-      background: #fff;
-    }
-    .ex-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .ex-num {
-      background: var(--gold); color: var(--ink);
-      font-size: 11px; font-weight: 700; letter-spacing: .06em;
-      padding: 3px 10px; border-radius: 999px; text-transform: uppercase;
-    }
-    .ex-title { font-size: 15px; font-weight: 700; color: var(--ink); }
-    .exercise p { font-size: 15px; color: #33433b; line-height: 1.65; margin-bottom: 10px; }
-    .ex-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
-    details.answer {
-      margin-top: 12px;
-      border: 1px solid rgba(0,106,78,.2);
-      border-radius: 12px; overflow: hidden;
-    }
-    details.answer summary {
-      list-style: none; cursor: pointer;
-      padding: 11px 16px;
-      font-size: 13px; font-weight: 600; color: var(--green);
-      background: var(--green-soft);
-      display: flex; align-items: center; gap: 8px;
-      user-select: none;
-    }
-    details.answer summary::-webkit-details-marker { display: none; }
-    details.answer summary::before { content: '▶'; font-size: 9px; transition: transform .2s ease; }
-    details.answer[open] summary::before { transform: rotate(90deg); }
-    details.answer .answer-body { background: #0F2418; }
-    details.answer .answer-body pre { border-radius: 0; margin: 0; }
-    .tip, .warn {
-      border-radius: 14px; padding: 16px 20px;
-      margin: 18px 0; display: flex; align-items: flex-start; gap: 12px;
-    }
-    .tip  { background: var(--green-soft); border: 1px solid rgba(0,106,78,.18); }
-    .warn { background: var(--gold-soft);  border: 1px solid rgba(232,183,42,.3); }
-    .tip-icon, .warn-icon {
-      width: 26px; height: 26px; border-radius: 8px;
-      display: grid; place-items: center;
-      font-size: 13px; flex-shrink: 0;
-    }
-    .tip-icon  { background: var(--green); color: #fff; }
-    .warn-icon { background: var(--gold);  color: var(--ink); }
-    .tip p  { font-size: 14.5px; color: var(--green-deep); line-height: 1.6; margin: 0; }
-    .warn p { font-size: 14.5px; color: #7a5a00; line-height: 1.6; margin: 0; }
-    .mark-complete-wrap { text-align: center; margin: 32px 0 0; }
-    .mark-complete {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 13px 28px; border-radius: 999px;
-      font-size: 14px; font-weight: 700;
-      background: var(--green); color: #fff; border: none;
-      transition: background .15s ease, transform .15s ease;
-    }
-    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
-    .mark-complete.done { background: var(--green-soft); color: var(--green); pointer-events: none; }
-    .lesson-nav-footer {
-      display: flex; justify-content: space-between; align-items: center;
-      padding-top: 32px; border-top: 1px solid var(--line);
-      margin-top: 44px; gap: 16px; flex-wrap: wrap;
-    }
-    @media (max-width: 860px) { .toc { display: none; } }
+    .sidebar-course-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:block}
+    .sidebar-course-title{font-size:15px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}
+    .prog-track{height:5px;background:var(--green-soft);border-radius:99px;overflow:hidden;margin-bottom:20px}
+    .prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .4s ease}
+    .mod-group{margin-bottom:6px}
+    .mod-group-label{display:flex;align-items:center;justify-content:space-between;padding:8px 0 4px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;user-select:none}
+    .mod-group-label .chev{font-size:10px;transition:transform .2s ease}
+    .mod-group.open .chev{transform:rotate(180deg)}
+    .mod-lessons{display:none}
+    .mod-group.open .mod-lessons{display:block}
+    .lesson-link{display:flex;align-items:flex-start;gap:9px;padding:8px 10px 8px 0;font-size:13px;color:var(--muted);border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease;line-height:1.35}
+    .lesson-link:hover{color:var(--ink)}
+    .lesson-link.active{color:var(--green);border-left-color:var(--green);font-weight:600;padding-left:10px}
+    .lesson-link.done{color:var(--green)}
+    .l-icon{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+    .l-icon.done{background:var(--green);color:#fff}
+    .l-icon.active{background:var(--green);color:#fff}
+    .l-icon.todo{background:var(--cream);border:1.5px solid var(--line);color:var(--muted)}
+    .lesson-meta-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+    .lm-pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em}
+    .lm-num{background:var(--green-soft);color:var(--green)}
+    .lm-time{background:var(--cream);color:var(--muted)}
+    .lm-sep{color:var(--muted);opacity:.4;font-size:13px}
+    .code-wrap{margin:18px 0}
+    .code-header{background:var(--ink);padding:10px 16px;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between}
+    .code-lang{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase}
+    .copy-btn{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);border:none;padding:4px 10px;border-radius:6px;cursor:pointer;transition:background .15s ease}
+    .copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+    pre{margin:0;background:#0F2418;border-radius:0 0 12px 12px;padding:18px 20px;overflow-x:auto;font-family:'DM Mono',monospace;font-size:13.5px;line-height:1.8}
+    .c-cmd{color:#5DCAA5}.c-flag{color:#9FE1CB}.c-path{color:#FAC775}
+    .c-out{color:rgba(255,255,255,.6)}.c-comment{color:rgba(255,255,255,.32);font-style:italic}
+    .cmd-table{width:100%;border-collapse:collapse;margin:20px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+    .cmd-table th{background:var(--cream);text-align:left;padding:12px 16px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+    .cmd-table td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top;color:#33433b;line-height:1.5}
+    .cmd-table tr:last-child td{border-bottom:none}
+    .cmd-table .cmd-cell{font-family:'DM Mono',monospace;font-size:13px;color:var(--green-deep);font-weight:500;white-space:nowrap}
+    .exercise{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 16px 16px 0;padding:20px 22px;margin:20px 0;background:#fff}
+    .ex-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .ex-num{background:var(--gold);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;text-transform:uppercase}
+    .ex-title{font-size:15px;font-weight:700;color:var(--ink)}
+    .exercise p{font-size:15px;color:#33433b;line-height:1.65;margin-bottom:10px}
+    .ex-hint{font-size:13px;color:var(--muted);margin-top:6px}
+    details.answer{margin-top:12px;border:1px solid rgba(0,106,78,.2);border-radius:12px;overflow:hidden}
+    details.answer summary{list-style:none;cursor:pointer;padding:11px 16px;font-size:13px;font-weight:600;color:var(--green);background:var(--green-soft);display:flex;align-items:center;gap:8px;user-select:none}
+    details.answer summary::-webkit-details-marker{display:none}
+    details.answer summary::before{content:'\25B6';font-size:9px;transition:transform .2s ease}
+    details.answer[open] summary::before{transform:rotate(90deg)}
+    details.answer .answer-body{background:#0F2418}
+    details.answer .answer-body pre{border-radius:0;margin:0}
+    .tip,.warn{border-radius:14px;padding:16px 20px;margin:18px 0;display:flex;align-items:flex-start;gap:12px}
+    .tip{background:var(--green-soft);border:1px solid rgba(0,106,78,.18)}
+    .warn{background:var(--gold-soft);border:1px solid rgba(232,183,42,.3)}
+    .tip-icon,.warn-icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+    .tip-icon{background:var(--green);color:#fff}.warn-icon{background:var(--gold);color:var(--ink)}
+    .tip p{font-size:14.5px;color:var(--green-deep);line-height:1.6;margin:0}
+    .warn p{font-size:14.5px;color:#7a5a00;line-height:1.6;margin:0}
+    .explain-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:20px 0}
+    .explain-box h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .explain-box p{font-size:14.5px;color:#33433b;line-height:1.75;margin-bottom:10px}
+    .explain-box p:last-child{margin-bottom:0}
+    .stream-table{width:100%;border-collapse:collapse;margin:14px 0;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+    .stream-table th{background:var(--ink);color:#fff;text-align:left;padding:10px 14px;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+    .stream-table td{padding:12px 14px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5;color:#33433b}
+    .stream-table tr:last-child td{border-bottom:none}
+    .stream-num{font-family:'DM Mono',monospace;font-size:18px;font-weight:700;text-align:center}
+    .s0{color:#FAC775}.s1{color:#5DCAA5}.s2{color:#F28B82}
+    .folder-note{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:8px}
+    .folder-note::before{content:'\1F4C1';font-size:13px}
+    .mark-complete-wrap{text-align:center;margin:32px 0 0}
+    .mark-complete{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:999px;font-size:14px;font-weight:700;background:var(--green);color:#fff;border:none;transition:background .15s ease,transform .15s ease}
+    .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
+    .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
+    .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
+    @media(max-width:860px){.toc{display:none}}
   </style>
-
-  <!-- AdSense: uncomment and replace publisher ID when approved -->
-  <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 </head>
-
 <body>
 
-  <!-- ══════════════════════════════════════════════════════════
-       NAV
-  ═══════════════════════════════════════════════════════════ -->
   <header class="nav-shell">
     <nav class="nav" aria-label="Main navigation">
       <a href="https://shopnilacademy.com/index.html" class="logo">
         <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy logo" width="52" height="52" />
-        <div class="logo-text">
-          <strong>Shopnil Academy</strong>
-          <small>BASH &amp; LINUX · LESSON 3</small>
-        </div>
+        <div class="logo-text"><strong>Shopnil Academy</strong><small>BASH &amp; LINUX &middot; LESSON 3</small></div>
       </a>
       <div class="nav-links">
         <a href="https://shopnilacademy.com/index.html">Home</a>
@@ -234,537 +111,374 @@
       </div>
       <div class="nav-cta">
         <a href="https://shopnilacademy.com/courses.html" class="btn btn-outline btn-sm">All courses</a>
-        <a href="lesson-4.html" class="btn btn-primary btn-sm">Next lesson →</a>
+        <a href="lesson-4.html" class="btn btn-primary btn-sm">Next lesson &rarr;</a>
       </div>
-      <button class="nav-toggle" aria-label="Open menu" id="navToggle">☰</button>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle">&#9776;</button>
     </nav>
   </header>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       INNER HEADER
-  ═══════════════════════════════════════════════════════════ -->
   <div class="inner-header">
     <div class="wrap">
       <div class="breadcrumb">
         <a href="https://shopnilacademy.com/courses.html">Courses</a>
-        <span class="sep">›</span>
+        <span class="sep">&rsaquo;</span>
         <a href="index.html">Bash &amp; Linux</a>
-        <span class="sep">›</span>
+        <span class="sep">&rsaquo;</span>
         <span>Lesson 3</span>
       </div>
       <div class="lesson-meta-strip">
         <span class="lm-pill lm-num">Lesson 3 of 13</span>
-        <span class="lm-sep">·</span>
-        <span class="lm-pill lm-time">⏱ 45 min</span>
-        <span class="lm-sep">·</span>
-        <span class="free-pill">✓ Free</span>
+        <span class="lm-sep">&middot;</span>
+        <span class="lm-pill lm-time">&#9201; 45 min</span>
+        <span class="lm-sep">&middot;</span>
+        <span class="free-pill">&#10003; Free</span>
       </div>
       <h1>Pipes &amp; Redirection</h1>
-      <p class="lead">
-        Pipes are what make Linux truly powerful. Instead of writing one command at a time,
-        you chain commands together so the output of one flows directly into the next —
-        building complex analyses from simple building blocks.
-        This is how real bioinformatics pipelines work.
-      </p>
+      <p class="lead">Pipes are what make Linux truly powerful. Instead of writing one command at a time, you chain commands together so the output of one flows directly into the next &mdash; building complex analyses from simple building blocks. This is how real bioinformatics pipelines work.</p>
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       AD — Leaderboard
-  ═══════════════════════════════════════════════════════════ -->
-  <div style="max-width:970px; margin:16px auto; padding:0 32px;">
+  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
     <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
-      <strong>Advertisement</strong>
-      <small>728 × 90 leaderboard · AdSense unit goes here</small>
+      <strong>Advertisement</strong><small>728 &times; 90 leaderboard &middot; AdSense unit goes here</small>
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       ARTICLE
-  ═══════════════════════════════════════════════════════════ -->
   <div class="article">
     <div class="wrap">
       <div class="article-grid">
 
-        <!-- ── LEFT: Course sidebar ───────────────────────────── -->
         <aside class="toc" aria-label="Course navigation">
-
           <span class="sidebar-course-label">Tech &amp; Coding</span>
           <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
-
-          <div class="prog-label">
-            <span>Your progress</span>
-            <span id="progPct">0%</span>
-          </div>
-          <div class="prog-track">
-            <div class="prog-fill" id="progFill" style="width:0%"></div>
-          </div>
-
+          <div class="prog-label"><span>Your progress</span><span id="progPct">0%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
           <div class="mod-group open" id="mg1">
-            <div class="mod-group-label" onclick="toggleMod('mg1')">
-              Module 1 — Foundations <span class="chev">▾</span>
-            </div>
+            <div class="mod-group-label" onclick="toggleMod('mg1')">Module 1 &mdash; Foundations <span class="chev">&#9662;</span></div>
             <div class="mod-lessons">
-              <a href="lesson-1.html" class="lesson-link done">
-                <span class="l-icon done">✓</span>Navigation &amp; the Filesystem
-              </a>
-              <a href="lesson-2.html" class="lesson-link done">
-                <span class="l-icon done">✓</span>File Operations
-              </a>
-              <a href="lesson-3.html" class="lesson-link active">
-                <span class="l-icon active">3</span>Pipes &amp; Redirection
-              </a>
-              <a href="lesson-4.html" class="lesson-link">
-                <span class="l-icon todo">4</span>Variables &amp; Loops
-              </a>
+              <a href="lesson-1.html" class="lesson-link done"><span class="l-icon done">&#10003;</span>Navigation &amp; the Filesystem</a>
+              <a href="lesson-2.html" class="lesson-link done"><span class="l-icon done">&#10003;</span>File Operations</a>
+              <a href="lesson-3.html" class="lesson-link active"><span class="l-icon active">3</span>Pipes &amp; Redirection</a>
+              <a href="lesson-4.html" class="lesson-link"><span class="l-icon todo">4</span>Variables &amp; Loops</a>
             </div>
           </div>
-
           <div class="mod-group" id="mg2">
-            <div class="mod-group-label" onclick="toggleMod('mg2')">
-              Module 2 — Scripting <span class="chev">▾</span>
-            </div>
+            <div class="mod-group-label" onclick="toggleMod('mg2')">Module 2 &mdash; Scripting <span class="chev">&#9662;</span></div>
             <div class="mod-lessons">
-              <a href="lesson-5.html" class="lesson-link">
-                <span class="l-icon todo">5</span>Writing Bash Scripts
-              </a>
-              <a href="lesson-6.html" class="lesson-link">
-                <span class="l-icon todo">6</span>Conditionals &amp; Functions
-              </a>
-              <a href="lesson-7.html" class="lesson-link">
-                <span class="l-icon todo">7</span>Permissions &amp; Users
-              </a>
+              <a href="lesson-5.html" class="lesson-link"><span class="l-icon todo">5</span>Writing Bash Scripts</a>
+              <a href="lesson-6.html" class="lesson-link"><span class="l-icon todo">6</span>Conditionals &amp; Functions</a>
+              <a href="lesson-7.html" class="lesson-link"><span class="l-icon todo">7</span>Permissions &amp; Users</a>
             </div>
           </div>
-
           <div class="mod-group" id="mg3">
-            <div class="mod-group-label" onclick="toggleMod('mg3')">
-              Module 3 — Processes <span class="chev">▾</span>
-            </div>
+            <div class="mod-group-label" onclick="toggleMod('mg3')">Module 3 &mdash; Processes <span class="chev">&#9662;</span></div>
             <div class="mod-lessons">
-              <a href="lesson-8.html" class="lesson-link">
-                <span class="l-icon todo">8</span>Processes &amp; Jobs
-              </a>
-              <a href="lesson-9.html" class="lesson-link">
-                <span class="l-icon todo">9</span>Text Processing: grep, sed, awk
-              </a>
-              <a href="lesson-10.html" class="lesson-link">
-                <span class="l-icon todo">10</span>Working with Data Files
-              </a>
+              <a href="lesson-8.html" class="lesson-link"><span class="l-icon todo">8</span>Processes &amp; Jobs</a>
+              <a href="lesson-9.html" class="lesson-link"><span class="l-icon todo">9</span>Text Processing: grep, sed, awk</a>
+              <a href="lesson-10.html" class="lesson-link"><span class="l-icon todo">10</span>Working with Data Files</a>
             </div>
           </div>
-
           <div class="mod-group" id="mg4">
-            <div class="mod-group-label" onclick="toggleMod('mg4')">
-              Module 4 — Bioinformatics Bash <span class="chev">▾</span>
-            </div>
+            <div class="mod-group-label" onclick="toggleMod('mg4')">Module 4 &mdash; Bioinformatics Bash <span class="chev">&#9662;</span></div>
             <div class="mod-lessons">
-              <a href="lesson-11.html" class="lesson-link">
-                <span class="l-icon todo">11</span>FASTQ &amp; FASTA on the CLI
-              </a>
-              <a href="lesson-12.html" class="lesson-link">
-                <span class="l-icon todo">12</span>Automating Bioinformatics Tasks
-              </a>
-              <a href="lesson-13.html" class="lesson-link">
-                <span class="l-icon todo">13</span>Capstone: Pipeline Script
-              </a>
+              <a href="lesson-11.html" class="lesson-link"><span class="l-icon todo">11</span>FASTQ &amp; FASTA on the CLI</a>
+              <a href="lesson-12.html" class="lesson-link"><span class="l-icon todo">12</span>Automating Bioinformatics Tasks</a>
+              <a href="lesson-13.html" class="lesson-link"><span class="l-icon todo">13</span>Capstone: Pipeline Script</a>
             </div>
           </div>
-
           <h5 style="margin-top:28px;">On this page</h5>
           <ul>
-            <li><a href="#mental-model">The mental model</a></li>
-            <li><a href="#redirection">Redirection</a></li>
+            <li><a href="#streams">The three streams</a></li>
+            <li><a href="#stdout-redirect">Output redirection</a></li>
+            <li><a href="#stderr-redirect">Error redirection (2&gt;)</a></li>
+            <li><a href="#dev-null">/dev/null</a></li>
             <li><a href="#pipes">The pipe operator</a></li>
-            <li><a href="#grep">grep — search text</a></li>
+            <li><a href="#grep">grep</a></li>
             <li><a href="#sort-uniq">sort &amp; uniq</a></li>
             <li><a href="#combining">Combining it all</a></li>
             <li><a href="#reference">Quick reference</a></li>
             <li><a href="#exercises">Exercises</a></li>
           </ul>
-
         </aside>
 
-
-        <!-- ── RIGHT: Lesson prose ────────────────────────────── -->
         <div class="prose">
 
+          <section id="streams">
+            <h2><span class="n">01</span> The three streams &mdash; the foundation of everything</h2>
+            <p>Before you can understand pipes and redirection, you need to understand one key concept: <strong>every Linux command has three numbered channels</strong> for receiving and sending data. These are called streams.</p>
+            <div class="explain-box">
+              <h4>&#128268; stdin, stdout, stderr &mdash; the three streams</h4>
+              <p>Think of a command like a machine with three connections: one input pipe and two output pipes. Data flows in through the input, and results come out through two outputs &mdash; one for normal results and one for error messages.</p>
+              <table class="stream-table" style="margin-top:12px;">
+                <thead><tr><th>Number</th><th>Name</th><th>What it carries</th><th>Default destination</th></tr></thead>
+                <tbody>
+                  <tr><td class="stream-num s0">0</td><td><strong>stdin</strong> (standard input)</td><td>Data going <em>into</em> the command</td><td>Your keyboard</td></tr>
+                  <tr><td class="stream-num s1">1</td><td><strong>stdout</strong> (standard output)</td><td>Normal results coming <em>out</em> of the command</td><td>Your screen</td></tr>
+                  <tr><td class="stream-num s2">2</td><td><strong>stderr</strong> (standard error)</td><td>Error messages coming <em>out</em> of the command</td><td>Your screen (separate from stdout)</td></tr>
+                </tbody>
+              </table>
+              <p style="margin-top:14px;">By default, all output &mdash; results and errors &mdash; appear on your screen together. But they are <strong>separate numbered streams</strong> and can be controlled independently. The operators <code>&gt;</code>, <code>&gt;&gt;</code>, <code>2&gt;</code>, and <code>|</code> redirect these streams to files or other commands.</p>
+            </div>
+          </section>
 
-          <!-- ── SECTION 1: Mental model ───────────────────────── -->
-          <section id="mental-model">
+          <section id="stdout-redirect">
+            <h2><span class="n">02</span> Redirecting stdout &mdash; &gt; and &gt;&gt;</h2>
+            <div class="explain-box">
+              <h4>&#128228; How &gt; and &gt;&gt; redirect stream 1 (stdout)</h4>
+              <p>When you type <code>ls -lh</code>, the results go to your screen because stdout (stream 1) defaults to the screen. Adding <code>&gt;</code> after a command intercepts stream 1 and sends it to a file instead.</p>
+              <p><strong><code>&gt;</code> (single arrow)</strong> &mdash; creates the file if it does not exist. If it already exists, its entire contents are <strong>replaced</strong> with no warning. Think: "write from scratch".</p>
+              <p><strong><code>&gt;&gt;</code> (double arrow)</strong> &mdash; appends to the end of the file without touching existing contents. Think: "add to the bottom".</p>
+              <p>The output file appears in <strong>whichever folder you are currently in</strong> unless you specify a full path. Always run <code>pwd</code> first if unsure where you are.</p>
+            </div>
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
 
-            <h2><span class="n">01</span> The mental model</h2>
+<span class="c-comment"># No redirection: results go to screen</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span>
 
-            <p>
-              Every Linux command has three streams — think of them as channels:
-            </p>
+<span class="c-comment"># With >: results go to file_list.txt in current folder</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-flag">&gt;</span> <span class="c-path">file_list.txt</span>
 
+<span class="c-comment"># With >>: results are APPENDED to file_list.txt</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">file_list.txt</span>
+
+<span class="c-comment"># Save to a specific location (not current folder)</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-flag">&gt;</span> <span class="c-path">~/bash-linux-bioinformatics/results/file_list.txt</span>
+
+<span class="c-comment"># Verify it was created and see its contents</span>
+<span class="c-cmd">cat</span> <span class="c-path">file_list.txt</span></pre>
+            </div>
+            <div class="warn">
+              <span class="warn-icon">&#9888;</span>
+              <p>A single <code>&gt;</code> silently destroys the previous file contents. There is no undo. When in doubt, always use <code>&gt;&gt;</code>.</p>
+            </div>
+          </section>
+
+          <section id="stderr-redirect">
+            <h2><span class="n">03</span> Redirecting stderr &mdash; what 2&gt; means</h2>
+            <div class="explain-box">
+              <h4>&#9888; Why stderr is separate &mdash; and why 2&gt; matters in bioinformatics</h4>
+              <p>Remember the stream numbers: stdout is stream <strong>1</strong>, and stderr is stream <strong>2</strong>. The <code>2&gt;</code> operator works exactly like <code>&gt;</code>, but it redirects stream 2 (error messages) instead of stream 1 (normal output).</p>
+              <p>In bioinformatics, tools like STAR, GATK, Trimmomatic, and featureCounts print their <strong>progress messages and warnings to stderr</strong>. The actual results (aligned reads, variant calls, count tables) go to stdout or to output files you specify. The logs go to stderr.</p>
+              <p>This matters because if you only redirect stdout, progress messages still flood your screen. To work cleanly:</p>
+              <ul class="bullets" style="margin:10px 0 0;">
+                <li>Use <code>&gt; results.txt</code> to save your actual output</li>
+                <li>Use <code>2&gt; run.log</code> to save the progress log to a separate file</li>
+              </ul>
+              <p style="margin-top:10px;">Now your screen is clean, your results are in one file, and your log is in another. This is standard practice for every bioinformatics pipeline run.</p>
+            </div>
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+
+<span class="c-comment"># Without 2>: error message prints to screen</span>
+<span class="c-cmd">ls</span> <span class="c-path">nonexistent_folder</span>
+<span class="c-out">ls: cannot access 'nonexistent_folder': No such file or directory</span>
+
+<span class="c-comment"># With 2>: error is saved to file, nothing prints to screen</span>
+<span class="c-cmd">ls</span> <span class="c-path">nonexistent_folder</span> <span class="c-flag">2&gt;</span> <span class="c-path">error.log</span>
+<span class="c-cmd">cat</span> <span class="c-path">error.log</span>
+<span class="c-out">ls: cannot access 'nonexistent_folder': No such file or directory</span>
+
+<span class="c-comment"># 2>> appends errors to an existing log file</span>
+<span class="c-cmd">ls</span> <span class="c-path">another_missing</span> <span class="c-flag">2&gt;&gt;</span> <span class="c-path">error.log</span>
+
+<span class="c-comment"># Redirect stdout to results AND stderr to log (separately)</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-flag">&gt;</span> <span class="c-path">output.txt</span> <span class="c-flag">2&gt;</span> <span class="c-path">errors.log</span>
+
+<span class="c-comment"># Send both stdout and stderr to the same file</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-flag">&gt;</span> <span class="c-path">everything.log</span> <span class="c-flag">2&gt;&amp;1</span>
+<span class="c-comment"># 2>&1 means "send stderr (2) to wherever stdout (1) is going"</span></pre>
+            </div>
             <div class="callout">
-              <p>
-                <strong>stdin (0)</strong> — standard input. Where the command reads data from. By default: your keyboard.<br><br>
-                <strong>stdout (1)</strong> — standard output. Where the command sends its results. By default: your screen.<br><br>
-                <strong>stderr (2)</strong> — standard error. Where error messages go. By default: also your screen.
-              </p>
+              <p><strong>Reading <code>2&gt;&amp;1</code>:</strong> The <code>2</code> is stderr, <code>&gt;</code> means redirect, <code>&amp;1</code> means "to wherever stream 1 is currently going". So <code>&gt; file.log 2&gt;&amp;1</code> sends stdout to the file, then sends stderr to the same file.</p>
             </div>
-
-            <p>
-              Redirection and pipes let you control these streams.
-              Instead of results going to your screen, you can send them to a file.
-              Instead of a command reading from your keyboard, you can feed it the output of another command.
-              This is the foundation of every bioinformatics pipeline ever written.
-            </p>
-
           </section>
 
-
-          <!-- ── SECTION 2: Redirection ────────────────────────── -->
-          <section id="redirection">
-
-            <h2><span class="n">02</span> Redirection</h2>
-
-            <p>
-              You already used <code>&gt;</code> and <code>&gt;&gt;</code> in Lesson 2.
-              Now let's understand all the redirection operators properly.
-            </p>
-
-            <h3>Output redirection — <code style="font-family:'DM Mono',monospace;color:var(--green);">&gt;</code> and <code style="font-family:'DM Mono',monospace;color:var(--green);">&gt;&gt;</code></h3>
-
-            <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-pipe">&gt;</span> <span class="c-path">file_list.txt</span>       <span class="c-comment"># save ls output to a file (overwrites)</span>
-<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">file_list.txt</span>      <span class="c-comment"># append ls output to the file</span>
-<span class="c-cmd">echo</span> <span class="c-path">"run complete"</span> <span class="c-pipe">&gt;</span> <span class="c-path">log.txt</span>  <span class="c-comment"># write a log message</span></pre>
+          <section id="dev-null">
+            <h2><span class="n">04</span> /dev/null &mdash; the black hole</h2>
+            <div class="explain-box">
+              <h4>&#128371; What /dev/null is and when to use it</h4>
+              <p><code>/dev/null</code> is a special file built into Linux. It is sometimes called the "black hole" &mdash; anything you send to it disappears immediately and permanently. No disk space is used. Nothing is stored.</p>
+              <p>You use it when a command produces output you simply do not want to see. For example, some tools print dozens of informational lines every run. If you are running hundreds of samples and you know everything is working, that output just clutters your terminal. Redirect it to <code>/dev/null</code> to silence it completely.</p>
             </div>
-
-            <h3>Error redirection — <code style="font-family:'DM Mono',monospace;color:var(--green);">2&gt;</code> and <code style="font-family:'DM Mono',monospace;color:var(--green);">2&gt;&gt;</code></h3>
-            <p>
-              In bioinformatics, tools like STAR and GATK print progress messages and warnings to stderr.
-              You often want to save these to a log file separately from the actual results.
-            </p>
-
+            <div class="folder-note">Run from: anywhere</div>
             <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-cmd">ls</span> <span class="c-path">nonexistent_folder</span> <span class="c-pipe">2&gt;</span> <span class="c-path">error.log</span>      <span class="c-comment"># redirect error message to a file</span>
-<span class="c-cmd">ls</span> <span class="c-path">nonexistent_folder</span> <span class="c-pipe">2&gt;&gt;</span> <span class="c-path">error.log</span>     <span class="c-comment"># append error to existing log</span></pre>
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Silence error messages only</span>
+<span class="c-cmd">ls</span> <span class="c-path">nonexistent</span> <span class="c-flag">2&gt;</span> <span class="c-path">/dev/null</span>
+
+<span class="c-comment"># Save results to file but silence progress messages</span>
+<span class="c-comment"># (example pattern for a bioinformatics tool)</span>
+<span class="c-comment"># some_tool > results.txt 2> /dev/null</span>
+
+<span class="c-comment"># Silence everything: both stdout and stderr</span>
+<span class="c-comment"># some_tool > /dev/null 2>&amp;1</span></pre>
             </div>
-
-            <h3>Redirect both stdout and stderr</h3>
-            <p>
-              When running long pipelines you often want to capture everything — both normal output
-              and errors — into one log file.
-            </p>
-
-            <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-pipe">&gt;</span> <span class="c-path">output.log</span> <span class="c-pipe">2&gt;&amp;1</span>          <span class="c-comment"># stdout to file, stderr to same file</span>
-<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-pipe">&amp;&gt;</span> <span class="c-path">output.log</span>              <span class="c-comment"># shorthand — same result</span></pre>
-            </div>
-
-            <h3>Discard output — <code style="font-family:'DM Mono',monospace;color:var(--green);">/dev/null</code></h3>
-            <p>
-              <code>/dev/null</code> is a special file that swallows everything sent to it.
-              Use it to silence commands you don't care about.
-            </p>
-
-            <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-cmd">ls</span> <span class="c-path">nonexistent</span> <span class="c-pipe">2&gt;</span> <span class="c-path">/dev/null</span>        <span class="c-comment"># silence error messages</span>
-<span class="c-cmd">some_tool</span> <span class="c-pipe">&gt;</span> <span class="c-path">results.txt</span> <span class="c-pipe">2&gt;</span> <span class="c-path">/dev/null</span> <span class="c-comment"># save results, silence all errors</span></pre>
-            </div>
-
           </section>
 
-
-          <!-- ── SECTION 3: Pipes ──────────────────────────────── -->
           <section id="pipes">
-
-            <h2><span class="n">03</span> The pipe operator <code style="font-family:'DM Mono',monospace;color:var(--green);">|</code></h2>
-
-            <p>
-              The pipe <code>|</code> takes the output of one command and feeds it directly
-              as input to the next — without writing anything to disk.
-              You can chain as many commands as you need.
-            </p>
-
-            <div class="callout">
-              <p>
-                <strong>The pattern:</strong> <code>command1 | command2 | command3</code><br><br>
-                The output of <code>command1</code> becomes the input of <code>command2</code>,
-                whose output becomes the input of <code>command3</code>.
-                Data flows left to right through the pipe.
-              </p>
+            <h2><span class="n">05</span> The pipe operator &mdash; connecting commands</h2>
+            <div class="explain-box">
+              <h4>&#128279; What a pipe does and why it matters</h4>
+              <p>The pipe character <code>|</code> takes the <strong>stdout of one command</strong> and feeds it directly as the <strong>stdin of the next command</strong> &mdash; without writing anything to disk. Data flows left to right.</p>
+              <p>Compare the same task without and with a pipe:</p>
+              <ul class="bullets">
+                <li><strong>Without pipe:</strong> run <code>ls -lh</code>, save to a temp file, run <code>wc -l</code> on it, delete the temp file. Three steps and a leftover file.</li>
+                <li><strong>With pipe:</strong> <code>ls -lh | wc -l</code>. One step. No temp file. Immediate result.</li>
+              </ul>
+              <p>You can chain as many commands as you need. The output of each becomes the input of the next.</p>
             </div>
-
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
             <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-comment"># Without a pipe — two separate steps</span>
-<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-pipe">&gt;</span> <span class="c-path">temp.txt</span>
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+
+<span class="c-comment"># Without pipe: two steps</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-flag">&gt;</span> <span class="c-path">temp.txt</span>
 <span class="c-cmd">wc</span> <span class="c-flag">-l</span> <span class="c-path">temp.txt</span>
 
-<span class="c-comment"># With a pipe — one elegant step</span>
-<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-pipe">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
+<span class="c-comment"># With pipe: one step, no temp file</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-flag">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
 
-<span class="c-comment"># Count how many .sh files are in a folder</span>
-<span class="c-cmd">ls</span> <span class="c-pipe">|</span> <span class="c-cmd">grep</span> <span class="c-path">".sh"</span> <span class="c-pipe">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
+<span class="c-comment"># Count .sh scripts in current folder</span>
+<span class="c-cmd">ls</span> <span class="c-flag">|</span> <span class="c-cmd">grep</span> <span class="c-path">".sh"</span> <span class="c-flag">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
 
-<span class="c-comment"># Show the 5 largest files in current folder</span>
-<span class="c-cmd">ls</span> <span class="c-flag">-lhS</span> <span class="c-pipe">|</span> <span class="c-cmd">head</span> <span class="c-flag">-n 6</span></pre>
+<span class="c-comment"># Show the 5 largest files (ls -S sorts by size, largest first)</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lhS</span> <span class="c-flag">|</span> <span class="c-cmd">head</span> <span class="c-flag">-n 6</span></pre>
             </div>
-
             <div class="tip">
-              <span class="tip-icon">💡</span>
-              <p>
-                Build pipes one step at a time. Run the first command alone to see its output,
-                then add <code>| next_command</code> and run again. This makes it easy to debug
-                when something does not work as expected.
-              </p>
+              <span class="tip-icon">&#128161;</span>
+              <p><strong>Build pipes one step at a time.</strong> Run the first command alone to see its output. Then add <code>| next_command</code> and run again. Keep adding one step at a time. This is how experts debug pipes.</p>
             </div>
-
           </section>
 
-
-          <!-- ── SECTION 4: grep ───────────────────────────────── -->
           <section id="grep">
-
-            <h2><span class="n">04</span> grep — search text</h2>
-
-            <p>
-              <code>grep</code> searches for a pattern inside a file or stream and prints matching lines.
-              It is one of the most used commands in bioinformatics — for searching FASTQ headers,
-              filtering VCF files, finding genes in annotation files, and checking log files for errors.
-            </p>
-
+            <h2><span class="n">06</span> grep &mdash; search for patterns in text</h2>
+            <div class="explain-box">
+              <h4>&#128269; Why grep is one of the most-used commands in bioinformatics</h4>
+              <p><code>grep</code> stands for <strong>Global Regular Expression Print</strong>. It searches through a file or piped input and prints every line that contains a matching pattern.</p>
+              <p>In bioinformatics you use grep constantly: finding all read headers in a FASTQ file, skipping comment lines in a VCF, searching for a gene name in an annotation file, finding error messages in a log. It is one of the ten commands you use every day.</p>
+              <p>Two essential special characters: <strong><code>^</code></strong> means "start of line" &mdash; so <code>grep "^@"</code> matches lines that start with <code>@</code>, exactly what FASTQ read headers look like. <strong><code>$</code></strong> means "end of line".</p>
+              <p>The <code>-v</code> flag (invert) prints every line that does <strong>not</strong> match. In bioinformatics this is how you skip VCF header lines: <code>grep -v "^#" variants.vcf</code> gives you only the variant data lines.</p>
+            </div>
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
             <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-cmd">grep</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>        <span class="c-comment"># find lines containing "Sorghum"</span>
-<span class="c-cmd">grep</span> <span class="c-flag">-i</span> <span class="c-path">"sorghum"</span> <span class="c-path">species.txt</span>     <span class="c-comment"># -i = case-insensitive search</span>
-<span class="c-cmd">grep</span> <span class="c-flag">-v</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>     <span class="c-comment"># -v = invert: show lines that do NOT match</span>
-<span class="c-cmd">grep</span> <span class="c-flag">-c</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>     <span class="c-comment"># -c = count matching lines</span>
-<span class="c-cmd">grep</span> <span class="c-flag">-n</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>     <span class="c-comment"># -n = show line numbers</span>
-<span class="c-cmd">grep</span> <span class="c-flag">-r</span> <span class="c-path">"Sorghum"</span> <span class="c-path">~/projects/</span>    <span class="c-comment"># -r = search recursively in a folder</span>
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
 
-<span class="c-comment"># Bioinformatics uses of grep</span>
-<span class="c-cmd">grep</span> <span class="c-path">"^@"</span> <span class="c-path">sample.fastq</span>              <span class="c-comment"># find all read headers in FASTQ (start with @)</span>
-<span class="c-cmd">grep</span> <span class="c-flag">-v</span> <span class="c-path">"^#"</span> <span class="c-path">variants.vcf</span>           <span class="c-comment"># skip VCF header lines (start with #)</span>
-<span class="c-cmd">grep</span> <span class="c-path">"ERROR"</span> <span class="c-path">pipeline.log</span>           <span class="c-comment"># find errors in a log file</span></pre>
+<span class="c-cmd">grep</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>         <span class="c-comment"># find lines containing "Sorghum"</span>
+<span class="c-cmd">grep</span> <span class="c-flag">-i</span> <span class="c-path">"sorghum"</span> <span class="c-path">species.txt</span>       <span class="c-comment"># -i: case-insensitive (matches Sorghum, SORGHUM, sorghum)</span>
+<span class="c-cmd">grep</span> <span class="c-flag">-v</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>       <span class="c-comment"># -v: invert -- show lines that do NOT match</span>
+<span class="c-cmd">grep</span> <span class="c-flag">-c</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>       <span class="c-comment"># -c: count matching lines (prints a number)</span>
+<span class="c-cmd">grep</span> <span class="c-flag">-n</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span>       <span class="c-comment"># -n: show line numbers alongside matches</span>
+<span class="c-cmd">grep</span> <span class="c-flag">-r</span> <span class="c-path">"Sorghum"</span> <span class="c-path">~/bash-linux-bioinformatics/</span>  <span class="c-comment"># -r: search all files in folder recursively</span>
+
+<span class="c-comment"># Bioinformatics-specific uses</span>
+<span class="c-cmd">grep</span> <span class="c-path">"^@"</span> <span class="c-path">sample.fastq</span>              <span class="c-comment"># find all read headers (lines starting with @)</span>
+<span class="c-cmd">grep</span> <span class="c-flag">-v</span> <span class="c-path">"^#"</span> <span class="c-path">variants.vcf</span>           <span class="c-comment"># skip VCF header lines (lines starting with #)</span>
+<span class="c-cmd">grep</span> <span class="c-path">"ERROR"</span> <span class="c-path">pipeline.log</span>           <span class="c-comment"># find all error lines in a log file</span></pre>
             </div>
-
-            <div class="callout">
-              <p>
-                <strong><code>^</code></strong> means "start of line" in grep patterns.
-                <strong><code>$</code></strong> means "end of line".
-                So <code>grep "^@"</code> matches lines that <em>start with</em> <code>@</code> —
-                exactly what FASTQ read headers look like.
-              </p>
-            </div>
-
           </section>
 
-
-          <!-- ── SECTION 5: sort & uniq ────────────────────────── -->
           <section id="sort-uniq">
-
-            <h2><span class="n">05</span> sort &amp; uniq</h2>
-
-            <!-- sort -->
-            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">sort</code> — Sort lines</h3>
-            <p>Sorts lines of a file alphabetically by default. Very commonly used before <code>uniq</code>.</p>
-
-            <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-cmd">sort</span> <span class="c-path">species.txt</span>                 <span class="c-comment"># sort alphabetically</span>
-<span class="c-cmd">sort</span> <span class="c-flag">-r</span> <span class="c-path">species.txt</span>              <span class="c-comment"># sort in reverse order</span>
-<span class="c-cmd">sort</span> <span class="c-flag">-n</span> <span class="c-path">numbers.txt</span>             <span class="c-comment"># sort numerically (not alphabetically)</span>
-<span class="c-cmd">sort</span> <span class="c-flag">-k2</span> <span class="c-path">data.txt</span>               <span class="c-comment"># sort by second column</span>
-<span class="c-cmd">sort</span> <span class="c-flag">-u</span> <span class="c-path">species.txt</span>              <span class="c-comment"># sort and remove duplicates in one step</span></pre>
+            <h2><span class="n">07</span> sort &amp; uniq &mdash; organise and deduplicate</h2>
+            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">sort</code> &mdash; Sort lines</h3>
+            <div class="explain-box">
+              <h4>&#128292; Why -n matters when sorting numbers</h4>
+              <p><code>sort</code> sorts lines of text. By default it sorts alphabetically, which causes a problem with numbers: alphabetically, <code>10</code> comes before <code>9</code> because "1" sorts before "9". This is wrong for numerical data. The <code>-n</code> flag switches to proper numerical sorting: <code>9</code> before <code>10</code>.</p>
+              <p>Always use <code>-n</code> when sorting numbers. In bioinformatics this matters when sorting variant positions, coverage values, or counts.</p>
             </div>
-
-            <!-- uniq -->
-            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">uniq</code> — Remove duplicate lines</h3>
-            <p>
-              Removes consecutive duplicate lines. <strong>Always sort first</strong> — <code>uniq</code>
-              only removes duplicates that are next to each other.
-            </p>
-
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
             <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-pipe">|</span> <span class="c-cmd">uniq</span>           <span class="c-comment"># sort then remove duplicates</span>
-<span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-pipe">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span>        <span class="c-comment"># count how many times each line appears</span>
-<span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-pipe">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-d</span>        <span class="c-comment"># show only lines that ARE duplicated</span>
-<span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-pipe">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-u</span>        <span class="c-comment"># show only lines that are NOT duplicated</span></pre>
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">sort</span> <span class="c-path">species.txt</span>                   <span class="c-comment"># sort alphabetically (default)</span>
+<span class="c-cmd">sort</span> <span class="c-flag">-r</span> <span class="c-path">species.txt</span>                 <span class="c-comment"># -r: reverse order</span>
+<span class="c-cmd">sort</span> <span class="c-flag">-n</span> <span class="c-path">numbers.txt</span>                 <span class="c-comment"># -n: sort numerically (not alphabetically)</span>
+<span class="c-cmd">sort</span> <span class="c-flag">-k2</span> <span class="c-path">data.txt</span>                  <span class="c-comment"># -k2: sort by second column</span>
+<span class="c-cmd">sort</span> <span class="c-flag">-u</span> <span class="c-path">species.txt</span>                 <span class="c-comment"># -u: sort and remove duplicates in one step</span></pre>
             </div>
-
+            <h3><code style="font-family:'DM Mono',monospace;color:var(--green);">uniq</code> &mdash; Remove duplicate lines</h3>
+            <div class="explain-box">
+              <h4>&#128260; The critical rule: always sort before uniq</h4>
+              <p><code>uniq</code> removes duplicate lines &mdash; but only if they are <strong>next to each other</strong>. If you run <code>uniq</code> without sorting first, it will only catch duplicates that happen to be adjacent. Duplicates scattered through the file are missed.</p>
+              <p>The standard pattern is always <code>sort | uniq</code>. Sorting groups identical lines together first, then <code>uniq</code> can remove them reliably.</p>
+              <p>The <code>-c</code> flag prepends a count to each line showing how many times it appeared. Combine with <code>sort -rn</code> to see which items appear most frequently &mdash; very useful for analysing gene lists, sample IDs, or species counts.</p>
+            </div>
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span>            <span class="c-comment"># sort first, then remove duplicates</span>
+<span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span>         <span class="c-comment"># -c: count how many times each line appears</span>
+<span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-d</span>         <span class="c-comment"># -d: show only lines that ARE duplicated</span>
+<span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-u</span>         <span class="c-comment"># -u: show only lines that appear exactly once</span></pre>
+            </div>
           </section>
 
-
-          <!-- ── SECTION 6: Combining it all ──────────────────── -->
           <section id="combining">
-
-            <h2><span class="n">06</span> Combining it all</h2>
-
-            <p>
-              This is where pipes become genuinely powerful. Here are real bioinformatics
-              patterns you will use regularly — each one is a chain of simple commands
-              that together do something useful.
-            </p>
-
+            <h2><span class="n">08</span> Combining pipes and redirection</h2>
+            <p>Pipes connect commands. Redirection saves results. They work together perfectly. Here are real bioinformatics patterns you will use regularly.</p>
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
             <div class="code-wrap">
-              <div class="code-header">
-                <span class="code-lang">bash — real bioinformatics patterns</span>
-                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-              </div>
-              <pre><span class="c-comment"># How many reads are in a FASTQ file?</span>
+              <div class="code-header"><span class="code-lang">bash &mdash; real bioinformatics patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Count reads in a FASTQ file (each header starts with @)</span>
 <span class="c-cmd">grep</span> <span class="c-flag">-c</span> <span class="c-path">"^@"</span> <span class="c-path">sample.fastq</span>
 
-<span class="c-comment"># Show unique chromosomes in a VCF file (skip header lines)</span>
-<span class="c-cmd">grep</span> <span class="c-flag">-v</span> <span class="c-path">"^#"</span> <span class="c-path">variants.vcf</span> <span class="c-pipe">|</span> <span class="c-cmd">cut</span> <span class="c-flag">-f1</span> <span class="c-pipe">|</span> <span class="c-cmd">sort</span> <span class="c-flag">-u</span>
+<span class="c-comment"># Most common species, ranked highest to lowest</span>
+<span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span> <span class="c-flag">|</span> <span class="c-cmd">sort</span> <span class="c-flag">-rn</span> <span class="c-flag">|</span> <span class="c-cmd">head</span> <span class="c-flag">-n 10</span>
 
-<span class="c-comment"># Find the 10 most common words in a file</span>
-<span class="c-cmd">cat</span> <span class="c-path">notes.txt</span> <span class="c-pipe">|</span> <span class="c-cmd">tr</span> <span class="c-path">' '</span> <span class="c-path">'\n'</span> <span class="c-pipe">|</span> <span class="c-cmd">sort</span> <span class="c-pipe">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span> <span class="c-pipe">|</span> <span class="c-cmd">sort</span> <span class="c-flag">-rn</span> <span class="c-pipe">|</span> <span class="c-cmd">head</span> <span class="c-flag">-n 10</span>
+<span class="c-comment"># Filter results and save to a specific location</span>
+<span class="c-cmd">grep</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">sort</span> <span class="c-flag">&gt;</span> <span class="c-path">~/bash-linux-bioinformatics/results/sorghum_only.txt</span>
 
-<span class="c-comment"># Count how many files are in each subfolder</span>
-<span class="c-cmd">ls</span> <span class="c-path">~/bash-linux-bioinformatics/</span> <span class="c-pipe">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
-
-<span class="c-comment"># Save filtered results to a file</span>
-<span class="c-cmd">grep</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span> <span class="c-pipe">|</span> <span class="c-cmd">sort</span> <span class="c-pipe">&gt;</span> <span class="c-path">sorghum_only.txt</span></pre>
+<span class="c-comment"># Count how many files are in a folder</span>
+<span class="c-cmd">ls</span> <span class="c-path">~/bash-linux-bioinformatics/</span> <span class="c-flag">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span></pre>
             </div>
-
             <div class="tip">
-              <span class="tip-icon">💡</span>
-              <p>
-                You can mix pipes and redirection in one command.
-                The pipe <code>|</code> connects commands. The redirect <code>&gt;</code>
-                saves the final output to a file. They work together perfectly.
-              </p>
+              <span class="tip-icon">&#128161;</span>
+              <p>You can mix pipes and redirection in the same command. The <code>|</code> connects commands in a chain. The <code>&gt;</code> at the end saves the final output to a file. They do not interfere with each other.</p>
             </div>
-
           </section>
 
-
-          <!-- ── SECTION 7: Quick reference ────────────────────── -->
           <section id="reference">
-
-            <h2><span class="n">07</span> Quick reference</h2>
-
+            <h2><span class="n">09</span> Quick reference</h2>
             <table class="cmd-table">
-              <thead>
-                <tr>
-                  <th>Operator / Command</th>
-                  <th>What it does</th>
-                  <th>Key flags</th>
-                </tr>
-              </thead>
+              <thead><tr><th>Operator / Command</th><th>What it does</th><th>Key flags</th></tr></thead>
               <tbody>
-                <tr>
-                  <td class="cmd-cell">&gt;</td>
-                  <td>Redirect stdout to a file (overwrites)</td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td class="cmd-cell">&gt;&gt;</td>
-                  <td>Redirect stdout to a file (appends)</td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td class="cmd-cell">2&gt;</td>
-                  <td>Redirect stderr to a file</td>
-                  <td><code>2&gt;&amp;1</code> redirect stderr to stdout</td>
-                </tr>
-                <tr>
-                  <td class="cmd-cell">|</td>
-                  <td>Pipe stdout of left command into stdin of right</td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td class="cmd-cell">/dev/null</td>
-                  <td>Discard output completely</td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td class="cmd-cell">grep [pattern] [file]</td>
-                  <td>Search for pattern, print matching lines</td>
-                  <td><code>-i</code> case-insensitive · <code>-v</code> invert · <code>-c</code> count · <code>-n</code> line numbers · <code>-r</code> recursive</td>
-                </tr>
-                <tr>
-                  <td class="cmd-cell">sort [file]</td>
-                  <td>Sort lines alphabetically</td>
-                  <td><code>-r</code> reverse · <code>-n</code> numeric · <code>-u</code> unique · <code>-k</code> column</td>
-                </tr>
-                <tr>
-                  <td class="cmd-cell">uniq</td>
-                  <td>Remove consecutive duplicate lines</td>
-                  <td><code>-c</code> count · <code>-d</code> duplicates only · <code>-u</code> unique only</td>
-                </tr>
+                <tr><td class="cmd-cell">&gt;</td><td>Redirect stdout (stream 1) to a file &mdash; overwrites</td><td>&mdash;</td></tr>
+                <tr><td class="cmd-cell">&gt;&gt;</td><td>Redirect stdout to a file &mdash; appends</td><td>&mdash;</td></tr>
+                <tr><td class="cmd-cell">2&gt;</td><td>Redirect stderr (stream 2) to a file &mdash; overwrites</td><td><code>2&gt;&gt;</code> to append</td></tr>
+                <tr><td class="cmd-cell">2&gt;&amp;1</td><td>Send stderr to the same place as stdout</td><td>&mdash;</td></tr>
+                <tr><td class="cmd-cell">/dev/null</td><td>Discard output completely</td><td>&mdash;</td></tr>
+                <tr><td class="cmd-cell">|</td><td>Pipe stdout of left command into stdin of right command</td><td>&mdash;</td></tr>
+                <tr><td class="cmd-cell">grep [pattern]</td><td>Print lines matching a pattern</td><td><code>-i</code> case-insensitive &middot; <code>-v</code> invert &middot; <code>-c</code> count &middot; <code>-n</code> line numbers &middot; <code>-r</code> recursive</td></tr>
+                <tr><td class="cmd-cell">sort</td><td>Sort lines alphabetically by default</td><td><code>-r</code> reverse &middot; <code>-n</code> numeric &middot; <code>-u</code> unique &middot; <code>-k</code> column</td></tr>
+                <tr><td class="cmd-cell">uniq</td><td>Remove consecutive duplicates &mdash; always sort first</td><td><code>-c</code> count &middot; <code>-d</code> duplicates only &middot; <code>-u</code> unique only</td></tr>
               </tbody>
             </table>
-
           </section>
 
-
-          <!-- ── Ad slot — in-article ─────────────────────────── -->
           <div class="ad-slot in-feed" role="complementary" aria-label="Advertisement" style="margin:32px 0;">
-            <strong>Advertisement</strong>
-            <small>In-article ad · AdSense unit goes here</small>
+            <strong>Advertisement</strong><small>In-article ad &middot; AdSense unit goes here</small>
           </div>
 
-
-          <!-- ── SECTION 8: Exercises ──────────────────────────── -->
           <section id="exercises">
-
-            <h2><span class="n">08</span> Exercises</h2>
-
-            <p>
-              Work through all five exercises in your Ubuntu terminal.
-              <strong>Type every command yourself — do not copy-paste.</strong>
-            </p>
+            <h2><span class="n">10</span> Exercises</h2>
+            <p>Work through all five exercises in your Ubuntu terminal. <strong>Type every command yourself &mdash; do not copy-paste.</strong></p>
 
             <div class="exercise">
-              <div class="ex-head">
-                <span class="ex-num">Exercise 1</span>
-                <span class="ex-title">Redirect and append</span>
-              </div>
-              <p>
-                Create a file called <code>genomes.txt</code> containing four genome names —
-                one per line: <code>GRCh38</code>, <code>GRCm39</code>, <code>TAIR10</code>, <code>Sbi3.1.1</code>.
-                Then append a fifth line: <code>B73v5</code>.
-                Print the final file to confirm all five lines are there.
-              </p>
-              <p class="ex-hint">💬 Hint: use <code>&gt;</code> for the first line, <code>&gt;&gt;</code> for the rest.</p>
-              <details class="answer">
-                <summary>Show answer</summary>
-                <div class="answer-body">
-                  <pre><span class="c-cmd">echo</span> <span class="c-path">"GRCh38"</span> <span class="c-pipe">&gt;</span> <span class="c-path">genomes.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"GRCm39"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"TAIR10"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"Sbi3.1.1"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"B73v5"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
+              <div class="ex-head"><span class="ex-num">Exercise 1</span><span class="ex-title">Redirect and append</span></div>
+              <p>Navigate to <code>~/bash-linux-bioinformatics/module-1-foundations/</code>. Create a file called <code>genomes.txt</code> with four genome names one per line: <code>GRCh38</code>, <code>GRCm39</code>, <code>TAIR10</code>, <code>Sbi3.1.1</code>. Then append a fifth: <code>B73v5</code>. Print the file to confirm all five lines are there.</p>
+              <p class="ex-hint">&#128172; Hint: use <code>&gt;</code> for the first line only. Use <code>&gt;&gt;</code> for lines 2&ndash;5.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-cmd">echo</span> <span class="c-path">"GRCh38"</span> <span class="c-flag">&gt;</span> <span class="c-path">genomes.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"GRCm39"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"TAIR10"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"Sbi3.1.1"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"B73v5"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">genomes.txt</span>
 <span class="c-cmd">cat</span> <span class="c-path">genomes.txt</span>
 <span class="c-out">GRCh38</span>
 <span class="c-out">GRCm39</span>
@@ -776,27 +490,18 @@
             </div>
 
             <div class="exercise">
-              <div class="ex-head">
-                <span class="ex-num">Exercise 2</span>
-                <span class="ex-title">grep — search and filter</span>
-              </div>
-              <p>
-                Using <code>genomes.txt</code>, find all entries that contain the letter <code>G</code>.
-                Then find all entries that do <strong>not</strong> contain <code>G</code>.
-                Count how many entries contain <code>G</code>.
-              </p>
-              <details class="answer">
-                <summary>Show answer</summary>
-                <div class="answer-body">
-                  <pre><span class="c-cmd">grep</span> <span class="c-path">"G"</span> <span class="c-path">genomes.txt</span>
+              <div class="ex-head"><span class="ex-num">Exercise 2</span><span class="ex-title">grep &mdash; search and filter</span></div>
+              <p>Using <code>genomes.txt</code> in <code>~/bash-linux-bioinformatics/module-1-foundations/</code>: find all entries containing the letter <code>G</code>. Then find entries that do NOT contain <code>G</code>. Finally count how many contain <code>G</code>.</p>
+              <p class="ex-hint">&#128172; Hint: three grep commands &mdash; plain, then <code>-v</code>, then <code>-c</code>.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-cmd">grep</span> <span class="c-path">"G"</span> <span class="c-path">genomes.txt</span>
 <span class="c-out">GRCh38</span>
 <span class="c-out">GRCm39</span>
-
 <span class="c-cmd">grep</span> <span class="c-flag">-v</span> <span class="c-path">"G"</span> <span class="c-path">genomes.txt</span>
 <span class="c-out">TAIR10</span>
 <span class="c-out">Sbi3.1.1</span>
 <span class="c-out">B73v5</span>
-
 <span class="c-cmd">grep</span> <span class="c-flag">-c</span> <span class="c-path">"G"</span> <span class="c-path">genomes.txt</span>
 <span class="c-out">2</span></pre>
                 </div>
@@ -804,50 +509,29 @@
             </div>
 
             <div class="exercise">
-              <div class="ex-head">
-                <span class="ex-num">Exercise 3</span>
-                <span class="ex-title">Pipe — count and sort</span>
-              </div>
-              <p>
-                List all files in <code>/etc</code>, pipe the output through <code>grep</code>
-                to find only files containing the word <code>apt</code>,
-                then pipe into <code>wc -l</code> to count how many there are.
-                Do all three steps in a single command.
-              </p>
-              <details class="answer">
-                <summary>Show answer</summary>
-                <div class="answer-body">
-                  <pre><span class="c-cmd">ls</span> <span class="c-path">/etc</span> <span class="c-pipe">|</span> <span class="c-cmd">grep</span> <span class="c-path">"apt"</span> <span class="c-pipe">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
-<span class="c-out">1</span>   <span class="c-comment"># number may vary on your system</span></pre>
+              <div class="ex-head"><span class="ex-num">Exercise 3</span><span class="ex-title">Pipe &mdash; three commands in one line</span></div>
+              <p>List all items in <code>/etc</code>, pipe through <code>grep</code> to find items containing <code>apt</code>, then pipe into <code>wc -l</code> to count them. Do all three in a single piped command.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">ls</span> <span class="c-path">/etc</span> <span class="c-flag">|</span> <span class="c-cmd">grep</span> <span class="c-path">"apt"</span> <span class="c-flag">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
+<span class="c-out">1</span>    <span class="c-comment"># number may vary on your system</span></pre>
                 </div>
               </details>
             </div>
 
             <div class="exercise">
-              <div class="ex-head">
-                <span class="ex-num">Exercise 4</span>
-                <span class="ex-title">sort and uniq</span>
-              </div>
-              <p>
-                Create a file called <code>duplicates.txt</code> with these lines —
-                some repeated: <code>maize</code>, <code>rice</code>, <code>sorghum</code>,
-                <code>rice</code>, <code>maize</code>, <code>wheat</code>, <code>maize</code>.
-                Then use <code>sort</code> and <code>uniq -c</code> to count how many times
-                each species appears. Sort the counts from highest to lowest.
-              </p>
-              <p class="ex-hint">💬 Hint: chain three commands with pipes — <code>sort | uniq -c | sort -rn</code>.</p>
-              <details class="answer">
-                <summary>Show answer</summary>
-                <div class="answer-body">
-                  <pre><span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-pipe">&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"rice"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"sorghum"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"rice"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"wheat"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-pipe">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-
-<span class="c-cmd">sort</span> <span class="c-path">duplicates.txt</span> <span class="c-pipe">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span> <span class="c-pipe">|</span> <span class="c-cmd">sort</span> <span class="c-flag">-rn</span>
+              <div class="ex-head"><span class="ex-num">Exercise 4</span><span class="ex-title">sort and uniq &mdash; count duplicates</span></div>
+              <p>Navigate to <code>~/bash-linux-bioinformatics/module-1-foundations/</code>. Create <code>duplicates.txt</code> with these seven lines: <code>maize</code>, <code>rice</code>, <code>sorghum</code>, <code>rice</code>, <code>maize</code>, <code>wheat</code>, <code>maize</code>. Then use a piped command to count how many times each species appears, sorted highest to lowest.</p>
+              <p class="ex-hint">&#128172; Hint: <code>sort | uniq -c | sort -rn</code>. Sort before uniq or duplicates will be missed.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-flag">&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"rice"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"sorghum"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"rice"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"wheat"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">sort</span> <span class="c-path">duplicates.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span> <span class="c-flag">|</span> <span class="c-cmd">sort</span> <span class="c-flag">-rn</span>
 <span class="c-out">      3 maize</span>
 <span class="c-out">      2 rice</span>
 <span class="c-out">      1 sorghum</span>
@@ -857,129 +541,90 @@
             </div>
 
             <div class="exercise">
-              <div class="ex-head">
-                <span class="ex-num">Exercise 5 · Challenge</span>
-                <span class="ex-title">FASTQ read headers</span>
-              </div>
-              <p>
-                Using the <code>sample.fastq</code> file you created in Lesson 2,
-                extract only the read header lines (lines starting with <code>@</code>),
-                count them with a pipe, and save the count to a file called <code>read_count.txt</code>.
-                Then print the file to confirm.
-              </p>
-              <p class="ex-hint">💬 Hint: pipe <code>grep "^@"</code> into <code>wc -l</code>, then redirect with <code>&gt;</code>.</p>
-              <details class="answer">
-                <summary>Show answer</summary>
-                <div class="answer-body">
-                  <pre><span class="c-cmd">grep</span> <span class="c-path">"^@"</span> <span class="c-path">sample.fastq</span> <span class="c-pipe">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span> <span class="c-pipe">&gt;</span> <span class="c-path">read_count.txt</span>
-<span class="c-cmd">cat</span> <span class="c-path">read_count.txt</span>
-<span class="c-out">3</span>
-<span class="c-comment"># 3 reads confirmed ✓</span></pre>
+              <div class="ex-head"><span class="ex-num">Exercise 5 &middot; Challenge</span><span class="ex-title">FASTQ headers and stderr redirection</span></div>
+              <p>From <code>~/bash-linux-bioinformatics/module-1-foundations/</code>, extract all read header lines from <code>sample.fastq</code> (lines starting with <code>@</code>), count them with a pipe, and save the count to <code>~/bash-linux-bioinformatics/results/read_count.txt</code>. Then try to list a nonexistent folder and redirect the error to <code>error.log</code> in the same folder. Check both files were created.</p>
+              <p class="ex-hint">&#128172; Hint: <code>grep "^@" sample.fastq | wc -l &gt; path/read_count.txt</code>. For the error: <code>ls nonexistent 2&gt; error.log</code>.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-cmd">grep</span> <span class="c-path">"^@"</span> <span class="c-path">sample.fastq</span> <span class="c-flag">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span> <span class="c-flag">&gt;</span> <span class="c-path">~/bash-linux-bioinformatics/results/read_count.txt</span>
+<span class="c-cmd">cat</span> <span class="c-path">~/bash-linux-bioinformatics/results/read_count.txt</span>
+<span class="c-out">3</span>   <span class="c-comment"># 3 read headers = 3 reads</span>
+
+<span class="c-cmd">ls</span> <span class="c-path">nonexistent_folder</span> <span class="c-flag">2&gt;</span> <span class="c-path">error.log</span>
+<span class="c-cmd">cat</span> <span class="c-path">error.log</span>
+<span class="c-out">ls: cannot access 'nonexistent_folder': No such file or directory</span>
+<span class="c-comment"># Error was saved to file instead of printing to screen</span></pre>
                 </div>
               </details>
             </div>
-
           </section>
 
-
-          <!-- ── Mark complete ────────────────────────────────── -->
           <div class="mark-complete-wrap">
-            <button class="mark-complete" id="markBtn" onclick="markComplete()">
-              ✓ Mark lesson complete
-            </button>
+            <button class="mark-complete" id="markBtn" onclick="markComplete()">&#10003; Mark lesson complete</button>
           </div>
-
-          <!-- ── Lesson nav footer ────────────────────────────── -->
           <div class="lesson-nav-footer">
-            <span style="font-size:13px;color:var(--muted);">Module 1 · Lesson 3 of 13</span>
+            <span style="font-size:13px;color:var(--muted);">Module 1 &middot; Lesson 3 of 13</span>
             <div style="display:flex;gap:10px;flex-wrap:wrap;">
-              <a href="lesson-2.html" class="btn btn-outline btn-sm">← Lesson 2: File Operations</a>
-              <a href="lesson-4.html" class="btn btn-primary btn-sm">Next: Variables &amp; Loops →</a>
+              <a href="lesson-2.html" class="btn btn-outline btn-sm">&larr; Lesson 2: File Operations</a>
+              <a href="lesson-4.html" class="btn btn-primary btn-sm">Next: Variables &amp; Loops &rarr;</a>
             </div>
           </div>
 
-
         </div>
-        <!-- /prose -->
-
       </div>
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       AD — Rectangle
-  ═══════════════════════════════════════════════════════════ -->
   <div style="padding:0 0 56px;">
     <div class="wrap" style="display:flex;justify-content:center;">
-      <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px;width:100%;">
-        <strong>Advertisement</strong>
-        <small>300 × 250 medium rectangle · AdSense unit goes here</small>
+      <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px;width:100%;">%;">
+        <strong>Advertisement</strong><small>300 × 250 medium rectangle · AdSense unit goes here</small>
       </div>
     </div>
   </div>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       FOOTER
-  ═══════════════════════════════════════════════════════════ -->
   <footer>
     <div class="wrap">
       <div class="foot-grid">
         <div>
           <a href="https://shopnilacademy.com/index.html" class="logo" style="margin-bottom:14px;">
             <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy" width="44" height="44" />
-            <div class="logo-text">
-              <strong>Shopnil Academy</strong>
-              <small>LEARN WITHOUT LIMITS</small>
-            </div>
+            <div class="logo-text"><strong>Shopnil Academy</strong><small>LEARN WITHOUT LIMITS</small></div>
           </a>
           <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
           <div class="foot-social">
-            <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook" title="Facebook">f</a>
-            <a href="https://x.com/ShopnilAcademy" aria-label="X / Twitter" title="X / Twitter">𝕏</a>
-            <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube" title="YouTube">▶</a>
-            <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn" title="LinkedIn">in</a>
-            <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram" title="Instagram">◻</a>
+            <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook">f</a>
+            <a href="https://x.com/ShopnilAcademy" aria-label="X / Twitter">𝕏</a>
+            <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube">▶</a>
+            <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn">in</a>
+            <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram">◻</a>
           </div>
         </div>
-        <div class="foot-col">
-          <h4>This course</h4>
-          <ul>
-            <li><a href="index.html">Course overview</a></li>
-            <li><a href="lesson-1.html">Lesson 1 — Navigation</a></li>
-            <li><a href="lesson-2.html">Lesson 2 — File ops</a></li>
-            <li><a href="lesson-3.html">Lesson 3 — Pipes</a></li>
-            <li><a href="lesson-4.html">Lesson 4 — Loops</a></li>
-          </ul>
-        </div>
-        <div class="foot-col">
-          <h4>Learn</h4>
-          <ul>
-            <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
-            <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
-            <li><a href="https://shopnilacademy.com/courses.html?track=math">Math &amp; Science</a></li>
-            <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
-            <li><a href="https://shopnilacademy.com/courses.html?track=guitar">Guitar</a></li>
-          </ul>
-        </div>
-        <div class="foot-col">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="https://shopnilacademy.com/about.html">About</a></li>
-            <li><a href="https://shopnilacademy.com/contact.html">Contact</a></li>
-            <li><a href="https://shopnilacademy.com/advertise.html">Advertise</a></li>
-            <li><a href="https://shopnilacademy.com/faq.html">FAQ</a></li>
-          </ul>
-        </div>
-        <div class="foot-col">
-          <h4>Legal</h4>
-          <ul>
-            <li><a href="https://shopnilacademy.com/privacy.html">Privacy</a></li>
-            <li><a href="https://shopnilacademy.com/terms.html">Terms</a></li>
-            <li><a href="https://shopnilacademy.com/cookies.html">Cookies</a></li>
-          </ul>
-        </div>
+        <div class="foot-col"><h4>This course</h4><ul>
+          <li><a href="index.html">Course overview</a></li>
+          <li><a href="lesson-1.html">Lesson 1 — Navigation</a></li>
+          <li><a href="lesson-2.html">Lesson 2 — File ops</a></li>
+          <li><a href="lesson-3.html">Lesson 3 — Pipes</a></li>
+          <li><a href="lesson-4.html">Lesson 4 — Loops</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Learn</h4><ul>
+          <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=math">Math &amp; Science</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=guitar">Guitar</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Company</h4><ul>
+          <li><a href="https://shopnilacademy.com/about.html">About</a></li>
+          <li><a href="https://shopnilacademy.com/contact.html">Contact</a></li>
+          <li><a href="https://shopnilacademy.com/advertise.html">Advertise</a></li>
+          <li><a href="https://shopnilacademy.com/faq.html">FAQ</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Legal</h4><ul>
+          <li><a href="https://shopnilacademy.com/privacy.html">Privacy</a></li>
+          <li><a href="https://shopnilacademy.com/terms.html">Terms</a></li>
+          <li><a href="https://shopnilacademy.com/cookies.html">Cookies</a></li>
+        </ul></div>
       </div>
       <div class="foot-bot">
         <span>© 2026 Shopnil Academy. All rights reserved. Made with care for learners worldwide. 🌍</span>
@@ -988,79 +633,52 @@
     </div>
   </footer>
 
-
-  <!-- ══════════════════════════════════════════════════════════
-       JAVASCRIPT
-  ═══════════════════════════════════════════════════════════ -->
   <script>
-    document.getElementById('navToggle').addEventListener('click', function () {
-      const links = document.querySelector('.nav-links');
-      const expanded = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', String(!expanded));
-      links.style.display = expanded ? '' : 'flex';
+    document.getElementById('navToggle').addEventListener('click',function(){
+      const links=document.querySelector('.nav-links');
+      const expanded=this.getAttribute('aria-expanded')==='true';
+      this.setAttribute('aria-expanded',String(!expanded));
+      links.style.display=expanded?'':'flex';
     });
-
-    function toggleMod(id) {
-      document.getElementById(id).classList.toggle('open');
-    }
-
-    function copyCode(btn) {
-      const pre = btn.closest('.code-wrap').querySelector('pre');
-      navigator.clipboard.writeText(pre.innerText).then(() => {
-        btn.textContent = 'Copied!';
-        setTimeout(() => btn.textContent = 'Copy', 2000);
+    function toggleMod(id){document.getElementById(id).classList.toggle('open');}
+    function copyCode(btn){
+      const pre=btn.closest('.code-wrap').querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(()=>{
+        btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',2000);
       });
     }
-
-    function markComplete() {
-      const completed = JSON.parse(localStorage.getItem('sa_bash_done') || '[]');
-      if (!completed.includes('lesson-3')) {
-        completed.push('lesson-3');
-        localStorage.setItem('sa_bash_done', JSON.stringify(completed));
-      }
-      const btn = document.getElementById('markBtn');
-      btn.textContent = '✓ Lesson completed!';
-      btn.classList.add('done');
-      updateProgress(completed.length);
+    function markComplete(){
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
+      if(!completed.includes('lesson-3')){completed.push('lesson-3');localStorage.setItem('sa_bash_done',JSON.stringify(completed));}
+      const btn=document.getElementById('markBtn');
+      btn.textContent='✓ Lesson completed!';btn.classList.add('done');updateProgress(completed.length);
     }
-
-    function updateProgress(count) {
-      const pct = Math.round((count / 13) * 100);
-      document.getElementById('progFill').style.width = pct + '%';
-      document.getElementById('progPct').textContent = pct + '%';
+    function updateProgress(count){
+      const pct=Math.round((count/13)*100);
+      document.getElementById('progFill').style.width=pct+'%';
+      document.getElementById('progPct').textContent=pct+'%';
     }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const completed = JSON.parse(localStorage.getItem('sa_bash_done') || '[]');
+    window.addEventListener('DOMContentLoaded',()=>{
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
       updateProgress(completed.length);
-      if (completed.includes('lesson-3')) {
-        const btn = document.getElementById('markBtn');
-        btn.textContent = '✓ Lesson completed!';
-        btn.classList.add('done');
-      }
-      completed.forEach(id => {
-        const link = document.querySelector(`.lesson-link[href="${id}.html"]`);
-        if (link) {
-          link.classList.add('done');
-          const icon = link.querySelector('.l-icon');
-          if (icon) { icon.classList.remove('todo', 'active'); icon.classList.add('done'); icon.textContent = '✓'; }
-        }
+      if(completed.includes('lesson-3')){const btn=document.getElementById('markBtn');btn.textContent='✓ Lesson completed!';btn.classList.add('done');}
+      completed.forEach(id=>{
+        const link=document.querySelector(`.lesson-link[href="${id}.html"]`);
+        if(link){link.classList.add('done');const icon=link.querySelector('.l-icon');if(icon){icon.classList.remove('todo','active');icon.classList.add('done');icon.textContent='✓';}}
       });
     });
-
-    const sections = document.querySelectorAll('section[id]');
-    const tocLinks = document.querySelectorAll('.toc a[href^="#"]');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          tocLinks.forEach(a => a.style.removeProperty('color'));
-          const a = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
-          if (a) a.style.color = 'var(--green)';
+    const sections=document.querySelectorAll('section[id]');
+    const tocLinks=document.querySelectorAll('.toc a[href^="#"]');
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          tocLinks.forEach(a=>a.style.removeProperty('color'));
+          const a=document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+          if(a)a.style.color='var(--green)';
         }
       });
-    }, { rootMargin: '-15% 0px -75% 0px' });
-    sections.forEach(s => observer.observe(s));
+    },{rootMargin:'-15% 0px -75% 0px'});
+    sections.forEach(s=>observer.observe(s));
   </script>
-
 </body>
 </html>
