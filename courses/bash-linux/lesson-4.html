@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 4: Variables &amp; Loops — Bash &amp; Linux · Shopnil Academy</title>
+  <meta name="description" content="Learn Bash variables, arrays, for loops, and while loops. Process multiple files automatically. Lesson 4 of the free Bash &amp; Linux course at Shopnil Academy." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://shopnilacademy.com/courses/bash-linux/lesson-4.html" />
+  <meta property="og:title" content="Lesson 4: Variables &amp; Loops — Bash &amp; Linux · Shopnil Academy" />
+  <meta property="og:description" content="Master Bash variables and loops. Automate repetitive bioinformatics tasks. Free lesson at Shopnil Academy." />
+  <meta property="og:url" content="https://shopnilacademy.com/courses/bash-linux/lesson-4.html" />
+  <meta property="og:site_name" content="Shopnil Academy" />
+  <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <style>
+    .sidebar-course-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:block}
+    .sidebar-course-title{font-size:15px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}
+    .prog-track{height:5px;background:var(--green-soft);border-radius:99px;overflow:hidden;margin-bottom:20px}
+    .prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .4s ease}
+    .mod-group{margin-bottom:6px}
+    .mod-group-label{display:flex;align-items:center;justify-content:space-between;padding:8px 0 4px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;user-select:none}
+    .mod-group-label .chev{font-size:10px;transition:transform .2s ease}
+    .mod-group.open .chev{transform:rotate(180deg)}
+    .mod-lessons{display:none}
+    .mod-group.open .mod-lessons{display:block}
+    .lesson-link{display:flex;align-items:flex-start;gap:9px;padding:8px 10px 8px 0;font-size:13px;color:var(--muted);border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease;line-height:1.35}
+    .lesson-link:hover{color:var(--ink)}
+    .lesson-link.active{color:var(--green);border-left-color:var(--green);font-weight:600;padding-left:10px}
+    .lesson-link.done{color:var(--green)}
+    .l-icon{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+    .l-icon.done{background:var(--green);color:#fff}
+    .l-icon.active{background:var(--green);color:#fff}
+    .l-icon.todo{background:var(--cream);border:1.5px solid var(--line);color:var(--muted)}
+    .lesson-meta-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+    .lm-pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em}
+    .lm-num{background:var(--green-soft);color:var(--green)}
+    .lm-time{background:var(--cream);color:var(--muted)}
+    .lm-sep{color:var(--muted);opacity:.4;font-size:13px}
+    .code-wrap{margin:18px 0}
+    .code-header{background:var(--ink);padding:10px 16px;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between}
+    .code-lang{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase}
+    .copy-btn{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);border:none;padding:4px 10px;border-radius:6px;cursor:pointer;transition:background .15s ease}
+    .copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+    pre{margin:0;background:#0F2418;border-radius:0 0 12px 12px;padding:18px 20px;overflow-x:auto;font-family:'DM Mono',monospace;font-size:13.5px;line-height:1.8}
+    .c-cmd{color:#5DCAA5}.c-flag{color:#9FE1CB}.c-path{color:#FAC775}
+    .c-out{color:rgba(255,255,255,.6)}.c-comment{color:rgba(255,255,255,.32);font-style:italic}
+    .c-var{color:#CE93D8}.c-str{color:#A5D6A7}
+    .cmd-table{width:100%;border-collapse:collapse;margin:20px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+    .cmd-table th{background:var(--cream);text-align:left;padding:12px 16px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+    .cmd-table td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top;color:#33433b;line-height:1.5}
+    .cmd-table tr:last-child td{border-bottom:none}
+    .cmd-table .cmd-cell{font-family:'DM Mono',monospace;font-size:13px;color:var(--green-deep);font-weight:500;white-space:nowrap}
+    .exercise{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 16px 16px 0;padding:20px 22px;margin:20px 0;background:#fff}
+    .ex-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .ex-num{background:var(--gold);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;text-transform:uppercase}
+    .ex-title{font-size:15px;font-weight:700;color:var(--ink)}
+    .exercise p{font-size:15px;color:#33433b;line-height:1.65;margin-bottom:10px}
+    .ex-hint{font-size:13px;color:var(--muted);margin-top:6px}
+    details.answer{margin-top:12px;border:1px solid rgba(0,106,78,.2);border-radius:12px;overflow:hidden}
+    details.answer summary{list-style:none;cursor:pointer;padding:11px 16px;font-size:13px;font-weight:600;color:var(--green);background:var(--green-soft);display:flex;align-items:center;gap:8px;user-select:none}
+    details.answer summary::-webkit-details-marker{display:none}
+    details.answer summary::before{content:'▶';font-size:9px;transition:transform .2s ease}
+    details.answer[open] summary::before{transform:rotate(90deg)}
+    details.answer .answer-body{background:#0F2418}
+    details.answer .answer-body pre{border-radius:0;margin:0}
+    .tip,.warn{border-radius:14px;padding:16px 20px;margin:18px 0;display:flex;align-items:flex-start;gap:12px}
+    .tip{background:var(--green-soft);border:1px solid rgba(0,106,78,.18)}
+    .warn{background:var(--gold-soft);border:1px solid rgba(232,183,42,.3)}
+    .tip-icon,.warn-icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+    .tip-icon{background:var(--green);color:#fff}.warn-icon{background:var(--gold);color:var(--ink)}
+    .tip p{font-size:14.5px;color:var(--green-deep);line-height:1.6;margin:0}
+    .warn p{font-size:14.5px;color:#7a5a00;line-height:1.6;margin:0}
+    .explain-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:20px 0}
+    .explain-box h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .explain-box p{font-size:14.5px;color:#33433b;line-height:1.75;margin-bottom:10px}
+    .explain-box p:last-child{margin-bottom:0}
+    .folder-note{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:8px}
+    .folder-note::before{content:'📁';font-size:13px}
+    .mark-complete-wrap{text-align:center;margin:32px 0 0}
+    .mark-complete{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:999px;font-size:14px;font-weight:700;background:var(--green);color:#fff;border:none;transition:background .15s ease,transform .15s ease}
+    .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
+    .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
+    .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
+    @media(max-width:860px){.toc{display:none}}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav-shell">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="https://shopnilacademy.com/index.html" class="logo">
+        <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy logo" width="52" height="52" />
+        <div class="logo-text"><strong>Shopnil Academy</strong><small>BASH &amp; LINUX · LESSON 4</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="https://shopnilacademy.com/index.html">Home</a>
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <a href="index.html" class="active">Bash &amp; Linux</a>
+        <a href="https://shopnilacademy.com/about.html">About</a>
+      </div>
+      <div class="nav-cta">
+        <a href="https://shopnilacademy.com/courses.html" class="btn btn-outline btn-sm">All courses</a>
+        <a href="lesson-5.html" class="btn btn-primary btn-sm">Next lesson →</a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle">☰</button>
+    </nav>
+  </header>
+
+  <!-- INNER HEADER -->
+  <div class="inner-header">
+    <div class="wrap">
+      <div class="breadcrumb">
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <span class="sep">›</span>
+        <a href="index.html">Bash &amp; Linux</a>
+        <span class="sep">›</span>
+        <span>Lesson 4</span>
+      </div>
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 4 of 13</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill lm-time">⏱ 50 min</span>
+        <span class="lm-sep">·</span>
+        <span class="free-pill">✓ Free</span>
+      </div>
+      <h1>Variables &amp; Loops</h1>
+      <p class="lead">
+        So far every command you have run processes one thing at a time. Variables and loops change that entirely.
+        With a single loop you can process 100 FASTQ files, rename an entire folder of samples, or run the same
+        quality check on every chromosome — in the same time it takes to type one command.
+        This is where Bash starts to feel like real programming.
+      </p>
+    </div>
+  </div>
+
+  <!-- AD — Leaderboard -->
+  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
+    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+      <strong>Advertisement</strong><small>728 × 90 leaderboard · AdSense unit goes here</small>
+    </div>
+  </div>
+
+  <!-- ARTICLE -->
+  <div class="article">
+    <div class="wrap">
+      <div class="article-grid">
+
+        <!-- SIDEBAR -->
+        <aside class="toc" aria-label="Course navigation">
+          <span class="sidebar-course-label">Tech &amp; Coding</span>
+          <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
+          <div class="prog-label"><span>Your progress</span><span id="progPct">0%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+          <div class="mod-group open" id="mg1">
+            <div class="mod-group-label" onclick="toggleMod('mg1')">Module 1 — Foundations <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-1.html" class="lesson-link done"><span class="l-icon done">✓</span>Navigation &amp; the Filesystem</a>
+              <a href="lesson-2.html" class="lesson-link done"><span class="l-icon done">✓</span>File Operations</a>
+              <a href="lesson-3.html" class="lesson-link done"><span class="l-icon done">✓</span>Pipes &amp; Redirection</a>
+              <a href="lesson-4.html" class="lesson-link active"><span class="l-icon active">4</span>Variables &amp; Loops</a>
+            </div>
+          </div>
+          <div class="mod-group" id="mg2">
+            <div class="mod-group-label" onclick="toggleMod('mg2')">Module 2 — Scripting <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-5.html" class="lesson-link"><span class="l-icon todo">5</span>Writing Bash Scripts</a>
+              <a href="lesson-6.html" class="lesson-link"><span class="l-icon todo">6</span>Conditionals &amp; Functions</a>
+              <a href="lesson-7.html" class="lesson-link"><span class="l-icon todo">7</span>Permissions &amp; Users</a>
+            </div>
+          </div>
+          <div class="mod-group" id="mg3">
+            <div class="mod-group-label" onclick="toggleMod('mg3')">Module 3 — Processes <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-8.html" class="lesson-link"><span class="l-icon todo">8</span>Processes &amp; Jobs</a>
+              <a href="lesson-9.html" class="lesson-link"><span class="l-icon todo">9</span>Text Processing: grep, sed, awk</a>
+              <a href="lesson-10.html" class="lesson-link"><span class="l-icon todo">10</span>Working with Data Files</a>
+            </div>
+          </div>
+          <div class="mod-group" id="mg4">
+            <div class="mod-group-label" onclick="toggleMod('mg4')">Module 4 — Bioinformatics Bash <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-11.html" class="lesson-link"><span class="l-icon todo">11</span>FASTQ &amp; FASTA on the CLI</a>
+              <a href="lesson-12.html" class="lesson-link"><span class="l-icon todo">12</span>Automating Bioinformatics Tasks</a>
+              <a href="lesson-13.html" class="lesson-link"><span class="l-icon todo">13</span>Capstone: Pipeline Script</a>
+            </div>
+          </div>
+
+          <h5 style="margin-top:28px;">On this page</h5>
+          <ul>
+            <li><a href="#variables">Variables</a></li>
+            <li><a href="#special-vars">Special variables</a></li>
+            <li><a href="#arithmetic">Arithmetic</a></li>
+            <li><a href="#arrays">Arrays</a></li>
+            <li><a href="#for-loop">for loop</a></li>
+            <li><a href="#while-loop">while loop</a></li>
+            <li><a href="#loop-bioinfo">Loops in bioinformatics</a></li>
+            <li><a href="#reference">Quick reference</a></li>
+            <li><a href="#exercises">Exercises</a></li>
+          </ul>
+        </aside>
+
+        <!-- PROSE -->
+        <div class="prose">
+
+          <!-- SECTION 1: Variables -->
+          <section id="variables">
+            <h2><span class="n">01</span> Variables — storing values for later</h2>
+
+            <div class="explain-box">
+              <h4>📦 Why variables exist</h4>
+              <p>A variable is a named container that holds a value — a piece of text, a number, a file path, or a command's output. Instead of typing the same long path or value repeatedly throughout your script, you store it once in a variable and reuse the name.</p>
+              <p>In bioinformatics this is essential. Imagine you have a pipeline that references the same reference genome path twenty times. If you store it as <code>GENOME="/data/references/GRCh38.fa"</code>, changing the genome later means editing one line. Without a variable you would need to find and replace it twenty times — and inevitably miss one.</p>
+              <p>Variable names are written in UPPERCASE by convention (though lowercase works too). To <strong>set</strong> a variable you write <code>NAME=value</code> with no spaces around the <code>=</code> sign — spaces will cause an error. To <strong>use</strong> a variable's value you prefix the name with a <code>$</code> sign: <code>$NAME</code> or <code>${NAME}</code>. The curly braces form is safer when the variable name is followed immediately by other characters.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Setting variables — no spaces around =</span>
+<span class="c-var">SAMPLE</span>=<span class="c-str">"SRR123456"</span>
+<span class="c-var">GENOME</span>=<span class="c-str">"/data/references/GRCh38.fa"</span>
+<span class="c-var">THREADS</span>=<span class="c-str">8</span>
+<span class="c-var">OUTDIR</span>=<span class="c-str">"~/bash-linux-bioinformatics/results"</span>
+
+<span class="c-comment"># Using variables with $</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Sample ID: $SAMPLE"</span>
+<span class="c-out">Sample ID: SRR123456</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">"Using genome: $GENOME"</span>
+<span class="c-out">Using genome: /data/references/GRCh38.fa</span>
+
+<span class="c-comment"># Use ${} when the variable is followed immediately by more text</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Output file: ${SAMPLE}_aligned.bam"</span>
+<span class="c-out">Output file: SRR123456_aligned.bam</span>
+
+<span class="c-comment"># THIS FAILS — Bash looks for variable named SAMPLE_aligned, not SAMPLE</span>
+<span class="c-cmd">echo</span> <span class="c-str">"$SAMPLE_aligned.bam"</span>
+<span class="c-out">.bam</span>   <span class="c-comment"># wrong! Variable not found, so empty string</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <h4>🔤 Single quotes vs double quotes — a critical difference</h4>
+              <p>Quoting in Bash controls whether variables are expanded (replaced with their value) or treated as plain text.</p>
+              <p><strong>Double quotes <code>"..."</code></strong> — variables inside are expanded. <code>"Hello $NAME"</code> becomes <code>"Hello Shajedur"</code>. This is what you want almost all the time.</p>
+              <p><strong>Single quotes <code>'...'</code></strong> — everything inside is treated as literal text. Variables are NOT expanded. <code>'Hello $NAME'</code> prints exactly <code>Hello $NAME</code> with no substitution.</p>
+              <p>Use double quotes around any variable that might contain spaces — for example a file path with spaces in folder names. Without quotes, Bash splits on spaces and passes each word as a separate argument, which breaks things silently.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-var">NAME</span>=<span class="c-str">"Shajedur"</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">"Hello $NAME"</span>     <span class="c-comment"># double quotes — variable IS expanded</span>
+<span class="c-out">Hello Shajedur</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">'Hello $NAME'</span>     <span class="c-comment"># single quotes — variable is NOT expanded</span>
+<span class="c-out">Hello $NAME</span></pre>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠</span>
+              <p>Never put spaces around <code>=</code> when setting a variable. <code>SAMPLE = "SRR123456"</code> causes an error — Bash thinks <code>SAMPLE</code> is a command, not a variable assignment.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 2: Special variables -->
+          <section id="special-vars">
+            <h2><span class="n">02</span> Special variables Bash sets automatically</h2>
+
+            <div class="explain-box">
+              <h4>⚙️ Variables Bash creates for you</h4>
+              <p>Bash automatically creates several special variables that are extremely useful in scripts. You do not set these — they are always available.</p>
+              <p><strong><code>$?</code></strong> holds the <strong>exit status</strong> of the last command. A value of <code>0</code> means the command succeeded. Any non-zero value means it failed. This is how scripts check whether the previous step worked before continuing — if an alignment fails, you do not want the next step to run on a broken BAM file.</p>
+              <p><strong><code>$$</code></strong> holds the <strong>process ID</strong> (PID) of the current shell. Useful for creating unique temporary file names when running multiple jobs in parallel.</p>
+              <p><strong><code>$0</code>, <code>$1</code>, <code>$2</code>...</strong> are the arguments passed to a script. <code>$0</code> is the script's own name. <code>$1</code> is the first argument you pass, <code>$2</code> the second, and so on. This is how you make scripts reusable — instead of hardcoding a sample name, you pass it in as an argument.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># $? — exit status of the last command</span>
+<span class="c-cmd">ls</span> <span class="c-path">species.txt</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Exit status: $?"</span>
+<span class="c-out">Exit status: 0</span>           <span class="c-comment"># 0 = success</span>
+
+<span class="c-cmd">ls</span> <span class="c-path">nonexistent.txt</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Exit status: $?"</span>
+<span class="c-out">Exit status: 2</span>           <span class="c-comment"># non-zero = failure</span>
+
+<span class="c-comment"># $$ — current process ID (useful for unique temp files)</span>
+<span class="c-cmd">echo</span> <span class="c-str">"My PID is: $$"</span>
+<span class="c-out">My PID is: 12345</span>         <span class="c-comment"># number varies every time</span>
+
+<span class="c-comment"># Creating a unique temp file using $$</span>
+<span class="c-var">TMPFILE</span>=<span class="c-str">"/tmp/bioinfo_temp_$$.txt"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Temp file: $TMPFILE"</span>
+<span class="c-out">Temp file: /tmp/bioinfo_temp_12345.txt</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>After every important command in a script, check <code>$?</code>. If it is not <code>0</code>, something went wrong. In Lesson 6 you will learn to use <code>if [ $? -ne 0 ]</code> to automatically stop a pipeline when a step fails.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 3: Arithmetic -->
+          <section id="arithmetic">
+            <h2><span class="n">03</span> Arithmetic — doing maths in Bash</h2>
+
+            <div class="explain-box">
+              <h4>🔢 Why arithmetic in Bash matters for bioinformatics</h4>
+              <p>Bash is not a calculator — by default everything is treated as text. If you write <code>RESULT=2+2</code>, the variable holds the string <code>"2+2"</code>, not the number <code>4</code>.</p>
+              <p>To do arithmetic you wrap the expression in <code>$(( ))</code> — the double parentheses tell Bash to evaluate it as a mathematical expression. This is used constantly in bioinformatics scripts: calculating how many reads are in a file, working out memory requirements based on file size, computing batch sizes for parallel jobs, or converting line counts to read counts (dividing by 4 for FASTQ).</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Basic arithmetic with $(( ))</span>
+<span class="c-cmd">echo</span> <span class="c-str">$((2 + 2))</span>
+<span class="c-out">4</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">$((10 - 3))</span>
+<span class="c-out">7</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">$((6 * 7))</span>
+<span class="c-out">42</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">$((17 / 4))</span>
+<span class="c-out">4</span>                  <span class="c-comment"># integer division only — remainder is dropped</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">$((17 % 4))</span>
+<span class="c-out">1</span>                  <span class="c-comment"># % = modulo (remainder)</span>
+
+<span class="c-comment"># Store result in a variable</span>
+<span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; sample.fastq)</span>
+<span class="c-var">READS</span>=<span class="c-str">$(( LINES / 4 ))</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Lines: $LINES | Reads: $READS"</span>
+<span class="c-out">Lines: 12 | Reads: 3</span>
+
+<span class="c-comment"># Increment a counter (add 1)</span>
+<span class="c-var">COUNT</span>=<span class="c-str">0</span>
+<span class="c-var">COUNT</span>=<span class="c-str">$(( COUNT + 1 ))</span>
+<span class="c-cmd">echo</span> <span class="c-str">"$COUNT"</span>
+<span class="c-out">1</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <h4>💾 Command substitution — capturing command output into a variable</h4>
+              <p>The <code>$( )</code> syntax (single parentheses, different from <code>$(( ))</code>) runs a command and captures its output as a value. This is called <strong>command substitution</strong>.</p>
+              <p>For example, <code>LINES=$(wc -l &lt; sample.fastq)</code> runs the <code>wc -l</code> command and stores the number it prints into the variable <code>LINES</code>. Without this, you would have to run the command, write down the number, and type it manually — useless in a script that processes hundreds of files.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Capture command output into a variable</span>
+<span class="c-var">TODAY</span>=<span class="c-str">$(date +%Y-%m-%d)</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Today is: $TODAY"</span>
+<span class="c-out">Today is: 2026-06-17</span>
+
+<span class="c-var">FILE_COUNT</span>=<span class="c-str">$(ls ~/bash-linux-bioinformatics/module-1-foundations/ | wc -l)</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Files in folder: $FILE_COUNT"</span>
+
+<span class="c-comment"># Capture wc output cleanly (< sends file as stdin, avoids filename in output)</span>
+<span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; sample.fastq)</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Line count: $LINES"</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 4: Arrays -->
+          <section id="arrays">
+            <h2><span class="n">04</span> Arrays — storing lists of values</h2>
+
+            <div class="explain-box">
+              <h4>📋 Why arrays are useful in bioinformatics</h4>
+              <p>A variable holds one value. An <strong>array</strong> holds a list of values — all under the same name, accessed by position number (index). In bioinformatics, arrays are perfect for storing lists of sample names, chromosome names, or file paths that you want to loop over.</p>
+              <p>Array indexing in Bash starts at <code>0</code> — the first item is at index <code>0</code>, the second at <code>1</code>, and so on. To get all items, use <code>${ARRAY[@]}</code>. To get the count of items, use <code>${#ARRAY[@]}</code>.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Define an array of sample names</span>
+<span class="c-var">SAMPLES</span>=(<span class="c-str">"SRR001"</span> <span class="c-str">"SRR002"</span> <span class="c-str">"SRR003"</span> <span class="c-str">"SRR004"</span>)
+
+<span class="c-comment"># Access individual items — index starts at 0</span>
+<span class="c-cmd">echo</span> <span class="c-str">"${SAMPLES[0]}"</span>
+<span class="c-out">SRR001</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">"${SAMPLES[2]}"</span>
+<span class="c-out">SRR003</span>
+
+<span class="c-comment"># Access all items</span>
+<span class="c-cmd">echo</span> <span class="c-str">"${SAMPLES[@]}"</span>
+<span class="c-out">SRR001 SRR002 SRR003 SRR004</span>
+
+<span class="c-comment"># Count items in the array</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Number of samples: ${#SAMPLES[@]}"</span>
+<span class="c-out">Number of samples: 4</span>
+
+<span class="c-comment"># Array of chromosome names — real bioinformatics use case</span>
+<span class="c-var">CHROMOSOMES</span>=(<span class="c-str">"chr1"</span> <span class="c-str">"chr2"</span> <span class="c-str">"chr3"</span> <span class="c-str">"chrX"</span> <span class="c-str">"chrY"</span>)
+<span class="c-cmd">echo</span> <span class="c-str">"Processing ${#CHROMOSOMES[@]} chromosomes"</span>
+<span class="c-out">Processing 5 chromosomes</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 5: for loop -->
+          <section id="for-loop">
+            <h2><span class="n">05</span> The for loop — repeat for every item in a list</h2>
+
+            <div class="explain-box">
+              <h4>🔁 Why for loops are the most important thing in this lesson</h4>
+              <p>A <code>for</code> loop runs a block of commands once for each item in a list. The loop variable takes the value of each item in turn, and you use that variable inside the loop body to do something with it.</p>
+              <p>This is the single most powerful tool for automating bioinformatics work. Without loops, running FastQC on 50 samples means typing 50 commands. With a loop, you type one. Running STAR alignment on 100 FASTQ files? One loop. Renaming all your output files to include the date? One loop.</p>
+              <p>The structure is always: <code>for VARIABLE in LIST; do ... done</code>. The <code>do</code> marks the start of the commands to repeat, and <code>done</code> marks the end.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Basic for loop — iterate over a list of values</span>
+<span class="c-cmd">for</span> <span class="c-var">SPECIES</span> in maize rice sorghum wheat; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Processing: $SPECIES"</span>
+<span class="c-cmd">done</span>
+<span class="c-out">Processing: maize</span>
+<span class="c-out">Processing: rice</span>
+<span class="c-out">Processing: sorghum</span>
+<span class="c-out">Processing: wheat</span>
+
+<span class="c-comment"># Loop over an array of sample names</span>
+<span class="c-var">SAMPLES</span>=(<span class="c-str">"SRR001"</span> <span class="c-str">"SRR002"</span> <span class="c-str">"SRR003"</span>)
+<span class="c-cmd">for</span> <span class="c-var">SAMPLE</span> in <span class="c-str">"${SAMPLES[@]}"</span>; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Running FastQC on: ${SAMPLE}.fastq"</span>
+<span class="c-cmd">done</span>
+<span class="c-out">Running FastQC on: SRR001.fastq</span>
+<span class="c-out">Running FastQC on: SRR002.fastq</span>
+<span class="c-out">Running FastQC on: SRR003.fastq</span>
+
+<span class="c-comment"># Loop over a numeric range with {start..end}</span>
+<span class="c-cmd">for</span> <span class="c-var">I</span> in {1..5}; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Iteration $I"</span>
+<span class="c-cmd">done</span>
+<span class="c-out">Iteration 1</span>
+<span class="c-out">Iteration 2</span>
+<span class="c-out">Iteration 3</span>
+<span class="c-out">Iteration 4</span>
+<span class="c-out">Iteration 5</span>
+
+<span class="c-comment"># Loop over all .txt files in a folder</span>
+<span class="c-cmd">for</span> <span class="c-var">FILE</span> in ~/bash-linux-bioinformatics/module-1-foundations/*.txt; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Found: $FILE"</span>
+    <span class="c-cmd">wc</span> <span class="c-flag">-l</span> <span class="c-str">"$FILE"</span>
+<span class="c-cmd">done</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>Always wrap file path variables in double quotes inside loops: <code>"$FILE"</code> not <code>$FILE</code>. If the file path contains a space, unquoted variables will break the command silently.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 6: while loop -->
+          <section id="while-loop">
+            <h2><span class="n">06</span> The while loop — repeat until a condition is false</h2>
+
+            <div class="explain-box">
+              <h4>⏳ for vs while — when to use each</h4>
+              <p>A <code>for</code> loop runs a fixed number of times — once per item in a known list. A <code>while</code> loop runs as long as a condition remains true — you do not need to know in advance how many times it will run.</p>
+              <p>In bioinformatics, <code>while</code> loops are most useful for: reading a file line by line (processing each sample from a sample sheet), waiting for a job to finish before starting the next step, or retrying a failed download until it succeeds.</p>
+              <p>The most common bioinformatics use of <code>while</code> is <strong>reading a file line by line</strong> with <code>while read LINE; do ... done &lt; file.txt</code>. This is how you process a sample sheet — a tab-separated file listing sample names, file paths, and conditions — without hardcoding anything.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Basic while loop — count from 1 to 3</span>
+<span class="c-var">COUNT</span>=<span class="c-str">1</span>
+<span class="c-cmd">while</span> [ <span class="c-var">$COUNT</span> <span class="c-flag">-le</span> 3 ]; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Count: $COUNT"</span>
+    <span class="c-var">COUNT</span>=<span class="c-str">$(( COUNT + 1 ))</span>
+<span class="c-cmd">done</span>
+<span class="c-out">Count: 1</span>
+<span class="c-out">Count: 2</span>
+<span class="c-out">Count: 3</span>
+
+<span class="c-comment"># Read a file line by line — essential for sample sheets</span>
+<span class="c-cmd">while</span> <span class="c-cmd">read</span> <span class="c-var">LINE</span>; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Processing sample: $LINE"</span>
+<span class="c-cmd">done</span> &lt; species.txt
+<span class="c-out">Processing sample: Sorghum bicolor</span>
+<span class="c-out">Processing sample: Arabidopsis thaliana</span>
+<span class="c-out">Processing sample: Oryza sativa</span>
+
+<span class="c-comment"># Read multiple columns from a tab-separated file</span>
+<span class="c-comment"># Imagine sample_sheet.txt has: SAMPLE_ID  FASTQ_PATH  CONDITION</span>
+<span class="c-cmd">while</span> <span class="c-cmd">read</span> <span class="c-var">SAMPLE</span> <span class="c-var">FASTQ</span> <span class="c-var">CONDITION</span>; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Sample: $SAMPLE | File: $FASTQ | Group: $CONDITION"</span>
+<span class="c-cmd">done</span> &lt; sample_sheet.txt</pre>
+            </div>
+
+            <div class="callout">
+              <p><strong>Comparison operators inside [ ]:</strong> <code>-le</code> means "less than or equal to". Others: <code>-lt</code> (less than), <code>-ge</code> (greater than or equal), <code>-gt</code> (greater than), <code>-eq</code> (equal), <code>-ne</code> (not equal). We cover these fully in Lesson 6 — Conditionals.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 7: Loops in bioinformatics -->
+          <section id="loop-bioinfo">
+            <h2><span class="n">07</span> Loops in bioinformatics — real patterns</h2>
+
+            <p>Here are the exact patterns you will use in every real pipeline. Study these — they will appear throughout the rest of this course.</p>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — real bioinformatics loop patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># ── Pattern 1: Run a tool on every FASTQ file in a folder ──</span>
+<span class="c-cmd">for</span> <span class="c-var">FASTQ</span> in ~/data/raw/*.fastq.gz; <span class="c-cmd">do</span>
+    <span class="c-var">SAMPLE</span>=<span class="c-str">$(basename "$FASTQ" .fastq.gz)</span>   <span class="c-comment"># strip folder path and extension</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Running FastQC on: $SAMPLE"</span>
+    <span class="c-comment"># fastqc "$FASTQ" --outdir ~/results/fastqc/  (real command when FastQC installed)</span>
+<span class="c-cmd">done</span>
+
+<span class="c-comment"># ── Pattern 2: Create output folders for each sample ──</span>
+<span class="c-var">SAMPLES</span>=(<span class="c-str">"control_1"</span> <span class="c-str">"control_2"</span> <span class="c-str">"treated_1"</span> <span class="c-str">"treated_2"</span>)
+<span class="c-cmd">for</span> <span class="c-var">SAMPLE</span> in <span class="c-str">"${SAMPLES[@]}"</span>; <span class="c-cmd">do</span>
+    <span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-str">"~/bash-linux-bioinformatics/results/${SAMPLE}"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Created folder for: $SAMPLE"</span>
+<span class="c-cmd">done</span>
+
+<span class="c-comment"># ── Pattern 3: Count reads in every FASTQ file ──</span>
+<span class="c-cmd">for</span> <span class="c-var">FILE</span> in ~/bash-linux-bioinformatics/module-1-foundations/*.fastq; <span class="c-cmd">do</span>
+    <span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; "$FILE")</span>
+    <span class="c-var">READS</span>=<span class="c-str">$(( LINES / 4 ))</span>
+    <span class="c-var">NAME</span>=<span class="c-str">$(basename "$FILE")</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"$NAME: $READS reads"</span>
+<span class="c-cmd">done</span>
+
+<span class="c-comment"># ── Pattern 4: Add a prefix to every filename ──</span>
+<span class="c-cmd">for</span> <span class="c-var">FILE</span> in ~/bash-linux-bioinformatics/module-1-foundations/*.txt; <span class="c-cmd">do</span>
+    <span class="c-var">BASENAME</span>=<span class="c-str">$(basename "$FILE")</span>
+    <span class="c-var">DIR</span>=<span class="c-str">$(dirname "$FILE")</span>
+    <span class="c-cmd">mv</span> <span class="c-str">"$FILE"</span> <span class="c-str">"${DIR}/backup_${BASENAME}"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Renamed: $BASENAME → backup_$BASENAME"</span>
+<span class="c-cmd">done</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <h4>🛠 basename and dirname — essential loop helpers</h4>
+              <p><code>basename</code> strips the directory path from a file path, leaving just the filename. With a second argument, it also strips the extension. For example, <code>basename "/data/raw/SRR001.fastq.gz" ".fastq.gz"</code> returns <code>SRR001</code>. This is how you extract a clean sample name from a full file path inside a loop.</p>
+              <p><code>dirname</code> does the opposite — it strips the filename and returns just the directory path. So <code>dirname "/data/raw/SRR001.fastq.gz"</code> returns <code>/data/raw</code>. Together, <code>basename</code> and <code>dirname</code> let you manipulate file paths precisely inside loops.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># basename — get just the filename</span>
+<span class="c-cmd">basename</span> <span class="c-path">"/home/shajedur/data/SRR001.fastq.gz"</span>
+<span class="c-out">SRR001.fastq.gz</span>
+
+<span class="c-comment"># basename — strip extension too</span>
+<span class="c-cmd">basename</span> <span class="c-path">"/home/shajedur/data/SRR001.fastq.gz"</span> <span class="c-path">".fastq.gz"</span>
+<span class="c-out">SRR001</span>
+
+<span class="c-comment"># dirname — get just the folder path</span>
+<span class="c-cmd">dirname</span> <span class="c-path">"/home/shajedur/data/SRR001.fastq.gz"</span>
+<span class="c-out">/home/shajedur/data</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 8: Quick reference -->
+          <section id="reference">
+            <h2><span class="n">08</span> Quick reference</h2>
+            <table class="cmd-table">
+              <thead><tr><th>Syntax</th><th>What it does</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td class="cmd-cell">VAR=value</td><td>Set a variable — no spaces around =</td><td>Use UPPERCASE by convention</td></tr>
+                <tr><td class="cmd-cell">$VAR or ${VAR}</td><td>Use a variable's value</td><td>Use ${} when followed by more text</td></tr>
+                <tr><td class="cmd-cell">$(command)</td><td>Capture command output into a variable</td><td>Command substitution</td></tr>
+                <tr><td class="cmd-cell">$(( expr ))</td><td>Evaluate arithmetic expression</td><td>Integer maths only</td></tr>
+                <tr><td class="cmd-cell">$?</td><td>Exit status of last command (0 = success)</td><td>Check after every important step</td></tr>
+                <tr><td class="cmd-cell">ARRAY=(a b c)</td><td>Define an array</td><td>Items separated by spaces</td></tr>
+                <tr><td class="cmd-cell">${ARRAY[@]}</td><td>All array items</td><td>${#ARRAY[@]} gives the count</td></tr>
+                <tr><td class="cmd-cell">for X in LIST; do ... done</td><td>Loop over a list</td><td>Use *.ext to loop over files</td></tr>
+                <tr><td class="cmd-cell">while [ condition ]; do ... done</td><td>Loop while condition is true</td><td>Use with read for line-by-line</td></tr>
+                <tr><td class="cmd-cell">basename path [ext]</td><td>Strip directory (and extension) from path</td><td>Essential in file loops</td></tr>
+                <tr><td class="cmd-cell">dirname path</td><td>Get directory portion of a path</td><td>—</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- AD slot — in-article -->
+          <div class="ad-slot in-feed" role="complementary" aria-label="Advertisement" style="margin:32px 0;">
+            <strong>Advertisement</strong><small>In-article ad · AdSense unit goes here</small>
+          </div>
+
+          <!-- SECTION 9: Exercises -->
+          <section id="exercises">
+            <h2><span class="n">09</span> Exercises</h2>
+            <p>Work through all five exercises in your Ubuntu terminal. <strong>Type every command yourself — do not copy-paste.</strong></p>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 1</span><span class="ex-title">Variables and command substitution</span></div>
+              <p>Navigate to <code>~/bash-linux-bioinformatics/module-1-foundations</code>. Create three variables: <code>COURSE</code> set to <code>"Bash and Linux"</code>, <code>LESSON</code> set to <code>4</code>, and <code>FILE_COUNT</code> set to the output of <code>ls *.txt | wc -l</code> (using command substitution). Then print a sentence using all three: <code>"Course: Bash and Linux | Lesson: 4 | Text files found: N"</code>.</p>
+              <p class="ex-hint">💬 Hint: use <code>$( )</code> for command substitution. Use double quotes in your echo so all three variables expand.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-var">COURSE</span>=<span class="c-str">"Bash and Linux"</span>
+<span class="c-var">LESSON</span>=<span class="c-str">4</span>
+<span class="c-var">FILE_COUNT</span>=<span class="c-str">$(ls *.txt 2&gt;/dev/null | wc -l)</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Course: $COURSE | Lesson: $LESSON | Text files found: $FILE_COUNT"</span>
+<span class="c-out">Course: Bash and Linux | Lesson: 4 | Text files found: 5</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 2</span><span class="ex-title">Arithmetic — FASTQ read counter</span></div>
+              <p>From <code>~/bash-linux-bioinformatics/module-1-foundations</code>, use command substitution to store the line count of <code>sample.fastq</code> in a variable called <code>LINES</code>. Then use arithmetic to calculate the number of reads and store it in <code>READS</code>. Print both values.</p>
+              <p class="ex-hint">💬 Hint: <code>LINES=$(wc -l &lt; sample.fastq)</code> gives a clean number. Then <code>READS=$(( LINES / 4 ))</code>.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; sample.fastq)</span>
+<span class="c-var">READS</span>=<span class="c-str">$(( LINES / 4 ))</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Lines: $LINES"</span>
+<span class="c-out">Lines: 12</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Reads: $READS"</span>
+<span class="c-out">Reads: 3</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 3</span><span class="ex-title">for loop — process a list of species</span></div>
+              <p>From <code>~/bash-linux-bioinformatics/module-1-foundations</code>, write a <code>for</code> loop that iterates over the array <code>("Sorghum" "Arabidopsis" "Rice" "Maize")</code>. For each species, create an empty file called <code>SPECIES_data.txt</code> (e.g. <code>Sorghum_data.txt</code>) in the <code>results/</code> folder. After the loop, list the results folder to confirm all four files were created.</p>
+              <p class="ex-hint">💬 Hint: define the array first, then loop with <code>for SPECIES in "${ARRAY[@]}"</code>. Use <code>touch</code> to create each file.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-var">SPECIES_LIST</span>=(<span class="c-str">"Sorghum"</span> <span class="c-str">"Arabidopsis"</span> <span class="c-str">"Rice"</span> <span class="c-str">"Maize"</span>)
+<span class="c-cmd">for</span> <span class="c-var">SPECIES</span> in <span class="c-str">"${SPECIES_LIST[@]}"</span>; <span class="c-cmd">do</span>
+    <span class="c-cmd">touch</span> <span class="c-path">"../results/${SPECIES}_data.txt"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Created: ${SPECIES}_data.txt"</span>
+<span class="c-cmd">done</span>
+<span class="c-cmd">ls</span> <span class="c-path">../results/</span>
+<span class="c-out">Arabidopsis_data.txt  Maize_data.txt  Rice_data.txt  Sorghum_data.txt</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 4</span><span class="ex-title">while read — process a file line by line</span></div>
+              <p>From <code>~/bash-linux-bioinformatics/module-1-foundations</code>, use a <code>while read</code> loop to read <code>species.txt</code> line by line. For each line, print: <code>"Analysing genome of: [species name]"</code>.</p>
+              <p class="ex-hint">💬 Hint: <code>while read LINE; do ... done &lt; species.txt</code>. The <code>&lt;</code> redirects the file as input to the while loop.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-cmd">while</span> <span class="c-cmd">read</span> <span class="c-var">LINE</span>; <span class="c-cmd">do</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Analysing genome of: $LINE"</span>
+<span class="c-cmd">done</span> &lt; species.txt
+<span class="c-out">Analysing genome of: Sorghum bicolor</span>
+<span class="c-out">Analysing genome of: Arabidopsis thaliana</span>
+<span class="c-out">Analysing genome of: Oryza sativa</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 5 · Challenge</span><span class="ex-title">Loop over files with basename</span></div>
+              <p>From <code>~/bash-linux-bioinformatics/module-1-foundations</code>, write a <code>for</code> loop that iterates over every <code>.txt</code> file in that folder. For each file, use <code>basename</code> to extract just the filename (without the path), count its lines with <code>wc -l</code>, and print: <code>"[filename]: N lines"</code>.</p>
+              <p class="ex-hint">💬 Hint: loop with <code>for FILE in *.txt</code>. Then <code>NAME=$(basename "$FILE")</code> and <code>LINES=$(wc -l &lt; "$FILE")</code>.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
+<span class="c-cmd">for</span> <span class="c-var">FILE</span> in *.txt; <span class="c-cmd">do</span>
+    <span class="c-var">NAME</span>=<span class="c-str">$(basename "$FILE")</span>
+    <span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; "$FILE")</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"${NAME}: $LINES lines"</span>
+<span class="c-cmd">done</span>
+<span class="c-out">duplicates.txt: 7 lines</span>
+<span class="c-out">file_list.txt: 8 lines</span>
+<span class="c-out">genomes.txt: 5 lines</span>
+<span class="c-out">species.txt: 3 lines</span>
+<span class="c-comment"># Your output may differ depending on which files you have</span></pre>
+                </div>
+              </details>
+            </div>
+          </section>
+
+          <!-- Mark complete -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="markBtn" onclick="markComplete()">✓ Mark lesson complete</button>
+          </div>
+
+          <!-- Lesson nav -->
+          <div class="lesson-nav-footer">
+            <span style="font-size:13px;color:var(--muted);">Module 1 · Lesson 4 of 13</span>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="lesson-3.html" class="btn btn-outline btn-sm">← Lesson 3: Pipes &amp; Redirection</a>
+              <a href="lesson-5.html" class="btn btn-primary btn-sm">Next: Writing Bash Scripts →</a>
+            </div>
+          </div>
+
+        </div><!-- /prose -->
+      </div><!-- /article-grid -->
+    </div><!-- /wrap -->
+  </div><!-- /article -->
+
+  <!-- AD — Rectangle -->
+  <div style="padding:0 0 56px;">
+    <div class="wrap" style="display:flex;justify-content:center;">
+      <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px;width:100%;">
+        <strong>Advertisement</strong><small>300 × 250 medium rectangle · AdSense unit goes here</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="https://shopnilacademy.com/index.html" class="logo" style="margin-bottom:14px;">
+            <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy" width="44" height="44" />
+            <div class="logo-text"><strong>Shopnil Academy</strong><small>LEARN WITHOUT LIMITS</small></div>
+          </a>
+          <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+          <div class="foot-social">
+            <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook">f</a>
+            <a href="https://x.com/ShopnilAcademy" aria-label="X / Twitter">𝕏</a>
+            <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube">▶</a>
+            <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn">in</a>
+            <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram">◻</a>
+          </div>
+        </div>
+        <div class="foot-col"><h4>This course</h4><ul>
+          <li><a href="index.html">Course overview</a></li>
+          <li><a href="lesson-1.html">Lesson 1 — Navigation</a></li>
+          <li><a href="lesson-2.html">Lesson 2 — File ops</a></li>
+          <li><a href="lesson-3.html">Lesson 3 — Pipes</a></li>
+          <li><a href="lesson-4.html">Lesson 4 — Variables &amp; Loops</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Learn</h4><ul>
+          <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=math">Math &amp; Science</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=guitar">Guitar</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Company</h4><ul>
+          <li><a href="https://shopnilacademy.com/about.html">About</a></li>
+          <li><a href="https://shopnilacademy.com/contact.html">Contact</a></li>
+          <li><a href="https://shopnilacademy.com/advertise.html">Advertise</a></li>
+          <li><a href="https://shopnilacademy.com/faq.html">FAQ</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Legal</h4><ul>
+          <li><a href="https://shopnilacademy.com/privacy.html">Privacy</a></li>
+          <li><a href="https://shopnilacademy.com/terms.html">Terms</a></li>
+          <li><a href="https://shopnilacademy.com/cookies.html">Cookies</a></li>
+        </ul></div>
+      </div>
+      <div class="foot-bot">
+        <span>© 2026 Shopnil Academy. All rights reserved. Made with care for learners worldwide. 🌍</span>
+        <span>Bash &amp; Linux · Lesson 4</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.getElementById('navToggle').addEventListener('click',function(){
+      const links=document.querySelector('.nav-links');
+      const expanded=this.getAttribute('aria-expanded')==='true';
+      this.setAttribute('aria-expanded',String(!expanded));
+      links.style.display=expanded?'':'flex';
+    });
+    function toggleMod(id){document.getElementById(id).classList.toggle('open');}
+    function copyCode(btn){
+      const pre=btn.closest('.code-wrap').querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(()=>{
+        btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',2000);
+      });
+    }
+    function markComplete(){
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
+      if(!completed.includes('lesson-4')){completed.push('lesson-4');localStorage.setItem('sa_bash_done',JSON.stringify(completed));}
+      const btn=document.getElementById('markBtn');
+      btn.textContent='✓ Lesson completed!';btn.classList.add('done');updateProgress(completed.length);
+    }
+    function updateProgress(count){
+      const pct=Math.round((count/13)*100);
+      document.getElementById('progFill').style.width=pct+'%';
+      document.getElementById('progPct').textContent=pct+'%';
+    }
+    window.addEventListener('DOMContentLoaded',()=>{
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
+      updateProgress(completed.length);
+      if(completed.includes('lesson-4')){const btn=document.getElementById('markBtn');btn.textContent='✓ Lesson completed!';btn.classList.add('done');}
+      completed.forEach(id=>{
+        const link=document.querySelector(`.lesson-link[href="${id}.html"]`);
+        if(link){link.classList.add('done');const icon=link.querySelector('.l-icon');if(icon){icon.classList.remove('todo','active');icon.classList.add('done');icon.textContent='✓';}}
+      });
+    });
+    const sections=document.querySelectorAll('section[id]');
+    const tocLinks=document.querySelectorAll('.toc a[href^="#"]');
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          tocLinks.forEach(a=>a.style.removeProperty('color'));
+          const a=document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+          if(a)a.style.color='var(--green)';
+        }
+      });
+    },{rootMargin:'-15% 0px -75% 0px'});
+    sections.forEach(s=>observer.observe(s));
+  </script>
+</body>
+</html>
