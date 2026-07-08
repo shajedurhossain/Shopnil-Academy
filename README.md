@@ -3,7 +3,7 @@
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fshopnilacademy.com&label=shopnilacademy.com)](https://shopnilacademy.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-> **100% free online courses in bioinformatics, programming, languages, math, and guitar — taught by working practitioners. No paywalls. Ever.**
+> **100% free online courses in bioinformatics, science, languages, and guitar — taught by working practitioners. No paywalls. Ever.**
 
 🌐 **Live site:** [shopnilacademy.com](https://shopnilacademy.com)
 
@@ -21,14 +21,20 @@ Rather than launching with hundreds of mediocre courses, Shopnil Academy is buil
 
 | Track | Topics | Status |
 |---|---|---|
-| 🧬 **Tech & Coding** | Bioinformatics, programming, infrastructure, data engineering | 6 courses coming soon |
-| 📐 **Math & Science** | High school mathematics and biology | 2 courses coming soon |
-| 🌍 **Languages** | 7 languages, taught for Bangla & English speakers | **1 live** · 13 coming soon |
-| 🎸 **Guitar** | From first chord to playing full songs | 1 course coming soon |
+| 🧬 **Tech & Coding** | Bioinformatics, from Bash to single-cell RNA-seq | **1 live** (5 lessons) · 30 coming soon |
+| 📐 **Science** | High school Mathematics, Biology, Physics, Chemistry | 4 coming soon |
+| 🌍 **Languages** | 7 languages, taught for Bangla speakers | **5 live** · 15 coming soon |
+| 🎸 **Guitar** | From first chord to playing full songs | **1 live** |
 
 ### Currently Live
 
+- **[Bash & Linux](https://shopnilacademy.com/courses/bash-linux/)** — Bioinformatics Module 01 · Lessons 1–5
+- **[Arabic for Bangla Speakers](https://shopnilacademy.com/courses/arabic-bangla/)**
+- **[English (British) for Bangla Speakers](https://shopnilacademy.com/courses/english-bangla/)**
+- **[French for Bangla Speakers](https://shopnilacademy.com/courses/french-bangla/)**
 - **[German for Bangla Speakers](https://shopnilacademy.com/courses/german-bangla/)** — A1 to B1 · Self-paced · Certificate included
+- **[Spanish for Bangla Speakers](https://shopnilacademy.com/courses/spanish-bangla/)**
+- **[Basic Guitar Lessons for Beginners](https://shopnilacademy.com/courses/basic-guitar/)** — 7 lessons
 
 ---
 
@@ -59,7 +65,14 @@ shopnilacademy.com/
 ├── terms.html          # Terms of service
 ├── cookies.html        # Cookie policy
 ├── courses/
-│   └── german-bangla/  # German for Bangla Speakers course
+│   ├── bash-linux/           # Bash & Linux (bioinformatics module 01)
+│   ├── arabic-bangla/        # Arabic for Bangla Speakers
+│   ├── english-bangla/       # English for Bangla Speakers
+│   ├── french-bangla/        # French for Bangla Speakers
+│   ├── german-bangla/        # German for Bangla Speakers
+│   ├── spanish-bangla/       # Spanish for Bangla Speakers
+│   ├── basic-guitar/         # Basic Guitar Lessons
+│   └── ...                   # More courses in progress
 └── assets/             # Images, logo, OG image, etc.
 ```
 
@@ -104,5 +117,5 @@ Shopnil Academy is currently a personal project. If you spot a bug, broken link,
 
 ## License
 
-© 2026 Shopnil Academy. All rights reserved.  
+© 2026 Shopnil Academy. All rights reserved.
 Made with care for learners worldwide. 🌍
