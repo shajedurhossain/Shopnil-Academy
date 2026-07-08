@@ -225,10 +225,10 @@
             <div class="code-wrap">
               <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment"># Setting variables — no spaces around =</span>
-<span class="c-var">SAMPLE</span>=<span class="c-str">"SRR123456"</span>
-<span class="c-var">GENOME</span>=<span class="c-str">"/data/references/GRCh38.fa"</span>
-<span class="c-var">THREADS</span>=<span class="c-str">8</span>
-<span class="c-var">OUTDIR</span>=<span class="c-str">"~/bash-linux-bioinformatics/results"</span>
+<span class="c-var">SAMPLE</span><span class="c-flag">=</span><span class="c-str">"SRR123456"</span>
+<span class="c-var">GENOME</span><span class="c-flag">=</span><span class="c-str">"/data/references/GRCh38.fa"</span>
+<span class="c-var">THREADS</span><span class="c-flag">=</span><span class="c-str">8</span>
+<span class="c-var">OUTDIR</span><span class="c-flag">=</span><span class="c-str">"~/bash-linux-bioinformatics/results"</span>
 
 <span class="c-comment"># Using variables with $</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Sample ID: $SAMPLE"</span>
@@ -257,7 +257,7 @@
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-1-foundations</div>
             <div class="code-wrap">
               <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-              <pre><span class="c-var">NAME</span>=<span class="c-str">"Shajedur"</span>
+              <pre><span class="c-var">NAME</span><span class="c-flag">=</span><span class="c-str">"Shajedur"</span>
 
 <span class="c-cmd">echo</span> <span class="c-str">"Hello $NAME"</span>     <span class="c-comment"># double quotes — variable IS expanded</span>
 <span class="c-out">Hello Shajedur</span>
@@ -301,7 +301,7 @@
 <span class="c-out">My PID is: 12345</span>         <span class="c-comment"># number varies every time</span>
 
 <span class="c-comment"># Creating a unique temp file using $$</span>
-<span class="c-var">TMPFILE</span>=<span class="c-str">"/tmp/bioinfo_temp_$$.txt"</span>
+<span class="c-var">TMPFILE</span><span class="c-flag">=</span><span class="c-str">"/tmp/bioinfo_temp_$$.txt"</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Temp file: $TMPFILE"</span>
 <span class="c-out">Temp file: /tmp/bioinfo_temp_12345.txt</span></pre>
             </div>
@@ -342,14 +342,14 @@
 <span class="c-out">1</span>                  <span class="c-comment"># % = modulo (remainder)</span>
 
 <span class="c-comment"># Store result in a variable</span>
-<span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; sample.fastq)</span>
-<span class="c-var">READS</span>=<span class="c-str">$(( LINES / 4 ))</span>
+<span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l &lt; sample.fastq)</span>
+<span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(( LINES / 4 ))</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Lines: $LINES | Reads: $READS"</span>
 <span class="c-out">Lines: 12 | Reads: 3</span>
 
 <span class="c-comment"># Increment a counter (add 1)</span>
-<span class="c-var">COUNT</span>=<span class="c-str">0</span>
-<span class="c-var">COUNT</span>=<span class="c-str">$(( COUNT + 1 ))</span>
+<span class="c-var">COUNT</span><span class="c-flag">=</span><span class="c-str">0</span>
+<span class="c-var">COUNT</span><span class="c-flag">=</span><span class="c-str">$(( COUNT + 1 ))</span>
 <span class="c-cmd">echo</span> <span class="c-str">"$COUNT"</span>
 <span class="c-out">1</span></pre>
             </div>
@@ -364,15 +364,15 @@
             <div class="code-wrap">
               <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment"># Capture command output into a variable</span>
-<span class="c-var">TODAY</span>=<span class="c-str">$(date +%Y-%m-%d)</span>
+<span class="c-var">TODAY</span><span class="c-flag">=</span><span class="c-str">$(date +%Y-%m-%d)</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Today is: $TODAY"</span>
 <span class="c-out">Today is: 2026-06-17</span>
 
-<span class="c-var">FILE_COUNT</span>=<span class="c-str">$(ls ~/bash-linux-bioinformatics/module-1-foundations/ | wc -l)</span>
+<span class="c-var">FILE_COUNT</span><span class="c-flag">=</span><span class="c-str">$(ls ~/bash-linux-bioinformatics/module-1-foundations/ | wc -l)</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Files in folder: $FILE_COUNT"</span>
 
 <span class="c-comment"># Capture wc output cleanly (< sends file as stdin, avoids filename in output)</span>
-<span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; sample.fastq)</span>
+<span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l &lt; sample.fastq)</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Line count: $LINES"</span></pre>
             </div>
           </section>
@@ -391,7 +391,7 @@
             <div class="code-wrap">
               <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment"># Define an array of sample names</span>
-<span class="c-var">SAMPLES</span>=(<span class="c-str">"SRR001"</span> <span class="c-str">"SRR002"</span> <span class="c-str">"SRR003"</span> <span class="c-str">"SRR004"</span>)
+<span class="c-var">SAMPLES</span><span class="c-flag">=</span>(<span class="c-str">"SRR001"</span> <span class="c-str">"SRR002"</span> <span class="c-str">"SRR003"</span> <span class="c-str">"SRR004"</span>)
 
 <span class="c-comment"># Access individual items — index starts at 0</span>
 <span class="c-cmd">echo</span> <span class="c-str">"${SAMPLES[0]}"</span>
@@ -409,7 +409,7 @@
 <span class="c-out">Number of samples: 4</span>
 
 <span class="c-comment"># Array of chromosome names — real bioinformatics use case</span>
-<span class="c-var">CHROMOSOMES</span>=(<span class="c-str">"chr1"</span> <span class="c-str">"chr2"</span> <span class="c-str">"chr3"</span> <span class="c-str">"chrX"</span> <span class="c-str">"chrY"</span>)
+<span class="c-var">CHROMOSOMES</span><span class="c-flag">=</span>(<span class="c-str">"chr1"</span> <span class="c-str">"chr2"</span> <span class="c-str">"chr3"</span> <span class="c-str">"chrX"</span> <span class="c-str">"chrY"</span>)
 <span class="c-cmd">echo</span> <span class="c-str">"Processing ${#CHROMOSOMES[@]} chromosomes"</span>
 <span class="c-out">Processing 5 chromosomes</span></pre>
             </div>
@@ -439,7 +439,7 @@
 <span class="c-out">Processing: wheat</span>
 
 <span class="c-comment"># Loop over an array of sample names</span>
-<span class="c-var">SAMPLES</span>=(<span class="c-str">"SRR001"</span> <span class="c-str">"SRR002"</span> <span class="c-str">"SRR003"</span>)
+<span class="c-var">SAMPLES</span><span class="c-flag">=</span>(<span class="c-str">"SRR001"</span> <span class="c-str">"SRR002"</span> <span class="c-str">"SRR003"</span>)
 <span class="c-cmd">for</span> <span class="c-var">SAMPLE</span> in <span class="c-str">"${SAMPLES[@]}"</span>; <span class="c-cmd">do</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Running FastQC on: ${SAMPLE}.fastq"</span>
 <span class="c-cmd">done</span>
@@ -485,10 +485,10 @@
             <div class="code-wrap">
               <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment"># Basic while loop — count from 1 to 3</span>
-<span class="c-var">COUNT</span>=<span class="c-str">1</span>
+<span class="c-var">COUNT</span><span class="c-flag">=</span><span class="c-str">1</span>
 <span class="c-cmd">while</span> [ <span class="c-var">$COUNT</span> <span class="c-flag">-le</span> 3 ]; <span class="c-cmd">do</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Count: $COUNT"</span>
-    <span class="c-var">COUNT</span>=<span class="c-str">$(( COUNT + 1 ))</span>
+    <span class="c-var">COUNT</span><span class="c-flag">=</span><span class="c-str">$(( COUNT + 1 ))</span>
 <span class="c-cmd">done</span>
 <span class="c-out">Count: 1</span>
 <span class="c-out">Count: 2</span>
@@ -525,13 +525,13 @@
               <div class="code-header"><span class="code-lang">bash — real bioinformatics loop patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment"># ── Pattern 1: Run a tool on every FASTQ file in a folder ──</span>
 <span class="c-cmd">for</span> <span class="c-var">FASTQ</span> in ~/data/raw/*.fastq.gz; <span class="c-cmd">do</span>
-    <span class="c-var">SAMPLE</span>=<span class="c-str">$(basename "$FASTQ" .fastq.gz)</span>   <span class="c-comment"># strip folder path and extension</span>
+    <span class="c-var">SAMPLE</span><span class="c-flag">=</span><span class="c-str">$(basename "$FASTQ" .fastq.gz)</span>   <span class="c-comment"># strip folder path and extension</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Running FastQC on: $SAMPLE"</span>
     <span class="c-comment"># fastqc "$FASTQ" --outdir ~/results/fastqc/  (real command when FastQC installed)</span>
 <span class="c-cmd">done</span>
 
 <span class="c-comment"># ── Pattern 2: Create output folders for each sample ──</span>
-<span class="c-var">SAMPLES</span>=(<span class="c-str">"control_1"</span> <span class="c-str">"control_2"</span> <span class="c-str">"treated_1"</span> <span class="c-str">"treated_2"</span>)
+<span class="c-var">SAMPLES</span><span class="c-flag">=</span>(<span class="c-str">"control_1"</span> <span class="c-str">"control_2"</span> <span class="c-str">"treated_1"</span> <span class="c-str">"treated_2"</span>)
 <span class="c-cmd">for</span> <span class="c-var">SAMPLE</span> in <span class="c-str">"${SAMPLES[@]}"</span>; <span class="c-cmd">do</span>
     <span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-str">"~/bash-linux-bioinformatics/results/${SAMPLE}"</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Created folder for: $SAMPLE"</span>
@@ -539,16 +539,16 @@
 
 <span class="c-comment"># ── Pattern 3: Count reads in every FASTQ file ──</span>
 <span class="c-cmd">for</span> <span class="c-var">FILE</span> in ~/bash-linux-bioinformatics/module-1-foundations/*.fastq; <span class="c-cmd">do</span>
-    <span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; "$FILE")</span>
-    <span class="c-var">READS</span>=<span class="c-str">$(( LINES / 4 ))</span>
-    <span class="c-var">NAME</span>=<span class="c-str">$(basename "$FILE")</span>
+    <span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l &lt; "$FILE")</span>
+    <span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(( LINES / 4 ))</span>
+    <span class="c-var">NAME</span><span class="c-flag">=</span><span class="c-str">$(basename "$FILE")</span>
     <span class="c-cmd">echo</span> <span class="c-str">"$NAME: $READS reads"</span>
 <span class="c-cmd">done</span>
 
 <span class="c-comment"># ── Pattern 4: Add a prefix to every filename ──</span>
 <span class="c-cmd">for</span> <span class="c-var">FILE</span> in ~/bash-linux-bioinformatics/module-1-foundations/*.txt; <span class="c-cmd">do</span>
-    <span class="c-var">BASENAME</span>=<span class="c-str">$(basename "$FILE")</span>
-    <span class="c-var">DIR</span>=<span class="c-str">$(dirname "$FILE")</span>
+    <span class="c-var">BASENAME</span><span class="c-flag">=</span><span class="c-str">$(basename "$FILE")</span>
+    <span class="c-var">DIR</span><span class="c-flag">=</span><span class="c-str">$(dirname "$FILE")</span>
     <span class="c-cmd">mv</span> <span class="c-str">"$FILE"</span> <span class="c-str">"${DIR}/backup_${BASENAME}"</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Renamed: $BASENAME → backup_$BASENAME"</span>
 <span class="c-cmd">done</span></pre>
@@ -614,9 +614,9 @@
               <p class="ex-hint">💬 Hint: use <code>$( )</code> for command substitution. Use double quotes in your echo so all three variables expand.</p>
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
-<span class="c-var">COURSE</span>=<span class="c-str">"Bash and Linux"</span>
-<span class="c-var">LESSON</span>=<span class="c-str">4</span>
-<span class="c-var">FILE_COUNT</span>=<span class="c-str">$(ls *.txt 2&gt;/dev/null | wc -l)</span>
+<span class="c-var">COURSE</span><span class="c-flag">=</span><span class="c-str">"Bash and Linux"</span>
+<span class="c-var">LESSON</span><span class="c-flag">=</span><span class="c-str">4</span>
+<span class="c-var">FILE_COUNT</span><span class="c-flag">=</span><span class="c-str">$(ls *.txt 2&gt;/dev/null | wc -l)</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Course: $COURSE | Lesson: $LESSON | Text files found: $FILE_COUNT"</span>
 <span class="c-out">Course: Bash and Linux | Lesson: 4 | Text files found: 5</span></pre>
                 </div>
@@ -629,8 +629,8 @@
               <p class="ex-hint">💬 Hint: <code>LINES=$(wc -l &lt; sample.fastq)</code> gives a clean number. Then <code>READS=$(( LINES / 4 ))</code>.</p>
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
-<span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; sample.fastq)</span>
-<span class="c-var">READS</span>=<span class="c-str">$(( LINES / 4 ))</span>
+<span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l &lt; sample.fastq)</span>
+<span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(( LINES / 4 ))</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Lines: $LINES"</span>
 <span class="c-out">Lines: 12</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Reads: $READS"</span>
@@ -645,7 +645,7 @@
               <p class="ex-hint">💬 Hint: define the array first, then loop with <code>for SPECIES in "${ARRAY[@]}"</code>. Use <code>touch</code> to create each file.</p>
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
-<span class="c-var">SPECIES_LIST</span>=(<span class="c-str">"Sorghum"</span> <span class="c-str">"Arabidopsis"</span> <span class="c-str">"Rice"</span> <span class="c-str">"Maize"</span>)
+<span class="c-var">SPECIES_LIST</span><span class="c-flag">=</span>(<span class="c-str">"Sorghum"</span> <span class="c-str">"Arabidopsis"</span> <span class="c-str">"Rice"</span> <span class="c-str">"Maize"</span>)
 <span class="c-cmd">for</span> <span class="c-var">SPECIES</span> in <span class="c-str">"${SPECIES_LIST[@]}"</span>; <span class="c-cmd">do</span>
     <span class="c-cmd">touch</span> <span class="c-path">"../results/${SPECIES}_data.txt"</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Created: ${SPECIES}_data.txt"</span>
@@ -679,8 +679,8 @@
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
 <span class="c-cmd">for</span> <span class="c-var">FILE</span> in *.txt; <span class="c-cmd">do</span>
-    <span class="c-var">NAME</span>=<span class="c-str">$(basename "$FILE")</span>
-    <span class="c-var">LINES</span>=<span class="c-str">$(wc -l &lt; "$FILE")</span>
+    <span class="c-var">NAME</span><span class="c-flag">=</span><span class="c-str">$(basename "$FILE")</span>
+    <span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l &lt; "$FILE")</span>
     <span class="c-cmd">echo</span> <span class="c-str">"${NAME}: $LINES lines"</span>
 <span class="c-cmd">done</span>
 <span class="c-out">duplicates.txt: 7 lines</span>
