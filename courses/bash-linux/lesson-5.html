@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 5: Writing Bash Scripts — Bash &amp; Linux · Shopnil Academy</title>
+  <meta name="description" content="Learn to write, structure, and run Bash scripts. Add headers, arguments, error handling, and logging. Lesson 5 of the free Bash &amp; Linux course at Shopnil Academy." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://shopnilacademy.com/courses/bash-linux/lesson-5.html" />
+  <meta property="og:title" content="Lesson 5: Writing Bash Scripts — Bash &amp; Linux · Shopnil Academy" />
+  <meta property="og:description" content="Write real Bash scripts with arguments, error handling, and logging. Free lesson at Shopnil Academy." />
+  <meta property="og:url" content="https://shopnilacademy.com/courses/bash-linux/lesson-5.html" />
+  <meta property="og:site_name" content="Shopnil Academy" />
+  <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <style>
+    .sidebar-course-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:block}
+    .sidebar-course-title{font-size:15px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}
+    .prog-track{height:5px;background:var(--green-soft);border-radius:99px;overflow:hidden;margin-bottom:20px}
+    .prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .4s ease}
+    .mod-group{margin-bottom:6px}
+    .mod-group-label{display:flex;align-items:center;justify-content:space-between;padding:8px 0 4px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;user-select:none}
+    .mod-group-label .chev{font-size:10px;transition:transform .2s ease}
+    .mod-group.open .chev{transform:rotate(180deg)}
+    .mod-lessons{display:none}
+    .mod-group.open .mod-lessons{display:block}
+    .lesson-link{display:flex;align-items:flex-start;gap:9px;padding:8px 10px 8px 0;font-size:13px;color:var(--muted);border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease;line-height:1.35}
+    .lesson-link:hover{color:var(--ink)}
+    .lesson-link.active{color:var(--green);border-left-color:var(--green);font-weight:600;padding-left:10px}
+    .lesson-link.done{color:var(--green)}
+    .l-icon{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+    .l-icon.done{background:var(--green);color:#fff}
+    .l-icon.active{background:var(--green);color:#fff}
+    .l-icon.todo{background:var(--cream);border:1.5px solid var(--line);color:var(--muted)}
+    .lesson-meta-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+    .lm-pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em}
+    .lm-num{background:var(--green-soft);color:var(--green)}
+    .lm-time{background:var(--cream);color:var(--muted)}
+    .lm-sep{color:var(--muted);opacity:.4;font-size:13px}
+    .code-wrap{margin:18px 0}
+    .code-header{background:var(--ink);padding:10px 16px;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between}
+    .code-lang{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase}
+    .copy-btn{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);border:none;padding:4px 10px;border-radius:6px;cursor:pointer;transition:background .15s ease}
+    .copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+    pre{margin:0;background:#0F2418;border-radius:0 0 12px 12px;padding:18px 20px;overflow-x:auto;font-family:'DM Mono',monospace;font-size:13.5px;line-height:1.8}
+    .c-cmd{color:#5DCAA5}
+    .c-flag{color:#9FE1CB}
+    .c-path{color:#FAC775}
+    .c-out{color:rgba(255,255,255,.6)}
+    .c-comment{color:rgba(255,255,255,.32);font-style:italic}
+    .c-var{color:#CE93D8}
+    .c-str{color:#A5D6A7}
+    .c-kw{color:#80CBC4}
+    .cmd-table{width:100%;border-collapse:collapse;margin:20px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+    .cmd-table th{background:var(--cream);text-align:left;padding:12px 16px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+    .cmd-table td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top;color:#33433b;line-height:1.5}
+    .cmd-table tr:last-child td{border-bottom:none}
+    .cmd-table .cmd-cell{font-family:'DM Mono',monospace;font-size:13px;color:var(--green-deep);font-weight:500;white-space:nowrap}
+    .exercise{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 16px 16px 0;padding:20px 22px;margin:20px 0;background:#fff}
+    .ex-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .ex-num{background:var(--gold);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;text-transform:uppercase}
+    .ex-title{font-size:15px;font-weight:700;color:var(--ink)}
+    .exercise p{font-size:15px;color:#33433b;line-height:1.65;margin-bottom:10px}
+    .ex-hint{font-size:13px;color:var(--muted);margin-top:6px}
+    details.answer{margin-top:12px;border:1px solid rgba(0,106,78,.2);border-radius:12px;overflow:hidden}
+    details.answer summary{list-style:none;cursor:pointer;padding:11px 16px;font-size:13px;font-weight:600;color:var(--green);background:var(--green-soft);display:flex;align-items:center;gap:8px;user-select:none}
+    details.answer summary::-webkit-details-marker{display:none}
+    details.answer summary::before{content:'▶';font-size:9px;transition:transform .2s ease}
+    details.answer[open] summary::before{transform:rotate(90deg)}
+    details.answer .answer-body{background:#0F2418}
+    details.answer .answer-body pre{border-radius:0;margin:0}
+    .tip,.warn{border-radius:14px;padding:16px 20px;margin:18px 0;display:flex;align-items:flex-start;gap:12px}
+    .tip{background:var(--green-soft);border:1px solid rgba(0,106,78,.18)}
+    .warn{background:var(--gold-soft);border:1px solid rgba(232,183,42,.3)}
+    .tip-icon,.warn-icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+    .tip-icon{background:var(--green);color:#fff}
+    .warn-icon{background:var(--gold);color:var(--ink)}
+    .tip p{font-size:14.5px;color:var(--green-deep);line-height:1.6;margin:0}
+    .warn p{font-size:14.5px;color:#7a5a00;line-height:1.6;margin:0}
+    .explain-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:20px 0}
+    .explain-box h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .explain-box p{font-size:14.5px;color:#33433b;line-height:1.75;margin-bottom:10px}
+    .explain-box p:last-child{margin-bottom:0}
+    .folder-note{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:8px}
+    .folder-note::before{content:'📁';font-size:13px}
+    .mark-complete-wrap{text-align:center;margin:32px 0 0}
+    .mark-complete{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:999px;font-size:14px;font-weight:700;background:var(--green);color:#fff;border:none;transition:background .15s ease,transform .15s ease}
+    .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
+    .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
+    .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
+    @media(max-width:860px){.toc{display:none}}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav-shell">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="https://shopnilacademy.com/index.html" class="logo">
+        <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy logo" width="52" height="52" />
+        <div class="logo-text"><strong>Shopnil Academy</strong><small>BASH &amp; LINUX · LESSON 5</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="https://shopnilacademy.com/index.html">Home</a>
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <a href="index.html" class="active">Bash &amp; Linux</a>
+        <a href="https://shopnilacademy.com/about.html">About</a>
+      </div>
+      <div class="nav-cta">
+        <a href="https://shopnilacademy.com/courses.html" class="btn btn-outline btn-sm">All courses</a>
+        <a href="lesson-6.html" class="btn btn-primary btn-sm">Next lesson →</a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle">☰</button>
+    </nav>
+  </header>
+
+  <!-- INNER HEADER -->
+  <div class="inner-header">
+    <div class="wrap">
+      <div class="breadcrumb">
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <span class="sep">›</span>
+        <a href="index.html">Bash &amp; Linux</a>
+        <span class="sep">›</span>
+        <span>Lesson 5</span>
+      </div>
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 5 of 13</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill lm-time">⏱ 50 min</span>
+        <span class="lm-sep">·</span>
+        <span class="free-pill">✓ Free</span>
+      </div>
+      <h1>Writing Bash Scripts</h1>
+      <p class="lead">
+        Until now you have typed commands one at a time. A Bash script packages those commands into a
+        reusable, shareable, repeatable file. This is the difference between running an analysis once
+        and being able to re-run it identically on any machine, any dataset, any time.
+        Every real bioinformatics pipeline starts here.
+      </p>
+    </div>
+  </div>
+
+  <!-- AD — Leaderboard -->
+  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
+    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+      <strong>Advertisement</strong><small>728 × 90 leaderboard · AdSense unit goes here</small>
+    </div>
+  </div>
+
+  <!-- ARTICLE -->
+  <div class="article">
+    <div class="wrap">
+      <div class="article-grid">
+
+        <!-- SIDEBAR -->
+        <aside class="toc" aria-label="Course navigation">
+          <span class="sidebar-course-label">Tech &amp; Coding</span>
+          <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
+          <div class="prog-label"><span>Your progress</span><span id="progPct">0%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+          <div class="mod-group open" id="mg1">
+            <div class="mod-group-label" onclick="toggleMod('mg1')">Module 1 — Foundations <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-1.html" class="lesson-link done"><span class="l-icon done">✓</span>Navigation &amp; the Filesystem</a>
+              <a href="lesson-2.html" class="lesson-link done"><span class="l-icon done">✓</span>File Operations</a>
+              <a href="lesson-3.html" class="lesson-link done"><span class="l-icon done">✓</span>Pipes &amp; Redirection</a>
+              <a href="lesson-4.html" class="lesson-link done"><span class="l-icon done">✓</span>Variables &amp; Loops</a>
+            </div>
+          </div>
+          <div class="mod-group open" id="mg2">
+            <div class="mod-group-label" onclick="toggleMod('mg2')">Module 2 — Scripting <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-5.html" class="lesson-link active"><span class="l-icon active">5</span>Writing Bash Scripts</a>
+              <a href="lesson-6.html" class="lesson-link"><span class="l-icon todo">6</span>Conditionals &amp; Functions</a>
+              <a href="lesson-7.html" class="lesson-link"><span class="l-icon todo">7</span>Permissions &amp; Users</a>
+            </div>
+          </div>
+          <div class="mod-group" id="mg3">
+            <div class="mod-group-label" onclick="toggleMod('mg3')">Module 3 — Processes <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-8.html" class="lesson-link"><span class="l-icon todo">8</span>Processes &amp; Jobs</a>
+              <a href="lesson-9.html" class="lesson-link"><span class="l-icon todo">9</span>Text Processing: grep, sed, awk</a>
+              <a href="lesson-10.html" class="lesson-link"><span class="l-icon todo">10</span>Working with Data Files</a>
+            </div>
+          </div>
+          <div class="mod-group" id="mg4">
+            <div class="mod-group-label" onclick="toggleMod('mg4')">Module 4 — Bioinformatics Bash <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-11.html" class="lesson-link"><span class="l-icon todo">11</span>FASTQ &amp; FASTA on the CLI</a>
+              <a href="lesson-12.html" class="lesson-link"><span class="l-icon todo">12</span>Automating Bioinformatics Tasks</a>
+              <a href="lesson-13.html" class="lesson-link"><span class="l-icon todo">13</span>Capstone: Pipeline Script</a>
+            </div>
+          </div>
+
+          <h5 style="margin-top:28px;">On this page</h5>
+          <ul>
+            <li><a href="#what-is-script">What is a script?</a></li>
+            <li><a href="#shebang">The shebang line</a></li>
+            <li><a href="#creating">Creating and running</a></li>
+            <li><a href="#header">Script header</a></li>
+            <li><a href="#arguments">Script arguments</a></li>
+            <li><a href="#error-handling">Error handling</a></li>
+            <li><a href="#logging">Logging</a></li>
+            <li><a href="#complete-script">A complete script</a></li>
+            <li><a href="#reference">Quick reference</a></li>
+            <li><a href="#exercises">Exercises</a></li>
+          </ul>
+        </aside>
+
+        <!-- PROSE -->
+        <div class="prose">
+
+          <!-- SECTION 1: What is a script -->
+          <section id="what-is-script">
+            <h2><span class="n">01</span> What is a Bash script?</h2>
+
+            <div class="explain-box">
+              <h4>📄 A script is just a text file with commands inside</h4>
+              <p>A Bash script is a plain text file containing the same commands you would type in the terminal — but saved so you can run all of them at once, in order, every time you need them.</p>
+              <p>Think about what you did in Lessons 1–4: you ran <code>fastqc</code>, then <code>trimmomatic</code>, then <code>star</code>, then <code>featureCounts</code> — each time typing the command manually. A script puts all of those into one file. You run the script once, and it executes every step in the right order automatically.</p>
+              <p>This is why scripts are the foundation of reproducible research. When you write a script, you can re-run the exact same analysis on new data, share it with a colleague, publish it alongside your paper, or run it on 100 samples overnight while you sleep. Without a script, your analysis only exists in your terminal history.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 2: Shebang -->
+          <section id="shebang">
+            <h2><span class="n">02</span> The shebang line — telling Linux which interpreter to use</h2>
+
+            <div class="explain-box">
+              <h4>🔧 Why every script must start with #!/bin/bash</h4>
+              <p>The very first line of every Bash script must be the <strong>shebang</strong> (also called hashbang): <code>#!/bin/bash</code>. The <code>#!</code> is a special two-character sequence that Linux recognises as "the following path is the program that should run this file". <code>/bin/bash</code> is the location of the Bash interpreter.</p>
+              <p>Without this line, Linux does not know that your file contains Bash commands. It might try to run it as a different scripting language, or refuse to run it at all. Always make it the very first line — no spaces, no blank lines before it.</p>
+              <p>You will sometimes see <code>#!/usr/bin/env bash</code> instead. This is a more portable version — instead of hardcoding the Bash path, it searches your <code>PATH</code> for Bash. Either works on Ubuntu, but <code>#!/bin/bash</code> is most common in bioinformatics scripts.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># This MUST be the very first line — no blank lines before it</span>
+<span class="c-comment"># It tells Linux: use /bin/bash to interpret this file</span>
+
+<span class="c-comment">#!/usr/bin/env bash</span>
+<span class="c-comment"># Alternative — searches PATH for bash — more portable</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 3: Creating and running -->
+          <section id="creating">
+            <h2><span class="n">03</span> Creating and running a script</h2>
+
+            <div class="explain-box">
+              <h4>⚡ The three steps: create, make executable, run</h4>
+              <p>Every Bash script goes through three steps before it can run. First you <strong>create</strong> the file with a text editor. Second you <strong>make it executable</strong> with <code>chmod +x</code> — by default new files are not executable even if they contain a script. Third you <strong>run it</strong> by calling it with <code>bash script.sh</code> or <code>./script.sh</code>.</p>
+              <p>The difference between <code>bash script.sh</code> and <code>./script.sh</code>: the first explicitly tells Linux to use Bash regardless of the shebang. The second uses the shebang line to decide — which is why the shebang matters. For bioinformatics scripts, both work, but <code>bash script.sh</code> is clearer when you are learning.</p>
+              <p>File naming convention: always use <code>.sh</code> as the extension and use underscores or hyphens between words — no spaces in file names ever.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Step 0 — create the module-2 folder first</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting</span>
+
+<span class="c-comment"># Step 1 — create the script with nano</span>
+<span class="c-cmd">nano</span> <span class="c-path">my_first_script.sh</span>
+
+<span class="c-comment"># Step 2 — make it executable</span>
+<span class="c-cmd">chmod</span> <span class="c-flag">+x</span> <span class="c-path">my_first_script.sh</span>
+
+<span class="c-comment"># Step 3a — run with bash explicitly</span>
+<span class="c-cmd">bash</span> <span class="c-path">my_first_script.sh</span>
+
+<span class="c-comment"># Step 3b — run with ./ (uses shebang line)</span>
+<span class="c-path">./my_first_script.sh</span>
+
+<span class="c-comment"># Check permissions after chmod +x</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">my_first_script.sh</span>
+<span class="c-out">-rwxr-xr-x 1 shajedur shajedur 142 Jun 18 10:00 my_first_script.sh</span>
+<span class="c-comment"># The x in rwxr-xr-x means executable</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>You only need to run <code>chmod +x</code> once per script. After that, the file stays executable permanently until you change it.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 4: Script header -->
+          <section id="header">
+            <h2><span class="n">04</span> Writing a proper script header</h2>
+
+            <div class="explain-box">
+              <h4>📋 Why a header matters — especially in science</h4>
+              <p>A script header is a block of comments at the top of the file that documents what the script does, who wrote it, when, and how to use it. Comments in Bash start with <code>#</code> — Bash ignores everything on a line after <code>#</code>.</p>
+              <p>In bioinformatics this is not optional. When you come back to a script six months later, or when a reviewer asks "exactly how did you align your reads?", or when a colleague needs to reproduce your analysis — the header is what tells them. A script without a header is a mystery. A script with a good header is documentation.</p>
+              <p>Two special options are often added right after the shebang to make scripts safer: <code>set -e</code> makes the script stop immediately if any command fails (instead of continuing and doing damage). <code>set -u</code> makes the script stop if you use an undefined variable (catches typos in variable names). Together they are called "strict mode" and every production bioinformatics script should use them.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — standard script header template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># ============================================================</span>
+<span class="c-comment"># Script:      fastqc_pipeline.sh</span>
+<span class="c-comment"># Description: Run FastQC on all FASTQ files in a folder</span>
+<span class="c-comment"># Author:      Shajedur Hossain</span>
+<span class="c-comment"># Date:        2026-06-18</span>
+<span class="c-comment"># Usage:       bash fastqc_pipeline.sh /path/to/fastq/ /path/to/output/</span>
+<span class="c-comment"># ============================================================</span>
+
+<span class="c-comment"># Strict mode — stop on error, stop on undefined variable</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>   <span class="c-comment"># exit immediately if any command fails</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>   <span class="c-comment"># treat undefined variables as errors</span>
+
+<span class="c-comment"># Your script code goes below here</span></pre>
+            </div>
+
+            <div class="callout">
+              <p><strong><code>set -e</code> explained:</strong> Without it, if STAR alignment fails, your script continues and runs DESeq2 on empty files — silently producing wrong results. With <code>set -e</code>, the script stops the moment anything fails so you notice immediately.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 5: Arguments -->
+          <section id="arguments">
+            <h2><span class="n">05</span> Script arguments — making scripts reusable</h2>
+
+            <div class="explain-box">
+              <h4>🎯 Why arguments are essential for bioinformatics scripts</h4>
+              <p>An argument is a value you pass to a script when you run it, so the script can use different inputs each time without editing the code. Instead of hardcoding <code>INPUT="/data/sample_A.fastq"</code> inside the script, you pass the path when you run it: <code>bash process.sh /data/sample_A.fastq</code>.</p>
+              <p>Bash stores arguments automatically in special variables: <code>$1</code> is the first argument, <code>$2</code> is the second, <code>$3</code> the third, and so on. <code>$0</code> is the name of the script itself. <code>$#</code> is the total number of arguments passed. <code>$@</code> gives you all arguments as a list.</p>
+              <p>This is what makes a script truly reusable. A script that processes <code>sample_A.fastq</code> with a hardcoded path is only useful once. A script that accepts a path as <code>$1</code> can process any FASTQ file you will ever have.</p>
+              <p>Always validate that the required arguments were actually provided before using them. If your script expects two arguments and someone runs it with one, it should print a helpful error message and exit — not crash halfway through with a confusing error.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — using arguments in a script</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># Usage: bash process_sample.sh SAMPLE_NAME INPUT_FILE OUTPUT_DIR</span>
+
+<span class="c-comment"># Arguments are available as $1, $2, $3...</span>
+<span class="c-var">SAMPLE</span><span class="c-flag">=</span><span class="c-str">"$1"</span>       <span class="c-comment"># first argument</span>
+<span class="c-var">INPUT</span><span class="c-flag">=</span><span class="c-str">"$2"</span>        <span class="c-comment"># second argument</span>
+<span class="c-var">OUTDIR</span><span class="c-flag">=</span><span class="c-str">"$3"</span>       <span class="c-comment"># third argument</span>
+
+<span class="c-comment"># $# = number of arguments passed</span>
+<span class="c-comment"># $0 = the script name itself</span>
+<span class="c-comment"># $@ = all arguments as a list</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">"Script name:   $0"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Arguments:     $#"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Sample:        $SAMPLE"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Input file:    $INPUT"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Output folder: $OUTDIR"</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <h4>🛡 Validating arguments — check before you run</h4>
+              <p>Always check that the right number of arguments was passed before the script does anything. The pattern below prints a usage message and exits with code <code>1</code> (failure) if the wrong number of arguments is given. The <code>exit 1</code> signals to the calling program that something went wrong.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — argument validation pattern</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># Validate that exactly 2 arguments were provided</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$#"</span> <span class="c-flag">-ne</span> <span class="c-path">2</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: wrong number of arguments"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Usage: bash $0 INPUT_FASTQ OUTPUT_DIR"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Example: bash $0 data/sample1.fastq results/"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-var">INPUT</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
+<span class="c-var">OUTDIR</span><span class="c-flag">=</span><span class="c-str">"$2"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Processing: $INPUT → $OUTDIR"</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>Run your script with no arguments first to test the validation: <code>bash process_sample.sh</code> — it should print the usage message and exit cleanly, not crash with a cryptic error.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 6: Error handling -->
+          <section id="error-handling">
+            <h2><span class="n">06</span> Error handling — stopping when something goes wrong</h2>
+
+            <div class="explain-box">
+              <h4>🚨 Why error handling prevents silent disasters</h4>
+              <p>In bioinformatics, a failed step rarely looks like a crash. STAR might produce an empty BAM file because the genome index path was wrong. DESeq2 might run on zero reads. Without error handling, your pipeline produces output files — but they contain garbage — and you only discover the problem weeks later when you try to interpret the results.</p>
+              <p>Good error handling catches problems immediately, tells you exactly which step failed, and stops the pipeline before downstream steps run on broken data.</p>
+              <p>Beyond <code>set -e</code>, you can also manually check the exit status of critical commands and print a meaningful message before exiting. This is especially important for steps that might fail silently — downloads, database connections, tool installations.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — error handling patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>   <span class="c-comment"># stop on any error</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>   <span class="c-comment"># stop on undefined variable</span>
+
+<span class="c-comment"># Pattern 1 — check exit status manually</span>
+<span class="c-cmd">ls</span> <span class="c-path">species.txt</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$?"</span> <span class="c-flag">-ne</span> <span class="c-path">0</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: species.txt not found. Exiting."</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-comment"># Pattern 2 — inline error message with ||</span>
+<span class="c-comment"># || means "if the left command fails, run the right command"</span>
+<span class="c-cmd">ls</span> <span class="c-path">species.txt</span> <span class="c-flag">||</span> <span class="c-flag">{</span> <span class="c-cmd">echo</span> <span class="c-str">"Error: file not found"</span><span class="c-flag">;</span> <span class="c-cmd">exit</span> <span class="c-path">1</span><span class="c-flag">;</span> <span class="c-flag">}</span>
+
+<span class="c-comment"># Pattern 3 — check that a required file exists before using it</span>
+<span class="c-var">INPUT_FILE</span><span class="c-flag">=</span><span class="c-str">"sample.fastq"</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">!</span> <span class="c-flag">-f</span> <span class="c-str">"$INPUT_FILE"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: input file '$INPUT_FILE' does not exist"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Input file found: $INPUT_FILE"</span>
+
+<span class="c-comment"># -f checks if a file exists and is a regular file</span>
+<span class="c-comment"># -d checks if a directory exists</span>
+<span class="c-comment"># ! negates the check</span></pre>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠</span>
+              <p><code>set -e</code> stops the script on the first failed command. This is almost always what you want. But be aware that some commands intentionally return non-zero exit codes — for example, <code>grep</code> returns <code>1</code> when it finds no matches. In those cases, add <code>|| true</code> after the command to tell Bash the failure is expected and acceptable.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 7: Logging -->
+          <section id="logging">
+            <h2><span class="n">07</span> Logging — keeping a record of what happened</h2>
+
+            <div class="explain-box">
+              <h4>📝 Why logging is essential in bioinformatics pipelines</h4>
+              <p>A log file is a permanent record of exactly what your script did, when, and what output it produced. When something goes wrong three hours into a pipeline run — or three months later when a reviewer asks a question — the log tells you everything.</p>
+              <p>The simplest logging approach uses a timestamp function and <code>tee</code>. <code>tee</code> reads from stdin and writes to both the screen and a file simultaneously — so you see the output in real time AND it is saved to the log.</p>
+              <p>A more complete approach redirects the entire script's stdout and stderr into a log file from the start, while still showing output on screen. This captures everything — including error messages from tools that write to stderr.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — logging patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+
+<span class="c-comment"># Pattern 1 — timestamp function</span>
+<span class="c-comment"># Call log "message" anywhere in the script to print with timestamp</span>
+<span class="c-cmd">log</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"[$(date '+%Y-%m-%d %H:%M:%S')] $1"</span>
+<span class="c-flag">}</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Pipeline started"</span>
+<span class="c-out">[2026-06-18 10:32:15] Pipeline started</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Running FastQC..."</span>
+<span class="c-out">[2026-06-18 10:32:16] Running FastQC...</span>
+
+<span class="c-comment"># Pattern 2 — tee: show on screen AND save to log file</span>
+<span class="c-cmd">log</span> <span class="c-str">"Step 1 complete"</span> <span class="c-flag">|</span> <span class="c-cmd">tee</span> <span class="c-flag">-a</span> <span class="c-path">pipeline.log</span>
+<span class="c-comment"># -a = append (do not overwrite existing log)</span>
+
+<span class="c-comment"># Pattern 3 — redirect ALL output to log from the start</span>
+<span class="c-var">LOG_FILE</span><span class="c-flag">=</span><span class="c-str">"pipeline_$(date +%Y%m%d_%H%M%S).log"</span>
+<span class="c-cmd">exec</span> <span class="c-flag">&gt;</span>  <span class="c-flag">&gt;(</span><span class="c-cmd">tee</span> <span class="c-flag">-a</span> <span class="c-str">"$LOG_FILE"</span><span class="c-flag">)</span>
+<span class="c-cmd">exec</span> <span class="c-path">2</span><span class="c-flag">&gt;</span> <span class="c-flag">&gt;(</span><span class="c-cmd">tee</span> <span class="c-flag">-a</span> <span class="c-str">"$LOG_FILE"</span> <span class="c-flag">&gt;&amp;</span><span class="c-path">2</span><span class="c-flag">)</span>
+<span class="c-comment"># Everything printed after these two lines goes to screen AND to log file</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 8: Complete script -->
+          <section id="complete-script">
+            <h2><span class="n">08</span> A complete bioinformatics script</h2>
+
+            <p>Here is everything from this lesson combined into one production-ready script. Study the structure — this is the template you will use for every pipeline script in this course.</p>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — complete script template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># ============================================================</span>
+<span class="c-comment"># Script:      count_reads.sh</span>
+<span class="c-comment"># Description: Count reads in all FASTQ files in a folder</span>
+<span class="c-comment">#              and save results to a summary file</span>
+<span class="c-comment"># Author:      Shajedur Hossain</span>
+<span class="c-comment"># Date:        2026-06-18</span>
+<span class="c-comment"># Usage:       bash count_reads.sh INPUT_FOLDER OUTPUT_FOLDER</span>
+<span class="c-comment"># Example:     bash count_reads.sh ~/data/raw/ ~/results/</span>
+<span class="c-comment"># ============================================================</span>
+
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>
+
+<span class="c-comment"># ── Logging function ────────────────────────────────────────</span>
+<span class="c-cmd">log</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"[$(date '+%Y-%m-%d %H:%M:%S')] $1"</span>
+<span class="c-flag">}</span>
+
+<span class="c-comment"># ── Validate arguments ──────────────────────────────────────</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$#"</span> <span class="c-flag">-ne</span> <span class="c-path">2</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: wrong number of arguments"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Usage:   bash $0 INPUT_FOLDER OUTPUT_FOLDER"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Example: bash $0 ~/data/raw/ ~/results/"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-var">INPUT_DIR</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
+<span class="c-var">OUTPUT_DIR</span><span class="c-flag">=</span><span class="c-str">"$2"</span>
+
+<span class="c-comment"># ── Check inputs exist ──────────────────────────────────────</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">!</span> <span class="c-flag">-d</span> <span class="c-str">"$INPUT_DIR"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: input folder '$INPUT_DIR' not found"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-comment"># ── Create output folder if it does not exist ───────────────</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-str">"$OUTPUT_DIR"</span>
+
+<span class="c-comment"># ── Main logic ──────────────────────────────────────────────</span>
+<span class="c-var">SUMMARY</span><span class="c-flag">=</span><span class="c-str">"${OUTPUT_DIR}/read_counts.txt"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"sample	reads"</span> <span class="c-flag">&gt;</span> <span class="c-str">"$SUMMARY"</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Starting read count pipeline"</span>
+<span class="c-cmd">log</span> <span class="c-str">"Input:  $INPUT_DIR"</span>
+<span class="c-cmd">log</span> <span class="c-str">"Output: $OUTPUT_DIR"</span>
+
+<span class="c-var">FILE_COUNT</span><span class="c-flag">=</span><span class="c-str">0</span>
+
+<span class="c-kw">for</span> <span class="c-var">FASTQ</span> <span class="c-kw">in</span> <span class="c-str">"${INPUT_DIR}"</span><span class="c-path">*.fastq</span><span class="c-kw">; do</span>
+    <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">!</span> <span class="c-flag">-f</span> <span class="c-str">"$FASTQ"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-cmd">log</span> <span class="c-str">"Warning: no .fastq files found in $INPUT_DIR"</span>
+        <span class="c-kw">break</span>
+    <span class="c-kw">fi</span>
+    <span class="c-var">SAMPLE</span><span class="c-flag">=</span><span class="c-str">$(basename "$FASTQ" .fastq)</span>
+    <span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l &lt; "$FASTQ")</span>
+    <span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(( LINES / 4 ))</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"${SAMPLE}	${READS}"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-str">"$SUMMARY"</span>
+    <span class="c-cmd">log</span> <span class="c-str">"  $SAMPLE: $READS reads"</span>
+    <span class="c-var">FILE_COUNT</span><span class="c-flag">=</span><span class="c-str">$(( FILE_COUNT + 1 ))</span>
+<span class="c-kw">done</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Done. Processed $FILE_COUNT file(s). Summary: $SUMMARY"</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 9: Quick reference -->
+          <section id="reference">
+            <h2><span class="n">09</span> Quick reference</h2>
+            <table class="cmd-table">
+              <thead><tr><th>Syntax</th><th>What it does</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td class="cmd-cell">#!/bin/bash</td><td>Shebang — must be first line of every script</td><td>Tells Linux to use Bash</td></tr>
+                <tr><td class="cmd-cell">chmod +x script.sh</td><td>Make script executable</td><td>Only needed once per file</td></tr>
+                <tr><td class="cmd-cell">bash script.sh</td><td>Run a script with Bash explicitly</td><td>Does not require chmod +x</td></tr>
+                <tr><td class="cmd-cell">./script.sh</td><td>Run a script using its shebang</td><td>Requires chmod +x first</td></tr>
+                <tr><td class="cmd-cell">set -e</td><td>Stop script immediately on any error</td><td>Put after shebang</td></tr>
+                <tr><td class="cmd-cell">set -u</td><td>Stop on undefined variable</td><td>Catches typos in var names</td></tr>
+                <tr><td class="cmd-cell">$1 $2 $3</td><td>Script arguments — first, second, third</td><td>$0 = script name</td></tr>
+                <tr><td class="cmd-cell">$#</td><td>Number of arguments passed</td><td>Use to validate argument count</td></tr>
+                <tr><td class="cmd-cell">$@</td><td>All arguments as a list</td><td>Useful for passing args forward</td></tr>
+                <tr><td class="cmd-cell">exit 0</td><td>Exit with success code</td><td>exit 1 = failure</td></tr>
+                <tr><td class="cmd-cell">cmd || { echo "msg"; exit 1; }</td><td>Run recovery code if command fails</td><td>|| = "or if fails"</td></tr>
+                <tr><td class="cmd-cell">[ -f file ]</td><td>Check if file exists</td><td>-d for directory, ! to negate</td></tr>
+                <tr><td class="cmd-cell">tee -a logfile</td><td>Write to screen AND append to file</td><td>Pipe into it</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- AD slot -->
+          <div class="ad-slot in-feed" role="complementary" aria-label="Advertisement" style="margin:32px 0;">
+            <strong>Advertisement</strong><small>In-article ad · AdSense unit goes here</small>
+          </div>
+
+          <!-- SECTION 10: Exercises -->
+          <section id="exercises">
+            <h2><span class="n">10</span> Exercises</h2>
+            <p>Work through all four exercises in your Ubuntu terminal. Create each script in <code>~/bash-linux-bioinformatics/module-2-scripting/</code>. <strong>Write every script yourself — do not copy-paste.</strong></p>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 1</span><span class="ex-title">Your first complete script</span></div>
+              <p>Create a script called <code>hello_bio.sh</code> in <code>~/bash-linux-bioinformatics/module-2-scripting/</code>. It should have a proper shebang, <code>set -e</code>, <code>set -u</code>, a header comment block, and print three lines: your name, today's date using command substitution, and the number of files in your <code>module-1-foundations</code> folder.</p>
+              <p class="ex-hint">💬 Hint: use <code>$(date +%Y-%m-%d)</code> for the date and <code>$(ls ~/bash-linux-bioinformatics/module-1-foundations/ | wc -l)</code> for the file count.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># ============================================================</span>
+<span class="c-comment"># Script:      hello_bio.sh</span>
+<span class="c-comment"># Description: My first complete Bash script</span>
+<span class="c-comment"># Author:      Shajedur Hossain</span>
+<span class="c-comment"># Date:        2026-06-18</span>
+<span class="c-comment"># Usage:       bash hello_bio.sh</span>
+<span class="c-comment"># ============================================================</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>
+
+<span class="c-var">NAME</span><span class="c-flag">=</span><span class="c-str">"Shajedur Hossain"</span>
+<span class="c-var">TODAY</span><span class="c-flag">=</span><span class="c-str">$(date +%Y-%m-%d)</span>
+<span class="c-var">FILE_COUNT</span><span class="c-flag">=</span><span class="c-str">$(ls ~/bash-linux-bioinformatics/module-1-foundations/ | wc -l)</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">"Name:       $NAME"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Date:       $TODAY"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"M1 files:   $FILE_COUNT"</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 2</span><span class="ex-title">Script with arguments and validation</span></div>
+              <p>Create <code>greet_sample.sh</code>. It should accept exactly one argument — a sample name — and print <code>"Processing sample: [name]"</code>. If no argument is provided, it should print a usage message and exit with code 1. Test it both with and without an argument.</p>
+              <p class="ex-hint">💬 Hint: check <code>$#</code> equals <code>1</code> using <code>if [ "$#" -ne 1 ]</code>. Use <code>$1</code> for the sample name.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>
+
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$#"</span> <span class="c-flag">-ne</span> <span class="c-path">1</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: expected 1 argument"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Usage: bash $0 SAMPLE_NAME"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Example: bash $0 SRR123456"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-var">SAMPLE</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Processing sample: $SAMPLE"</span>
+
+<span class="c-comment"># Test with: bash greet_sample.sh SRR123456</span>
+<span class="c-comment"># Test without: bash greet_sample.sh</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 3</span><span class="ex-title">Script with logging</span></div>
+              <p>Create <code>logged_script.sh</code>. Add a <code>log()</code> function that prints messages with a timestamp. Use it to log: script started, a loop over three species names (maize, rice, sorghum), and script finished. Run the script and observe the timestamps.</p>
+              <p class="ex-hint">💬 Hint: define <code>log() { echo "[$(date '+%H:%M:%S')] $1"; }</code> then call <code>log "message"</code> throughout.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>
+
+<span class="c-cmd">log</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"[$(date '+%Y-%m-%d %H:%M:%S')] $1"</span>
+<span class="c-flag">}</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Script started"</span>
+
+<span class="c-kw">for</span> <span class="c-var">SPECIES</span> <span class="c-kw">in</span> <span class="c-path">maize rice sorghum</span><span class="c-flag">;</span> <span class="c-kw">do</span>
+    <span class="c-cmd">log</span> <span class="c-str">"Processing: $SPECIES"</span>
+<span class="c-kw">done</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Script finished"</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 4 · Challenge</span><span class="ex-title">A real FASTQ summary script</span></div>
+              <p>Create <code>fastq_summary.sh</code> that accepts one argument — a folder path. It should validate the argument, check the folder exists, then loop over all <code>.fastq</code> files in that folder and print the sample name and read count for each. Include a <code>log()</code> function, <code>set -e</code>, and <code>set -u</code>. Test it with <code>~/bash-linux-bioinformatics/module-1-foundations/</code>.</p>
+              <p class="ex-hint">💬 Hint: combine the argument validation from Exercise 2, the log function from Exercise 3, and the FASTQ loop from Lesson 4.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># Usage: bash fastq_summary.sh FOLDER_PATH</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>
+
+<span class="c-cmd">log</span><span class="c-flag">()</span> <span class="c-flag">{</span> <span class="c-cmd">echo</span> <span class="c-str">"[$(date '+%H:%M:%S')] $1"</span><span class="c-flag">;</span> <span class="c-flag">}</span>
+
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$#"</span> <span class="c-flag">-ne</span> <span class="c-path">1</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Usage: bash $0 FOLDER_PATH"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-var">FOLDER</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
+
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">!</span> <span class="c-flag">-d</span> <span class="c-str">"$FOLDER"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: folder '$FOLDER' not found"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Scanning: $FOLDER"</span>
+
+<span class="c-kw">for</span> <span class="c-var">FILE</span> <span class="c-kw">in</span> <span class="c-str">"${FOLDER}"</span><span class="c-path">*.fastq</span><span class="c-kw">; do</span>
+    <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">!</span> <span class="c-flag">-f</span> <span class="c-str">"$FILE"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-cmd">log</span> <span class="c-str">"No .fastq files found"</span>
+        <span class="c-kw">break</span>
+    <span class="c-kw">fi</span>
+    <span class="c-var">NAME</span><span class="c-flag">=</span><span class="c-str">$(basename "$FILE" .fastq)</span>
+    <span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(( $(wc -l &lt; "$FILE") / 4 ))</span>
+    <span class="c-cmd">log</span> <span class="c-str">"$NAME: $READS reads"</span>
+<span class="c-kw">done</span>
+
+<span class="c-cmd">log</span> <span class="c-str">"Done"</span>
+
+<span class="c-comment"># Run with:</span>
+<span class="c-comment"># bash fastq_summary.sh ~/bash-linux-bioinformatics/module-1-foundations/</span></pre>
+                </div>
+              </details>
+            </div>
+          </section>
+
+          <!-- Mark complete -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="markBtn" onclick="markComplete()">✓ Mark lesson complete</button>
+          </div>
+
+          <!-- Lesson nav -->
+          <div class="lesson-nav-footer">
+            <span style="font-size:13px;color:var(--muted);">Module 2 · Lesson 5 of 13</span>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="lesson-4.html" class="btn btn-outline btn-sm">← Lesson 4: Variables &amp; Loops</a>
+              <a href="lesson-6.html" class="btn btn-primary btn-sm">Next: Conditionals &amp; Functions →</a>
+            </div>
+          </div>
+
+        </div><!-- /prose -->
+      </div><!-- /article-grid -->
+    </div><!-- /wrap -->
+  </div><!-- /article -->
+
+  <!-- AD — Rectangle -->
+  <div style="padding:0 0 56px;">
+    <div class="wrap" style="display:flex;justify-content:center;">
+      <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px;width:100%;">
+        <strong>Advertisement</strong><small>300 × 250 medium rectangle · AdSense unit goes here</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="https://shopnilacademy.com/index.html" class="logo" style="margin-bottom:14px;">
+            <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy" width="44" height="44" />
+            <div class="logo-text"><strong>Shopnil Academy</strong><small>LEARN WITHOUT LIMITS</small></div>
+          </a>
+          <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+          <div class="foot-social">
+            <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook">f</a>
+            <a href="https://x.com/ShopnilAcademy" aria-label="X / Twitter">𝕏</a>
+            <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube">▶</a>
+            <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn">in</a>
+            <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram">◻</a>
+          </div>
+        </div>
+        <div class="foot-col"><h4>This course</h4><ul>
+          <li><a href="index.html">Course overview</a></li>
+          <li><a href="lesson-4.html">Lesson 4 — Variables &amp; Loops</a></li>
+          <li><a href="lesson-5.html">Lesson 5 — Bash Scripts</a></li>
+          <li><a href="lesson-6.html">Lesson 6 — Conditionals</a></li>
+          <li><a href="lesson-7.html">Lesson 7 — Permissions</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Learn</h4><ul>
+          <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=math">Math &amp; Science</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=guitar">Guitar</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Company</h4><ul>
+          <li><a href="https://shopnilacademy.com/about.html">About</a></li>
+          <li><a href="https://shopnilacademy.com/contact.html">Contact</a></li>
+          <li><a href="https://shopnilacademy.com/advertise.html">Advertise</a></li>
+          <li><a href="https://shopnilacademy.com/faq.html">FAQ</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Legal</h4><ul>
+          <li><a href="https://shopnilacademy.com/privacy.html">Privacy</a></li>
+          <li><a href="https://shopnilacademy.com/terms.html">Terms</a></li>
+          <li><a href="https://shopnilacademy.com/cookies.html">Cookies</a></li>
+        </ul></div>
+      </div>
+      <div class="foot-bot">
+        <span>© 2026 Shopnil Academy. All rights reserved. Made with care for learners worldwide. 🌍</span>
+        <span>Bash &amp; Linux · Lesson 5</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.getElementById('navToggle').addEventListener('click',function(){
+      const links=document.querySelector('.nav-links');
+      const expanded=this.getAttribute('aria-expanded')==='true';
+      this.setAttribute('aria-expanded',String(!expanded));
+      links.style.display=expanded?'':'flex';
+    });
+    function toggleMod(id){document.getElementById(id).classList.toggle('open');}
+    function copyCode(btn){
+      const pre=btn.closest('.code-wrap').querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(()=>{
+        btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',2000);
+      });
+    }
+    function markComplete(){
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
+      if(!completed.includes('lesson-5')){completed.push('lesson-5');localStorage.setItem('sa_bash_done',JSON.stringify(completed));}
+      const btn=document.getElementById('markBtn');
+      btn.textContent='✓ Lesson completed!';btn.classList.add('done');updateProgress(completed.length);
+    }
+    function updateProgress(count){
+      const pct=Math.round((count/13)*100);
+      document.getElementById('progFill').style.width=pct+'%';
+      document.getElementById('progPct').textContent=pct+'%';
+    }
+    window.addEventListener('DOMContentLoaded',()=>{
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
+      updateProgress(completed.length);
+      if(completed.includes('lesson-5')){const btn=document.getElementById('markBtn');btn.textContent='✓ Lesson completed!';btn.classList.add('done');}
+      completed.forEach(id=>{
+        const link=document.querySelector(`.lesson-link[href="${id}.html"]`);
+        if(link){link.classList.add('done');const icon=link.querySelector('.l-icon');if(icon){icon.classList.remove('todo','active');icon.classList.add('done');icon.textContent='✓';}}
+      });
+    });
+    const sections=document.querySelectorAll('section[id]');
+    const tocLinks=document.querySelectorAll('.toc a[href^="#"]');
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          tocLinks.forEach(a=>a.style.removeProperty('color'));
+          const a=document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+          if(a)a.style.color='var(--green)';
+        }
+      });
+    },{rootMargin:'-15% 0px -75% 0px'});
+    sections.forEach(s=>observer.observe(s));
+  </script>
+</body>
+</html>
