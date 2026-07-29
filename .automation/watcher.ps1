@@ -181,6 +181,7 @@ Write-Host "  Press Ctrl+C to stop."
 Write-Host ""
 
 $inProgress = @{}
+$gitRunning = $false   # prevents overlapping git operations
 
 # --- Main polling loop --------------------------------------------------------
 
