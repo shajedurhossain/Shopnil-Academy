@@ -133,6 +133,11 @@ function Invoke-GitPublish {
     $prefix  = if ($Source) { "[$Source] " } else { "" }
     $msg     = "publish: $prefix$summary"
 
+    if ($script:gitRunning) {
+        Write-Log "Git already running, skipping cycle." "INFO"
+        return
+    }
+    $script:gitRunning = $true
     Push-Location $RepoFolder
     try {
         git add . | Out-Null
@@ -141,8 +146,8 @@ function Invoke-GitPublish {
             Write-Log "Nothing new to commit."
             return
         }
-        # Pull first to avoid non-fast-forward rejections
-        $pullOut = git pull origin main --rebase 2>&1
+        # Pull remote changes first to avoid non-fast-forward rejections
+        $pullOut = git pull origin main 2>&1
         if ($LASTEXITCODE -ne 0) {
             Write-Log "Pull failed before push: $pullOut" "ERROR"
             return
@@ -156,6 +161,7 @@ function Invoke-GitPublish {
     } catch {
         Write-Log "Git error: $_" "ERROR"
     } finally {
+        $script:gitRunning = $false
         Pop-Location
     }
 }
