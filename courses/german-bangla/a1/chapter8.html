@@ -259,7 +259,15 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   .ph-title{font-size:1.2rem}
   .nav-item{padding:5px 12px 5px 22px}
 }
-  </style>
+  
+.page-nav-bar{display:flex;gap:10px;padding:18px 13px 30px;margin-top:10px;border-top:1px solid #E7E2D6}
+.pnb-prev,.pnb-next{flex:1;border:none;border-radius:10px;padding:13px 10px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:'Hind Siliguri',sans-serif;transition:background .18s,transform .1s}
+.pnb-prev{background:#f0f0f0;color:#444}
+.pnb-prev:hover{background:#e0e0e0;transform:translateX(-2px)}
+.pnb-next{background:var(--green);color:#fff}
+.pnb-next:hover{background:#04503B;transform:translateX(2px)}
+.pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+</style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -282,9 +290,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
   <span class="tb-level">A1</span>
-  <span class="tb-title">&#x1f1e9;&#x1f1ea; অধ্যায় ৮ — Gesundheit &amp; K&#xf6;rper</span>
+  <span class="tb-title">🇩🇪 অধ্যায় ৮ — Gesundheit &amp; K&#xf6;rper</span>
   <div class="tb-right">
-    <div class="streak-chip"><span class="streak-fire">&#x1f525;</span><span class="streak-count" id="streakTop">0</span></div>
+    <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
   </div>
 </div>
@@ -297,14 +305,14 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="sb-nav">
     <div class="sb-head">
       <div class="sb-head-title">Chapter 8</div>
-      <div class="sb-head-bn">&#x1f3e5; Gesundheit &amp; K&#xf6;rper</div>
+      <div class="sb-head-bn">🏥 Gesundheit &amp; K&#xf6;rper</div>
     </div>
 
     <div class="week-block">
       <div class="week-hdr" id="wh8" onclick="toggleWeek(8)">
         <span class="week-pill">&#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09ee;</span>
         <span class="week-name">Gesundheit &amp; K&#xf6;rper</span>
-        <span class="week-arr">&#x25ba;</span>
+        <span class="week-arr">►</span>
       </div>
       <div class="day-list" id="wl8">
 
@@ -312,154 +320,154 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <div class="day-hdr" id="dhc8l1" onclick="toggleDay('c8l1')">
           <span class="day-dot"></span>
           <span class="day-name">&#x1f9b4; L1 — Der K&#xf6;rper</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8l1">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8l1" style="width:0%"></div></div><div class="day-progress" id="progtext-c8l1">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8l1v" onclick="go('c8l1v','nav-c8l1v');markVisit('c8l1','c8l1v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1w" onclick="go('c8l1w','nav-c8l1w');markVisit('c8l1','c8l1w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1s" onclick="go('c8l1s','nav-c8l1s');markVisit('c8l1','c8l1s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1gr" onclick="go('c8l1gr','nav-c8l1gr');markVisit('c8l1','c8l1gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1l" onclick="go('c8l1l','nav-c8l1l');markVisit('c8l1','c8l1l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1rd" onclick="go('c8l1rd','nav-c8l1rd');markVisit('c8l1','c8l1rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1fw" onclick="go('c8l1fw','nav-c8l1fw');markVisit('c8l1','c8l1fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1ss" onclick="go('c8l1ss','nav-c8l1ss');markVisit('c8l1','c8l1ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l1q" onclick="go('c8l1q','nav-c8l1q');markVisit('c8l1','c8l1q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8l1v" onclick="go('c8l1v','nav-c8l1v');markVisit('c8l1','c8l1v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1w" onclick="go('c8l1w','nav-c8l1w');markVisit('c8l1','c8l1w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1s" onclick="go('c8l1s','nav-c8l1s');markVisit('c8l1','c8l1s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1gr" onclick="go('c8l1gr','nav-c8l1gr');markVisit('c8l1','c8l1gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1l" onclick="go('c8l1l','nav-c8l1l');markVisit('c8l1','c8l1l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1rd" onclick="go('c8l1rd','nav-c8l1rd');markVisit('c8l1','c8l1rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1fw" onclick="go('c8l1fw','nav-c8l1fw');markVisit('c8l1','c8l1fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1ss" onclick="go('c8l1ss','nav-c8l1ss');markVisit('c8l1','c8l1ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l1q" onclick="go('c8l1q','nav-c8l1q');markVisit('c8l1','c8l1q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L2 Beim Arzt -->
         <div class="day-hdr" id="dhc8l2" onclick="toggleDay('c8l2')">
           <span class="day-dot"></span>
           <span class="day-name">&#x1fa7a; L2 — Beim Arzt</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8l2">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8l2" style="width:0%"></div></div><div class="day-progress" id="progtext-c8l2">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8l2v" onclick="go('c8l2v','nav-c8l2v');markVisit('c8l2','c8l2v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2w" onclick="go('c8l2w','nav-c8l2w');markVisit('c8l2','c8l2w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2s" onclick="go('c8l2s','nav-c8l2s');markVisit('c8l2','c8l2s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2gr" onclick="go('c8l2gr','nav-c8l2gr');markVisit('c8l2','c8l2gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2l" onclick="go('c8l2l','nav-c8l2l');markVisit('c8l2','c8l2l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2rd" onclick="go('c8l2rd','nav-c8l2rd');markVisit('c8l2','c8l2rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2fw" onclick="go('c8l2fw','nav-c8l2fw');markVisit('c8l2','c8l2fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2ss" onclick="go('c8l2ss','nav-c8l2ss');markVisit('c8l2','c8l2ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l2q" onclick="go('c8l2q','nav-c8l2q');markVisit('c8l2','c8l2q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8l2v" onclick="go('c8l2v','nav-c8l2v');markVisit('c8l2','c8l2v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2w" onclick="go('c8l2w','nav-c8l2w');markVisit('c8l2','c8l2w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2s" onclick="go('c8l2s','nav-c8l2s');markVisit('c8l2','c8l2s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2gr" onclick="go('c8l2gr','nav-c8l2gr');markVisit('c8l2','c8l2gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2l" onclick="go('c8l2l','nav-c8l2l');markVisit('c8l2','c8l2l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2rd" onclick="go('c8l2rd','nav-c8l2rd');markVisit('c8l2','c8l2rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2fw" onclick="go('c8l2fw','nav-c8l2fw');markVisit('c8l2','c8l2fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2ss" onclick="go('c8l2ss','nav-c8l2ss');markVisit('c8l2','c8l2ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l2q" onclick="go('c8l2q','nav-c8l2q');markVisit('c8l2','c8l2q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L3 Krankheiten & Symptome -->
         <div class="day-hdr" id="dhc8l3" onclick="toggleDay('c8l3')">
           <span class="day-dot"></span>
           <span class="day-name">&#x1f912; L3 — Krankheiten &amp; Symptome</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8l3">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8l3" style="width:0%"></div></div><div class="day-progress" id="progtext-c8l3">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8l3v" onclick="go('c8l3v','nav-c8l3v');markVisit('c8l3','c8l3v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3w" onclick="go('c8l3w','nav-c8l3w');markVisit('c8l3','c8l3w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3s" onclick="go('c8l3s','nav-c8l3s');markVisit('c8l3','c8l3s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3gr" onclick="go('c8l3gr','nav-c8l3gr');markVisit('c8l3','c8l3gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3l" onclick="go('c8l3l','nav-c8l3l');markVisit('c8l3','c8l3l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3rd" onclick="go('c8l3rd','nav-c8l3rd');markVisit('c8l3','c8l3rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3fw" onclick="go('c8l3fw','nav-c8l3fw');markVisit('c8l3','c8l3fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3ss" onclick="go('c8l3ss','nav-c8l3ss');markVisit('c8l3','c8l3ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l3q" onclick="go('c8l3q','nav-c8l3q');markVisit('c8l3','c8l3q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8l3v" onclick="go('c8l3v','nav-c8l3v');markVisit('c8l3','c8l3v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3w" onclick="go('c8l3w','nav-c8l3w');markVisit('c8l3','c8l3w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3s" onclick="go('c8l3s','nav-c8l3s');markVisit('c8l3','c8l3s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3gr" onclick="go('c8l3gr','nav-c8l3gr');markVisit('c8l3','c8l3gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3l" onclick="go('c8l3l','nav-c8l3l');markVisit('c8l3','c8l3l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3rd" onclick="go('c8l3rd','nav-c8l3rd');markVisit('c8l3','c8l3rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3fw" onclick="go('c8l3fw','nav-c8l3fw');markVisit('c8l3','c8l3fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3ss" onclick="go('c8l3ss','nav-c8l3ss');markVisit('c8l3','c8l3ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l3q" onclick="go('c8l3q','nav-c8l3q');markVisit('c8l3','c8l3q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L4 Tut weh — schmerzen -->
         <div class="day-hdr" id="dhc8l4" onclick="toggleDay('c8l4')">
           <span class="day-dot"></span>
           <span class="day-name">&#x1f615; L4 — Tut weh — schmerzen</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8l4">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8l4" style="width:0%"></div></div><div class="day-progress" id="progtext-c8l4">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8l4v" onclick="go('c8l4v','nav-c8l4v');markVisit('c8l4','c8l4v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4w" onclick="go('c8l4w','nav-c8l4w');markVisit('c8l4','c8l4w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4s" onclick="go('c8l4s','nav-c8l4s');markVisit('c8l4','c8l4s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4gr" onclick="go('c8l4gr','nav-c8l4gr');markVisit('c8l4','c8l4gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4l" onclick="go('c8l4l','nav-c8l4l');markVisit('c8l4','c8l4l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4rd" onclick="go('c8l4rd','nav-c8l4rd');markVisit('c8l4','c8l4rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4fw" onclick="go('c8l4fw','nav-c8l4fw');markVisit('c8l4','c8l4fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4ss" onclick="go('c8l4ss','nav-c8l4ss');markVisit('c8l4','c8l4ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l4q" onclick="go('c8l4q','nav-c8l4q');markVisit('c8l4','c8l4q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8l4v" onclick="go('c8l4v','nav-c8l4v');markVisit('c8l4','c8l4v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4w" onclick="go('c8l4w','nav-c8l4w');markVisit('c8l4','c8l4w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4s" onclick="go('c8l4s','nav-c8l4s');markVisit('c8l4','c8l4s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4gr" onclick="go('c8l4gr','nav-c8l4gr');markVisit('c8l4','c8l4gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4l" onclick="go('c8l4l','nav-c8l4l');markVisit('c8l4','c8l4l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4rd" onclick="go('c8l4rd','nav-c8l4rd');markVisit('c8l4','c8l4rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4fw" onclick="go('c8l4fw','nav-c8l4fw');markVisit('c8l4','c8l4fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4ss" onclick="go('c8l4ss','nav-c8l4ss');markVisit('c8l4','c8l4ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l4q" onclick="go('c8l4q','nav-c8l4q');markVisit('c8l4','c8l4q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L5 In der Apotheke -->
         <div class="day-hdr" id="dhc8l5" onclick="toggleDay('c8l5')">
           <span class="day-dot"></span>
           <span class="day-name">&#x1f48a; L5 — In der Apotheke</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8l5">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8l5" style="width:0%"></div></div><div class="day-progress" id="progtext-c8l5">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8l5v" onclick="go('c8l5v','nav-c8l5v');markVisit('c8l5','c8l5v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5w" onclick="go('c8l5w','nav-c8l5w');markVisit('c8l5','c8l5w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5s" onclick="go('c8l5s','nav-c8l5s');markVisit('c8l5','c8l5s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5gr" onclick="go('c8l5gr','nav-c8l5gr');markVisit('c8l5','c8l5gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5l" onclick="go('c8l5l','nav-c8l5l');markVisit('c8l5','c8l5l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5rd" onclick="go('c8l5rd','nav-c8l5rd');markVisit('c8l5','c8l5rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5fw" onclick="go('c8l5fw','nav-c8l5fw');markVisit('c8l5','c8l5fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5ss" onclick="go('c8l5ss','nav-c8l5ss');markVisit('c8l5','c8l5ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l5q" onclick="go('c8l5q','nav-c8l5q');markVisit('c8l5','c8l5q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8l5v" onclick="go('c8l5v','nav-c8l5v');markVisit('c8l5','c8l5v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5w" onclick="go('c8l5w','nav-c8l5w');markVisit('c8l5','c8l5w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5s" onclick="go('c8l5s','nav-c8l5s');markVisit('c8l5','c8l5s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5gr" onclick="go('c8l5gr','nav-c8l5gr');markVisit('c8l5','c8l5gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5l" onclick="go('c8l5l','nav-c8l5l');markVisit('c8l5','c8l5l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5rd" onclick="go('c8l5rd','nav-c8l5rd');markVisit('c8l5','c8l5rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5fw" onclick="go('c8l5fw','nav-c8l5fw');markVisit('c8l5','c8l5fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5ss" onclick="go('c8l5ss','nav-c8l5ss');markVisit('c8l5','c8l5ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l5q" onclick="go('c8l5q','nav-c8l5q');markVisit('c8l5','c8l5q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L6 Gesundheitssystem in Deutschland -->
         <div class="day-hdr" id="dhc8l6" onclick="toggleDay('c8l6')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f1e9;&#x1f1ea; L6 — Gesundheitssystem</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🇩🇪 L6 — Gesundheitssystem</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8l6">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8l6" style="width:0%"></div></div><div class="day-progress" id="progtext-c8l6">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8l6v" onclick="go('c8l6v','nav-c8l6v');markVisit('c8l6','c8l6v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6w" onclick="go('c8l6w','nav-c8l6w');markVisit('c8l6','c8l6w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6s" onclick="go('c8l6s','nav-c8l6s');markVisit('c8l6','c8l6s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6gr" onclick="go('c8l6gr','nav-c8l6gr');markVisit('c8l6','c8l6gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6l" onclick="go('c8l6l','nav-c8l6l');markVisit('c8l6','c8l6l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6rd" onclick="go('c8l6rd','nav-c8l6rd');markVisit('c8l6','c8l6rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6fw" onclick="go('c8l6fw','nav-c8l6fw');markVisit('c8l6','c8l6fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6ss" onclick="go('c8l6ss','nav-c8l6ss');markVisit('c8l6','c8l6ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l6q" onclick="go('c8l6q','nav-c8l6q');markVisit('c8l6','c8l6q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8l6v" onclick="go('c8l6v','nav-c8l6v');markVisit('c8l6','c8l6v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6w" onclick="go('c8l6w','nav-c8l6w');markVisit('c8l6','c8l6w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6s" onclick="go('c8l6s','nav-c8l6s');markVisit('c8l6','c8l6s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6gr" onclick="go('c8l6gr','nav-c8l6gr');markVisit('c8l6','c8l6gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6l" onclick="go('c8l6l','nav-c8l6l');markVisit('c8l6','c8l6l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6rd" onclick="go('c8l6rd','nav-c8l6rd');markVisit('c8l6','c8l6rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6fw" onclick="go('c8l6fw','nav-c8l6fw');markVisit('c8l6','c8l6fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6ss" onclick="go('c8l6ss','nav-c8l6ss');markVisit('c8l6','c8l6ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l6q" onclick="go('c8l6q','nav-c8l6q');markVisit('c8l6','c8l6q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L7 Reflexive Verben -->
         <div class="day-hdr" id="dhc8l7" onclick="toggleDay('c8l7')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f504; L7 — Reflexive Verben</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🔄 L7 — Reflexive Verben</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8l7">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8l7" style="width:0%"></div></div><div class="day-progress" id="progtext-c8l7">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8l7v" onclick="go('c8l7v','nav-c8l7v');markVisit('c8l7','c8l7v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7w" onclick="go('c8l7w','nav-c8l7w');markVisit('c8l7','c8l7w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7s" onclick="go('c8l7s','nav-c8l7s');markVisit('c8l7','c8l7s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7gr" onclick="go('c8l7gr','nav-c8l7gr');markVisit('c8l7','c8l7gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7l" onclick="go('c8l7l','nav-c8l7l');markVisit('c8l7','c8l7l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7rd" onclick="go('c8l7rd','nav-c8l7rd');markVisit('c8l7','c8l7rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7fw" onclick="go('c8l7fw','nav-c8l7fw');markVisit('c8l7','c8l7fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7ss" onclick="go('c8l7ss','nav-c8l7ss');markVisit('c8l7','c8l7ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8l7q" onclick="go('c8l7q','nav-c8l7q');markVisit('c8l7','c8l7q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8l7v" onclick="go('c8l7v','nav-c8l7v');markVisit('c8l7','c8l7v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7w" onclick="go('c8l7w','nav-c8l7w');markVisit('c8l7','c8l7w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7s" onclick="go('c8l7s','nav-c8l7s');markVisit('c8l7','c8l7s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7gr" onclick="go('c8l7gr','nav-c8l7gr');markVisit('c8l7','c8l7gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7l" onclick="go('c8l7l','nav-c8l7l');markVisit('c8l7','c8l7l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7rd" onclick="go('c8l7rd','nav-c8l7rd');markVisit('c8l7','c8l7rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7fw" onclick="go('c8l7fw','nav-c8l7fw');markVisit('c8l7','c8l7fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7ss" onclick="go('c8l7ss','nav-c8l7ss');markVisit('c8l7','c8l7ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8l7q" onclick="go('c8l7q','nav-c8l7q');markVisit('c8l7','c8l7q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- R9 Review -->
         <div class="day-hdr" id="dhc8r" onclick="toggleDay('c8r')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f504; R8 — &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09ee; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🔄 R8 — &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09ee; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc8r">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c8r" style="width:0%"></div></div><div class="day-progress" id="progtext-c8r">&#x09e6;/&#x09e9; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c8rv" onclick="go('c8rv','nav-c8rv');markVisit('c8r','c8rv')"><span class="ni-icon">&#x1f504;</span><span class="ni-label">&#x09aa;&#x09c2;&#x09b0;&#x09cd;&#x09a3; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8rs" onclick="go('c8rs','nav-c8rs');markVisit('c8r','c8rs')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3; &#x09aa;&#x09b0;&#x09c0;&#x0995;&#x09cd;&#x09b7;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c8rq" onclick="go('c8rq','nav-c8rq');markVisit('c8r','c8rq')"><span class="ni-icon">&#x1f3c6;</span><span class="ni-label">&#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989; &#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c8rv" onclick="go('c8rv','nav-c8rv');markVisit('c8r','c8rv')"><span class="ni-icon">🔄</span><span class="ni-label">&#x09aa;&#x09c2;&#x09b0;&#x09cd;&#x09a3; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8rs" onclick="go('c8rs','nav-c8rs');markVisit('c8r','c8rs')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3; &#x09aa;&#x09b0;&#x09c0;&#x0995;&#x09cd;&#x09b7;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c8rq" onclick="go('c8rq','nav-c8rq');markVisit('c8r','c8rq')"><span class="ni-icon">🏆</span><span class="ni-label">&#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989; &#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
       </div><!-- end wl8 -->
@@ -479,11 +487,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ১</div>
     <div class="ph-title">Der K&#xf6;rper</div>
     <div class="ph-bn">শরীরের অংশ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f9b4; শরীর</span><span class="ph-tag">&#x1f3e5; স্বাস্থ্য</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f9b4; শরীর</span><span class="ph-tag">🏥 স্বাস্থ্য</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">মনে রাখুন</div>
         <div class="cult-bn">শরীরের অংশের নাম জানা থাকলে ডাক্তারের কাছে গিয়ে কী সমস্যা সেটা সহজে বলতে পারবেন।</div>
@@ -495,71 +503,73 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span></span><span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
       <div class="vr vr-4" onclick="tts('der Kopf')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f9e0;</span>
+        <span style="font-size:1.3rem;text-align:center">🧠</span>
         <span class="v-de">der Kopf</span><span class="v-en">head</span><span class="v-bn bn">মাথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Kopf')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Kopf')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Auge')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f441;&#xfe0f;</span>
+        <span style="font-size:1.3rem;text-align:center">&#x1f441;️</span>
         <span class="v-de">das Auge</span><span class="v-en">eye</span><span class="v-bn bn">চোখ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Auge')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Auge')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Nase')">
         <span style="font-size:1.3rem;text-align:center">&#x1f443;</span>
         <span class="v-de">die Nase</span><span class="v-en">nose</span><span class="v-bn bn">নাক</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Nase')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Nase')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Mund')">
         <span style="font-size:1.3rem;text-align:center">&#x1f444;</span>
         <span class="v-de">der Mund</span><span class="v-en">mouth</span><span class="v-bn bn">মুখ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Mund')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Mund')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Ohr')">
         <span style="font-size:1.3rem;text-align:center">&#x1f442;</span>
         <span class="v-de">das Ohr</span><span class="v-en">ear</span><span class="v-bn bn">কান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Ohr')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Ohr')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Arm')">
         <span style="font-size:1.3rem;text-align:center">&#x1f4aa;</span>
         <span class="v-de">der Arm</span><span class="v-en">arm</span><span class="v-bn bn">হাত (বাহু)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Arm')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Arm')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Hand')">
         <span style="font-size:1.3rem;text-align:center">&#x270b;</span>
         <span class="v-de">die Hand</span><span class="v-en">hand</span><span class="v-bn bn">হাত (পাঞ্জা)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Hand')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Hand')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Bein')">
         <span style="font-size:1.3rem;text-align:center">&#x1f9b5;</span>
         <span class="v-de">das Bein</span><span class="v-en">leg</span><span class="v-bn bn">পা (ঊরু থেকে)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Bein')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Bein')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Fuß')">
         <span style="font-size:1.3rem;text-align:center">&#x1f9b6;</span>
         <span class="v-de">der Fu&#xdf;</span><span class="v-en">foot</span><span class="v-bn bn">পা (পায়ের পাতা)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Fuß')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Fuß')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Bauch')">
         <span style="font-size:1.3rem;text-align:center">&#x1fac3;</span>
         <span class="v-de">der Bauch</span><span class="v-en">stomach/belly</span><span class="v-bn bn">পেট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Bauch')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Bauch')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Rücken')">
         <span style="font-size:1.3rem;text-align:center">&#x1fac1;</span>
         <span class="v-de">der R&#xfc;cken</span><span class="v-en">back</span><span class="v-bn bn">পিঠ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Rücken')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Rücken')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Herz')">
-        <span style="font-size:1.3rem;text-align:center">&#x2764;&#xfe0f;</span>
+        <span style="font-size:1.3rem;text-align:center">❤️</span>
         <span class="v-de">das Herz</span><span class="v-en">heart</span><span class="v-bn bn">হৃদয়</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Herz')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Herz')">🔊</button>
       </div>
     </div>
     <div class="trick">
-      <div class="trick-t">&#x1f9e0; মনে রাখার কৌশল</div>
+      <div class="trick-t">🧠 মনে রাখার কৌশল</div>
       <div class="trick-bn"><strong>Arm vs Hand</strong>: Arm পুরো হাত (কাঁধ থেকে কব্জি), Hand হলো শুধু পাঞ্জা। তেমনি <strong>Bein vs Fuß</strong>: Bein পুরো পা, Fuß শুধু পায়ের পাতা।</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -577,6 +587,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -588,7 +600,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Kopf</strong> = KOPF | <strong>Rücken</strong> = RUE-ken (ü ঠোঁট গোল) | <strong>Bauch</strong> = BOWKH</div>
@@ -596,6 +608,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8l1s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -634,6 +648,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -645,7 +661,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
+      <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
       <div class="listen-script">
         <span class="speaker">Mutter:</span> Was ist los? Du siehst nicht gut aus.<br>
         <span class="speaker">Kind:</span> Mein Kopf tut weh, und mein Bauch auch.<br>
@@ -654,7 +670,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Mutter:</span> Du solltest dich ausruhen. Ich rufe den Arzt an.<br>
         <span class="speaker">Kind:</span> Okay, danke Mama.
       </div>
-      <button class="listen-btn" onclick="playL1listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -682,6 +698,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 READING -->
@@ -693,7 +711,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Mein K&#xf6;rper (একটি স্কুলের রচনা)</div>
+      <div class="read-label">📰 পাঠ্য — Mein K&#xf6;rper (একটি স্কুলের রচনা)</div>
       Hallo! Ich hei&#xdf;e Tim und ich erz&#xe4;hle euch heute &#xfc;ber meinen K&#xf6;rper.<br><br>
       Ich habe zwei Augen, eine Nase, einen Mund und zwei Ohren. Mit meinen Augen kann ich sehen, mit meiner Nase kann ich riechen, und mit meinem Mund kann ich essen und sprechen.<br><br>
       Meine Arme und H&#xe4;nde sind sehr wichtig — ich benutze sie zum Schreiben, Essen und Spielen. Meine Beine und F&#xfc;&#xdf;e helfen mir beim Laufen und Springen.<br><br>
@@ -701,7 +719,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Ich muss meinen K&#xf6;rper gut pflegen — gesund essen, viel Sport machen und genug schlafen!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Tim তার শরীরের বর্ণনা দিচ্ছে: দুটো চোখ দিয়ে দেখা, নাক দিয়ে গন্ধ পাওয়া, মুখ দিয়ে খাওয়া ও বলা। হাত-পা দিয়ে লেখা, খাওয়া, খেলা, দৌড়ানো। হৃদয় রক্ত পাম্প করে, মাথার মস্তিষ্ক চিন্তা ও শেখার সাহায্য করে। শরীরের যত্ন নিতে হবে — স্বাস্থ্যকর খাবার, খেলাধুলা ও ঘুম।</div>
     </div>
     <div class="listen-q">
@@ -729,6 +747,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
@@ -740,7 +760,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার শরীরের অংশগুলো German এ বর্ণনা করুন — কী দিয়ে কী করেন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich habe..."</em></div>
@@ -748,9 +768,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c8l1fw" placeholder="Ich habe..." oninput="countWords('fw-c8l1fw','wc-c8l1fw')"></textarea>
     <div class="write-counter" id="wc-c8l1fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c8l1fw','wr-c8l1fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c8l1fw','wr-c8l1fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c8l1fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -766,15 +788,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার শরীর বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich habe... · Mit meinen Augen kann ich... · Mein Kopf/Arm/Bein...</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c8l1ss" onclick="toggleFreeSpeak('c8l1ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c8l1ss" onclick="toggleFreeSpeak('c8l1ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c8l1ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -787,6 +811,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c8l1q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L2: BEIM ARZT ==================== -->
@@ -797,11 +823,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ২</div>
     <div class="ph-title">Beim Arzt</div>
     <div class="ph-bn">ডাক্তারের কাছে</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1fa7a; ডাক্তার</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1fa7a; ডাক্তার</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
+      <div class="cult-icon">🇩🇪</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান ডাক্তারের কাছে যাওয়া</div>
         <div class="cult-bn">Germany তে ডাক্তারের কাছে যেতে সাধারণত অগ্রিম অ্যাপয়েন্টমেন্ট লাগে (Termin)। জরুরি অবস্থায় Notaufnahme (emergency room) এ যাওয়া হয়।</div>
@@ -814,35 +840,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Arzt')">
         <span class="v-de">der Arzt</span><span class="v-en">doctor</span><span class="v-bn bn">ডাক্তার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Arzt')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Arzt')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Termin')">
         <span class="v-de">der Termin</span><span class="v-en">appointment</span><span class="v-bn bn">অ্যাপয়েন্টমেন্ট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Termin')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Termin')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Praxis')">
         <span class="v-de">die Praxis</span><span class="v-en">doctor's office</span><span class="v-bn bn">ডাক্তারের চেম্বার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Praxis')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Praxis')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('untersuchen')">
         <span class="v-de">untersuchen</span><span class="v-en">to examine</span><span class="v-bn bn">পরীক্ষা করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('untersuchen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('untersuchen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Rezept')">
         <span class="v-de">das Rezept</span><span class="v-en">prescription</span><span class="v-bn bn">প্রেসক্রিপশন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Rezept')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Rezept')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Versicherung')">
         <span class="v-de">die Versicherung</span><span class="v-en">insurance</span><span class="v-bn bn">ইন্স্যুরেন্স</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Versicherung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Versicherung')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Fieber')">
         <span class="v-de">das Fieber</span><span class="v-en">fever</span><span class="v-bn bn">জ্বর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Fieber')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Fieber')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('krank')">
         <span class="v-de">krank</span><span class="v-en">sick</span><span class="v-bn bn">অসুস্থ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('krank')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('krank')">🔊</button>
       </div>
     </div>
     <div class="card">
@@ -855,6 +881,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -872,6 +900,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -883,7 +913,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Termin</strong> = ter-MEEN | <strong>Versicherung</strong> = fer-ZIKH-er-oong | <strong>untersuchen</strong> = oon-ter-ZOO-khen</div>
@@ -891,6 +921,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8l2s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -911,7 +943,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de"><strong>Mir</strong> fehlt nichts.</td><td class="bn">আমার কোনো সমস্যা নেই।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; Dativ Pronoun মনে রাখুন</div>
+        <div class="trick-t">💡 Dativ Pronoun মনে রাখুন</div>
         <div class="trick-bn">ich → mir, du → dir, Sie → Ihnen — fehlen এর সাথে Dativ pronoun ব্যবহার হয়।</div>
       </div>
     </div>
@@ -925,6 +957,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -936,7 +970,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; ডাক্তারের কাছে — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 ডাক্তারের কাছে — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Arzt:</span> Guten Tag! Was fehlt Ihnen?<br>
         <span class="speaker">Patient:</span> Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen.<br>
@@ -946,7 +980,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Patient:</span> Okay, Doktor.<br>
         <span class="speaker">Arzt:</span> Es ist eine Erk&#xe4;ltung. Ich gebe Ihnen ein Rezept f&#xfc;r Medikamente.
       </div>
-      <button class="listen-btn" onclick="playL2listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -974,6 +1008,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 READING -->
@@ -985,7 +1021,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Eine Arztpraxis Information</div>
+      <div class="read-label">📰 পাঠ্য — Eine Arztpraxis Information</div>
       <strong>Hausarztpraxis Dr. Schmidt</strong><br><br>
       Liebe Patienten,<br><br>
       bitte beachten Sie unsere &#xd6;ffnungszeiten: Montag bis Freitag von 8:00 bis 18:00 Uhr.<br><br>
@@ -995,7 +1031,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Wir freuen uns auf Ihren Besuch!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Dr. Schmidt এর চেম্বার সোম-শুক্র সকাল ৮টা থেকে সন্ধ্যা ৬টা খোলা। অ্যাপয়েন্টমেন্টের জন্য ফোন করতে হবে বা অনলাইনে বুক করতে হবে। ছুটির সময়ে জরুরি অবস্থায় হাসপাতালের Notaufnahme (emergency room) এ যেতে হবে। সব সময় ইন্স্যুরেন্স কার্ড সাথে আনতে হবে।</div>
     </div>
     <div class="listen-q">
@@ -1023,6 +1059,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
@@ -1034,7 +1072,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি ডাক্তারের কাছে গেছেন। কী সমস্যার কথা বলবেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich habe..."</em></div>
@@ -1042,9 +1080,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c8l2fw" placeholder="Ich habe..." oninput="countWords('fw-c8l2fw','wc-c8l2fw')"></textarea>
     <div class="write-counter" id="wc-c8l2fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c8l2fw','wr-c8l2fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c8l2fw','wr-c8l2fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c8l2fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -1060,15 +1100,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি ডাক্তারের কাছে আছেন। আপনার লক্ষণ বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী বাক্য</div>
         <div class="cult-bn">Ich habe Fieber/Kopfschmerzen... · Mir fehlt... · Seit wann haben Sie...?</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c8l2ss" onclick="toggleFreeSpeak('c8l2ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c8l2ss" onclick="toggleFreeSpeak('c8l2ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c8l2ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -1081,6 +1123,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c8l2q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L3: KRANKHEITEN & SYMPTOME ==================== -->
@@ -1101,46 +1145,48 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Erkältung')">
         <span class="v-de">die Erk&#xe4;ltung</span><span class="v-en">common cold</span><span class="v-bn bn">সাধারণ ঠান্ডা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Erkältung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Erkältung')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Grippe')">
         <span class="v-de">die Grippe</span><span class="v-en">flu</span><span class="v-bn bn">ফ্লু</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Grippe')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Grippe')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Husten')">
         <span class="v-de">der Husten</span><span class="v-en">cough</span><span class="v-bn bn">কাশি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Husten')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Husten')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Schnupfen')">
         <span class="v-de">der Schnupfen</span><span class="v-en">runny nose</span><span class="v-bn bn">সর্দি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Schnupfen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Schnupfen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Kopfschmerzen')">
         <span class="v-de">die Kopfschmerzen</span><span class="v-en">headache</span><span class="v-bn bn">মাথা ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Kopfschmerzen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Kopfschmerzen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Halsschmerzen')">
         <span class="v-de">die Halsschmerzen</span><span class="v-en">sore throat</span><span class="v-bn bn">গলা ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Halsschmerzen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Halsschmerzen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Bauchschmerzen')">
         <span class="v-de">die Bauchschmerzen</span><span class="v-en">stomach ache</span><span class="v-bn bn">পেট ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Bauchschmerzen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Bauchschmerzen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Allergie')">
         <span class="v-de">die Allergie</span><span class="v-en">allergy</span><span class="v-bn bn">এলার্জি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Allergie')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Allergie')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('müde')">
         <span class="v-de">m&#xfc;de</span><span class="v-en">tired</span><span class="v-bn bn">ক্লান্ত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('müde')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('müde')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('schwindelig')">
         <span class="v-de">schwindelig</span><span class="v-en">dizzy</span><span class="v-bn bn">মাথা ঘোরা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('schwindelig')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('schwindelig')">🔊</button>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1158,6 +1204,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1169,7 +1217,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Erkältung</strong> = air-KELL-toong | <strong>Grippe</strong> = GRIP-pe | <strong>schwindelig</strong> = SHVIN-de-likh</div>
@@ -1177,6 +1225,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8l3s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1197,7 +1247,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Wir haben Husten und Schnupfen.</td><td class="bn">আমাদের কাশি ও সর্দি।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; sein দিয়েও বলা যায়</div>
+        <div class="trick-t">💡 sein দিয়েও বলা যায়</div>
         <div class="trick-bn">কিছু adjective এর সাথে <strong>sein</strong> ব্যবহার হয়: "Ich bin müde." (আমি ক্লান্ত) "Mir ist schwindelig." (আমার মাথা ঘোরে)</div>
       </div>
     </div>
@@ -1211,6 +1261,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1222,7 +1274,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; লক্ষণ বর্ণনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 লক্ষণ বর্ণনা — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Freund:</span> Du siehst nicht gut aus. Was ist los?<br>
         <span class="speaker">Anna:</span> Ich glaube, ich habe eine Erk&#xe4;ltung. Ich habe Husten und Schnupfen.<br>
@@ -1231,7 +1283,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Freund:</span> Du solltest dich ausruhen und viel Wasser trinken.<br>
         <span class="speaker">Anna:</span> Ja, das werde ich machen. Danke für deinen Rat.
       </div>
-      <button class="listen-btn" onclick="playL3listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1259,6 +1311,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 READING -->
@@ -1270,7 +1324,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Erk&#xe4;ltung oder Grippe? (স্বাস্থ্য সচেতনতা)</div>
+      <div class="read-label">📰 পাঠ্য — Erk&#xe4;ltung oder Grippe? (স্বাস্থ্য সচেতনতা)</div>
       <strong>Wie unterscheidet man eine Erk&#xe4;ltung von der Grippe?</strong><br><br>
       Viele Menschen verwechseln eine Erk&#xe4;ltung mit der Grippe, aber es gibt wichtige Unterschiede.<br><br>
       Bei einer <strong>Erk&#xe4;ltung</strong> hat man normalerweise Husten, Schnupfen und manchmal Halsschmerzen. Die Symptome entwickeln sich langsam, und man hat selten hohes Fieber.<br><br>
@@ -1279,7 +1333,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Um beide Krankheiten zu vermeiden, sollte man oft die Hände waschen und einen gesunden Lebensstil f&#xfc;hren.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">সাধারণ ঠান্ডায় কাশি, সর্দি, কখনো গলা ব্যথা থাকে, ধীরে ধীরে আসে, জ্বর কম থাকে। ফ্লুতে লক্ষণ দ্রুত ও তীব্র আসে — উচ্চ জ্বর, তীব্র মাথা ব্যথা, ক্লান্তি, মাংসপেশী ব্যথা। সাধারণ ঠান্ডায় বিশ্রাম, পানি, মধু-চা সাহায্য করে। ফ্লুতে ডাক্তার দেখানো প্রয়োজন। হাত ধোয়া ও স্বাস্থ্যকর জীবনযাপন প্রতিরোধে সাহায্য করে।</div>
     </div>
     <div class="listen-q">
@@ -1307,6 +1361,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
@@ -1318,7 +1374,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি গত সপ্তাহে অসুস্থ ছিলেন। কী লক্ষণ ছিল? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Letzte Woche hatte ich..."</em></div>
@@ -1326,9 +1382,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c8l3fw" placeholder="Letzte Woche hatte ich..." oninput="countWords('fw-c8l3fw','wc-c8l3fw')"></textarea>
     <div class="write-counter" id="wc-c8l3fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c8l3fw','wr-c8l3fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c8l3fw','wr-c8l3fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c8l3fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1344,15 +1402,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি অসুস্থ হলে আপনার লক্ষণ বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich habe... · Mir ist... · Ich bin müde/schwindelig</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c8l3ss" onclick="toggleFreeSpeak('c8l3ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c8l3ss" onclick="toggleFreeSpeak('c8l3ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c8l3ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1365,6 +1425,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c8l3q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L4: TUT WEH — SCHMERZEN ==================== -->
@@ -1379,7 +1441,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">ব্যথা প্রকাশের দুই ধরন</div>
         <div class="cult-bn">German এ ব্যথা বলতে <strong>weh tun</strong> (Dativ সহ) অথবা <strong>schmerzen</strong> verb ব্যবহার করা যায়।</div>
@@ -1392,23 +1454,23 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('weh tun')">
         <span class="v-de">weh tun</span><span class="v-en">to hurt</span><span class="v-bn bn">ব্যথা করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('weh tun')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('weh tun')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('schmerzen')">
         <span class="v-de">schmerzen</span><span class="v-en">to hurt/ache</span><span class="v-bn bn">ব্যথা হওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('schmerzen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('schmerzen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Schmerz')">
         <span class="v-de">der Schmerz</span><span class="v-en">pain</span><span class="v-bn bn">ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Schmerz')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Schmerz')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('stark')">
         <span class="v-de">stark</span><span class="v-en">strong/severe</span><span class="v-bn bn">তীব্র</span>
-        <button class="pb" onclick="event.stopPropagation();tts('stark')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('stark')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('leicht')">
         <span class="v-de">leicht</span><span class="v-en">mild/light</span><span class="v-bn bn">মৃদু / হালকা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('leicht')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('leicht')">🔊</button>
       </div>
     </div>
     <div class="card">
@@ -1420,6 +1482,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1437,6 +1501,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1448,7 +1514,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>weh tun</strong> = vay toon | <strong>schmerzen</strong> = SHMER-tsen | <strong>der Schmerz</strong> = dair shmairts</div>
@@ -1456,6 +1522,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8l4s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1476,7 +1544,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">er/sie</td><td class="de">ihm/ihr</td><td class="de">Ihr Rücken tut ihr weh.</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; সহজ ভাবে বলা</div>
+        <div class="trick-t">💡 সহজ ভাবে বলা</div>
         <div class="trick-bn">দৈনন্দিন কথায় প্রায়ই Dativ pronoun ছাড়াই বলা হয়: "Mein Kopf tut weh." (simplified, but grammatically Dativ pronoun যুক্ত করা যায়)</div>
       </div>
     </div>
@@ -1490,6 +1558,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 LISTENING -->
@@ -1501,7 +1571,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; ব্যথা বর্ণনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 ব্যথা বর্ণনা — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Arzt:</span> Wo tut es Ihnen weh?<br>
         <span class="speaker">Patient:</span> Mein R&#xfc;cken tut sehr weh, besonders wenn ich sitze.<br>
@@ -1510,7 +1580,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Arzt:</span> Tun Ihnen auch die Beine weh?<br>
         <span class="speaker">Patient:</span> Nein, nur der R&#xfc;cken. Aber meine Schultern schmerzen auch ein bisschen.
       </div>
-      <button class="listen-btn" onclick="playL4listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1538,6 +1608,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 READING -->
@@ -1549,7 +1621,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — একটি ফোরাম পোস্ট</div>
+      <div class="read-label">📰 পাঠ্য — একটি ফোরাম পোস্ট</div>
       <strong>Gesundheitsforum: Hilfe bei Rückenschmerzen</strong><br><br>
       Hallo zusammen,<br><br>
       seit zwei Wochen tut mir der R&#xfc;cken sehr weh. Ich arbeite viel am Computer, und ich glaube, das ist das Problem.<br><br>
@@ -1561,7 +1633,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Geh am besten zu einem Physiotherapeuten. Bei mir hat das wirklich geholfen!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">একজন ব্যক্তি দুই সপ্তাহ ধরে পিঠ ব্যথায় ভুগছেন, কম্পিউটারে কাজ করার কারণে। সকালে উঠলে ব্যথা সবচেয়ে বেশি, কাঁধেও ব্যথা হয়। Sabine পরামর্শ দিলেন নিয়মিত নড়াচড়া করতে ও যোগব্যায়াম করতে। Markus পরামর্শ দিলেন ফিজিওথেরাপিস্টের কাছে যেতে।</div>
     </div>
     <div class="listen-q">
@@ -1589,6 +1661,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
@@ -1600,7 +1674,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার শরীরের কোথায় ব্যথা হয় বা হতো? "weh tun" বা "schmerzen" ব্যবহার করে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Mein/Meine... tut/tun weh."</em></div>
@@ -1608,9 +1682,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c8l4fw" placeholder="Mein... tut weh..." oninput="countWords('fw-c8l4fw','wc-c8l4fw')"></textarea>
     <div class="write-counter" id="wc-c8l4fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c8l4fw','wr-c8l4fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c8l4fw','wr-c8l4fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c8l4fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1626,15 +1702,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার কোথায় ব্যথা করে? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Mein... tut weh · Meine... tun weh · Ich habe starke/leichte Schmerzen</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c8l4ss" onclick="toggleFreeSpeak('c8l4ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c8l4ss" onclick="toggleFreeSpeak('c8l4ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c8l4ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1647,6 +1725,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c8l4q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L5: IN DER APOTHEKE ==================== -->
@@ -1657,11 +1737,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৫</div>
     <div class="ph-title">In der Apotheke</div>
     <div class="ph-bn">ফার্মেসিতে</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f48a; ঔষধ</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f48a; ঔষধ</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
+      <div class="cult-icon">🇩🇪</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান ফার্মেসি (Apotheke)</div>
         <div class="cult-bn">Germany তে Apotheke একটা সবুজ "A" চিহ্ন দিয়ে চেনা যায়। ফার্মাসিস্ট অনেক স্বাস্থ্য পরামর্শ দিতে পারেন, কিছু ঔষধের জন্য প্রেসক্রিপশন লাগে না।</div>
@@ -1674,35 +1754,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Apotheke')">
         <span class="v-de">die Apotheke</span><span class="v-en">pharmacy</span><span class="v-bn bn">ফার্মেসি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Apotheke')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Apotheke')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Medikament')">
         <span class="v-de">das Medikament</span><span class="v-en">medicine</span><span class="v-bn bn">ঔষধ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Medikament')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Medikament')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Tablette')">
         <span class="v-de">die Tablette</span><span class="v-en">pill/tablet</span><span class="v-bn bn">ট্যাবলেট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Tablette')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Tablette')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Apotheker')">
         <span class="v-de">der Apotheker</span><span class="v-en">pharmacist</span><span class="v-bn bn">ফার্মাসিস্ট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Apotheker')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Apotheker')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Hustensaft')">
         <span class="v-de">der Hustensaft</span><span class="v-en">cough syrup</span><span class="v-bn bn">কাশির সিরাপ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Hustensaft')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Hustensaft')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Pflaster')">
         <span class="v-de">das Pflaster</span><span class="v-en">band-aid</span><span class="v-bn bn">ব্যান্ডেজ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Pflaster')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Pflaster')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Dosierung')">
         <span class="v-de">die Dosierung</span><span class="v-en">dosage</span><span class="v-bn bn">মাত্রা / ডোজ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Dosierung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Dosierung')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einnehmen')">
         <span class="v-de">einnehmen</span><span class="v-en">to take (medicine)</span><span class="v-bn bn">খাওয়া (ঔষধ)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('einnehmen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('einnehmen')">🔊</button>
       </div>
     </div>
     <div class="card">
@@ -1714,6 +1794,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1731,6 +1813,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1742,7 +1826,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Apotheke</strong> = ah-poh-TAY-ke | <strong>Medikament</strong> = may-dee-kah-MENT | <strong>einnehmen</strong> = INE-nay-men</div>
@@ -1750,6 +1834,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8l5s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1780,6 +1866,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1791,7 +1879,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; ফার্মেসিতে — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 ফার্মেসিতে — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Kunde:</span> Guten Tag, ich brauche etwas gegen Halsschmerzen.<br>
         <span class="speaker">Apotheker:</span> Haben Sie auch Husten?<br>
@@ -1802,7 +1890,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Kunde:</span> Danke sehr. Was kostet das alles?<br>
         <span class="speaker">Apotheker:</span> Das macht zusammen zw&#xf6;lf Euro f&#xfc;nfzig.
       </div>
-      <button class="listen-btn" onclick="playL5listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1830,6 +1918,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 READING -->
@@ -1841,7 +1931,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Medikamenten-Beipackzettel (medicine label)</div>
+      <div class="read-label">📰 পাঠ্য — Medikamenten-Beipackzettel (medicine label)</div>
       <strong>Schmerztabletten — Gebrauchsanweisung</strong><br><br>
       <strong>Anwendung:</strong> Gegen leichte bis mittelstarke Schmerzen und Fieber.<br><br>
       <strong>Dosierung f&#xfc;r Erwachsene:</strong><br>
@@ -1852,7 +1942,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Bei Fragen wenden Sie sich an Ihren Apotheker oder Arzt.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">ব্যথার ট্যাবলেটের নির্দেশনা: হালকা থেকে মাঝারি ব্যথা ও জ্বরের জন্য। বড়দের জন্য ১-২টা ট্যাবলেট প্রতি ৬-৮ ঘণ্টায়, সর্বোচ্চ ৬টা প্রতিদিন। খাবারের পর পানি দিয়ে খাওয়া ভালো। ডাক্তারের পরামর্শ ছাড়া ৩ দিনের বেশি না খাওয়া। পার্শ্বপ্রতিক্রিয়া: কদাচিৎ পেট ব্যথা, বমি বমি ভাব।</div>
     </div>
     <div class="listen-q">
@@ -1880,6 +1970,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
@@ -1891,7 +1983,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি ফার্মেসিতে গিয়ে কী চাইবেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich brauche etwas gegen..."</em></div>
@@ -1899,9 +1991,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c8l5fw" placeholder="Ich brauche etwas gegen..." oninput="countWords('fw-c8l5fw','wc-c8l5fw')"></textarea>
     <div class="write-counter" id="wc-c8l5fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c8l5fw','wr-c8l5fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c8l5fw','wr-c8l5fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c8l5fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -1917,15 +2011,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি ফার্মেসিতে আছেন। কী চান বলুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী বাক্য</div>
         <div class="cult-bn">Ich brauche etwas gegen... · Haben Sie...? · Wie oft soll ich das einnehmen?</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c8l5ss" onclick="toggleFreeSpeak('c8l5ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c8l5ss" onclick="toggleFreeSpeak('c8l5ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c8l5ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -1938,6 +2034,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c8l5q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L6: GESUNDHEITSSYSTEM IN DEUTSCHLAND ==================== -->
@@ -1948,11 +2046,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৬</div>
     <div class="ph-title">Gesundheitssystem in Deutschland</div>
     <div class="ph-bn">জার্মান স্বাস্থ্যব্যবস্থা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f1e9;&#x1f1ea; সংস্কৃতি</span><span class="ph-tag">&#x1f3e5; স্বাস্থ্যব্যবস্থা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🇩🇪 সংস্কৃতি</span><span class="ph-tag">🏥 স্বাস্থ্যব্যবস্থা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
+      <div class="cult-icon">🇩🇪</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান স্বাস্থ্যব্যবস্থা</div>
         <div class="cult-bn">Germany তে স্বাস্থ্য ইন্স্যুরেন্স <strong>আইনত বাধ্যতামূলক</strong> — সবার একটা public বা private insurance থাকতে হবে। এটা বিশ্বের প্রথম modern স্বাস্থ্যবিমা সিস্টেম (১৮৮৩ সালে চালু)।</div>
@@ -1965,27 +2063,27 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Krankenversicherung')">
         <span class="v-de">die Krankenversicherung</span><span class="v-en">health insurance</span><span class="v-bn bn">স্বাস্থ্য ইন্স্যুরেন্স</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Krankenversicherung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Krankenversicherung')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Krankenhaus')">
         <span class="v-de">das Krankenhaus</span><span class="v-en">hospital</span><span class="v-bn bn">হাসপাতাল</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Krankenhaus')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Krankenhaus')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Hausarzt')">
         <span class="v-de">der Hausarzt</span><span class="v-en">family doctor/GP</span><span class="v-bn bn">পরিবারের ডাক্তার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Hausarzt')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Hausarzt')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('gesetzlich')">
         <span class="v-de">gesetzlich</span><span class="v-en">statutory/legal</span><span class="v-bn bn">সরকারি / আইনগত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('gesetzlich')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('gesetzlich')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('privat')">
         <span class="v-de">privat</span><span class="v-en">private</span><span class="v-bn bn">ব্যক্তিগত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('privat')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('privat')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Krankenkasse')">
         <span class="v-de">die Krankenkasse</span><span class="v-en">health insurance fund</span><span class="v-bn bn">স্বাস্থ্য বিমা প্রতিষ্ঠান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Krankenkasse')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Krankenkasse')">🔊</button>
       </div>
     </div>
     <div class="cult-tip">
@@ -1996,6 +2094,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -2013,6 +2113,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -2024,7 +2126,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Krankenversicherung</strong> = KRAN-ken-fer-zikh-er-oong (লম্বা শব্দ, ভেঙে বলুন) | <strong>Hausarzt</strong> = HOWS-artst</div>
@@ -2032,6 +2134,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8l6s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -2060,6 +2164,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -2071,7 +2177,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; স্বাস্থ্যব্যবস্থা নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 স্বাস্থ্যব্যবস্থা নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Student:</span> Wie funktioniert das Gesundheitssystem in Deutschland?<br>
         <span class="speaker">Professor:</span> Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat.<br>
@@ -2080,7 +2186,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Student:</span> Und wenn ich krank bin, wohin gehe ich zuerst?<br>
         <span class="speaker">Professor:</span> Zuerst zum Hausarzt. Wenn n&#xf6;tig, schickt er dich zu einem Spezialisten.
       </div>
-      <button class="listen-btn" onclick="playL6listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2108,6 +2214,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 READING -->
@@ -2119,7 +2227,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Das deutsche Gesundheitssystem (informational article)</div>
+      <div class="read-label">📰 পাঠ্য — Das deutsche Gesundheitssystem (informational article)</div>
       <strong>Wie funktioniert das Gesundheitssystem in Deutschland?</strong><br><br>
       Deutschland hat eines der &#xe4;ltesten Gesundheitssysteme der Welt — es wurde 1883 unter Otto von Bismarck eingef&#xfc;hrt.<br><br>
       Jeder, der in Deutschland lebt, muss eine Krankenversicherung haben. Es gibt zwei Hauptarten: die <strong>gesetzliche Krankenversicherung</strong> (f&#xfc;r etwa 90% der Bev&#xf6;lkerung) und die <strong>private Krankenversicherung</strong>.<br><br>
@@ -2128,7 +2236,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Das System gilt als sehr effektiv, obwohl es manchmal lange Wartezeiten f&#xfc;r Termine bei Spezialisten gibt.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মান স্বাস্থ্যব্যবস্থা বিশ্বের প্রাচীনতম, ১৮৮৩ সালে Otto von Bismarck এর সময় চালু হয়েছিল। প্রত্যেকের ইন্স্যুরেন্স থাকতে হবে — গণতান্ত্রিক (৯০% মানুষের জন্য) ও ব্যক্তিগত। গণতান্ত্রিক বিমায় আয়ের একটা শতাংশ দিতে হয়, employer ও দেয়। অসুস্থ হলে প্রথমে Hausarzt এর কাছে যেতে হয়, প্রয়োজনে specialist এর কাছে পাঠানো হয়। সিস্টেম কার্যকর, যদিও specialist দেখানোর জন্য মাঝে মাঝে দীর্ঘ অপেক্ষা করতে হয়।</div>
     </div>
     <div class="listen-q">
@@ -2156,6 +2264,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
@@ -2167,7 +2277,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার দেশের স্বাস্থ্যব্যবস্থা সম্পর্কে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In Bangladesch..."</em></div>
@@ -2175,9 +2285,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c8l6fw" placeholder="In Bangladesch..." oninput="countWords('fw-c8l6fw','wc-c8l6fw')"></textarea>
     <div class="write-counter" id="wc-c8l6fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c8l6fw','wr-c8l6fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c8l6fw','wr-c8l6fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c8l6fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -2193,15 +2305,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">জার্মান স্বাস্থ্যব্যবস্থা সম্পর্কে যা জানলেন German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Jeder muss... · Es gibt gesetzliche und private... · Man geht zuerst zum...</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c8l6ss" onclick="toggleFreeSpeak('c8l6ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c8l6ss" onclick="toggleFreeSpeak('c8l6ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c8l6ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -2214,6 +2328,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c8l6q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L7: REFLEXIVE VERBEN ==================== -->
@@ -2224,11 +2340,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৭</div>
     <div class="ph-title">Reflexive Verben</div>
     <div class="ph-bn">রিফ্লেক্সিভ ভার্ব</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f504; ব্যাকরণ</span><span class="ph-tag">&#x1f60c; অনুভূতি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🔄 ব্যাকরণ</span><span class="ph-tag">&#x1f60c; অনুভূতি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">reflexive verb কী?</div>
         <div class="cult-bn">যে verb এ কর্তা নিজের উপর কাজ করে — যেমন <strong>sich fühlen</strong> (নিজেকে অনুভব করা)। German এ স্বাস্থ্য সম্পর্কিত অনেক verb reflexive।</div>
@@ -2241,30 +2357,32 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich fühlen')">
         <span class="v-de">sich f&#xfc;hlen</span><span class="v-en">to feel</span><span class="v-bn bn">নিজেকে অনুভব করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich fühlen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich fühlen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich erholen')">
         <span class="v-de">sich erholen</span><span class="v-en">to recover</span><span class="v-bn bn">সুস্থ হওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich erholen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich erholen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich ausruhen')">
         <span class="v-de">sich ausruhen</span><span class="v-en">to rest</span><span class="v-bn bn">বিশ্রাম নেওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich ausruhen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich ausruhen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich verletzen')">
         <span class="v-de">sich verletzen</span><span class="v-en">to injure oneself</span><span class="v-bn bn">আঘাত পাওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich verletzen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich verletzen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich erkälten')">
         <span class="v-de">sich erk&#xe4;lten</span><span class="v-en">to catch a cold</span><span class="v-bn bn">ঠান্ডা লাগা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich erkälten')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich erkälten')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich entspannen')">
         <span class="v-de">sich entspannen</span><span class="v-en">to relax</span><span class="v-bn bn">বিশ্রাম/আরাম করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich entspannen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich entspannen')">🔊</button>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2282,6 +2400,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2293,7 +2413,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>sich fühlen</strong> = zikh FUE-len | <strong>sich erholen</strong> = zikh air-HOH-len | <strong>sich erkälten</strong> = zikh air-KELL-ten</div>
@@ -2301,6 +2421,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8l7s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2322,7 +2444,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Sie (formal)</td><td class="de">sich</td><td class="de">Wie fühlen Sie sich?</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; mnemonic</div>
+        <div class="trick-t">💡 mnemonic</div>
         <div class="trick-bn">শুধু ich (mich) ও du (dich) ছাড়া বাকি সব pronoun এর জন্য reflexive pronoun "sich" বা "uns" — মুখস্থ করতে সহজ!</div>
       </div>
     </div>
@@ -2337,6 +2459,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2348,7 +2472,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; কেমন অনুভব করছেন — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 কেমন অনুভব করছেন — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Freundin:</span> Hallo! Wie f&#xfc;hlst du dich heute?<br>
         <span class="speaker">Lisa:</span> Ich f&#xfc;hle mich schon viel besser. Ich erhole mich gut von der Grippe.<br>
@@ -2357,7 +2481,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Freundin:</span> Hast du dich beim Sport verletzt? Ich habe geh&#xf6;rt, dein Knie tat weh.<br>
         <span class="speaker">Lisa:</span> Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.
       </div>
-      <button class="listen-btn" onclick="playL7listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2385,6 +2509,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 READING -->
@@ -2396,7 +2522,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Mein Genesungstagebuch (recovery diary)</div>
+      <div class="read-label">📰 পাঠ্য — Mein Genesungstagebuch (recovery diary)</div>
       <strong>Mein Genesungstagebuch</strong><br><br>
       <strong>Montag:</strong> Ich fühle mich heute sehr schlecht. Ich habe mich wahrscheinlich erkältet — mein Hals tut weh, und ich habe Fieber.<br><br>
       <strong>Dienstag:</strong> Ich habe mich heute den ganzen Tag ausgeruht. Ich fühle mich ein bisschen besser, aber ich bin noch sehr müde.<br><br>
@@ -2405,7 +2531,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <strong>Freitag:</strong> Ich fühle mich wieder gesund! Die Erkältung ist vorbei.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">এক সপ্তাহের সুস্থতার ডায়েরি: সোমবার খুব খারাপ অনুভূতি, গলা ব্যথা ও জ্বর। মঙ্গলবার পুরো দিন বিশ্রাম, একটু ভালো লাগছে। বুধবার ধীরে সুস্থ হচ্ছেন, জ্বর চলে গেছে। বৃহস্পতিবার প্রায় স্বাভাবিক অনুভব করছেন। শুক্রবার সম্পূর্ণ সুস্থ — ঠান্ডা শেষ।</div>
     </div>
     <div class="listen-q">
@@ -2433,6 +2559,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
@@ -2444,7 +2572,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি কেমন অনুভব করছেন? Reflexive verb (sich fühlen, sich erholen) ব্যবহার করে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich fühle mich..."</em></div>
@@ -2452,9 +2580,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c8l7fw" placeholder="Ich fühle mich..." oninput="countWords('fw-c8l7fw','wc-c8l7fw')"></textarea>
     <div class="write-counter" id="wc-c8l7fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c8l7fw','wr-c8l7fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c8l7fw','wr-c8l7fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c8l7fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2470,15 +2600,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আজ আপনি কেমন অনুভব করছেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich fühle mich... · Ich erhole mich von... · Ich habe mich ausgeruht</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c8l7ss" onclick="toggleFreeSpeak('c8l7ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c8l7ss" onclick="toggleFreeSpeak('c8l7ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c8l7ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2491,6 +2623,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c8l7q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== R9: REVIEW ==================== -->
@@ -2501,7 +2635,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৮ · রিভিউ</div>
     <div class="ph-title">পূর্ণ রিভিউ</div>
     <div class="ph-bn">অধ্যায় ৮ সারসংক্ষেপ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">&#x1f3e5; Gesundheit</span><span class="ph-tag">&#x1f9b4; K&#xf6;rper</span></div>
+    <div class="ph-tags"><span class="ph-tag">🔄 রিভিউ</span><span class="ph-tag">🏥 Gesundheit</span><span class="ph-tag">&#x1f9b4; K&#xf6;rper</span></div>
   </div>
   <div class="content">
     <div class="review-card">
@@ -2530,17 +2664,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="review-item">gegen + Akkusativ: "Ich brauche etwas gegen Kopfschmerzen."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f1e9;&#x1f1ea; পাঠ ৬ — Gesundheitssystem</div>
+      <div class="review-t">🇩🇪 পাঠ ৬ — Gesundheitssystem</div>
       <div class="review-item">die Krankenversicherung, das Krankenhaus, der Hausarzt, gesetzlich, privat</div>
       <div class="review-item">১৮৮৩ সালে চালু হওয়া বিশ্বের প্রাচীনতম স্বাস্থ্যব্যবস্থা; ৯০% মানুষের গণতান্ত্রিক বিমা; müssen দিয়ে বাধ্যতা প্রকাশ</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f504; পাঠ ৭ — Reflexive Verben</div>
+      <div class="review-t">🔄 পাঠ ৭ — Reflexive Verben</div>
       <div class="review-item">sich fühlen, sich erholen, sich ausruhen, sich verletzen, sich erkälten</div>
       <div class="review-item">Reflexivpronomen: mich, dich, sich, uns, sich — "Wie fühlst du dich?"</div>
     </div>
     <div class="card">
-      <div class="card-t">&#x1f3af; অধ্যায় ৮ — মূল Grammar Points</div>
+      <div class="card-t">🎯 অধ্যায় ৮ — মূল Grammar Points</div>
       <table class="gram-table">
         <tr><th>Topic</th><th>Rule</th><th class="bn">উদাহরণ</th></tr>
         <tr><td class="de">fehlen</td><td class="de">Dativ verb</td><td class="bn">Was fehlt Ihnen?</td></tr>
@@ -2552,6 +2686,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- R9 SPEAKING REVIEW -->
@@ -2563,7 +2699,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত উচ্চারণ পরীক্ষা</div>
         <div class="cult-bn">অধ্যায় ৮ এর সবচেয়ে গুরুত্বপূর্ণ বাক্যগুলো বলুন। প্রতিটি শুনুন, তারপর নিজে বলুন।</div>
@@ -2571,18 +2707,20 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c8rs"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- R9 QUIZ -->
 <div class="page" id="page-c8rq">
   <div class="ph">
     <div class="ph-eye">অধ্যায় ৮ · রিভিউ</div>
-    <div class="ph-title">রিভিউ কুইজ &#x1f3c6;</div>
+    <div class="ph-title">রিভিউ কুইজ 🏆</div>
     <div class="ph-bn">অধ্যায় ৮ সম্পূর্ণ পরীক্ষা</div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3c6;</div>
+      <div class="cult-icon">🏆</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত কুইজ</div>
         <div class="cult-bn">এই কুইজে অধ্যায় ৮ এর সব পাঠ থেকে প্রশ্ন আছে। পাস করতে ৬০% দরকার।</div>
@@ -2590,6 +2728,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="qz-c8rq"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -2597,6 +2737,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
 
@@ -2667,6 +2808,7 @@ var _CH_QZ=['c8l1q','c8l2q','c8l3q','c8l4q','c8l5q','c8l6q','c8l7q','c8rq'];
 var _CH_FITB=['c8l1w','c8l2w','c8l3w','c8l4w','c8l5w','c8l6w','c8l7w'];
 
 function go(page,navId){
+  curPage = page;
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   var _pg=document.getElementById('page-'+page);if(!_pg)return;
@@ -2677,6 +2819,7 @@ function go(page,navId){
   if(_CH_SP.indexOf(page)>=0)buildSp(page);
   if(_CH_QZ.indexOf(page)>=0)buildQuiz(page);
   if(_CH_FITB.indexOf(page)>=0)buildFITB(page);
+  updateNavBtns();
 }
 function toggleSB(){
   var sb=document.getElementById('sidebar');
@@ -2980,18 +3123,18 @@ function buildSp(day){
   spData[day].forEach(function(p,i){
     var d=document.createElement('div');d.className='sp-card';d.id='spc-'+day+i;
     var deSafe=p.de.replace(/'/g,"\\'");
-    d.innerHTML='<div class="sp-de">'+p.de+'</div><div class="sp-en">'+p.en+'</div><div class="sp-bn">'+p.bn+'</div><div class="sp-hint">&#x1f5e3;&#xfe0f; '+p.h+'</div><div class="sp-actions"><button class="sp-btn sp-play" onclick="tts(\''+deSafe+'\')">&#x1f50a; শুনুন</button><button class="sp-btn sp-rec" id="recbtn-'+day+'-'+p.id+'" onclick="startRec(\''+day+'\',\''+p.id+'\',\''+deSafe+'\',this)">&#x1f3a4; বলুন</button></div><div class="sp-result" id="spr-'+day+'-'+p.id+'"></div>';
+    d.innerHTML='<div class="sp-de">'+p.de+'</div><div class="sp-en">'+p.en+'</div><div class="sp-bn">'+p.bn+'</div><div class="sp-hint">🗣️️ '+p.h+'</div><div class="sp-actions"><button class="sp-btn sp-play" onclick="tts(\''+deSafe+'\')">🔊 শুনুন</button><button class="sp-btn sp-rec" id="recbtn-'+day+'-'+p.id+'" onclick="startRec(\''+day+'\',\''+p.id+'\',\''+deSafe+'\',this)">🎤 বলুন</button></div><div class="sp-result" id="spr-'+day+'-'+p.id+'"></div>';
     c.appendChild(d);
   });
   var sc=document.createElement('div');sc.className='sp-score-wrap';
-  sc.innerHTML='<button class="btn" onclick="showSpScore(\''+day+'\')">আমার স্কোর &#x1f3c6;</button><div class="sp-score" id="spscore-'+day+'"></div>';
+  sc.innerHTML='<button class="btn" onclick="showSpScore(\''+day+'\')">আমার স্কোর 🏆</button><div class="sp-score" id="spscore-'+day+'"></div>';
   c.appendChild(sc);
 }
 function startRec(day,id,target,btn){
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){alert('Chrome browser দরকার speech recognition এর জন্য!');return;}
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();rec.lang='de-DE';rec.interimResults=false;rec.maxAlternatives=3;
-  btn.textContent='&#x23f9; থামুন';btn.classList.add('recording');
+  btn.innerHTML='⏹ থামুন';btn.classList.add('recording');
   rec.onresult=function(e){
     var alts=[];
     for(var i=0;i<e.results[0].length;i++){alts.push(e.results[0][i].transcript.toLowerCase());}
@@ -3008,7 +3151,7 @@ function startRec(day,id,target,btn){
 }
 function rstBtn(day,id,btn){
   var p=spData[day]&&spData[day].filter(function(x){return x.id===id;})[0];
-  btn.textContent='&#x1f3a4; বলুন';btn.classList.remove('recording');
+  btn.innerHTML='🎤 বলুন';btn.classList.remove('recording');
   btn.onclick=function(){startRec(day,id,p?p.de:target,btn);};
 }
 function lev(a,b){
@@ -3058,7 +3201,7 @@ function buildFITB(day){
     var d=document.createElement('div');d.className='fitb-card';d.id='fitbc-'+day+i;
     var inlineInput='<input class="fitb-inline" id="fitbin-'+day+i+'" type="text" placeholder="???" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key===\'Enter\')checkFITB(\''+day+'\','+i+',this.value)" oninput="this.style.width=Math.max(60,this.value.length*12+20)+\'px\'">';
     var sentence=q.q.replace('___',inlineInput);
-    d.innerHTML='<div class="fitb-n">প্রশ্ন '+(i+1)+'/৫</div><div class="fitb-hint">'+q.hint+'</div><div class="fitb-sentence" id="fitbblank-'+day+i+'">'+sentence+'</div><div class="fitb-actions"><button class="fitb-btn" onclick="checkFITB(\''+day+'\','+i+',document.getElementById(\'fitbin-'+day+i+'\').value)">&#x2713; পরীক্ষা করুন</button></div><div class="fitb-fb" id="fitbfb-'+day+i+'"></div>';
+    d.innerHTML='<div class="fitb-n">প্রশ্ন '+(i+1)+'/৫</div><div class="fitb-hint">'+q.hint+'</div><div class="fitb-sentence" id="fitbblank-'+day+i+'">'+sentence+'</div><div class="fitb-actions"><button class="fitb-btn" onclick="checkFITB(\''+day+'\','+i+',document.getElementById(\'fitbin-'+day+i+'\').value)">✓ পরীক্ষা করুন</button></div><div class="fitb-fb" id="fitbfb-'+day+i+'"></div>';
     c.appendChild(d);
   });
   if(!fitbScores[day])fitbScores[day]={correct:0,total:5,done:[]};
@@ -3080,17 +3223,22 @@ function checkFITB(day,i,val){
   if(ok){
     if(card)card.className='fitb-card correct';
     if(inp){inp.value=q.blank;inp.style.color='var(--green)';inp.style.borderBottomColor='var(--green)';inp.disabled=true;inp.style.width=Math.max(60,q.blank.length*13+20)+'px';}
-    if(fb){fb.textContent='&#x2705; সঠিক! '+q.blank+' — '+q.hint;fb.className='fitb-fb show ok';}
+    if(fb){fb.textContent='✅ সঠিক! '+q.blank+' — '+q.hint;fb.className='fitb-fb show ok';}
     addXP(10);
   }else{
     if(card)card.className='fitb-card wrong';
     if(inp){inp.style.color='var(--red)';inp.style.borderBottomColor='var(--red)';}
-    if(fb){fb.innerHTML='&#x274c; ভুল! সঠিক উত্তর: <strong>'+q.blank+'</strong>';fb.className='fitb-fb show no';}
+    if(fb){fb.innerHTML='❌ ভুল! সঠিক উত্তর: <strong>'+q.blank+'</strong>';fb.className='fitb-fb show no';}
     addToSRS({de:q.blank,bn:q.hint,ctx:q.q});
   }
   if(fitbScores[day].done.length>=5){
     var sc=document.getElementById('fitb-score-'+day);
     if(sc)sc.classList.add('show');
+    var scn=document.getElementById('fitb-sc-'+day);
+    if(scn){
+      var bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+      scn.textContent=bnD[fitbScores[day].correct]+'/'+bnD[5];
+    }
     if(fitbScores[day].correct>=3)addXP(15);
   }
 }
@@ -3106,7 +3254,7 @@ function buildQuiz(day){
     c.appendChild(d);
   });
   var sc=document.createElement('div');
-  sc.innerHTML='<button class="btn" onclick="submitQuiz(\''+day+'\')">কুইজ জমা দিন &#x1f3af;</button><div class="score" id="sc-'+day+'"><div class="sc-big" id="scn-'+day+'">0/'+qzData[day].length+'</div><div class="sc-lbl">সঠিক উত্তর</div><div class="sc-msg" id="scm-'+day+'"></div></div><div class="mistakes-box" id="mb-'+day+'"><div class="mistakes-hdr">&#x274c; আপনার ভুলগুলো — ভুল থেকে শিখুন!</div><div id="mlist-'+day+'"></div></div>';
+  sc.innerHTML='<button class="btn" onclick="submitQuiz(\''+day+'\')">কুইজ জমা দিন 🎯</button><div class="score" id="sc-'+day+'"><div class="sc-big" id="scn-'+day+'">0/'+qzData[day].length+'</div><div class="sc-lbl">সঠিক উত্তর</div><div class="sc-msg" id="scm-'+day+'"></div></div><div class="mistakes-box" id="mb-'+day+'"><div class="mistakes-hdr">❌ আপনার ভুলগুলো — ভুল থেকে শিখুন!</div><div id="mlist-'+day+'"></div></div>';
   c.appendChild(sc);
 }
 function ansQ(day,qi,oi,btn){
@@ -3115,7 +3263,7 @@ function ansQ(day,qi,oi,btn){
   qzAns[day][qi]=oi;
   var ok=(oi===q.a);
   var fb=document.getElementById('qfb-'+day+'-'+qi);
-  if(fb){fb.textContent=(ok?'&#x2705; সঠিক! Richtig! — ':'&#x274c; ভুল! Falsch! — সঠিক: '+q.o[q.a]+' — ')+q.f;fb.className='q-fb show '+(ok?'ok':'no');}
+  if(fb){fb.textContent=(ok?'✅ সঠিক! Richtig! — ':'❌ ভুল! Falsch! — সঠিক: '+q.o[q.a]+' — ')+q.f;fb.className='q-fb show '+(ok?'ok':'no');}
   var btns=btn.parentNode.querySelectorAll('.qo');
   for(var i=0;i<btns.length;i++)btns[i].disabled=true;
   btn.classList.add(ok?'correct':'wrong');
@@ -3139,14 +3287,14 @@ function submitQuiz(day){
   if(scn)scn.textContent=correct+'/'+total+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.textContent='&#x1f3c6; অসাধারণ! Ausgezeichnet! +'+correct*5+' XP';
-    else if(pct>=80)scm.textContent='&#x2b50; দারুণ! Sehr gut! +'+correct*5+' XP';
-    else if(pct>=60)scm.textContent='&#x2705; ধন্যবাদ! Gut! +'+correct*5+' XP';
+    if(pct>=90)scm.textContent='🏆 অসাধারণ! Ausgezeichnet! +'+correct*5+' XP';
+    else if(pct>=80)scm.textContent='⭐ দারুণ! Sehr gut! +'+correct*5+' XP';
+    else if(pct>=60)scm.textContent='✅ ধন্যবাদ! Gut! +'+correct*5+' XP';
     else{
-      scm.textContent='&#x274c; আরো পড়ুন! অন্তত 60% দরকার। তুমি '+pct+'% পেয়েছ।';
+      scm.textContent='❌ আরো পড়ুন! অন্তত 60% দরকার। তুমি '+pct+'% পেয়েছ।';
       var rb=document.createElement('button');
       rb.className='btn';rb.style.marginTop='10px';rb.style.background='#e74c3c';
-      rb.textContent='&#x1f501; আবার দাও';
+      rb.textContent='🔁 আবার দাও';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(day);
       scm.appendChild(rb);
     }
@@ -3159,7 +3307,7 @@ function submitQuiz(day){
     if(mb)mb.classList.add('show');
     if(ml){
       var html='';
-      mistakes.forEach(function(m){html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+m.q+'</div><div class="mi-wrong">&#x274c; আপনার উত্তর: '+m.wrong+'</div><div class="mi-correct">&#x2705; সঠিক: '+m.correct+'</div><div class="mi-tip">&#x1f4a1; '+m.f+'</div></div>';});
+      mistakes.forEach(function(m){html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+m.q+'</div><div class="mi-wrong">❌ আপনার উত্তর: '+m.wrong+'</div><div class="mi-correct">✅ সঠিক: '+m.correct+'</div><div class="mi-tip">💡 '+m.f+'</div></div>';});
       ml.innerHTML=html;
     }
   }
@@ -3193,11 +3341,11 @@ function submitWrite(taId,resId){
   var words=ta.value.trim().split(/\s+/).filter(function(w){return w.length>0;});
   var n=ta.value.trim()===''?0:words.length;
   if(n<20){
-    res.innerHTML='&#x26a0;&#xfe0f; কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ।';
+    res.innerHTML='⚠️ কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ।';
     res.style.display='block';res.style.background='#fff5f5';res.style.color='var(--red)';
     return;
   }
-  res.innerHTML='&#x2705; চমৎকার! '+n+'টি শব্দ লিখেছেন। +15 XP';
+  res.innerHTML='✅ চমৎকার! '+n+'টি শব্দ লিখেছেন। +15 XP';
   res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
   addXP(15);markVisit(taId.replace('fw-',''),taId.replace('fw-','')+'fw');
 }
@@ -3211,33 +3359,33 @@ function toggleFreeSpeak(id){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';
+    btn.innerHTML='🎤 বলা শুরু করুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='&#x26a0;&#xfe0f; Chrome browser দরকার!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();rec.lang='de-DE';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='&#x23f9; থামাতে চাপুন';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপুন';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
       var words=t.trim().split(/\s+/).length;
       var ok=words>=3;
-      res.innerHTML=(ok?'&#x2705;':'&#x26a0;&#xfe0f;')+' শোনা গেছে: "'+t+'"'+(ok?' — চমৎকার! +10 XP':' — আরো বলুন!');
+      res.innerHTML=(ok?'✅':'⚠️')+' শোনা গেছে: "'+t+'"'+(ok?' — চমৎকার! +10 XP':' — আরো বলুন!');
       res.style.display='block';res.style.background=ok?'#f0fdf4':'#fffbf0';res.style.color=ok?'var(--green)':'#856404';
       if(ok)addXP(10);
     }
   };
   rec.onerror=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
+    btn.innerHTML='🎤 বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
+    btn.innerHTML='🎤 বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }
@@ -3250,6 +3398,107 @@ Object.keys(p).forEach(function(tab){var ni=document.getElementById('nav-'+tab);
 go('c8l1v','nav-c8l1v');
 toggleWeek(8);
 toggleDay('c8l1');
+var pageSeq = [
+  {id:'c8l1v',nav:'nav-c8l1v',lid:'c8l1'},
+  {id:'c8l1w',nav:'nav-c8l1w',lid:'c8l1'},
+  {id:'c8l1s',nav:'nav-c8l1s',lid:'c8l1'},
+  {id:'c8l1gr',nav:'nav-c8l1gr',lid:'c8l1'},
+  {id:'c8l1l',nav:'nav-c8l1l',lid:'c8l1'},
+  {id:'c8l1rd',nav:'nav-c8l1rd',lid:'c8l1'},
+  {id:'c8l1fw',nav:'nav-c8l1fw',lid:'c8l1'},
+  {id:'c8l1ss',nav:'nav-c8l1ss',lid:'c8l1'},
+  {id:'c8l1q',nav:'nav-c8l1q',lid:'c8l1'},
+  {id:'c8l2v',nav:'nav-c8l2v',lid:'c8l2'},
+  {id:'c8l2w',nav:'nav-c8l2w',lid:'c8l2'},
+  {id:'c8l2s',nav:'nav-c8l2s',lid:'c8l2'},
+  {id:'c8l2gr',nav:'nav-c8l2gr',lid:'c8l2'},
+  {id:'c8l2l',nav:'nav-c8l2l',lid:'c8l2'},
+  {id:'c8l2rd',nav:'nav-c8l2rd',lid:'c8l2'},
+  {id:'c8l2fw',nav:'nav-c8l2fw',lid:'c8l2'},
+  {id:'c8l2ss',nav:'nav-c8l2ss',lid:'c8l2'},
+  {id:'c8l2q',nav:'nav-c8l2q',lid:'c8l2'},
+  {id:'c8l3v',nav:'nav-c8l3v',lid:'c8l3'},
+  {id:'c8l3w',nav:'nav-c8l3w',lid:'c8l3'},
+  {id:'c8l3s',nav:'nav-c8l3s',lid:'c8l3'},
+  {id:'c8l3gr',nav:'nav-c8l3gr',lid:'c8l3'},
+  {id:'c8l3l',nav:'nav-c8l3l',lid:'c8l3'},
+  {id:'c8l3rd',nav:'nav-c8l3rd',lid:'c8l3'},
+  {id:'c8l3fw',nav:'nav-c8l3fw',lid:'c8l3'},
+  {id:'c8l3ss',nav:'nav-c8l3ss',lid:'c8l3'},
+  {id:'c8l3q',nav:'nav-c8l3q',lid:'c8l3'},
+  {id:'c8l4v',nav:'nav-c8l4v',lid:'c8l4'},
+  {id:'c8l4w',nav:'nav-c8l4w',lid:'c8l4'},
+  {id:'c8l4s',nav:'nav-c8l4s',lid:'c8l4'},
+  {id:'c8l4gr',nav:'nav-c8l4gr',lid:'c8l4'},
+  {id:'c8l4l',nav:'nav-c8l4l',lid:'c8l4'},
+  {id:'c8l4rd',nav:'nav-c8l4rd',lid:'c8l4'},
+  {id:'c8l4fw',nav:'nav-c8l4fw',lid:'c8l4'},
+  {id:'c8l4ss',nav:'nav-c8l4ss',lid:'c8l4'},
+  {id:'c8l4q',nav:'nav-c8l4q',lid:'c8l4'},
+  {id:'c8l5v',nav:'nav-c8l5v',lid:'c8l5'},
+  {id:'c8l5w',nav:'nav-c8l5w',lid:'c8l5'},
+  {id:'c8l5s',nav:'nav-c8l5s',lid:'c8l5'},
+  {id:'c8l5gr',nav:'nav-c8l5gr',lid:'c8l5'},
+  {id:'c8l5l',nav:'nav-c8l5l',lid:'c8l5'},
+  {id:'c8l5rd',nav:'nav-c8l5rd',lid:'c8l5'},
+  {id:'c8l5fw',nav:'nav-c8l5fw',lid:'c8l5'},
+  {id:'c8l5ss',nav:'nav-c8l5ss',lid:'c8l5'},
+  {id:'c8l5q',nav:'nav-c8l5q',lid:'c8l5'},
+  {id:'c8l6v',nav:'nav-c8l6v',lid:'c8l6'},
+  {id:'c8l6w',nav:'nav-c8l6w',lid:'c8l6'},
+  {id:'c8l6s',nav:'nav-c8l6s',lid:'c8l6'},
+  {id:'c8l6gr',nav:'nav-c8l6gr',lid:'c8l6'},
+  {id:'c8l6l',nav:'nav-c8l6l',lid:'c8l6'},
+  {id:'c8l6rd',nav:'nav-c8l6rd',lid:'c8l6'},
+  {id:'c8l6fw',nav:'nav-c8l6fw',lid:'c8l6'},
+  {id:'c8l6ss',nav:'nav-c8l6ss',lid:'c8l6'},
+  {id:'c8l6q',nav:'nav-c8l6q',lid:'c8l6'},
+  {id:'c8l7v',nav:'nav-c8l7v',lid:'c8l7'},
+  {id:'c8l7w',nav:'nav-c8l7w',lid:'c8l7'},
+  {id:'c8l7s',nav:'nav-c8l7s',lid:'c8l7'},
+  {id:'c8l7gr',nav:'nav-c8l7gr',lid:'c8l7'},
+  {id:'c8l7l',nav:'nav-c8l7l',lid:'c8l7'},
+  {id:'c8l7rd',nav:'nav-c8l7rd',lid:'c8l7'},
+  {id:'c8l7fw',nav:'nav-c8l7fw',lid:'c8l7'},
+  {id:'c8l7ss',nav:'nav-c8l7ss',lid:'c8l7'},
+  {id:'c8l7q',nav:'nav-c8l7q',lid:'c8l7'},
+  {id:'c8rv',nav:'nav-c8rv',lid:'c8r'},
+  {id:'c8rs',nav:'nav-c8rs',lid:'c8r'},
+  {id:'c8rq',nav:'nav-c8rq',lid:'c8r'},
+];
+
+function goNext() {
+  if (typeof pageSeq === 'undefined' || !pageSeq.length) return;
+  var cur = (typeof curPage !== 'undefined' ? curPage : '') || '';
+  var idx = -1;
+  for (var i = 0; i < pageSeq.length; i++) { if (pageSeq[i].id === cur) { idx = i; break; } }
+  if (idx >= 0 && idx < pageSeq.length - 1) {
+    var nxt = pageSeq[idx + 1];
+    go(nxt.id, nxt.nav); markVisit(nxt.lid, nxt.id);
+  }
+}
+function goPrev() {
+  if (typeof pageSeq === 'undefined' || !pageSeq.length) return;
+  var cur = (typeof curPage !== 'undefined' ? curPage : '') || '';
+  var idx = -1;
+  for (var i = 0; i < pageSeq.length; i++) { if (pageSeq[i].id === cur) { idx = i; break; } }
+  if (idx > 0) {
+    var prv = pageSeq[idx - 1];
+    go(prv.id, prv.nav); markVisit(prv.lid, prv.id);
+  }
+}
+function updateNavBtns() {
+  if (typeof pageSeq === 'undefined' || !pageSeq.length) return;
+  var cur = (typeof curPage !== 'undefined' ? curPage : '') || '';
+  if (!cur) return;
+  var idx = -1;
+  for (var i = 0; i < pageSeq.length; i++) { if (pageSeq[i].id === cur) { idx = i; break; } }
+  var pb = document.querySelectorAll('.pnb-prev');
+  var nb = document.querySelectorAll('.pnb-next');
+  for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
+  for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
+}
+
 </script>
 </body>
 </html>
