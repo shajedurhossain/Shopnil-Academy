@@ -259,7 +259,15 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   .ph-title{font-size:1.2rem}
   .nav-item{padding:5px 12px 5px 22px}
 }
-  </style>
+  
+.page-nav-bar{display:flex;gap:10px;padding:18px 13px 30px;margin-top:10px;border-top:1px solid #E7E2D6}
+.pnb-prev,.pnb-next{flex:1;border:none;border-radius:10px;padding:13px 10px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:'Hind Siliguri',sans-serif;transition:background .18s,transform .1s}
+.pnb-prev{background:#f0f0f0;color:#444}
+.pnb-prev:hover{background:#e0e0e0;transform:translateX(-2px)}
+.pnb-next{background:var(--green);color:#fff}
+.pnb-next:hover{background:#04503B;transform:translateX(2px)}
+.pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+</style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -282,9 +290,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
   <span class="tb-level">A1</span>
-  <span class="tb-title">&#x1f1e9;&#x1f1ea; অধ্যায় ৯ — Reisen &amp; Urlaub</span>
+  <span class="tb-title">🇩🇪 অধ্যায় ৯ — Reisen &amp; Urlaub</span>
   <div class="tb-right">
-    <div class="streak-chip"><span class="streak-fire">&#x1f525;</span><span class="streak-count" id="streakTop">0</span></div>
+    <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
   </div>
 </div>
@@ -297,169 +305,169 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="sb-nav">
     <div class="sb-head">
       <div class="sb-head-title">Chapter 9</div>
-      <div class="sb-head-bn">&#x2708;&#xfe0f; Reisen &amp; Urlaub</div>
+      <div class="sb-head-bn">✈️ Reisen &amp; Urlaub</div>
     </div>
 
     <div class="week-block">
       <div class="week-hdr" id="wh9" onclick="toggleWeek(9)">
         <span class="week-pill">&#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09ef;</span>
         <span class="week-name">Reisen &amp; Urlaub</span>
-        <span class="week-arr">&#x25ba;</span>
+        <span class="week-arr">►</span>
       </div>
       <div class="day-list" id="wl9">
 
         <!-- L1 Verkehrsmittel -->
         <div class="day-hdr" id="dhc9l1" onclick="toggleDay('c9l1')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f697; L1 — Verkehrsmittel</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🚗 L1 — Verkehrsmittel</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9l1">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9l1" style="width:0%"></div></div><div class="day-progress" id="progtext-c9l1">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9l1v" onclick="go('c9l1v','nav-c9l1v');markVisit('c9l1','c9l1v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1w" onclick="go('c9l1w','nav-c9l1w');markVisit('c9l1','c9l1w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1s" onclick="go('c9l1s','nav-c9l1s');markVisit('c9l1','c9l1s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1gr" onclick="go('c9l1gr','nav-c9l1gr');markVisit('c9l1','c9l1gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1l" onclick="go('c9l1l','nav-c9l1l');markVisit('c9l1','c9l1l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1rd" onclick="go('c9l1rd','nav-c9l1rd');markVisit('c9l1','c9l1rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1fw" onclick="go('c9l1fw','nav-c9l1fw');markVisit('c9l1','c9l1fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1ss" onclick="go('c9l1ss','nav-c9l1ss');markVisit('c9l1','c9l1ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l1q" onclick="go('c9l1q','nav-c9l1q');markVisit('c9l1','c9l1q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9l1v" onclick="go('c9l1v','nav-c9l1v');markVisit('c9l1','c9l1v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1w" onclick="go('c9l1w','nav-c9l1w');markVisit('c9l1','c9l1w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1s" onclick="go('c9l1s','nav-c9l1s');markVisit('c9l1','c9l1s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1gr" onclick="go('c9l1gr','nav-c9l1gr');markVisit('c9l1','c9l1gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1l" onclick="go('c9l1l','nav-c9l1l');markVisit('c9l1','c9l1l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1rd" onclick="go('c9l1rd','nav-c9l1rd');markVisit('c9l1','c9l1rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1fw" onclick="go('c9l1fw','nav-c9l1fw');markVisit('c9l1','c9l1fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1ss" onclick="go('c9l1ss','nav-c9l1ss');markVisit('c9l1','c9l1ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l1q" onclick="go('c9l1q','nav-c9l1q');markVisit('c9l1','c9l1q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L2 Am Bahnhof / Flughafen -->
         <div class="day-hdr" id="dhc9l2" onclick="toggleDay('c9l2')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x2708;&#xfe0f; L2 — Am Bahnhof/Flughafen</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">✈️ L2 — Am Bahnhof/Flughafen</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9l2">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9l2" style="width:0%"></div></div><div class="day-progress" id="progtext-c9l2">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9l2v" onclick="go('c9l2v','nav-c9l2v');markVisit('c9l2','c9l2v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2w" onclick="go('c9l2w','nav-c9l2w');markVisit('c9l2','c9l2w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2s" onclick="go('c9l2s','nav-c9l2s');markVisit('c9l2','c9l2s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2gr" onclick="go('c9l2gr','nav-c9l2gr');markVisit('c9l2','c9l2gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2l" onclick="go('c9l2l','nav-c9l2l');markVisit('c9l2','c9l2l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2rd" onclick="go('c9l2rd','nav-c9l2rd');markVisit('c9l2','c9l2rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2fw" onclick="go('c9l2fw','nav-c9l2fw');markVisit('c9l2','c9l2fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2ss" onclick="go('c9l2ss','nav-c9l2ss');markVisit('c9l2','c9l2ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l2q" onclick="go('c9l2q','nav-c9l2q');markVisit('c9l2','c9l2q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9l2v" onclick="go('c9l2v','nav-c9l2v');markVisit('c9l2','c9l2v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2w" onclick="go('c9l2w','nav-c9l2w');markVisit('c9l2','c9l2w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2s" onclick="go('c9l2s','nav-c9l2s');markVisit('c9l2','c9l2s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2gr" onclick="go('c9l2gr','nav-c9l2gr');markVisit('c9l2','c9l2gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2l" onclick="go('c9l2l','nav-c9l2l');markVisit('c9l2','c9l2l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2rd" onclick="go('c9l2rd','nav-c9l2rd');markVisit('c9l2','c9l2rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2fw" onclick="go('c9l2fw','nav-c9l2fw');markVisit('c9l2','c9l2fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2ss" onclick="go('c9l2ss','nav-c9l2ss');markVisit('c9l2','c9l2ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l2q" onclick="go('c9l2q','nav-c9l2q');markVisit('c9l2','c9l2q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L3 Die Hotelbuchung -->
         <div class="day-hdr" id="dhc9l3" onclick="toggleDay('c9l3')">
           <span class="day-dot"></span>
           <span class="day-name">&#x1f3e8; L3 — Die Hotelbuchung</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9l3">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9l3" style="width:0%"></div></div><div class="day-progress" id="progtext-c9l3">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9l3v" onclick="go('c9l3v','nav-c9l3v');markVisit('c9l3','c9l3v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3w" onclick="go('c9l3w','nav-c9l3w');markVisit('c9l3','c9l3w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3s" onclick="go('c9l3s','nav-c9l3s');markVisit('c9l3','c9l3s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3gr" onclick="go('c9l3gr','nav-c9l3gr');markVisit('c9l3','c9l3gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3l" onclick="go('c9l3l','nav-c9l3l');markVisit('c9l3','c9l3l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3rd" onclick="go('c9l3rd','nav-c9l3rd');markVisit('c9l3','c9l3rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3fw" onclick="go('c9l3fw','nav-c9l3fw');markVisit('c9l3','c9l3fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3ss" onclick="go('c9l3ss','nav-c9l3ss');markVisit('c9l3','c9l3ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l3q" onclick="go('c9l3q','nav-c9l3q');markVisit('c9l3','c9l3q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9l3v" onclick="go('c9l3v','nav-c9l3v');markVisit('c9l3','c9l3v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3w" onclick="go('c9l3w','nav-c9l3w');markVisit('c9l3','c9l3w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3s" onclick="go('c9l3s','nav-c9l3s');markVisit('c9l3','c9l3s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3gr" onclick="go('c9l3gr','nav-c9l3gr');markVisit('c9l3','c9l3gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3l" onclick="go('c9l3l','nav-c9l3l');markVisit('c9l3','c9l3l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3rd" onclick="go('c9l3rd','nav-c9l3rd');markVisit('c9l3','c9l3rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3fw" onclick="go('c9l3fw','nav-c9l3fw');markVisit('c9l3','c9l3fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3ss" onclick="go('c9l3ss','nav-c9l3ss');markVisit('c9l3','c9l3ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l3q" onclick="go('c9l3q','nav-c9l3q');markVisit('c9l3','c9l3q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L4 Wegbeschreibung -->
         <div class="day-hdr" id="dhc9l4" onclick="toggleDay('c9l4')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f5fa;&#xfe0f; L4 — Wegbeschreibung</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🗺️ L4 — Wegbeschreibung</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9l4">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9l4" style="width:0%"></div></div><div class="day-progress" id="progtext-c9l4">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9l4v" onclick="go('c9l4v','nav-c9l4v');markVisit('c9l4','c9l4v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4w" onclick="go('c9l4w','nav-c9l4w');markVisit('c9l4','c9l4w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4s" onclick="go('c9l4s','nav-c9l4s');markVisit('c9l4','c9l4s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4gr" onclick="go('c9l4gr','nav-c9l4gr');markVisit('c9l4','c9l4gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4l" onclick="go('c9l4l','nav-c9l4l');markVisit('c9l4','c9l4l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4rd" onclick="go('c9l4rd','nav-c9l4rd');markVisit('c9l4','c9l4rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4fw" onclick="go('c9l4fw','nav-c9l4fw');markVisit('c9l4','c9l4fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4ss" onclick="go('c9l4ss','nav-c9l4ss');markVisit('c9l4','c9l4ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l4q" onclick="go('c9l4q','nav-c9l4q');markVisit('c9l4','c9l4q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9l4v" onclick="go('c9l4v','nav-c9l4v');markVisit('c9l4','c9l4v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4w" onclick="go('c9l4w','nav-c9l4w');markVisit('c9l4','c9l4w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4s" onclick="go('c9l4s','nav-c9l4s');markVisit('c9l4','c9l4s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4gr" onclick="go('c9l4gr','nav-c9l4gr');markVisit('c9l4','c9l4gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4l" onclick="go('c9l4l','nav-c9l4l');markVisit('c9l4','c9l4l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4rd" onclick="go('c9l4rd','nav-c9l4rd');markVisit('c9l4','c9l4rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4fw" onclick="go('c9l4fw','nav-c9l4fw');markVisit('c9l4','c9l4fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4ss" onclick="go('c9l4ss','nav-c9l4ss');markVisit('c9l4','c9l4ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l4q" onclick="go('c9l4q','nav-c9l4q');markVisit('c9l4','c9l4q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L5 Im Urlaub -->
         <div class="day-hdr" id="dhc9l5" onclick="toggleDay('c9l5')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f3d6;&#xfe0f; L5 — Im Urlaub</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🏖️ L5 — Im Urlaub</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9l5">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9l5" style="width:0%"></div></div><div class="day-progress" id="progtext-c9l5">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9l5v" onclick="go('c9l5v','nav-c9l5v');markVisit('c9l5','c9l5v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5w" onclick="go('c9l5w','nav-c9l5w');markVisit('c9l5','c9l5w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5s" onclick="go('c9l5s','nav-c9l5s');markVisit('c9l5','c9l5s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5gr" onclick="go('c9l5gr','nav-c9l5gr');markVisit('c9l5','c9l5gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5l" onclick="go('c9l5l','nav-c9l5l');markVisit('c9l5','c9l5l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5rd" onclick="go('c9l5rd','nav-c9l5rd');markVisit('c9l5','c9l5rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5fw" onclick="go('c9l5fw','nav-c9l5fw');markVisit('c9l5','c9l5fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5ss" onclick="go('c9l5ss','nav-c9l5ss');markVisit('c9l5','c9l5ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l5q" onclick="go('c9l5q','nav-c9l5q');markVisit('c9l5','c9l5q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9l5v" onclick="go('c9l5v','nav-c9l5v');markVisit('c9l5','c9l5v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5w" onclick="go('c9l5w','nav-c9l5w');markVisit('c9l5','c9l5w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5s" onclick="go('c9l5s','nav-c9l5s');markVisit('c9l5','c9l5s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5gr" onclick="go('c9l5gr','nav-c9l5gr');markVisit('c9l5','c9l5gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5l" onclick="go('c9l5l','nav-c9l5l');markVisit('c9l5','c9l5l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5rd" onclick="go('c9l5rd','nav-c9l5rd');markVisit('c9l5','c9l5rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5fw" onclick="go('c9l5fw','nav-c9l5fw');markVisit('c9l5','c9l5fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5ss" onclick="go('c9l5ss','nav-c9l5ss');markVisit('c9l5','c9l5ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l5q" onclick="go('c9l5q','nav-c9l5q');markVisit('c9l5','c9l5q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L6 Reisen in Deutschland -->
         <div class="day-hdr" id="dhc9l6" onclick="toggleDay('c9l6')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f1e9;&#x1f1ea; L6 — Reisen in Deutschland</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🇩🇪 L6 — Reisen in Deutschland</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9l6">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9l6" style="width:0%"></div></div><div class="day-progress" id="progtext-c9l6">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9l6v" onclick="go('c9l6v','nav-c9l6v');markVisit('c9l6','c9l6v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6w" onclick="go('c9l6w','nav-c9l6w');markVisit('c9l6','c9l6w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6s" onclick="go('c9l6s','nav-c9l6s');markVisit('c9l6','c9l6s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6gr" onclick="go('c9l6gr','nav-c9l6gr');markVisit('c9l6','c9l6gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6l" onclick="go('c9l6l','nav-c9l6l');markVisit('c9l6','c9l6l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6rd" onclick="go('c9l6rd','nav-c9l6rd');markVisit('c9l6','c9l6rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6fw" onclick="go('c9l6fw','nav-c9l6fw');markVisit('c9l6','c9l6fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6ss" onclick="go('c9l6ss','nav-c9l6ss');markVisit('c9l6','c9l6ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l6q" onclick="go('c9l6q','nav-c9l6q');markVisit('c9l6','c9l6q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9l6v" onclick="go('c9l6v','nav-c9l6v');markVisit('c9l6','c9l6v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6w" onclick="go('c9l6w','nav-c9l6w');markVisit('c9l6','c9l6w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6s" onclick="go('c9l6s','nav-c9l6s');markVisit('c9l6','c9l6s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6gr" onclick="go('c9l6gr','nav-c9l6gr');markVisit('c9l6','c9l6gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6l" onclick="go('c9l6l','nav-c9l6l');markVisit('c9l6','c9l6l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6rd" onclick="go('c9l6rd','nav-c9l6rd');markVisit('c9l6','c9l6rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6fw" onclick="go('c9l6fw','nav-c9l6fw');markVisit('c9l6','c9l6fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6ss" onclick="go('c9l6ss','nav-c9l6ss');markVisit('c9l6','c9l6ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l6q" onclick="go('c9l6q','nav-c9l6q');markVisit('c9l6','c9l6q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L7 Präteritum -->
         <div class="day-hdr" id="dhc9l7" onclick="toggleDay('c9l7')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f4d6; L7 — Pr&#xe4;teritum</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">📖 L7 — Pr&#xe4;teritum</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9l7">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9l7" style="width:0%"></div></div><div class="day-progress" id="progtext-c9l7">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9l7v" onclick="go('c9l7v','nav-c9l7v');markVisit('c9l7','c9l7v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7w" onclick="go('c9l7w','nav-c9l7w');markVisit('c9l7','c9l7w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7s" onclick="go('c9l7s','nav-c9l7s');markVisit('c9l7','c9l7s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7gr" onclick="go('c9l7gr','nav-c9l7gr');markVisit('c9l7','c9l7gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7l" onclick="go('c9l7l','nav-c9l7l');markVisit('c9l7','c9l7l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7rd" onclick="go('c9l7rd','nav-c9l7rd');markVisit('c9l7','c9l7rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7fw" onclick="go('c9l7fw','nav-c9l7fw');markVisit('c9l7','c9l7fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7ss" onclick="go('c9l7ss','nav-c9l7ss');markVisit('c9l7','c9l7ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9l7q" onclick="go('c9l7q','nav-c9l7q');markVisit('c9l7','c9l7q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9l7v" onclick="go('c9l7v','nav-c9l7v');markVisit('c9l7','c9l7v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7w" onclick="go('c9l7w','nav-c9l7w');markVisit('c9l7','c9l7w')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7s" onclick="go('c9l7s','nav-c9l7s');markVisit('c9l7','c9l7s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7gr" onclick="go('c9l7gr','nav-c9l7gr');markVisit('c9l7','c9l7gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7l" onclick="go('c9l7l','nav-c9l7l');markVisit('c9l7','c9l7l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7rd" onclick="go('c9l7rd','nav-c9l7rd');markVisit('c9l7','c9l7rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7fw" onclick="go('c9l7fw','nav-c9l7fw');markVisit('c9l7','c9l7fw')"><span class="ni-icon">✏️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7ss" onclick="go('c9l7ss','nav-c9l7ss');markVisit('c9l7','c9l7ss')"><span class="ni-icon">🗣️️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9l7q" onclick="go('c9l7q','nav-c9l7q');markVisit('c9l7','c9l7q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- R10 Review -->
         <div class="day-hdr" id="dhc9r" onclick="toggleDay('c9r')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f504; R9 — &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09ef; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🔄 R9 — &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09ef; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc9r">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c9r" style="width:0%"></div></div><div class="day-progress" id="progtext-c9r">&#x09e6;/&#x09e9; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c9rv" onclick="go('c9rv','nav-c9rv');markVisit('c9r','c9rv')"><span class="ni-icon">&#x1f504;</span><span class="ni-label">&#x09aa;&#x09c2;&#x09b0;&#x09cd;&#x09a3; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9rs" onclick="go('c9rs','nav-c9rs');markVisit('c9r','c9rs')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3; &#x09aa;&#x09b0;&#x09c0;&#x0995;&#x09cd;&#x09b7;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c9rq" onclick="go('c9rq','nav-c9rq');markVisit('c9r','c9rq')"><span class="ni-icon">&#x1f3c6;</span><span class="ni-label">&#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989; &#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c9rv" onclick="go('c9rv','nav-c9rv');markVisit('c9r','c9rv')"><span class="ni-icon">🔄</span><span class="ni-label">&#x09aa;&#x09c2;&#x09b0;&#x09cd;&#x09a3; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9rs" onclick="go('c9rs','nav-c9rs');markVisit('c9r','c9rs')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3; &#x09aa;&#x09b0;&#x09c0;&#x0995;&#x09cd;&#x09b7;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c9rq" onclick="go('c9rq','nav-c9rq');markVisit('c9r','c9rq')"><span class="ni-icon">🏆</span><span class="ni-label">&#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989; &#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
       </div><!-- end wl9 -->
@@ -479,11 +487,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · পাঠ ১</div>
     <div class="ph-title">Verkehrsmittel</div>
     <div class="ph-bn">যানবাহন</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f697; পরিবহন</span><span class="ph-tag">&#x2708;&#xfe0f; ভ্রমণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🚗 পরিবহন</span><span class="ph-tag">✈️ ভ্রমণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">মনে রাখুন</div>
         <div class="cult-bn">German এ যানবাহন বলতে "mit" + Dativ ব্যবহার হয়: "mit dem Zug" (ট্রেনে)। যানবাহনের নাম জানলে ভ্রমণের প্ল্যান করা সহজ হবে।</div>
@@ -495,56 +503,58 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span></span><span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
       <div class="vr vr-4" onclick="tts('der Zug')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f686;</span>
+        <span style="font-size:1.3rem;text-align:center">🚆</span>
         <span class="v-de">der Zug</span><span class="v-en">train</span><span class="v-bn bn">ট্রেন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Zug')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Zug')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Flugzeug')">
-        <span style="font-size:1.3rem;text-align:center">&#x2708;&#xfe0f;</span>
+        <span style="font-size:1.3rem;text-align:center">✈️</span>
         <span class="v-de">das Flugzeug</span><span class="v-en">airplane</span><span class="v-bn bn">বিমান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Flugzeug')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Flugzeug')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Bus')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f68c;</span>
+        <span style="font-size:1.3rem;text-align:center">🚌</span>
         <span class="v-de">der Bus</span><span class="v-en">bus</span><span class="v-bn bn">বাস</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Bus')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Bus')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Auto')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f697;</span>
+        <span style="font-size:1.3rem;text-align:center">🚗</span>
         <span class="v-de">das Auto</span><span class="v-en">car</span><span class="v-bn bn">গাড়ি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Auto')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Auto')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('die U-Bahn')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f687;</span>
+        <span style="font-size:1.3rem;text-align:center">🚇</span>
         <span class="v-de">die U-Bahn</span><span class="v-en">subway</span><span class="v-bn bn">পাতাল ট্রেন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die U-Bahn')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die U-Bahn')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Straßenbahn')">
         <span style="font-size:1.3rem;text-align:center">&#x1f68a;</span>
         <span class="v-de">die Stra&#xdf;enbahn</span><span class="v-en">tram</span><span class="v-bn bn">ট্রাম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Straßenbahn')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Straßenbahn')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Schiff')">
         <span style="font-size:1.3rem;text-align:center">&#x1f6a2;</span>
         <span class="v-de">das Schiff</span><span class="v-en">ship</span><span class="v-bn bn">জাহাজ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Schiff')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Schiff')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Fahrrad')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f6b2;</span>
+        <span style="font-size:1.3rem;text-align:center">🚲</span>
         <span class="v-de">das Fahrrad</span><span class="v-en">bicycle</span><span class="v-bn bn">সাইকেল</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Fahrrad')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Fahrrad')">🔊</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Taxi')">
         <span style="font-size:1.3rem;text-align:center">&#x1f695;</span>
         <span class="v-de">das Taxi</span><span class="v-en">taxi</span><span class="v-bn bn">ট্যাক্সি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Taxi')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Taxi')">🔊</button>
       </div>
     </div>
     <div class="trick">
-      <div class="trick-t">&#x1f9e0; "mit" + Dativ মনে রাখুন</div>
+      <div class="trick-t">🧠 "mit" + Dativ মনে রাখুন</div>
       <div class="trick-bn">যানবাহনে যাওয়া বোঝাতে: <strong>mit dem Zug</strong> (der Zug→dem Zug), <strong>mit dem Auto</strong>, <strong>mit der U-Bahn</strong> (die U-Bahn→der U-Bahn)।</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -562,6 +572,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -573,7 +585,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Zug</strong> = tsoog | <strong>Straßenbahn</strong> = SHTRAH-sen-bahn | <strong>Flugzeug</strong> = FLOOK-tsoyk</div>
@@ -581,6 +593,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9l1s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -610,11 +624,13 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Sie fährt mit dem Fahrrad zur Arbeit.</td><td class="bn">সে সাইকেলে কাজে যায়।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; fliegen vs fahren</div>
+        <div class="trick-t">💡 fliegen vs fahren</div>
         <div class="trick-bn"><strong>fliegen</strong> = উড়া (বিমানের জন্য), <strong>fahren</strong> = চালানো/চলা (ট্রেন, গাড়ি, বাসের জন্য)।</div>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -626,7 +642,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
+      <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
       <div class="listen-script">
         <span class="speaker">Tom:</span> Wie fährst du normalerweise zur Arbeit?<br>
         <span class="speaker">Mia:</span> Ich fahre mit der U-Bahn. Es ist sehr schnell.<br>
@@ -635,7 +651,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Tom:</span> Dann nehme ich den Bus. Wie reist du gern in den Urlaub?<br>
         <span class="speaker">Mia:</span> Ich fliege am liebsten mit dem Flugzeug — das ist am schnellsten f&#xfc;r lange Strecken.
       </div>
-      <button class="listen-btn" onclick="playL1listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -663,6 +679,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 READING -->
@@ -674,7 +692,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Meine Reise nach Hamburg</div>
+      <div class="read-label">📰 পাঠ্য — Meine Reise nach Hamburg</div>
       Letztes Wochenende bin ich nach Hamburg gereist. Zuerst bin ich mit der U-Bahn zum Hauptbahnhof gefahren.<br><br>
       Am Bahnhof habe ich meine Fahrkarte gekauft und bin in den Zug eingestiegen. Die Zugfahrt hat etwa zwei Stunden gedauert.<br><br>
       In Hamburg bin ich mit dem Bus zum Hotel gefahren. Am n&#xe4;chsten Tag habe ich die Stadt mit dem Fahrrad erkundet — das war sehr praktisch!<br><br>
@@ -682,7 +700,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Es war eine tolle Reise mit verschiedenen Verkehrsmitteln!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">গত সপ্তাহান্তে হামবুর্গ ভ্রমণ করেছেন। প্রথমে পাতাল ট্রেনে স্টেশনে গিয়েছেন, তারপর ট্রেনে হামবুর্গ গেছেন (২ ঘণ্টার যাত্রা)। হামবুর্গে বাসে হোটেলে গেছেন, পরের দিন সাইকেলে শহর ঘুরেছেন। ফেরার পথে বিমানে গেছেন কারণ এটা দ্রুত (৪৫ মিনিট)।</div>
     </div>
     <div class="listen-q">
@@ -710,6 +728,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
@@ -721,7 +741,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি সাধারণত কী দিয়ে যাতায়াত করেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich fahre normalerweise mit..."</em></div>
@@ -729,9 +749,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c9l1fw" placeholder="Ich fahre normalerweise mit..." oninput="countWords('fw-c9l1fw','wc-c9l1fw')"></textarea>
     <div class="write-counter" id="wc-c9l1fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c9l1fw','wr-c9l1fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c9l1fw','wr-c9l1fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c9l1fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -747,15 +769,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি কীভাবে ভ্রমণ করতে পছন্দ করেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich fahre mit dem/der... · Ich fliege gern... · Am liebsten reise ich mit...</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c9l1ss" onclick="toggleFreeSpeak('c9l1ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c9l1ss" onclick="toggleFreeSpeak('c9l1ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c9l1ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -768,6 +792,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c9l1q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L2: AM BAHNHOF / FLUGHAFEN ==================== -->
@@ -778,7 +804,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · পাঠ ২</div>
     <div class="ph-title">Am Bahnhof / Flughafen</div>
     <div class="ph-bn">স্টেশন ও বিমানবন্দরে</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f686; স্টেশন</span><span class="ph-tag">&#x2708;&#xfe0f; বিমানবন্দর</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🚆 স্টেশন</span><span class="ph-tag">✈️ বিমানবন্দর</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
@@ -788,35 +814,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Fahrkarte')">
         <span class="v-de">die Fahrkarte</span><span class="v-en">ticket</span><span class="v-bn bn">টিকিট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Fahrkarte')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Fahrkarte')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Bahnsteig')">
         <span class="v-de">der Bahnsteig</span><span class="v-en">platform</span><span class="v-bn bn">প্ল্যাটফর্ম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Bahnsteig')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Bahnsteig')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Gepäck')">
         <span class="v-de">das Gep&#xe4;ck</span><span class="v-en">luggage</span><span class="v-bn bn">লাগেজ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Gepäck')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Gepäck')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Abflug')">
         <span class="v-de">der Abflug</span><span class="v-en">departure (flight)</span><span class="v-bn bn">উড্ডয়ন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Abflug')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Abflug')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Ankunft')">
         <span class="v-de">die Ankunft</span><span class="v-en">arrival</span><span class="v-bn bn">আগমন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Ankunft')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Ankunft')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Verspätung')">
         <span class="v-de">die Versp&#xe4;tung</span><span class="v-en">delay</span><span class="v-bn bn">বিলম্ব</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Verspätung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Verspätung')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Anschluss')">
         <span class="v-de">der Anschluss</span><span class="v-en">connection</span><span class="v-bn bn">সংযোগ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Anschluss')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Anschluss')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einsteigen')">
         <span class="v-de">einsteigen</span><span class="v-en">to board</span><span class="v-bn bn">উঠা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('einsteigen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('einsteigen')">🔊</button>
       </div>
     </div>
     <div class="card">
@@ -828,6 +854,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -845,6 +873,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -856,7 +886,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Bahnsteig</strong> = BAHN-shtyg | <strong>Verspätung</strong> = fer-SHPE-toong | <strong>Gepäck</strong> = ge-PECK</div>
@@ -864,6 +894,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9l2s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -885,11 +917,13 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">ankommen</td><td class="de">Wir kommen um elf an.</td><td class="bn">আমরা এগারোটায় পৌঁছাব।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; Prefix শেষে যায়!</div>
+        <div class="trick-t">💡 Prefix শেষে যায়!</div>
         <div class="trick-bn">"einsteigen" → "Ich steige ein." — verb এর মূল অংশ (steige) দ্বিতীয় স্থানে, prefix (ein) বাক্যের একেবারে শেষে।</div>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -901,7 +935,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; স্টেশনে — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 স্টেশনে — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Reisender:</span> Entschuldigung, wann f&#xe4;hrt der n&#xe4;chste Zug nach M&#xfc;nchen?<br>
         <span class="speaker">Bahnmitarbeiter:</span> Der n&#xe4;chste Zug f&#xe4;hrt um vierzehn Uhr von Gleis sieben ab.<br>
@@ -910,7 +944,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Reisender:</span> Muss ich umsteigen?<br>
         <span class="speaker">Bahnmitarbeiter:</span> Nein, das ist eine direkte Verbindung. Sie kommen um siebzehn Uhr dreißig an.
       </div>
-      <button class="listen-btn" onclick="playL2listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -938,6 +972,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 READING -->
@@ -949,7 +985,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Flughafen-Durchsage (airport announcement)</div>
+      <div class="read-label">📰 পাঠ্য — Flughafen-Durchsage (airport announcement)</div>
       <strong>Achtung, liebe Passagiere!</strong><br><br>
       Der Flug LH 441 nach Frankfurt hat eine Verspätung von dreißig Minuten. Der neue Abflug ist um fünfzehn Uhr zwanzig.<br><br>
       Passagiere mit Anschlussflügen sollten sich am Informationsschalter melden.<br><br>
@@ -958,7 +994,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Vielen Dank für Ihre Geduld und einen angenehmen Flug!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">এয়ারপোর্ট ঘোষণা: Frankfurt এর ফ্লাইট ৩০ মিনিট দেরি, নতুন উড্ডয়ন সময় ৩টা ২০ মিনিট। Connection ফ্লাইটের যাত্রীদের তথ্য কেন্দ্রে যেতে বলা হয়েছে। Vienna ফ্লাইটের যাত্রীদের Gate B12 এ যেতে বলা হয়েছে, boarding ১০ মিনিটে শুরু হবে। লাগেজ ভুলে না যাওয়ার অনুরোধ।</div>
     </div>
     <div class="listen-q">
@@ -986,6 +1022,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
@@ -997,7 +1035,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি স্টেশনে বা বিমানবন্দরে। কী জিজ্ঞেস করবেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Entschuldigung, wann..."</em></div>
@@ -1005,9 +1043,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c9l2fw" placeholder="Entschuldigung, wann..." oninput="countWords('fw-c9l2fw','wc-c9l2fw')"></textarea>
     <div class="write-counter" id="wc-c9l2fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c9l2fw','wr-c9l2fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c9l2fw','wr-c9l2fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c9l2fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -1023,15 +1063,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি স্টেশনে আছেন। আপনার ট্রেনের তথ্য জিজ্ঞেস করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী বাক্য</div>
         <div class="cult-bn">Wann fährt der Zug...? · Von welchem Gleis? · Hat der Zug Verspätung?</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c9l2ss" onclick="toggleFreeSpeak('c9l2ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c9l2ss" onclick="toggleFreeSpeak('c9l2ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c9l2ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -1044,6 +1086,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c9l2q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L3: DIE HOTELBUCHUNG ==================== -->
@@ -1054,7 +1098,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · পাঠ ৩</div>
     <div class="ph-title">Die Hotelbuchung</div>
     <div class="ph-bn">হোটেল বুকিং</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3e8; হোটেল</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f3e8; হোটেল</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
@@ -1064,35 +1108,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Zimmer')">
         <span class="v-de">das Zimmer</span><span class="v-en">room</span><span class="v-bn bn">রুম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Zimmer')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Zimmer')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Reservierung')">
         <span class="v-de">die Reservierung</span><span class="v-en">reservation</span><span class="v-bn bn">বুকিং</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Reservierung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Reservierung')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Einzelzimmer')">
         <span class="v-de">das Einzelzimmer</span><span class="v-en">single room</span><span class="v-bn bn">একক রুম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Einzelzimmer')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Einzelzimmer')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Doppelzimmer')">
         <span class="v-de">das Doppelzimmer</span><span class="v-en">double room</span><span class="v-bn bn">দুই বেডের রুম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Doppelzimmer')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Doppelzimmer')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Rezeption')">
         <span class="v-de">die Rezeption</span><span class="v-en">reception</span><span class="v-bn bn">রিসেপশন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Rezeption')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Rezeption')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einchecken')">
         <span class="v-de">einchecken</span><span class="v-en">to check in</span><span class="v-bn bn">চেক-ইন করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('einchecken')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('einchecken')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('auschecken')">
         <span class="v-de">auschecken</span><span class="v-en">to check out</span><span class="v-bn bn">চেক-আউট করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('auschecken')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('auschecken')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('frei')">
         <span class="v-de">frei</span><span class="v-en">available/free</span><span class="v-bn bn">খালি / ফাঁকা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('frei')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('frei')">🔊</button>
       </div>
     </div>
     <div class="card">
@@ -1104,6 +1148,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1121,6 +1167,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1132,7 +1180,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Reservierung</strong> = ray-zer-VEER-oong | <strong>Rezeption</strong> = ray-tsep-TSYOHN | <strong>einchecken</strong> = INE-chek-en</div>
@@ -1140,6 +1188,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9l3s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1169,6 +1219,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1180,7 +1232,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; হোটেলে ফোন কল — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 হোটেলে ফোন কল — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Gast:</span> Guten Tag, ich möchte ein Zimmer reservieren.<br>
         <span class="speaker">Rezeption:</span> Gerne! Für wie viele Personen und wie viele Nächte?<br>
@@ -1189,7 +1241,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Gast:</span> Das ist perfekt. Wie spät ist der Check-in?<br>
         <span class="speaker">Rezeption:</span> Check-in ist ab vierzehn Uhr, Check-out bis elf Uhr.
       </div>
-      <button class="listen-btn" onclick="playL3listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1217,6 +1269,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 READING -->
@@ -1228,7 +1282,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Hotel Booking Bestätigung (confirmation email)</div>
+      <div class="read-label">📰 পাঠ্য — Hotel Booking Bestätigung (confirmation email)</div>
       <strong>Hotel Alpenblick — Buchungsbestätigung</strong><br><br>
       Sehr geehrte Frau Hossain,<br><br>
       vielen Dank für Ihre Reservierung. Hier sind die Details:<br><br>
@@ -1242,7 +1296,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Wir freuen uns auf Ihren Besuch!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Hotel Alpenblick এর বুকিং কনফার্মেশন: ব্যালকনি সহ ডাবল রুম, ১৫ আগস্ট থেকে ১৯ আগস্ট (৪ রাত), প্রতি রাত ৯৫ ইউরো নাস্তাসহ, চেক-ইন দুপুর ২টা থেকে, চেক-আউট সকাল ১১টার মধ্যে। পরিচয়পত্র ও কনফার্মেশন আনতে হবে।</div>
     </div>
     <div class="listen-q">
@@ -1270,6 +1324,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
@@ -1281,7 +1337,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি একটা হোটেল রুম বুক করতে চান। German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich möchte ein Zimmer..."</em></div>
@@ -1289,9 +1345,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c9l3fw" placeholder="Ich möchte ein Zimmer..." oninput="countWords('fw-c9l3fw','wc-c9l3fw')"></textarea>
     <div class="write-counter" id="wc-c9l3fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c9l3fw','wr-c9l3fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c9l3fw','wr-c9l3fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c9l3fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1307,15 +1365,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি একটা হোটেল রুম বুক করতে চান। কী বলবেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী বাক্য</div>
         <div class="cult-bn">Ich möchte ein Zimmer reservieren · Für wie viele Nächte · Haben Sie etwas frei?</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c9l3ss" onclick="toggleFreeSpeak('c9l3ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c9l3ss" onclick="toggleFreeSpeak('c9l3ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c9l3ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1328,6 +1388,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c9l3q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L4: WEGBESCHREIBUNG ==================== -->
@@ -1338,7 +1400,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · পাঠ ৪</div>
     <div class="ph-title">Wegbeschreibung</div>
     <div class="ph-bn">রাস্তার নির্দেশনা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f5fa;&#xfe0f; দিকনির্দেশ</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🗺️ দিকনির্দেশ</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
@@ -1348,38 +1410,40 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('links')">
         <span class="v-de">links</span><span class="v-en">left</span><span class="v-bn bn">বাম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('links')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('links')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('rechts')">
         <span class="v-de">rechts</span><span class="v-en">right</span><span class="v-bn bn">ডান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('rechts')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('rechts')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('geradeaus')">
         <span class="v-de">geradeaus</span><span class="v-en">straight ahead</span><span class="v-bn bn">সোজা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('geradeaus')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('geradeaus')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Ampel')">
         <span class="v-de">die Ampel</span><span class="v-en">traffic light</span><span class="v-bn bn">ট্রাফিক লাইট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Ampel')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Ampel')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Ecke')">
         <span class="v-de">die Ecke</span><span class="v-en">corner</span><span class="v-bn bn">কোণ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Ecke')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Ecke')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Kreuzung')">
         <span class="v-de">die Kreuzung</span><span class="v-en">intersection</span><span class="v-bn bn">রাস্তার মোড়</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Kreuzung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Kreuzung')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('abbiegen')">
         <span class="v-de">abbiegen</span><span class="v-en">to turn</span><span class="v-bn bn">মোড় নেওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('abbiegen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('abbiegen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('gegenüber')">
         <span class="v-de">gegen&#xfc;ber</span><span class="v-en">across from</span><span class="v-bn bn">বিপরীত পাশে</span>
-        <button class="pb" onclick="event.stopPropagation();tts('gegenüber')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('gegenüber')">🔊</button>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1397,6 +1461,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1408,7 +1474,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>geradeaus</strong> = ge-RAH-de-ows | <strong>Kreuzung</strong> = KROY-tsoong | <strong>gegenüber</strong> = GAY-gen-ue-ber</div>
@@ -1416,6 +1482,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9l4s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1436,7 +1504,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Es ist gegenüber der Bank.</td><td class="bn">এটা ব্যাংকের বিপরীত পাশে।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; Wie komme ich zu...?</div>
+        <div class="trick-t">💡 Wie komme ich zu...?</div>
         <div class="trick-bn">পথ জিজ্ঞেস করতে: "Wie komme ich zum Bahnhof?" / "Entschuldigung, wo ist...?"</div>
       </div>
     </div>
@@ -1450,6 +1518,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 LISTENING -->
@@ -1461,7 +1531,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; রাস্তা জিজ্ঞেস করা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 রাস্তা জিজ্ঞেস করা — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Tourist:</span> Entschuldigung, wie komme ich zum Museum?<br>
         <span class="speaker">Passant:</span> Gehen Sie hier geradeaus bis zur Ampel.<br>
@@ -1470,7 +1540,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Tourist:</span> Ist es weit von hier?<br>
         <span class="speaker">Passant:</span> Nein, es dauert nur etwa zehn Minuten zu Fu&#xdf;.
       </div>
-      <button class="listen-btn" onclick="playL4listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1498,6 +1568,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 READING -->
@@ -1509,7 +1581,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Wegbeschreibung zum Hotel (written directions)</div>
+      <div class="read-label">📰 পাঠ্য — Wegbeschreibung zum Hotel (written directions)</div>
       <strong>Wie Sie zu unserem Hotel kommen:</strong><br><br>
       Vom Hauptbahnhof aus gehen Sie geradeaus durch den Bahnhofsvorplatz. Nach etwa hundert Metern sehen Sie eine gro&#xdf;e Kreuzung.<br><br>
       Biegen Sie an der Kreuzung links ab und folgen Sie der Stra&#xdf;e namens "Goethestra&#xdf;e". Gehen Sie etwa f&#xfc;nf Minuten geradeaus.<br><br>
@@ -1518,7 +1590,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Die ganze Strecke vom Bahnhof dauert etwa fünfzehn Minuten zu Fuß.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">হোটেলে যাওয়ার নির্দেশনা: স্টেশন থেকে সোজা যান, ১০০ মিটার পর বড় মোড়, সেখানে বামে যান Goethestraße ধরে, ৫ মিনিট সোজা যান, দ্বিতীয় ট্রাফিক লাইটে ডানে যান, হোটেল বাম পাশে ফার্মেসির বিপরীতে। মোট ১৫ মিনিট হাঁটার পথ।</div>
     </div>
     <div class="listen-q">
@@ -1546,6 +1618,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
@@ -1557,7 +1631,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার বাড়ি থেকে স্কুল বা বাজারে যাওয়ার নির্দেশনা German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Gehen Sie zuerst..."</em></div>
@@ -1565,9 +1639,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c9l4fw" placeholder="Gehen Sie zuerst..." oninput="countWords('fw-c9l4fw','wc-c9l4fw')"></textarea>
     <div class="write-counter" id="wc-c9l4fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c9l4fw','wr-c9l4fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c9l4fw','wr-c9l4fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c9l4fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1583,15 +1659,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার পছন্দের জায়গায় যাওয়ার রাস্তা বলুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Gehen Sie geradeaus · Biegen Sie links/rechts ab · Es ist gegenüber...</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c9l4ss" onclick="toggleFreeSpeak('c9l4ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c9l4ss" onclick="toggleFreeSpeak('c9l4ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c9l4ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1604,6 +1682,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c9l4q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L5: IM URLAUB ==================== -->
@@ -1614,7 +1694,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · পাঠ ৫</div>
     <div class="ph-title">Im Urlaub</div>
     <div class="ph-bn">ছুটিতে</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3d6;&#xfe0f; ছুটি</span><span class="ph-tag">&#x1f4f8; কার্যক্রম</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🏖️ ছুটি</span><span class="ph-tag">&#x1f4f8; কার্যক্রম</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
@@ -1624,34 +1704,36 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Strand')">
         <span class="v-de">der Strand</span><span class="v-en">beach</span><span class="v-bn bn">সমুদ্র সৈকত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Strand')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Strand')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Sehenswürdigkeit')">
         <span class="v-de">die Sehensw&#xfc;rdigkeit</span><span class="v-en">tourist attraction</span><span class="v-bn bn">দর্শনীয় স্থান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Sehenswürdigkeit')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Sehenswürdigkeit')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Kamera')">
         <span class="v-de">die Kamera</span><span class="v-en">camera</span><span class="v-bn bn">ক্যামেরা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Kamera')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Kamera')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Foto')">
         <span class="v-de">das Foto</span><span class="v-en">photo</span><span class="v-bn bn">ছবি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Foto')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Foto')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Andenken')">
         <span class="v-de">das Andenken</span><span class="v-en">souvenir</span><span class="v-bn bn">স্মারক</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Andenken')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Andenken')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('besichtigen')">
         <span class="v-de">besichtigen</span><span class="v-en">to visit/sightsee</span><span class="v-bn bn">দর্শন করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('besichtigen')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('besichtigen')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('entdecken')">
         <span class="v-de">entdecken</span><span class="v-en">to discover</span><span class="v-bn bn">আবিষ্কার করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('entdecken')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('entdecken')">🔊</button>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1669,6 +1751,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1680,7 +1764,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Sehenswürdigkeit</strong> = ZAY-ens-vuer-dikh-kyt (লম্বা শব্দ, ভেঙে বলুন) | <strong>besichtigen</strong> = be-ZIKH-ti-gen</div>
@@ -1688,6 +1772,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9l5s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1708,11 +1794,13 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">bleiben</td><td class="de">geblieben</td><td class="de">Wir sind eine Woche geblieben.</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; sein vs haben</div>
+        <div class="trick-t">💡 sein vs haben</div>
         <div class="trick-bn">movement verb (fahren, gehen, bleiben) এর সাথে <strong>sein</strong>, অন্য verb এর সাথে <strong>haben</strong> ব্যবহার হয়।</div>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1724,7 +1812,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; ছুটির গল্প — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 ছুটির গল্প — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Freund:</span> Wie war dein Urlaub in Italien?<br>
         <span class="speaker">Lena:</span> Es war wunderbar! Wir haben viele Sehensw&#xfc;rdigkeiten besichtigt.<br>
@@ -1733,7 +1821,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Freund:</span> Hast du viele Fotos gemacht?<br>
         <span class="speaker">Lena:</span> Ja, &#xfc;ber zweihundert! Und ich habe ein paar Andenken f&#xfc;r meine Familie gekauft.
       </div>
-      <button class="listen-btn" onclick="playL5listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1761,6 +1849,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 READING -->
@@ -1772,7 +1862,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Mein Urlaubstagebuch (vacation diary)</div>
+      <div class="read-label">📰 পাঠ্য — Mein Urlaubstagebuch (vacation diary)</div>
       <strong>Tag 1 in Barcelona</strong><br><br>
       Wir sind heute morgen angekommen und haben sofort unser Hotel gefunden. Nachmittags haben wir die Sagrada Familia besichtigt — es war atemberaubend!<br><br>
       <strong>Tag 2</strong><br><br>
@@ -1783,7 +1873,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Letzter Tag. Wir haben Andenken für die Familie gekauft und sind dann zum Flughafen gefahren. Es war ein toller Urlaub!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">৪ দিনের Barcelona ভ্রমণ ডায়েরি: প্রথম দিন Sagrada Familia দেখেছেন। দ্বিতীয় দিন সমুদ্র সৈকতে গিয়েছেন, স্প্যানিশ খাবার খেয়েছেন। তৃতীয় দিন Park Güell দেখেছেন, ৫০+ ছবি তুলেছেন। চতুর্থ দিন স্মারক কিনে বিমানবন্দরে গিয়েছেন।</div>
     </div>
     <div class="listen-q">
@@ -1811,6 +1901,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
@@ -1822,7 +1914,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার একটা স্মরণীয় ছুটির কথা German এ লিখুন (Perfekt ব্যবহার করুন)। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Letztes Jahr bin ich..."</em></div>
@@ -1830,9 +1922,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c9l5fw" placeholder="Letztes Jahr bin ich..." oninput="countWords('fw-c9l5fw','wc-c9l5fw')"></textarea>
     <div class="write-counter" id="wc-c9l5fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c9l5fw','wr-c9l5fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c9l5fw','wr-c9l5fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c9l5fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -1848,15 +1942,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার শেষ ছুটির কথা বলুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich bin nach... gefahren · Wir haben... besichtigt · Es war...</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c9l5ss" onclick="toggleFreeSpeak('c9l5ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c9l5ss" onclick="toggleFreeSpeak('c9l5ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c9l5ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -1869,6 +1965,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c9l5q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L6: REISEN IN DEUTSCHLAND ==================== -->
@@ -1879,11 +1977,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · পাঠ ৬</div>
     <div class="ph-title">Reisen in Deutschland</div>
     <div class="ph-bn">জার্মানিতে ভ্রমণ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f1e9;&#x1f1ea; সংস্কৃতি</span><span class="ph-tag">&#x1f686; ভ্রমণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🇩🇪 সংস্কৃতি</span><span class="ph-tag">🚆 ভ্রমণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
+      <div class="cult-icon">🇩🇪</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান রেল সংস্কৃতি</div>
         <div class="cult-bn"><strong>Deutsche Bahn (DB)</strong> জার্মানির মূল রেল কোম্পানি। জার্মানিতে ট্রেনে ভ্রমণ খুব জনপ্রিয়, এবং অনেকেই <strong>Bahncard</strong> (discount card) ব্যবহার করে।</div>
@@ -1896,23 +1994,23 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Bahncard')">
         <span class="v-de">die Bahncard</span><span class="v-en">rail discount card</span><span class="v-bn bn">রেল ডিসকাউন্ট কার্ড</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Bahncard')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Bahncard')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der ICE')">
         <span class="v-de">der ICE</span><span class="v-en">high-speed train</span><span class="v-bn bn">হাই-স্পিড ট্রেন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der ICE')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der ICE')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Schloss')">
         <span class="v-de">das Schloss</span><span class="v-en">castle</span><span class="v-bn bn">প্রাসাদ / দুর্গ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Schloss')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Schloss')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Jugendherberge')">
         <span class="v-de">die Jugendherberge</span><span class="v-en">youth hostel</span><span class="v-bn bn">ইয়ুথ হোস্টেল</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Jugendherberge')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Jugendherberge')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Wanderung')">
         <span class="v-de">die Wanderung</span><span class="v-en">hike</span><span class="v-bn bn">পাহাড়ে হাঁটা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Wanderung')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Wanderung')">🔊</button>
       </div>
     </div>
     <div class="cult-tip">
@@ -1923,6 +2021,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -1940,6 +2040,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -1951,7 +2053,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Schloss</strong> = shlos | <strong>Jugendherberge</strong> = YOO-gent-her-ber-ge | <strong>Wanderung</strong> = VAN-der-oong</div>
@@ -1959,6 +2061,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9l6s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -1978,7 +2082,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Wir kaufen eine Bahncard, um Geld zu sparen.</td><td class="bn">আমরা টাকা বাঁচাতে Bahncard কিনছি।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; um...zu vs zu</div>
+        <div class="trick-t">💡 um...zu vs zu</div>
         <div class="trick-bn">"um...zu" specifically উদ্দেশ্য বোঝায় (in order to), যেখানে শুধু "zu" (যেমন Lust haben zu) সাধারণ Infinitiv construction।</div>
       </div>
     </div>
@@ -1991,6 +2095,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -2002,7 +2108,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; জার্মানিতে ভ্রমণ আলোচনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 জার্মানিতে ভ্রমণ আলোচনা — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Tourist:</span> Wie reist man am besten in Deutschland?<br>
         <span class="speaker">Einheimischer:</span> Der Zug ist meistens die beste Option. Der ICE ist sehr schnell und bequem.<br>
@@ -2011,7 +2117,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Tourist:</span> Gibt es billige &#xdc;bernachtungsm&#xf6;glichkeiten?<br>
         <span class="speaker">Einheimischer:</span> Ja, Jugendherbergen sind sehr g&#xfc;nstig, besonders f&#xfc;r junge Reisende.
       </div>
-      <button class="listen-btn" onclick="playL6listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2039,6 +2145,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 READING -->
@@ -2050,7 +2158,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Reisen mit der Bahn in Deutschland</div>
+      <div class="read-label">📰 পাঠ্য — Reisen mit der Bahn in Deutschland</div>
       <strong>Warum der Zug die beste Wahl ist</strong><br><br>
       Deutschland hat eines der besten Eisenbahnnetze in Europa. Die Deutsche Bahn (DB) verbindet fast jede Stadt im Land.<br><br>
       Der <strong>ICE</strong> (InterCityExpress) ist der schnellste Zugtyp und f&#xe4;hrt bis zu dreihundert Kilometer pro Stunde. F&#xfc;r kürzere Strecken gibt es auch Regionalz&#xfc;ge.<br><br>
@@ -2059,7 +2167,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       F&#xfc;r budgetbewusste Reisende, besonders Studenten, sind Jugendherbergen eine günstige &#xdc;bernachtungsoption.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মানির রেল নেটওয়ার্ক ইউরোপের অন্যতম ভালো। ICE সবচেয়ে দ্রুত ট্রেন, ৩০০ কিমি/ঘণ্টা পর্যন্ত। Bahncard দিয়ে ২৫% বা ৫০% ছাড় পাওয়া যায়। জনপ্রিয় গন্তব্য: Schloss Neuschwanstein, Romantische Straße, Rügen island। ছাত্র ও বাজেট ভ্রমণকারীদের জন্য Jugendherberge ভালো অপশন।</div>
     </div>
     <div class="listen-q">
@@ -2087,6 +2195,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
@@ -2098,7 +2208,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার দেশে মানুষ কীভাবে ভ্রমণ করে? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In Bangladesch reisen die Menschen..."</em></div>
@@ -2106,9 +2216,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c9l6fw" placeholder="In Bangladesch reisen die Menschen..." oninput="countWords('fw-c9l6fw','wc-c9l6fw')"></textarea>
     <div class="write-counter" id="wc-c9l6fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c9l6fw','wr-c9l6fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c9l6fw','wr-c9l6fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c9l6fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -2124,15 +2236,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">জার্মানিতে ভ্রমণ সম্পর্কে যা জানলেন German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Der ICE ist... · Man kann eine Bahncard kaufen, um... · Schloss Neuschwanstein ist...</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c9l6ss" onclick="toggleFreeSpeak('c9l6ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c9l6ss" onclick="toggleFreeSpeak('c9l6ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c9l6ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -2145,6 +2259,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c9l6q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L7: PRÄTERITUM ==================== -->
@@ -2155,11 +2271,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · পাঠ ৭</div>
     <div class="ph-title">Pr&#xe4;teritum</div>
     <div class="ph-bn">সরল অতীত কাল</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ব্যাকরণ</span><span class="ph-tag">&#x231b; অতীত</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">📖 ব্যাকরণ</span><span class="ph-tag">&#x231b; অতীত</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">Präteritum কী?</div>
         <div class="cult-bn">Präteritum একটি সরল অতীত কাল, যা মূলত লেখা ও গল্পে ব্যবহার হয়। কথ্য German এ সাধারণত Perfekt ব্যবহার হয়, কিন্তু <strong>sein, haben, এবং modal verb</strong> এর Präteritum দৈনন্দিন কথায়ও খুব ব্যবহৃত হয়।</div>
@@ -2172,26 +2288,28 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('war')">
         <span class="v-de">sein → war</span><span class="v-en">was</span><span class="v-bn bn">ছিল</span>
-        <button class="pb" onclick="event.stopPropagation();tts('war')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('war')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('hatte')">
         <span class="v-de">haben → hatte</span><span class="v-en">had</span><span class="v-bn bn">ছিল (had)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('hatte')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('hatte')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('konnte')">
         <span class="v-de">können → konnte</span><span class="v-en">could</span><span class="v-bn bn">পারতো</span>
-        <button class="pb" onclick="event.stopPropagation();tts('konnte')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('konnte')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('wollte')">
         <span class="v-de">wollen → wollte</span><span class="v-en">wanted</span><span class="v-bn bn">চাইতো</span>
-        <button class="pb" onclick="event.stopPropagation();tts('wollte')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('wollte')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('musste')">
         <span class="v-de">müssen → musste</span><span class="v-en">had to</span><span class="v-bn bn">করতে হতো</span>
-        <button class="pb" onclick="event.stopPropagation();tts('musste')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('musste')">🔊</button>
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2209,6 +2327,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2220,7 +2340,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>war</strong> = vahr | <strong>hatte</strong> = HAT-te | <strong>konnte</strong> = KON-te</div>
@@ -2228,6 +2348,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9l7s"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2262,7 +2384,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">sie/Sie</td><td class="de">hatten</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">&#x1f4a1; কেন এই দুটো গুরুত্বপূর্ণ</div>
+        <div class="trick-t">💡 কেন এই দুটো গুরুত্বপূর্ণ</div>
         <div class="trick-bn">"Ich war im Urlaub." / "Ich hatte keine Zeit." — কথ্য German এও sein ও haben এর Präteritum প্রায়ই ব্যবহার হয়, Perfekt এর বদলে।</div>
       </div>
     </div>
@@ -2276,6 +2398,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2287,7 +2411,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">&#x1f3a7; পুরানো গল্প — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">🎧 পুরানো গল্প — সর্বোচ্চ ২ বার</div>
       <div class="listen-script">
         <span class="speaker">Oma:</span> Als ich jung war, hatten wir kein Auto.<br>
         <span class="speaker">Enkel:</span> Wirklich? Wie seid ihr gereist?<br>
@@ -2296,7 +2420,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Oma:</span> Ja, einmal sind wir mit dem Fahrrad bis nach Holland gefahren. Das war ein Abenteuer!<br>
         <span class="speaker">Enkel:</span> Das ist unglaublich!
       </div>
-      <button class="listen-btn" onclick="playL7listen(this)">&#x1f50a; কথোপকথন শুনুন</button>
+      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
       <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2324,6 +2448,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 READING -->
@@ -2335,7 +2461,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">&#x1f4f0; পাঠ্য — Eine kleine Geschichte (a short story)</div>
+      <div class="read-label">📰 পাঠ্য — Eine kleine Geschichte (a short story)</div>
       <strong>Der vergessene Koffer</strong><br><br>
       Es war ein scho&#xa8;ner Tag im Sommer. Familie Müller wollte nach München fahren, um Verwandte zu besuchen.<br><br>
       Sie hatten viel Gep&#xe4;ck, und der Vater musste alles ins Auto packen. Die Kinder waren sehr aufgeregt, weil sie das Schloss Neuschwanstein besuchen wollten.<br><br>
@@ -2344,7 +2470,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Am Ende konnten sie den Zug noch erreichen, und die Reise war trotzdem wunderbar!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">গ্রীষ্মের একদিন Müller পরিবার München যাচ্ছিল আত্মীয়দের সাথে দেখা করতে। সন্তানরা Schloss Neuschwanstein দেখতে চাইছিল। স্টেশনে গিয়ে মা ভুলে গেলেন তার ব্যাগ বাড়িতে রেখে এসেছেন! বাবা দৌড়িয়ে গিয়ে সময়মতো ব্যাগ এনেছিলেন এবং তারা ট্রেন ধরতে পারলেন।</div>
     </div>
     <div class="listen-q">
@@ -2372,6 +2498,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
@@ -2383,7 +2511,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x270f;&#xfe0f;</div>
+      <div class="cult-icon">✏️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার শৈশবের একটা স্মৃতি Präteritum ব্যবহার করে German এ লিখুন (war, hatte ব্যবহার করুন)। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Als ich jung war,..."</em></div>
@@ -2391,9 +2519,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-c9l7fw" placeholder="Als ich jung war,..." oninput="countWords('fw-c9l7fw','wc-c9l7fw')"></textarea>
     <div class="write-counter" id="wc-c9l7fw">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c9l7fw','wr-c9l7fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c9l7fw','wr-c9l7fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c9l7fw"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2409,15 +2539,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার শেষ ছুটি কেমন ছিল? Präteritum ব্যবহার করে German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4a1;</div>
+      <div class="cult-icon">💡</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Es war... · Wir hatten... · Ich konnte/musste/wollte...</div>
       </div>
     </div>
-    <button class="speak-btn" id="fsbtn-c9l7ss" onclick="toggleFreeSpeak('c9l7ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c9l7ss" onclick="toggleFreeSpeak('c9l7ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c9l7ss"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2430,6 +2562,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div id="qz-c9l7q"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== R10: REVIEW ==================== -->
@@ -2440,16 +2574,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ৯ · রিভিউ</div>
     <div class="ph-title">পূর্ণ রিভিউ</div>
     <div class="ph-bn">অধ্যায় ৯ সারসংক্ষেপ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">&#x2708;&#xfe0f; Reisen</span><span class="ph-tag">&#x1f3d6;&#xfe0f; Urlaub</span></div>
+    <div class="ph-tags"><span class="ph-tag">🔄 রিভিউ</span><span class="ph-tag">✈️ Reisen</span><span class="ph-tag">🏖️ Urlaub</span></div>
   </div>
   <div class="content">
     <div class="review-card">
-      <div class="review-t">&#x1f697; পাঠ ১ — Verkehrsmittel</div>
+      <div class="review-t">🚗 পাঠ ১ — Verkehrsmittel</div>
       <div class="review-item">der Zug, das Flugzeug, der Bus, das Auto, die U-Bahn, die Straßenbahn, das Fahrrad</div>
       <div class="review-item">mit + Dativ: mit dem Zug, mit der U-Bahn, mit dem Fahrrad</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x2708;&#xfe0f; পাঠ ২ — Am Bahnhof/Flughafen</div>
+      <div class="review-t">✈️ পাঠ ২ — Am Bahnhof/Flughafen</div>
       <div class="review-item">die Fahrkarte, der Bahnsteig, das Gepäck, die Verspätung, der Anschluss</div>
       <div class="review-item">Trennbare Verben: einsteigen → "Ich steige ein." prefix শেষে যায়</div>
     </div>
@@ -2459,27 +2593,27 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="review-item">möchten দিয়ে ভদ্র বুকিং বাক্য: "Ich möchte ein Zimmer reservieren."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f5fa;&#xfe0f; পাঠ ৪ — Wegbeschreibung</div>
+      <div class="review-t">🗺️ পাঠ ৪ — Wegbeschreibung</div>
       <div class="review-item">links, rechts, geradeaus, die Ampel, die Kreuzung, abbiegen, gegenüber</div>
       <div class="review-item">Imperativ দিয়ে নির্দেশ: "Gehen Sie geradeaus. Biegen Sie links ab."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f3d6;&#xfe0f; পাঠ ৫ — Im Urlaub</div>
+      <div class="review-t">🏖️ পাঠ ৫ — Im Urlaub</div>
       <div class="review-item">der Strand, die Sehenswürdigkeit, das Foto, das Andenken, besichtigen</div>
       <div class="review-item">Perfekt দিয়ে ছুটির গল্প: besichtigt, fotografiert, sein verb দিয়ে movement verb</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f1e9;&#x1f1ea; পাঠ ৬ — Reisen in Deutschland</div>
+      <div class="review-t">🇩🇪 পাঠ ৬ — Reisen in Deutschland</div>
       <div class="review-item">die Bahncard, der ICE, das Schloss, die Jugendherberge</div>
       <div class="review-item">um...zu + Infinitiv (উদ্দেশ্য): "um das Museum zu besichtigen"</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f4d6; পাঠ ৭ — Präteritum</div>
+      <div class="review-t">📖 পাঠ ৭ — Präteritum</div>
       <div class="review-item">sein → war, haben → hatte, können → konnte, wollen → wollte, müssen → musste</div>
       <div class="review-item">কথ্য German এও sein/haben/modal verb এর Präteritum ব্যবহার হয়</div>
     </div>
     <div class="card">
-      <div class="card-t">&#x1f3af; অধ্যায় ৯ — মূল Grammar Points</div>
+      <div class="card-t">🎯 অধ্যায় ৯ — মূল Grammar Points</div>
       <table class="gram-table">
         <tr><th>Topic</th><th>Rule</th><th class="bn">উদাহরণ</th></tr>
         <tr><td class="de">mit + Dativ</td><td class="de">যানবাহন</td><td class="bn">mit dem Zug</td></tr>
@@ -2490,6 +2624,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </table>
     </div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- R10 SPEAKING REVIEW -->
@@ -2501,7 +2637,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3a4;</div>
+      <div class="cult-icon">🎤</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত উচ্চারণ পরীক্ষা</div>
         <div class="cult-bn">অধ্যায় ৯ এর সবচেয়ে গুরুত্বপূর্ণ বাক্যগুলো বলুন। প্রতিটি শুনুন, তারপর নিজে বলুন।</div>
@@ -2509,18 +2645,20 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="sp-c9rs"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- R10 QUIZ -->
 <div class="page" id="page-c9rq">
   <div class="ph">
     <div class="ph-eye">অধ্যায় ৯ · রিভিউ</div>
-    <div class="ph-title">রিভিউ কুইজ &#x1f3c6;</div>
+    <div class="ph-title">রিভিউ কুইজ 🏆</div>
     <div class="ph-bn">অধ্যায় ৯ সম্পূর্ণ পরীক্ষা</div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f3c6;</div>
+      <div class="cult-icon">🏆</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত কুইজ</div>
         <div class="cult-bn">এই কুইজে অধ্যায় ৯ এর সব পাঠ থেকে প্রশ্ন আছে। পাস করতে ৬০% দরকার।</div>
@@ -2528,6 +2666,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div id="qz-c9rq"></div>
   </div>
+
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -2535,6 +2675,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
 
@@ -2605,6 +2746,7 @@ var _CH_QZ=['c9l1q','c9l2q','c9l3q','c9l4q','c9l5q','c9l6q','c9l7q','c9rq'];
 var _CH_FITB=['c9l1w','c9l2w','c9l3w','c9l4w','c9l5w','c9l6w','c9l7w'];
 
 function go(page,navId){
+  curPage = page;
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   var _pg=document.getElementById('page-'+page);if(!_pg)return;
@@ -2615,6 +2757,7 @@ function go(page,navId){
   if(_CH_SP.indexOf(page)>=0)buildSp(page);
   if(_CH_QZ.indexOf(page)>=0)buildQuiz(page);
   if(_CH_FITB.indexOf(page)>=0)buildFITB(page);
+  updateNavBtns();
 }
 function toggleSB(){
   var sb=document.getElementById('sidebar');
@@ -2918,18 +3061,18 @@ function buildSp(day){
   spData[day].forEach(function(p,i){
     var d=document.createElement('div');d.className='sp-card';d.id='spc-'+day+i;
     var deSafe=p.de.replace(/'/g,"\\'");
-    d.innerHTML='<div class="sp-de">'+p.de+'</div><div class="sp-en">'+p.en+'</div><div class="sp-bn">'+p.bn+'</div><div class="sp-hint">&#x1f5e3;&#xfe0f; '+p.h+'</div><div class="sp-actions"><button class="sp-btn sp-play" onclick="tts(\''+deSafe+'\')">&#x1f50a; শুনুন</button><button class="sp-btn sp-rec" id="recbtn-'+day+'-'+p.id+'" onclick="startRec(\''+day+'\',\''+p.id+'\',\''+deSafe+'\',this)">&#x1f3a4; বলুন</button></div><div class="sp-result" id="spr-'+day+'-'+p.id+'"></div>';
+    d.innerHTML='<div class="sp-de">'+p.de+'</div><div class="sp-en">'+p.en+'</div><div class="sp-bn">'+p.bn+'</div><div class="sp-hint">🗣️️ '+p.h+'</div><div class="sp-actions"><button class="sp-btn sp-play" onclick="tts(\''+deSafe+'\')">🔊 শুনুন</button><button class="sp-btn sp-rec" id="recbtn-'+day+'-'+p.id+'" onclick="startRec(\''+day+'\',\''+p.id+'\',\''+deSafe+'\',this)">🎤 বলুন</button></div><div class="sp-result" id="spr-'+day+'-'+p.id+'"></div>';
     c.appendChild(d);
   });
   var sc=document.createElement('div');sc.className='sp-score-wrap';
-  sc.innerHTML='<button class="btn" onclick="showSpScore(\''+day+'\')">আমার স্কোর &#x1f3c6;</button><div class="sp-score" id="spscore-'+day+'"></div>';
+  sc.innerHTML='<button class="btn" onclick="showSpScore(\''+day+'\')">আমার স্কোর 🏆</button><div class="sp-score" id="spscore-'+day+'"></div>';
   c.appendChild(sc);
 }
 function startRec(day,id,target,btn){
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){alert('Chrome browser দরকার speech recognition এর জন্য!');return;}
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();rec.lang='de-DE';rec.interimResults=false;rec.maxAlternatives=3;
-  btn.textContent='&#x23f9; থামুন';btn.classList.add('recording');
+  btn.innerHTML='⏹ থামুন';btn.classList.add('recording');
   rec.onresult=function(e){
     var alts=[];
     for(var i=0;i<e.results[0].length;i++){alts.push(e.results[0][i].transcript.toLowerCase());}
@@ -2946,7 +3089,7 @@ function startRec(day,id,target,btn){
 }
 function rstBtn(day,id,btn){
   var p=spData[day]&&spData[day].filter(function(x){return x.id===id;})[0];
-  btn.textContent='&#x1f3a4; বলুন';btn.classList.remove('recording');
+  btn.innerHTML='🎤 বলুন';btn.classList.remove('recording');
   btn.onclick=function(){startRec(day,id,p?p.de:target,btn);};
 }
 function lev(a,b){
@@ -2996,7 +3139,7 @@ function buildFITB(day){
     var d=document.createElement('div');d.className='fitb-card';d.id='fitbc-'+day+i;
     var inlineInput='<input class="fitb-inline" id="fitbin-'+day+i+'" type="text" placeholder="???" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key===\'Enter\')checkFITB(\''+day+'\','+i+',this.value)" oninput="this.style.width=Math.max(60,this.value.length*12+20)+\'px\'">';
     var sentence=q.q.replace('___',inlineInput);
-    d.innerHTML='<div class="fitb-n">প্রশ্ন '+(i+1)+'/৫</div><div class="fitb-hint">'+q.hint+'</div><div class="fitb-sentence" id="fitbblank-'+day+i+'">'+sentence+'</div><div class="fitb-actions"><button class="fitb-btn" onclick="checkFITB(\''+day+'\','+i+',document.getElementById(\'fitbin-'+day+i+'\').value)">&#x2713; পরীক্ষা করুন</button></div><div class="fitb-fb" id="fitbfb-'+day+i+'"></div>';
+    d.innerHTML='<div class="fitb-n">প্রশ্ন '+(i+1)+'/৫</div><div class="fitb-hint">'+q.hint+'</div><div class="fitb-sentence" id="fitbblank-'+day+i+'">'+sentence+'</div><div class="fitb-actions"><button class="fitb-btn" onclick="checkFITB(\''+day+'\','+i+',document.getElementById(\'fitbin-'+day+i+'\').value)">✓ পরীক্ষা করুন</button></div><div class="fitb-fb" id="fitbfb-'+day+i+'"></div>';
     c.appendChild(d);
   });
   if(!fitbScores[day])fitbScores[day]={correct:0,total:5,done:[]};
@@ -3018,17 +3161,22 @@ function checkFITB(day,i,val){
   if(ok){
     if(card)card.className='fitb-card correct';
     if(inp){inp.value=q.blank;inp.style.color='var(--green)';inp.style.borderBottomColor='var(--green)';inp.disabled=true;inp.style.width=Math.max(60,q.blank.length*13+20)+'px';}
-    if(fb){fb.textContent='&#x2705; সঠিক! '+q.blank+' — '+q.hint;fb.className='fitb-fb show ok';}
+    if(fb){fb.textContent='✅ সঠিক! '+q.blank+' — '+q.hint;fb.className='fitb-fb show ok';}
     addXP(10);
   }else{
     if(card)card.className='fitb-card wrong';
     if(inp){inp.style.color='var(--red)';inp.style.borderBottomColor='var(--red)';}
-    if(fb){fb.innerHTML='&#x274c; ভুল! সঠিক উত্তর: <strong>'+q.blank+'</strong>';fb.className='fitb-fb show no';}
+    if(fb){fb.innerHTML='❌ ভুল! সঠিক উত্তর: <strong>'+q.blank+'</strong>';fb.className='fitb-fb show no';}
     addToSRS({de:q.blank,bn:q.hint,ctx:q.q});
   }
   if(fitbScores[day].done.length>=5){
     var sc=document.getElementById('fitb-score-'+day);
     if(sc)sc.classList.add('show');
+    var scn=document.getElementById('fitb-sc-'+day);
+    if(scn){
+      var bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+      scn.textContent=bnD[fitbScores[day].correct]+'/'+bnD[5];
+    }
     if(fitbScores[day].correct>=3)addXP(15);
   }
 }
@@ -3044,7 +3192,7 @@ function buildQuiz(day){
     c.appendChild(d);
   });
   var sc=document.createElement('div');
-  sc.innerHTML='<button class="btn" onclick="submitQuiz(\''+day+'\')">কুইজ জমা দিন &#x1f3af;</button><div class="score" id="sc-'+day+'"><div class="sc-big" id="scn-'+day+'">0/'+qzData[day].length+'</div><div class="sc-lbl">সঠিক উত্তর</div><div class="sc-msg" id="scm-'+day+'"></div></div><div class="mistakes-box" id="mb-'+day+'"><div class="mistakes-hdr">&#x274c; আপনার ভুলগুলো — ভুল থেকে শিখুন!</div><div id="mlist-'+day+'"></div></div>';
+  sc.innerHTML='<button class="btn" onclick="submitQuiz(\''+day+'\')">কুইজ জমা দিন 🎯</button><div class="score" id="sc-'+day+'"><div class="sc-big" id="scn-'+day+'">0/'+qzData[day].length+'</div><div class="sc-lbl">সঠিক উত্তর</div><div class="sc-msg" id="scm-'+day+'"></div></div><div class="mistakes-box" id="mb-'+day+'"><div class="mistakes-hdr">❌ আপনার ভুলগুলো — ভুল থেকে শিখুন!</div><div id="mlist-'+day+'"></div></div>';
   c.appendChild(sc);
 }
 function ansQ(day,qi,oi,btn){
@@ -3053,7 +3201,7 @@ function ansQ(day,qi,oi,btn){
   qzAns[day][qi]=oi;
   var ok=(oi===q.a);
   var fb=document.getElementById('qfb-'+day+'-'+qi);
-  if(fb){fb.textContent=(ok?'&#x2705; সঠিক! Richtig! — ':'&#x274c; ভুল! Falsch! — সঠিক: '+q.o[q.a]+' — ')+q.f;fb.className='q-fb show '+(ok?'ok':'no');}
+  if(fb){fb.textContent=(ok?'✅ সঠিক! Richtig! — ':'❌ ভুল! Falsch! — সঠিক: '+q.o[q.a]+' — ')+q.f;fb.className='q-fb show '+(ok?'ok':'no');}
   var btns=btn.parentNode.querySelectorAll('.qo');
   for(var i=0;i<btns.length;i++)btns[i].disabled=true;
   btn.classList.add(ok?'correct':'wrong');
@@ -3077,14 +3225,14 @@ function submitQuiz(day){
   if(scn)scn.textContent=correct+'/'+total+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.textContent='&#x1f3c6; অসাধারণ! Ausgezeichnet! +'+correct*5+' XP';
-    else if(pct>=80)scm.textContent='&#x2b50; দারুণ! Sehr gut! +'+correct*5+' XP';
-    else if(pct>=60)scm.textContent='&#x2705; ধন্যবাদ! Gut! +'+correct*5+' XP';
+    if(pct>=90)scm.textContent='🏆 অসাধারণ! Ausgezeichnet! +'+correct*5+' XP';
+    else if(pct>=80)scm.textContent='⭐ দারুণ! Sehr gut! +'+correct*5+' XP';
+    else if(pct>=60)scm.textContent='✅ ধন্যবাদ! Gut! +'+correct*5+' XP';
     else{
-      scm.textContent='&#x274c; আরো পড়ুন! অন্তত 60% দরকার। তুমি '+pct+'% পেয়েছ।';
+      scm.textContent='❌ আরো পড়ুন! অন্তত 60% দরকার। তুমি '+pct+'% পেয়েছ।';
       var rb=document.createElement('button');
       rb.className='btn';rb.style.marginTop='10px';rb.style.background='#e74c3c';
-      rb.textContent='&#x1f501; আবার দাও';
+      rb.textContent='🔁 আবার দাও';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(day);
       scm.appendChild(rb);
     }
@@ -3097,7 +3245,7 @@ function submitQuiz(day){
     if(mb)mb.classList.add('show');
     if(ml){
       var html='';
-      mistakes.forEach(function(m){html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+m.q+'</div><div class="mi-wrong">&#x274c; আপনার উত্তর: '+m.wrong+'</div><div class="mi-correct">&#x2705; সঠিক: '+m.correct+'</div><div class="mi-tip">&#x1f4a1; '+m.f+'</div></div>';});
+      mistakes.forEach(function(m){html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+m.q+'</div><div class="mi-wrong">❌ আপনার উত্তর: '+m.wrong+'</div><div class="mi-correct">✅ সঠিক: '+m.correct+'</div><div class="mi-tip">💡 '+m.f+'</div></div>';});
       ml.innerHTML=html;
     }
   }
@@ -3131,11 +3279,11 @@ function submitWrite(taId,resId){
   var words=ta.value.trim().split(/\s+/).filter(function(w){return w.length>0;});
   var n=ta.value.trim()===''?0:words.length;
   if(n<20){
-    res.innerHTML='&#x26a0;&#xfe0f; কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ।';
+    res.innerHTML='⚠️ কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ।';
     res.style.display='block';res.style.background='#fff5f5';res.style.color='var(--red)';
     return;
   }
-  res.innerHTML='&#x2705; চমৎকার! '+n+'টি শব্দ লিখেছেন। +15 XP';
+  res.innerHTML='✅ চমৎকার! '+n+'টি শব্দ লিখেছেন। +15 XP';
   res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
   addXP(15);markVisit(taId.replace('fw-',''),taId.replace('fw-','')+'fw');
 }
@@ -3149,33 +3297,33 @@ function toggleFreeSpeak(id){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';
+    btn.innerHTML='🎤 বলা শুরু করুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='&#x26a0;&#xfe0f; Chrome browser দরকার!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();rec.lang='de-DE';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='&#x23f9; থামাতে চাপুন';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপুন';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
       var words=t.trim().split(/\s+/).length;
       var ok=words>=3;
-      res.innerHTML=(ok?'&#x2705;':'&#x26a0;&#xfe0f;')+' শোনা গেছে: "'+t+'"'+(ok?' — চমৎকার! +10 XP':' — আরো বলুন!');
+      res.innerHTML=(ok?'✅':'⚠️')+' শোনা গেছে: "'+t+'"'+(ok?' — চমৎকার! +10 XP':' — আরো বলুন!');
       res.style.display='block';res.style.background=ok?'#f0fdf4':'#fffbf0';res.style.color=ok?'var(--green)':'#856404';
       if(ok)addXP(10);
     }
   };
   rec.onerror=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
+    btn.innerHTML='🎤 বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
+    btn.innerHTML='🎤 বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }
@@ -3188,6 +3336,107 @@ Object.keys(p).forEach(function(tab){var ni=document.getElementById('nav-'+tab);
 go('c9l1v','nav-c9l1v');
 toggleWeek(9);
 toggleDay('c9l1');
+var pageSeq = [
+  {id:'c9l1v',nav:'nav-c9l1v',lid:'c9l1'},
+  {id:'c9l1w',nav:'nav-c9l1w',lid:'c9l1'},
+  {id:'c9l1s',nav:'nav-c9l1s',lid:'c9l1'},
+  {id:'c9l1gr',nav:'nav-c9l1gr',lid:'c9l1'},
+  {id:'c9l1l',nav:'nav-c9l1l',lid:'c9l1'},
+  {id:'c9l1rd',nav:'nav-c9l1rd',lid:'c9l1'},
+  {id:'c9l1fw',nav:'nav-c9l1fw',lid:'c9l1'},
+  {id:'c9l1ss',nav:'nav-c9l1ss',lid:'c9l1'},
+  {id:'c9l1q',nav:'nav-c9l1q',lid:'c9l1'},
+  {id:'c9l2v',nav:'nav-c9l2v',lid:'c9l2'},
+  {id:'c9l2w',nav:'nav-c9l2w',lid:'c9l2'},
+  {id:'c9l2s',nav:'nav-c9l2s',lid:'c9l2'},
+  {id:'c9l2gr',nav:'nav-c9l2gr',lid:'c9l2'},
+  {id:'c9l2l',nav:'nav-c9l2l',lid:'c9l2'},
+  {id:'c9l2rd',nav:'nav-c9l2rd',lid:'c9l2'},
+  {id:'c9l2fw',nav:'nav-c9l2fw',lid:'c9l2'},
+  {id:'c9l2ss',nav:'nav-c9l2ss',lid:'c9l2'},
+  {id:'c9l2q',nav:'nav-c9l2q',lid:'c9l2'},
+  {id:'c9l3v',nav:'nav-c9l3v',lid:'c9l3'},
+  {id:'c9l3w',nav:'nav-c9l3w',lid:'c9l3'},
+  {id:'c9l3s',nav:'nav-c9l3s',lid:'c9l3'},
+  {id:'c9l3gr',nav:'nav-c9l3gr',lid:'c9l3'},
+  {id:'c9l3l',nav:'nav-c9l3l',lid:'c9l3'},
+  {id:'c9l3rd',nav:'nav-c9l3rd',lid:'c9l3'},
+  {id:'c9l3fw',nav:'nav-c9l3fw',lid:'c9l3'},
+  {id:'c9l3ss',nav:'nav-c9l3ss',lid:'c9l3'},
+  {id:'c9l3q',nav:'nav-c9l3q',lid:'c9l3'},
+  {id:'c9l4v',nav:'nav-c9l4v',lid:'c9l4'},
+  {id:'c9l4w',nav:'nav-c9l4w',lid:'c9l4'},
+  {id:'c9l4s',nav:'nav-c9l4s',lid:'c9l4'},
+  {id:'c9l4gr',nav:'nav-c9l4gr',lid:'c9l4'},
+  {id:'c9l4l',nav:'nav-c9l4l',lid:'c9l4'},
+  {id:'c9l4rd',nav:'nav-c9l4rd',lid:'c9l4'},
+  {id:'c9l4fw',nav:'nav-c9l4fw',lid:'c9l4'},
+  {id:'c9l4ss',nav:'nav-c9l4ss',lid:'c9l4'},
+  {id:'c9l4q',nav:'nav-c9l4q',lid:'c9l4'},
+  {id:'c9l5v',nav:'nav-c9l5v',lid:'c9l5'},
+  {id:'c9l5w',nav:'nav-c9l5w',lid:'c9l5'},
+  {id:'c9l5s',nav:'nav-c9l5s',lid:'c9l5'},
+  {id:'c9l5gr',nav:'nav-c9l5gr',lid:'c9l5'},
+  {id:'c9l5l',nav:'nav-c9l5l',lid:'c9l5'},
+  {id:'c9l5rd',nav:'nav-c9l5rd',lid:'c9l5'},
+  {id:'c9l5fw',nav:'nav-c9l5fw',lid:'c9l5'},
+  {id:'c9l5ss',nav:'nav-c9l5ss',lid:'c9l5'},
+  {id:'c9l5q',nav:'nav-c9l5q',lid:'c9l5'},
+  {id:'c9l6v',nav:'nav-c9l6v',lid:'c9l6'},
+  {id:'c9l6w',nav:'nav-c9l6w',lid:'c9l6'},
+  {id:'c9l6s',nav:'nav-c9l6s',lid:'c9l6'},
+  {id:'c9l6gr',nav:'nav-c9l6gr',lid:'c9l6'},
+  {id:'c9l6l',nav:'nav-c9l6l',lid:'c9l6'},
+  {id:'c9l6rd',nav:'nav-c9l6rd',lid:'c9l6'},
+  {id:'c9l6fw',nav:'nav-c9l6fw',lid:'c9l6'},
+  {id:'c9l6ss',nav:'nav-c9l6ss',lid:'c9l6'},
+  {id:'c9l6q',nav:'nav-c9l6q',lid:'c9l6'},
+  {id:'c9l7v',nav:'nav-c9l7v',lid:'c9l7'},
+  {id:'c9l7w',nav:'nav-c9l7w',lid:'c9l7'},
+  {id:'c9l7s',nav:'nav-c9l7s',lid:'c9l7'},
+  {id:'c9l7gr',nav:'nav-c9l7gr',lid:'c9l7'},
+  {id:'c9l7l',nav:'nav-c9l7l',lid:'c9l7'},
+  {id:'c9l7rd',nav:'nav-c9l7rd',lid:'c9l7'},
+  {id:'c9l7fw',nav:'nav-c9l7fw',lid:'c9l7'},
+  {id:'c9l7ss',nav:'nav-c9l7ss',lid:'c9l7'},
+  {id:'c9l7q',nav:'nav-c9l7q',lid:'c9l7'},
+  {id:'c9rv',nav:'nav-c9rv',lid:'c9r'},
+  {id:'c9rs',nav:'nav-c9rs',lid:'c9r'},
+  {id:'c9rq',nav:'nav-c9rq',lid:'c9r'},
+];
+
+function goNext() {
+  if (typeof pageSeq === 'undefined' || !pageSeq.length) return;
+  var cur = (typeof curPage !== 'undefined' ? curPage : '') || '';
+  var idx = -1;
+  for (var i = 0; i < pageSeq.length; i++) { if (pageSeq[i].id === cur) { idx = i; break; } }
+  if (idx >= 0 && idx < pageSeq.length - 1) {
+    var nxt = pageSeq[idx + 1];
+    go(nxt.id, nxt.nav); markVisit(nxt.lid, nxt.id);
+  }
+}
+function goPrev() {
+  if (typeof pageSeq === 'undefined' || !pageSeq.length) return;
+  var cur = (typeof curPage !== 'undefined' ? curPage : '') || '';
+  var idx = -1;
+  for (var i = 0; i < pageSeq.length; i++) { if (pageSeq[i].id === cur) { idx = i; break; } }
+  if (idx > 0) {
+    var prv = pageSeq[idx - 1];
+    go(prv.id, prv.nav); markVisit(prv.lid, prv.id);
+  }
+}
+function updateNavBtns() {
+  if (typeof pageSeq === 'undefined' || !pageSeq.length) return;
+  var cur = (typeof curPage !== 'undefined' ? curPage : '') || '';
+  if (!cur) return;
+  var idx = -1;
+  for (var i = 0; i < pageSeq.length; i++) { if (pageSeq[i].id === cur) { idx = i; break; } }
+  var pb = document.querySelectorAll('.pnb-prev');
+  var nb = document.querySelectorAll('.pnb-next');
+  for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
+  for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
+}
+
 </script>
 </body>
 </html>
