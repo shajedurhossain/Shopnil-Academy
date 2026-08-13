@@ -267,6 +267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -693,16 +716,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Lena:</span> Was brauchen wir f&#xfc;r das Abendessen?<br>
-        <span class="speaker">Tom:</span> Wir brauchen Kartoffeln, Karotten und Fleisch.<br>
-        <span class="speaker">Lena:</span> Haben wir noch Brot?<br>
-        <span class="speaker">Tom:</span> Nein, das Brot ist leer. Wir m&#xfc;ssen auch Milch und K&#xe4;se kaufen.<br>
-        <span class="speaker">Lena:</span> Gut, ich gehe zum Supermarkt. Brauchen wir Zucker?<br>
-        <span class="speaker">Tom:</span> Nein, wir haben noch genug Zucker. Aber kauf bitte auch Äpfel und Bananen.
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Was brauchen wir f&#xfc;r das Abendessen?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wir brauchen Kartoffeln, Karotten und Fleisch.</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Haben wir noch Brot?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Nein, das Brot ist leer. Wir m&#xfc;ssen auch Milch und K&#xe4;se kaufen.</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Gut, ich gehe zum Supermarkt. Brauchen wir Zucker?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Nein, wir haben noch genug Zucker. Aber kauf bitte auch Äpfel und Bananen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was brauchen wir f&#xfc;r das Abendessen?',female:true},{text:'Wir brauchen Kartoffeln, Karotten und Fleisch.',female:false},{text:'Haben wir noch Brot?',female:true},{text:'Nein, das Brot ist leer. Wir m&#xfc;ssen auch Milch und K&#xe4;se kaufen.',female:false},{text:'Gut, ich gehe zum Supermarkt. Brauchen wir Zucker?',female:true},{text:'Nein, wir haben noch genug Zucker. Aber kauf bitte auch Äpfel und Bananen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. রাতের খাবারের জন্য কী কী লাগবে?</div>
@@ -728,9 +764,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">জানা যায়নি</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -1024,16 +1060,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কাফেতে অর্ডার — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Kellner:</span> Guten Tag! Was h&#xe4;tten Sie gern?<br>
-        <span class="speaker">Gast:</span> Ich h&#xe4;tte gern einen Kaffee und ein St&#xfc;ck Kuchen.<br>
-        <span class="speaker">Kellner:</span> Welchen Kuchen m&#xf6;chten Sie? Wir haben Apfelkuchen und Schokoladenkuchen.<br>
-        <span class="speaker">Gast:</span> Apfelkuchen, bitte. Und kann ich auch ein Glas Wasser bekommen?<br>
-        <span class="speaker">Kellner:</span> Nat&#xfc;rlich. Kommt sofort.<br>
-        <span class="speaker">Gast:</span> Danke sch&#xf6;n.
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk">Kellner:</span><span class="ap-text">Guten Tag! Was h&#xe4;tten Sie gern?</span></div>
+      <div class="ap-line"><span class="spk-f">Gast:</span><span class="ap-text">Ich h&#xe4;tte gern einen Kaffee und ein St&#xfc;ck Kuchen.</span></div>
+      <div class="ap-line"><span class="spk">Kellner:</span><span class="ap-text">Welchen Kuchen m&#xf6;chten Sie? Wir haben Apfelkuchen und Schokoladenkuchen.</span></div>
+      <div class="ap-line"><span class="spk-f">Gast:</span><span class="ap-text">Apfelkuchen, bitte. Und kann ich auch ein Glas Wasser bekommen?</span></div>
+      <div class="ap-line"><span class="spk">Kellner:</span><span class="ap-text">Nat&#xfc;rlich. Kommt sofort.</span></div>
+      <div class="ap-line"><span class="spk-f">Gast:</span><span class="ap-text">Danke sch&#xf6;n.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag! Was h&#xe4;tten Sie gern?',female:false},{text:'Ich h&#xe4;tte gern einen Kaffee und ein St&#xfc;ck Kuchen.',female:true},{text:'Welchen Kuchen m&#xf6;chten Sie? Wir haben Apfelkuchen und Schokoladenkuchen.',female:false},{text:'Apfelkuchen, bitte. Und kann ich auch ein Glas Wasser bekommen?',female:true},{text:'Nat&#xfc;rlich. Kommt sofort.',female:false},{text:'Danke sch&#xf6;n.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Gast কী পান করতে চান?</div>
@@ -1059,9 +1108,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">আরেক কাপ কফি</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1355,16 +1404,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 খাবারের অভ্যাস — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Anna:</span> Was isst du normalerweise zum Fr&#xfc;hst&#xfc;ck?<br>
-        <span class="speaker">Ben:</span> Ich esse immer Br&#xf6;tchen mit Butter und Marmelade. Und ich trinke Kaffee.<br>
-        <span class="speaker">Anna:</span> Isst du oft Fleisch?<br>
-        <span class="speaker">Ben:</span> Nein, ich esse selten Fleisch. Ich bin fast Vegetarier. Aber ich esse oft Fisch.<br>
-        <span class="speaker">Anna:</span> Interessant! Und wie oft trinkst du Cola?<br>
-        <span class="speaker">Ben:</span> Ich trinke nie Cola — es ist zu s&#xfc;&#xdf;. Ich trinke meistens Wasser oder Tee.
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Was isst du normalerweise zum Fr&#xfc;hst&#xfc;ck?</span></div>
+      <div class="ap-line"><span class="spk">Ben:</span><span class="ap-text">Ich esse immer Br&#xf6;tchen mit Butter und Marmelade. Und ich trinke Kaffee.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Isst du oft Fleisch?</span></div>
+      <div class="ap-line"><span class="spk">Ben:</span><span class="ap-text">Nein, ich esse selten Fleisch. Ich bin fast Vegetarier. Aber ich esse oft Fisch.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Interessant! Und wie oft trinkst du Cola?</span></div>
+      <div class="ap-line"><span class="spk">Ben:</span><span class="ap-text">Ich trinke nie Cola — es ist zu s&#xfc;&#xdf;. Ich trinke meistens Wasser oder Tee.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Was isst du normalerweise zum Fr&#xfc;hst&#xfc;ck?',female:true},{text:'Ich esse immer Br&#xf6;tchen mit Butter und Marmelade. Und ich trinke Kaffee.',female:false},{text:'Isst du oft Fleisch?',female:true},{text:'Nein, ich esse selten Fleisch. Ich bin fast Vegetarier. Aber ich esse oft Fisch.',female:false},{text:'Interessant! Und wie oft trinkst du Cola?',female:true},{text:'Ich trinke nie Cola — es ist zu s&#xfc;&#xdf;. Ich trinke meistens Wasser oder Tee.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Ben সকালে নাস্তায় কী খান?</div>
@@ -1390,9 +1452,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">কখনো কখনো খান</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1688,14 +1750,27 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 রেসিপি নির্দেশনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Köchin:</span> Heute kochen wir Gem&#xfc;sesuppe! Zuerst brauchen wir 500 Gramm Kartoffeln und zwei Karotten.<br>
-        <span class="speaker">Köchin:</span> Schneide die Kartoffeln und Karotten in kleine St&#xfc;cke.<br>
-        <span class="speaker">Köchin:</span> Dann f&#xfc;ge einen Liter Wasser hinzu und koche alles f&#xfc;r zwanzig Minuten.<br>
-        <span class="speaker">Köchin:</span> Zum Schluss mische ein bisschen Salz und Pfeffer hinzu. Fertig!
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk-f">Köchin:</span><span class="ap-text">Heute kochen wir Gem&#xfc;sesuppe! Zuerst brauchen wir 500 Gramm Kartoffeln und zwei Karotten.</span></div>
+      <div class="ap-line"><span class="spk-f">Köchin:</span><span class="ap-text">Schneide die Kartoffeln und Karotten in kleine St&#xfc;cke.</span></div>
+      <div class="ap-line"><span class="spk-f">Köchin:</span><span class="ap-text">Dann f&#xfc;ge einen Liter Wasser hinzu und koche alles f&#xfc;r zwanzig Minuten.</span></div>
+      <div class="ap-line"><span class="spk-f">Köchin:</span><span class="ap-text">Zum Schluss mische ein bisschen Salz und Pfeffer hinzu. Fertig!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Heute kochen wir Gem&#xfc;sesuppe! Zuerst brauchen wir 500 Gramm Kartoffeln und zwei Karotten.',female:true},{text:'Schneide die Kartoffeln und Karotten in kleine St&#xfc;cke.',female:true},{text:'Dann f&#xfc;ge einen Liter Wasser hinzu und koche alles f&#xfc;r zwanzig Minuten.',female:true},{text:'Zum Schluss mische ein bisschen Salz und Pfeffer hinzu. Fertig!',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. কত গ্রাম আলু লাগবে?</div>
@@ -1721,9 +1796,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">ত্রিশ মিনিট</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1971,6 +2046,10 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">ich</td><td class="de">sollte</td><td class="bn">আমার উচিত</td></tr>
         <tr><td class="de">du</td><td class="de">solltest</td><td class="bn">তোমার উচিত</td></tr>
         <tr><td class="de">man</td><td class="de">sollte</td><td class="bn">মানুষের উচিত (general)</td></tr>
+        <tr><td class="de">er/sie/es</td><td class="de">sollte</td><td class="bn">সে উচিত</td></tr>
+        <tr><td class="de">wir</td><td class="de">sollten</td><td class="bn">আমরা উচিত</td></tr>
+        <tr><td class="de">ihr</td><td class="de">solltet</td><td class="bn">তোমরা উচিত</td></tr>
+        <tr><td class="de">sie/Sie</td><td class="de">sollten</td><td class="bn">তারা/আপনি উচিত</td></tr>
       </table>
     </div>
     <div class="card">
@@ -2002,16 +2081,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 স্বাস্থ্যকর খাবার নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Arzt:</span> Wie ist Ihre Ern&#xe4;hrung im Moment?<br>
-        <span class="speaker">Patient:</span> Ich esse oft Fast Food und trinke viel Cola. Ist das schlecht?<br>
-        <span class="speaker">Arzt:</span> Ja, das ist ungesund. Sie sollten weniger fettiges Essen essen und mehr Gem&#xfc;se.<br>
-        <span class="speaker">Patient:</span> Was sollte ich stattdessen trinken?<br>
-        <span class="speaker">Arzt:</span> Sie sollten mehr Wasser trinken — mindestens zwei Liter pro Tag. Und versuchen Sie, frisches Obst statt s&#xfc;&#xdf;er Snacks zu essen.<br>
-        <span class="speaker">Patient:</span> Okay, ich werde es versuchen!
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Wie ist Ihre Ern&#xe4;hrung im Moment?</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Ich esse oft Fast Food und trinke viel Cola. Ist das schlecht?</span></div>
+      <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Ja, das ist ungesund. Sie sollten weniger fettiges Essen essen und mehr Gem&#xfc;se.</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Was sollte ich stattdessen trinken?</span></div>
+      <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Sie sollten mehr Wasser trinken — mindestens zwei Liter pro Tag. Und versuchen Sie, frisches Obst statt s&#xfc;&#xdf;er Snacks zu essen.</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Okay, ich werde es versuchen!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Wie ist Ihre Ern&#xe4;hrung im Moment?',female:false},{text:'Ich esse oft Fast Food und trinke viel Cola. Ist das schlecht?',female:false},{text:'Ja, das ist ungesund. Sie sollten weniger fettiges Essen essen und mehr Gem&#xfc;se.',female:false},{text:'Was sollte ich stattdessen trinken?',female:false},{text:'Sie sollten mehr Wasser trinken — mindestens zwei Liter pro Tag. Und versuchen Sie, frisches Obst statt s&#xfc;&#xdf;er Snacks zu essen.',female:false},{text:'Okay, ich werde es versuchen!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Patient এখন কী খান?</div>
@@ -2037,9 +2129,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">চকলেট</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -2306,16 +2398,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 জার্মান খাবার নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Sara:</span> Was ist typisch deutsches Essen?<br>
-        <span class="speaker">Max:</span> Viele denken an Wurst und Sauerkraut. Aber wir essen auch viel Brot — wir haben &#xfc;ber dreihundert Brotsorten!<br>
-        <span class="speaker">Sara:</span> Wow, das ist viel! Was isst du am liebsten?<br>
-        <span class="speaker">Max:</span> Ich mag Schnitzel mit Kartoffelsalat sehr gern. Und ich denke, dass D&#xf6;ner auch sehr deutsch geworden ist!<br>
-        <span class="speaker">Sara:</span> Wirklich? Ich dachte, D&#xf6;ner kommt aus der T&#xfc;rkei.<br>
-        <span class="speaker">Max:</span> Ja, aber der D&#xf6;ner Kebab, wie wir ihn essen, wurde in Berlin erfunden!
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Was ist typisch deutsches Essen?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Viele denken an Wurst und Sauerkraut. Aber wir essen auch viel Brot — wir haben &#xfc;ber dreihundert Brotsorten!</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Wow, das ist viel! Was isst du am liebsten?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ich mag Schnitzel mit Kartoffelsalat sehr gern. Und ich denke, dass D&#xf6;ner auch sehr deutsch geworden ist!</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Wirklich? Ich dachte, D&#xf6;ner kommt aus der T&#xfc;rkei.</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ja, aber der D&#xf6;ner Kebab, wie wir ihn essen, wurde in Berlin erfunden!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist typisch deutsches Essen?',female:true},{text:'Viele denken an Wurst und Sauerkraut. Aber wir essen auch viel Brot — wir haben &#xfc;ber dreihundert Brotsorten!',female:false},{text:'Wow, das ist viel! Was isst du am liebsten?',female:true},{text:'Ich mag Schnitzel mit Kartoffelsalat sehr gern. Und ich denke, dass D&#xf6;ner auch sehr deutsch geworden ist!',female:false},{text:'Wirklich? Ich dachte, D&#xf6;ner kommt aus der T&#xfc;rkei.',female:true},{text:'Ja, aber der D&#xf6;ner Kebab, wie wir ihn essen, wurde in Berlin erfunden!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. জার্মানির কত প্রকার রুটি আছে বলা হয়েছে?</div>
@@ -2341,9 +2446,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">মিউনিখে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2610,16 +2715,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 রেস্তোরাঁয় অর্ডার — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Kellner:</span> Guten Abend! W&#xfc;rden Sie gern schon bestellen?<br>
-        <span class="speaker">Gast:</span> Ja, gerne. Ich w&#xfc;rde gern das Schnitzel mit Kartoffelsalat probieren.<br>
-        <span class="speaker">Kellner:</span> Sehr gute Wahl! Und zu trinken?<br>
-        <span class="speaker">Gast:</span> Ich w&#xfc;rde gern ein Glas Apfelsaft haben, bitte.<br>
-        <span class="speaker">Kellner:</span> Gerne. Sonst noch etwas?<br>
-        <span class="speaker">Gast:</span> Nein danke, das ist alles.
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk">Kellner:</span><span class="ap-text">Guten Abend! W&#xfc;rden Sie gern schon bestellen?</span></div>
+      <div class="ap-line"><span class="spk-f">Gast:</span><span class="ap-text">Ja, gerne. Ich w&#xfc;rde gern das Schnitzel mit Kartoffelsalat probieren.</span></div>
+      <div class="ap-line"><span class="spk">Kellner:</span><span class="ap-text">Sehr gute Wahl! Und zu trinken?</span></div>
+      <div class="ap-line"><span class="spk-f">Gast:</span><span class="ap-text">Ich w&#xfc;rde gern ein Glas Apfelsaft haben, bitte.</span></div>
+      <div class="ap-line"><span class="spk">Kellner:</span><span class="ap-text">Gerne. Sonst noch etwas?</span></div>
+      <div class="ap-line"><span class="spk-f">Gast:</span><span class="ap-text">Nein danke, das ist alles.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Guten Abend! W&#xfc;rden Sie gern schon bestellen?',female:false},{text:'Ja, gerne. Ich w&#xfc;rde gern das Schnitzel mit Kartoffelsalat probieren.',female:true},{text:'Sehr gute Wahl! Und zu trinken?',female:false},{text:'Ich w&#xfc;rde gern ein Glas Apfelsaft haben, bitte.',female:true},{text:'Gerne. Sonst noch etwas?',female:false},{text:'Nein danke, das ist alles.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Gast কী খেতে চান?</div>
@@ -2645,9 +2763,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">আরেকটা পানীয় চান</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2883,6 +3001,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -3002,13 +3123,60 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Was brauchen wir für das Abendessen? Wir brauchen Kartoffeln, Karotten und Fleisch. Haben wir noch Brot? Nein, das Brot ist leer. Wir müssen auch Milch und Käse kaufen. Gut, ich gehe zum Supermarkt. Brauchen wir Zucker? Nein, wir haben noch genug Zucker. Aber kauf bitte auch Äpfel und Bananen.');
-var playL2listen=makeListenPlayer('l2l','Guten Tag! Was hätten Sie gern? Ich hätte gern einen Kaffee und ein Stück Kuchen. Welchen Kuchen möchten Sie? Wir haben Apfelkuchen und Schokoladenkuchen. Apfelkuchen, bitte. Und kann ich auch ein Glas Wasser bekommen? Natürlich. Kommt sofort. Danke schön.');
-var playL3listen=makeListenPlayer('l3l','Was isst du normalerweise zum Frühstück? Ich esse immer Brötchen mit Butter und Marmelade. Und ich trinke Kaffee. Isst du oft Fleisch? Nein, ich esse selten Fleisch. Ich bin fast Vegetarier. Aber ich esse oft Fisch. Wie oft trinkst du Cola? Ich trinke nie Cola — es ist zu süß. Ich trinke meistens Wasser oder Tee.');
-var playL4listen=makeListenPlayer('l4l','Heute kochen wir Gemüsesuppe! Zuerst brauchen wir 500 Gramm Kartoffeln und zwei Karotten. Schneide die Kartoffeln und Karotten in kleine Stücke. Dann füge einen Liter Wasser hinzu und koche alles für zwanzig Minuten. Zum Schluss mische ein bisschen Salz und Pfeffer hinzu. Fertig!');
-var playL5listen=makeListenPlayer('l5l','Wie ist Ihre Ernährung im Moment? Ich esse oft Fast Food und trinke viel Cola. Ist das schlecht? Ja, das ist ungesund. Sie sollten weniger fettiges Essen essen und mehr Gemüse. Was sollte ich stattdessen trinken? Sie sollten mehr Wasser trinken — mindestens zwei Liter pro Tag. Und versuchen Sie, frisches Obst statt süßer Snacks zu essen.');
-var playL6listen=makeListenPlayer('l6l','Was ist typisch deutsches Essen? Viele denken an Wurst und Sauerkraut. Aber wir essen auch viel Brot — wir haben über dreihundert Brotsorten! Ich mag Schnitzel mit Kartoffelsalat sehr gern. Und ich denke, dass Döner auch sehr deutsch geworden ist! Ja, aber der Döner Kebab, wie wir ihn essen, wurde in Berlin erfunden!');
-var playL7listen=makeListenPlayer('l7l','Guten Abend! Würden Sie gern schon bestellen? Ja, gerne. Ich würde gern das Schnitzel mit Kartoffelsalat probieren. Sehr gute Wahl! Und zu trinken? Ich würde gern ein Glas Apfelsaft haben, bitte. Gerne. Sonst noch etwas? Nein danke, das ist alles.');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Lena',text:'Was brauchen wir f&#xfc;r das Abendessen?',female:true},
+    {speaker:'Tom',text:'Wir brauchen Kartoffeln, Karotten und Fleisch.',female:false},
+    {speaker:'Lena',text:'Haben wir noch Brot?',female:true},
+    {speaker:'Tom',text:'Nein, das Brot ist leer. Wir m&#xfc;ssen auch Milch und K&#xe4;se kaufen.',female:false},
+    {speaker:'Lena',text:'Gut, ich gehe zum Supermarkt. Brauchen wir Zucker?',female:true},
+    {speaker:'Tom',text:'Nein, wir haben noch genug Zucker. Aber kauf bitte auch Äpfel und Bananen.',female:false}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Kellner',text:'Guten Tag! Was h&#xe4;tten Sie gern?',female:false},
+    {speaker:'Gast',text:'Ich h&#xe4;tte gern einen Kaffee und ein St&#xfc;ck Kuchen.',female:true},
+    {speaker:'Kellner',text:'Welchen Kuchen m&#xf6;chten Sie? Wir haben Apfelkuchen und Schokoladenkuchen.',female:false},
+    {speaker:'Gast',text:'Apfelkuchen, bitte. Und kann ich auch ein Glas Wasser bekommen?',female:true},
+    {speaker:'Kellner',text:'Nat&#xfc;rlich. Kommt sofort.',female:false},
+    {speaker:'Gast',text:'Danke sch&#xf6;n.',female:true}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Anna',text:'Was isst du normalerweise zum Fr&#xfc;hst&#xfc;ck?',female:true},
+    {speaker:'Ben',text:'Ich esse immer Br&#xf6;tchen mit Butter und Marmelade. Und ich trinke Kaffee.',female:false},
+    {speaker:'Anna',text:'Isst du oft Fleisch?',female:true},
+    {speaker:'Ben',text:'Nein, ich esse selten Fleisch. Ich bin fast Vegetarier. Aber ich esse oft Fisch.',female:false},
+    {speaker:'Anna',text:'Interessant! Und wie oft trinkst du Cola?',female:true},
+    {speaker:'Ben',text:'Ich trinke nie Cola — es ist zu s&#xfc;&#xdf;. Ich trinke meistens Wasser oder Tee.',female:false}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Köchin',text:'Heute kochen wir Gem&#xfc;sesuppe! Zuerst brauchen wir 500 Gramm Kartoffeln und zwei Karotten.',female:true},
+    {speaker:'Köchin',text:'Schneide die Kartoffeln und Karotten in kleine St&#xfc;cke.',female:true},
+    {speaker:'Köchin',text:'Dann f&#xfc;ge einen Liter Wasser hinzu und koche alles f&#xfc;r zwanzig Minuten.',female:true},
+    {speaker:'Köchin',text:'Zum Schluss mische ein bisschen Salz und Pfeffer hinzu. Fertig!',female:true}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Arzt',text:'Wie ist Ihre Ern&#xe4;hrung im Moment?',female:false},
+    {speaker:'Patient',text:'Ich esse oft Fast Food und trinke viel Cola. Ist das schlecht?',female:false},
+    {speaker:'Arzt',text:'Ja, das ist ungesund. Sie sollten weniger fettiges Essen essen und mehr Gem&#xfc;se.',female:false},
+    {speaker:'Patient',text:'Was sollte ich stattdessen trinken?',female:false},
+    {speaker:'Arzt',text:'Sie sollten mehr Wasser trinken — mindestens zwei Liter pro Tag. Und versuchen Sie, frisches Obst statt s&#xfc;&#xdf;er Snacks zu essen.',female:false},
+    {speaker:'Patient',text:'Okay, ich werde es versuchen!',female:false}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Sara',text:'Was ist typisch deutsches Essen?',female:true},
+    {speaker:'Max',text:'Viele denken an Wurst und Sauerkraut. Aber wir essen auch viel Brot — wir haben &#xfc;ber dreihundert Brotsorten!',female:false},
+    {speaker:'Sara',text:'Wow, das ist viel! Was isst du am liebsten?',female:true},
+    {speaker:'Max',text:'Ich mag Schnitzel mit Kartoffelsalat sehr gern. Und ich denke, dass D&#xf6;ner auch sehr deutsch geworden ist!',female:false},
+    {speaker:'Sara',text:'Wirklich? Ich dachte, D&#xf6;ner kommt aus der T&#xfc;rkei.',female:true},
+    {speaker:'Max',text:'Ja, aber der D&#xf6;ner Kebab, wie wir ihn essen, wurde in Berlin erfunden!',female:false}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Kellner',text:'Guten Abend! W&#xfc;rden Sie gern schon bestellen?',female:false},
+    {speaker:'Gast',text:'Ja, gerne. Ich w&#xfc;rde gern das Schnitzel mit Kartoffelsalat probieren.',female:true},
+    {speaker:'Kellner',text:'Sehr gute Wahl! Und zu trinken?',female:false},
+    {speaker:'Gast',text:'Ich w&#xfc;rde gern ein Glas Apfelsaft haben, bitte.',female:true},
+    {speaker:'Kellner',text:'Gerne. Sonst noch etwas?',female:false},
+    {speaker:'Gast',text:'Nein danke, das ist alles.',female:true}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3644,6 +3812,269 @@ function updateNavBtns() {
   for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
 }
+
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
 
 </script>
 </body>
