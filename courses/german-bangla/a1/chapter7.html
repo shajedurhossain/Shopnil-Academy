@@ -267,6 +267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -649,16 +672,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Tom:</span> Welchen Sport machst du gern?<br>
-        <span class="speaker">Mia:</span> Ich spiele gern Tennis und ich schwimme auch oft.<br>
-        <span class="speaker">Tom:</span> Cool! Ich spiele lieber Fu&#xdf;ball. Aber ich mache auch manchmal Yoga.<br>
-        <span class="speaker">Mia:</span> Wirklich? Wo machst du Yoga?<br>
-        <span class="speaker">Tom:</span> Im Fitnessstudio, jeden Dienstag Abend.<br>
-        <span class="speaker">Mia:</span> Das ist gut f&#xfc;r die Entspannung!
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Welchen Sport machst du gern?</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Ich spiele gern Tennis und ich schwimme auch oft.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Cool! Ich spiele lieber Fu&#xdf;ball. Aber ich mache auch manchmal Yoga.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Wirklich? Wo machst du Yoga?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Im Fitnessstudio, jeden Dienstag Abend.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Das ist gut f&#xfc;r die Entspannung!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Welchen Sport machst du gern?',female:false},{text:'Ich spiele gern Tennis und ich schwimme auch oft.',female:true},{text:'Cool! Ich spiele lieber Fu&#xdf;ball. Aber ich mache auch manchmal Yoga.',female:false},{text:'Wirklich? Wo machst du Yoga?',female:true},{text:'Im Fitnessstudio, jeden Dienstag Abend.',female:false},{text:'Das ist gut f&#xfc;r die Entspannung!',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Mia কোন খেলা পছন্দ করেন?</div>
@@ -684,9 +720,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">শুক্রবার রাতে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -960,17 +996,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 ক্লাবে নতুন সদস্য — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Person:</span> Guten Tag, ich m&#xf6;chte gern Mitglied in Ihrem Sportverein werden.<br>
-        <span class="speaker">Mitarbeiter:</span> Sehr gut! Welchen Sport interessiert Sie?<br>
-        <span class="speaker">Person:</span> Ich m&#xf6;chte Fu&#xdf;ball spielen. Wann ist das Training?<br>
-        <span class="speaker">Mitarbeiter:</span> Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr.<br>
-        <span class="speaker">Person:</span> Perfekt. Wie viel kostet der Mitgliedsbeitrag?<br>
-        <span class="speaker">Mitarbeiter:</span> Das kostet f&#xfc;nfzehn Euro pro Monat.<br>
-        <span class="speaker">Person:</span> Das ist okay. Ich m&#xf6;chte mich anmelden!
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk-f">Person:</span><span class="ap-text">Guten Tag, ich m&#xf6;chte gern Mitglied in Ihrem Sportverein werden.</span></div>
+      <div class="ap-line"><span class="spk">Mitarbeiter:</span><span class="ap-text">Sehr gut! Welchen Sport interessiert Sie?</span></div>
+      <div class="ap-line"><span class="spk-f">Person:</span><span class="ap-text">Ich m&#xf6;chte Fu&#xdf;ball spielen. Wann ist das Training?</span></div>
+      <div class="ap-line"><span class="spk">Mitarbeiter:</span><span class="ap-text">Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr.</span></div>
+      <div class="ap-line"><span class="spk-f">Person:</span><span class="ap-text">Perfekt. Wie viel kostet der Mitgliedsbeitrag?</span></div>
+      <div class="ap-line"><span class="spk">Mitarbeiter:</span><span class="ap-text">Das kostet f&#xfc;nfzehn Euro pro Monat.</span></div>
+      <div class="ap-line"><span class="spk-f">Person:</span><span class="ap-text">Das ist okay. Ich m&#xf6;chte mich anmelden!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag, ich m&#xf6;chte gern Mitglied in Ihrem Sportverein werden.',female:true},{text:'Sehr gut! Welchen Sport interessiert Sie?',female:false},{text:'Ich m&#xf6;chte Fu&#xdf;ball spielen. Wann ist das Training?',female:true},{text:'Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr.',female:false},{text:'Perfekt. Wie viel kostet der Mitgliedsbeitrag?',female:true},{text:'Das kostet f&#xfc;nfzehn Euro pro Monat.',female:false},{text:'Das ist okay. Ich m&#xf6;chte mich anmelden!',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Person কোন খেলা খেলতে চান?</div>
@@ -996,9 +1045,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">বিশ ইউরো</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1265,16 +1314,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 খেলাধুলার রুটিন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Anna:</span> Wie oft machst du Sport?<br>
-        <span class="speaker">Felix:</span> Ich gehe jeden Tag laufen — etwa drei Kilometer.<br>
-        <span class="speaker">Anna:</span> Wow, jeden Tag? Das ist viel!<br>
-        <span class="speaker">Felix:</span> Ja, und zweimal pro Woche spiele ich auch Fu&#xdf;ball mit meinem Verein.<br>
-        <span class="speaker">Anna:</span> Und Yoga? Machst du das auch regelm&#xe4;&#xdf;ig?<br>
-        <span class="speaker">Felix:</span> Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Wie oft machst du Sport?</span></div>
+      <div class="ap-line"><span class="spk">Felix:</span><span class="ap-text">Ich gehe jeden Tag laufen — etwa drei Kilometer.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Wow, jeden Tag? Das ist viel!</span></div>
+      <div class="ap-line"><span class="spk">Felix:</span><span class="ap-text">Ja, und zweimal pro Woche spiele ich auch Fu&#xdf;ball mit meinem Verein.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Und Yoga? Machst du das auch regelm&#xe4;&#xdf;ig?</span></div>
+      <div class="ap-line"><span class="spk">Felix:</span><span class="ap-text">Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Wie oft machst du Sport?',female:true},{text:'Ich gehe jeden Tag laufen — etwa drei Kilometer.',female:false},{text:'Wow, jeden Tag? Das ist viel!',female:true},{text:'Ja, und zweimal pro Woche spiele ich auch Fu&#xdf;ball mit meinem Verein.',female:false},{text:'Und Yoga? Machst du das auch regelm&#xe4;&#xdf;ig?',female:true},{text:'Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Felix কত ঘনঘন দৌড়ান?</div>
@@ -1300,9 +1362,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">কখনো করেন না</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1582,16 +1644,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 সিনেমা প্ল্যান — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Sara:</span> Hast du Lust, heute Abend ins Kino zu gehen?<br>
-        <span class="speaker">Max:</span> Ja, gerne! Welchen Film m&#xf6;chtest du sehen?<br>
-        <span class="speaker">Sara:</span> Ich m&#xf6;chte die neue Kom&#xf6;die sehen. Sie soll sehr lustig sein.<br>
-        <span class="speaker">Max:</span> Klingt gut! Wann beginnt die Vorstellung?<br>
-        <span class="speaker">Sara:</span> Um zwanzig Uhr. Die Eintrittskarten kosten zw&#xf6;lf Euro.<br>
-        <span class="speaker">Max:</span> Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Hast du Lust, heute Abend ins Kino zu gehen?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ja, gerne! Welchen Film m&#xf6;chtest du sehen?</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Ich m&#xf6;chte die neue Kom&#xf6;die sehen. Sie soll sehr lustig sein.</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Klingt gut! Wann beginnt die Vorstellung?</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Um zwanzig Uhr. Die Eintrittskarten kosten zw&#xf6;lf Euro.</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Hast du Lust, heute Abend ins Kino zu gehen?',female:true},{text:'Ja, gerne! Welchen Film m&#xf6;chtest du sehen?',female:false},{text:'Ich m&#xf6;chte die neue Kom&#xf6;die sehen. Sie soll sehr lustig sein.',female:true},{text:'Klingt gut! Wann beginnt die Vorstellung?',female:false},{text:'Um zwanzig Uhr. Die Eintrittskarten kosten zw&#xf6;lf Euro.',female:true},{text:'Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Sara কোন genre এর সিনেমা দেখতে চান?</div>
@@ -1617,9 +1692,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">৮টায়</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1897,16 +1972,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 পরিকল্পনা করা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Lena:</span> Hast du Lust, am Wochenende etwas zu machen?<br>
-        <span class="speaker">Tom:</span> Ja, gerne! Was schl&#xe4;gst du vor?<br>
-        <span class="speaker">Lena:</span> Wie w&#xe4;re es mit Wandern? Das Wetter soll sch&#xf6;n sein.<br>
-        <span class="speaker">Tom:</span> Klingt toll! Wann und wo treffen wir uns?<br>
-        <span class="speaker">Lena:</span> Wir k&#xf6;nnten uns Samstagmorgen um neun Uhr am Bahnhof treffen.<br>
-        <span class="speaker">Tom:</span> Perfekt, ich bin p&#xfc;nktlich da. Bis Samstag!
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Hast du Lust, am Wochenende etwas zu machen?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ja, gerne! Was schl&#xe4;gst du vor?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Wie w&#xe4;re es mit Wandern? Das Wetter soll sch&#xf6;n sein.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Klingt toll! Wann und wo treffen wir uns?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Wir k&#xf6;nnten uns Samstagmorgen um neun Uhr am Bahnhof treffen.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Perfekt, ich bin p&#xfc;nktlich da. Bis Samstag!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Hast du Lust, am Wochenende etwas zu machen?',female:true},{text:'Ja, gerne! Was schl&#xe4;gst du vor?',female:false},{text:'Wie w&#xe4;re es mit Wandern? Das Wetter soll sch&#xf6;n sein.',female:true},{text:'Klingt toll! Wann und wo treffen wir uns?',female:false},{text:'Wir k&#xf6;nnten uns Samstagmorgen um neun Uhr am Bahnhof treffen.',female:true},{text:'Perfekt, ich bin p&#xfc;nktlich da. Bis Samstag!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Lena কী করার প্রস্তাব দেন?</div>
@@ -1932,9 +2020,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">রবিবার দুপুরে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -2199,16 +2287,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 জার্মান অবসর সংস্কৃতি — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Sam:</span> Was machen die Deutschen normalerweise am Wochenende?<br>
-        <span class="speaker">Hannah:</span> Viele Leute gehen wandern oder machen einen Ausflug in die Natur.<br>
-        <span class="speaker">Sam:</span> Und am Sonntag? Ich habe geh&#xf6;rt, dass die Gesch&#xe4;fte geschlossen sind.<br>
-        <span class="speaker">Hannah:</span> Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie.<br>
-        <span class="speaker">Sam:</span> Interessant! Und was ist ein Schrebergarten?<br>
-        <span class="speaker">Hannah:</span> Das ist ein kleiner Garten, den man mieten kann. Viele Deutsche, besonders &#xe4;ltere, lieben es, dort zu g&#xe4;rtnern.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk">Sam:</span><span class="ap-text">Was machen die Deutschen normalerweise am Wochenende?</span></div>
+      <div class="ap-line"><span class="spk-f">Hannah:</span><span class="ap-text">Viele Leute gehen wandern oder machen einen Ausflug in die Natur.</span></div>
+      <div class="ap-line"><span class="spk">Sam:</span><span class="ap-text">Und am Sonntag? Ich habe geh&#xf6;rt, dass die Gesch&#xe4;fte geschlossen sind.</span></div>
+      <div class="ap-line"><span class="spk-f">Hannah:</span><span class="ap-text">Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie.</span></div>
+      <div class="ap-line"><span class="spk">Sam:</span><span class="ap-text">Interessant! Und was ist ein Schrebergarten?</span></div>
+      <div class="ap-line"><span class="spk-f">Hannah:</span><span class="ap-text">Das ist ein kleiner Garten, den man mieten kann. Viele Deutsche, besonders &#xe4;ltere, lieben es, dort zu g&#xe4;rtnern.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was machen die Deutschen normalerweise am Wochenende?',female:false},{text:'Viele Leute gehen wandern oder machen einen Ausflug in die Natur.',female:true},{text:'Und am Sonntag? Ich habe geh&#xf6;rt, dass die Gesch&#xe4;fte geschlossen sind.',female:false},{text:'Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie.',female:true},{text:'Interessant! Und was ist ein Schrebergarten?',female:false},{text:'Das ist ein kleiner Garten, den man mieten kann. Viele Deutsche, besonders &#xe4;ltere, lieben es, dort zu g&#xe4;rtnern.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. জার্মানরা সপ্তাহান্তে সাধারণত কী করে?</div>
@@ -2234,9 +2335,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">একটা রেস্তোরাঁ</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2489,16 +2590,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কতদিন ধরে করছেন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Interviewer:</span> Seit wann spielst du Fu&#xdf;ball?<br>
-        <span class="speaker">Spieler:</span> Ich spiele seit meiner Kindheit Fu&#xdf;ball — also seit &#xfc;ber fünfzehn Jahren!<br>
-        <span class="speaker">Interviewer:</span> Wow, das ist lange! Und wie lange bist du schon in diesem Verein?<br>
-        <span class="speaker">Spieler:</span> Ich bin seit drei Jahren in diesem Verein. Vorher habe ich in einem anderen Verein gespielt.<br>
-        <span class="speaker">Interviewer:</span> Und wie lange trainiert dich der aktuelle Trainer?<br>
-        <span class="speaker">Spieler:</span> Er trainiert mich seit einem Jahr. Er ist sehr gut!
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Seit wann spielst du Fu&#xdf;ball?</span></div>
+      <div class="ap-line"><span class="spk">Spieler:</span><span class="ap-text">Ich spiele seit meiner Kindheit Fu&#xdf;ball — also seit &#xfc;ber fünfzehn Jahren!</span></div>
+      <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Wow, das ist lange! Und wie lange bist du schon in diesem Verein?</span></div>
+      <div class="ap-line"><span class="spk">Spieler:</span><span class="ap-text">Ich bin seit drei Jahren in diesem Verein. Vorher habe ich in einem anderen Verein gespielt.</span></div>
+      <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Und wie lange trainiert dich der aktuelle Trainer?</span></div>
+      <div class="ap-line"><span class="spk">Spieler:</span><span class="ap-text">Er trainiert mich seit einem Jahr. Er ist sehr gut!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Seit wann spielst du Fu&#xdf;ball?',female:false},{text:'Ich spiele seit meiner Kindheit Fu&#xdf;ball — also seit &#xfc;ber fünfzehn Jahren!',female:false},{text:'Wow, das ist lange! Und wie lange bist du schon in diesem Verein?',female:false},{text:'Ich bin seit drei Jahren in diesem Verein. Vorher habe ich in einem anderen Verein gespielt.',female:false},{text:'Und wie lange trainiert dich der aktuelle Trainer?',female:false},{text:'Er trainiert mich seit einem Jahr. Er ist sehr gut!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Spieler কতদিন ধরে ফুটবল খেলছেন?</div>
@@ -2524,9 +2638,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">১৫ বছর ধরে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2755,6 +2869,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -2874,13 +2991,63 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Welchen Sport machst du gern? Ich spiele gern Tennis und ich schwimme auch oft. Cool! Ich spiele lieber Fußball. Aber ich mache auch manchmal Yoga. Wirklich? Wo machst du Yoga? Im Fitnessstudio, jeden Dienstag Abend. Das ist gut für die Entspannung!');
-var playL2listen=makeListenPlayer('l2l','Guten Tag, ich möchte gern Mitglied in Ihrem Sportverein werden. Sehr gut! Welchen Sport interessiert Sie? Ich möchte Fußball spielen. Wann ist das Training? Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr. Wie viel kostet der Mitgliedsbeitrag? Das kostet fünfzehn Euro pro Monat. Ich möchte mich anmelden!');
-var playL3listen=makeListenPlayer('l3l','Wie oft machst du Sport? Ich gehe jeden Tag laufen — etwa drei Kilometer. Wow, jeden Tag? Das ist viel! Ja, und zweimal pro Woche spiele ich auch Fußball mit meinem Verein. Und Yoga? Machst du das auch regelmäßig? Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.');
-var playL4listen=makeListenPlayer('l4l','Hast du Lust, heute Abend ins Kino zu gehen? Ja, gerne! Welchen Film möchtest du sehen? Ich möchte die neue Komödie sehen. Sie soll sehr lustig sein. Klingt gut! Wann beginnt die Vorstellung? Um zwanzig Uhr. Die Eintrittskarten kosten zwölf Euro. Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.');
-var playL5listen=makeListenPlayer('l5l','Hast du Lust, am Wochenende etwas zu machen? Ja, gerne! Was schlägst du vor? Wie wäre es mit Wandern? Das Wetter soll schön sein. Klingt toll! Wann und wo treffen wir uns? Wir könnten uns Samstagmorgen um neun Uhr am Bahnhof treffen. Perfekt, ich bin pünktlich da. Bis Samstag!');
-var playL6listen=makeListenPlayer('l6l','Was machen die Deutschen normalerweise am Wochenende? Viele Leute gehen wandern oder machen einen Ausflug in die Natur. Und am Sonntag? Ich habe gehört, dass die Geschäfte geschlossen sind. Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie. Und was ist ein Schrebergarten? Das ist ein kleiner Garten, den man mieten kann.');
-var playL7listen=makeListenPlayer('l7l','Seit wann spielst du Fußball? Ich spiele seit meiner Kindheit Fußball — also seit über fünfzehn Jahren! Wow, das ist lange! Und wie lange bist du schon in diesem Verein? Ich bin seit drei Jahren in diesem Verein. Und wie lange trainiert dich der aktuelle Trainer? Er trainiert mich seit einem Jahr. Er ist sehr gut!');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Tom',text:'Welchen Sport machst du gern?',female:false},
+    {speaker:'Mia',text:'Ich spiele gern Tennis und ich schwimme auch oft.',female:true},
+    {speaker:'Tom',text:'Cool! Ich spiele lieber Fu&#xdf;ball. Aber ich mache auch manchmal Yoga.',female:false},
+    {speaker:'Mia',text:'Wirklich? Wo machst du Yoga?',female:true},
+    {speaker:'Tom',text:'Im Fitnessstudio, jeden Dienstag Abend.',female:false},
+    {speaker:'Mia',text:'Das ist gut f&#xfc;r die Entspannung!',female:true}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Person',text:'Guten Tag, ich m&#xf6;chte gern Mitglied in Ihrem Sportverein werden.',female:true},
+    {speaker:'Mitarbeiter',text:'Sehr gut! Welchen Sport interessiert Sie?',female:false},
+    {speaker:'Person',text:'Ich m&#xf6;chte Fu&#xdf;ball spielen. Wann ist das Training?',female:true},
+    {speaker:'Mitarbeiter',text:'Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr.',female:false},
+    {speaker:'Person',text:'Perfekt. Wie viel kostet der Mitgliedsbeitrag?',female:true},
+    {speaker:'Mitarbeiter',text:'Das kostet f&#xfc;nfzehn Euro pro Monat.',female:false},
+    {speaker:'Person',text:'Das ist okay. Ich m&#xf6;chte mich anmelden!',female:true}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Anna',text:'Wie oft machst du Sport?',female:true},
+    {speaker:'Felix',text:'Ich gehe jeden Tag laufen — etwa drei Kilometer.',female:false},
+    {speaker:'Anna',text:'Wow, jeden Tag? Das ist viel!',female:true},
+    {speaker:'Felix',text:'Ja, und zweimal pro Woche spiele ich auch Fu&#xdf;ball mit meinem Verein.',female:false},
+    {speaker:'Anna',text:'Und Yoga? Machst du das auch regelm&#xe4;&#xdf;ig?',female:true},
+    {speaker:'Felix',text:'Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.',female:false}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Sara',text:'Hast du Lust, heute Abend ins Kino zu gehen?',female:true},
+    {speaker:'Max',text:'Ja, gerne! Welchen Film m&#xf6;chtest du sehen?',female:false},
+    {speaker:'Sara',text:'Ich m&#xf6;chte die neue Kom&#xf6;die sehen. Sie soll sehr lustig sein.',female:true},
+    {speaker:'Max',text:'Klingt gut! Wann beginnt die Vorstellung?',female:false},
+    {speaker:'Sara',text:'Um zwanzig Uhr. Die Eintrittskarten kosten zw&#xf6;lf Euro.',female:true},
+    {speaker:'Max',text:'Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.',female:false}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Lena',text:'Hast du Lust, am Wochenende etwas zu machen?',female:true},
+    {speaker:'Tom',text:'Ja, gerne! Was schl&#xe4;gst du vor?',female:false},
+    {speaker:'Lena',text:'Wie w&#xe4;re es mit Wandern? Das Wetter soll sch&#xf6;n sein.',female:true},
+    {speaker:'Tom',text:'Klingt toll! Wann und wo treffen wir uns?',female:false},
+    {speaker:'Lena',text:'Wir k&#xf6;nnten uns Samstagmorgen um neun Uhr am Bahnhof treffen.',female:true},
+    {speaker:'Tom',text:'Perfekt, ich bin p&#xfc;nktlich da. Bis Samstag!',female:false}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Sam',text:'Was machen die Deutschen normalerweise am Wochenende?',female:false},
+    {speaker:'Hannah',text:'Viele Leute gehen wandern oder machen einen Ausflug in die Natur.',female:true},
+    {speaker:'Sam',text:'Und am Sonntag? Ich habe geh&#xf6;rt, dass die Gesch&#xe4;fte geschlossen sind.',female:false},
+    {speaker:'Hannah',text:'Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie.',female:true},
+    {speaker:'Sam',text:'Interessant! Und was ist ein Schrebergarten?',female:false},
+    {speaker:'Hannah',text:'Das ist ein kleiner Garten, den man mieten kann. Viele Deutsche, besonders &#xe4;ltere, lieben es, dort zu g&#xe4;rtnern.',female:true}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Interviewer',text:'Seit wann spielst du Fu&#xdf;ball?',female:false},
+    {speaker:'Spieler',text:'Ich spiele seit meiner Kindheit Fu&#xdf;ball — also seit &#xfc;ber fünfzehn Jahren!',female:false},
+    {speaker:'Interviewer',text:'Wow, das ist lange! Und wie lange bist du schon in diesem Verein?',female:false},
+    {speaker:'Spieler',text:'Ich bin seit drei Jahren in diesem Verein. Vorher habe ich in einem anderen Verein gespielt.',female:false},
+    {speaker:'Interviewer',text:'Und wie lange trainiert dich der aktuelle Trainer?',female:false},
+    {speaker:'Spieler',text:'Er trainiert mich seit einem Jahr. Er ist sehr gut!',female:false}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3517,6 +3684,269 @@ function updateNavBtns() {
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
 }
 
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
+
 </script>
 </body>
 </html>
@@ -3638,13 +4068,13 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Welchen Sport machst du gern? Ich spiele gern Tennis und ich schwimme auch oft. Cool! Ich spiele lieber Fußball. Aber ich mache auch manchmal Yoga. Wirklich? Wo machst du Yoga? Im Fitnessstudio, jeden Dienstag Abend. Das ist gut für die Entspannung!');
-var playL2listen=makeListenPlayer('l2l','Guten Tag, ich möchte gern Mitglied in Ihrem Sportverein werden. Sehr gut! Welchen Sport interessiert Sie? Ich möchte Fußball spielen. Wann ist das Training? Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr. Wie viel kostet der Mitgliedsbeitrag? Das kostet fünfzehn Euro pro Monat.');
-var playL3listen=makeListenPlayer('l3l','Wie oft machst du Sport? Ich gehe jeden Tag laufen — etwa drei Kilometer. Wow, jeden Tag? Das ist viel! Ja, und zweimal pro Woche spiele ich auch Fußball mit meinem Verein. Und Yoga? Machst du das auch regelmäßig? Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.');
-var playL4listen=makeListenPlayer('l4l','Hast du Lust, heute Abend ins Kino zu gehen? Ja, gerne! Welchen Film möchtest du sehen? Ich möchte die neue Komödie sehen. Sie soll sehr lustig sein. Klingt gut! Wann beginnt die Vorstellung? Um zwanzig Uhr. Die Eintrittskarten kosten zwölf Euro. Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.');
-var playL5listen=makeListenPlayer('l5l','Hast du Lust, am Wochenende etwas zu machen? Ja, gerne! Was schlägst du vor? Wie wäre es mit Wandern? Das Wetter soll schön sein. Klingt toll! Wann und wo treffen wir uns? Wir könnten uns Samstagmorgen um neun Uhr am Bahnhof treffen. Perfekt, ich bin pünktlich da.');
-var playL6listen=makeListenPlayer('l6l','Was machen die Deutschen normalerweise am Wochenende? Viele Leute gehen wandern oder machen einen Ausflug in die Natur. Und am Sonntag? Ich habe gehört, dass die Geschäfte geschlossen sind. Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie. Und was ist ein Schrebergarten? Das ist ein kleiner Garten, den man mieten kann.');
-var playL7listen=makeListenPlayer('l7l','Seit wann spielst du Fußball? Ich spiele seit meiner Kindheit Fußball — also seit über fünfzehn Jahren! Wow, das ist lange! Und wie lange bist du schon in diesem Verein? Ich bin seit drei Jahren in diesem Verein. Und wie lange trainiert dich der aktuelle Trainer? Er trainiert mich seit einem Jahr. Er ist sehr gut!');
+var playL1listen=makeGenderedPlayer('l1l',[{text:'Welchen Sport machst du gern?',female:true},{text:'Ich spiele gern Tennis und ich schwimme auch oft.',female:false},{text:'Cool!',female:true},{text:'Ich spiele lieber Fußball.',female:false},{text:'Aber ich mache auch manchmal Yoga.',female:true},{text:'Wirklich?',female:false},{text:'Wo machst du Yoga?',female:true},{text:'Im Fitnessstudio, jeden Dienstag Abend.',female:false},{text:'Das ist gut für die Entspannung!',female:true}]);
+var playL2listen=makeGenderedPlayer('l2l',[{text:'Guten Tag, ich möchte gern Mitglied in Ihrem Sportverein werden.',female:true},{text:'Sehr gut!',female:false},{text:'Welchen Sport interessiert Sie?',female:true},{text:'Ich möchte Fußball spielen.',female:false},{text:'Wann ist das Training?',female:true},{text:'Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr.',female:false},{text:'Wie viel kostet der Mitgliedsbeitrag?',female:true},{text:'Das kostet fünfzehn Euro pro Monat.',female:false}]);
+var playL3listen=makeGenderedPlayer('l3l',[{text:'Wie oft machst du Sport?',female:true},{text:'Ich gehe jeden Tag laufen — etwa drei Kilometer.',female:false},{text:'Wow, jeden Tag?',female:true},{text:'Das ist viel!',female:false},{text:'Ja, und zweimal pro Woche spiele ich auch Fußball mit meinem Verein.',female:true},{text:'Und Yoga?',female:false},{text:'Machst du das auch regelmäßig?',female:true},{text:'Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.',female:false}]);
+var playL4listen=makeGenderedPlayer('l4l',[{text:'Hast du Lust, heute Abend ins Kino zu gehen?',female:true},{text:'Ja, gerne!',female:false},{text:'Welchen Film möchtest du sehen?',female:true},{text:'Ich möchte die neue Komödie sehen.',female:false},{text:'Sie soll sehr lustig sein.',female:true},{text:'Klingt gut!',female:false},{text:'Wann beginnt die Vorstellung?',female:true},{text:'Um zwanzig Uhr.',female:false},{text:'Die Eintrittskarten kosten zwölf Euro.',female:true},{text:'Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.',female:false}]);
+var playL5listen=makeGenderedPlayer('l5l',[{text:'Hast du Lust, am Wochenende etwas zu machen?',female:true},{text:'Ja, gerne!',female:false},{text:'Was schlägst du vor?',female:true},{text:'Wie wäre es mit Wandern?',female:false},{text:'Das Wetter soll schön sein.',female:true},{text:'Klingt toll!',female:false},{text:'Wann und wo treffen wir uns?',female:true},{text:'Wir könnten uns Samstagmorgen um neun Uhr am Bahnhof treffen.',female:false},{text:'Perfekt, ich bin pünktlich da.',female:true}]);
+var playL6listen=makeGenderedPlayer('l6l',[{text:'Was machen die Deutschen normalerweise am Wochenende?',female:true},{text:'Viele Leute gehen wandern oder machen einen Ausflug in die Natur.',female:false},{text:'Und am Sonntag?',female:true},{text:'Ich habe gehört, dass die Geschäfte geschlossen sind.',female:false},{text:'Ja, das ist richtig.',female:true},{text:'Der Sonntag ist ein Ruhetag.',female:false},{text:'Wir entspannen, lesen oder besuchen die Familie.',female:true},{text:'Und was ist ein Schrebergarten?',female:false},{text:'Das ist ein kleiner Garten, den man mieten kann.',female:true}]);
+var playL7listen=makeGenderedPlayer('l7l',[{text:'Seit wann spielst du Fußball?',female:true},{text:'Ich spiele seit meiner Kindheit Fußball — also seit über fünfzehn Jahren!',female:false},{text:'Wow, das ist lange!',female:true},{text:'Und wie lange bist du schon in diesem Verein?',female:false},{text:'Ich bin seit drei Jahren in diesem Verein.',female:true},{text:'Und wie lange trainiert dich der aktuelle Trainer?',female:false},{text:'Er trainiert mich seit einem Jahr.',female:true},{text:'Er ist sehr gut!',female:false}]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -4296,13 +4726,13 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Welchen Sport machst du gern? Ich spiele gern Tennis und ich schwimme auch oft. Cool! Ich spiele lieber Fußball. Aber ich mache auch manchmal Yoga. Wirklich? Wo machst du Yoga? Im Fitnessstudio, jeden Dienstag Abend. Das ist gut für die Entspannung!');
-var playL2listen=makeListenPlayer('l2l','Guten Tag, ich möchte gern Mitglied in Ihrem Sportverein werden. Sehr gut! Welchen Sport interessiert Sie? Ich möchte Fußball spielen. Wann ist das Training? Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr. Perfekt. Wie viel kostet der Mitgliedsbeitrag? Das kostet fünfzehn Euro pro Monat. Das ist okay. Ich möchte mich anmelden!');
-var playL3listen=makeListenPlayer('l3l','Wie oft machst du Sport? Ich gehe jeden Tag laufen — etwa drei Kilometer. Wow, jeden Tag? Das ist viel! Ja, und zweimal pro Woche spiele ich auch Fußball mit meinem Verein. Und Yoga? Machst du das auch regelmäßig? Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.');
-var playL4listen=makeListenPlayer('l4l','Hast du Lust, heute Abend ins Kino zu gehen? Ja, gerne! Welchen Film möchtest du sehen? Ich möchte die neue Komödie sehen. Sie soll sehr lustig sein. Klingt gut! Wann beginnt die Vorstellung? Um zwanzig Uhr. Die Eintrittskarten kosten zwölf Euro. Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.');
-var playL5listen=makeListenPlayer('l5l','Hast du Lust, am Wochenende etwas zu machen? Ja, gerne! Was schlägst du vor? Wie wäre es mit Wandern? Das Wetter soll schön sein. Klingt toll! Wann und wo treffen wir uns? Wir könnten uns Samstagmorgen um neun Uhr am Bahnhof treffen. Perfekt, ich bin pünktlich da. Bis Samstag!');
-var playL6listen=makeListenPlayer('l6l','Was machen die Deutschen normalerweise am Wochenende? Viele Leute gehen wandern oder machen einen Ausflug in die Natur. Und am Sonntag? Ich habe gehört, dass die Geschäfte geschlossen sind. Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie. Interessant! Und was ist ein Schrebergarten? Das ist ein kleiner Garten, den man mieten kann. Viele Deutsche, besonders ältere, lieben es, dort zu gärtnern.');
-var playL7listen=makeListenPlayer('l7l','Seit wann spielst du Fußball? Ich spiele seit meiner Kindheit Fußball — also seit über fünfzehn Jahren! Wow, das ist lange! Und wie lange bist du schon in diesem Verein? Ich bin seit drei Jahren in diesem Verein. Vorher habe ich in einem anderen Verein gespielt. Und wie lange trainiert dich der aktuelle Trainer? Er trainiert mich seit einem Jahr. Er ist sehr gut!');
+var playL1listen=makeGenderedPlayer('l1l',[{text:'Welchen Sport machst du gern?',female:true},{text:'Ich spiele gern Tennis und ich schwimme auch oft.',female:false},{text:'Cool!',female:true},{text:'Ich spiele lieber Fußball.',female:false},{text:'Aber ich mache auch manchmal Yoga.',female:true},{text:'Wirklich?',female:false},{text:'Wo machst du Yoga?',female:true},{text:'Im Fitnessstudio, jeden Dienstag Abend.',female:false},{text:'Das ist gut für die Entspannung!',female:true}]);
+var playL2listen=makeGenderedPlayer('l2l',[{text:'Guten Tag, ich möchte gern Mitglied in Ihrem Sportverein werden.',female:true},{text:'Sehr gut!',female:false},{text:'Welchen Sport interessiert Sie?',female:true},{text:'Ich möchte Fußball spielen.',female:false},{text:'Wann ist das Training?',female:true},{text:'Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr.',female:false},{text:'Perfekt.',female:true},{text:'Wie viel kostet der Mitgliedsbeitrag?',female:false},{text:'Das kostet fünfzehn Euro pro Monat.',female:true},{text:'Das ist okay.',female:false},{text:'Ich möchte mich anmelden!',female:true}]);
+var playL3listen=makeGenderedPlayer('l3l',[{text:'Wie oft machst du Sport?',female:true},{text:'Ich gehe jeden Tag laufen — etwa drei Kilometer.',female:false},{text:'Wow, jeden Tag?',female:true},{text:'Das ist viel!',female:false},{text:'Ja, und zweimal pro Woche spiele ich auch Fußball mit meinem Verein.',female:true},{text:'Und Yoga?',female:false},{text:'Machst du das auch regelmäßig?',female:true},{text:'Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.',female:false}]);
+var playL4listen=makeGenderedPlayer('l4l',[{text:'Hast du Lust, heute Abend ins Kino zu gehen?',female:true},{text:'Ja, gerne!',female:false},{text:'Welchen Film möchtest du sehen?',female:true},{text:'Ich möchte die neue Komödie sehen.',female:false},{text:'Sie soll sehr lustig sein.',female:true},{text:'Klingt gut!',female:false},{text:'Wann beginnt die Vorstellung?',female:true},{text:'Um zwanzig Uhr.',female:false},{text:'Die Eintrittskarten kosten zwölf Euro.',female:true},{text:'Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.',female:false}]);
+var playL5listen=makeGenderedPlayer('l5l',[{text:'Hast du Lust, am Wochenende etwas zu machen?',female:true},{text:'Ja, gerne!',female:false},{text:'Was schlägst du vor?',female:true},{text:'Wie wäre es mit Wandern?',female:false},{text:'Das Wetter soll schön sein.',female:true},{text:'Klingt toll!',female:false},{text:'Wann und wo treffen wir uns?',female:true},{text:'Wir könnten uns Samstagmorgen um neun Uhr am Bahnhof treffen.',female:false},{text:'Perfekt, ich bin pünktlich da.',female:true},{text:'Bis Samstag!',female:false}]);
+var playL6listen=makeGenderedPlayer('l6l',[{text:'Was machen die Deutschen normalerweise am Wochenende?',female:true},{text:'Viele Leute gehen wandern oder machen einen Ausflug in die Natur.',female:false},{text:'Und am Sonntag?',female:true},{text:'Ich habe gehört, dass die Geschäfte geschlossen sind.',female:false},{text:'Ja, das ist richtig.',female:true},{text:'Der Sonntag ist ein Ruhetag.',female:false},{text:'Wir entspannen, lesen oder besuchen die Familie.',female:true},{text:'Interessant!',female:false},{text:'Und was ist ein Schrebergarten?',female:true},{text:'Das ist ein kleiner Garten, den man mieten kann.',female:false},{text:'Viele Deutsche, besonders ältere, lieben es, dort zu gärtnern.',female:true}]);
+var playL7listen=makeGenderedPlayer('l7l',[{text:'Seit wann spielst du Fußball?',female:true},{text:'Ich spiele seit meiner Kindheit Fußball — also seit über fünfzehn Jahren!',female:false},{text:'Wow, das ist lange!',female:true},{text:'Und wie lange bist du schon in diesem Verein?',female:false},{text:'Ich bin seit drei Jahren in diesem Verein.',female:true},{text:'Vorher habe ich in einem anderen Verein gespielt.',female:false},{text:'Und wie lange trainiert dich der aktuelle Trainer?',female:true},{text:'Er trainiert mich seit einem Jahr.',female:false},{text:'Er ist sehr gut!',female:true}]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -4954,13 +5384,13 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Welchen Sport machst du gern? Ich spiele gern Tennis und ich schwimme auch oft. Cool! Ich spiele lieber Fußball. Aber ich mache auch manchmal Yoga. Wirklich? Wo machst du Yoga? Im Fitnessstudio, jeden Dienstag Abend. Das ist gut für die Entspannung!');
-var playL2listen=makeListenPlayer('l2l','Guten Tag, ich möchte gern Mitglied in Ihrem Sportverein werden. Sehr gut! Welchen Sport interessiert Sie? Ich möchte Fußball spielen. Wann ist das Training? Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr. Perfekt. Wie viel kostet der Mitgliedsbeitrag? Das kostet fünfzehn Euro pro Monat. Das ist okay. Ich möchte mich anmelden!');
-var playL3listen=makeListenPlayer('l3l','Wie oft machst du Sport? Ich gehe jeden Tag laufen — etwa drei Kilometer. Wow, jeden Tag? Das ist viel! Ja, und zweimal pro Woche spiele ich auch Fußball mit meinem Verein. Und Yoga? Machst du das auch regelmäßig? Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.');
-var playL4listen=makeListenPlayer('l4l','Hast du Lust, heute Abend ins Kino zu gehen? Ja, gerne! Welchen Film möchtest du sehen? Ich möchte die neue Komödie sehen. Sie soll sehr lustig sein. Klingt gut! Wann beginnt die Vorstellung? Um zwanzig Uhr. Die Eintrittskarten kosten zwölf Euro. Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.');
-var playL5listen=makeListenPlayer('l5l','Hast du Lust, am Wochenende etwas zu machen? Ja, gerne! Was schlägst du vor? Wie wäre es mit Wandern? Das Wetter soll schön sein. Klingt toll! Wann und wo treffen wir uns? Wir könnten uns Samstagmorgen um neun Uhr am Bahnhof treffen. Perfekt, ich bin pünktlich da. Bis Samstag!');
-var playL6listen=makeListenPlayer('l6l','Was machen die Deutschen normalerweise am Wochenende? Viele Leute gehen wandern oder machen einen Ausflug in die Natur. Und am Sonntag? Ich habe gehört, dass die Geschäfte geschlossen sind. Ja, das ist richtig. Der Sonntag ist ein Ruhetag. Wir entspannen, lesen oder besuchen die Familie. Interessant! Und was ist ein Schrebergarten? Das ist ein kleiner Garten, den man mieten kann. Viele Deutsche, besonders ältere, lieben es, dort zu gärtnern.');
-var playL7listen=makeListenPlayer('l7l','Seit wann spielst du Fußball? Ich spiele seit meiner Kindheit Fußball — also seit über fünfzehn Jahren! Wow, das ist lange! Und wie lange bist du schon in diesem Verein? Ich bin seit drei Jahren in diesem Verein. Vorher habe ich in einem anderen Verein gespielt. Und wie lange trainiert dich der aktuelle Trainer? Er trainiert mich seit einem Jahr. Er ist sehr gut!');
+var playL1listen=makeGenderedPlayer('l1l',[{text:'Welchen Sport machst du gern?',female:true},{text:'Ich spiele gern Tennis und ich schwimme auch oft.',female:false},{text:'Cool!',female:true},{text:'Ich spiele lieber Fußball.',female:false},{text:'Aber ich mache auch manchmal Yoga.',female:true},{text:'Wirklich?',female:false},{text:'Wo machst du Yoga?',female:true},{text:'Im Fitnessstudio, jeden Dienstag Abend.',female:false},{text:'Das ist gut für die Entspannung!',female:true}]);
+var playL2listen=makeGenderedPlayer('l2l',[{text:'Guten Tag, ich möchte gern Mitglied in Ihrem Sportverein werden.',female:true},{text:'Sehr gut!',female:false},{text:'Welchen Sport interessiert Sie?',female:true},{text:'Ich möchte Fußball spielen.',female:false},{text:'Wann ist das Training?',female:true},{text:'Das Training ist dienstags und donnerstags von achtzehn bis zwanzig Uhr.',female:false},{text:'Perfekt.',female:true},{text:'Wie viel kostet der Mitgliedsbeitrag?',female:false},{text:'Das kostet fünfzehn Euro pro Monat.',female:true},{text:'Das ist okay.',female:false},{text:'Ich möchte mich anmelden!',female:true}]);
+var playL3listen=makeGenderedPlayer('l3l',[{text:'Wie oft machst du Sport?',female:true},{text:'Ich gehe jeden Tag laufen — etwa drei Kilometer.',female:false},{text:'Wow, jeden Tag?',female:true},{text:'Das ist viel!',female:false},{text:'Ja, und zweimal pro Woche spiele ich auch Fußball mit meinem Verein.',female:true},{text:'Und Yoga?',female:false},{text:'Machst du das auch regelmäßig?',female:true},{text:'Nein, Yoga mache ich nur einmal im Monat, wenn ich Zeit habe.',female:false}]);
+var playL4listen=makeGenderedPlayer('l4l',[{text:'Hast du Lust, heute Abend ins Kino zu gehen?',female:true},{text:'Ja, gerne!',female:false},{text:'Welchen Film möchtest du sehen?',female:true},{text:'Ich möchte die neue Komödie sehen.',female:false},{text:'Sie soll sehr lustig sein.',female:true},{text:'Klingt gut!',female:false},{text:'Wann beginnt die Vorstellung?',female:true},{text:'Um zwanzig Uhr.',female:false},{text:'Die Eintrittskarten kosten zwölf Euro.',female:true},{text:'Perfekt, ich treffe dich um neunzehn Uhr dreißig vor dem Kino.',female:false}]);
+var playL5listen=makeGenderedPlayer('l5l',[{text:'Hast du Lust, am Wochenende etwas zu machen?',female:true},{text:'Ja, gerne!',female:false},{text:'Was schlägst du vor?',female:true},{text:'Wie wäre es mit Wandern?',female:false},{text:'Das Wetter soll schön sein.',female:true},{text:'Klingt toll!',female:false},{text:'Wann und wo treffen wir uns?',female:true},{text:'Wir könnten uns Samstagmorgen um neun Uhr am Bahnhof treffen.',female:false},{text:'Perfekt, ich bin pünktlich da.',female:true},{text:'Bis Samstag!',female:false}]);
+var playL6listen=makeGenderedPlayer('l6l',[{text:'Was machen die Deutschen normalerweise am Wochenende?',female:true},{text:'Viele Leute gehen wandern oder machen einen Ausflug in die Natur.',female:false},{text:'Und am Sonntag?',female:true},{text:'Ich habe gehört, dass die Geschäfte geschlossen sind.',female:false},{text:'Ja, das ist richtig.',female:true},{text:'Der Sonntag ist ein Ruhetag.',female:false},{text:'Wir entspannen, lesen oder besuchen die Familie.',female:true},{text:'Interessant!',female:false},{text:'Und was ist ein Schrebergarten?',female:true},{text:'Das ist ein kleiner Garten, den man mieten kann.',female:false},{text:'Viele Deutsche, besonders ältere, lieben es, dort zu gärtnern.',female:true}]);
+var playL7listen=makeGenderedPlayer('l7l',[{text:'Seit wann spielst du Fußball?',female:true},{text:'Ich spiele seit meiner Kindheit Fußball — also seit über fünfzehn Jahren!',female:false},{text:'Wow, das ist lange!',female:true},{text:'Und wie lange bist du schon in diesem Verein?',female:false},{text:'Ich bin seit drei Jahren in diesem Verein.',female:true},{text:'Vorher habe ich in einem anderen Verein gespielt.',female:false},{text:'Und wie lange trainiert dich der aktuelle Trainer?',female:true},{text:'Er trainiert mich seit einem Jahr.',female:false},{text:'Er ist sehr gut!',female:true}]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
