@@ -267,6 +267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -662,16 +685,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Mutter:</span> Was ist los? Du siehst nicht gut aus.<br>
-        <span class="speaker">Kind:</span> Mein Kopf tut weh, und mein Bauch auch.<br>
-        <span class="speaker">Mutter:</span> Oh nein! Hast du auch Halsschmerzen?<br>
-        <span class="speaker">Kind:</span> Ja, mein Hals tut auch weh. Und meine Augen sind so m&#xfc;de.<br>
-        <span class="speaker">Mutter:</span> Du solltest dich ausruhen. Ich rufe den Arzt an.<br>
-        <span class="speaker">Kind:</span> Okay, danke Mama.
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk-f">Mutter:</span><span class="ap-text">Was ist los? Du siehst nicht gut aus.</span></div>
+      <div class="ap-line"><span class="spk-f">Kind:</span><span class="ap-text">Mein Kopf tut weh, und mein Bauch auch.</span></div>
+      <div class="ap-line"><span class="spk-f">Mutter:</span><span class="ap-text">Oh nein! Hast du auch Halsschmerzen?</span></div>
+      <div class="ap-line"><span class="spk-f">Kind:</span><span class="ap-text">Ja, mein Hals tut auch weh. Und meine Augen sind so m&#xfc;de.</span></div>
+      <div class="ap-line"><span class="spk-f">Mutter:</span><span class="ap-text">Du solltest dich ausruhen. Ich rufe den Arzt an.</span></div>
+      <div class="ap-line"><span class="spk-f">Kind:</span><span class="ap-text">Okay, danke Mama.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was ist los? Du siehst nicht gut aus.',female:true},{text:'Mein Kopf tut weh, und mein Bauch auch.',female:true},{text:'Oh nein! Hast du auch Halsschmerzen?',female:true},{text:'Ja, mein Hals tut auch weh. Und meine Augen sind so m&#xfc;de.',female:true},{text:'Du solltest dich ausruhen. Ich rufe den Arzt an.',female:true},{text:'Okay, danke Mama.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. শিশুর কোথায় ব্যথা?</div>
@@ -697,9 +733,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">স্কুলে নিয়ে যাবেন</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -971,17 +1007,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 ডাক্তারের কাছে — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Arzt:</span> Guten Tag! Was fehlt Ihnen?<br>
-        <span class="speaker">Patient:</span> Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen.<br>
-        <span class="speaker">Arzt:</span> Haben Sie auch Husten?<br>
-        <span class="speaker">Patient:</span> Ja, ein bisschen. Und ich fühle mich sehr müde.<br>
-        <span class="speaker">Arzt:</span> Ich werde Sie untersuchen. Machen Sie bitte den Mund auf.<br>
-        <span class="speaker">Patient:</span> Okay, Doktor.<br>
-        <span class="speaker">Arzt:</span> Es ist eine Erk&#xe4;ltung. Ich gebe Ihnen ein Rezept f&#xfc;r Medikamente.
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Guten Tag! Was fehlt Ihnen?</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen.</span></div>
+      <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Haben Sie auch Husten?</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Ja, ein bisschen. Und ich fühle mich sehr müde.</span></div>
+      <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Ich werde Sie untersuchen. Machen Sie bitte den Mund auf.</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Okay, Doktor.</span></div>
+      <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Es ist eine Erk&#xe4;ltung. Ich gebe Ihnen ein Rezept f&#xfc;r Medikamente.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag! Was fehlt Ihnen?',female:false},{text:'Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen.',female:false},{text:'Haben Sie auch Husten?',female:false},{text:'Ja, ein bisschen. Und ich fühle mich sehr müde.',female:false},{text:'Ich werde Sie untersuchen. Machen Sie bitte den Mund auf.',female:false},{text:'Okay, Doktor.',female:false},{text:'Es ist eine Erk&#xe4;ltung. Ich gebe Ihnen ein Rezept f&#xfc;r Medikamente.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Patient এর কতদিন ধরে জ্বর?</div>
@@ -1007,9 +1056,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">এলার্জি</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1275,16 +1324,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 লক্ষণ বর্ণনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Freund:</span> Du siehst nicht gut aus. Was ist los?<br>
-        <span class="speaker">Anna:</span> Ich glaube, ich habe eine Erk&#xe4;ltung. Ich habe Husten und Schnupfen.<br>
-        <span class="speaker">Freund:</span> Hast du auch Fieber?<br>
-        <span class="speaker">Anna:</span> Nein, kein Fieber. Aber ich bin sehr müde, und mir ist manchmal schwindelig.<br>
-        <span class="speaker">Freund:</span> Du solltest dich ausruhen und viel Wasser trinken.<br>
-        <span class="speaker">Anna:</span> Ja, das werde ich machen. Danke für deinen Rat.
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk">Freund:</span><span class="ap-text">Du siehst nicht gut aus. Was ist los?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Ich glaube, ich habe eine Erk&#xe4;ltung. Ich habe Husten und Schnupfen.</span></div>
+      <div class="ap-line"><span class="spk">Freund:</span><span class="ap-text">Hast du auch Fieber?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Nein, kein Fieber. Aber ich bin sehr müde, und mir ist manchmal schwindelig.</span></div>
+      <div class="ap-line"><span class="spk">Freund:</span><span class="ap-text">Du solltest dich ausruhen und viel Wasser trinken.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Ja, das werde ich machen. Danke für deinen Rat.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Du siehst nicht gut aus. Was ist los?',female:false},{text:'Ich glaube, ich habe eine Erk&#xe4;ltung. Ich habe Husten und Schnupfen.',female:true},{text:'Hast du auch Fieber?',female:false},{text:'Nein, kein Fieber. Aber ich bin sehr müde, und mir ist manchmal schwindelig.',female:true},{text:'Du solltest dich ausruhen und viel Wasser trinken.',female:false},{text:'Ja, das werde ich machen. Danke für deinen Rat.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Anna এর কী সমস্যা?</div>
@@ -1310,9 +1372,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">ঔষধ খেতে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1542,6 +1604,10 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">ich</td><td class="de">mir</td><td class="de">Mein Kopf tut mir weh.</td></tr>
         <tr><td class="de">du</td><td class="de">dir</td><td class="de">Tut dir der Bauch weh?</td></tr>
         <tr><td class="de">er/sie</td><td class="de">ihm/ihr</td><td class="de">Ihr Rücken tut ihr weh.</td></tr>
+      
+        <tr><td class="de">wir</td><td class="de">uns</td><td class="de">Uns tut der Rücken weh.</td></tr>
+        <tr><td class="de">ihr</td><td class="de">euch</td><td class="de">Tut euch etwas weh?</td></tr>
+        <tr><td class="de">sie/Sie</td><td class="de">ihnen/Ihnen</td><td class="de">Was tut ihnen weh?</td></tr>
       </table>
       <div class="trick">
         <div class="trick-t">💡 সহজ ভাবে বলা</div>
@@ -1572,16 +1638,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 ব্যথা বর্ণনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Arzt:</span> Wo tut es Ihnen weh?<br>
-        <span class="speaker">Patient:</span> Mein R&#xfc;cken tut sehr weh, besonders wenn ich sitze.<br>
-        <span class="speaker">Arzt:</span> Seit wann haben Sie diese Schmerzen?<br>
-        <span class="speaker">Patient:</span> Seit etwa einer Woche. Es ist ein starker Schmerz.<br>
-        <span class="speaker">Arzt:</span> Tun Ihnen auch die Beine weh?<br>
-        <span class="speaker">Patient:</span> Nein, nur der R&#xfc;cken. Aber meine Schultern schmerzen auch ein bisschen.
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Wo tut es Ihnen weh?</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Mein R&#xfc;cken tut sehr weh, besonders wenn ich sitze.</span></div>
+      <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Seit wann haben Sie diese Schmerzen?</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Seit etwa einer Woche. Es ist ein starker Schmerz.</span></div>
+      <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Tun Ihnen auch die Beine weh?</span></div>
+      <div class="ap-line"><span class="spk">Patient:</span><span class="ap-text">Nein, nur der R&#xfc;cken. Aber meine Schultern schmerzen auch ein bisschen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Wo tut es Ihnen weh?',female:false},{text:'Mein R&#xfc;cken tut sehr weh, besonders wenn ich sitze.',female:false},{text:'Seit wann haben Sie diese Schmerzen?',female:false},{text:'Seit etwa einer Woche. Es ist ein starker Schmerz.',female:false},{text:'Tun Ihnen auch die Beine weh?',female:false},{text:'Nein, nur der R&#xfc;cken. Aber meine Schultern schmerzen auch ein bisschen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Patient এর কোথায় ব্যথা?</div>
@@ -1607,9 +1686,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">জানা যায়নি</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1880,18 +1959,31 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 ফার্মেসিতে — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Kunde:</span> Guten Tag, ich brauche etwas gegen Halsschmerzen.<br>
-        <span class="speaker">Apotheker:</span> Haben Sie auch Husten?<br>
-        <span class="speaker">Kunde:</span> Ja, ein bisschen.<br>
-        <span class="speaker">Apotheker:</span> Ich empfehle diesen Hustensaft und diese Halstabletten.<br>
-        <span class="speaker">Kunde:</span> Wie oft soll ich die Tabletten nehmen?<br>
-        <span class="speaker">Apotheker:</span> Alle vier Stunden, maximal sechs Tabletten pro Tag.<br>
-        <span class="speaker">Kunde:</span> Danke sehr. Was kostet das alles?<br>
-        <span class="speaker">Apotheker:</span> Das macht zusammen zw&#xf6;lf Euro f&#xfc;nfzig.
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Guten Tag, ich brauche etwas gegen Halsschmerzen.</span></div>
+      <div class="ap-line"><span class="spk">Apotheker:</span><span class="ap-text">Haben Sie auch Husten?</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Ja, ein bisschen.</span></div>
+      <div class="ap-line"><span class="spk">Apotheker:</span><span class="ap-text">Ich empfehle diesen Hustensaft und diese Halstabletten.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Wie oft soll ich die Tabletten nehmen?</span></div>
+      <div class="ap-line"><span class="spk">Apotheker:</span><span class="ap-text">Alle vier Stunden, maximal sechs Tabletten pro Tag.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Danke sehr. Was kostet das alles?</span></div>
+      <div class="ap-line"><span class="spk">Apotheker:</span><span class="ap-text">Das macht zusammen zw&#xf6;lf Euro f&#xfc;nfzig.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Guten Tag, ich brauche etwas gegen Halsschmerzen.',female:false},{text:'Haben Sie auch Husten?',female:false},{text:'Ja, ein bisschen.',female:false},{text:'Ich empfehle diesen Hustensaft und diese Halstabletten.',female:false},{text:'Wie oft soll ich die Tabletten nehmen?',female:false},{text:'Alle vier Stunden, maximal sechs Tabletten pro Tag.',female:false},{text:'Danke sehr. Was kostet das alles?',female:false},{text:'Das macht zusammen zw&#xf6;lf Euro f&#xfc;nfzig.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Kunde এর কী সমস্যা?</div>
@@ -1917,9 +2009,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">পনেরো ইউরো</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -2178,16 +2270,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 স্বাস্থ্যব্যবস্থা নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Student:</span> Wie funktioniert das Gesundheitssystem in Deutschland?<br>
-        <span class="speaker">Professor:</span> Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat.<br>
-        <span class="speaker">Student:</span> Was ist der Unterschied?<br>
-        <span class="speaker">Professor:</span> Die meisten Menschen haben die gesetzliche Versicherung — das ist eine Krankenkasse. Privat ist meistens f&#xfc;r Selbstst&#xe4;ndige oder Beamte.<br>
-        <span class="speaker">Student:</span> Und wenn ich krank bin, wohin gehe ich zuerst?<br>
-        <span class="speaker">Professor:</span> Zuerst zum Hausarzt. Wenn n&#xf6;tig, schickt er dich zu einem Spezialisten.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Wie funktioniert das Gesundheitssystem in Deutschland?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Was ist der Unterschied?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Die meisten Menschen haben die gesetzliche Versicherung — das ist eine Krankenkasse. Privat ist meistens f&#xfc;r Selbstst&#xe4;ndige oder Beamte.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Und wenn ich krank bin, wohin gehe ich zuerst?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Zuerst zum Hausarzt. Wenn n&#xf6;tig, schickt er dich zu einem Spezialisten.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Wie funktioniert das Gesundheitssystem in Deutschland?',female:false},{text:'Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat.',female:false},{text:'Was ist der Unterschied?',female:false},{text:'Die meisten Menschen haben die gesetzliche Versicherung — das ist eine Krankenkasse. Privat ist meistens f&#xfc;r Selbstst&#xe4;ndige oder Beamte.',female:false},{text:'Und wenn ich krank bin, wohin gehe ich zuerst?',female:false},{text:'Zuerst zum Hausarzt. Wenn n&#xf6;tig, schickt er dich zu einem Spezialisten.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Germany তে কত প্রকার ইন্স্যুরেন্স আছে?</div>
@@ -2213,9 +2318,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">হাসপাতালে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2442,6 +2547,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">er/sie/es</td><td class="de">sich</td><td class="de">Er fühlt sich müde.</td></tr>
         <tr><td class="de">wir</td><td class="de">uns</td><td class="de">Wir fühlen uns gut.</td></tr>
         <tr><td class="de">Sie (formal)</td><td class="de">sich</td><td class="de">Wie fühlen Sie sich?</td></tr>
+      
+        <tr><td class="de">ihr</td><td class="de">euch</td><td class="de">Fühlt ihr euch gut?</td></tr>
+        <tr><td class="de">sie</td><td class="de">sich</td><td class="de">Sie fühlen sich wohl.</td></tr>
       </table>
       <div class="trick">
         <div class="trick-t">💡 mnemonic</div>
@@ -2473,16 +2581,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কেমন অনুভব করছেন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Freundin:</span> Hallo! Wie f&#xfc;hlst du dich heute?<br>
-        <span class="speaker">Lisa:</span> Ich f&#xfc;hle mich schon viel besser. Ich erhole mich gut von der Grippe.<br>
-        <span class="speaker">Freundin:</span> Das ist toll! Hast du dich gut ausgeruht?<br>
-        <span class="speaker">Lisa:</span> Ja, ich habe mich die ganze Woche ausgeruht und viel Tee getrunken.<br>
-        <span class="speaker">Freundin:</span> Hast du dich beim Sport verletzt? Ich habe geh&#xf6;rt, dein Knie tat weh.<br>
-        <span class="speaker">Lisa:</span> Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk-f">Freundin:</span><span class="ap-text">Hallo! Wie f&#xfc;hlst du dich heute?</span></div>
+      <div class="ap-line"><span class="spk-f">Lisa:</span><span class="ap-text">Ich f&#xfc;hle mich schon viel besser. Ich erhole mich gut von der Grippe.</span></div>
+      <div class="ap-line"><span class="spk-f">Freundin:</span><span class="ap-text">Das ist toll! Hast du dich gut ausgeruht?</span></div>
+      <div class="ap-line"><span class="spk-f">Lisa:</span><span class="ap-text">Ja, ich habe mich die ganze Woche ausgeruht und viel Tee getrunken.</span></div>
+      <div class="ap-line"><span class="spk-f">Freundin:</span><span class="ap-text">Hast du dich beim Sport verletzt? Ich habe geh&#xf6;rt, dein Knie tat weh.</span></div>
+      <div class="ap-line"><span class="spk-f">Lisa:</span><span class="ap-text">Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Hallo! Wie f&#xfc;hlst du dich heute?',female:true},{text:'Ich f&#xfc;hle mich schon viel besser. Ich erhole mich gut von der Grippe.',female:true},{text:'Das ist toll! Hast du dich gut ausgeruht?',female:true},{text:'Ja, ich habe mich die ganze Woche ausgeruht und viel Tee getrunken.',female:true},{text:'Hast du dich beim Sport verletzt? Ich habe geh&#xf6;rt, dein Knie tat weh.',female:true},{text:'Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Lisa এখন কেমন অনুভব করছেন?</div>
@@ -2508,9 +2629,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">এখনও সমস্যা আছে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2737,6 +2858,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -2856,13 +2980,65 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Was ist los? Du siehst nicht gut aus. Mein Kopf tut weh, und mein Bauch auch. Oh nein! Hast du auch Halsschmerzen? Ja, mein Hals tut auch weh. Und meine Augen sind so müde. Du solltest dich ausruhen. Ich rufe den Arzt an. Okay, danke Mama.');
-var playL2listen=makeListenPlayer('l2l','Guten Tag! Was fehlt Ihnen? Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen. Haben Sie auch Husten? Ja, ein bisschen. Und ich fühle mich sehr müde. Ich werde Sie untersuchen. Machen Sie bitte den Mund auf. Okay, Doktor. Es ist eine Erkältung. Ich gebe Ihnen ein Rezept für Medikamente.');
-var playL3listen=makeListenPlayer('l3l','Du siehst nicht gut aus. Was ist los? Ich glaube, ich habe eine Erkältung. Ich habe Husten und Schnupfen. Hast du auch Fieber? Nein, kein Fieber. Aber ich bin sehr müde, und mir ist manchmal schwindelig. Du solltest dich ausruhen und viel Wasser trinken. Ja, das werde ich machen. Danke für deinen Rat.');
-var playL4listen=makeListenPlayer('l4l','Wo tut es Ihnen weh? Mein Rücken tut sehr weh, besonders wenn ich sitze. Seit wann haben Sie diese Schmerzen? Seit etwa einer Woche. Es ist ein starker Schmerz. Tun Ihnen auch die Beine weh? Nein, nur der Rücken. Aber meine Schultern schmerzen auch ein bisschen.');
-var playL5listen=makeListenPlayer('l5l','Guten Tag, ich brauche etwas gegen Halsschmerzen. Haben Sie auch Husten? Ja, ein bisschen. Ich empfehle diesen Hustensaft und diese Halstabletten. Wie oft soll ich die Tabletten nehmen? Alle vier Stunden, maximal sechs Tabletten pro Tag. Danke sehr. Was kostet das alles? Das macht zusammen zwölf Euro fünfzig.');
-var playL6listen=makeListenPlayer('l6l','Wie funktioniert das Gesundheitssystem in Deutschland? Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat. Was ist der Unterschied? Die meisten Menschen haben die gesetzliche Versicherung — das ist eine Krankenkasse. Privat ist meistens für Selbstständige oder Beamte. Und wenn ich krank bin, wohin gehe ich zuerst? Zuerst zum Hausarzt. Wenn nötig, schickt er dich zu einem Spezialisten.');
-var playL7listen=makeListenPlayer('l7l','Hallo! Wie fühlst du dich heute? Ich fühle mich schon viel besser. Ich erhole mich gut von der Grippe. Das ist toll! Hast du dich gut ausgeruht? Ja, ich habe mich die ganze Woche ausgeruht und viel Tee getrunken. Hast du dich beim Sport verletzt? Ich habe gehört, dein Knie tat weh. Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Mutter',text:'Was ist los? Du siehst nicht gut aus.',female:true},
+    {speaker:'Kind',text:'Mein Kopf tut weh, und mein Bauch auch.',female:true},
+    {speaker:'Mutter',text:'Oh nein! Hast du auch Halsschmerzen?',female:true},
+    {speaker:'Kind',text:'Ja, mein Hals tut auch weh. Und meine Augen sind so m&#xfc;de.',female:true},
+    {speaker:'Mutter',text:'Du solltest dich ausruhen. Ich rufe den Arzt an.',female:true},
+    {speaker:'Kind',text:'Okay, danke Mama.',female:true}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Arzt',text:'Guten Tag! Was fehlt Ihnen?',female:false},
+    {speaker:'Patient',text:'Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen.',female:false},
+    {speaker:'Arzt',text:'Haben Sie auch Husten?',female:false},
+    {speaker:'Patient',text:'Ja, ein bisschen. Und ich fühle mich sehr müde.',female:false},
+    {speaker:'Arzt',text:'Ich werde Sie untersuchen. Machen Sie bitte den Mund auf.',female:false},
+    {speaker:'Patient',text:'Okay, Doktor.',female:false},
+    {speaker:'Arzt',text:'Es ist eine Erk&#xe4;ltung. Ich gebe Ihnen ein Rezept f&#xfc;r Medikamente.',female:false}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Freund',text:'Du siehst nicht gut aus. Was ist los?',female:false},
+    {speaker:'Anna',text:'Ich glaube, ich habe eine Erk&#xe4;ltung. Ich habe Husten und Schnupfen.',female:true},
+    {speaker:'Freund',text:'Hast du auch Fieber?',female:false},
+    {speaker:'Anna',text:'Nein, kein Fieber. Aber ich bin sehr müde, und mir ist manchmal schwindelig.',female:true},
+    {speaker:'Freund',text:'Du solltest dich ausruhen und viel Wasser trinken.',female:false},
+    {speaker:'Anna',text:'Ja, das werde ich machen. Danke für deinen Rat.',female:true}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Arzt',text:'Wo tut es Ihnen weh?',female:false},
+    {speaker:'Patient',text:'Mein R&#xfc;cken tut sehr weh, besonders wenn ich sitze.',female:false},
+    {speaker:'Arzt',text:'Seit wann haben Sie diese Schmerzen?',female:false},
+    {speaker:'Patient',text:'Seit etwa einer Woche. Es ist ein starker Schmerz.',female:false},
+    {speaker:'Arzt',text:'Tun Ihnen auch die Beine weh?',female:false},
+    {speaker:'Patient',text:'Nein, nur der R&#xfc;cken. Aber meine Schultern schmerzen auch ein bisschen.',female:false}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Kunde',text:'Guten Tag, ich brauche etwas gegen Halsschmerzen.',female:false},
+    {speaker:'Apotheker',text:'Haben Sie auch Husten?',female:false},
+    {speaker:'Kunde',text:'Ja, ein bisschen.',female:false},
+    {speaker:'Apotheker',text:'Ich empfehle diesen Hustensaft und diese Halstabletten.',female:false},
+    {speaker:'Kunde',text:'Wie oft soll ich die Tabletten nehmen?',female:false},
+    {speaker:'Apotheker',text:'Alle vier Stunden, maximal sechs Tabletten pro Tag.',female:false},
+    {speaker:'Kunde',text:'Danke sehr. Was kostet das alles?',female:false},
+    {speaker:'Apotheker',text:'Das macht zusammen zw&#xf6;lf Euro f&#xfc;nfzig.',female:false}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Student',text:'Wie funktioniert das Gesundheitssystem in Deutschland?',female:false},
+    {speaker:'Professor',text:'Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat.',female:false},
+    {speaker:'Student',text:'Was ist der Unterschied?',female:false},
+    {speaker:'Professor',text:'Die meisten Menschen haben die gesetzliche Versicherung — das ist eine Krankenkasse. Privat ist meistens f&#xfc;r Selbstst&#xe4;ndige oder Beamte.',female:false},
+    {speaker:'Student',text:'Und wenn ich krank bin, wohin gehe ich zuerst?',female:false},
+    {speaker:'Professor',text:'Zuerst zum Hausarzt. Wenn n&#xf6;tig, schickt er dich zu einem Spezialisten.',female:false}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Freundin',text:'Hallo! Wie f&#xfc;hlst du dich heute?',female:true},
+    {speaker:'Lisa',text:'Ich f&#xfc;hle mich schon viel besser. Ich erhole mich gut von der Grippe.',female:true},
+    {speaker:'Freundin',text:'Das ist toll! Hast du dich gut ausgeruht?',female:true},
+    {speaker:'Lisa',text:'Ja, ich habe mich die ganze Woche ausgeruht und viel Tee getrunken.',female:true},
+    {speaker:'Freundin',text:'Hast du dich beim Sport verletzt? Ich habe geh&#xf6;rt, dein Knie tat weh.',female:true},
+    {speaker:'Lisa',text:'Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.',female:true}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3498,6 +3674,269 @@ function updateNavBtns() {
   for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
 }
+
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
 
 </script>
 </body>
