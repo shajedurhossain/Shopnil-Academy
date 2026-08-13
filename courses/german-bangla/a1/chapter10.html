@@ -267,6 +267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -643,16 +666,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Tom:</span> Wo wohnst du jetzt?<br>
-        <span class="speaker">Lena:</span> Ich wohne in einer kleinen Wohnung. Sie hat ein Wohnzimmer, eine Küche und ein Schlafzimmer.<br>
-        <span class="speaker">Tom:</span> Hast du auch einen Balkon?<br>
-        <span class="speaker">Lena:</span> Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort.<br>
-        <span class="speaker">Tom:</span> Hast du einen Garten?<br>
-        <span class="speaker">Lena:</span> Nein, leider nicht. Aber wir haben einen Keller f&#xfc;r Sachen.
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wo wohnst du jetzt?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich wohne in einer kleinen Wohnung. Sie hat ein Wohnzimmer, eine Küche und ein Schlafzimmer.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Hast du auch einen Balkon?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Hast du einen Garten?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Nein, leider nicht. Aber wir haben einen Keller f&#xfc;r Sachen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Wo wohnst du jetzt?',female:false},{text:'Ich wohne in einer kleinen Wohnung. Sie hat ein Wohnzimmer, eine Küche und ein Schlafzimmer.',female:true},{text:'Hast du auch einen Balkon?',female:false},{text:'Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort.',female:true},{text:'Hast du einen Garten?',female:false},{text:'Nein, leider nicht. Aber wir haben einen Keller f&#xfc;r Sachen.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Lena এর বাসায় কয়টা ঘর আছে?</div>
@@ -678,9 +714,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">বারান্দা</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -938,16 +974,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 নতুন আসবাব কেনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Verkäufer:</span> Guten Tag! Suchen Sie etwas Bestimmtes?<br>
-        <span class="speaker">Kunde:</span> Ja, ich brauche einen neuen Schrank für mein Schlafzimmer.<br>
-        <span class="speaker">Verkäufer:</span> Wir haben hier sch&#xf6;ne Schr&#xe4;nke. Brauchen Sie auch ein neues Bett?<br>
-        <span class="speaker">Kunde:</span> Nein, das Bett habe ich schon. Aber ich brauche eine Lampe f&#xfc;r das Wohnzimmer.<br>
-        <span class="speaker">Verk&#xe4;ufer:</span> Diese Lampe hier ist sehr beliebt. Sie kostet f&#xfc;nfzig Euro.<br>
-        <span class="speaker">Kunde:</span> Perfekt, ich nehme den Schrank und die Lampe.
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk">Verkäufer:</span><span class="ap-text">Guten Tag! Suchen Sie etwas Bestimmtes?</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Ja, ich brauche einen neuen Schrank für mein Schlafzimmer.</span></div>
+      <div class="ap-line"><span class="spk">Verkäufer:</span><span class="ap-text">Wir haben hier sch&#xf6;ne Schr&#xe4;nke. Brauchen Sie auch ein neues Bett?</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Nein, das Bett habe ich schon. Aber ich brauche eine Lampe f&#xfc;r das Wohnzimmer.</span></div>
+      <div class="ap-line"><span class="spk">Verk&#xe4;ufer:</span><span class="ap-text">Diese Lampe hier ist sehr beliebt. Sie kostet f&#xfc;nfzig Euro.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Perfekt, ich nehme den Schrank und die Lampe.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag! Suchen Sie etwas Bestimmtes?',female:false},{text:'Ja, ich brauche einen neuen Schrank für mein Schlafzimmer.',female:false},{text:'Wir haben hier sch&#xf6;ne Schr&#xe4;nke. Brauchen Sie auch ein neues Bett?',female:false},{text:'Nein, das Bett habe ich schon. Aber ich brauche eine Lampe f&#xfc;r das Wohnzimmer.',female:false},{text:'Diese Lampe hier ist sehr beliebt. Sie kostet f&#xfc;nfzig Euro.',female:false},{text:'Perfekt, ich nehme den Schrank und die Lampe.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Kunde কী কিনতে চান?</div>
@@ -973,9 +1022,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">বাতি</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1229,16 +1278,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 ঘরের কাজ ভাগ করা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Anna:</span> Wer macht heute die Hausarbeit?<br>
-        <span class="speaker">Max:</span> Ich kann staubsaugen und das Bad putzen.<br>
-        <span class="speaker">Anna:</span> Gut, dann wasche ich die W&#xe4;sche und r&#xe4;ume die K&#xfc;che auf.<br>
-        <span class="speaker">Max:</span> Wer kauft heute ein?<br>
-        <span class="speaker">Anna:</span> Das kann ich nach der Arbeit machen.<br>
-        <span class="speaker">Max:</span> Perfekt, dann koche ich heute Abend das Essen.
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Wer macht heute die Hausarbeit?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ich kann staubsaugen und das Bad putzen.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Gut, dann wasche ich die W&#xe4;sche und r&#xe4;ume die K&#xfc;che auf.</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Wer kauft heute ein?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Das kann ich nach der Arbeit machen.</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Perfekt, dann koche ich heute Abend das Essen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Wer macht heute die Hausarbeit?',female:true},{text:'Ich kann staubsaugen und das Bad putzen.',female:false},{text:'Gut, dann wasche ich die W&#xe4;sche und r&#xe4;ume die K&#xfc;che auf.',female:true},{text:'Wer kauft heute ein?',female:false},{text:'Das kann ich nach der Arbeit machen.',female:true},{text:'Perfekt, dann koche ich heute Abend das Essen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Max কী করবেন?</div>
@@ -1264,9 +1326,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">দুজনে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1516,16 +1578,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 দৈনন্দিন রুটিন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Reporter:</span> Wie sieht dein typischer Tag aus?<br>
-        <span class="speaker">Sophie:</span> Ich stehe normalerweise um sechs Uhr dreißig auf. Dann dusche ich mich und ziehe mich an.<br>
-        <span class="speaker">Reporter:</span> Was machst du danach?<br>
-        <span class="speaker">Sophie:</span> Ich frühstücke um sieben Uhr und gehe dann zur Arbeit.<br>
-        <span class="speaker">Reporter:</span> Und am Abend?<br>
-        <span class="speaker">Sophie:</span> Ich koche das Abendessen, sehe ein bisschen Fernsehen, und schlafe normalerweise um elf Uhr ein.
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk">Reporter:</span><span class="ap-text">Wie sieht dein typischer Tag aus?</span></div>
+      <div class="ap-line"><span class="spk-f">Sophie:</span><span class="ap-text">Ich stehe normalerweise um sechs Uhr dreißig auf. Dann dusche ich mich und ziehe mich an.</span></div>
+      <div class="ap-line"><span class="spk">Reporter:</span><span class="ap-text">Was machst du danach?</span></div>
+      <div class="ap-line"><span class="spk-f">Sophie:</span><span class="ap-text">Ich frühstücke um sieben Uhr und gehe dann zur Arbeit.</span></div>
+      <div class="ap-line"><span class="spk">Reporter:</span><span class="ap-text">Und am Abend?</span></div>
+      <div class="ap-line"><span class="spk-f">Sophie:</span><span class="ap-text">Ich koche das Abendessen, sehe ein bisschen Fernsehen, und schlafe normalerweise um elf Uhr ein.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Wie sieht dein typischer Tag aus?',female:false},{text:'Ich stehe normalerweise um sechs Uhr dreißig auf. Dann dusche ich mich und ziehe mich an.',female:true},{text:'Was machst du danach?',female:false},{text:'Ich frühstücke um sieben Uhr und gehe dann zur Arbeit.',female:true},{text:'Und am Abend?',female:false},{text:'Ich koche das Abendessen, sehe ein bisschen Fernsehen, und schlafe normalerweise um elf Uhr ein.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Sophie কখন উঠেন?</div>
@@ -1551,9 +1626,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">১২টায়</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1797,16 +1872,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 বাড়ির মালিকের সাথে কথা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Interessent:</span> Guten Tag, ich rufe wegen der Wohnungsanzeige an.<br>
-        <span class="speaker">Vermieter:</span> Ah ja, die Zweizimmerwohnung. Was möchten Sie wissen?<br>
-        <span class="speaker">Interessent:</span> Wie hoch ist die Miete?<br>
-        <span class="speaker">Vermieter:</span> Die Kaltmiete ist sechshundert Euro, plus hundert Euro Nebenkosten.<br>
-        <span class="speaker">Interessent:</span> Ist die Wohnung möbliert?<br>
-        <span class="speaker">Vermieter:</span> Nein, sie ist nicht möbliert. Möchten Sie sie sich anschauen?
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk">Interessent:</span><span class="ap-text">Guten Tag, ich rufe wegen der Wohnungsanzeige an.</span></div>
+      <div class="ap-line"><span class="spk">Vermieter:</span><span class="ap-text">Ah ja, die Zweizimmerwohnung. Was möchten Sie wissen?</span></div>
+      <div class="ap-line"><span class="spk">Interessent:</span><span class="ap-text">Wie hoch ist die Miete?</span></div>
+      <div class="ap-line"><span class="spk">Vermieter:</span><span class="ap-text">Die Kaltmiete ist sechshundert Euro, plus hundert Euro Nebenkosten.</span></div>
+      <div class="ap-line"><span class="spk">Interessent:</span><span class="ap-text">Ist die Wohnung möbliert?</span></div>
+      <div class="ap-line"><span class="spk">Vermieter:</span><span class="ap-text">Nein, sie ist nicht möbliert. Möchten Sie sie sich anschauen?</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Guten Tag, ich rufe wegen der Wohnungsanzeige an.',female:false},{text:'Ah ja, die Zweizimmerwohnung. Was möchten Sie wissen?',female:false},{text:'Wie hoch ist die Miete?',female:false},{text:'Die Kaltmiete ist sechshundert Euro, plus hundert Euro Nebenkosten.',female:false},{text:'Ist die Wohnung möbliert?',female:false},{text:'Nein, sie ist nicht möbliert. Möchten Sie sie sich anschauen?',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. মূল ভাড়া (Kaltmiete) কত?</div>
@@ -1832,9 +1920,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">শুধু রান্নাঘর</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -2091,16 +2179,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 জার্মান বাসস্থান সংস্কৃতি — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Student:</span> Was ist eigentlich eine WG?<br>
-        <span class="speaker">Professor:</span> Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind.<br>
-        <span class="speaker">Student:</span> Ist das beliebt in Deutschland?<br>
-        <span class="speaker">Professor:</span> Ja, sehr beliebt, besonders unter Studenten. Es ist g&#xfc;nstiger und man hat Gesellschaft.<br>
-        <span class="speaker">Student:</span> Und was ist Mülltrennung?<br>
-        <span class="speaker">Professor:</span> Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen M&#xfc;ll und Restm&#xfc;ll in verschiedene T&#xf6;nnen.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Was ist eigentlich eine WG?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Ist das beliebt in Deutschland?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Ja, sehr beliebt, besonders unter Studenten. Es ist g&#xfc;nstiger und man hat Gesellschaft.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Und was ist Mülltrennung?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen M&#xfc;ll und Restm&#xfc;ll in verschiedene T&#xf6;nnen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist eigentlich eine WG?',female:false},{text:'Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind.',female:false},{text:'Ist das beliebt in Deutschland?',female:false},{text:'Ja, sehr beliebt, besonders unter Studenten. Es ist g&#xfc;nstiger und man hat Gesellschaft.',female:false},{text:'Und was ist Mülltrennung?',female:false},{text:'Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen M&#xfc;ll und Restm&#xfc;ll in verschiedene T&#xf6;nnen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. WG মানে কী?</div>
@@ -2126,9 +2227,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'correct')">চার</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2393,16 +2494,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 বাসা সম্পর্কে কথা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Tom:</span> Ist das deine Wohnung?<br>
-        <span class="speaker">Lisa:</span> Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester.<br>
-        <span class="speaker">Tom:</span> Und das ist euer Wohnzimmer?<br>
-        <span class="speaker">Lisa:</span> Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster.<br>
-        <span class="speaker">Tom:</span> Sch&#xf6;n! Wo ist dein Zimmer?<br>
-        <span class="speaker">Lisa:</span> Mein Zimmer ist links, und ihres ist rechts.
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ist das deine Wohnung?</span></div>
+      <div class="ap-line"><span class="spk-f">Lisa:</span><span class="ap-text">Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Und das ist euer Wohnzimmer?</span></div>
+      <div class="ap-line"><span class="spk-f">Lisa:</span><span class="ap-text">Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Sch&#xf6;n! Wo ist dein Zimmer?</span></div>
+      <div class="ap-line"><span class="spk-f">Lisa:</span><span class="ap-text">Mein Zimmer ist links, und ihres ist rechts.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Ist das deine Wohnung?',female:false},{text:'Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester.',female:true},{text:'Und das ist euer Wohnzimmer?',female:false},{text:'Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster.',female:true},{text:'Sch&#xf6;n! Wo ist dein Zimmer?',female:false},{text:'Mein Zimmer ist links, und ihres ist rechts.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Lisa কার সাথে থাকেন?</div>
@@ -2428,9 +2542,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">মাঝখানে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2656,6 +2770,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -2775,13 +2892,62 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Wo wohnst du jetzt? Ich wohne in einer kleinen Wohnung. Sie hat ein Wohnzimmer, eine Küche und ein Schlafzimmer. Hast du auch einen Balkon? Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort. Hast du einen Garten? Nein, leider nicht. Aber wir haben einen Keller für Sachen.');
-var playL2listen=makeListenPlayer('l2l','Guten Tag! Suchen Sie etwas Bestimmtes? Ja, ich brauche einen neuen Schrank für mein Schlafzimmer. Wir haben hier schöne Schränke. Brauchen Sie auch ein neues Bett? Nein, das Bett habe ich schon. Aber ich brauche eine Lampe für das Wohnzimmer. Diese Lampe hier ist sehr beliebt. Sie kostet fünfzig Euro. Perfekt, ich nehme den Schrank und die Lampe.');
-var playL3listen=makeListenPlayer('l3l','Wer macht heute die Hausarbeit? Ich kann staubsaugen und das Bad putzen. Gut, dann wasche ich die Wäsche und räume die Küche auf. Wer kauft heute ein? Das kann ich nach der Arbeit machen. Perfekt, dann koche ich heute Abend das Essen.');
-var playL4listen=makeListenPlayer('l4l','Wie sieht dein typischer Tag aus? Ich stehe normalerweise um sechs Uhr dreißig auf. Dann dusche ich mich und ziehe mich an. Was machst du danach? Ich frühstücke um sieben Uhr und gehe dann zur Arbeit. Und am Abend? Ich koche das Abendessen, sehe ein bisschen Fernsehen, und schlafe normalerweise um elf Uhr ein.');
-var playL5listen=makeListenPlayer('l5l','Guten Tag, ich rufe wegen der Wohnungsanzeige an. Ah ja, die Zweizimmerwohnung. Was möchten Sie wissen? Wie hoch ist die Miete? Die Kaltmiete ist sechshundert Euro, plus hundert Euro Nebenkosten. Ist die Wohnung möbliert? Nein, sie ist nicht möbliert. Möchten Sie sie sich anschauen?');
-var playL6listen=makeListenPlayer('l6l','Was ist eigentlich eine WG? Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind. Ist das beliebt in Deutschland? Ja, sehr beliebt, besonders unter Studenten. Es ist günstiger und man hat Gesellschaft. Und was ist Mülltrennung? Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen Müll und Restmüll in verschiedene Tönnen.');
-var playL7listen=makeListenPlayer('l7l','Ist das deine Wohnung? Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester. Und das ist euer Wohnzimmer? Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster. Schön! Wo ist dein Zimmer? Mein Zimmer ist links, und ihres ist rechts.');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Tom',text:'Wo wohnst du jetzt?',female:false},
+    {speaker:'Lena',text:'Ich wohne in einer kleinen Wohnung. Sie hat ein Wohnzimmer, eine Küche und ein Schlafzimmer.',female:true},
+    {speaker:'Tom',text:'Hast du auch einen Balkon?',female:false},
+    {speaker:'Lena',text:'Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort.',female:true},
+    {speaker:'Tom',text:'Hast du einen Garten?',female:false},
+    {speaker:'Lena',text:'Nein, leider nicht. Aber wir haben einen Keller f&#xfc;r Sachen.',female:true}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Verkäufer',text:'Guten Tag! Suchen Sie etwas Bestimmtes?',female:false},
+    {speaker:'Kunde',text:'Ja, ich brauche einen neuen Schrank für mein Schlafzimmer.',female:false},
+    {speaker:'Verkäufer',text:'Wir haben hier sch&#xf6;ne Schr&#xe4;nke. Brauchen Sie auch ein neues Bett?',female:false},
+    {speaker:'Kunde',text:'Nein, das Bett habe ich schon. Aber ich brauche eine Lampe f&#xfc;r das Wohnzimmer.',female:false},
+    {speaker:'Verk&#xe4;ufer',text:'Diese Lampe hier ist sehr beliebt. Sie kostet f&#xfc;nfzig Euro.',female:false},
+    {speaker:'Kunde',text:'Perfekt, ich nehme den Schrank und die Lampe.',female:false}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Anna',text:'Wer macht heute die Hausarbeit?',female:true},
+    {speaker:'Max',text:'Ich kann staubsaugen und das Bad putzen.',female:false},
+    {speaker:'Anna',text:'Gut, dann wasche ich die W&#xe4;sche und r&#xe4;ume die K&#xfc;che auf.',female:true},
+    {speaker:'Max',text:'Wer kauft heute ein?',female:false},
+    {speaker:'Anna',text:'Das kann ich nach der Arbeit machen.',female:true},
+    {speaker:'Max',text:'Perfekt, dann koche ich heute Abend das Essen.',female:false}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Reporter',text:'Wie sieht dein typischer Tag aus?',female:false},
+    {speaker:'Sophie',text:'Ich stehe normalerweise um sechs Uhr dreißig auf. Dann dusche ich mich und ziehe mich an.',female:true},
+    {speaker:'Reporter',text:'Was machst du danach?',female:false},
+    {speaker:'Sophie',text:'Ich frühstücke um sieben Uhr und gehe dann zur Arbeit.',female:true},
+    {speaker:'Reporter',text:'Und am Abend?',female:false},
+    {speaker:'Sophie',text:'Ich koche das Abendessen, sehe ein bisschen Fernsehen, und schlafe normalerweise um elf Uhr ein.',female:true}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Interessent',text:'Guten Tag, ich rufe wegen der Wohnungsanzeige an.',female:false},
+    {speaker:'Vermieter',text:'Ah ja, die Zweizimmerwohnung. Was möchten Sie wissen?',female:false},
+    {speaker:'Interessent',text:'Wie hoch ist die Miete?',female:false},
+    {speaker:'Vermieter',text:'Die Kaltmiete ist sechshundert Euro, plus hundert Euro Nebenkosten.',female:false},
+    {speaker:'Interessent',text:'Ist die Wohnung möbliert?',female:false},
+    {speaker:'Vermieter',text:'Nein, sie ist nicht möbliert. Möchten Sie sie sich anschauen?',female:false}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Student',text:'Was ist eigentlich eine WG?',female:false},
+    {speaker:'Professor',text:'Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind.',female:false},
+    {speaker:'Student',text:'Ist das beliebt in Deutschland?',female:false},
+    {speaker:'Professor',text:'Ja, sehr beliebt, besonders unter Studenten. Es ist g&#xfc;nstiger und man hat Gesellschaft.',female:false},
+    {speaker:'Student',text:'Und was ist Mülltrennung?',female:false},
+    {speaker:'Professor',text:'Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen M&#xfc;ll und Restm&#xfc;ll in verschiedene T&#xf6;nnen.',female:false}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Tom',text:'Ist das deine Wohnung?',female:false},
+    {speaker:'Lisa',text:'Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester.',female:true},
+    {speaker:'Tom',text:'Und das ist euer Wohnzimmer?',female:false},
+    {speaker:'Lisa',text:'Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster.',female:true},
+    {speaker:'Tom',text:'Sch&#xf6;n! Wo ist dein Zimmer?',female:false},
+    {speaker:'Lisa',text:'Mein Zimmer ist links, und ihres ist rechts.',female:true}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3417,6 +3583,269 @@ function updateNavBtns() {
   for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
 }
+
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
 
 </script>
 </body>
