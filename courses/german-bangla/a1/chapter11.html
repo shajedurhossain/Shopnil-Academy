@@ -267,6 +267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -642,16 +665,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Tom:</span> Was bist du von Beruf?<br>
-        <span class="speaker">Mia:</span> Ich bin Krankenschwester. Und du?<br>
-        <span class="speaker">Tom:</span> Ich arbeite als Programmierer bei einer kleinen Firma.<br>
-        <span class="speaker">Mia:</span> Interessant! Gef&#xe4;llt dir die Arbeit?<br>
-        <span class="speaker">Tom:</span> Ja, sehr. Und deine Arbeit im Krankenhaus?<br>
-        <span class="speaker">Mia:</span> Es ist anstrengend, aber ich helfe gern Menschen.
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Was bist du von Beruf?</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Ich bin Krankenschwester. Und du?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ich arbeite als Programmierer bei einer kleinen Firma.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Interessant! Gef&#xe4;llt dir die Arbeit?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ja, sehr. Und deine Arbeit im Krankenhaus?</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Es ist anstrengend, aber ich helfe gern Menschen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was bist du von Beruf?',female:false},{text:'Ich bin Krankenschwester. Und du?',female:true},{text:'Ich arbeite als Programmierer bei einer kleinen Firma.',female:false},{text:'Interessant! Gef&#xe4;llt dir die Arbeit?',female:true},{text:'Ja, sehr. Und deine Arbeit im Krankenhaus?',female:false},{text:'Es ist anstrengend, aber ich helfe gern Menschen.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Mia এর পেশা কী?</div>
@@ -677,9 +713,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">কাজ সহজ</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -930,16 +966,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 অফিসে কথোপকথন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Kollege:</span> Hast du die Besprechung mit dem Chef heute?<br>
-        <span class="speaker">Anna:</span> Ja, um vierzehn Uhr. Ich muss noch meine Pr&#xe4;sentation fertig machen.<br>
-        <span class="speaker">Kollege:</span> Brauchst du Hilfe?<br>
-        <span class="speaker">Anna:</span> Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.<br>
-        <span class="speaker">Kollege:</span> Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.<br>
-        <span class="speaker">Anna:</span> Stimmt, danke f&#xfc;r die Erinnerung!
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk">Kollege:</span><span class="ap-text">Hast du die Besprechung mit dem Chef heute?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Ja, um vierzehn Uhr. Ich muss noch meine Pr&#xe4;sentation fertig machen.</span></div>
+      <div class="ap-line"><span class="spk">Kollege:</span><span class="ap-text">Brauchst du Hilfe?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.</span></div>
+      <div class="ap-line"><span class="spk">Kollege:</span><span class="ap-text">Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Stimmt, danke f&#xfc;r die Erinnerung!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Hast du die Besprechung mit dem Chef heute?',female:false},{text:'Ja, um vierzehn Uhr. Ich muss noch meine Pr&#xe4;sentation fertig machen.',female:true},{text:'Brauchst du Hilfe?',female:false},{text:'Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.',female:true},{text:'Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.',female:false},{text:'Stimmt, danke f&#xfc;r die Erinnerung!',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Anna এর বসের সাথে মিটিং কখন?</div>
@@ -965,9 +1014,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">কোনো কাজ নেই</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1218,16 +1267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 চাকরির সাক্ষাৎকার — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Personalchefin:</span> Warum bewerben Sie sich um diese Stelle?<br>
-        <span class="speaker">Bewerber:</span> Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.<br>
-        <span class="speaker">Personalchefin:</span> Wie viele Jahre Erfahrung haben Sie?<br>
-        <span class="speaker">Bewerber:</span> Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.<br>
-        <span class="speaker">Personalchefin:</span> Sehr gut. Wann k&#xf6;nnten Sie anfangen?<br>
-        <span class="speaker">Bewerber:</span> Ich k&#xf6;nnte n&#xe4;chsten Monat anfangen.
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk-f">Personalchefin:</span><span class="ap-text">Warum bewerben Sie sich um diese Stelle?</span></div>
+      <div class="ap-line"><span class="spk">Bewerber:</span><span class="ap-text">Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.</span></div>
+      <div class="ap-line"><span class="spk-f">Personalchefin:</span><span class="ap-text">Wie viele Jahre Erfahrung haben Sie?</span></div>
+      <div class="ap-line"><span class="spk">Bewerber:</span><span class="ap-text">Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.</span></div>
+      <div class="ap-line"><span class="spk-f">Personalchefin:</span><span class="ap-text">Sehr gut. Wann k&#xf6;nnten Sie anfangen?</span></div>
+      <div class="ap-line"><span class="spk">Bewerber:</span><span class="ap-text">Ich k&#xf6;nnte n&#xe4;chsten Monat anfangen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Warum bewerben Sie sich um diese Stelle?',female:true},{text:'Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.',female:false},{text:'Wie viele Jahre Erfahrung haben Sie?',female:true},{text:'Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.',female:false},{text:'Sehr gut. Wann k&#xf6;nnten Sie anfangen?',female:true},{text:'Ich k&#xf6;nnte n&#xe4;chsten Monat anfangen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Bewerber এর কতটা বছরের অভিজ্ঞতা?</div>
@@ -1253,9 +1315,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">এক বছর পর</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1477,6 +1539,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">du</td><td class="de">wirst</td><td class="de">Du wirst erfolgreich sein.</td></tr>
         <tr><td class="de">er/sie/es</td><td class="de">wird</td><td class="de">Sie wird heiraten.</td></tr>
         <tr><td class="de">wir</td><td class="de">werden</td><td class="de">Wir werden umziehen.</td></tr>
+        <tr><td class="de">ihr</td><td class="de">werdet</td><td class="de">Ihr werdet heiraten.</td></tr>
+        <tr><td class="de">sie/Sie</td><td class="de">werden</td><td class="de">Sie werden umziehen.</td></tr>
       </table>
       <div class="trick">
         <div class="trick-t">💡 werden + Infinitiv শেষে</div>
@@ -1507,16 +1571,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 ভবিষ্যৎ পরিকল্পনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Tom:</span> Was wirst du nach dem Studium machen?<br>
-        <span class="speaker">Lena:</span> Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.<br>
-        <span class="speaker">Tom:</span> Wirklich? Wohin?<br>
-        <span class="speaker">Lena:</span> Ich werde mich um eine Stelle in Kanada bewerben.<br>
-        <span class="speaker">Tom:</span> Spannend! Und in f&#xfc;nf Jahren, wo wirst du sein?<br>
-        <span class="speaker">Lena:</span> Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gr&#xfc;nden.
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Was wirst du nach dem Studium machen?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wirklich? Wohin?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich werde mich um eine Stelle in Kanada bewerben.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Spannend! Und in f&#xfc;nf Jahren, wo wirst du sein?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gr&#xfc;nden.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Was wirst du nach dem Studium machen?',female:false},{text:'Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.',female:true},{text:'Wirklich? Wohin?',female:false},{text:'Ich werde mich um eine Stelle in Kanada bewerben.',female:true},{text:'Spannend! Und in f&#xfc;nf Jahren, wo wirst du sein?',female:false},{text:'Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gr&#xfc;nden.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Lena পড়াশোনার পর কী করবেন?</div>
@@ -1542,9 +1619,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">আবার ছাত্র থাকবেন</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1787,16 +1864,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 স্বপ্ন নিয়ে কথা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Interviewer:</span> Was w&#xfc;rdest du gern in deinem Leben erreichen?<br>
-        <span class="speaker">Sara:</span> Ich w&#xfc;rde gern Architektin werden und besondere Geb&#xe4;ude entwerfen.<br>
-        <span class="speaker">Interviewer:</span> Hast du diesen Traum schon lange?<br>
-        <span class="speaker">Sara:</span> Ja, seit ich ein Kind war. Ich h&#xe4;tte gern die Chance, in einer gro&#xdf;en Stadt zu arbeiten.<br>
-        <span class="speaker">Interviewer:</span> Was sind deine n&#xe4;chsten Schritte?<br>
-        <span class="speaker">Sara:</span> Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Was w&#xfc;rdest du gern in deinem Leben erreichen?</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Ich w&#xfc;rde gern Architektin werden und besondere Geb&#xe4;ude entwerfen.</span></div>
+      <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Hast du diesen Traum schon lange?</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Ja, seit ich ein Kind war. Ich h&#xe4;tte gern die Chance, in einer gro&#xdf;en Stadt zu arbeiten.</span></div>
+      <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Was sind deine n&#xe4;chsten Schritte?</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Was w&#xfc;rdest du gern in deinem Leben erreichen?',female:false},{text:'Ich w&#xfc;rde gern Architektin werden und besondere Geb&#xe4;ude entwerfen.',female:true},{text:'Hast du diesen Traum schon lange?',female:false},{text:'Ja, seit ich ein Kind war. Ich h&#xe4;tte gern die Chance, in einer gro&#xdf;en Stadt zu arbeiten.',female:true},{text:'Was sind deine n&#xe4;chsten Schritte?',female:false},{text:'Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Sara কী হতে চান?</div>
@@ -1822,9 +1912,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">নিজের কোম্পানি খোলা</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -2074,16 +2164,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কর্মজীবন সংস্কৃতি আলোচনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Student:</span> Was ist eine Ausbildung in Deutschland?<br>
-        <span class="speaker">Professor:</span> Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.<br>
-        <span class="speaker">Student:</span> Wie lange dauert das?<br>
-        <span class="speaker">Professor:</span> Meistens zwei bis drei Jahre. Es ist sehr beliebt und f&#xfc;hrt oft zu einer guten Karriere.<br>
-        <span class="speaker">Student:</span> Und wie viele Urlaubstage haben Arbeiter normalerweise?<br>
-        <span class="speaker">Professor:</span> Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreissig Tage.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Was ist eine Ausbildung in Deutschland?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Wie lange dauert das?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Meistens zwei bis drei Jahre. Es ist sehr beliebt und f&#xfc;hrt oft zu einer guten Karriere.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Und wie viele Urlaubstage haben Arbeiter normalerweise?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreissig Tage.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist eine Ausbildung in Deutschland?',female:false},{text:'Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.',female:false},{text:'Wie lange dauert das?',female:false},{text:'Meistens zwei bis drei Jahre. Es ist sehr beliebt und f&#xfc;hrt oft zu einer guten Karriere.',female:false},{text:'Und wie viele Urlaubstage haben Arbeiter normalerweise?',female:false},{text:'Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreissig Tage.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Ausbildung কী?</div>
@@ -2109,9 +2212,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">৩০ দিন</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2367,16 +2470,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কারণ ব্যাখ্যা করা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Tom:</span> Warum hast du dich um diese Stelle beworben?<br>
-        <span class="speaker">Anna:</span> Ich habe mich beworben, weil ich die Firma sehr mag.<br>
-        <span class="speaker">Tom:</span> Glaubst du, dass du den Job bekommst?<br>
-        <span class="speaker">Anna:</span> Ich hoffe es, obwohl es viele Bewerber gibt.<br>
-        <span class="speaker">Tom:</span> Wenn du den Job bekommst, was wirst du machen?<br>
-        <span class="speaker">Anna:</span> Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Warum hast du dich um diese Stelle beworben?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Ich habe mich beworben, weil ich die Firma sehr mag.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Glaubst du, dass du den Job bekommst?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Ich hoffe es, obwohl es viele Bewerber gibt.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wenn du den Job bekommst, was wirst du machen?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Warum hast du dich um diese Stelle beworben?',female:false},{text:'Ich habe mich beworben, weil ich die Firma sehr mag.',female:true},{text:'Glaubst du, dass du den Job bekommst?',female:false},{text:'Ich hoffe es, obwohl es viele Bewerber gibt.',female:true},{text:'Wenn du den Job bekommst, was wirst du machen?',female:false},{text:'Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Anna কেন আবেদন করেছেন?</div>
@@ -2402,9 +2518,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">আরেকটা চাকরি খুঁজবেন</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2630,6 +2746,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -2749,13 +2868,62 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Was bist du von Beruf? Ich bin Krankenschwester. Und du? Ich arbeite als Programmierer bei einer kleinen Firma. Interessant! Gefällt dir die Arbeit? Ja, sehr. Und deine Arbeit im Krankenhaus? Es ist anstrengend, aber ich helfe gern Menschen.');
-var playL2listen=makeListenPlayer('l2l','Hast du die Besprechung mit dem Chef heute? Ja, um vierzehn Uhr. Ich muss noch meine Präsentation fertig machen. Brauchst du Hilfe? Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter. Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben. Stimmt, danke für die Erinnerung!');
-var playL3listen=makeListenPlayer('l3l','Warum bewerben Sie sich um diese Stelle? Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr. Wie viele Jahre Erfahrung haben Sie? Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet. Sehr gut. Wann könnten Sie anfangen? Ich könnte nächsten Monat anfangen.');
-var playL4listen=makeListenPlayer('l4l','Was wirst du nach dem Studium machen? Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln. Wirklich? Wohin? Ich werde mich um eine Stelle in Kanada bewerben. Spannend! Und in fünf Jahren, wo wirst du sein? Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gründen.');
-var playL5listen=makeListenPlayer('l5l','Was würdest du gern in deinem Leben erreichen? Ich würde gern Architektin werden und besondere Gebäude entwerfen. Hast du diesen Traum schon lange? Ja, seit ich ein Kind war. Ich hätte gern die Chance, in einer großen Stadt zu arbeiten. Was sind deine nächsten Schritte? Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.');
-var playL6listen=makeListenPlayer('l6l','Was ist eine Ausbildung in Deutschland? Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule. Wie lange dauert das? Meistens zwei bis drei Jahre. Es ist sehr beliebt und führt oft zu einer guten Karriere. Und wie viele Urlaubstage haben Arbeiter normalerweise? Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreißig Tage.');
-var playL7listen=makeListenPlayer('l7l','Warum hast du dich um diese Stelle beworben? Ich habe mich beworben, weil ich die Firma sehr mag. Glaubst du, dass du den Job bekommst? Ich hoffe es, obwohl es viele Bewerber gibt. Wenn du den Job bekommst, was wirst du machen? Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Tom',text:'Was bist du von Beruf?',female:false},
+    {speaker:'Mia',text:'Ich bin Krankenschwester. Und du?',female:true},
+    {speaker:'Tom',text:'Ich arbeite als Programmierer bei einer kleinen Firma.',female:false},
+    {speaker:'Mia',text:'Interessant! Gef&#xe4;llt dir die Arbeit?',female:true},
+    {speaker:'Tom',text:'Ja, sehr. Und deine Arbeit im Krankenhaus?',female:false},
+    {speaker:'Mia',text:'Es ist anstrengend, aber ich helfe gern Menschen.',female:true}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Kollege',text:'Hast du die Besprechung mit dem Chef heute?',female:false},
+    {speaker:'Anna',text:'Ja, um vierzehn Uhr. Ich muss noch meine Pr&#xe4;sentation fertig machen.',female:true},
+    {speaker:'Kollege',text:'Brauchst du Hilfe?',female:false},
+    {speaker:'Anna',text:'Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.',female:true},
+    {speaker:'Kollege',text:'Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.',female:false},
+    {speaker:'Anna',text:'Stimmt, danke f&#xfc;r die Erinnerung!',female:true}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Personalchefin',text:'Warum bewerben Sie sich um diese Stelle?',female:true},
+    {speaker:'Bewerber',text:'Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.',female:false},
+    {speaker:'Personalchefin',text:'Wie viele Jahre Erfahrung haben Sie?',female:true},
+    {speaker:'Bewerber',text:'Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.',female:false},
+    {speaker:'Personalchefin',text:'Sehr gut. Wann k&#xf6;nnten Sie anfangen?',female:true},
+    {speaker:'Bewerber',text:'Ich k&#xf6;nnte n&#xe4;chsten Monat anfangen.',female:false}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Tom',text:'Was wirst du nach dem Studium machen?',female:false},
+    {speaker:'Lena',text:'Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.',female:true},
+    {speaker:'Tom',text:'Wirklich? Wohin?',female:false},
+    {speaker:'Lena',text:'Ich werde mich um eine Stelle in Kanada bewerben.',female:true},
+    {speaker:'Tom',text:'Spannend! Und in f&#xfc;nf Jahren, wo wirst du sein?',female:false},
+    {speaker:'Lena',text:'Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gr&#xfc;nden.',female:true}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Interviewer',text:'Was w&#xfc;rdest du gern in deinem Leben erreichen?',female:false},
+    {speaker:'Sara',text:'Ich w&#xfc;rde gern Architektin werden und besondere Geb&#xe4;ude entwerfen.',female:true},
+    {speaker:'Interviewer',text:'Hast du diesen Traum schon lange?',female:false},
+    {speaker:'Sara',text:'Ja, seit ich ein Kind war. Ich h&#xe4;tte gern die Chance, in einer gro&#xdf;en Stadt zu arbeiten.',female:true},
+    {speaker:'Interviewer',text:'Was sind deine n&#xe4;chsten Schritte?',female:false},
+    {speaker:'Sara',text:'Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.',female:true}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Student',text:'Was ist eine Ausbildung in Deutschland?',female:false},
+    {speaker:'Professor',text:'Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.',female:false},
+    {speaker:'Student',text:'Wie lange dauert das?',female:false},
+    {speaker:'Professor',text:'Meistens zwei bis drei Jahre. Es ist sehr beliebt und f&#xfc;hrt oft zu einer guten Karriere.',female:false},
+    {speaker:'Student',text:'Und wie viele Urlaubstage haben Arbeiter normalerweise?',female:false},
+    {speaker:'Professor',text:'Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreissig Tage.',female:false}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Tom',text:'Warum hast du dich um diese Stelle beworben?',female:false},
+    {speaker:'Anna',text:'Ich habe mich beworben, weil ich die Firma sehr mag.',female:true},
+    {speaker:'Tom',text:'Glaubst du, dass du den Job bekommst?',female:false},
+    {speaker:'Anna',text:'Ich hoffe es, obwohl es viele Bewerber gibt.',female:true},
+    {speaker:'Tom',text:'Wenn du den Job bekommst, was wirst du machen?',female:false},
+    {speaker:'Anna',text:'Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.',female:true}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3392,6 +3560,269 @@ function updateNavBtns() {
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
 }
 
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
+
 </script>
 </body>
 </html>
@@ -3513,13 +3944,13 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Was bist du von Beruf? Ich bin Krankenschwester. Und du? Ich arbeite als Programmierer bei einer kleinen Firma. Interessant! Gefällt dir die Arbeit? Ja, sehr. Und deine Arbeit im Krankenhaus? Es ist anstrengend, aber ich helfe gern Menschen.');
-var playL2listen=makeListenPlayer('l2l','Hast du die Besprechung mit dem Chef heute? Ja, um vierzehn Uhr. Ich muss noch meine Präsentation fertig machen. Brauchst du Hilfe? Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben. Stimmt, danke für die Erinnerung!');
-var playL3listen=makeListenPlayer('l3l','Warum bewerben Sie sich um diese Stelle? Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr. Wie viele Jahre Erfahrung haben Sie? Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet. Sehr gut. Wann könnten Sie anfangen? Ich könnte nächsten Monat anfangen.');
-var playL4listen=makeListenPlayer('l4l','Was wirst du nach dem Studium machen? Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln. Wirklich? Wohin? Ich werde mich um eine Stelle in Kanada bewerben. Spannend! Und in fünf Jahren, wo wirst du sein? Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gründen.');
-var playL5listen=makeListenPlayer('l5l','Was würdest du gern in deinem Leben erreichen? Ich würde gern Architektin werden und besondere Gebäude entwerfen. Hast du diesen Traum schon lange? Ja, seit ich ein Kind war. Ich hätte gern die Chance, in einer großen Stadt zu arbeiten. Was sind deine nächsten Schritte? Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.');
-var playL6listen=makeListenPlayer('l6l','Was ist eine Ausbildung in Deutschland? Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule. Wie lange dauert das? Meistens zwei bis drei Jahre. Es ist sehr beliebt und führt oft zu einer guten Karriere. Und wie viele Urlaubstage haben Arbeiter normalerweise? Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreißig Tage.');
-var playL7listen=makeListenPlayer('l7l','Warum hast du dich um diese Stelle beworben? Ich habe mich beworben, weil ich die Firma sehr mag. Glaubst du, dass du den Job bekommst? Ich hoffe es, obwohl es viele Bewerber gibt. Wenn du den Job bekommst, was wirst du machen? Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.');
+var playL1listen=makeGenderedPlayer('l1l',[{text:'Was bist du von Beruf?',female:true},{text:'Ich bin Krankenschwester.',female:false},{text:'Und du?',female:true},{text:'Ich arbeite als Programmierer bei einer kleinen Firma.',female:false},{text:'Interessant!',female:true},{text:'Gefällt dir die Arbeit?',female:false},{text:'Ja, sehr.',female:true},{text:'Und deine Arbeit im Krankenhaus?',female:false},{text:'Es ist anstrengend, aber ich helfe gern Menschen.',female:true}]);
+var playL2listen=makeGenderedPlayer('l2l',[{text:'Hast du die Besprechung mit dem Chef heute?',female:true},{text:'Ja, um vierzehn Uhr.',female:false},{text:'Ich muss noch meine Präsentation fertig machen.',female:true},{text:'Brauchst du Hilfe?',female:false},{text:'Nein, danke.',female:true},{text:'Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.',female:false},{text:'Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.',female:true},{text:'Stimmt, danke für die Erinnerung!',female:false}]);
+var playL3listen=makeGenderedPlayer('l3l',[{text:'Warum bewerben Sie sich um diese Stelle?',female:true},{text:'Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.',female:false},{text:'Wie viele Jahre Erfahrung haben Sie?',female:true},{text:'Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.',female:false},{text:'Sehr gut.',female:true},{text:'Wann könnten Sie anfangen?',female:false},{text:'Ich könnte nächsten Monat anfangen.',female:true}]);
+var playL4listen=makeGenderedPlayer('l4l',[{text:'Was wirst du nach dem Studium machen?',female:true},{text:'Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.',female:false},{text:'Wirklich?',female:true},{text:'Wohin?',female:false},{text:'Ich werde mich um eine Stelle in Kanada bewerben.',female:true},{text:'Spannend!',female:false},{text:'Und in fünf Jahren, wo wirst du sein?',female:true},{text:'Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gründen.',female:false}]);
+var playL5listen=makeGenderedPlayer('l5l',[{text:'Was würdest du gern in deinem Leben erreichen?',female:true},{text:'Ich würde gern Architektin werden und besondere Gebäude entwerfen.',female:false},{text:'Hast du diesen Traum schon lange?',female:true},{text:'Ja, seit ich ein Kind war.',female:false},{text:'Ich hätte gern die Chance, in einer großen Stadt zu arbeiten.',female:true},{text:'Was sind deine nächsten Schritte?',female:false},{text:'Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.',female:true}]);
+var playL6listen=makeGenderedPlayer('l6l',[{text:'Was ist eine Ausbildung in Deutschland?',female:true},{text:'Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.',female:false},{text:'Wie lange dauert das?',female:true},{text:'Meistens zwei bis drei Jahre.',female:false},{text:'Es ist sehr beliebt und führt oft zu einer guten Karriere.',female:true},{text:'Und wie viele Urlaubstage haben Arbeiter normalerweise?',female:false},{text:'Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreißig Tage.',female:true}]);
+var playL7listen=makeGenderedPlayer('l7l',[{text:'Warum hast du dich um diese Stelle beworben?',female:true},{text:'Ich habe mich beworben, weil ich die Firma sehr mag.',female:false},{text:'Glaubst du, dass du den Job bekommst?',female:true},{text:'Ich hoffe es, obwohl es viele Bewerber gibt.',female:false},{text:'Wenn du den Job bekommst, was wirst du machen?',female:true},{text:'Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.',female:false}]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){

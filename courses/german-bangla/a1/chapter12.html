@@ -267,6 +267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -631,16 +654,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Tourist:</span> Warum sind heute alle Geschäfte geschlossen?<br>
-        <span class="speaker">Einheimischer:</span> Heute ist ein Feiertag — der Tag der Deutschen Einheit.<br>
-        <span class="speaker">Tourist:</span> Ach, das wusste ich nicht! Wann ist das genau?<br>
-        <span class="speaker">Einheimischer:</span> Immer am dritten Oktober. Es erinnert an die Wiedervereinigung von 1990.<br>
-        <span class="speaker">Tourist:</span> Interessant! Gibt es noch andere wichtige Feiertage?<br>
-        <span class="speaker">Einheimischer:</span> Ja, zum Beispiel Weihnachten, Ostern, und der Tag der Arbeit am ersten Mai.
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Warum sind heute alle Geschäfte geschlossen?</span></div>
+      <div class="ap-line"><span class="spk">Einheimischer:</span><span class="ap-text">Heute ist ein Feiertag — der Tag der Deutschen Einheit.</span></div>
+      <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Ach, das wusste ich nicht! Wann ist das genau?</span></div>
+      <div class="ap-line"><span class="spk">Einheimischer:</span><span class="ap-text">Immer am dritten Oktober. Es erinnert an die Wiedervereinigung von 1990.</span></div>
+      <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Interessant! Gibt es noch andere wichtige Feiertage?</span></div>
+      <div class="ap-line"><span class="spk">Einheimischer:</span><span class="ap-text">Ja, zum Beispiel Weihnachten, Ostern, und der Tag der Arbeit am ersten Mai.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Warum sind heute alle Geschäfte geschlossen?',female:false},{text:'Heute ist ein Feiertag — der Tag der Deutschen Einheit.',female:false},{text:'Ach, das wusste ich nicht! Wann ist das genau?',female:false},{text:'Immer am dritten Oktober. Es erinnert an die Wiedervereinigung von 1990.',female:false},{text:'Interessant! Gibt es noch andere wichtige Feiertage?',female:false},{text:'Ja, zum Beispiel Weihnachten, Ostern, und der Tag der Arbeit am ersten Mai.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. আজ কেন দোকান বন্ধ?</div>
@@ -666,9 +702,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">২৫ ডিসেম্বর</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -932,16 +968,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 বড়দিনের পরিকল্পনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Lena:</span> Was machst du an Weihnachten?<br>
-        <span class="speaker">Tom:</span> Wir feiern am Heiligabend mit der ganzen Familie. Wir schmücken den Weihnachtsbaum und öffnen die Geschenke.<br>
-        <span class="speaker">Lena:</span> Klingt schön! Und an Silvester?<br>
-        <span class="speaker">Tom:</span> Da gehen wir zu Freunden und sehen das Feuerwerk um Mitternacht.<br>
-        <span class="speaker">Lena:</span> Wir gehen dieses Jahr auf den Weihnachtsmarkt. Ich liebe den Glühwein dort!<br>
-        <span class="speaker">Tom:</span> Oh ja, der Weihnachtsmarkt ist auch toll!
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Was machst du an Weihnachten?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wir feiern am Heiligabend mit der ganzen Familie. Wir schmücken den Weihnachtsbaum und öffnen die Geschenke.</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Klingt schön! Und an Silvester?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Da gehen wir zu Freunden und sehen das Feuerwerk um Mitternacht.</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Wir gehen dieses Jahr auf den Weihnachtsmarkt. Ich liebe den Glühwein dort!</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Oh ja, der Weihnachtsmarkt ist auch toll!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Was machst du an Weihnachten?',female:true},{text:'Wir feiern am Heiligabend mit der ganzen Familie. Wir schmücken den Weihnachtsbaum und öffnen die Geschenke.',female:false},{text:'Klingt schön! Und an Silvester?',female:true},{text:'Da gehen wir zu Freunden und sehen das Feuerwerk um Mitternacht.',female:false},{text:'Wir gehen dieses Jahr auf den Weihnachtsmarkt. Ich liebe den Glühwein dort!',female:true},{text:'Oh ja, der Weihnachtsmarkt ist auch toll!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Tom এর পরিবার কখন উপহার খোলে?</div>
@@ -967,9 +1016,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">গির্জায়</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1226,16 +1275,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 জন্মদিনের পার্টি — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Mia:</span> Herzlichen Glückwunsch zum Geburtstag, Max!<br>
-        <span class="speaker">Max:</span> Danke, Mia! Sch&#xf6;n, dass du gekommen bist.<br>
-        <span class="speaker">Mia:</span> Wie alt wirst du heute?<br>
-        <span class="speaker">Max:</span> Ich werde heute fünfundzwanzig Jahre alt.<br>
-        <span class="speaker">Mia:</span> Tolle Party! Hast du viele Leute eingeladen?<br>
-        <span class="speaker">Max:</span> Ja, etwa zwanzig Freunde. Wir feiern bis Mitternacht!
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Herzlichen Glückwunsch zum Geburtstag, Max!</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Danke, Mia! Sch&#xf6;n, dass du gekommen bist.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Wie alt wirst du heute?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ich werde heute fünfundzwanzig Jahre alt.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Tolle Party! Hast du viele Leute eingeladen?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ja, etwa zwanzig Freunde. Wir feiern bis Mitternacht!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Herzlichen Glückwunsch zum Geburtstag, Max!',female:true},{text:'Danke, Mia! Sch&#xf6;n, dass du gekommen bist.',female:false},{text:'Wie alt wirst du heute?',female:true},{text:'Ich werde heute fünfundzwanzig Jahre alt.',female:false},{text:'Tolle Party! Hast du viele Leute eingeladen?',female:true},{text:'Ja, etwa zwanzig Freunde. Wir feiern bis Mitternacht!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Max আজ কত বছর বয়সী হলেন?</div>
@@ -1261,9 +1323,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">সকাল পর্যন্ত</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1519,16 +1581,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 অক্টোবরফেস্ট নিয়ে কথা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Tourist:</span> Was ist das Oktoberfest genau?<br>
-        <span class="speaker">Einheimischer:</span> Es ist das größte Bierfest der Welt, jedes Jahr in München.<br>
-        <span class="speaker">Tourist:</span> Wann findet es statt?<br>
-        <span class="speaker">Einheimischer:</span> Trotz des Namens beginnt es im September und endet Anfang Oktober.<br>
-        <span class="speaker">Tourist:</span> Tragen die Leute besondere Kleidung?<br>
-        <span class="speaker">Einheimischer:</span> Ja! Viele tragen Tracht — Frauen tragen Dirndl, M&#xe4;nner tragen Lederhosen.
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Was ist das Oktoberfest genau?</span></div>
+      <div class="ap-line"><span class="spk">Einheimischer:</span><span class="ap-text">Es ist das größte Bierfest der Welt, jedes Jahr in München.</span></div>
+      <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Wann findet es statt?</span></div>
+      <div class="ap-line"><span class="spk">Einheimischer:</span><span class="ap-text">Trotz des Namens beginnt es im September und endet Anfang Oktober.</span></div>
+      <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Tragen die Leute besondere Kleidung?</span></div>
+      <div class="ap-line"><span class="spk">Einheimischer:</span><span class="ap-text">Ja! Viele tragen Tracht — Frauen tragen Dirndl, M&#xe4;nner tragen Lederhosen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Was ist das Oktoberfest genau?',female:false},{text:'Es ist das größte Bierfest der Welt, jedes Jahr in München.',female:false},{text:'Wann findet es statt?',female:false},{text:'Trotz des Namens beginnt es im September und endet Anfang Oktober.',female:false},{text:'Tragen die Leute besondere Kleidung?',female:false},{text:'Ja! Viele tragen Tracht — Frauen tragen Dirndl, M&#xe4;nner tragen Lederhosen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Oktoberfest কী?</div>
@@ -1554,9 +1629,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">Kostüm</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1804,16 +1879,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 বিয়ের দাওয়াত — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Anna:</span> Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen.<br>
-        <span class="speaker">Tom:</span> Oh, wie wunderbar! Wann ist die Hochzeit?<br>
-        <span class="speaker">Anna:</span> Am zweiten August, um vierzehn Uhr in der Kirche.<br>
-        <span class="speaker">Tom:</span> Ich sage gern zu! Ich freue mich schon sehr.<br>
-        <span class="speaker">Anna:</span> Wunderbar! Bring gern deine Frau auch mit.<br>
-        <span class="speaker">Tom:</span> Vielen Dank f&#xfc;r die Einladung. Herzlichen Glückwunsch im Voraus!
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Oh, wie wunderbar! Wann ist die Hochzeit?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Am zweiten August, um vierzehn Uhr in der Kirche.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ich sage gern zu! Ich freue mich schon sehr.</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Wunderbar! Bring gern deine Frau auch mit.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Vielen Dank f&#xfc;r die Einladung. Herzlichen Glückwunsch im Voraus!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen.',female:true},{text:'Oh, wie wunderbar! Wann ist die Hochzeit?',female:false},{text:'Am zweiten August, um vierzehn Uhr in der Kirche.',female:true},{text:'Ich sage gern zu! Ich freue mich schon sehr.',female:false},{text:'Wunderbar! Bring gern deine Frau auch mit.',female:true},{text:'Vielen Dank f&#xfc;r die Einladung. Herzlichen Glückwunsch im Voraus!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. বিয়ে কখন?</div>
@@ -1839,9 +1927,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">তার মাকে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -2096,16 +2184,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 জার্মান প্রথা আলোচনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Student:</span> Was ist das Erntedankfest?<br>
-        <span class="speaker">Professor:</span> Es ist ein Fest, um die Ernte zu feiern, meistens im Oktober.<br>
-        <span class="speaker">Student:</span> Wird das überall in Deutschland gefeiert?<br>
-        <span class="speaker">Professor:</span> Ja, besonders in l&#xe4;ndlichen Gebieten. Es gibt oft Paraden und traditionelle Musik.<br>
-        <span class="speaker">Student:</span> Und was ist mit dem Maibaum?<br>
-        <span class="speaker">Professor:</span> Das ist eine bayerische Tradition. Am ersten Mai wird ein dekorierter Baum aufgestellt, um den Frühling zu feiern.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Was ist das Erntedankfest?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Es ist ein Fest, um die Ernte zu feiern, meistens im Oktober.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Wird das überall in Deutschland gefeiert?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Ja, besonders in l&#xe4;ndlichen Gebieten. Es gibt oft Paraden und traditionelle Musik.</span></div>
+      <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Und was ist mit dem Maibaum?</span></div>
+      <div class="ap-line"><span class="spk">Professor:</span><span class="ap-text">Das ist eine bayerische Tradition. Am ersten Mai wird ein dekorierter Baum aufgestellt, um den Frühling zu feiern.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist das Erntedankfest?',female:false},{text:'Es ist ein Fest, um die Ernte zu feiern, meistens im Oktober.',female:false},{text:'Wird das überall in Deutschland gefeiert?',female:false},{text:'Ja, besonders in l&#xe4;ndlichen Gebieten. Es gibt oft Paraden und traditionelle Musik.',female:false},{text:'Und was ist mit dem Maibaum?',female:false},{text:'Das ist eine bayerische Tradition. Am ersten Mai wird ein dekorierter Baum aufgestellt, um den Frühling zu feiern.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Erntedankfest কী?</div>
@@ -2131,9 +2232,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">Hamburg</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2399,16 +2500,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 পার্টির বর্ণনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Mia:</span> Wie war die Hochzeit am Wochenende?<br>
-        <span class="speaker">Tom:</span> Es war eine wundersch&#xf6;ne Feier! Die Braut trug ein elegantes Kleid.<br>
-        <span class="speaker">Mia:</span> Und wie war das Essen?<br>
-        <span class="speaker">Tom:</span> Das Essen war fantastisch — ein traditionelles deutsches Menü mit vielen leckeren Gerichten.<br>
-        <span class="speaker">Mia:</span> Hattet ihr auch Musik?<br>
-        <span class="speaker">Tom:</span> Ja, eine tolle Band hat fröhliche Musik gespielt. Es war ein unvergesslicher Abend!
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Wie war die Hochzeit am Wochenende?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Es war eine wundersch&#xf6;ne Feier! Die Braut trug ein elegantes Kleid.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Und wie war das Essen?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Das Essen war fantastisch — ein traditionelles deutsches Menü mit vielen leckeren Gerichten.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Hattet ihr auch Musik?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ja, eine tolle Band hat fröhliche Musik gespielt. Es war ein unvergesslicher Abend!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Wie war die Hochzeit am Wochenende?',female:true},{text:'Es war eine wundersch&#xf6;ne Feier! Die Braut trug ein elegantes Kleid.',female:false},{text:'Und wie war das Essen?',female:true},{text:'Das Essen war fantastisch — ein traditionelles deutsches Menü mit vielen leckeren Gerichten.',female:false},{text:'Hattet ihr auch Musik?',female:true},{text:'Ja, eine tolle Band hat fröhliche Musik gespielt. Es war ein unvergesslicher Abend!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. কনে কী পরেছিলেন?</div>
@@ -2434,9 +2548,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">ছোট</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2662,6 +2776,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -2781,13 +2898,62 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Warum sind heute alle Geschäfte geschlossen? Heute ist ein Feiertag — der Tag der Deutschen Einheit. Ach, das wusste ich nicht! Wann ist das genau? Immer am dritten Oktober. Es erinnert an die Wiedervereinigung von 1990. Interessant! Gibt es noch andere wichtige Feiertage? Ja, zum Beispiel Weihnachten, Ostern, und der Tag der Arbeit am ersten Mai.');
-var playL2listen=makeListenPlayer('l2l','Was machst du an Weihnachten? Wir feiern am Heiligabend mit der ganzen Familie. Wir schmücken den Weihnachtsbaum und öffnen die Geschenke. Klingt schön! Und an Silvester? Da gehen wir zu Freunden und sehen das Feuerwerk um Mitternacht. Wir gehen dieses Jahr auf den Weihnachtsmarkt. Ich liebe den Glühwein dort! Oh ja, der Weihnachtsmarkt ist auch toll!');
-var playL3listen=makeListenPlayer('l3l','Herzlichen Glückwunsch zum Geburtstag, Max! Danke, Mia! Schön, dass du gekommen bist. Wie alt wirst du heute? Ich werde heute fünfundzwanzig Jahre alt. Tolle Party! Hast du viele Leute eingeladen? Ja, etwa zwanzig Freunde. Wir feiern bis Mitternacht!');
-var playL4listen=makeListenPlayer('l4l','Was ist das Oktoberfest genau? Es ist das größte Bierfest der Welt, jedes Jahr in München. Wann findet es statt? Trotz des Namens beginnt es im September und endet Anfang Oktober. Tragen die Leute besondere Kleidung? Ja! Viele tragen Tracht — Frauen tragen Dirndl, Männer tragen Lederhosen.');
-var playL5listen=makeListenPlayer('l5l','Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen. Oh, wie wunderbar! Wann ist die Hochzeit? Am zweiten August, um vierzehn Uhr in der Kirche. Ich sage gern zu! Ich freue mich schon sehr. Wunderbar! Bring gern deine Frau auch mit. Vielen Dank für die Einladung. Herzlichen Glückwunsch im Voraus!');
-var playL6listen=makeListenPlayer('l6l','Was ist das Erntedankfest? Es ist ein Fest, um die Ernte zu feiern, meistens im Oktober. Wird das überall in Deutschland gefeiert? Ja, besonders in ländlichen Gebieten. Es gibt oft Paraden und traditionelle Musik. Und was ist mit dem Maibaum? Das ist eine bayerische Tradition. Am ersten Mai wird ein dekorierter Baum aufgestellt, um den Frühling zu feiern.');
-var playL7listen=makeListenPlayer('l7l','Wie war die Hochzeit am Wochenende? Es war eine wunderschöne Feier! Die Braut trug ein elegantes Kleid. Und wie war das Essen? Das Essen war fantastisch — ein traditionelles deutsches Menü mit vielen leckeren Gerichten. Hattet ihr auch Musik? Ja, eine tolle Band hat fröhliche Musik gespielt. Es war ein unvergesslicher Abend!');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Tourist',text:'Warum sind heute alle Geschäfte geschlossen?',female:false},
+    {speaker:'Einheimischer',text:'Heute ist ein Feiertag — der Tag der Deutschen Einheit.',female:false},
+    {speaker:'Tourist',text:'Ach, das wusste ich nicht! Wann ist das genau?',female:false},
+    {speaker:'Einheimischer',text:'Immer am dritten Oktober. Es erinnert an die Wiedervereinigung von 1990.',female:false},
+    {speaker:'Tourist',text:'Interessant! Gibt es noch andere wichtige Feiertage?',female:false},
+    {speaker:'Einheimischer',text:'Ja, zum Beispiel Weihnachten, Ostern, und der Tag der Arbeit am ersten Mai.',female:false}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Lena',text:'Was machst du an Weihnachten?',female:true},
+    {speaker:'Tom',text:'Wir feiern am Heiligabend mit der ganzen Familie. Wir schmücken den Weihnachtsbaum und öffnen die Geschenke.',female:false},
+    {speaker:'Lena',text:'Klingt schön! Und an Silvester?',female:true},
+    {speaker:'Tom',text:'Da gehen wir zu Freunden und sehen das Feuerwerk um Mitternacht.',female:false},
+    {speaker:'Lena',text:'Wir gehen dieses Jahr auf den Weihnachtsmarkt. Ich liebe den Glühwein dort!',female:true},
+    {speaker:'Tom',text:'Oh ja, der Weihnachtsmarkt ist auch toll!',female:false}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Mia',text:'Herzlichen Glückwunsch zum Geburtstag, Max!',female:true},
+    {speaker:'Max',text:'Danke, Mia! Sch&#xf6;n, dass du gekommen bist.',female:false},
+    {speaker:'Mia',text:'Wie alt wirst du heute?',female:true},
+    {speaker:'Max',text:'Ich werde heute fünfundzwanzig Jahre alt.',female:false},
+    {speaker:'Mia',text:'Tolle Party! Hast du viele Leute eingeladen?',female:true},
+    {speaker:'Max',text:'Ja, etwa zwanzig Freunde. Wir feiern bis Mitternacht!',female:false}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Tourist',text:'Was ist das Oktoberfest genau?',female:false},
+    {speaker:'Einheimischer',text:'Es ist das größte Bierfest der Welt, jedes Jahr in München.',female:false},
+    {speaker:'Tourist',text:'Wann findet es statt?',female:false},
+    {speaker:'Einheimischer',text:'Trotz des Namens beginnt es im September und endet Anfang Oktober.',female:false},
+    {speaker:'Tourist',text:'Tragen die Leute besondere Kleidung?',female:false},
+    {speaker:'Einheimischer',text:'Ja! Viele tragen Tracht — Frauen tragen Dirndl, M&#xe4;nner tragen Lederhosen.',female:false}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Anna',text:'Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen.',female:true},
+    {speaker:'Tom',text:'Oh, wie wunderbar! Wann ist die Hochzeit?',female:false},
+    {speaker:'Anna',text:'Am zweiten August, um vierzehn Uhr in der Kirche.',female:true},
+    {speaker:'Tom',text:'Ich sage gern zu! Ich freue mich schon sehr.',female:false},
+    {speaker:'Anna',text:'Wunderbar! Bring gern deine Frau auch mit.',female:true},
+    {speaker:'Tom',text:'Vielen Dank f&#xfc;r die Einladung. Herzlichen Glückwunsch im Voraus!',female:false}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Student',text:'Was ist das Erntedankfest?',female:false},
+    {speaker:'Professor',text:'Es ist ein Fest, um die Ernte zu feiern, meistens im Oktober.',female:false},
+    {speaker:'Student',text:'Wird das überall in Deutschland gefeiert?',female:false},
+    {speaker:'Professor',text:'Ja, besonders in l&#xe4;ndlichen Gebieten. Es gibt oft Paraden und traditionelle Musik.',female:false},
+    {speaker:'Student',text:'Und was ist mit dem Maibaum?',female:false},
+    {speaker:'Professor',text:'Das ist eine bayerische Tradition. Am ersten Mai wird ein dekorierter Baum aufgestellt, um den Frühling zu feiern.',female:false}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Mia',text:'Wie war die Hochzeit am Wochenende?',female:true},
+    {speaker:'Tom',text:'Es war eine wundersch&#xf6;ne Feier! Die Braut trug ein elegantes Kleid.',female:false},
+    {speaker:'Mia',text:'Und wie war das Essen?',female:true},
+    {speaker:'Tom',text:'Das Essen war fantastisch — ein traditionelles deutsches Menü mit vielen leckeren Gerichten.',female:false},
+    {speaker:'Mia',text:'Hattet ihr auch Musik?',female:true},
+    {speaker:'Tom',text:'Ja, eine tolle Band hat fröhliche Musik gespielt. Es war ein unvergesslicher Abend!',female:false}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3423,6 +3589,269 @@ function updateNavBtns() {
   for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
 }
+
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
 
 </script>
 </body>
