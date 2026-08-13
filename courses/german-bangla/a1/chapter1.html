@@ -260,7 +260,31 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   .nav-item{padding:5px 12px 5px 22px}
 }
   
-/* ---- PAGE NAV BAR ---- */
+
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
+
 .page-nav-bar{display:flex;gap:10px;padding:18px 13px 30px;margin-top:10px;border-top:1px solid #E7E2D6}
 .pnb-prev,.pnb-next{flex:1;border:none;border-radius:10px;padding:13px 10px;font-size:.88rem;font-weight:700;cursor:pointer;font-family:'Hind Siliguri',sans-serif;transition:background .18s,transform .1s}
 .pnb-prev{background:#f0f0f0;color:#444}
@@ -549,7 +573,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -568,7 +592,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -589,7 +613,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1l1s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -626,7 +650,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -639,16 +663,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Anna:</span> Guten Morgen, Tom!<br>
-        <span class="speaker">Tom:</span> Guten Morgen, Anna! Wie geht es dir?<br>
-        <span class="speaker">Anna:</span> Mir geht es gut, danke! Und dir?<br>
-        <span class="speaker">Tom:</span> Auch gut, danke!<br>
-        <span class="speaker">Anna:</span> Ich muss jetzt gehen. Bis bald!<br>
-        <span class="speaker">Tom:</span> Tschüss, Anna!
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Guten Morgen, Tom!</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Guten Morgen, Anna! Wie geht es dir?</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Mir geht es gut, danke! Und dir?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Auch gut, danke!</span></div>
+      <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Ich muss jetzt gehen. Bis bald!</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Tschüss, Anna!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Guten Morgen, Tom!',female:true},{text:'Guten Morgen, Anna! Wie geht es dir?',female:false},{text:'Mir geht es gut, danke! Und dir?',female:true},{text:'Auch gut, danke!',female:false},{text:'Ich muss jetzt gehen. Bis bald!',female:true},{text:'Tschüss, Anna!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Anna কীভাবে শুভেচ্ছা জানালেন?</div>
@@ -674,9 +711,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">Gute Nacht</button>
       </div>
     </div>
-  </div>
-
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -727,7 +764,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
@@ -751,7 +788,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c1l1fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -777,7 +814,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c1l1ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -791,7 +828,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1l1q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L2: SICH VORSTELLEN ==================== -->
@@ -853,7 +890,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -872,7 +909,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -893,7 +930,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1l2s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -924,6 +961,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">du</td><td class="de">kommst</td></tr>
         <tr><td class="de">er/sie/es</td><td class="de">kommt</td></tr>
         <tr><td class="de">wir</td><td class="de">kommen</td></tr>
+        <tr><td class="de">ihr</td><td class="de">kommt</td></tr>
+        <tr><td class="de">sie/Sie</td><td class="de">kommen</td></tr>
       </table>
       <div class="trick">
         <div class="trick-t">💡 aus + Dativ</div>
@@ -932,7 +971,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -945,16 +984,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Lena:</span> Hallo! Wie heißt du?<br>
-        <span class="speaker">Karim:</span> Ich heiße Karim. Und du?<br>
-        <span class="speaker">Lena:</span> Ich heiße Lena. Woher kommst du?<br>
-        <span class="speaker">Karim:</span> Ich komme aus Bangladesch. Und du?<br>
-        <span class="speaker">Lena:</span> Ich komme aus Deutschland. Wie alt bist du?<br>
-        <span class="speaker">Karim:</span> Ich bin zwanzig Jahre alt. Freut mich, Lena!
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Hallo! Wie heißt du?</span></div>
+      <div class="ap-line"><span class="spk">Karim:</span><span class="ap-text">Ich heiße Karim. Und du?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich heiße Lena. Woher kommst du?</span></div>
+      <div class="ap-line"><span class="spk">Karim:</span><span class="ap-text">Ich komme aus Bangladesch. Und du?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich komme aus Deutschland. Wie alt bist du?</span></div>
+      <div class="ap-line"><span class="spk">Karim:</span><span class="ap-text">Ich bin zwanzig Jahre alt. Freut mich, Lena!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Hallo! Wie heißt du?',female:true},{text:'Ich heiße Karim. Und du?',female:false},{text:'Ich heiße Lena. Woher kommst du?',female:true},{text:'Ich komme aus Bangladesch. Und du?',female:false},{text:'Ich komme aus Deutschland. Wie alt bist du?',female:true},{text:'Ich bin zwanzig Jahre alt. Freut mich, Lena!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Karim কোথা থেকে এসেছেন?</div>
@@ -980,9 +1032,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">ইতালি</button>
       </div>
     </div>
-  </div>
-
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1030,7 +1082,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
@@ -1054,7 +1106,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c1l2fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -1080,7 +1132,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c1l2ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -1094,7 +1146,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1l2q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L3: ZAHLEN 1-100 ==================== -->
@@ -1173,7 +1225,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1192,7 +1244,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1213,7 +1265,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1l3s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1247,7 +1299,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1260,15 +1312,28 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Verkäufer:</span> Guten Tag! Das kostet fünfundzwanzig Euro.<br>
-        <span class="speaker">Kunde:</span> Das ist teuer! Haben Sie etwas billiger?<br>
-        <span class="speaker">Verkäufer:</span> Ja, dieses hier kostet nur zwölf Euro.<br>
-        <span class="speaker">Kunde:</span> Gut, ich nehme das für zwölf Euro.<br>
-        <span class="speaker">Verkäufer:</span> Perfekt! Das macht zusammen zwölf Euro.
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk">Verkäufer:</span><span class="ap-text">Guten Tag! Das kostet fünfundzwanzig Euro.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Das ist teuer! Haben Sie etwas billiger?</span></div>
+      <div class="ap-line"><span class="spk">Verkäufer:</span><span class="ap-text">Ja, dieses hier kostet nur zwölf Euro.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Gut, ich nehme das für zwölf Euro.</span></div>
+      <div class="ap-line"><span class="spk">Verkäufer:</span><span class="ap-text">Perfekt! Das macht zusammen zwölf Euro.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Guten Tag! Das kostet fünfundzwanzig Euro.',female:false},{text:'Das ist teuer! Haben Sie etwas billiger?',female:false},{text:'Ja, dieses hier kostet nur zwölf Euro.',female:false},{text:'Gut, ich nehme das für zwölf Euro.',female:false},{text:'Perfekt! Das macht zusammen zwölf Euro.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. প্রথম পণ্যের দাম কত?</div>
@@ -1294,9 +1359,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">এটা সুন্দর</button>
       </div>
     </div>
-  </div>
-
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1344,7 +1409,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
@@ -1368,7 +1433,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c1l3fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1394,7 +1459,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c1l3ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1408,7 +1473,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1l3q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L4: FARBEN & ADJEKTIVE ==================== -->
@@ -1484,7 +1549,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1503,7 +1568,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1524,7 +1589,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1l4s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1559,7 +1624,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 LISTENING -->
@@ -1572,16 +1637,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Mia:</span> Welche Farbe hat dein neues Auto?<br>
-        <span class="speaker">Tom:</span> Es ist rot und sehr schön!<br>
-        <span class="speaker">Mia:</span> Ist es groß oder klein?<br>
-        <span class="speaker">Tom:</span> Es ist klein, aber sehr gut für die Stadt.<br>
-        <span class="speaker">Mia:</span> Und dein Haus? Welche Farbe ist es?<br>
-        <span class="speaker">Tom:</span> Mein Haus ist weiß mit einem grünen Garten.
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Welche Farbe hat dein neues Auto?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Es ist rot und sehr schön!</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Ist es groß oder klein?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Es ist klein, aber sehr gut für die Stadt.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Und dein Haus? Welche Farbe ist es?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Mein Haus ist weiß mit einem grünen Garten.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Welche Farbe hat dein neues Auto?',female:true},{text:'Es ist rot und sehr schön!',female:false},{text:'Ist es groß oder klein?',female:true},{text:'Es ist klein, aber sehr gut für die Stadt.',female:false},{text:'Und dein Haus? Welche Farbe ist es?',female:true},{text:'Mein Haus ist weiß mit einem grünen Garten.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Tom এর গাড়ির রং কী?</div>
@@ -1607,9 +1685,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">বাদামি</button>
       </div>
     </div>
-  </div>
-
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1658,7 +1736,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
@@ -1682,7 +1760,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c1l4fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1708,7 +1786,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c1l4ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1722,7 +1800,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1l4q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L5: ALPHABET & AUSSPRACHE ==================== -->
@@ -1783,13 +1861,53 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="pb" onclick="event.stopPropagation();tts('z wie in Zeit')">🔊</button>
       </div>
       <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('ch wie in ich')">
-        <span class="v-de">ch</span><span class="v-en">KH (নরম)</span><span class="v-bn bn">ich (আমি)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('ch wie in ich')">🔊</button>
+        <span class="v-de">ch <span style="font-size:.7rem;color:#888">(নরম)</span></span><span class="v-en">KH নরম — i/e এর পরে</span><span class="v-bn bn">ich, nicht, Mädchen</span>
+        <button class="pb" onclick="event.stopPropagation();tts('ich nicht Mädchen')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Bach auch Buch')">
+        <span class="v-de">ch <span style="font-size:.7rem;color:#888">(শক্ত)</span></span><span class="v-en">KH শক্ত — a/o/u এর পরে</span><span class="v-bn bn">Bach, auch, Buch</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Bach auch Buch')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Schule schön Schritt')">
+        <span class="v-de">sch</span><span class="v-en">SH — ইংরেজি "sh" এর মতো</span><span class="v-bn bn">Schule, schön, Schritt</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Schule schön Schritt')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Deutsch tschüss Tschechien')">
+        <span class="v-de">tsch</span><span class="v-en">CH — ইংরেজি "ch" এর মতো</span><span class="v-bn bn">Deutsch, tschüss, Tschechien</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Deutsch tschüss Tschechien')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Sport sprechen Sprache')">
+        <span class="v-de">sp-</span><span class="v-en">SHP — শব্দের শুরুতে</span><span class="v-bn bn">Sport, sprechen</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Sport sprechen Sprache')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Student stehen Straße')">
+        <span class="v-de">st-</span><span class="v-en">SHT — শব্দের শুরুতে</span><span class="v-bn bn">Student, stehen</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Student stehen Straße')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('eins mein nein')">
+        <span class="v-de">ei</span><span class="v-en">AI এর মতো</span><span class="v-bn bn">eins, mein, nein</span>
+        <button class="pb" onclick="event.stopPropagation();tts('eins mein nein')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('wie nie viel')">
+        <span class="v-de">ie</span><span class="v-en">EE এর মতো</span><span class="v-bn bn">wie, nie, viel</span>
+        <button class="pb" onclick="event.stopPropagation();tts('wie nie viel')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('neu heute Mäuse')">
+        <span class="v-de">eu / äu</span><span class="v-en">OY এর মতো</span><span class="v-bn bn">neu, heute, Mäuse</span>
+        <button class="pb" onclick="event.stopPropagation();tts('neu heute Mäuse')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('richtig zwanzig lustig')">
+        <span class="v-de">-ig <span style="font-size:.7rem;color:#888">(আনুষ্ঠানিক)</span></span><span class="v-en">-ISH এর মতো — শব্দের শেষে</span><span class="v-bn bn">richtig → "rich-tish", zwanzig → "zwan-zish"</span>
+        <button class="pb" onclick="event.stopPropagation();tts('richtig zwanzig lustig')">🔊</button>
+      </div>
+      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('richtig zwanzig')">
+        <span class="v-de">-ig <span style="font-size:.7rem;color:#888">(কথ্য)</span></span><span class="v-en">-ICK এর মতো — কথ্য ভাষায়</span><span class="v-bn bn">richtig → "rich-tick", zwanzig → "zwan-zick"</span>
+        <button class="pb" onclick="event.stopPropagation();tts('richtig zwanzig')">🔊</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1808,7 +1926,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1829,7 +1947,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1l5s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1862,7 +1980,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1875,15 +1993,28 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Empfang:</span> Wie heißen Sie, bitte?<br>
-        <span class="speaker">Frau Müller:</span> Müller. M-Ü-L-L-E-R.<br>
-        <span class="speaker">Empfang:</span> Können Sie das wiederholen? Mit Ü?<br>
-        <span class="speaker">Frau Müller:</span> Ja, genau. M-Ü-L-L-E-R, Müller.<br>
-        <span class="speaker">Empfang:</span> Danke schön, Frau Müller!
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk">Empfang:</span><span class="ap-text">Wie heißen Sie, bitte?</span></div>
+      <div class="ap-line"><span class="spk-f">Frau Müller:</span><span class="ap-text">Müller. M-Ü-L-L-E-R.</span></div>
+      <div class="ap-line"><span class="spk">Empfang:</span><span class="ap-text">Können Sie das wiederholen? Mit Ü?</span></div>
+      <div class="ap-line"><span class="spk-f">Frau Müller:</span><span class="ap-text">Ja, genau. M-Ü-L-L-E-R, Müller.</span></div>
+      <div class="ap-line"><span class="spk">Empfang:</span><span class="ap-text">Danke schön, Frau Müller!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Wie heißen Sie, bitte?',female:false},{text:'Müller. M-Ü-L-L-E-R.',female:true},{text:'Können Sie das wiederholen? Mit Ü?',female:false},{text:'Ja, genau. M-Ü-L-L-E-R, Müller.',female:true},{text:'Danke schön, Frau Müller!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. মহিলার নাম কী?</div>
@@ -1909,9 +2040,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">নাম পছন্দ হয়নি</button>
       </div>
     </div>
-  </div>
-
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -1959,7 +2090,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
@@ -1983,7 +2114,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c1l5fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -2009,7 +2140,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c1l5ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -2023,7 +2154,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1l5q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L6: FRAGEWÖRTER ==================== -->
@@ -2081,7 +2212,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -2100,7 +2231,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -2121,7 +2252,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1l6s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -2156,7 +2287,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -2169,16 +2300,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Tina:</span> Wer ist das auf dem Foto?<br>
-        <span class="speaker">Ben:</span> Das ist mein Bruder.<br>
-        <span class="speaker">Tina:</span> Wo wohnt er?<br>
-        <span class="speaker">Ben:</span> Er wohnt in München.<br>
-        <span class="speaker">Tina:</span> Was macht er beruflich?<br>
-        <span class="speaker">Ben:</span> Er ist Ingenieur und arbeitet bei einer großen Firma.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk-f">Tina:</span><span class="ap-text">Wer ist das auf dem Foto?</span></div>
+      <div class="ap-line"><span class="spk">Ben:</span><span class="ap-text">Das ist mein Bruder.</span></div>
+      <div class="ap-line"><span class="spk-f">Tina:</span><span class="ap-text">Wo wohnt er?</span></div>
+      <div class="ap-line"><span class="spk">Ben:</span><span class="ap-text">Er wohnt in München.</span></div>
+      <div class="ap-line"><span class="spk-f">Tina:</span><span class="ap-text">Was macht er beruflich?</span></div>
+      <div class="ap-line"><span class="spk">Ben:</span><span class="ap-text">Er ist Ingenieur und arbeitet bei einer großen Firma.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Wer ist das auf dem Foto?',female:true},{text:'Das ist mein Bruder.',female:false},{text:'Wo wohnt er?',female:true},{text:'Er wohnt in München.',female:false},{text:'Was macht er beruflich?',female:true},{text:'Er ist Ingenieur und arbeitet bei einer großen Firma.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. ছবিতে কে?</div>
@@ -2204,9 +2348,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">ডাক্তার</button>
       </div>
     </div>
-  </div>
-
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2258,7 +2402,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
@@ -2282,7 +2426,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c1l6fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -2308,7 +2452,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c1l6ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -2322,7 +2466,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1l6q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== L7: SEIN/HABEN + REGELMÄSSIGE VERBEN ==================== -->
@@ -2371,7 +2515,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2390,7 +2534,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2411,7 +2555,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1l7s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2468,7 +2612,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2481,16 +2625,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Sara:</span> Ich bin Studentin. Was bist du?<br>
-        <span class="speaker">Jonas:</span> Ich bin Lehrer. Ich arbeite an einer Schule.<br>
-        <span class="speaker">Sara:</span> Hast du Geschwister?<br>
-        <span class="speaker">Jonas:</span> Ja, ich habe eine Schwester. Sie wohnt in Hamburg.<br>
-        <span class="speaker">Sara:</span> Wir haben beide interessante Leben!<br>
-        <span class="speaker">Jonas:</span> Ja, das stimmt!
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Ich bin Studentin. Was bist du?</span></div>
+      <div class="ap-line"><span class="spk">Jonas:</span><span class="ap-text">Ich bin Lehrer. Ich arbeite an einer Schule.</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Hast du Geschwister?</span></div>
+      <div class="ap-line"><span class="spk">Jonas:</span><span class="ap-text">Ja, ich habe eine Schwester. Sie wohnt in Hamburg.</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Wir haben beide interessante Leben!</span></div>
+      <div class="ap-line"><span class="spk">Jonas:</span><span class="ap-text">Ja, das stimmt!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Ich bin Studentin. Was bist du?',female:true},{text:'Ich bin Lehrer. Ich arbeite an einer Schule.',female:false},{text:'Hast du Geschwister?',female:true},{text:'Ja, ich habe eine Schwester. Sie wohnt in Hamburg.',female:false},{text:'Wir haben beide interessante Leben!',female:true},{text:'Ja, das stimmt!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Sara কী?</div>
@@ -2516,9 +2673,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">München</button>
       </div>
     </div>
-  </div>
-
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2567,7 +2724,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
@@ -2591,7 +2748,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c1l7fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2617,7 +2774,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c1l7ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2631,7 +2788,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1l7q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- ==================== R1: REVIEW ==================== -->
@@ -2694,7 +2851,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- R1 SPEAKING REVIEW -->
@@ -2715,7 +2872,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c1rs"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
 </div>
 
 <!-- R1 QUIZ -->
@@ -2736,7 +2893,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c1rq"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◀ আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা ▶</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -2744,6 +2901,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -2863,13 +3023,60 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Guten Morgen, Tom! Guten Morgen, Anna! Wie geht es dir? Mir geht es gut, danke! Und dir? Auch gut, danke! Ich muss jetzt gehen. Bis bald! Tschüss, Anna!');
-var playL2listen=makeListenPlayer('l2l','Hallo! Wie heißt du? Ich heiße Karim. Und du? Ich heiße Lena. Woher kommst du? Ich komme aus Bangladesch. Und du? Ich komme aus Deutschland. Wie alt bist du? Ich bin zwanzig Jahre alt. Freut mich, Lena!');
-var playL3listen=makeListenPlayer('l3l','Guten Tag! Das kostet fünfundzwanzig Euro. Das ist teuer! Haben Sie etwas billiger? Ja, dieses hier kostet nur zwölf Euro. Gut, ich nehme das für zwölf Euro. Perfekt! Das macht zusammen zwölf Euro.');
-var playL4listen=makeListenPlayer('l4l','Welche Farbe hat dein neues Auto? Es ist rot und sehr schön! Ist es groß oder klein? Es ist klein, aber sehr gut für die Stadt. Und dein Haus? Welche Farbe ist es? Mein Haus ist weiß mit einem grünen Garten.');
-var playL5listen=makeListenPlayer('l5l','Wie heißen Sie, bitte? Müller. M-Ü-L-L-E-R. Können Sie das wiederholen? Mit Ü? Ja, genau. M-Ü-L-L-E-R, Müller. Danke schön, Frau Müller!');
-var playL6listen=makeListenPlayer('l6l','Wer ist das auf dem Foto? Das ist mein Bruder. Wo wohnt er? Er wohnt in München. Was macht er beruflich? Er ist Ingenieur und arbeitet bei einer großen Firma.');
-var playL7listen=makeListenPlayer('l7l','Ich bin Studentin. Was bist du? Ich bin Lehrer. Ich arbeite an einer Schule. Hast du Geschwister? Ja, ich habe eine Schwester. Sie wohnt in Hamburg. Wir haben beide interessante Leben! Ja, das stimmt!');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Anna',text:'Guten Morgen, Tom!',female:true},
+    {speaker:'Tom',text:'Guten Morgen, Anna! Wie geht es dir?',female:false},
+    {speaker:'Anna',text:'Mir geht es gut, danke! Und dir?',female:true},
+    {speaker:'Tom',text:'Auch gut, danke!',female:false},
+    {speaker:'Anna',text:'Ich muss jetzt gehen. Bis bald!',female:true},
+    {speaker:'Tom',text:'Tschüss, Anna!',female:false}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Lena',text:'Hallo! Wie heißt du?',female:true},
+    {speaker:'Karim',text:'Ich heiße Karim. Und du?',female:false},
+    {speaker:'Lena',text:'Ich heiße Lena. Woher kommst du?',female:true},
+    {speaker:'Karim',text:'Ich komme aus Bangladesch. Und du?',female:false},
+    {speaker:'Lena',text:'Ich komme aus Deutschland. Wie alt bist du?',female:true},
+    {speaker:'Karim',text:'Ich bin zwanzig Jahre alt. Freut mich, Lena!',female:false}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Verkäufer',text:'Guten Tag! Das kostet fünfundzwanzig Euro.',female:false},
+    {speaker:'Kunde',text:'Das ist teuer! Haben Sie etwas billiger?',female:false},
+    {speaker:'Verkäufer',text:'Ja, dieses hier kostet nur zwölf Euro.',female:false},
+    {speaker:'Kunde',text:'Gut, ich nehme das für zwölf Euro.',female:false},
+    {speaker:'Verkäufer',text:'Perfekt! Das macht zusammen zwölf Euro.',female:false}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Mia',text:'Welche Farbe hat dein neues Auto?',female:true},
+    {speaker:'Tom',text:'Es ist rot und sehr schön!',female:false},
+    {speaker:'Mia',text:'Ist es groß oder klein?',female:true},
+    {speaker:'Tom',text:'Es ist klein, aber sehr gut für die Stadt.',female:false},
+    {speaker:'Mia',text:'Und dein Haus? Welche Farbe ist es?',female:true},
+    {speaker:'Tom',text:'Mein Haus ist weiß mit einem grünen Garten.',female:false}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Empfang',text:'Wie heißen Sie, bitte?',female:false},
+    {speaker:'Frau Müller',text:'Müller. M-Ü-L-L-E-R.',female:true},
+    {speaker:'Empfang',text:'Können Sie das wiederholen? Mit Ü?',female:false},
+    {speaker:'Frau Müller',text:'Ja, genau. M-Ü-L-L-E-R, Müller.',female:true},
+    {speaker:'Empfang',text:'Danke schön, Frau Müller!',female:false}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Tina',text:'Wer ist das auf dem Foto?',female:true},
+    {speaker:'Ben',text:'Das ist mein Bruder.',female:false},
+    {speaker:'Tina',text:'Wo wohnt er?',female:true},
+    {speaker:'Ben',text:'Er wohnt in München.',female:false},
+    {speaker:'Tina',text:'Was macht er beruflich?',female:true},
+    {speaker:'Ben',text:'Er ist Ingenieur und arbeitet bei einer großen Firma.',female:false}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Sara',text:'Ich bin Studentin. Was bist du?',female:true},
+    {speaker:'Jonas',text:'Ich bin Lehrer. Ich arbeite an einer Schule.',female:false},
+    {speaker:'Sara',text:'Hast du Geschwister?',female:true},
+    {speaker:'Jonas',text:'Ja, ich habe eine Schwester. Sie wohnt in Hamburg.',female:false},
+    {speaker:'Sara',text:'Wir haben beide interessante Leben!',female:true},
+    {speaker:'Jonas',text:'Ja, das stimmt!',female:false}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3509,6 +3716,269 @@ function updateNavBtns() {
   for (var j = 0; j < prevBtns.length; j++) prevBtns[j].disabled = (idx <= 0);
   for (var k = 0; k < nextBtns.length; k++) nextBtns[k].disabled = (idx >= pageSeq.length - 1);
 }
+
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
 
 </script>
 </body>
