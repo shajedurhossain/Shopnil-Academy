@@ -267,6 +267,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -667,16 +690,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
-      <div class="listen-script">
-        <span class="speaker">Lena:</span> Was tr&#xe4;gst du heute?<br>
-        <span class="speaker">Ali:</span> Ich trage ein blaues Hemd und eine schwarze Hose.<br>
-        <span class="speaker">Lena:</span> Das sieht toll aus! Und deine Jacke?<br>
-        <span class="speaker">Ali:</span> Die Jacke ist neu. Ich habe sie gestern gekauft.<br>
-        <span class="speaker">Lena:</span> Wo hast du sie gekauft?<br>
-        <span class="speaker">Ali:</span> Im Kaufhaus in der Stadtmitte. Sie hat f&#xfc;nfzig Euro gekostet.
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1l">
+    <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Was tr&#xe4;gst du heute?</span></div>
+      <div class="ap-line"><span class="spk">Ali:</span><span class="ap-text">Ich trage ein blaues Hemd und eine schwarze Hose.</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Das sieht toll aus! Und deine Jacke?</span></div>
+      <div class="ap-line"><span class="spk">Ali:</span><span class="ap-text">Die Jacke ist neu. Ich habe sie gestern gekauft.</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Wo hast du sie gekauft?</span></div>
+      <div class="ap-line"><span class="spk">Ali:</span><span class="ap-text">Im Kaufhaus in der Stadtmitte. Sie hat f&#xfc;nfzig Euro gekostet.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1l"></div></div>
+    <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was tr&#xe4;gst du heute?',female:true},{text:'Ich trage ein blaues Hemd und eine schwarze Hose.',female:false},{text:'Das sieht toll aus! Und deine Jacke?',female:true},{text:'Die Jacke ist neu. Ich habe sie gestern gekauft.',female:false},{text:'Wo hast du sie gekauft?',female:true},{text:'Im Kaufhaus in der Stadtmitte. Sie hat f&#xfc;nfzig Euro gekostet.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1l"></span>
+      <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Ali আজ কী পরছে?</div>
@@ -702,9 +738,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'correct')">পঞ্চাশ ইউরো</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -1014,17 +1050,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 দোকানে কথোপকথন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Verk&#xe4;uferin:</span> Kann ich Ihnen helfen?<br>
-        <span class="speaker">Kundin:</span> Ja, ich suche eine Jacke in Blau oder Gr&#xfc;n.<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Welche Gr&#xf6;&#xdf;e haben Sie?<br>
-        <span class="speaker">Kundin:</span> Gr&#xf6;&#xdf;e M, bitte. Manchmal auch L.<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Diese blaue Jacke hier ist sehr sch&#xf6;n. Und sie ist im Angebot — nur vierzig Euro.<br>
-        <span class="speaker">Kundin:</span> Oh, die gef&#xe4;llt mir! Kann ich sie anprobieren?<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Nat&#xfc;rlich! Die Umkleidekabinen sind dort dr&#xfc;ben.
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2l">
+    <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Kann ich Ihnen helfen?</span></div>
+      <div class="ap-line"><span class="spk-f">Kundin:</span><span class="ap-text">Ja, ich suche eine Jacke in Blau oder Gr&#xfc;n.</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Welche Gr&#xf6;&#xdf;e haben Sie?</span></div>
+      <div class="ap-line"><span class="spk-f">Kundin:</span><span class="ap-text">Gr&#xf6;&#xdf;e M, bitte. Manchmal auch L.</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Diese blaue Jacke hier ist sehr sch&#xf6;n. Und sie ist im Angebot — nur vierzig Euro.</span></div>
+      <div class="ap-line"><span class="spk-f">Kundin:</span><span class="ap-text">Oh, die gef&#xe4;llt mir! Kann ich sie anprobieren?</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Nat&#xfc;rlich! Die Umkleidekabinen sind dort dr&#xfc;ben.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2l"></div></div>
+    <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Kann ich Ihnen helfen?',female:true},{text:'Ja, ich suche eine Jacke in Blau oder Gr&#xfc;n.',female:true},{text:'Welche Gr&#xf6;&#xdf;e haben Sie?',female:true},{text:'Gr&#xf6;&#xdf;e M, bitte. Manchmal auch L.',female:true},{text:'Diese blaue Jacke hier ist sehr sch&#xf6;n. Und sie ist im Angebot — nur vierzig Euro.',female:true},{text:'Oh, die gef&#xe4;llt mir! Kann ich sie anprobieren?',female:true},{text:'Nat&#xfc;rlich! Die Umkleidekabinen sind dort dr&#xfc;ben.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2l"></span>
+      <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Kundin কোন রঙের জ্যাকেট খুঁজছেন?</div>
@@ -1050,9 +1099,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'correct')">চল্লিশ ইউরো</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1311,6 +1360,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">er/sie/es</td><td class="de">m&#xf6;chte</td><td class="bn">সে চায়</td></tr>
         <tr><td class="de">wir</td><td class="de">m&#xf6;chten</td><td class="bn">আমরা চাই</td></tr>
         <tr><td class="de">Sie</td><td class="de">m&#xf6;chten</td><td class="bn">আপনি চান</td></tr>
+        <tr><td class="de">ihr</td><td class="de">m&#xf6;chtet</td><td class="bn">তোমরা চাও</td></tr>
+        <tr><td class="de">sie</td><td class="de">m&#xf6;chten</td><td class="bn">তারা চায়</td></tr>
       </table>
     </div>
     <div class="card">
@@ -1342,17 +1393,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 Kaufhaus কথোপকথন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Verk&#xe4;ufer:</span> Guten Tag! Kann ich Ihnen helfen?<br>
-        <span class="speaker">Kunde:</span> Ja, ich m&#xf6;chte diese Hose anprobieren. Haben Sie sie in Gr&#xf6;&#xdf;e L?<br>
-        <span class="speaker">Verk&#xe4;ufer:</span> Einen Moment bitte... Ja, hier ist die Hose in Gr&#xf6;&#xdf;e L. Die Umkleidekabinen sind rechts.<br>
-        <span class="speaker">Kunde:</span> Danke. — Die Hose passt gut, aber sie ist ein bisschen zu lang.<br>
-        <span class="speaker">Verk&#xe4;ufer:</span> Kein Problem. Wir k&#xf6;nnen sie k&#xfc;rzen. Das kostet f&#xfc;nf Euro extra.<br>
-        <span class="speaker">Kunde:</span> Gut. Ich nehme sie. Wo kann ich bezahlen?<br>
-        <span class="speaker">Verk&#xe4;ufer:</span> Die Kasse ist dort dr&#xfc;ben, links neben dem Ausgang.
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3l">
+    <div class="ap-line"><span class="spk">Verk&#xe4;ufer:</span><span class="ap-text">Guten Tag! Kann ich Ihnen helfen?</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Ja, ich m&#xf6;chte diese Hose anprobieren. Haben Sie sie in Gr&#xf6;&#xdf;e L?</span></div>
+      <div class="ap-line"><span class="spk">Verk&#xe4;ufer:</span><span class="ap-text">Einen Moment bitte... Ja, hier ist die Hose in Gr&#xf6;&#xdf;e L. Die Umkleidekabinen sind rechts.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Danke. — Die Hose passt gut, aber sie ist ein bisschen zu lang.</span></div>
+      <div class="ap-line"><span class="spk">Verk&#xe4;ufer:</span><span class="ap-text">Kein Problem. Wir k&#xf6;nnen sie k&#xfc;rzen. Das kostet f&#xfc;nf Euro extra.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Gut. Ich nehme sie. Wo kann ich bezahlen?</span></div>
+      <div class="ap-line"><span class="spk">Verk&#xe4;ufer:</span><span class="ap-text">Die Kasse ist dort dr&#xfc;ben, links neben dem Ausgang.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3l"></div></div>
+    <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Guten Tag! Kann ich Ihnen helfen?',female:false},{text:'Ja, ich m&#xf6;chte diese Hose anprobieren. Haben Sie sie in Gr&#xf6;&#xdf;e L?',female:false},{text:'Einen Moment bitte... Ja, hier ist die Hose in Gr&#xf6;&#xdf;e L. Die Umkleidekabinen sind rechts.',female:false},{text:'Danke. — Die Hose passt gut, aber sie ist ein bisschen zu lang.',female:false},{text:'Kein Problem. Wir k&#xf6;nnen sie k&#xfc;rzen. Das kostet f&#xfc;nf Euro extra.',female:false},{text:'Gut. Ich nehme sie. Wo kann ich bezahlen?',female:false},{text:'Die Kasse ist dort dr&#xfc;ben, links neben dem Ausgang.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3l"></span>
+      <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Kunde কোন সাইজের প্যান্ট চান?</div>
@@ -1378,9 +1442,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">দোকানের মাঝখানে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1662,16 +1726,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 পোশাক বর্ণনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Mia:</span> Schau mal, ich habe heute zwei neue Sachen gekauft!<br>
-        <span class="speaker">Tom:</span> Oh, was denn?<br>
-        <span class="speaker">Mia:</span> Einen roten Pullover und eine schwarze Hose. Der Pullover ist so warm und bequem!<span class="speaker"> Tom:</span> Wie viel hat der rote Pullover gekostet?<br>
-        <span class="speaker">Mia:</span> Er hat dreißig Euro gekostet. Nicht teuer, oder? Und die schwarze Hose war auch billig — nur zwanzig Euro.<br>
-        <span class="speaker">Tom:</span> Toll! Ich brauche auch einen neuen Pullover. Meiner ist zu eng geworden.<br>
-        <span class="speaker">Mia:</span> Dann komm morgen mit mir shoppen! Das Gesch&#xe4;ft hat viele sch&#xf6;ne Sachen.
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4l">
+    <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Schau mal, ich habe heute zwei neue Sachen gekauft!</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Oh, was denn?</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Einen roten Pullover und eine schwarze Hose. Der Pullover ist so warm und bequem!</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wie viel hat der rote Pullover gekostet?</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Er hat dreißig Euro gekostet. Nicht teuer, oder? Und die schwarze Hose war auch billig — nur zwanzig Euro.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Toll! Ich brauche auch einen neuen Pullover. Meiner ist zu eng geworden.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Dann komm morgen mit mir shoppen! Das Gesch&#xe4;ft hat viele sch&#xf6;ne Sachen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4l"></div></div>
+    <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Schau mal, ich habe heute zwei neue Sachen gekauft!',female:true},{text:'Oh, was denn?',female:false},{text:'Einen roten Pullover und eine schwarze Hose. Der Pullover ist so warm und bequem!',female:true},{text:'Wie viel hat der rote Pullover gekostet?',female:false},{text:'Er hat dreißig Euro gekostet. Nicht teuer, oder? Und die schwarze Hose war auch billig — nur zwanzig Euro.',female:true},{text:'Toll! Ich brauche auch einen neuen Pullover. Meiner ist zu eng geworden.',female:false},{text:'Dann komm morgen mit mir shoppen! Das Gesch&#xe4;ft hat viele sch&#xf6;ne Sachen.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4l"></span>
+      <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Mia কী কী কিনেছে?</div>
@@ -1697,9 +1775,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">তারটা অনেক পুরনো</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1986,16 +2064,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 তুলনামূলক কথোপকথন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Sara:</span> Schau, ich habe zwei Kleider gefunden. Welches gef&#xe4;llt dir besser?<br>
-        <span class="speaker">Lena:</span> Das rote ist sch&#xf6;ner als das blaue, finde ich. Aber das blaue ist billiger.<br>
-        <span class="speaker">Sara:</span> Wie viel kostet das rote?<br>
-        <span class="speaker">Lena:</span> F&#xfc;nfundsechzig Euro. Das blaue kostet nur vierzig Euro.<br>
-        <span class="speaker">Sara:</span> Hmm. Das rote ist wirklich sch&#xf6;ner, aber auch viel teurer. Ich glaube, ich nehme das blaue.<br>
-        <span class="speaker">Lena:</span> Gute Entscheidung! Das blaue steht dir auch sehr gut.
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5l">
+    <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Schau, ich habe zwei Kleider gefunden. Welches gef&#xe4;llt dir besser?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Das rote ist sch&#xf6;ner als das blaue, finde ich. Aber das blaue ist billiger.</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Wie viel kostet das rote?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">F&#xfc;nfundsechzig Euro. Das blaue kostet nur vierzig Euro.</span></div>
+      <div class="ap-line"><span class="spk-f">Sara:</span><span class="ap-text">Hmm. Das rote ist wirklich sch&#xf6;ner, aber auch viel teurer. Ich glaube, ich nehme das blaue.</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Gute Entscheidung! Das blaue steht dir auch sehr gut.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5l"></div></div>
+    <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Schau, ich habe zwei Kleider gefunden. Welches gef&#xe4;llt dir besser?',female:true},{text:'Das rote ist sch&#xf6;ner als das blaue, finde ich. Aber das blaue ist billiger.',female:true},{text:'Wie viel kostet das rote?',female:true},{text:'F&#xfc;nfundsechzig Euro. Das blaue kostet nur vierzig Euro.',female:true},{text:'Hmm. Das rote ist wirklich sch&#xf6;ner, aber auch viel teurer. Ich glaube, ich nehme das blaue.',female:true},{text:'Gute Entscheidung! Das blaue steht dir auch sehr gut.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5l"></span>
+      <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Lena কোন ড্রেসটা বেশি সুন্দর মনে করে?</div>
@@ -2021,9 +2112,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">দুটোই</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -2301,17 +2392,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 ফ্যাশন নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Felix:</span> Kaufst du oft neue Kleidung?<br>
-        <span class="speaker">Aisha:</span> Nein, nicht so oft. Ich kaufe lieber Second-Hand, weil es nachhaltiger ist.<br>
-        <span class="speaker">Felix:</span> Interessant! Wo kaufst du Second-Hand?<br>
-        <span class="speaker">Aisha:</span> Meistens auf dem Flohmarkt oder in Second-Hand-L&#xe4;den. In Berlin gibt es viele davon.<br>
-        <span class="speaker">Felix:</span> Und findest du immer gute Sachen?<br>
-        <span class="speaker">Aisha:</span> Ja, manchmal! Letzte Woche habe ich eine tolle Lederjacke f&#xfc;r nur f&#xfc;nfzehn Euro gefunden. Neu h&#xe4;tte sie bestimmt hundert Euro gekostet!<br>
-        <span class="speaker">Felix:</span> Wow, das ist wirklich g&#xfc;nstig. Ich sollte auch mal einen Flohmarkt besuchen.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6l">
+    <div class="ap-line"><span class="spk">Felix:</span><span class="ap-text">Kaufst du oft neue Kleidung?</span></div>
+      <div class="ap-line"><span class="spk-f">Aisha:</span><span class="ap-text">Nein, nicht so oft. Ich kaufe lieber Second-Hand, weil es nachhaltiger ist.</span></div>
+      <div class="ap-line"><span class="spk">Felix:</span><span class="ap-text">Interessant! Wo kaufst du Second-Hand?</span></div>
+      <div class="ap-line"><span class="spk-f">Aisha:</span><span class="ap-text">Meistens auf dem Flohmarkt oder in Second-Hand-L&#xe4;den. In Berlin gibt es viele davon.</span></div>
+      <div class="ap-line"><span class="spk">Felix:</span><span class="ap-text">Und findest du immer gute Sachen?</span></div>
+      <div class="ap-line"><span class="spk-f">Aisha:</span><span class="ap-text">Ja, manchmal! Letzte Woche habe ich eine tolle Lederjacke f&#xfc;r nur f&#xfc;nfzehn Euro gefunden. Neu h&#xe4;tte sie bestimmt hundert Euro gekostet!</span></div>
+      <div class="ap-line"><span class="spk">Felix:</span><span class="ap-text">Wow, das ist wirklich g&#xfc;nstig. Ich sollte auch mal einen Flohmarkt besuchen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6l"></div></div>
+    <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Kaufst du oft neue Kleidung?',female:false},{text:'Nein, nicht so oft. Ich kaufe lieber Second-Hand, weil es nachhaltiger ist.',female:true},{text:'Interessant! Wo kaufst du Second-Hand?',female:false},{text:'Meistens auf dem Flohmarkt oder in Second-Hand-L&#xe4;den. In Berlin gibt es viele davon.',female:true},{text:'Und findest du immer gute Sachen?',female:false},{text:'Ja, manchmal! Letzte Woche habe ich eine tolle Lederjacke f&#xfc;r nur f&#xfc;nfzehn Euro gefunden. Neu h&#xe4;tte sie bestimmt hundert Euro gekostet!',female:true},{text:'Wow, das ist wirklich g&#xfc;nstig. Ich sollte auch mal einen Flohmarkt besuchen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6l"></span>
+      <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Aisha কেন Second-Hand কেনা পছন্দ করে?</div>
@@ -2337,9 +2441,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">একশো ইউরো</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -2626,20 +2730,33 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="content">
     <div class="listen-card">
       <div class="read-label">🎧 পণ্য ফেরতের কথোপকথন — সর্বোচ্চ ২ বার</div>
-      <div class="listen-script">
-        <span class="speaker">Kunde:</span> Guten Tag. Ich m&#xf6;chte diese Jacke zur&#xfc;ckgeben.<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Was ist das Problem?<br>
-        <span class="speaker">Kunde:</span> Sie passt leider nicht. Ich habe Gr&#xf6;&#xdf;e M gekauft, aber sie ist zu klein f&#xfc;r mich. Ich brauche Gr&#xf6;&#xdf;e L.<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Haben Sie den Kassenbon dabei?<br>
-        <span class="speaker">Kunde:</span> Ja, hier bitte. Ich habe die Jacke vor drei Tagen gekauft.<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Kein Problem. Wir k&#xf6;nnen sie in Gr&#xf6;&#xdf;e L umtauschen. Einen Moment bitte... Leider haben wir Gr&#xf6;&#xdf;e L gerade nicht auf Lager.<br>
-        <span class="speaker">Kunde:</span> Oh. Kann ich dann das Geld zur&#xfc;ckbekommen?<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Nat&#xfc;rlich. Wie haben Sie bezahlt — mit Karte oder bar?<br>
-        <span class="speaker">Kunde:</span> Mit Karte.<br>
-        <span class="speaker">Verk&#xe4;uferin:</span> Gut. Wir erstatten den Betrag direkt auf Ihre Karte.
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">🔊 কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7lplays">বাকি: ২ বার</div>
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7l">
+    <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Guten Tag. Ich m&#xf6;chte diese Jacke zur&#xfc;ckgeben.</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Was ist das Problem?</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Sie passt leider nicht. Ich habe Gr&#xf6;&#xdf;e M gekauft, aber sie ist zu klein f&#xfc;r mich. Ich brauche Gr&#xf6;&#xdf;e L.</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Haben Sie den Kassenbon dabei?</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Ja, hier bitte. Ich habe die Jacke vor drei Tagen gekauft.</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Kein Problem. Wir k&#xf6;nnen sie in Gr&#xf6;&#xdf;e L umtauschen. Einen Moment bitte... Leider haben wir Gr&#xf6;&#xdf;e L gerade nicht auf Lager.</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Oh. Kann ich dann das Geld zur&#xfc;ckbekommen?</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Nat&#xfc;rlich. Wie haben Sie bezahlt — mit Karte oder bar?</span></div>
+      <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Mit Karte.</span></div>
+      <div class="ap-line"><span class="spk-f">Verk&#xe4;uferin:</span><span class="ap-text">Gut. Wir erstatten den Betrag direkt auf Ihre Karte.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7l"></div></div>
+    <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Guten Tag. Ich m&#xf6;chte diese Jacke zur&#xfc;ckgeben.',female:false},{text:'Was ist das Problem?',female:true},{text:'Sie passt leider nicht. Ich habe Gr&#xf6;&#xdf;e M gekauft, aber sie ist zu klein f&#xfc;r mich. Ich brauche Gr&#xf6;&#xdf;e L.',female:false},{text:'Haben Sie den Kassenbon dabei?',female:true},{text:'Ja, hier bitte. Ich habe die Jacke vor drei Tagen gekauft.',female:false},{text:'Kein Problem. Wir k&#xf6;nnen sie in Gr&#xf6;&#xdf;e L umtauschen. Einen Moment bitte... Leider haben wir Gr&#xf6;&#xdf;e L gerade nicht auf Lager.',female:true},{text:'Oh. Kann ich dann das Geld zur&#xfc;ckbekommen?',female:false},{text:'Nat&#xfc;rlich. Wie haben Sie bezahlt — mit Karte oder bar?',female:true},{text:'Mit Karte.',female:false},{text:'Gut. Wir erstatten den Betrag direkt auf Ihre Karte.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7l"></span>
+      <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q">
       <div class="listen-q-t">১. Kunde কেন জ্যাকেট ফেরত দিতে চান?</div>
@@ -2665,9 +2782,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">ভাউচার হিসেবে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2911,6 +3028,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+
+var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
@@ -3030,13 +3150,70 @@ function makeListenPlayer(id,script){
     addXP(2);
   };
 }
-var playL1listen=makeListenPlayer('l1l','Was trägst du heute? Ich trage ein blaues Hemd und eine schwarze Hose. Das sieht toll aus! Und deine Jacke? Die Jacke ist neu. Ich habe sie gestern gekauft. Wo hast du sie gekauft? Im Kaufhaus in der Stadtmitte. Sie hat fünfzig Euro gekostet.');
-var playL2listen=makeListenPlayer('l2l','Kann ich Ihnen helfen? Ja, ich suche eine Jacke in Blau oder Grün. Welche Größe haben Sie? Größe M, bitte. Diese blaue Jacke hier ist sehr schön. Und sie ist im Angebot — nur vierzig Euro. Oh, die gefällt mir! Kann ich sie anprobieren? Natürlich! Die Umkleidekabinen sind dort drüben.');
-var playL3listen=makeListenPlayer('l3l','Guten Tag! Kann ich Ihnen helfen? Ja, ich möchte diese Hose anprobieren. Haben Sie sie in Größe L? Einen Moment bitte. Ja, hier ist die Hose in Größe L. Die Umkleidekabinen sind rechts. Die Hose passt gut, aber sie ist ein bisschen zu lang. Kein Problem. Das kostet fünf Euro extra. Gut. Ich nehme sie. Wo kann ich bezahlen? Die Kasse ist dort drüben, links neben dem Ausgang.');
-var playL4listen=makeListenPlayer('l4l','Schau mal, ich habe heute zwei neue Sachen gekauft! Was denn? Einen roten Pullover und eine schwarze Hose. Der Pullover ist so warm und bequem! Wie viel hat der rote Pullover gekostet? Er hat dreißig Euro gekostet. Nicht teuer, oder? Und die schwarze Hose war auch billig — nur zwanzig Euro.');
-var playL5listen=makeListenPlayer('l5l','Schau, ich habe zwei Kleider gefunden. Welches gefällt dir besser? Das rote ist schöner als das blaue, finde ich. Aber das blaue ist billiger. Wie viel kostet das rote? Fünfundsechzig Euro. Das blaue kostet nur vierzig Euro. Hmm. Das rote ist wirklich schöner, aber auch viel teurer. Ich glaube, ich nehme das blaue. Gute Entscheidung!');
-var playL6listen=makeListenPlayer('l6l','Kaufst du oft neue Kleidung? Nein, nicht so oft. Ich kaufe lieber Second-Hand, weil es nachhaltiger ist. Interessant! Wo kaufst du Second-Hand? Meistens auf dem Flohmarkt oder in Second-Hand-Läden. Letzte Woche habe ich eine tolle Lederjacke für nur fünfzehn Euro gefunden.');
-var playL7listen=makeListenPlayer('l7l','Guten Tag. Ich möchte diese Jacke zurückgeben. Was ist das Problem? Sie passt leider nicht. Ich habe Größe M gekauft, aber sie ist zu klein. Ich brauche Größe L. Haben Sie den Kassenbon dabei? Ja, hier bitte. Leider haben wir Größe L gerade nicht auf Lager. Kann ich dann das Geld zurückbekommen? Natürlich. Wir erstatten den Betrag direkt auf Ihre Karte.');
+var playL1listen=makeGenderedPlayer('l1l',[
+    {speaker:'Lena',text:'Was tr&#xe4;gst du heute?',female:true},
+    {speaker:'Ali',text:'Ich trage ein blaues Hemd und eine schwarze Hose.',female:false},
+    {speaker:'Lena',text:'Das sieht toll aus! Und deine Jacke?',female:true},
+    {speaker:'Ali',text:'Die Jacke ist neu. Ich habe sie gestern gekauft.',female:false},
+    {speaker:'Lena',text:'Wo hast du sie gekauft?',female:true},
+    {speaker:'Ali',text:'Im Kaufhaus in der Stadtmitte. Sie hat f&#xfc;nfzig Euro gekostet.',female:false}
+  ]);
+var playL2listen=makeGenderedPlayer('l2l',[
+    {speaker:'Verk&#xe4;uferin',text:'Kann ich Ihnen helfen?',female:true},
+    {speaker:'Kundin',text:'Ja, ich suche eine Jacke in Blau oder Gr&#xfc;n.',female:true},
+    {speaker:'Verk&#xe4;uferin',text:'Welche Gr&#xf6;&#xdf;e haben Sie?',female:true},
+    {speaker:'Kundin',text:'Gr&#xf6;&#xdf;e M, bitte. Manchmal auch L.',female:true},
+    {speaker:'Verk&#xe4;uferin',text:'Diese blaue Jacke hier ist sehr sch&#xf6;n. Und sie ist im Angebot — nur vierzig Euro.',female:true},
+    {speaker:'Kundin',text:'Oh, die gef&#xe4;llt mir! Kann ich sie anprobieren?',female:true},
+    {speaker:'Verk&#xe4;uferin',text:'Nat&#xfc;rlich! Die Umkleidekabinen sind dort dr&#xfc;ben.',female:true}
+  ]);
+var playL3listen=makeGenderedPlayer('l3l',[
+    {speaker:'Verk&#xe4;ufer',text:'Guten Tag! Kann ich Ihnen helfen?',female:false},
+    {speaker:'Kunde',text:'Ja, ich m&#xf6;chte diese Hose anprobieren. Haben Sie sie in Gr&#xf6;&#xdf;e L?',female:false},
+    {speaker:'Verk&#xe4;ufer',text:'Einen Moment bitte... Ja, hier ist die Hose in Gr&#xf6;&#xdf;e L. Die Umkleidekabinen sind rechts.',female:false},
+    {speaker:'Kunde',text:'Danke. — Die Hose passt gut, aber sie ist ein bisschen zu lang.',female:false},
+    {speaker:'Verk&#xe4;ufer',text:'Kein Problem. Wir k&#xf6;nnen sie k&#xfc;rzen. Das kostet f&#xfc;nf Euro extra.',female:false},
+    {speaker:'Kunde',text:'Gut. Ich nehme sie. Wo kann ich bezahlen?',female:false},
+    {speaker:'Verk&#xe4;ufer',text:'Die Kasse ist dort dr&#xfc;ben, links neben dem Ausgang.',female:false}
+  ]);
+var playL4listen=makeGenderedPlayer('l4l',[
+    {speaker:'Mia',text:'Schau mal, ich habe heute zwei neue Sachen gekauft!',female:true},
+    {speaker:'Tom',text:'Oh, was denn?',female:false},
+    {speaker:'Mia',text:'Einen roten Pullover und eine schwarze Hose. Der Pullover ist so warm und bequem!',female:true},
+    {speaker:'Tom',text:'Wie viel hat der rote Pullover gekostet?',female:false},
+    {speaker:'Mia',text:'Er hat dreißig Euro gekostet. Nicht teuer, oder? Und die schwarze Hose war auch billig — nur zwanzig Euro.',female:true},
+    {speaker:'Tom',text:'Toll! Ich brauche auch einen neuen Pullover. Meiner ist zu eng geworden.',female:false},
+    {speaker:'Mia',text:'Dann komm morgen mit mir shoppen! Das Gesch&#xe4;ft hat viele sch&#xf6;ne Sachen.',female:true}
+  ]);
+var playL5listen=makeGenderedPlayer('l5l',[
+    {speaker:'Sara',text:'Schau, ich habe zwei Kleider gefunden. Welches gef&#xe4;llt dir besser?',female:true},
+    {speaker:'Lena',text:'Das rote ist sch&#xf6;ner als das blaue, finde ich. Aber das blaue ist billiger.',female:true},
+    {speaker:'Sara',text:'Wie viel kostet das rote?',female:true},
+    {speaker:'Lena',text:'F&#xfc;nfundsechzig Euro. Das blaue kostet nur vierzig Euro.',female:true},
+    {speaker:'Sara',text:'Hmm. Das rote ist wirklich sch&#xf6;ner, aber auch viel teurer. Ich glaube, ich nehme das blaue.',female:true},
+    {speaker:'Lena',text:'Gute Entscheidung! Das blaue steht dir auch sehr gut.',female:true}
+  ]);
+var playL6listen=makeGenderedPlayer('l6l',[
+    {speaker:'Felix',text:'Kaufst du oft neue Kleidung?',female:false},
+    {speaker:'Aisha',text:'Nein, nicht so oft. Ich kaufe lieber Second-Hand, weil es nachhaltiger ist.',female:true},
+    {speaker:'Felix',text:'Interessant! Wo kaufst du Second-Hand?',female:false},
+    {speaker:'Aisha',text:'Meistens auf dem Flohmarkt oder in Second-Hand-L&#xe4;den. In Berlin gibt es viele davon.',female:true},
+    {speaker:'Felix',text:'Und findest du immer gute Sachen?',female:false},
+    {speaker:'Aisha',text:'Ja, manchmal! Letzte Woche habe ich eine tolle Lederjacke f&#xfc;r nur f&#xfc;nfzehn Euro gefunden. Neu h&#xe4;tte sie bestimmt hundert Euro gekostet!',female:true},
+    {speaker:'Felix',text:'Wow, das ist wirklich g&#xfc;nstig. Ich sollte auch mal einen Flohmarkt besuchen.',female:false}
+  ]);
+var playL7listen=makeGenderedPlayer('l7l',[
+    {speaker:'Kunde',text:'Guten Tag. Ich m&#xf6;chte diese Jacke zur&#xfc;ckgeben.',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Was ist das Problem?',female:true},
+    {speaker:'Kunde',text:'Sie passt leider nicht. Ich habe Gr&#xf6;&#xdf;e M gekauft, aber sie ist zu klein f&#xfc;r mich. Ich brauche Gr&#xf6;&#xdf;e L.',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Haben Sie den Kassenbon dabei?',female:true},
+    {speaker:'Kunde',text:'Ja, hier bitte. Ich habe die Jacke vor drei Tagen gekauft.',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Kein Problem. Wir k&#xf6;nnen sie in Gr&#xf6;&#xdf;e L umtauschen. Einen Moment bitte... Leider haben wir Gr&#xf6;&#xdf;e L gerade nicht auf Lager.',female:true},
+    {speaker:'Kunde',text:'Oh. Kann ich dann das Geld zur&#xfc;ckbekommen?',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Nat&#xfc;rlich. Wie haben Sie bezahlt — mit Karte oder bar?',female:true},
+    {speaker:'Kunde',text:'Mit Karte.',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Gut. Wir erstatten den Betrag direkt auf Ihre Karte.',female:true}
+  ]);
 
 // ===== LISTENING MCQ =====
 function ansListen(btn,result){
@@ -3672,6 +3849,269 @@ function updateNavBtns() {
   for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
 }
+
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
 
 </script>
 </body>
