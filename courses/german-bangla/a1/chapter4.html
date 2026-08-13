@@ -240,6 +240,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+/* ===== AUDIO PLAYER ===== */
+.audio-player{background:var(--black);border-radius:14px;padding:14px;margin-bottom:13px}
+.ap-script{margin-bottom:12px}
+.ap-line{display:flex;gap:8px;padding:5px 7px;border-radius:7px;transition:background .2s;align-items:flex-start}
+.ap-line.active{background:rgba(232,183,42,.18);border-left:3px solid var(--gold)}
+.ap-line .spk{color:var(--gold);font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .spk-f{color:#f9a8d4;font-weight:700;font-size:.78rem;white-space:nowrap;min-width:60px;margin-top:2px}
+.ap-line .ap-text{color:rgba(255,255,255,.85);font-size:.86rem;line-height:1.55}
+.ap-progress-wrap{margin:10px 0 8px}
+.ap-progress-bar{width:100%;height:5px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;cursor:pointer}
+.ap-progress-fill{height:100%;background:var(--gold);border-radius:3px;width:0%;transition:width .3s linear}
+.ap-time{display:flex;justify-content:space-between;font-size:.68rem;color:rgba(255,255,255,.4);margin-top:4px;font-variant-numeric:tabular-nums}
+.ap-controls{display:flex;align-items:center;gap:10px;margin-top:10px}
+.ap-btn{border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .15s,background .18s;flex-shrink:0}
+.ap-btn-play{background:var(--gold);color:var(--black)}
+.ap-btn-play:hover{background:var(--gold-l);transform:scale(1.08)}
+.ap-btn-stop{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7)}
+.ap-btn-stop:hover{background:rgba(255,255,255,.2)}
+.ap-btn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ap-meta{flex:1;display:flex;flex-direction:column;gap:2px}
+.ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
+.ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
+
 </style>
 </head>
 <body>
@@ -560,16 +583,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="ph"><div class="ph-eye">অধ্যায় ৪ · পাঠ ১</div><div class="ph-title">শ্রবণ</div><div class="ph-bn">শুনুন ও বুঝুন</div></div>
   <div class="content">
     <div class="listen-card">
-      <div class="listen-script">
-        <span class="speaker">Tom:</span> Was machst du in deiner Freizeit?<br>
-        <span class="speaker">Leila:</span> Ich mache sehr gern Sport. Ich schwimme dreimal pro Woche und spiele auch Volleyball.<br>
-        <span class="speaker">Tom:</span> Wow, du bist sehr aktiv! Ich bin lieber zu Hause. Ich lese gern und höre Musik.<br>
-        <span class="speaker">Leila:</span> Was für Musik magst du?<br>
-        <span class="speaker">Tom:</span> Ich höre am liebsten Jazz. Und du? Hast du noch andere Hobbys?<br>
-        <span class="speaker">Leila:</span> Ja! Ich fotografiere gern. Ich mache Fotos von der Natur — Blumen, Tiere, Landschaften.
-      </div>
-      <button class="listen-btn" onclick="playL1listen(this)">&#x1f3b5; কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l1llplays">বাকি: ২ বার</div>
+      
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l1ll">
+    <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Was machst du in deiner Freizeit?</span></div>
+      <div class="ap-line"><span class="spk-f">Leila:</span><span class="ap-text">Ich mache sehr gern Sport. Ich schwimme dreimal pro Woche und spiele auch Volleyball.</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wow, du bist sehr aktiv! Ich bin lieber zu Hause. Ich lese gern und höre Musik.</span></div>
+      <div class="ap-line"><span class="spk-f">Leila:</span><span class="ap-text">Was für Musik magst du?</span></div>
+      <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ich höre am liebsten Jazz. Und du? Hast du noch andere Hobbys?</span></div>
+      <div class="ap-line"><span class="spk-f">Leila:</span><span class="ap-text">Ja! Ich fotografiere gern. Ich mache Fotos von der Natur — Blumen, Tiere, Landschaften.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l1ll"></div></div>
+    <div class="ap-time"><span id="aptime-l1ll">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l1ll" onclick="apTogglePlay('l1ll',[{text:'Was machst du in deiner Freizeit?',female:false},{text:'Ich mache sehr gern Sport. Ich schwimme dreimal pro Woche und spiele auch Volleyball.',female:true},{text:'Wow, du bist sehr aktiv! Ich bin lieber zu Hause. Ich lese gern und höre Musik.',female:false},{text:'Was für Musik magst du?',female:true},{text:'Ich höre am liebsten Jazz. Und du? Hast du noch andere Hobbys?',female:false},{text:'Ja! Ich fotografiere gern. Ich mache Fotos von der Natur — Blumen, Tiere, Landschaften.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1ll')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l1ll"></span>
+      <span class="ap-plays-left" id="applays-l1ll">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q"><div class="listen-q-t">১. Leila সপ্তাহে কতবার সাঁতার কাটেন?</div>
       <div class="listen-opts">
@@ -592,9 +629,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">শহরের</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L1 READING -->
@@ -793,16 +830,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="ph"><div class="ph-eye">অধ্যায় ৪ · পাঠ ২</div><div class="ph-title">শ্রবণ</div><div class="ph-bn">শুনুন ও বুঝুন</div></div>
   <div class="content">
     <div class="listen-card">
-      <div class="listen-script">
-        <span class="speaker">Interviewer:</span> Guten Tag! Was sind Sie von Beruf?<br>
-        <span class="speaker">Fatima:</span> Ich bin Ingenieurin. Ich arbeite bei einer Firma in München.<br>
-        <span class="speaker">Interviewer:</span> Was machen Sie genau?<br>
-        <span class="speaker">Fatima:</span> Ich entwickle Software für Autos. Das ist sehr interessant!<br>
-        <span class="speaker">Interviewer:</span> Wie viele Stunden arbeiten Sie pro Woche?<br>
-        <span class="speaker">Fatima:</span> Normalerweise vierzig Stunden, manchmal auch mehr. Aber ich mag meinen Job sehr — die Kollegen sind nett und das Gehalt ist gut.
-      </div>
-      <button class="listen-btn" onclick="playL2listen(this)">&#x1f3b5; কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l2llplays">বাকি: ২ বার</div>
+      
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l2ll">
+    <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Guten Tag! Was sind Sie von Beruf?</span></div>
+      <div class="ap-line"><span class="spk-f">Fatima:</span><span class="ap-text">Ich bin Ingenieurin. Ich arbeite bei einer Firma in München.</span></div>
+      <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Was machen Sie genau?</span></div>
+      <div class="ap-line"><span class="spk-f">Fatima:</span><span class="ap-text">Ich entwickle Software für Autos. Das ist sehr interessant!</span></div>
+      <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Wie viele Stunden arbeiten Sie pro Woche?</span></div>
+      <div class="ap-line"><span class="spk-f">Fatima:</span><span class="ap-text">Normalerweise vierzig Stunden, manchmal auch mehr. Aber ich mag meinen Job sehr — die Kollegen sind nett und das Gehalt ist gut.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l2ll"></div></div>
+    <div class="ap-time"><span id="aptime-l2ll">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l2ll" onclick="apTogglePlay('l2ll',[{text:'Guten Tag! Was sind Sie von Beruf?',female:false},{text:'Ich bin Ingenieurin. Ich arbeite bei einer Firma in München.',female:true},{text:'Was machen Sie genau?',female:false},{text:'Ich entwickle Software für Autos. Das ist sehr interessant!',female:true},{text:'Wie viele Stunden arbeiten Sie pro Woche?',female:false},{text:'Normalerweise vierzig Stunden, manchmal auch mehr. Aber ich mag meinen Job sehr — die Kollegen sind nett und das Gehalt ist gut.',female:true}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2ll')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l2ll"></span>
+      <span class="ap-plays-left" id="applays-l2ll">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q"><div class="listen-q-t">১. Fatima কোন পেশায় কাজ করেন?</div>
       <div class="listen-opts">
@@ -825,9 +876,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'correct')">চল্লিশ ঘণ্টা</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L2 READING -->
@@ -1009,16 +1060,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="ph"><div class="ph-eye">অধ্যায় ৪ · পাঠ ৩</div><div class="ph-title">শ্রবণ</div><div class="ph-bn">শুনুন ও বুঝুন</div></div>
   <div class="content">
     <div class="listen-card">
-      <div class="listen-script">
-        <span class="speaker">Lena:</span> Hallo Nico! Hast du am Samstag Zeit?<br>
-        <span class="speaker">Nico:</span> Ja, ich glaube schon. Was hast du vor?<br>
-        <span class="speaker">Lena:</span> Ich will einen Ausflug nach Potsdam machen. Magst du mitkommen?<br>
-        <span class="speaker">Nico:</span> Gute Idee! Ich war noch nie in Potsdam. Wann wollen wir fahren?<br>
-        <span class="speaker">Lena:</span> Ich dachte so um zehn Uhr morgens. Wir können mit dem Zug fahren — das dauert nur dreißig Minuten.<br>
-        <span class="speaker">Nico:</span> Perfekt! Ich freue mich schon. Sollen wir auch ein Picknick mitnehmen?
-      </div>
-      <button class="listen-btn" onclick="playL3listen(this)">&#x1f3b5; কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l3llplays">বাকি: ২ বার</div>
+      
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l3ll">
+    <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Hallo Nico! Hast du am Samstag Zeit?</span></div>
+      <div class="ap-line"><span class="spk">Nico:</span><span class="ap-text">Ja, ich glaube schon. Was hast du vor?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich will einen Ausflug nach Potsdam machen. Magst du mitkommen?</span></div>
+      <div class="ap-line"><span class="spk">Nico:</span><span class="ap-text">Gute Idee! Ich war noch nie in Potsdam. Wann wollen wir fahren?</span></div>
+      <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Ich dachte so um zehn Uhr morgens. Wir können mit dem Zug fahren — das dauert nur dreißig Minuten.</span></div>
+      <div class="ap-line"><span class="spk">Nico:</span><span class="ap-text">Perfekt! Ich freue mich schon. Sollen wir auch ein Picknick mitnehmen?</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l3ll"></div></div>
+    <div class="ap-time"><span id="aptime-l3ll">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l3ll" onclick="apTogglePlay('l3ll',[{text:'Hallo Nico! Hast du am Samstag Zeit?',female:true},{text:'Ja, ich glaube schon. Was hast du vor?',female:false},{text:'Ich will einen Ausflug nach Potsdam machen. Magst du mitkommen?',female:true},{text:'Gute Idee! Ich war noch nie in Potsdam. Wann wollen wir fahren?',female:false},{text:'Ich dachte so um zehn Uhr morgens. Wir können mit dem Zug fahren — das dauert nur dreißig Minuten.',female:true},{text:'Perfekt! Ich freue mich schon. Sollen wir auch ein Picknick mitnehmen?',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3ll')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l3ll"></span>
+      <span class="ap-plays-left" id="applays-l3ll">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q"><div class="listen-q-t">১. Lena কোথায় যেতে চান?</div>
       <div class="listen-opts">
@@ -1041,9 +1106,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">এক ঘণ্টা</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L3 READING -->
@@ -1232,15 +1297,29 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="ph"><div class="ph-eye">অধ্যায় ৪ · পাঠ ৪</div><div class="ph-title">শ্রবণ</div><div class="ph-bn">শুনুন ও বুঝুন</div></div>
   <div class="content">
     <div class="listen-card">
-      <div class="listen-script">
-        <span class="speaker">Chef:</span> Guten Morgen! Kannst du heute Überstunden machen?<br>
-        <span class="speaker">Ana:</span> Tut mir leid, ich kann heute nicht. Ich muss zum Arzt gehen.<br>
-        <span class="speaker">Chef:</span> Kein Problem. Kannst du morgen früher kommen?<br>
-        <span class="speaker">Ana:</span> Ja, das kann ich. Ich kann um acht Uhr da sein. Darf ich aber um vier Uhr gehen? Ich muss mein Kind vom Kindergarten abholen.<br>
-        <span class="speaker">Chef:</span> Natürlich darfst du das. Kinder kommen immer zuerst!
-      </div>
-      <button class="listen-btn" onclick="playL4listen(this)">&#x1f3b5; কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l4llplays">বাকি: ২ বার</div>
+      
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l4ll">
+    <div class="ap-line"><span class="spk">Chef:</span><span class="ap-text">Guten Morgen! Kannst du heute Überstunden machen?</span></div>
+      <div class="ap-line"><span class="spk-f">Ana:</span><span class="ap-text">Tut mir leid, ich kann heute nicht. Ich muss zum Arzt gehen.</span></div>
+      <div class="ap-line"><span class="spk">Chef:</span><span class="ap-text">Kein Problem. Kannst du morgen früher kommen?</span></div>
+      <div class="ap-line"><span class="spk-f">Ana:</span><span class="ap-text">Ja, das kann ich. Ich kann um acht Uhr da sein. Darf ich aber um vier Uhr gehen? Ich muss mein Kind vom Kindergarten abholen.</span></div>
+      <div class="ap-line"><span class="spk">Chef:</span><span class="ap-text">Natürlich darfst du das. Kinder kommen immer zuerst!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l4ll"></div></div>
+    <div class="ap-time"><span id="aptime-l4ll">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l4ll" onclick="apTogglePlay('l4ll',[{text:'Guten Morgen! Kannst du heute Überstunden machen?',female:false},{text:'Tut mir leid, ich kann heute nicht. Ich muss zum Arzt gehen.',female:true},{text:'Kein Problem. Kannst du morgen früher kommen?',female:false},{text:'Ja, das kann ich. Ich kann um acht Uhr da sein. Darf ich aber um vier Uhr gehen? Ich muss mein Kind vom Kindergarten abholen.',female:true},{text:'Natürlich darfst du das. Kinder kommen immer zuerst!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4ll')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l4ll"></span>
+      <span class="ap-plays-left" id="applays-l4ll">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q"><div class="listen-q-t">১. Ana আজ কেন অতিরিক্ত কাজ করতে পারবেন না?</div>
       <div class="listen-opts">
@@ -1263,9 +1342,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">কেনাকাটা করতে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L4 READING -->
@@ -1464,16 +1543,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="ph"><div class="ph-eye">অধ্যায় ৪ · পাঠ ৫</div><div class="ph-title">শ্রবণ</div><div class="ph-bn">শুনুন ও বুঝুন</div></div>
   <div class="content">
     <div class="listen-card">
-      <div class="listen-script">
-        <span class="speaker">Sarah:</span> Ich brauche einen neuen Laptop. Kannst du mir helfen?<br>
-        <span class="speaker">Tim:</span> Natürlich! Was suchst du genau?<br>
-        <span class="speaker">Sarah:</span> Ich möchte einen leichten Laptop mit einem großen Bildschirm.<br>
-        <span class="speaker">Tim:</span> Hast du ein Budget? Ein guter Laptop kostet mindestens sechshundert Euro.<br>
-        <span class="speaker">Sarah:</span> Ich habe etwa achthundert Euro. Ich sehe dort einen Laptop — ist das ein gutes Modell?<br>
-        <span class="speaker">Tim:</span> Ja, den kenne ich. Den empfehle ich dir — er hat einen schnellen Prozessor und eine lange Akkulaufzeit.
-      </div>
-      <button class="listen-btn" onclick="playL5listen(this)">&#x1f3b5; কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l5llplays">বাকি: ২ বার</div>
+      
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l5ll">
+    <div class="ap-line"><span class="spk-f">Sarah:</span><span class="ap-text">Ich brauche einen neuen Laptop. Kannst du mir helfen?</span></div>
+      <div class="ap-line"><span class="spk">Tim:</span><span class="ap-text">Natürlich! Was suchst du genau?</span></div>
+      <div class="ap-line"><span class="spk-f">Sarah:</span><span class="ap-text">Ich möchte einen leichten Laptop mit einem großen Bildschirm.</span></div>
+      <div class="ap-line"><span class="spk">Tim:</span><span class="ap-text">Hast du ein Budget? Ein guter Laptop kostet mindestens sechshundert Euro.</span></div>
+      <div class="ap-line"><span class="spk-f">Sarah:</span><span class="ap-text">Ich habe etwa achthundert Euro. Ich sehe dort einen Laptop — ist das ein gutes Modell?</span></div>
+      <div class="ap-line"><span class="spk">Tim:</span><span class="ap-text">Ja, den kenne ich. Den empfehle ich dir — er hat einen schnellen Prozessor und eine lange Akkulaufzeit.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l5ll"></div></div>
+    <div class="ap-time"><span id="aptime-l5ll">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l5ll" onclick="apTogglePlay('l5ll',[{text:'Ich brauche einen neuen Laptop. Kannst du mir helfen?',female:true},{text:'Natürlich! Was suchst du genau?',female:false},{text:'Ich möchte einen leichten Laptop mit einem großen Bildschirm.',female:true},{text:'Hast du ein Budget? Ein guter Laptop kostet mindestens sechshundert Euro.',female:false},{text:'Ich habe etwa achthundert Euro. Ich sehe dort einen Laptop — ist das ein gutes Modell?',female:true},{text:'Ja, den kenne ich. Den empfehle ich dir — er hat einen schnellen Prozessor und eine lange Akkulaufzeit.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5ll')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l5ll"></span>
+      <span class="ap-plays-left" id="applays-l5ll">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q"><div class="listen-q-t">১. Sarah কী কিনতে চান?</div>
       <div class="listen-opts">
@@ -1496,9 +1589,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">Dativ</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L5 READING -->
@@ -1684,16 +1777,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="ph"><div class="ph-eye">অধ্যায় ৪ · পাঠ ৬</div><div class="ph-title">শ্রবণ</div><div class="ph-bn">শুনুন ও বুঝুন</div></div>
   <div class="content">
     <div class="listen-card">
-      <div class="listen-script">
-        <span class="speaker">Mia:</span> Möchtest du heute Abend ins Kino gehen?<br>
-        <span class="speaker">Jonas:</span> Leider nicht — ich habe keine Zeit. Ich muss noch für die Prüfung lernen.<br>
-        <span class="speaker">Mia:</span> Oh schade! Hast du kein Interesse an dem Film?<br>
-        <span class="speaker">Jonas:</span> Doch, der Film interessiert mich sehr. Aber ich kann nicht — ich bin nicht fertig mit dem Lernstoff.<br>
-        <span class="speaker">Mia:</span> Kein Problem. Wir können auch nächste Woche gehen. Ist das nicht besser?<br>
-        <span class="speaker">Jonas:</span> Ja, das ist viel besser! Dann habe ich keine Prüfung mehr und kann entspannen.
-      </div>
-      <button class="listen-btn" onclick="playL6listen(this)">&#x1f3b5; কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l6llplays">বাকি: ২ বার</div>
+      
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l6ll">
+    <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Möchtest du heute Abend ins Kino gehen?</span></div>
+      <div class="ap-line"><span class="spk">Jonas:</span><span class="ap-text">Leider nicht — ich habe keine Zeit. Ich muss noch für die Prüfung lernen.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Oh schade! Hast du kein Interesse an dem Film?</span></div>
+      <div class="ap-line"><span class="spk">Jonas:</span><span class="ap-text">Doch, der Film interessiert mich sehr. Aber ich kann nicht — ich bin nicht fertig mit dem Lernstoff.</span></div>
+      <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Kein Problem. Wir können auch nächste Woche gehen. Ist das nicht besser?</span></div>
+      <div class="ap-line"><span class="spk">Jonas:</span><span class="ap-text">Ja, das ist viel besser! Dann habe ich keine Prüfung mehr und kann entspannen.</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l6ll"></div></div>
+    <div class="ap-time"><span id="aptime-l6ll">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l6ll" onclick="apTogglePlay('l6ll',[{text:'Möchtest du heute Abend ins Kino gehen?',female:true},{text:'Leider nicht — ich habe keine Zeit. Ich muss noch für die Prüfung lernen.',female:false},{text:'Oh schade! Hast du kein Interesse an dem Film?',female:true},{text:'Doch, der Film interessiert mich sehr. Aber ich kann nicht — ich bin nicht fertig mit dem Lernstoff.',female:false},{text:'Kein Problem. Wir können auch nächste Woche gehen. Ist das nicht besser?',female:true},{text:'Ja, das ist viel besser! Dann habe ich keine Prüfung mehr und kann entspannen.',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6ll')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l6ll"></span>
+      <span class="ap-plays-left" id="applays-l6ll">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q"><div class="listen-q-t">১. Jonas কেন সিনেমায় যেতে পারছেন না?</div>
       <div class="listen-opts">
@@ -1716,9 +1823,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'wrong')">পরের মাসে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L6 READING -->
@@ -1919,16 +2026,30 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="ph"><div class="ph-eye">অধ্যায় ৪ · পাঠ ৭</div><div class="ph-title">শ্রবণ</div><div class="ph-bn">শুনুন ও বুঝুন</div></div>
   <div class="content">
     <div class="listen-card">
-      <div class="listen-script">
-        <span class="speaker">Lea:</span> Wie war dein Wochenende?<br>
-        <span class="speaker">Max:</span> Super! Ich bin am Samstag nach Dresden gefahren und habe die Altstadt besucht.<br>
-        <span class="speaker">Lea:</span> Oh schön! Was hast du dort gemacht?<br>
-        <span class="speaker">Max:</span> Ich habe viele Fotos gemacht und ein leckeres Essen gegessen. Abends bin ich ins Konzert gegangen — ein Jazzkonzert im alten Rathaus!<br>
-        <span class="speaker">Lea:</span> Toll! Wann bist du zurückgekommen?<br>
-        <span class="speaker">Max:</span> Ich bin Sonntagnacht spät nach Hause gefahren. Ich bin erst um Mitternacht angekommen — aber es war es wert!
-      </div>
-      <button class="listen-btn" onclick="playL7listen(this)">&#x1f3b5; কথোপকথন শুনুন</button>
-      <div class="listen-plays" id="l7llplays">বাকি: ২ বার</div>
+      
+      <div class="audio-player">
+  <div class="ap-script" id="apscript-l7ll">
+    <div class="ap-line"><span class="spk-f">Lea:</span><span class="ap-text">Wie war dein Wochenende?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Super! Ich bin am Samstag nach Dresden gefahren und habe die Altstadt besucht.</span></div>
+      <div class="ap-line"><span class="spk-f">Lea:</span><span class="ap-text">Oh schön! Was hast du dort gemacht?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ich habe viele Fotos gemacht und ein leckeres Essen gegessen. Abends bin ich ins Konzert gegangen — ein Jazzkonzert im alten Rathaus!</span></div>
+      <div class="ap-line"><span class="spk-f">Lea:</span><span class="ap-text">Toll! Wann bist du zurückgekommen?</span></div>
+      <div class="ap-line"><span class="spk">Max:</span><span class="ap-text">Ich bin Sonntagnacht spät nach Hause gefahren. Ich bin erst um Mitternacht angekommen — aber es war es wert!</span></div>
+  </div>
+  <div class="ap-progress-wrap">
+    <div class="ap-progress-bar"><div class="ap-progress-fill" id="appfill-l7ll"></div></div>
+    <div class="ap-time"><span id="aptime-l7ll">0:00 / 0:00</span></div>
+  </div>
+  <div class="ap-controls">
+    <button class="ap-btn ap-btn-play" id="appbtn-l7ll" onclick="apTogglePlay('l7ll',[{text:'Wie war dein Wochenende?',female:true},{text:'Super! Ich bin am Samstag nach Dresden gefahren und habe die Altstadt besucht.',female:false},{text:'Oh schön! Was hast du dort gemacht?',female:true},{text:'Ich habe viele Fotos gemacht und ein leckeres Essen gegessen. Abends bin ich ins Konzert gegangen — ein Jazzkonzert im alten Rathaus!',female:false},{text:'Toll! Wann bist du zurückgekommen?',female:true},{text:'Ich bin Sonntagnacht spät nach Hause gefahren. Ich bin erst um Mitternacht angekommen — aber es war es wert!',female:false}])">&#x25b6;</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7ll')" title="থামুন">&#x23f9;</button>
+    <div class="ap-meta">
+      <span class="ap-line-counter" id="apctr-l7ll"></span>
+      <span class="ap-plays-left" id="applays-l7ll">সর্বোচ্চ ২ বার</span>
+    </div>
+  </div>
+</div>
+    </div>
     </div>
     <div class="listen-q"><div class="listen-q-t">১. Max সপ্তাহান্তে কোথায় গিয়েছিলেন?</div>
       <div class="listen-opts">
@@ -1951,9 +2072,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <button class="listen-opt" onclick="ansListen(this,'correct')">মধ্যরাতে</button>
       </div>
     </div>
-  </div>
-
+  
   <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+</div>
 </div>
 
 <!-- L7 READING -->
@@ -2246,13 +2367,75 @@ function playListen(id, lines, btnEl, playsId) {
   function next() { if (i >= lines.length) return; tts(lines[i]); i++; setTimeout(next, 2400); }
   next();
 }
-function playL1listen(btn) { playListen('l1l',['Was machst du in deiner Freizeit?','Ich mache sehr gern Sport. Ich schwimme dreimal pro Woche und spiele auch Volleyball.','Wow, du bist sehr aktiv! Ich bin lieber zu Hause. Ich lese gern und höre Musik.','Was für Musik magst du?','Ich höre am liebsten Jazz. Und du?','Ich fotografiere gern. Ich mache Fotos von der Natur.'],btn,'l1llplays'); }
-function playL2listen(btn) { playListen('l2l',['Guten Tag! Was sind Sie von Beruf?','Ich bin Ingenieurin. Ich arbeite bei einer Firma in München.','Was machen Sie genau?','Ich entwickle Software für Autos. Das ist sehr interessant!','Wie viele Stunden arbeiten Sie pro Woche?','Normalerweise vierzig Stunden, manchmal auch mehr.'],btn,'l2llplays'); }
-function playL3listen(btn) { playListen('l3l',['Hallo Nico! Hast du am Samstag Zeit?','Ja, ich glaube schon. Was hast du vor?','Ich will einen Ausflug nach Potsdam machen. Magst du mitkommen?','Gute Idee! Wann wollen wir fahren?','Ich dachte so um zehn Uhr morgens. Wir können mit dem Zug fahren.','Perfekt! Sollen wir auch ein Picknick mitnehmen?'],btn,'l3llplays'); }
-function playL4listen(btn) { playListen('l4l',['Guten Morgen! Kannst du heute Überstunden machen?','Tut mir leid, ich kann heute nicht. Ich muss zum Arzt gehen.','Kein Problem. Kannst du morgen früher kommen?','Ja, das kann ich. Ich kann um acht Uhr da sein. Darf ich aber um vier Uhr gehen?','Natürlich darfst du das. Kinder kommen immer zuerst!'],btn,'l4llplays'); }
-function playL5listen(btn) { playListen('l5l',['Ich brauche einen neuen Laptop. Kannst du mir helfen?','Natürlich! Was suchst du genau?','Ich möchte einen leichten Laptop mit einem großen Bildschirm.','Hast du ein Budget? Ein guter Laptop kostet mindestens sechshundert Euro.','Ich habe etwa achthundert Euro.','Den kenne ich. Den empfehle ich dir.'],btn,'l5llplays'); }
-function playL6listen(btn) { playListen('l6l',['Möchtest du heute Abend ins Kino gehen?','Leider nicht — ich habe keine Zeit. Ich muss noch für die Prüfung lernen.','Hast du kein Interesse an dem Film?','Doch, der Film interessiert mich sehr. Aber ich kann nicht.','Wir können auch nächste Woche gehen.','Ja, das ist viel besser!'],btn,'l6llplays'); }
-function playL7listen(btn) { playListen('l7l',['Wie war dein Wochenende?','Super! Ich bin am Samstag nach Dresden gefahren und habe die Altstadt besucht.','Was hast du dort gemacht?','Ich habe viele Fotos gemacht und ein leckeres Essen gegessen.','Wann bist du zurückgekommen?','Ich bin Sonntagnacht spät nach Hause gefahren.'],btn,'l7llplays'); }
+function playL1listen(btn) {
+  makeGenderedPlayer('l1l',[
+    {speaker:'Tom',text:'Was machst du in deiner Freizeit?',female:false},
+    {speaker:'Leila',text:'Ich mache sehr gern Sport. Ich schwimme dreimal pro Woche und spiele auch Volleyball.',female:true},
+    {speaker:'Tom',text:'Wow, du bist sehr aktiv! Ich bin lieber zu Hause. Ich lese gern und höre Musik.',female:false},
+    {speaker:'Leila',text:'Was für Musik magst du?',female:true},
+    {speaker:'Tom',text:'Ich höre am liebsten Jazz. Und du? Hast du noch andere Hobbys?',female:false},
+    {speaker:'Leila',text:'Ja! Ich fotografiere gern. Ich mache Fotos von der Natur — Blumen, Tiere, Landschaften.',female:true}
+  ])(btn);
+}
+function playL2listen(btn) {
+  makeGenderedPlayer('l2l',[
+    {speaker:'Interviewer',text:'Guten Tag! Was sind Sie von Beruf?',female:false},
+    {speaker:'Fatima',text:'Ich bin Ingenieurin. Ich arbeite bei einer Firma in München.',female:true},
+    {speaker:'Interviewer',text:'Was machen Sie genau?',female:false},
+    {speaker:'Fatima',text:'Ich entwickle Software für Autos. Das ist sehr interessant!',female:true},
+    {speaker:'Interviewer',text:'Wie viele Stunden arbeiten Sie pro Woche?',female:false},
+    {speaker:'Fatima',text:'Normalerweise vierzig Stunden, manchmal auch mehr. Aber ich mag meinen Job sehr — die Kollegen sind nett und das Gehalt ist gut.',female:true}
+  ])(btn);
+}
+function playL3listen(btn) {
+  makeGenderedPlayer('l3l',[
+    {speaker:'Lena',text:'Hallo Nico! Hast du am Samstag Zeit?',female:true},
+    {speaker:'Nico',text:'Ja, ich glaube schon. Was hast du vor?',female:false},
+    {speaker:'Lena',text:'Ich will einen Ausflug nach Potsdam machen. Magst du mitkommen?',female:true},
+    {speaker:'Nico',text:'Gute Idee! Ich war noch nie in Potsdam. Wann wollen wir fahren?',female:false},
+    {speaker:'Lena',text:'Ich dachte so um zehn Uhr morgens. Wir können mit dem Zug fahren — das dauert nur dreißig Minuten.',female:true},
+    {speaker:'Nico',text:'Perfekt! Ich freue mich schon. Sollen wir auch ein Picknick mitnehmen?',female:false}
+  ])(btn);
+}
+function playL4listen(btn) {
+  makeGenderedPlayer('l4l',[
+    {speaker:'Chef',text:'Guten Morgen! Kannst du heute Überstunden machen?',female:false},
+    {speaker:'Ana',text:'Tut mir leid, ich kann heute nicht. Ich muss zum Arzt gehen.',female:true},
+    {speaker:'Chef',text:'Kein Problem. Kannst du morgen früher kommen?',female:false},
+    {speaker:'Ana',text:'Ja, das kann ich. Ich kann um acht Uhr da sein. Darf ich aber um vier Uhr gehen? Ich muss mein Kind vom Kindergarten abholen.',female:true},
+    {speaker:'Chef',text:'Natürlich darfst du das. Kinder kommen immer zuerst!',female:false}
+  ])(btn);
+}
+function playL5listen(btn) {
+  makeGenderedPlayer('l5l',[
+    {speaker:'Sarah',text:'Ich brauche einen neuen Laptop. Kannst du mir helfen?',female:true},
+    {speaker:'Tim',text:'Natürlich! Was suchst du genau?',female:false},
+    {speaker:'Sarah',text:'Ich möchte einen leichten Laptop mit einem großen Bildschirm.',female:true},
+    {speaker:'Tim',text:'Hast du ein Budget? Ein guter Laptop kostet mindestens sechshundert Euro.',female:false},
+    {speaker:'Sarah',text:'Ich habe etwa achthundert Euro. Ich sehe dort einen Laptop — ist das ein gutes Modell?',female:true},
+    {speaker:'Tim',text:'Ja, den kenne ich. Den empfehle ich dir — er hat einen schnellen Prozessor und eine lange Akkulaufzeit.',female:false}
+  ])(btn);
+}
+function playL6listen(btn) {
+  makeGenderedPlayer('l6l',[
+    {speaker:'Mia',text:'Möchtest du heute Abend ins Kino gehen?',female:true},
+    {speaker:'Jonas',text:'Leider nicht — ich habe keine Zeit. Ich muss noch für die Prüfung lernen.',female:false},
+    {speaker:'Mia',text:'Oh schade! Hast du kein Interesse an dem Film?',female:true},
+    {speaker:'Jonas',text:'Doch, der Film interessiert mich sehr. Aber ich kann nicht — ich bin nicht fertig mit dem Lernstoff.',female:false},
+    {speaker:'Mia',text:'Kein Problem. Wir können auch nächste Woche gehen. Ist das nicht besser?',female:true},
+    {speaker:'Jonas',text:'Ja, das ist viel besser! Dann habe ich keine Prüfung mehr und kann entspannen.',female:false}
+  ])(btn);
+}
+function playL7listen(btn) {
+  makeGenderedPlayer('l7l',[
+    {speaker:'Lea',text:'Wie war dein Wochenende?',female:true},
+    {speaker:'Max',text:'Super! Ich bin am Samstag nach Dresden gefahren und habe die Altstadt besucht.',female:false},
+    {speaker:'Lea',text:'Oh schön! Was hast du dort gemacht?',female:true},
+    {speaker:'Max',text:'Ich habe viele Fotos gemacht und ein leckeres Essen gegessen. Abends bin ich ins Konzert gegangen — ein Jazzkonzert im alten Rathaus!',female:false},
+    {speaker:'Lea',text:'Toll! Wann bist du zurückgekommen?',female:true},
+    {speaker:'Max',text:'Ich bin Sonntagnacht spät nach Hause gefahren. Ich bin erst um Mitternacht angekommen — aber es war es wert!',female:false}
+  ])(btn);
+}
 function ansListen(btn, result) {
   var btns = btn.parentElement.querySelectorAll('.listen-opt');
   for (var i = 0; i < btns.length; i++) btns[i].disabled = true;
@@ -2724,6 +2907,362 @@ function updateNavBtns() {
   var nb = document.querySelectorAll('.pnb-next');
   for (var j = 0; j < pb.length; j++) pb[j].disabled = (idx <= 0);
   for (var k = 0; k < nb.length; k++) nb[k].disabled = (idx >= pageSeq.length - 1);
+}
+
+
+/* ===== GENDERED TTS ENGINE v2 ===== */
+var _femaleNames = [
+  'anna','lena','maria','sara','sarah','julia','lisa','hannah','emma','mia','lea','sofia',
+  'laura','nina','clara','eva','petra','nadia','fatima','hana','jana','ava','aisha',
+  'tina','sophie','leila','ana','freundin','kundin','köchin','personalchefin',
+  'verkäuferin','mutter','oma','frau'
+];
+var _maleNames = [
+  'tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus',
+  'ali','mark','sam','enkel','verkäufer','kellner','arzt','apotheker','chef',
+  'kollege','professor','kunde','interviewer','reporter','student','reisender',
+  'tourist','passant','einheimischer','freund','mitarbeiter','bahnmitarbeiter',
+  'empfang','rezeption','vermieter','bewerber','interessent','patient','spieler'
+];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+function _isMale(name) {
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  for (var i = 0; i < _maleNames.length; i++) {
+    if (n.indexOf(_maleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female
+    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
+    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.88;
+    utt.pitch = female ? 1.15 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 350);
+  });
+}
+
+/* ===== AUDIO PLAYER ENGINE ===== */
+var _apState = {};  /* per-player state */
+
+function _apInit(id) {
+  if (!_apState[id]) {
+    _apState[id] = {
+      playing: false,
+      paused: false,
+      lineIdx: 0,
+      plays: 0,
+      timer: null,
+      lineStart: 0,
+      lineDur: 0
+    };
+  }
+  return _apState[id];
+}
+
+function _apSetLine(id, idx, total) {
+  /* highlight active line */
+  var lines = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+  if (lines[idx]) lines[idx].classList.add('active');
+  /* update counter */
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = toBN(idx+1) + '/' + toBN(total) + ' লাইন';
+}
+
+function _apProgress(id, pct) {
+  var fill = document.getElementById('appfill-' + id);
+  if (fill) fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+}
+
+function _apTime(id, cur, total) {
+  var el = document.getElementById('aptime-' + id);
+  if (!el) return;
+  function fmt(s) {
+    s = Math.round(s);
+    return (Math.floor(s/60)) + ':' + (s%60 < 10 ? '0' : '') + (s%60);
+  }
+  el.textContent = fmt(cur) + ' / ' + fmt(total);
+}
+
+function _apSetPlayBtn(id, playing) {
+  var btn = document.getElementById('appbtn-' + id);
+  if (!btn) return;
+  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+}
+
+function _apPlayFrom(id, lines, fromIdx) {
+  var st = _apInit(id);
+  st.playing = true;
+  st.paused = false;
+  st.lineIdx = fromIdx;
+  _apSetPlayBtn(id, true);
+
+  function playLine(idx) {
+    if (!st.playing || idx >= lines.length) {
+      if (idx >= lines.length) _apFinish(id, lines);
+      return;
+    }
+    st.lineIdx = idx;
+    _apSetLine(id, idx, lines.length);
+
+    var line = lines[idx];
+    var approxDur = Math.max(1.5, line.text.split(' ').length * 0.55);
+    st.lineDur = approxDur;
+    st.lineStart = Date.now();
+
+    /* progress ticker */
+    clearInterval(st.timer);
+    var linesPassed = idx;
+    var totalApprox = 0;
+    for (var i = 0; i < lines.length; i++) totalApprox += Math.max(1.5, lines[i].text.split(' ').length * 0.55);
+    var passedTime = 0;
+    for (var j = 0; j < idx; j++) passedTime += Math.max(1.5, lines[j].text.split(' ').length * 0.55);
+
+    st.timer = setInterval(function() {
+      if (!st.playing) { clearInterval(st.timer); return; }
+      var elapsed = (Date.now() - st.lineStart) / 1000;
+      var total_elapsed = passedTime + Math.min(elapsed, approxDur);
+      _apProgress(id, (total_elapsed / totalApprox) * 100);
+      _apTime(id, total_elapsed, totalApprox);
+    }, 80);
+
+    _speakLine(line.text, line.female, function() {
+      clearInterval(st.timer);
+      if (!st.playing) return;
+      setTimeout(function() {
+        if (st.playing) playLine(idx + 1);
+      }, 350);
+    });
+  }
+
+  playLine(fromIdx);
+}
+
+function _apFinish(id, lines) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 100);
+
+  /* clear highlights */
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  setTimeout(function() {
+    for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+    _apProgress(id, 0);
+  }, 800);
+
+  /* update plays left */
+  var plEl = document.getElementById('applays-' + id);
+  if (plEl) {
+    var rem = 2 - st.plays;
+    plEl.textContent = rem > 0 ? 'বাকি: ' + toBN(rem) + ' বার' : 'শেষ হয়েছে';
+  }
+  var playBtn = document.getElementById('appbtn-' + id);
+  if (playBtn && st.plays >= 2) playBtn.disabled = true;
+}
+
+function apTogglePlay(id, lines) {
+  var st = _apInit(id);
+
+  if (st.playing) {
+    /* pause */
+    st.playing = false;
+    st.paused = true;
+    clearInterval(st.timer);
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    _apSetPlayBtn(id, false);
+    return;
+  }
+
+  if (st.paused) {
+    /* resume from current line */
+    _apPlayFrom(id, lines, st.lineIdx);
+    return;
+  }
+
+  /* fresh start */
+  if (st.plays >= 2) {
+    var plEl = document.getElementById('applays-' + id);
+    if (plEl) plEl.textContent = 'সর্বোচ্চ ২ বার শোনা হয়ে গেছে!';
+    return;
+  }
+  st.plays++;
+  st.paused = false;
+  _apPlayFrom(id, lines, 0);
+  addXP(2);
+}
+
+function apStop(id) {
+  var st = _apInit(id);
+  st.playing = false;
+  st.paused = false;
+  st.lineIdx = 0;
+  clearInterval(st.timer);
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  _apSetPlayBtn(id, false);
+  _apProgress(id, 0);
+  var lineEls = document.querySelectorAll('#apscript-' + id + ' .ap-line');
+  for (var i = 0; i < lineEls.length; i++) lineEls[i].classList.remove('active');
+  var ctr = document.getElementById('apctr-' + id);
+  if (ctr) ctr.textContent = '';
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    /* legacy fallback — not used when audio player HTML is present */
+    apTogglePlay(id, lines);
+  };
+}
+
+
+
+/* ===== GENDERED TTS ENGINE ===== */
+var _femaleNames = ['anna','lena','maria','sara','julia','lisa','hannah','emma','mia','lea','sofia','laura','nina','clara','eva','petra','frau','dame','sie'];
+var _maleNames   = ['tom','karim','max','felix','ben','jonas','nico','tim','kai','lars','markus','herr','mann'];
+
+function _isFemale(name) {
+  var n = (name || '').toLowerCase().replace(':','').trim();
+  for (var i = 0; i < _femaleNames.length; i++) {
+    if (n.indexOf(_femaleNames[i]) >= 0) return true;
+  }
+  return false;
+}
+
+var _deVoices = null;
+function _loadVoices() {
+  if (!window.speechSynthesis) return;
+  var vs = window.speechSynthesis.getVoices();
+  var de = [];
+  for (var i = 0; i < vs.length; i++) {
+    if (vs[i].lang && vs[i].lang.indexOf('de') === 0) de.push(vs[i]);
+  }
+  if (de.length) _deVoices = de;
+}
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = _loadVoices;
+  _loadVoices();
+}
+
+function _getVoice(female) {
+  if (!_deVoices || !_deVoices.length) return null;
+  var preferred = female ? ['female','frau','weiblich','zira','hedda','katja','sabina'] 
+                         : ['male','mann','männlich','stefan','markus','hans'];
+  for (var p = 0; p < preferred.length; p++) {
+    for (var v = 0; v < _deVoices.length; v++) {
+      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+    }
+  }
+  // fallback: pick by index — first de voice often female, second male
+  return female ? _deVoices[0] : (_deVoices[1] || _deVoices[0]);
+}
+
+function _speakLine(text, female, onEnd) {
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.9;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    // pitch: female slightly higher
+    utt.pitch = female ? 1.2 : 0.8;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    // fallback Google TTS
+    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
+      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
+}
+
+function _playLines(lines, idx) {
+  if (idx >= lines.length) return;
+  var line = lines[idx];
+  _speakLine(line.text, line.female, function() {
+    setTimeout(function(){ _playLines(lines, idx + 1); }, 300);
+  });
+}
+
+function makeGenderedPlayer(id, lines) {
+  return function(btn) {
+    if (!listenPlays[id]) listenPlays[id] = 0;
+    if (listenPlays[id] >= 2) { alert('সর্বোচ্চ ২ বার শোনা হয়ে গেছে!'); return; }
+    listenPlays[id]++;
+    var rem = 2 - listenPlays[id];
+    var el = document.getElementById(id + 'plays');
+    if (el) el.textContent = 'বাকি: ' + rem + ' বার';
+    if (rem === 0 && btn) btn.disabled = true;
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      _playLines(lines, 0);
+    } else {
+      // fallback: join all text
+      var txt = '';
+      for (var i = 0; i < lines.length; i++) txt += lines[i].text + ' ';
+      tts(txt.trim());
+    }
+    addXP(2);
+  };
 }
 
 </script>
