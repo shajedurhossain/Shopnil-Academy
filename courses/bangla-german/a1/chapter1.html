@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Kapitel 1: বর্ণমালা | Shopnil Academy Bangla A1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Playfair+Display:wght@700;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Noto+Sans:wght@400;500;600;700&family=Archivo:wght@800&subset=latin,latin-ext&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto Sans',Arial,sans-serif;background:#FBF8F0;color:#0F2418;overflow:hidden}
+:root{
+  --black:#052B1F;--gold:#E8B72A;--gold-l:#F3D060;--gold-dim:rgba(232,183,42,.15);
+  --cream:#FBF8F0;--red:#F42A41;--green:#006A4E;--blue:#2563EB;
+  --card:#fff;--border:#E7E2D6;--shadow:0 4px 20px rgba(0,0,0,.07);
+  --sb:220px;--bn:'Hind Siliguri',sans-serif;
+}
+.site-nav{background:rgba(255,253,248,.96);height:58px;display:flex;align-items:center;gap:14px;padding:0 22px;flex-shrink:0;z-index:120;border-bottom:1px solid var(--border)}
+.sn-logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.sn-logo img{width:38px;height:38px;border-radius:8px;flex-shrink:0}
+.sn-name{display:flex;flex-direction:column;line-height:1.12}
+.sn-name strong{font-size:16px;font-weight:700;color:#0F2418;font-family:'Archivo',sans-serif;text-transform:uppercase}
+.sn-name small{font-size:11px;color:#7C8A82;font-weight:500;letter-spacing:.03em}
+.sn-links{display:flex;gap:4px;margin-left:18px}
+.sn-links a{font-size:14px;font-weight:500;color:#0F2418;padding:8px 14px;border-radius:999px;text-decoration:none;transition:background .15s,color .15s}
+.sn-links a:hover{background:rgba(0,106,78,.1);color:var(--green)}
+.sn-cta{margin-left:auto;font-size:14px;font-weight:600;background:var(--green);color:#fff;padding:9px 18px;border-radius:999px;text-decoration:none;white-space:nowrap}
+@media(max-width:760px){.sn-links{display:none}.sn-name small{display:none}.site-nav{height:54px;padding:0 16px}}
+.topbar{background:var(--black);height:54px;display:flex;align-items:center;gap:10px;padding:0 14px;flex-shrink:0;z-index:100;border-bottom:1px solid rgba(232,183,42,.2)}
+.tb-level{background:var(--gold-dim);border:1px solid rgba(232,183,42,.4);color:var(--gold-l);padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.5px;flex-shrink:0}
+.tb-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.streak-chip{display:flex;align-items:center;gap:4px;background:rgba(232,183,42,.12);border:1px solid rgba(232,183,42,.25);border-radius:20px;padding:3px 9px;cursor:pointer}
+.streak-fire{font-size:.85rem}.streak-count{font-size:.75rem;font-weight:700;color:var(--gold-l)}
+.xp-chip{display:flex;align-items:center;gap:4px;background:rgba(0,106,78,.1);border:1px solid rgba(0,106,78,.25);border-radius:20px;padding:3px 9px}
+.xp-label{font-size:.72rem;font-weight:700;color:#4FB489}
+.menu-btn{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.3rem;cursor:pointer;padding:4px 6px;display:none}
+.app-body{display:flex;flex-direction:row;flex:1;overflow:hidden;min-height:0}
+.sidebar{width:var(--sb);min-width:var(--sb);max-width:var(--sb);background:#06321F;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;transition:transform .28s ease}
+.sb-nav{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0;scrollbar-width:thin;scrollbar-color:rgba(232,183,42,.2) transparent}
+.sb-nav::-webkit-scrollbar{width:3px}.sb-nav::-webkit-scrollbar-thumb{background:rgba(232,183,42,.2);border-radius:2px}
+.sb-head{padding:12px 14px 6px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:6px}
+.sb-head-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(232,183,42,.5)}
+.sb-head-bn{font-family:var(--bn);font-size:.73rem;color:rgba(255,255,255,.3);margin-top:2px}
+.week-block{margin-bottom:2px}
+.week-hdr{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;transition:background .18s;user-select:none}
+.week-hdr:hover{background:rgba(255,255,255,.04)}.week-hdr.open{background:rgba(232,183,42,.07)}
+.week-pill{background:rgba(232,183,42,.18);color:var(--gold);font-size:.63rem;font-weight:800;padding:2px 7px;border-radius:20px;flex-shrink:0}
+.week-name{font-size:.72rem;font-weight:600;color:#ddd;flex:1;line-height:1.3}
+.week-arr{font-size:.6rem;color:rgba(255,255,255,.25);transition:transform .22s;flex-shrink:0}
+.week-hdr.open .week-arr{transform:rotate(90deg);color:var(--gold)}
+.day-list{overflow:hidden;max-height:0;transition:max-height .28s ease}.day-list.open{max-height:2000px}
+.day-hdr{display:flex;align-items:center;gap:7px;padding:6px 14px 6px 22px;cursor:pointer;transition:background .15s;user-select:none}
+.day-hdr:hover{background:rgba(255,255,255,.03)}.day-hdr.open{background:rgba(232,183,42,.05)}
+.day-dot{width:6px;height:6px;border-radius:50%;background:rgba(232,183,42,.3);flex-shrink:0}
+.day-hdr.open .day-dot,.day-hdr.done .day-dot{background:var(--gold)}
+.day-name{font-size:.71rem;font-weight:600;color:#bbb;flex:1;line-height:1.35}
+.day-check{font-size:.7rem;color:var(--green);display:none;flex-shrink:0}
+.day-hdr.done .day-check{display:block}
+.day-arr{font-size:.55rem;color:rgba(255,255,255,.2);transition:transform .2s;flex-shrink:0}
+.day-hdr.open .day-arr{transform:rotate(90deg);color:rgba(232,183,42,.6)}
+.tab-list{overflow:hidden;max-height:0;transition:max-height .25s ease}.tab-list.open{max-height:420px}
+.nav-item{display:flex;align-items:center;gap:7px;padding:5px 14px 5px 28px;cursor:pointer;transition:all .15s;border-left:2px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.04);border-left-color:rgba(232,183,42,.3)}
+.nav-item.active{background:rgba(232,183,42,.1);border-left-color:var(--gold)}
+.ni-icon{font-size:.82rem;flex-shrink:0;width:18px;text-align:center;display:flex;align-items:center;justify-content:center}
+.ni-label{font-size:.71rem;color:#999;font-weight:500;flex:1;line-height:1.3}
+.nav-item.active .ni-label{color:var(--gold-l);font-weight:600}
+.ni-done{margin-left:auto;font-size:.6rem;color:var(--green);display:none}
+.nav-item.visited .ni-done{display:block}
+.prog-bar-wrap{background:#E7E2D6;border-radius:20px;height:6px;overflow:hidden;margin-top:5px}
+.prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
+.day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
+.main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+.page{display:none}
+.page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
+.ph::after{content:'';position:absolute;top:-50px;right:-50px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(232,183,42,.13) 0%,transparent 70%)}
+.ph-eye{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(232,183,42,.55);margin-bottom:4px}
+.ph-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);line-height:1.15;margin-bottom:3px}
+.ph-bn{font-family:var(--bn);font-size:.95rem;color:rgba(255,255,255,.6);margin-bottom:4px}
+.ph-tags{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.ph-tag{background:rgba(232,183,42,.13);border:1px solid rgba(232,183,42,.25);color:rgba(232,183,42,.8);padding:3px 9px;border-radius:20px;font-size:.66rem;font-weight:500}
+.content{padding:13px 13px 90px;max-width:660px}
+.bn{font-family:var(--bn)}.bn-note{font-family:var(--bn);font-size:.82rem;color:#555;line-height:1.65}
+.card{background:var(--card);border-radius:14px;padding:15px;margin-bottom:13px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-t{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px}
+.placeholder-note{background:#fffbf0;border:1.5px dashed var(--gold);border-radius:11px;padding:14px;font-size:.82rem;color:#665;line-height:1.6}
+.cult-tip{background:#fffbf0;border:1.5px solid var(--gold);border-radius:11px;padding:12px 14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start}
+.cult-icon{font-size:1.4rem;flex-shrink:0;margin-top:1px}
+.cult-body{flex:1}
+.cult-t{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:4px}
+.cult-bn{font-family:var(--bn);font-size:.9rem;line-height:1.7;color:#333}
+.cult-de{font-size:.78rem;color:#888;margin-top:4px;line-height:1.55}
+.letter-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.letter-card{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:14px 8px 10px;text-align:center;cursor:pointer;transition:all .18s;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.letter-card:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 6px 16px rgba(232,183,42,.18)}
+.letter-bn{font-family:var(--bn);font-size:2.3rem;font-weight:700;color:var(--black);line-height:1}
+.letter-rom{font-size:.7rem;color:var(--green);font-weight:700;margin-top:5px}
+.letter-sound{font-size:.66rem;color:#777;margin-top:3px;line-height:1.4;min-height:2.2em}
+.letter-example{font-family:var(--bn);font-size:.76rem;color:#444;margin-top:7px;border-top:1px dashed var(--border);padding-top:6px;font-weight:600}
+.letter-example-de{font-size:.66rem;color:#888;margin-top:1px}
+.letter-play{margin-top:7px;background:var(--gold);border:none;border-radius:7px;padding:4px 11px;font-size:.7rem;cursor:pointer;transition:background .15s}
+.letter-play:hover{background:var(--gold-l)}
+@media(max-width:480px){.letter-grid{grid-template-columns:repeat(2,1fr)}}
+.fitb-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:11px;transition:border-color .2s}
+.fitb-card.correct{border-color:var(--green);background:#f0fdf4}
+.fitb-card.wrong{border-color:var(--red);background:#fff5f5}
+.fitb-n{font-size:.65rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fitb-hint{font-size:.8rem;color:#888;margin-bottom:8px;line-height:1.55}
+.fitb-sentence{font-family:var(--bn);font-size:1.15rem;font-weight:500;line-height:1.9;margin-bottom:10px}
+.fitb-inline{border:none;border-bottom:2px solid var(--gold);background:transparent;font-family:var(--bn);font-size:1.1rem;font-weight:600;color:var(--black);outline:none;width:50px;padding:0 4px;text-align:center;transition:border-color .2s}
+.fitb-actions{margin-bottom:8px}
+.fitb-btn{background:var(--green);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif}
+.fitb-fb{display:none;font-size:.82rem;margin-top:6px;padding:7px 10px;border-radius:7px}
+.fitb-fb.show.ok{display:block;background:#f0fdf4;color:var(--green)}
+.fitb-fb.show.no{display:block;background:#fff5f5;color:var(--red)}
+.fitb-score{display:none;background:var(--black);color:#fff;border-radius:12px;padding:16px;text-align:center;margin-top:13px}
+.fitb-score.show{display:block}
+.sc-big{font-size:1.8rem;font-weight:700;color:var(--gold-l)}
+.sc-lbl{font-size:.75rem;color:rgba(255,255,255,.6);margin-top:3px}
+.trick{background:linear-gradient(135deg,#fffbf0,#fff8e6);border:1.5px solid var(--gold);border-radius:11px;padding:12px 14px;margin-bottom:13px}
+.trick-t{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:5px}
+.trick-de{font-size:.83rem;line-height:1.65;color:#333}
+.trick-de b{color:var(--black)}
+.vowel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:13px}
+.vc{background:var(--card);border-radius:14px;border:1.5px solid var(--border);padding:14px 8px;text-align:center;cursor:pointer;transition:all .15s;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.vc:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 6px 16px rgba(232,183,42,.18)}
+.vc-letter{font-family:var(--bn);font-size:2rem;font-weight:700;color:var(--black);line-height:1}
+.vc-rom{font-size:.72rem;color:var(--green);font-weight:700;margin-top:5px}
+.vc-approx{font-size:.66rem;color:#888;margin-top:2px;line-height:1.35}
+.vc-play{margin-top:6px;background:var(--gold);border:none;border-radius:6px;width:26px;height:26px;font-size:.7rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.vc-ex{margin-top:7px;padding-top:7px;border-top:1px dashed var(--border);font-family:var(--bn);font-size:.78rem;color:#444;font-weight:600}
+.vc-ex-de{font-size:.66rem;color:#999;margin-top:1px}
+@media(max-width:400px){.vowel-grid{grid-template-columns:repeat(2,1fr)}}
+/* PREV/NEXT BAR */
+.pn-bar{position:sticky;bottom:0;left:0;right:0;background:rgba(255,253,248,.97);border-top:1px solid var(--border);backdrop-filter:blur(4px);display:flex;align-items:center;gap:10px;padding:10px 14px;z-index:50}
+.pn-btn{background:var(--black);color:var(--gold-l);border:none;border-radius:9px;padding:9px 14px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s,opacity .15s;white-space:nowrap}
+.pn-btn:hover{background:#0a4a30}
+.pn-btn.disabled{opacity:.35;pointer-events:none}
+.pn-label{flex:1;text-align:center;font-size:.7rem;color:#888;font-family:var(--bn);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:640px){
+  .site-nav{display:none}
+  .sidebar{position:fixed;top:54px;bottom:0;left:0;z-index:110;transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .menu-btn{display:block}
+  .nav-item{padding:5px 12px 5px 22px}
+  .pn-label{display:none}
+}
+  </style>
+</head>
+<body>
+
+<!-- SITE NAV -->
+<nav class="site-nav">
+  <a href="../../../index.html" class="sn-logo">
+    <img src="../../../assets/logo.png" alt="Shopnil Academy" onerror="this.style.display='none'" />
+    <div class="sn-name"><strong style="display:inline-block;align-self:flex-start;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase"><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">S</span><span style="color:#006A4E">H</span><span style="color:#F42A41">O</span><span style="color:#F42A41">P</span><span style="color:#F42A41">N</span><span style="color:#006A4E">I</span><span style="color:#006A4E">L</span></span><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">A</span><span style="color:#006A4E">C</span><span style="color:#F42A41">A</span><span style="color:#F42A41">D</span><span style="color:#F42A41">E</span><span style="color:#006A4E">M</span><span style="color:#006A4E">Y</span></span></strong><small>Bangla A1</small></div>
+  </a>
+  <div class="sn-links">
+    <a href="../../../index.html">Startseite</a>
+    <a href="../../../courses.html">Kurse</a>
+    <a href="../index.html">Kursübersicht</a>
+  </div>
+  <a href="../../../courses.html" class="sn-cta">Alle Kurse &rarr;</a>
+</nav>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
+  <span class="tb-level">A1</span>
+  <span class="tb-title">🕌 Kapitel 1 — বর্ণমালা (Das Alphabet)</span>
+  <div class="tb-right">
+    <div class="streak-chip"><span class="streak-fire">&#x1f525;</span><span class="streak-count" id="streakTop">0</span></div>
+    <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
+  </div>
+</div>
+
+<!-- APP BODY -->
+<div class="app-body">
+
+<div class="sidebar" id="sidebar">
+  <div class="sb-nav">
+    <div class="sb-head">
+      <div class="sb-head-title">Kapitel 1</div>
+      <div class="sb-head-bn">বর্ণমালা — Die Schrift</div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-hdr open" id="wh1" onclick="toggleWeek(1)">
+        <span class="week-pill">Kapitel 1</span>
+        <span class="week-name">বর্ণমালা — Die Schrift</span>
+        <span class="week-arr">►</span>
+      </div>
+      <div class="day-list open" id="wl1">
+
+        <!-- L1 Vokale -->
+        <div class="day-hdr" id="dhc1l1" onclick="toggleDay('c1l1')">
+          <span class="day-dot"></span>
+          <span class="day-name">🅰️ L1 — স্বরবর্ণ (Vokale)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l1">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l1" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l1">0/9 Lektionen</div></div>
+          <div class="nav-item" id="nav-c1l1v" onclick="go('c1l1v','nav-c1l1v');markVisit('c1l1','c1l1v')"><span class="ni-icon">📖</span><span class="ni-label">Buchstaben-Übersicht</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1w" onclick="go('c1l1w','nav-c1l1w');markVisit('c1l1','c1l1w')"><span class="ni-icon">✏️</span><span class="ni-label">Lückentext</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1s" onclick="go('c1l1s','nav-c1l1s');markVisit('c1l1','c1l1s')"><span class="ni-icon">🎤</span><span class="ni-label">Aussprache</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1gr" onclick="go('c1l1gr','nav-c1l1gr');markVisit('c1l1','c1l1gr')"><span class="ni-icon">📚</span><span class="ni-label">Schreibregeln</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1l" onclick="go('c1l1l','nav-c1l1l');markVisit('c1l1','c1l1l')"><span class="ni-icon">🎵</span><span class="ni-label">Hören</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1rd" onclick="go('c1l1rd','nav-c1l1rd');markVisit('c1l1','c1l1rd')"><span class="ni-icon">📖</span><span class="ni-label">Lesen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1fw" onclick="go('c1l1fw','nav-c1l1fw');markVisit('c1l1','c1l1fw')"><span class="ni-icon">✏️</span><span class="ni-label">Freies Schreiben</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1ss" onclick="go('c1l1ss','nav-c1l1ss');markVisit('c1l1','c1l1ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Freies Sprechen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1q" onclick="go('c1l1q','nav-c1l1q');markVisit('c1l1','c1l1q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L2 Konsonanten 1 -->
+        <div class="day-hdr" id="dhc1l2" onclick="toggleDay('c1l2')">
+          <span class="day-dot"></span>
+          <span class="day-name">🔤 L2 — ব্যঞ্জনবর্ণ ১ (Konsonanten Teil 1)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l2">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l2" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l2">0/9 Lektionen</div></div>
+          <div class="nav-item" id="nav-c1l2v" onclick="go('c1l2v','nav-c1l2v');markVisit('c1l2','c1l2v')"><span class="ni-icon">📖</span><span class="ni-label">Buchstaben-Übersicht</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2w" onclick="go('c1l2w','nav-c1l2w');markVisit('c1l2','c1l2w')"><span class="ni-icon">✏️</span><span class="ni-label">Lückentext</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2s" onclick="go('c1l2s','nav-c1l2s');markVisit('c1l2','c1l2s')"><span class="ni-icon">🎤</span><span class="ni-label">Aussprache</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2gr" onclick="go('c1l2gr','nav-c1l2gr');markVisit('c1l2','c1l2gr')"><span class="ni-icon">📚</span><span class="ni-label">Schreibregeln</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2l" onclick="go('c1l2l','nav-c1l2l');markVisit('c1l2','c1l2l')"><span class="ni-icon">🎵</span><span class="ni-label">Hören</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2rd" onclick="go('c1l2rd','nav-c1l2rd');markVisit('c1l2','c1l2rd')"><span class="ni-icon">📖</span><span class="ni-label">Lesen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2fw" onclick="go('c1l2fw','nav-c1l2fw');markVisit('c1l2','c1l2fw')"><span class="ni-icon">✏️</span><span class="ni-label">Freies Schreiben</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2ss" onclick="go('c1l2ss','nav-c1l2ss');markVisit('c1l2','c1l2ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Freies Sprechen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2q" onclick="go('c1l2q','nav-c1l2q');markVisit('c1l2','c1l2q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L3 Konsonanten 2 -->
+        <div class="day-hdr" id="dhc1l3" onclick="toggleDay('c1l3')">
+          <span class="day-dot"></span>
+          <span class="day-name">🔡 L3 — ব্যঞ্জনবর্ণ ২ (Konsonanten Teil 2)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l3">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l3" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l3">0/9 Lektionen</div></div>
+          <div class="nav-item" id="nav-c1l3v" onclick="go('c1l3v','nav-c1l3v');markVisit('c1l3','c1l3v')"><span class="ni-icon">📖</span><span class="ni-label">Buchstaben-Übersicht</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3w" onclick="go('c1l3w','nav-c1l3w');markVisit('c1l3','c1l3w')"><span class="ni-icon">✏️</span><span class="ni-label">Lückentext</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3s" onclick="go('c1l3s','nav-c1l3s');markVisit('c1l3','c1l3s')"><span class="ni-icon">🎤</span><span class="ni-label">Aussprache</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3gr" onclick="go('c1l3gr','nav-c1l3gr');markVisit('c1l3','c1l3gr')"><span class="ni-icon">📚</span><span class="ni-label">Schreibregeln</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3l" onclick="go('c1l3l','nav-c1l3l');markVisit('c1l3','c1l3l')"><span class="ni-icon">🎵</span><span class="ni-label">Hören</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3rd" onclick="go('c1l3rd','nav-c1l3rd');markVisit('c1l3','c1l3rd')"><span class="ni-icon">📖</span><span class="ni-label">Lesen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3fw" onclick="go('c1l3fw','nav-c1l3fw');markVisit('c1l3','c1l3fw')"><span class="ni-icon">✏️</span><span class="ni-label">Freies Schreiben</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3ss" onclick="go('c1l3ss','nav-c1l3ss');markVisit('c1l3','c1l3ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Freies Sprechen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3q" onclick="go('c1l3q','nav-c1l3q');markVisit('c1l3','c1l3q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L4 Matras -->
+        <div class="day-hdr" id="dhc1l4" onclick="toggleDay('c1l4')">
+          <span class="day-dot"></span>
+          <span class="day-name">◌ L4 — মাত্রা (Vokalzeichen)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l4">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l4" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l4">0/9 Lektionen</div></div>
+          <div class="nav-item" id="nav-c1l4v" onclick="go('c1l4v','nav-c1l4v');markVisit('c1l4','c1l4v')"><span class="ni-icon">📖</span><span class="ni-label">Buchstaben-Übersicht</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4w" onclick="go('c1l4w','nav-c1l4w');markVisit('c1l4','c1l4w')"><span class="ni-icon">✏️</span><span class="ni-label">Lückentext</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4s" onclick="go('c1l4s','nav-c1l4s');markVisit('c1l4','c1l4s')"><span class="ni-icon">🎤</span><span class="ni-label">Aussprache</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4gr" onclick="go('c1l4gr','nav-c1l4gr');markVisit('c1l4','c1l4gr')"><span class="ni-icon">📚</span><span class="ni-label">Schreibregeln</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4l" onclick="go('c1l4l','nav-c1l4l');markVisit('c1l4','c1l4l')"><span class="ni-icon">🎵</span><span class="ni-label">Hören</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4rd" onclick="go('c1l4rd','nav-c1l4rd');markVisit('c1l4','c1l4rd')"><span class="ni-icon">📖</span><span class="ni-label">Lesen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4fw" onclick="go('c1l4fw','nav-c1l4fw');markVisit('c1l4','c1l4fw')"><span class="ni-icon">✏️</span><span class="ni-label">Freies Schreiben</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4ss" onclick="go('c1l4ss','nav-c1l4ss');markVisit('c1l4','c1l4ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Freies Sprechen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4q" onclick="go('c1l4q','nav-c1l4q');markVisit('c1l4','c1l4q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L5 Konjunkte & Lesen -->
+        <div class="day-hdr" id="dhc1l5" onclick="toggleDay('c1l5')">
+          <span class="day-dot"></span>
+          <span class="day-name">🔗 L5 — যুক্তাক্ষর ও অনুশীলন (Konjunkte &amp; Übung)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l5">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l5" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l5">0/9 Lektionen</div></div>
+          <div class="nav-item" id="nav-c1l5v" onclick="go('c1l5v','nav-c1l5v');markVisit('c1l5','c1l5v')"><span class="ni-icon">📖</span><span class="ni-label">Buchstaben-Übersicht</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5w" onclick="go('c1l5w','nav-c1l5w');markVisit('c1l5','c1l5w')"><span class="ni-icon">✏️</span><span class="ni-label">Lückentext</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5s" onclick="go('c1l5s','nav-c1l5s');markVisit('c1l5','c1l5s')"><span class="ni-icon">🎤</span><span class="ni-label">Aussprache</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5gr" onclick="go('c1l5gr','nav-c1l5gr');markVisit('c1l5','c1l5gr')"><span class="ni-icon">📚</span><span class="ni-label">Schreibregeln</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5l" onclick="go('c1l5l','nav-c1l5l');markVisit('c1l5','c1l5l')"><span class="ni-icon">🎵</span><span class="ni-label">Hören</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5rd" onclick="go('c1l5rd','nav-c1l5rd');markVisit('c1l5','c1l5rd')"><span class="ni-icon">📖</span><span class="ni-label">Lesen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5fw" onclick="go('c1l5fw','nav-c1l5fw');markVisit('c1l5','c1l5fw')"><span class="ni-icon">✏️</span><span class="ni-label">Freies Schreiben</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5ss" onclick="go('c1l5ss','nav-c1l5ss');markVisit('c1l5','c1l5ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Freies Sprechen</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5q" onclick="go('c1l5q','nav-c1l5q');markVisit('c1l5','c1l5q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- Review -->
+        <div class="day-hdr" id="dhc1r" onclick="toggleDay('c1r')">
+          <span class="day-dot"></span>
+          <span class="day-name">🔄 R1 — রিভিউ (Wiederholung)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1r">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1r" style="width:0%"></div></div><div class="day-progress" id="progtext-c1r">0/3 Lektionen</div></div>
+          <div class="nav-item" id="nav-c1rv" onclick="go('c1rv','nav-c1rv');markVisit('c1r','c1rv')"><span class="ni-icon">📖</span><span class="ni-label">Alle Buchstaben</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1rs" onclick="go('c1rs','nav-c1rs');markVisit('c1r','c1rs')"><span class="ni-icon">🗣️</span><span class="ni-label">Sprechtest</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1rq" onclick="go('c1rq','nav-c1rq');markVisit('c1r','c1rq')"><span class="ni-icon">📝</span><span class="ni-label">Abschlussquiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-wrap">
+  <div class="main" id="mainArea">
+
+    <!-- ===================== L1 pages ===================== -->
+    <div class="page" id="page-c1l1v">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · BUCHSTABEN-ÜBERSICHT</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Die Vokale</div>
+        <div class="ph-tags"><span class="ph-tag">🅰️ Schrift</span><span class="ph-tag">A1</span></div></div>
+      <div class="content">
+        <div class="cult-tip">
+          <div class="cult-icon">🐍</div>
+          <div class="cult-body">
+            <div class="cult-t">Bangladeschische Merksätze</div>
+            <div class="cult-bn">"অ-য় অজগর, আ-তে আম..."</div>
+            <div class="cult-de">Bangladeschische Kinder lernen das Alphabet mit genau diesen Reimwörtern — jeder Buchstabe hat ein festes "Erinnerungswort". Wir nutzen dieselbe Methode, damit du wie ein bangladeschisches Schulkind lernst.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-t">স্বরবর্ণ <span class="ct-bn" style="font-family:'DM Sans',sans-serif;color:#777;font-weight:400;font-size:.82rem;margin-left:5px">— Die 11 Vokale</span></div>
+          <div class="bn-note">Tippe auf einen Buchstaben, um ihn zu hören. Die deutsche Lautschrift ist eine Annäherung — am besten hilft dir dein Ohr.</div>
+        </div>
+        <div class="letter-grid" id="vowelGrid"></div>
+      </div>
+    </div>
+    <div class="page" id="page-c1l1w">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · LÜCKENTEXT</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Übung</div></div>
+      <div class="content">
+        <div class="card">
+          <div class="card-t">ফাঁকা পূরণ <span style="font-family:'DM Sans',sans-serif;color:#777;font-weight:400;font-size:.82rem;margin-left:5px">— Lückentext</span></div>
+          <div class="bn-note">Höre das Wort und tippe den fehlenden Vokal ein. Kleine Tippfehler werden toleriert.</div>
+        </div>
+        <div id="fitb-c1l1"></div>
+        <div class="fitb-score" id="fitb-score-c1l1"></div>
+      </div>
+    </div>
+    <div class="page" id="page-c1l1s">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · AUSSPRACHE</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Aussprache</div></div>
+      <div class="content"><div id="sp-c1l1"></div><div class="placeholder-note">📌 Ausspracheübung folgt im nächsten Schritt.</div></div>
+    </div>
+    <div class="page" id="page-c1l1gr">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · SCHREIBREGELN</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Regeln</div></div>
+      <div class="content"><div class="placeholder-note">📌 Schreibregeln folgen im nächsten Schritt.</div></div>
+    </div>
+    <div class="page" id="page-c1l1l">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · HÖREN</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Hörverstehen</div></div>
+      <div class="content"><div class="placeholder-note">📌 Hörübung folgt im nächsten Schritt.</div></div>
+    </div>
+    <div class="page" id="page-c1l1rd">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · LESEN</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Lesen</div></div>
+      <div class="content"><div class="placeholder-note">📌 Leseübung folgt im nächsten Schritt.</div></div>
+    </div>
+    <div class="page" id="page-c1l1fw">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · FREIES SCHREIBEN</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Freies Schreiben</div></div>
+      <div class="content"><div class="placeholder-note">📌 Schreibaufgabe folgt im nächsten Schritt.</div></div>
+    </div>
+    <div class="page" id="page-c1l1ss">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · FREIES SPRECHEN</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Freies Sprechen</div></div>
+      <div class="content"><div class="placeholder-note">📌 Sprechaufgabe folgt im nächsten Schritt.</div></div>
+    </div>
+    <div class="page" id="page-c1l1q">
+      <div class="ph"><div class="ph-eye">LEKTION 1 · QUIZ</div><div class="ph-title">স্বরবর্ণ</div><div class="ph-bn">Quiz</div></div>
+      <div class="content"><div id="qz-c1l1"></div><div class="placeholder-note">📌 Quiz folgt im nächsten Schritt.</div></div>
+    </div>
+
+    <!-- ===================== L2 pages ===================== -->
+    <div class="page" id="page-c1l2v"><div class="ph"><div class="ph-eye">LEKTION 2 · BUCHSTABEN-ÜBERSICHT</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div><div class="ph-bn">Konsonanten Teil 1</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2w"><div class="ph"><div class="ph-eye">LEKTION 2 · LÜCKENTEXT</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div id="fitb-c1l2"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2s"><div class="ph"><div class="ph-eye">LEKTION 2 · AUSSPRACHE</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div id="sp-c1l2"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2gr"><div class="ph"><div class="ph-eye">LEKTION 2 · SCHREIBREGELN</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2l"><div class="ph"><div class="ph-eye">LEKTION 2 · HÖREN</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2rd"><div class="ph"><div class="ph-eye">LEKTION 2 · LESEN</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2fw"><div class="ph"><div class="ph-eye">LEKTION 2 · FREIES SCHREIBEN</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2ss"><div class="ph"><div class="ph-eye">LEKTION 2 · FREIES SPRECHEN</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l2q"><div class="ph"><div class="ph-eye">LEKTION 2 · QUIZ</div><div class="ph-title">ব্যঞ্জনবর্ণ ১</div></div><div class="content"><div id="qz-c1l2"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+
+    <!-- ===================== L3 pages ===================== -->
+    <div class="page" id="page-c1l3v"><div class="ph"><div class="ph-eye">LEKTION 3 · BUCHSTABEN-ÜBERSICHT</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div><div class="ph-bn">Konsonanten Teil 2</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3w"><div class="ph"><div class="ph-eye">LEKTION 3 · LÜCKENTEXT</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div id="fitb-c1l3"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3s"><div class="ph"><div class="ph-eye">LEKTION 3 · AUSSPRACHE</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div id="sp-c1l3"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3gr"><div class="ph"><div class="ph-eye">LEKTION 3 · SCHREIBREGELN</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3l"><div class="ph"><div class="ph-eye">LEKTION 3 · HÖREN</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3rd"><div class="ph"><div class="ph-eye">LEKTION 3 · LESEN</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3fw"><div class="ph"><div class="ph-eye">LEKTION 3 · FREIES SCHREIBEN</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3ss"><div class="ph"><div class="ph-eye">LEKTION 3 · FREIES SPRECHEN</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l3q"><div class="ph"><div class="ph-eye">LEKTION 3 · QUIZ</div><div class="ph-title">ব্যঞ্জনবর্ণ ২</div></div><div class="content"><div id="qz-c1l3"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+
+    <!-- ===================== L4 pages ===================== -->
+    <div class="page" id="page-c1l4v"><div class="ph"><div class="ph-eye">LEKTION 4 · BUCHSTABEN-ÜBERSICHT</div><div class="ph-title">মাত্রা</div><div class="ph-bn">Vokalzeichen</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4w"><div class="ph"><div class="ph-eye">LEKTION 4 · LÜCKENTEXT</div><div class="ph-title">মাত্রা</div></div><div class="content"><div id="fitb-c1l4"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4s"><div class="ph"><div class="ph-eye">LEKTION 4 · AUSSPRACHE</div><div class="ph-title">মাত্রা</div></div><div class="content"><div id="sp-c1l4"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4gr"><div class="ph"><div class="ph-eye">LEKTION 4 · SCHREIBREGELN</div><div class="ph-title">মাত্রা</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4l"><div class="ph"><div class="ph-eye">LEKTION 4 · HÖREN</div><div class="ph-title">মাত্রা</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4rd"><div class="ph"><div class="ph-eye">LEKTION 4 · LESEN</div><div class="ph-title">মাত্রা</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4fw"><div class="ph"><div class="ph-eye">LEKTION 4 · FREIES SCHREIBEN</div><div class="ph-title">মাত্রা</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4ss"><div class="ph"><div class="ph-eye">LEKTION 4 · FREIES SPRECHEN</div><div class="ph-title">মাত্রা</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l4q"><div class="ph"><div class="ph-eye">LEKTION 4 · QUIZ</div><div class="ph-title">মাত্রা</div></div><div class="content"><div id="qz-c1l4"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+
+    <!-- ===================== L5 pages ===================== -->
+    <div class="page" id="page-c1l5v"><div class="ph"><div class="ph-eye">LEKTION 5 · BUCHSTABEN-ÜBERSICHT</div><div class="ph-title">যুক্তাক্ষর</div><div class="ph-bn">Konjunkte &amp; Übung</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5w"><div class="ph"><div class="ph-eye">LEKTION 5 · LÜCKENTEXT</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div id="fitb-c1l5"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5s"><div class="ph"><div class="ph-eye">LEKTION 5 · AUSSPRACHE</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div id="sp-c1l5"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5gr"><div class="ph"><div class="ph-eye">LEKTION 5 · SCHREIBREGELN</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5l"><div class="ph"><div class="ph-eye">LEKTION 5 · HÖREN</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5rd"><div class="ph"><div class="ph-eye">LEKTION 5 · LESEN</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5fw"><div class="ph"><div class="ph-eye">LEKTION 5 · FREIES SCHREIBEN</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5ss"><div class="ph"><div class="ph-eye">LEKTION 5 · FREIES SPRECHEN</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1l5q"><div class="ph"><div class="ph-eye">LEKTION 5 · QUIZ</div><div class="ph-title">যুক্তাক্ষর</div></div><div class="content"><div id="qz-c1l5"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+
+    <!-- ===================== Review pages ===================== -->
+    <div class="page" id="page-c1rv"><div class="ph"><div class="ph-eye">REVIEW · ALLE BUCHSTABEN</div><div class="ph-title">রিভিউ</div><div class="ph-bn">Wiederholung</div></div><div class="content"><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1rs"><div class="ph"><div class="ph-eye">REVIEW · SPRECHTEST</div><div class="ph-title">রিভিউ</div></div><div class="content"><div id="sp-c1rs"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+    <div class="page" id="page-c1rq"><div class="ph"><div class="ph-eye">REVIEW · ABSCHLUSSQUIZ</div><div class="ph-title">রিভিউ</div></div><div class="content"><div id="qz-c1rq"></div><div class="placeholder-note">📌 Inhalt folgt im nächsten Schritt.</div></div></div>
+
+  </div>
+
+  <!-- PREV/NEXT BAR (persistent, present on every page) -->
+  <div class="pn-bar">
+    <button class="pn-btn" id="pnPrev" onclick="goPrev()">← Zurück</button>
+    <span class="pn-label" id="pnLabel"></span>
+    <button class="pn-btn" id="pnNext" onclick="goNext()">Weiter →</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ===== STORAGE KEYS (bn_de_ prefix — avoids collision with de_/es_ courses) =====
+var SK={prog:'bn_de_prog',streak:'bn_de_streak',xp:'bn_de_xp',srs:'bn_de_srs',lastDay:'bn_de_lastDay'};
+
+// ===== TTS (target language = Bangla) =====
+var curAud=null;
+function tts(t,voiceHint){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
+  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t,voiceHint);});
+}
+// bTTS supports an optional voiceHint ('a' or 'b') so dialogue speakers can be
+// mapped to different available voices/pitch as a browser-TTS fallback.
+function bTTS(t,voiceHint){
+  if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(t);u.lang='bn-BD';u.rate=0.82;
+  var v=window.speechSynthesis.getVoices();
+  var bnVoices=v.filter(function(x){return x.lang&&x.lang.indexOf('bn')===0;});
+  if(voiceHint==='b'){
+    u.pitch=0.85;
+    if(bnVoices.length>1)u.voice=bnVoices[1];else if(bnVoices.length)u.voice=bnVoices[0];
+  }else{
+    u.pitch=1.1;
+    if(bnVoices.length)u.voice=bnVoices[0];
+  }
+  window.speechSynthesis.speak(u);
+}
+window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
+
+// ===== STREAK & XP =====
+function getXP(){try{return parseInt(localStorage.getItem(SK.xp)||'0');}catch(e){return 0;}}
+function addXP(n){
+  var v=getXP()+n;localStorage.setItem(SK.xp,v);
+  var el=document.getElementById('xpTop');if(el)el.textContent=v+' XP';
+}
+function checkStreak(){
+  var today=new Date().toISOString().slice(0,10);
+  var last=localStorage.getItem(SK.lastDay)||'';
+  var yesterday=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  var streak=parseInt(localStorage.getItem(SK.streak)||'0');
+  if(last===today){}
+  else if(last===yesterday){streak++;localStorage.setItem(SK.streak,streak);localStorage.setItem(SK.lastDay,today);}
+  else{streak=1;localStorage.setItem(SK.streak,streak);localStorage.setItem(SK.lastDay,today);}
+  var el=document.getElementById('streakTop');if(el)el.textContent=streak;
+  var el2=document.getElementById('xpTop');if(el2)el2.textContent=getXP()+' XP';
+}
+
+// ===== PROGRESS =====
+function getProg(){try{return JSON.parse(localStorage.getItem(SK.prog)||'{}');}catch(e){return {};}}
+function updateUI(){
+  var p=getProg();
+  var days={c1l1:9,c1l2:9,c1l3:9,c1l4:9,c1l5:9,c1r:3};
+  Object.keys(days).forEach(function(day){
+    var total=days[day];
+    var visited=Object.keys(p).filter(function(k){return k.indexOf(day)===0;}).length;
+    var pct=Math.min(100,Math.round(visited/total*100));
+    var bar=document.getElementById('prog-'+day);
+    var txt=document.getElementById('progtext-'+day);
+    if(bar)bar.style.width=pct+'%';
+    if(txt)txt.textContent=visited+'/'+total+' Lektionen';
+    if(pct===100){var dh=document.getElementById('dh'+day);if(dh)dh.classList.add('done');}
+  });
+}
+function markVisit(day,tab){
+  var p=getProg();p[tab]=1;localStorage.setItem(SK.prog,JSON.stringify(p));
+  var el=document.getElementById('nav-'+tab);if(el)el.classList.add('visited');
+  updateUI();
+}
+
+// ===== NAV ORDER (drives the persistent prev/next bar) =====
+var PAGE_ORDER=[
+  ['c1l1v','nav-c1l1v','স্বরবর্ণ · Buchstaben-Übersicht'],
+  ['c1l1w','nav-c1l1w','স্বরবর্ণ · Lückentext'],
+  ['c1l1s','nav-c1l1s','স্বরবর্ণ · Aussprache'],
+  ['c1l1gr','nav-c1l1gr','স্বরবর্ণ · Schreibregeln'],
+  ['c1l1l','nav-c1l1l','স্বরবর্ণ · Hören'],
+  ['c1l1rd','nav-c1l1rd','স্বরবর্ণ · Lesen'],
+  ['c1l1fw','nav-c1l1fw','স্বরবর্ণ · Freies Schreiben'],
+  ['c1l1ss','nav-c1l1ss','স্বরবর্ণ · Freies Sprechen'],
+  ['c1l1q','nav-c1l1q','স্বরবর্ণ · Quiz'],
+  ['c1l2v','nav-c1l2v','ব্যঞ্জনবর্ণ ১ · Buchstaben-Übersicht'],
+  ['c1l2w','nav-c1l2w','ব্যঞ্জনবর্ণ ১ · Lückentext'],
+  ['c1l2s','nav-c1l2s','ব্যঞ্জনবর্ণ ১ · Aussprache'],
+  ['c1l2gr','nav-c1l2gr','ব্যঞ্জনবর্ণ ১ · Schreibregeln'],
+  ['c1l2l','nav-c1l2l','ব্যঞ্জনবর্ণ ১ · Hören'],
+  ['c1l2rd','nav-c1l2rd','ব্যঞ্জনবর্ণ ১ · Lesen'],
+  ['c1l2fw','nav-c1l2fw','ব্যঞ্জনবর্ণ ১ · Freies Schreiben'],
+  ['c1l2ss','nav-c1l2ss','ব্যঞ্জনবর্ণ ১ · Freies Sprechen'],
+  ['c1l2q','nav-c1l2q','ব্যঞ্জনবর্ণ ১ · Quiz'],
+  ['c1l3v','nav-c1l3v','ব্যঞ্জনবর্ণ ২ · Buchstaben-Übersicht'],
+  ['c1l3w','nav-c1l3w','ব্যঞ্জনবর্ণ ২ · Lückentext'],
+  ['c1l3s','nav-c1l3s','ব্যঞ্জনবর্ণ ২ · Aussprache'],
+  ['c1l3gr','nav-c1l3gr','ব্যঞ্জনবর্ণ ২ · Schreibregeln'],
+  ['c1l3l','nav-c1l3l','ব্যঞ্জনবর্ণ ২ · Hören'],
+  ['c1l3rd','nav-c1l3rd','ব্যঞ্জনবর্ণ ২ · Lesen'],
+  ['c1l3fw','nav-c1l3fw','ব্যঞ্জনবর্ণ ২ · Freies Schreiben'],
+  ['c1l3ss','nav-c1l3ss','ব্যঞ্জনবর্ণ ২ · Freies Sprechen'],
+  ['c1l3q','nav-c1l3q','ব্যঞ্জনবর্ণ ২ · Quiz'],
+  ['c1l4v','nav-c1l4v','মাত্রা · Buchstaben-Übersicht'],
+  ['c1l4w','nav-c1l4w','মাত্রা · Lückentext'],
+  ['c1l4s','nav-c1l4s','মাত্রা · Aussprache'],
+  ['c1l4gr','nav-c1l4gr','মাত্রা · Schreibregeln'],
+  ['c1l4l','nav-c1l4l','মাত্রা · Hören'],
+  ['c1l4rd','nav-c1l4rd','মাত্রা · Lesen'],
+  ['c1l4fw','nav-c1l4fw','মাত্রা · Freies Schreiben'],
+  ['c1l4ss','nav-c1l4ss','মাত্রা · Freies Sprechen'],
+  ['c1l4q','nav-c1l4q','মাত্রা · Quiz'],
+  ['c1l5v','nav-c1l5v','যুক্তাক্ষর · Buchstaben-Übersicht'],
+  ['c1l5w','nav-c1l5w','যুক্তাক্ষর · Lückentext'],
+  ['c1l5s','nav-c1l5s','যুক্তাক্ষর · Aussprache'],
+  ['c1l5gr','nav-c1l5gr','যুক্তাক্ষর · Schreibregeln'],
+  ['c1l5l','nav-c1l5l','যুক্তাক্ষর · Hören'],
+  ['c1l5rd','nav-c1l5rd','যুক্তাক্ষর · Lesen'],
+  ['c1l5fw','nav-c1l5fw','যুক্তাক্ষর · Freies Schreiben'],
+  ['c1l5ss','nav-c1l5ss','যুক্তাক্ষর · Freies Sprechen'],
+  ['c1l5q','nav-c1l5q','যুক্তাক্ষর · Quiz'],
+  ['c1rv','nav-c1rv','রিভিউ · Alle Buchstaben'],
+  ['c1rs','nav-c1rs','রিভিউ · Sprechtest'],
+  ['c1rq','nav-c1rq','রিভিউ · Abschlussquiz']
+];
+var curIdx=0;
+
+function findIdx(page){
+  for(var i=0;i<PAGE_ORDER.length;i++){if(PAGE_ORDER[i][0]===page)return i;}
+  return -1;
+}
+function renderPrevNext(page){
+  var idx=findIdx(page);if(idx<0)return;
+  curIdx=idx;
+  var prevBtn=document.getElementById('pnPrev'),nextBtn=document.getElementById('pnNext'),lbl=document.getElementById('pnLabel');
+  if(idx<=0){prevBtn.classList.add('disabled');}else{prevBtn.classList.remove('disabled');}
+  if(idx>=PAGE_ORDER.length-1){nextBtn.classList.add('disabled');}else{nextBtn.classList.remove('disabled');}
+  if(lbl)lbl.textContent=PAGE_ORDER[idx][2]+' — '+(idx+1)+'/'+PAGE_ORDER.length;
+}
+function goPrev(){if(curIdx<=0)return;var t=PAGE_ORDER[curIdx-1];go(t[0],t[1]);ensureDayOpen(t[0]);}
+function goNext(){if(curIdx>=PAGE_ORDER.length-1)return;var t=PAGE_ORDER[curIdx+1];go(t[0],t[1]);ensureDayOpen(t[0]);}
+function ensureDayOpen(page){
+  var day=page.replace(/(v|w|s|gr|l|rd|fw|ss|q)$/,'');
+  // review pages use exact 'c1r' prefix already handled by regex leaving 'c1r'
+  openDay(day);
+}
+
+// ===== NAVIGATION =====
+function go(page,navId){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var _pg=document.getElementById('page-'+page);if(!_pg)return;
+  _pg.classList.add('active');
+  var ni=document.getElementById(navId);if(ni){ni.classList.add('active');ni.classList.add('visited');}
+  var ma=document.getElementById('mainArea');if(ma)ma.scrollTop=0;
+  if(window.innerWidth<=640){var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');}
+  renderPrevNext(page);
+}
+function toggleSB(){
+  var sb=document.getElementById('sidebar');
+  if(sb){if(sb.classList.contains('open')){sb.classList.remove('open');}else{sb.classList.add('open');}}
+}
+function toggleWeek(n){
+  var tl=document.getElementById('wl'+n),hdr=document.getElementById('wh'+n);
+  if(!tl||!hdr)return;
+  var isOpen=tl.classList.contains('open');
+  if(!isOpen){tl.classList.add('open');hdr.classList.add('open');}
+  else{tl.classList.remove('open');hdr.classList.remove('open');}
+}
+function toggleDay(n){
+  var dl=document.getElementById('dl'+n),dh=document.getElementById('dh'+n);
+  if(!dl||!dh)return;
+  var isOpen=dl.classList.contains('open');
+  document.querySelectorAll('.tab-list').forEach(function(t){t.classList.remove('open');});
+  document.querySelectorAll('.day-hdr').forEach(function(h){h.classList.remove('open');});
+  if(!isOpen){dl.classList.add('open');dh.classList.add('open');}
+}
+function openDay(n){var dl=document.getElementById('dl'+n);var dh=document.getElementById('dh'+n);
+  document.querySelectorAll('.tab-list').forEach(function(t){t.classList.remove('open');});
+  document.querySelectorAll('.day-hdr').forEach(function(h){h.classList.remove('open');});
+  if(dl)dl.classList.add('open');if(dh)dh.classList.add('open');}
+
+// ===== VOWEL DATA (L1) — classic Bangladeshi primer mnemonics =====
+var vowelData=[
+  {bn:'অ',rom:'ô',sound:'kurzes "o" wie in "Post"',ex:'অজগর',exde:'Python (Schlange)'},
+  {bn:'আ',rom:'a',sound:'langes "a" wie in "Vater"',ex:'আম',exde:'Mango'},
+  {bn:'ই',rom:'i',sound:'kurzes "i" wie in "Winter"',ex:'ইঁদুর',exde:'Maus'},
+  {bn:'ঈ',rom:'ī',sound:'wie ই, etwas länger gehalten',ex:'ঈগল',exde:'Adler'},
+  {bn:'উ',rom:'u',sound:'kurzes "u" wie in "Mutter"',ex:'উট',exde:'Kamel'},
+  {bn:'ঊ',rom:'ū',sound:'wie উ, etwas länger gehalten',ex:'ঊর্মি',exde:'Welle'},
+  {bn:'ঋ',rom:'ri',sound:'"ri" wie in "Ring" (selten, aus dem Sanskrit)',ex:'ঋষি',exde:'Weiser'},
+  {bn:'এ',rom:'e',sound:'offenes "e" wie in "Bett"',ex:'একতারা',exde:'Einsaiten-Instrument'},
+  {bn:'ঐ',rom:'oi',sound:'wie "eu" in "Leute"',ex:'ঐরাবত',exde:'mythischer Elefant'},
+  {bn:'ও',rom:'o',sound:'geschlossenes "o" wie in "Boot"',ex:'ওল',exde:'Yamswurzel'},
+  {bn:'ঔ',rom:'ou',sound:'wie "au" in "Haus", stärker gerundet',ex:'ঔষধ',exde:'Medizin'}
+];
+function renderVowelGrid(){
+  var c=document.getElementById('vowelGrid');if(!c||c.children.length>0)return;
+  vowelData.forEach(function(v){
+    var d=document.createElement('div');d.className='letter-card';
+    d.innerHTML='<div class="letter-bn">'+v.bn+'</div>'+
+      '<div class="letter-rom">['+v.rom+']</div>'+
+      '<div class="letter-sound">'+v.sound+'</div>'+
+      '<div class="letter-example">'+v.ex+'</div>'+
+      '<div class="letter-example-de">'+v.exde+'</div>'+
+      '<button class="letter-play" onclick="event.stopPropagation();tts(\''+v.bn+'\')">🔊 Buchstabe</button>';
+    d.onclick=function(){tts(v.ex);};
+    c.appendChild(d);
+  });
+}
+
+// ===== SRS stub (mistakes queued for later review chapters) =====
+function addToSRS(item){
+  try{
+    var srs=JSON.parse(localStorage.getItem(SK.srs)||'[]');
+    srs.push({bn:item.bn,de:item.de,ctx:item.ctx,ts:Date.now()});
+    localStorage.setItem(SK.srs,JSON.stringify(srs));
+  }catch(e){}
+}
+
+// ===== LEVENSHTEIN (tolerant Bangla-script matching for FITB) =====
+function lev(a,b){
+  var m=a.length,n=b.length,dp=[];
+  for(var i=0;i<=m;i++){dp[i]=[i];for(var j=1;j<=n;j++){dp[i][j]=i?Math.min(dp[i-1][j]+1,dp[i][j-1]+1,dp[i-1][j-1]+(a[i-1]!==b[j-1]?1:0)):j;}}
+  return dp[m][n];
+}
+
+// ===== FILL IN THE BLANK (L1 vowels) =====
+var fitbData={
+  c1l1:[
+    {q:'___জগর',hint:'🐍 Python — höre den Anlaut',blank:'অ',de:'Python (Schlange)'},
+    {q:'___ম',hint:'🥭 Mango',blank:'আ',de:'Mango'},
+    {q:'___ঁদুর',hint:'🐭 Maus',blank:'ই',de:'Maus'},
+    {q:'___ট',hint:'🐫 Kamel',blank:'উ',de:'Kamel'},
+    {q:'___ল',hint:'🍠 Yamswurzel',blank:'ও',de:'Yamswurzel'}
+  ]
+};
+var fitbScores={};
+function buildFITB(day){
+  var c=document.getElementById('fitb-'+day);
+  if(!c||c.children.length>0)return;
+  if(!fitbData[day]){c.innerHTML='<p style="padding:16px">Übung folgt bald!</p>';return;}
+  fitbData[day].forEach(function(q,i){
+    var d=document.createElement('div');d.className='fitb-card';d.id='fitbc-'+day+i;
+    var inlineInput='<input class="fitb-inline" id="fitbin-'+day+i+'" type="text"'+
+      ' placeholder="?" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"'+
+      ' onkeydown="if(event.key===\'Enter\')checkFITB(\''+day+'\','+i+',this.value)">';
+    var sentence=q.q.replace('___',inlineInput);
+    d.innerHTML=
+      '<div class="fitb-n">Frage '+(i+1)+'/'+fitbData[day].length+'</div>'+
+      '<div class="fitb-hint">'+q.hint+'</div>'+
+      '<div class="fitb-sentence" id="fitbblank-'+day+i+'">'+sentence+'</div>'+
+      '<div class="fitb-actions">'+
+        '<button class="fitb-btn" onclick="checkFITB(\''+day+'\','+i+',document.getElementById(\'fitbin-'+day+i+'\').value)">✓ Prüfen</button>'+
+        '<button class="fitb-btn" style="background:var(--gold);margin-left:6px" onclick="tts(\''+q.q.replace('___','')+'\')">🔊</button>'+
+      '</div>'+
+      '<div class="fitb-fb" id="fitbfb-'+day+i+'"></div>';
+    c.appendChild(d);
+  });
+  if(!fitbScores[day])fitbScores[day]={correct:0,total:fitbData[day].length,done:[]};
+}
+function checkFITB(day,i,val){
+  var q=fitbData[day][i];if(!q)return;
+  var inp=document.getElementById('fitbin-'+day+i);
+  var fb=document.getElementById('fitbfb-'+day+i);
+  var card=document.getElementById('fitbc-'+day+i);
+  var v=val.trim();
+  var ok=v===q.blank||lev(v,q.blank)<=1;
+  if(!fitbScores[day])fitbScores[day]={correct:0,total:fitbData[day].length,done:[]};
+  if(fitbScores[day].done.indexOf(i)<0){
+    fitbScores[day].done.push(i);
+    if(ok)fitbScores[day].correct++;
+  }
+  if(ok){
+    if(card)card.className='fitb-card correct';
+    if(inp){inp.value=q.blank;inp.style.color='var(--green)';inp.disabled=true;}
+    if(fb){fb.innerHTML='✅ Richtig! <span class="bn">'+q.blank+'</span> — '+q.de;fb.className='fitb-fb show ok';}
+    addXP(10);
+  }else{
+    if(card)card.className='fitb-card wrong';
+    if(inp){inp.style.color='var(--red)';}
+    if(fb){fb.innerHTML='❌ Nicht ganz. Richtige Antwort: <strong class="bn">'+q.blank+'</strong> ('+q.de+')';fb.className='fitb-fb show no';}
+    addToSRS({bn:q.blank,de:q.de,ctx:q.q});
+  }
+  var t=fitbScores[day].total;
+  if(fitbScores[day].done.length>=t){
+    var sc=document.getElementById('fitb-score-'+day);
+    if(sc){sc.innerHTML='<div class="sc-big">'+fitbScores[day].correct+'/'+t+'</div><div class="sc-lbl">richtig beantwortet</div>';sc.classList.add('show');}
+    if(fitbScores[day].correct>=Math.ceil(t*0.6))addXP(15);
+  }
+}
+
+// ===== INIT =====
+checkStreak();
+updateUI();
+renderVowelGrid();
+buildFITB('c1l1');
+go('c1l1v','nav-c1l1v');
+</script>
+</body>
+</html>
