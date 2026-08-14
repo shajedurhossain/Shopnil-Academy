@@ -49,6 +49,14 @@
     position: relative; z-index: 2;
   }
   .hero-pill {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: transparent; border: 0; padding-left: 0;
+    font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--green);
+    box-shadow: none;
+  }
+  .hero-pill .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px var(--green-soft); flex-shrink: 0; }
+  .hero-pill em { font-style: normal; color: var(--muted); font-weight: 600; }
+  .hero-pill-old {
     display: inline-flex; align-items: center; gap: 10px;
     background: #fff; border: 1px solid var(--line);
     padding: 6px 14px 6px 6px; border-radius: 999px;
@@ -145,6 +153,11 @@
   .hv-main .progress { margin-top: 14px; height: 6px; background: var(--green-soft); border-radius: 999px; overflow: hidden; }
   .hv-main .progress span { display: block; width: 64%; height: 100%; background: var(--green); border-radius: 999px; }
   .hv-main .prog-meta { display: flex; justify-content: space-between; margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .hv-more { display: flex; align-items: center; gap: 11px; margin-top: 16px; padding-top: 15px; border-top: 1px solid var(--line); }
+  .hv-more .pulse { width: 30px; height: 30px; border-radius: 50%; background: var(--red-soft); position: relative; flex-shrink: 0; }
+  .hv-more .pulse::before { content: ''; position: absolute; inset: 8px; background: var(--red); border-radius: 50%; }
+  .hv-more strong { font-size: 13.5px; font-weight: 600; display: block; }
+  .hv-more span { font-size: 12px; color: var(--muted); }
   .hv-live {
     bottom: 80px; left: 10px;
     padding: 14px 18px;
@@ -162,18 +175,6 @@
   }
   .hv-live strong { font-size: 14px; font-weight: 600; display: block; }
   .hv-live span { font-size: 12px; color: var(--muted); }
-  .hv-cert {
-    top: 320px; left: -10px;
-    padding: 14px 18px;
-    display: flex; align-items: center; gap: 12px;
-  }
-  .hv-cert .ic {
-    width: 38px; height: 38px; border-radius: 12px;
-    background: var(--gold-soft); color: #b8881a;
-    display: grid; place-items: center; font-size: 18px;
-  }
-  .hv-cert strong { font-size: 14px; display: block; }
-  .hv-cert span { font-size: 12px; color: var(--muted); }
 
   /* Press strip */
   .strip { padding: 8px 0 56px; }
@@ -464,8 +465,7 @@
     </div>
     <div>
       <span class="hero-pill">
-        <span class="av"><span>⭐</span><span>De</span><span>🚀</span></span>
-        13 courses live · more launching soon
+        <span class="live-dot"></span>13 courses live <em>· more launching soon</em>
       </span>
       <h1>Learn anything.<br/><span class="underline">Pay nothing.<svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M2 8 Q 25 0, 50 7 T 100 6 T 150 7 T 198 6" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg></span> <span class="accent">Ever.</span></h1>
       <p class="hero-sub">A new kind of online academy: structured courses in bioinformatics, programming, languages, math, and guitar — built one careful course at a time. 100% free. Forever.</p>
@@ -492,19 +492,12 @@
         <p>Beginner to B1 · Self-paced · Certificate</p>
         <div class="progress"><span style="width: 12%;"></span></div>
         <div class="prog-meta"><span>Just starting</span><span>Live now</span></div>
-      </div>
-      <div class="hv-card hv-cert">
-        <div class="ic">🏆</div>
-        <div>
-          <strong>Certificate ready</strong>
-          <span>On course completion</span>
-        </div>
-      </div>
-      <div class="hv-card hv-live">
-        <div class="pulse"></div>
-        <div>
-          <strong>18 more courses coming</strong>
-          <span>Notify me when each launches</span>
+        <div class="hv-more">
+          <div class="pulse"></div>
+          <div>
+            <strong>43 more courses coming</strong>
+            <span>Notify me when each launches</span>
+          </div>
         </div>
       </div>
     </div>
@@ -547,7 +540,7 @@
         </div>
         <h3>Tech & Coding</h3>
         <p>Bioinformatics, programming, infrastructure, and data engineering.</p>
-        <div class="cat-meta-row"><strong>6 courses</strong><span style="color: var(--green); font-weight: 700;">1 live · 5 soon</span></div>
+        <div class="cat-meta-row"><strong>31 courses</strong><span style="color: var(--green); font-weight: 700;">1 live · 30 soon</span></div>
       </a>
       <a href="courses.html#math" class="cat-card">
         <div class="cat-shape mint">
