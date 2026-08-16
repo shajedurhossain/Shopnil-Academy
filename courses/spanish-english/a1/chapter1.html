@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Chapter 1: ¡Hola, Español! | Shopnil Academy Spanish A1 (ES-EN)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans',Arial,sans-serif;background:#FBF8F0;color:#0F2418;overflow:hidden}
+:root{
+  --black:#052B1F;--gold:#E8B72A;--gold-l:#F3D060;--gold-dim:rgba(232,183,42,.15);
+  --cream:#FBF8F0;--red:#F42A41;--green:#006A4E;--blue:#2563EB;
+  --card:#fff;--border:#E7E2D6;--shadow:0 4px 20px rgba(0,0,0,.07);--sb:230px;
+}
+.site-nav{background:rgba(255,253,248,.96);height:58px;display:flex;align-items:center;gap:14px;padding:0 22px;flex-shrink:0;z-index:120;border-bottom:1px solid var(--border)}
+.sn-logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.sn-logo img{width:38px;height:38px;border-radius:8px;flex-shrink:0}
+.sn-name{display:flex;flex-direction:column;line-height:1.12}
+.sn-name strong{font-size:16px;font-weight:700;color:#0F2418}
+.sn-name small{font-size:11px;color:#7C8A82;font-weight:500;letter-spacing:.03em}
+.sn-links{display:flex;gap:4px;margin-left:18px}
+.sn-links a{font-size:14px;font-weight:500;color:#0F2418;padding:8px 14px;border-radius:999px;text-decoration:none;transition:background .15s,color .15s}
+.sn-links a:hover{background:rgba(0,106,78,.1);color:var(--green)}
+.sn-cta{margin-left:auto;font-size:14px;font-weight:600;background:var(--green);color:#fff;padding:9px 18px;border-radius:999px;text-decoration:none;white-space:nowrap}
+@media(max-width:760px){.sn-links{display:none}.site-nav{height:54px;padding:0 16px}}
+.topbar{background:var(--black);height:54px;display:flex;align-items:center;gap:10px;padding:0 14px;flex-shrink:0;z-index:100;border-bottom:1px solid rgba(232,183,42,.2)}
+.tb-level{background:var(--gold-dim);border:1px solid rgba(232,183,42,.4);color:var(--gold-l);padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.5px;flex-shrink:0}
+.tb-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.streak-chip{display:flex;align-items:center;gap:4px;background:rgba(232,183,42,.12);border:1px solid rgba(232,183,42,.25);border-radius:20px;padding:3px 9px;cursor:pointer}
+.streak-fire{font-size:.85rem}.streak-count{font-size:.75rem;font-weight:700;color:var(--gold-l)}
+.xp-chip{display:flex;align-items:center;gap:4px;background:rgba(0,106,78,.1);border:1px solid rgba(0,106,78,.25);border-radius:20px;padding:3px 9px}
+.xp-label{font-size:.72rem;font-weight:700;color:#4FB489}
+.menu-btn{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.3rem;cursor:pointer;padding:4px 6px;display:none}
+.app-body{display:flex;flex-direction:row;flex:1;overflow:hidden;min-height:0}
+.sidebar{width:var(--sb);min-width:var(--sb);max-width:var(--sb);background:#06321F;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;transition:transform .28s ease}
+.sb-nav{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0;scrollbar-width:thin;scrollbar-color:rgba(232,183,42,.2) transparent}
+.sb-nav::-webkit-scrollbar{width:3px}.sb-nav::-webkit-scrollbar-thumb{background:rgba(232,183,42,.2);border-radius:2px}
+.sb-head{padding:12px 14px 6px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:6px}
+.sb-head-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(232,183,42,.5)}
+.sb-head-es{font-size:.73rem;color:rgba(255,255,255,.35);margin-top:2px;font-style:italic}
+.week-block{margin-bottom:2px}
+.week-hdr{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;transition:background .18s;user-select:none}
+.week-hdr:hover{background:rgba(255,255,255,.04)}.week-hdr.open{background:rgba(232,183,42,.07)}
+.week-pill{background:rgba(232,183,42,.18);color:var(--gold);font-size:.63rem;font-weight:800;padding:2px 7px;border-radius:20px;flex-shrink:0}
+.week-name{font-size:.72rem;font-weight:600;color:#ddd;flex:1;line-height:1.3}
+.week-arr{font-size:.6rem;color:rgba(255,255,255,.25);transition:transform .22s;flex-shrink:0}
+.week-hdr.open .week-arr{transform:rotate(90deg);color:var(--gold)}
+.day-list{overflow:hidden;max-height:0;transition:max-height .28s ease}.day-list.open{max-height:2200px}
+.day-hdr{display:flex;align-items:center;gap:7px;padding:6px 14px 6px 22px;cursor:pointer;transition:background .15s;user-select:none}
+.day-hdr:hover{background:rgba(255,255,255,.03)}.day-hdr.open{background:rgba(232,183,42,.05)}
+.day-dot{width:6px;height:6px;border-radius:50%;background:rgba(232,183,42,.3);flex-shrink:0}
+.day-hdr.open .day-dot,.day-hdr.done .day-dot{background:var(--gold)}
+.day-name{font-size:.71rem;font-weight:600;color:#bbb;flex:1;line-height:1.35}
+.day-name .es{display:block;font-size:.65rem;font-style:italic;color:#888;margin-top:1px}
+.day-check{font-size:.7rem;color:var(--green);display:none;flex-shrink:0}
+.day-hdr.done .day-check{display:block}
+.day-arr{font-size:.55rem;color:rgba(255,255,255,.2);transition:transform .2s;flex-shrink:0}
+.day-hdr.open .day-arr{transform:rotate(90deg);color:rgba(232,183,42,.6)}
+.tab-list{overflow:hidden;max-height:0;transition:max-height .25s ease}.tab-list.open{max-height:600px}
+.nav-item{display:flex;align-items:center;gap:7px;padding:5px 14px 5px 28px;cursor:pointer;transition:all .15s;border-left:2px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.04);border-left-color:rgba(232,183,42,.3)}
+.nav-item.active{background:rgba(232,183,42,.1);border-left-color:var(--gold)}
+.ni-icon{font-size:.82rem;flex-shrink:0;width:18px;text-align:center;display:flex;align-items:center;justify-content:center}
+.ni-label{font-size:.71rem;color:#999;font-weight:500;flex:1;line-height:1.3}
+.ni-label .es{display:block;font-size:.62rem;font-style:italic;color:#777}
+.nav-item.active .ni-label{color:var(--gold-l);font-weight:600}
+.nav-item.active .ni-label .es{color:rgba(243,208,96,.7)}
+.ni-done{margin-left:auto;font-size:.6rem;color:var(--green);display:none}
+.nav-item.visited .ni-done{display:block}
+.prog-bar-wrap{background:rgba(255,255,255,.08);border-radius:20px;height:5px;overflow:hidden;margin-top:5px}
+.prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
+.day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px}
+.main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+.page{display:none}
+.page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
+.ph::after{content:'';position:absolute;top:-50px;right:-50px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(232,183,42,.13) 0%,transparent 70%)}
+.ph-eye{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(232,183,42,.55);margin-bottom:4px}
+.ph-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);line-height:1.15;margin-bottom:3px}
+.ph-es{font-size:.95rem;color:rgba(255,255,255,.6);margin-bottom:4px;font-style:italic}
+.ph-tags{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.ph-tag{background:rgba(232,183,42,.13);border:1px solid rgba(232,183,42,.25);color:rgba(232,183,42,.8);padding:3px 9px;border-radius:20px;font-size:.66rem;font-weight:500}
+.content{padding:13px 13px 30px;max-width:660px}
+.card{background:var(--card);border-radius:14px;padding:15px;margin-bottom:13px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-t{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px}
+.placeholder-note{font-size:.85rem;color:#888;line-height:1.6}
+.dlg{background:#f7f4ef;border-radius:12px;padding:13px;margin-bottom:13px}
+.dl{display:flex;gap:8px;margin-bottom:9px;align-items:flex-start}.dl:last-child{margin-bottom:0}
+.spk{color:#fff;font-size:.62rem;font-weight:700;padding:3px 7px;border-radius:20px;white-space:nowrap;margin-top:2px;flex-shrink:0}
+.spk.a{background:var(--black)}
+.spk.b{background:var(--green)}
+.spk.c{background:#8B5CF6}
+.spk.you{background:var(--blue)}
+.dl-es{font-weight:600;font-size:.88rem;margin-bottom:2px}
+.dl-en{font-size:.75rem;color:#666}
+.gram-table{width:100%;border-collapse:collapse;margin-bottom:13px;font-size:.82rem}
+.gram-table th{background:var(--black);color:var(--gold);padding:8px 10px;text-align:left;font-size:.7rem;letter-spacing:.5px}
+.gram-table td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.gram-table tr:last-child td{border-bottom:none}
+.gram-table tr:nth-child(even) td{background:#faf7f2}
+.gram-table .es{font-weight:700;color:var(--black)}
+.btn{display:inline-block;background:var(--green);color:#fff;border:none;border-radius:10px;padding:13px 22px;font-size:.9rem;font-weight:600;cursor:pointer;margin-top:10px;transition:background .18s}
+.btn:hover{background:#04503B}
+/* PREV/NEXT BAR */
+.pn-bar{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.pn-btn{display:flex;flex-direction:column;background:var(--card);border:1.5px solid var(--border);border-radius:11px;padding:9px 15px;cursor:pointer;transition:all .15s;text-decoration:none;color:inherit;max-width:47%}
+.pn-btn:hover{border-color:var(--gold);background:#fffbf0}
+.pn-btn.next{align-items:flex-end;text-align:right;margin-left:auto}
+.pn-lbl{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#999}
+.pn-name{font-size:.8rem;font-weight:600;color:var(--black);margin-top:2px}
+.pn-btn.disabled{visibility:hidden}
+@media(max-width:640px){
+  :root{--sb:210px}
+  .menu-btn{display:block}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:200;transform:translateX(-100%)}
+  .sidebar.open{transform:none}
+  .content{padding:11px 11px 26px}
+  .gram-table{font-size:.78rem;overflow-x:auto;display:block}
+  .btn{width:100%;text-align:center}
+  .pn-name{font-size:.74rem}
+}
+@media(max-width:380px){
+  .ph-title{font-size:1.2rem}
+  .nav-item{padding:5px 12px 5px 22px}
+}
+/* VOCAB TABLE */
+.vh{display:grid;grid-template-columns:32px 1fr 1.4fr 32px;gap:6px;padding:0 10px 5px;font-size:.62rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.4px}
+.vr{display:grid;grid-template-columns:32px 1fr 1.4fr 32px;align-items:center;gap:6px;background:#faf7f2;border-radius:9px;padding:9px 10px;border:1px solid var(--border);margin-bottom:6px}
+.v-letter{font-weight:800;font-size:1rem;color:var(--black)}
+.v-es{font-weight:700;font-size:.85rem}.v-en{font-size:.76rem;color:#666}
+.pb{background:var(--gold);border:none;border-radius:7px;width:30px;height:30px;cursor:pointer;font-size:.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .18s,transform .1s}
+.pb:hover{background:var(--gold-l);transform:scale(1.07)}
+/* FITB */
+.fitb-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:11px}
+.fitb-n{font-size:.65rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.fitb-sentence{font-size:.95rem;font-weight:500;line-height:1.8;margin-bottom:8px}
+.fitb-inline{border:none;border-bottom:2px solid var(--gold);background:transparent;font-size:.95rem;font-weight:600;color:var(--black);outline:none;width:90px;padding:0 4px;text-align:center;font-family:'DM Sans',Arial,sans-serif}
+.fitb-hint{font-size:.78rem;color:#888;margin-top:6px}
+.fitb-fb{display:none;font-size:.8rem;margin-top:6px;padding:6px 10px;border-radius:7px}
+.fitb-fb.show.ok{display:block;background:#f0fdf4;color:var(--green)}
+.fitb-fb.show.no{display:block;background:#fff5f5;color:var(--red)}
+/* QUIZ */
+.qc{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:11px}
+.q-n{font-size:.65rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.q-t{font-size:.92rem;font-weight:600;color:var(--black);margin-bottom:11px;line-height:1.55}
+.q-o{display:flex;flex-direction:column;gap:7px}
+.qo{background:#faf7f2;border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:.85rem;font-weight:500;cursor:pointer;text-align:left;transition:all .15s}
+.qo:hover{border-color:var(--gold);background:#fffbf0}
+.qo.correct{background:#f0fdf4;border-color:var(--green);color:var(--green);font-weight:700}
+.qo.wrong{background:#fff5f5;border-color:var(--red);color:var(--red)}
+.score{display:none;background:var(--black);color:#fff;border-radius:12px;padding:18px;text-align:center;margin-top:6px}
+.score.show{display:block}
+.sc-big{font-size:1.8rem;font-weight:900;color:var(--gold)}
+.sc-lbl{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:4px}
+/* LISTENING */
+.listen-card{background:var(--black);color:#fff;border-radius:14px;padding:16px;margin-bottom:13px}
+.listen-script{font-size:.88rem;line-height:1.7;color:rgba(255,255,255,.85);margin-bottom:10px}
+.listen-btn{background:var(--gold);color:var(--black);border:none;border-radius:9px;padding:10px 20px;font-size:.85rem;font-weight:700;cursor:pointer}
+/* READING */
+.read-text{background:#fff;border:1px solid var(--border);border-radius:12px;padding:15px;margin-bottom:13px;font-size:.88rem;line-height:1.75;color:#333}
+.read-label{font-size:.63rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:8px}
+/* FREE WRITE */
+.write-area{width:100%;min-height:110px;border:1.5px solid var(--border);border-radius:11px;padding:12px;font-size:.88rem;font-family:'DM Sans',Arial,sans-serif;resize:vertical;outline:none}
+.write-area:focus{border-color:var(--gold)}
+.write-counter{font-size:.75rem;padding:4px 10px;border-radius:6px;margin-top:5px;display:inline-block;background:#f0f0f0;color:#777}
+/* SPEAKING */
+.speak-prompt{background:var(--black);color:#fff;border-radius:12px;padding:16px;margin-bottom:13px}
+.speak-prompt-es{font-size:1.05rem;font-weight:700;color:var(--gold);margin-bottom:4px}
+.speak-prompt-en{font-size:.82rem;color:rgba(255,255,255,.75)}
+.sp-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sp-btn{border:none;border-radius:8px;padding:9px 15px;font-size:.8rem;font-weight:600;cursor:pointer}
+.sp-play{background:var(--gold-dim);color:var(--black);border:1px solid var(--gold)}
+.sp-rec{background:var(--green);color:#fff}
+.sp-rec.recording{background:var(--red)}
+.sp-result{display:none;margin-top:8px;padding:8px 10px;border-radius:8px;font-size:.8rem;background:rgba(255,255,255,.08)}
+.sp-result.show{display:block}
+/* PUNCT / GRAMMAR extras */
+.punct-row{display:flex;gap:14px;margin-bottom:10px}
+.punct-box{flex:1;background:#faf7f2;border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center}
+.punct-sym{font-size:1.4rem;font-weight:800;color:var(--gold-l);background:var(--black);border-radius:8px;display:inline-block;padding:2px 12px;margin-bottom:4px}
+
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../../../index.html" class="sn-logo">
+    <img src="../../../assets/logo.png" alt="Shopnil Academy" />
+    <div class="sn-name"><strong>Shopnil Academy</strong><small>Spanish A1 (EN)</small></div>
+  </a>
+  <div class="sn-links">
+    <a href="../../../index.html">Home</a>
+    <a href="../../../courses.html">Courses</a>
+    <a href="../index.html">Course page</a>
+  </div>
+  <a href="../../../courses.html" class="sn-cta">All courses &rarr;</a>
+</nav>
+
+<div class="topbar">
+  <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
+  <span class="tb-level">A1</span>
+  <span class="tb-title">🇪🇸 Chapter 1 — ¡Hola, Español!</span>
+  <div class="tb-right">
+    <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
+    <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
+  </div>
+</div>
+
+<div class="app-body">
+<div class="sidebar" id="sidebar">
+  <div class="sb-nav">
+    <div class="sb-head">
+      <div class="sb-head-title">Chapter 1</div>
+      <div class="sb-head-es">¡Hola, Español!</div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-hdr" id="wh1" onclick="toggleWeek(1)">
+        <span class="week-pill">Ch. 1</span>
+        <span class="week-name">Hello, Spanish! <span class="es" style="display:block;font-size:.65rem;font-style:italic;color:#999">¡Hola, Español!</span></span>
+        <span class="week-arr">►</span>
+      </div>
+      <div class="day-list" id="wl1">
+
+        <!-- L1 Hello! & The Alphabet -->
+        <div class="day-hdr" id="dhc1l1" onclick="toggleDay('c1l1')">
+          <span class="day-dot"></span>
+          <span class="day-name">👋 L1 — Hello! & The Alphabet<span class="es">¡Hola! y el Abecedario</span></span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l1">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l1" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l1">0/9 lessons</div></div>
+          <div class="nav-item" id="nav-c1l1v" onclick="go('c1l1v','nav-c1l1v');markVisit('c1l1','c1l1v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary<span class="es">Vocabulario</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1w" onclick="go('c1l1w','nav-c1l1w');markVisit('c1l1','c1l1w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill in the Blank<span class="es">Rellena los Espacios</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1s" onclick="go('c1l1s','nav-c1l1s');markVisit('c1l1','c1l1s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation<span class="es">Pronunciación</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1gr" onclick="go('c1l1gr','nav-c1l1gr');markVisit('c1l1','c1l1gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar<span class="es">Gramática</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1l" onclick="go('c1l1l','nav-c1l1l');markVisit('c1l1','c1l1l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening<span class="es">Comprensión Auditiva</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1rd" onclick="go('c1l1rd','nav-c1l1rd');markVisit('c1l1','c1l1rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading<span class="es">Lectura</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1fw" onclick="go('c1l1fw','nav-c1l1fw');markVisit('c1l1','c1l1fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free Writing<span class="es">Escritura Libre</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1ss" onclick="go('c1l1ss','nav-c1l1ss');markVisit('c1l1','c1l1ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free Speaking<span class="es">Expresión Oral</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1q" onclick="go('c1l1q','nav-c1l1q');markVisit('c1l1','c1l1q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz<span class="es">Cuestionario</span></span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L2 Spanish Sounds -->
+        <div class="day-hdr" id="dhc1l2" onclick="toggleDay('c1l2')">
+          <span class="day-dot"></span>
+          <span class="day-name">🎤 L2 — Spanish Sounds<span class="es">Sonidos del Español</span></span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l2">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l2" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l2">0/9 lessons</div></div>
+          <div class="nav-item" id="nav-c1l2v" onclick="go('c1l2v','nav-c1l2v');markVisit('c1l2','c1l2v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary<span class="es">Vocabulario</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2w" onclick="go('c1l2w','nav-c1l2w');markVisit('c1l2','c1l2w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill in the Blank<span class="es">Rellena los Espacios</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2s" onclick="go('c1l2s','nav-c1l2s');markVisit('c1l2','c1l2s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation<span class="es">Pronunciación</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2gr" onclick="go('c1l2gr','nav-c1l2gr');markVisit('c1l2','c1l2gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar<span class="es">Gramática</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2l" onclick="go('c1l2l','nav-c1l2l');markVisit('c1l2','c1l2l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening<span class="es">Comprensión Auditiva</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2rd" onclick="go('c1l2rd','nav-c1l2rd');markVisit('c1l2','c1l2rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading<span class="es">Lectura</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2fw" onclick="go('c1l2fw','nav-c1l2fw');markVisit('c1l2','c1l2fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free Writing<span class="es">Escritura Libre</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2ss" onclick="go('c1l2ss','nav-c1l2ss');markVisit('c1l2','c1l2ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free Speaking<span class="es">Expresión Oral</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2q" onclick="go('c1l2q','nav-c1l2q');markVisit('c1l2','c1l2q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz<span class="es">Cuestionario</span></span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L3 Greetings & Farewells -->
+        <div class="day-hdr" id="dhc1l3" onclick="toggleDay('c1l3')">
+          <span class="day-dot"></span>
+          <span class="day-name">👋 L3 — Greetings & Farewells<span class="es">Saludos y Despedidas</span></span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l3">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l3" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l3">0/9 lessons</div></div>
+          <div class="nav-item" id="nav-c1l3v" onclick="go('c1l3v','nav-c1l3v');markVisit('c1l3','c1l3v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary<span class="es">Vocabulario</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3w" onclick="go('c1l3w','nav-c1l3w');markVisit('c1l3','c1l3w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill in the Blank<span class="es">Rellena los Espacios</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3s" onclick="go('c1l3s','nav-c1l3s');markVisit('c1l3','c1l3s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation<span class="es">Pronunciación</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3gr" onclick="go('c1l3gr','nav-c1l3gr');markVisit('c1l3','c1l3gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar<span class="es">Gramática</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3l" onclick="go('c1l3l','nav-c1l3l');markVisit('c1l3','c1l3l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening<span class="es">Comprensión Auditiva</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3rd" onclick="go('c1l3rd','nav-c1l3rd');markVisit('c1l3','c1l3rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading<span class="es">Lectura</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3fw" onclick="go('c1l3fw','nav-c1l3fw');markVisit('c1l3','c1l3fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free Writing<span class="es">Escritura Libre</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3ss" onclick="go('c1l3ss','nav-c1l3ss');markVisit('c1l3','c1l3ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free Speaking<span class="es">Expresión Oral</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3q" onclick="go('c1l3q','nav-c1l3q');markVisit('c1l3','c1l3q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz<span class="es">Cuestionario</span></span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L4 Introducing Yourself -->
+        <div class="day-hdr" id="dhc1l4" onclick="toggleDay('c1l4')">
+          <span class="day-dot"></span>
+          <span class="day-name">🙋 L4 — Introducing Yourself<span class="es">Presentarse</span></span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l4">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l4" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l4">0/9 lessons</div></div>
+          <div class="nav-item" id="nav-c1l4v" onclick="go('c1l4v','nav-c1l4v');markVisit('c1l4','c1l4v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary<span class="es">Vocabulario</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4w" onclick="go('c1l4w','nav-c1l4w');markVisit('c1l4','c1l4w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill in the Blank<span class="es">Rellena los Espacios</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4s" onclick="go('c1l4s','nav-c1l4s');markVisit('c1l4','c1l4s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation<span class="es">Pronunciación</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4gr" onclick="go('c1l4gr','nav-c1l4gr');markVisit('c1l4','c1l4gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar<span class="es">Gramática</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4l" onclick="go('c1l4l','nav-c1l4l');markVisit('c1l4','c1l4l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening<span class="es">Comprensión Auditiva</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4rd" onclick="go('c1l4rd','nav-c1l4rd');markVisit('c1l4','c1l4rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading<span class="es">Lectura</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4fw" onclick="go('c1l4fw','nav-c1l4fw');markVisit('c1l4','c1l4fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free Writing<span class="es">Escritura Libre</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4ss" onclick="go('c1l4ss','nav-c1l4ss');markVisit('c1l4','c1l4ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free Speaking<span class="es">Expresión Oral</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4q" onclick="go('c1l4q','nav-c1l4q');markVisit('c1l4','c1l4q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz<span class="es">Cuestionario</span></span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L5 Tú vs. Usted -->
+        <div class="day-hdr" id="dhc1l5" onclick="toggleDay('c1l5')">
+          <span class="day-dot"></span>
+          <span class="day-name">🎩 L5 — Tú vs. Usted<span class="es">Tú y Usted</span></span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l5">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l5" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l5">0/9 lessons</div></div>
+          <div class="nav-item" id="nav-c1l5v" onclick="go('c1l5v','nav-c1l5v');markVisit('c1l5','c1l5v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary<span class="es">Vocabulario</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5w" onclick="go('c1l5w','nav-c1l5w');markVisit('c1l5','c1l5w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill in the Blank<span class="es">Rellena los Espacios</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5s" onclick="go('c1l5s','nav-c1l5s');markVisit('c1l5','c1l5s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation<span class="es">Pronunciación</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5gr" onclick="go('c1l5gr','nav-c1l5gr');markVisit('c1l5','c1l5gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar<span class="es">Gramática</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5l" onclick="go('c1l5l','nav-c1l5l');markVisit('c1l5','c1l5l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening<span class="es">Comprensión Auditiva</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5rd" onclick="go('c1l5rd','nav-c1l5rd');markVisit('c1l5','c1l5rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading<span class="es">Lectura</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5fw" onclick="go('c1l5fw','nav-c1l5fw');markVisit('c1l5','c1l5fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free Writing<span class="es">Escritura Libre</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5ss" onclick="go('c1l5ss','nav-c1l5ss');markVisit('c1l5','c1l5ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free Speaking<span class="es">Expresión Oral</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5q" onclick="go('c1l5q','nav-c1l5q');markVisit('c1l5','c1l5q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz<span class="es">Cuestionario</span></span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L6 In the Classroom -->
+        <div class="day-hdr" id="dhc1l6" onclick="toggleDay('c1l6')">
+          <span class="day-dot"></span>
+          <span class="day-name">🏫 L6 — In the Classroom<span class="es">En la Clase</span></span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l6">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l6" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l6">0/9 lessons</div></div>
+          <div class="nav-item" id="nav-c1l6v" onclick="go('c1l6v','nav-c1l6v');markVisit('c1l6','c1l6v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary<span class="es">Vocabulario</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6w" onclick="go('c1l6w','nav-c1l6w');markVisit('c1l6','c1l6w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill in the Blank<span class="es">Rellena los Espacios</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6s" onclick="go('c1l6s','nav-c1l6s');markVisit('c1l6','c1l6s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation<span class="es">Pronunciación</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6gr" onclick="go('c1l6gr','nav-c1l6gr');markVisit('c1l6','c1l6gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar<span class="es">Gramática</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6l" onclick="go('c1l6l','nav-c1l6l');markVisit('c1l6','c1l6l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening<span class="es">Comprensión Auditiva</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6rd" onclick="go('c1l6rd','nav-c1l6rd');markVisit('c1l6','c1l6rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading<span class="es">Lectura</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6fw" onclick="go('c1l6fw','nav-c1l6fw');markVisit('c1l6','c1l6fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free Writing<span class="es">Escritura Libre</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6ss" onclick="go('c1l6ss','nav-c1l6ss');markVisit('c1l6','c1l6ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free Speaking<span class="es">Expresión Oral</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6q" onclick="go('c1l6q','nav-c1l6q');markVisit('c1l6','c1l6q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz<span class="es">Cuestionario</span></span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- Review -->
+        <div class="day-hdr" id="dhc1r" onclick="toggleDay('c1r')">
+          <span class="day-dot"></span>
+          <span class="day-name">🔄 R1 — Chapter 1 Review<span class="es">Repaso del Capítulo 1</span></span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1r">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1r" style="width:0%"></div></div><div class="day-progress" id="progtext-c1r">0/3 lessons</div></div>
+          <div class="nav-item" id="nav-c1rv" onclick="go('c1rv','nav-c1rv');markVisit('c1r','c1rv')"><span class="ni-icon">🔄</span><span class="ni-label">Full Review<span class="es">Repaso Completo</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1rs" onclick="go('c1rs','nav-c1rs');markVisit('c1r','c1rs')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation Test<span class="es">Prueba de Pronunciación</span></span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1rq" onclick="go('c1rq','nav-c1rq');markVisit('c1r','c1rq')"><span class="ni-icon">🏆</span><span class="ni-label">Review Quiz<span class="es">Cuestionario de Repaso</span></span><span class="ni-done">✓</span></div>
+        </div>
+
+      </div><!-- end wl1 -->
+    </div><!-- end week-block -->
+  </div><!-- end sb-nav -->
+</div><!-- end sidebar -->
+
+<div class="main-wrap">
+<div class="main" id="mainArea">
+
+<!-- c1l1v -->
+<div class="page" id="page-c1l1v">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Vocabulary</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">The Spanish Alphabet — El Abecedario</div><div class="placeholder-note" style="margin-bottom:11px">Spanish has 27 letters — the same 26 as English, plus ñ. Tap the button to hear each letter and example word.</div><div class="vh"><span></span><span>Letter</span><span>Name &amp; Example</span><span></span></div><div class="vr"><span class="v-letter">A</span><div><div class="v-es">a</div><div class="v-en">casa (house)</div></div><button class="pb" onclick="tts('casa')">🔊</button></div><div class="vr"><span class="v-letter">B</span><div><div class="v-es">be</div><div class="v-en">bueno (good)</div></div><button class="pb" onclick="tts('bueno')">🔊</button></div><div class="vr"><span class="v-letter">C</span><div><div class="v-es">ce</div><div class="v-en">cosa (thing)</div></div><button class="pb" onclick="tts('cosa')">🔊</button></div><div class="vr"><span class="v-letter">D</span><div><div class="v-es">de</div><div class="v-en">día (day)</div></div><button class="pb" onclick="tts('día')">🔊</button></div><div class="vr"><span class="v-letter">E</span><div><div class="v-es">e</div><div class="v-en">es (is)</div></div><button class="pb" onclick="tts('es')">🔊</button></div><div class="vr"><span class="v-letter">F</span><div><div class="v-es">efe</div><div class="v-en">favor (favor)</div></div><button class="pb" onclick="tts('favor')">🔊</button></div><div class="vr"><span class="v-letter">G</span><div><div class="v-es">ge</div><div class="v-en">gato (cat)</div></div><button class="pb" onclick="tts('gato')">🔊</button></div><div class="vr"><span class="v-letter">H</span><div><div class="v-es">hache</div><div class="v-en">hola (hello) — silent!</div></div><button class="pb" onclick="tts('hola')">🔊</button></div><div class="vr"><span class="v-letter">I</span><div><div class="v-es">i</div><div class="v-en">isla (island)</div></div><button class="pb" onclick="tts('isla')">🔊</button></div><div class="vr"><span class="v-letter">J</span><div><div class="v-es">jota</div><div class="v-en">joven (young)</div></div><button class="pb" onclick="tts('joven')">🔊</button></div><div class="vr"><span class="v-letter">K</span><div><div class="v-es">ka</div><div class="v-en">kilo (kilo)</div></div><button class="pb" onclick="tts('kilo')">🔊</button></div><div class="vr"><span class="v-letter">L</span><div><div class="v-es">ele</div><div class="v-en">luna (moon)</div></div><button class="pb" onclick="tts('luna')">🔊</button></div><div class="vr"><span class="v-letter">M</span><div><div class="v-es">eme</div><div class="v-en">mesa (table)</div></div><button class="pb" onclick="tts('mesa')">🔊</button></div><div class="vr"><span class="v-letter">N</span><div><div class="v-es">ene</div><div class="v-en">nada (nothing)</div></div><button class="pb" onclick="tts('nada')">🔊</button></div><div class="vr"><span class="v-letter">Ñ</span><div><div class="v-es">eñe</div><div class="v-en">niño (child)</div></div><button class="pb" onclick="tts('niño')">🔊</button></div><div class="vr"><span class="v-letter">O</span><div><div class="v-es">o</div><div class="v-en">ojo (eye)</div></div><button class="pb" onclick="tts('ojo')">🔊</button></div><div class="vr"><span class="v-letter">P</span><div><div class="v-es">pe</div><div class="v-en">piso (floor)</div></div><button class="pb" onclick="tts('piso')">🔊</button></div><div class="vr"><span class="v-letter">Q</span><div><div class="v-es">cu</div><div class="v-en">queso (cheese)</div></div><button class="pb" onclick="tts('queso')">🔊</button></div><div class="vr"><span class="v-letter">R</span><div><div class="v-es">erre</div><div class="v-en">rojo (red)</div></div><button class="pb" onclick="tts('rojo')">🔊</button></div><div class="vr"><span class="v-letter">S</span><div><div class="v-es">ese</div><div class="v-en">sol (sun)</div></div><button class="pb" onclick="tts('sol')">🔊</button></div><div class="vr"><span class="v-letter">T</span><div><div class="v-es">te</div><div class="v-en">taza (cup)</div></div><button class="pb" onclick="tts('taza')">🔊</button></div><div class="vr"><span class="v-letter">U</span><div><div class="v-es">u</div><div class="v-en">uno (one)</div></div><button class="pb" onclick="tts('uno')">🔊</button></div><div class="vr"><span class="v-letter">V</span><div><div class="v-es">uve</div><div class="v-en">vaso (glass)</div></div><button class="pb" onclick="tts('vaso')">🔊</button></div><div class="vr"><span class="v-letter">W</span><div><div class="v-es">uve doble</div><div class="v-en">web (web)</div></div><button class="pb" onclick="tts('web')">🔊</button></div><div class="vr"><span class="v-letter">X</span><div><div class="v-es">equis</div><div class="v-en">examen (exam)</div></div><button class="pb" onclick="tts('examen')">🔊</button></div><div class="vr"><span class="v-letter">Y</span><div><div class="v-es">i griega / ye</div><div class="v-en">yo (I)</div></div><button class="pb" onclick="tts('yo')">🔊</button></div><div class="vr"><span class="v-letter">Z</span><div><div class="v-es">zeta</div><div class="v-en">zapato (shoe)</div></div><button class="pb" onclick="tts('zapato')">🔊</button></div></div>
+    <div class="pn-bar"><span class="pn-btn disabled"></span><div class="pn-btn next" onclick="go('c1l1w','nav-c1l1w')"><span class="pn-lbl">Next →</span><span class="pn-name">Fill in the Blank</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1w -->
+<div class="page" id="page-c1l1w">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Fill in the Blank</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Practice: Vowels &amp; Letters</div><div class="placeholder-note" style="margin-bottom:11px">Fill in each blank, then check your answers.</div></div><div id="fitb-c1l1w"></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1v','nav-c1l1v')"><span class="pn-lbl">← Previous</span><span class="pn-name">Vocabulary</span></div><div class="pn-btn next" onclick="go('c1l1s','nav-c1l1s')"><span class="pn-lbl">Next →</span><span class="pn-name">Pronunciation</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1s -->
+<div class="page" id="page-c1l1s">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Pronunciation</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">The 5 Vowel Sounds</div><div class="placeholder-note" style="margin-bottom:11px">Spanish has exactly 5 vowel sounds, and each one is always pronounced the same way — short and pure, never a glide like English "day" or "go." Tap to listen.</div><div class="vh"><span></span><span>Vowel</span><span>Example</span><span></span></div><div class="vr"><span class="v-letter">a</span><div><div class="v-es">padre (father)</div></div><button class="pb" onclick="tts('padre')">🔊</button></div><div class="vr"><span class="v-letter">e</span><div><div class="v-es">mesa (table)</div></div><button class="pb" onclick="tts('mesa')">🔊</button></div><div class="vr"><span class="v-letter">i</span><div><div class="v-es">isla (island)</div></div><button class="pb" onclick="tts('isla')">🔊</button></div><div class="vr"><span class="v-letter">o</span><div><div class="v-es">sol (sun)</div></div><button class="pb" onclick="tts('sol')">🔊</button></div><div class="vr"><span class="v-letter">u</span><div><div class="v-es">uno (one)</div></div><button class="pb" onclick="tts('uno')">🔊</button></div></div><div class="card"><div class="card-t">Word Stress</div><div class="placeholder-note">Spanish stress follows a simple default rule:<br>&bull; Words ending in a vowel, <b>n</b>, or <b>s</b> → stress falls on the <b>second-to-last</b> syllable (e.g. <i>ca-SA</i>, <i>ha-BLAN</i>).<br>&bull; Words ending in any other consonant → stress falls on the <b>last</b> syllable (e.g. <i>ha-BLAR</i>, <i>re-loj</i>).<br>&bull; Any exception to these rules gets a written accent mark — a <b>tilde</b> — to show where the stress really falls (e.g. <i>ca-FÉ</i>, <i>MÚSI-CA</i>).</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1w','nav-c1l1w')"><span class="pn-lbl">← Previous</span><span class="pn-name">Fill in the Blank</span></div><div class="pn-btn next" onclick="go('c1l1gr','nav-c1l1gr')"><span class="pn-lbl">Next →</span><span class="pn-name">Grammar</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1gr -->
+<div class="page" id="page-c1l1gr">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">📚 Grammar</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Inverted Punctuation: ¿ and ¡</div><div class="placeholder-note" style="margin-bottom:11px">Spanish is the only major language that marks the <b>start</b> of a question or exclamation, not just the end.</div><div class="punct-row"><div class="punct-box"><div class="punct-sym">¿ ... ?</div><div class="v-en">Questions: <br><i>¿Cómo estás?</i><br>(How are you?)</div></div><div class="punct-box"><div class="punct-sym">¡ ... !</div><div class="v-en">Exclamations: <br><i>¡Hola!</i><br>(Hello!)</div></div></div></div><div class="card"><div class="card-t">Capitalization Differences</div><table class="gram-table"><tr><th>English capitalizes…</th><th>Spanish does NOT</th></tr><tr><td>Days: Monday</td><td class="es">lunes</td></tr><tr><td>Months: January</td><td class="es">enero</td></tr><tr><td>Languages: Spanish</td><td class="es">español</td></tr><tr><td>Nationalities: Spanish (adj.)</td><td class="es">español/a</td></tr></table></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1s','nav-c1l1s')"><span class="pn-lbl">← Previous</span><span class="pn-name">Pronunciation</span></div><div class="pn-btn next" onclick="go('c1l1l','nav-c1l1l')"><span class="pn-lbl">Next →</span><span class="pn-name">Listening</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1l -->
+<div class="page" id="page-c1l1l">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">🎵 Listening</span></div>
+  </div>
+  <div class="content">
+    <div class="listen-card"><div class="listen-script">A friend spells out a name and a greeting on the phone. Listen carefully, then answer the questions below.<br><br>— “Hola, me llamo Ana. A - ene - a. ¡Hola!”</div><button class="listen-btn" onclick="tts('Hola, me llamo Ana. A, ene, a. Hola!')">▶ Play Audio</button></div><div id="quiz-c1l1l"></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1gr','nav-c1l1gr')"><span class="pn-lbl">← Previous</span><span class="pn-name">Grammar</span></div><div class="pn-btn next" onclick="go('c1l1rd','nav-c1l1rd')"><span class="pn-lbl">Next →</span><span class="pn-name">Reading</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1rd -->
+<div class="page" id="page-c1l1rd">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Reading</span></div>
+  </div>
+  <div class="content">
+    <div class="read-text"><div class="read-label">Reading</div>El español se escribe casi exactamente como se pronuncia. El abecedario español tiene 27 letras, una más que el inglés: la letra ñ. Por ejemplo, la palabra <i>niño</i> (child) usa esta letra especial. En español, la letra H nunca se pronuncia — por eso decimos “ola” aunque la palabra se escribe <i>hola</i>.<hr style="border:none;border-top:1px solid var(--border);margin:12px 0"><div class="v-en"><b>English gloss:</b> Spanish is written almost exactly as it is pronounced. The Spanish alphabet has 27 letters, one more than English: the letter ñ. For example, the word <i>niño</i> (child) uses this special letter. In Spanish, the letter H is never pronounced — that’s why we say “ola” even though the word is spelled <i>hola</i>.</div></div><div class="card"><div class="card-t">Quick Check</div><div class="placeholder-note">1. How many letters does the Spanish alphabet have? <b>(27)</b><br>2. Which letter does Spanish have that English doesn’t? <b>(ñ)</b><br>3. Is the H in <i>hola</i> pronounced? <b>(No, it’s silent)</b></div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1l','nav-c1l1l')"><span class="pn-lbl">← Previous</span><span class="pn-name">Listening</span></div><div class="pn-btn next" onclick="go('c1l1fw','nav-c1l1fw')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Writing</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1fw -->
+<div class="page" id="page-c1l1fw">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Free Writing</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Write It Out</div><div class="placeholder-note" style="margin-bottom:9px">Spell your name using Spanish letter names (e.g. <i>M - A - R - Í - A</i> → “eme, a, erre, i, a”), then write 3 Spanish words that use each of the 5 vowels at least once.</div><textarea class="write-area" id="fw-c1l1" oninput="wcCount('fw-c1l1')" placeholder="Write your answer here..."></textarea><div class="write-counter" id="fw-c1l1-count">0 words</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1rd','nav-c1l1rd')"><span class="pn-lbl">← Previous</span><span class="pn-name">Reading</span></div><div class="pn-btn next" onclick="go('c1l1ss','nav-c1l1ss')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Speaking</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1ss -->
+<div class="page" id="page-c1l1ss">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">🗣️ Free Speaking</span></div>
+  </div>
+  <div class="content">
+    <div class="speak-prompt"><div class="speak-prompt-es">¡Hola! Me llamo…</div><div class="speak-prompt-en">Practice saying: “Hello! My name is…” then spell your name aloud in Spanish.</div><div class="sp-actions"><button class="sp-btn sp-play" onclick="tts('Hola, me llamo...')">▶ Listen</button><button class="sp-btn sp-rec" id="sprec-c1l1ss" onclick="speakPractice('c1l1ss','Hola, me llamo')">🎤 Record</button></div><div class="sp-result" id="spres-c1l1ss"></div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1fw','nav-c1l1fw')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Writing</span></div><div class="pn-btn next" onclick="go('c1l1q','nav-c1l1q')"><span class="pn-lbl">Next →</span><span class="pn-name">Quiz</span></div></div>
+  </div>
+</div>
+
+<!-- c1l1q -->
+<div class="page" id="page-c1l1q">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Hello! & The Alphabet</div>
+    <div class="ph-es">¡Hola! y el Abecedario</div>
+    <div class="ph-tags"><span class="ph-tag">📝 Quiz</span></div>
+  </div>
+  <div class="content">
+    <div id="quiz-c1l1q"></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1ss','nav-c1l1ss')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Speaking</span></div><div class="pn-btn next" onclick="go('c1l2v','nav-c1l2v')"><span class="pn-lbl">Next →</span><span class="pn-name">Vocabulary</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2v -->
+<div class="page" id="page-c1l2v">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Vocabulary</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Vocabulary — Vocabulario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l1q','nav-c1l1q')"><span class="pn-lbl">← Previous</span><span class="pn-name">Quiz</span></div><div class="pn-btn next" onclick="go('c1l2w','nav-c1l2w')"><span class="pn-lbl">Next →</span><span class="pn-name">Fill in the Blank</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2w -->
+<div class="page" id="page-c1l2w">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Fill in the Blank</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Fill in the Blank — Rellena los Espacios</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2v','nav-c1l2v')"><span class="pn-lbl">← Previous</span><span class="pn-name">Vocabulary</span></div><div class="pn-btn next" onclick="go('c1l2s','nav-c1l2s')"><span class="pn-lbl">Next →</span><span class="pn-name">Pronunciation</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2s -->
+<div class="page" id="page-c1l2s">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Pronunciation</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Pronunciation — Pronunciación</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2w','nav-c1l2w')"><span class="pn-lbl">← Previous</span><span class="pn-name">Fill in the Blank</span></div><div class="pn-btn next" onclick="go('c1l2gr','nav-c1l2gr')"><span class="pn-lbl">Next →</span><span class="pn-name">Grammar</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2gr -->
+<div class="page" id="page-c1l2gr">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">📚 Grammar</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Grammar — Gramática</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2s','nav-c1l2s')"><span class="pn-lbl">← Previous</span><span class="pn-name">Pronunciation</span></div><div class="pn-btn next" onclick="go('c1l2l','nav-c1l2l')"><span class="pn-lbl">Next →</span><span class="pn-name">Listening</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2l -->
+<div class="page" id="page-c1l2l">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">🎵 Listening</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Listening — Comprensión Auditiva</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2gr','nav-c1l2gr')"><span class="pn-lbl">← Previous</span><span class="pn-name">Grammar</span></div><div class="pn-btn next" onclick="go('c1l2rd','nav-c1l2rd')"><span class="pn-lbl">Next →</span><span class="pn-name">Reading</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2rd -->
+<div class="page" id="page-c1l2rd">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Reading</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Reading — Lectura</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2l','nav-c1l2l')"><span class="pn-lbl">← Previous</span><span class="pn-name">Listening</span></div><div class="pn-btn next" onclick="go('c1l2fw','nav-c1l2fw')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Writing</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2fw -->
+<div class="page" id="page-c1l2fw">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Free Writing</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Writing — Escritura Libre</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2rd','nav-c1l2rd')"><span class="pn-lbl">← Previous</span><span class="pn-name">Reading</span></div><div class="pn-btn next" onclick="go('c1l2ss','nav-c1l2ss')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Speaking</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2ss -->
+<div class="page" id="page-c1l2ss">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">🗣️ Free Speaking</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Speaking — Expresión Oral</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2fw','nav-c1l2fw')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Writing</span></div><div class="pn-btn next" onclick="go('c1l2q','nav-c1l2q')"><span class="pn-lbl">Next →</span><span class="pn-name">Quiz</span></div></div>
+  </div>
+</div>
+
+<!-- c1l2q -->
+<div class="page" id="page-c1l2q">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 2</div>
+    <div class="ph-title">Spanish Sounds</div>
+    <div class="ph-es">Sonidos del Español</div>
+    <div class="ph-tags"><span class="ph-tag">📝 Quiz</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Quiz — Cuestionario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2ss','nav-c1l2ss')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Speaking</span></div><div class="pn-btn next" onclick="go('c1l3v','nav-c1l3v')"><span class="pn-lbl">Next →</span><span class="pn-name">Vocabulary</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3v -->
+<div class="page" id="page-c1l3v">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Vocabulary</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Vocabulary — Vocabulario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l2q','nav-c1l2q')"><span class="pn-lbl">← Previous</span><span class="pn-name">Quiz</span></div><div class="pn-btn next" onclick="go('c1l3w','nav-c1l3w')"><span class="pn-lbl">Next →</span><span class="pn-name">Fill in the Blank</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3w -->
+<div class="page" id="page-c1l3w">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Fill in the Blank</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Fill in the Blank — Rellena los Espacios</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3v','nav-c1l3v')"><span class="pn-lbl">← Previous</span><span class="pn-name">Vocabulary</span></div><div class="pn-btn next" onclick="go('c1l3s','nav-c1l3s')"><span class="pn-lbl">Next →</span><span class="pn-name">Pronunciation</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3s -->
+<div class="page" id="page-c1l3s">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Pronunciation</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Pronunciation — Pronunciación</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3w','nav-c1l3w')"><span class="pn-lbl">← Previous</span><span class="pn-name">Fill in the Blank</span></div><div class="pn-btn next" onclick="go('c1l3gr','nav-c1l3gr')"><span class="pn-lbl">Next →</span><span class="pn-name">Grammar</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3gr -->
+<div class="page" id="page-c1l3gr">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">📚 Grammar</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Grammar — Gramática</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3s','nav-c1l3s')"><span class="pn-lbl">← Previous</span><span class="pn-name">Pronunciation</span></div><div class="pn-btn next" onclick="go('c1l3l','nav-c1l3l')"><span class="pn-lbl">Next →</span><span class="pn-name">Listening</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3l -->
+<div class="page" id="page-c1l3l">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">🎵 Listening</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Listening — Comprensión Auditiva</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3gr','nav-c1l3gr')"><span class="pn-lbl">← Previous</span><span class="pn-name">Grammar</span></div><div class="pn-btn next" onclick="go('c1l3rd','nav-c1l3rd')"><span class="pn-lbl">Next →</span><span class="pn-name">Reading</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3rd -->
+<div class="page" id="page-c1l3rd">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Reading</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Reading — Lectura</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3l','nav-c1l3l')"><span class="pn-lbl">← Previous</span><span class="pn-name">Listening</span></div><div class="pn-btn next" onclick="go('c1l3fw','nav-c1l3fw')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Writing</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3fw -->
+<div class="page" id="page-c1l3fw">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Free Writing</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Writing — Escritura Libre</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3rd','nav-c1l3rd')"><span class="pn-lbl">← Previous</span><span class="pn-name">Reading</span></div><div class="pn-btn next" onclick="go('c1l3ss','nav-c1l3ss')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Speaking</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3ss -->
+<div class="page" id="page-c1l3ss">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">🗣️ Free Speaking</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Speaking — Expresión Oral</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3fw','nav-c1l3fw')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Writing</span></div><div class="pn-btn next" onclick="go('c1l3q','nav-c1l3q')"><span class="pn-lbl">Next →</span><span class="pn-name">Quiz</span></div></div>
+  </div>
+</div>
+
+<!-- c1l3q -->
+<div class="page" id="page-c1l3q">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 3</div>
+    <div class="ph-title">Greetings & Farewells</div>
+    <div class="ph-es">Saludos y Despedidas</div>
+    <div class="ph-tags"><span class="ph-tag">📝 Quiz</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Quiz — Cuestionario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3ss','nav-c1l3ss')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Speaking</span></div><div class="pn-btn next" onclick="go('c1l4v','nav-c1l4v')"><span class="pn-lbl">Next →</span><span class="pn-name">Vocabulary</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4v -->
+<div class="page" id="page-c1l4v">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Vocabulary</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Vocabulary — Vocabulario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l3q','nav-c1l3q')"><span class="pn-lbl">← Previous</span><span class="pn-name">Quiz</span></div><div class="pn-btn next" onclick="go('c1l4w','nav-c1l4w')"><span class="pn-lbl">Next →</span><span class="pn-name">Fill in the Blank</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4w -->
+<div class="page" id="page-c1l4w">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Fill in the Blank</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Fill in the Blank — Rellena los Espacios</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4v','nav-c1l4v')"><span class="pn-lbl">← Previous</span><span class="pn-name">Vocabulary</span></div><div class="pn-btn next" onclick="go('c1l4s','nav-c1l4s')"><span class="pn-lbl">Next →</span><span class="pn-name">Pronunciation</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4s -->
+<div class="page" id="page-c1l4s">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Pronunciation</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Pronunciation — Pronunciación</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4w','nav-c1l4w')"><span class="pn-lbl">← Previous</span><span class="pn-name">Fill in the Blank</span></div><div class="pn-btn next" onclick="go('c1l4gr','nav-c1l4gr')"><span class="pn-lbl">Next →</span><span class="pn-name">Grammar</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4gr -->
+<div class="page" id="page-c1l4gr">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">📚 Grammar</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Grammar — Gramática</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4s','nav-c1l4s')"><span class="pn-lbl">← Previous</span><span class="pn-name">Pronunciation</span></div><div class="pn-btn next" onclick="go('c1l4l','nav-c1l4l')"><span class="pn-lbl">Next →</span><span class="pn-name">Listening</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4l -->
+<div class="page" id="page-c1l4l">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">🎵 Listening</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Listening — Comprensión Auditiva</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4gr','nav-c1l4gr')"><span class="pn-lbl">← Previous</span><span class="pn-name">Grammar</span></div><div class="pn-btn next" onclick="go('c1l4rd','nav-c1l4rd')"><span class="pn-lbl">Next →</span><span class="pn-name">Reading</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4rd -->
+<div class="page" id="page-c1l4rd">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Reading</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Reading — Lectura</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4l','nav-c1l4l')"><span class="pn-lbl">← Previous</span><span class="pn-name">Listening</span></div><div class="pn-btn next" onclick="go('c1l4fw','nav-c1l4fw')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Writing</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4fw -->
+<div class="page" id="page-c1l4fw">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Free Writing</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Writing — Escritura Libre</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4rd','nav-c1l4rd')"><span class="pn-lbl">← Previous</span><span class="pn-name">Reading</span></div><div class="pn-btn next" onclick="go('c1l4ss','nav-c1l4ss')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Speaking</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4ss -->
+<div class="page" id="page-c1l4ss">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">🗣️ Free Speaking</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Speaking — Expresión Oral</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4fw','nav-c1l4fw')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Writing</span></div><div class="pn-btn next" onclick="go('c1l4q','nav-c1l4q')"><span class="pn-lbl">Next →</span><span class="pn-name">Quiz</span></div></div>
+  </div>
+</div>
+
+<!-- c1l4q -->
+<div class="page" id="page-c1l4q">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 4</div>
+    <div class="ph-title">Introducing Yourself</div>
+    <div class="ph-es">Presentarse</div>
+    <div class="ph-tags"><span class="ph-tag">📝 Quiz</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Quiz — Cuestionario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4ss','nav-c1l4ss')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Speaking</span></div><div class="pn-btn next" onclick="go('c1l5v','nav-c1l5v')"><span class="pn-lbl">Next →</span><span class="pn-name">Vocabulary</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5v -->
+<div class="page" id="page-c1l5v">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Vocabulary</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Vocabulary — Vocabulario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l4q','nav-c1l4q')"><span class="pn-lbl">← Previous</span><span class="pn-name">Quiz</span></div><div class="pn-btn next" onclick="go('c1l5w','nav-c1l5w')"><span class="pn-lbl">Next →</span><span class="pn-name">Fill in the Blank</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5w -->
+<div class="page" id="page-c1l5w">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Fill in the Blank</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Fill in the Blank — Rellena los Espacios</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5v','nav-c1l5v')"><span class="pn-lbl">← Previous</span><span class="pn-name">Vocabulary</span></div><div class="pn-btn next" onclick="go('c1l5s','nav-c1l5s')"><span class="pn-lbl">Next →</span><span class="pn-name">Pronunciation</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5s -->
+<div class="page" id="page-c1l5s">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Pronunciation</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Pronunciation — Pronunciación</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5w','nav-c1l5w')"><span class="pn-lbl">← Previous</span><span class="pn-name">Fill in the Blank</span></div><div class="pn-btn next" onclick="go('c1l5gr','nav-c1l5gr')"><span class="pn-lbl">Next →</span><span class="pn-name">Grammar</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5gr -->
+<div class="page" id="page-c1l5gr">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">📚 Grammar</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Grammar — Gramática</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5s','nav-c1l5s')"><span class="pn-lbl">← Previous</span><span class="pn-name">Pronunciation</span></div><div class="pn-btn next" onclick="go('c1l5l','nav-c1l5l')"><span class="pn-lbl">Next →</span><span class="pn-name">Listening</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5l -->
+<div class="page" id="page-c1l5l">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">🎵 Listening</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Listening — Comprensión Auditiva</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5gr','nav-c1l5gr')"><span class="pn-lbl">← Previous</span><span class="pn-name">Grammar</span></div><div class="pn-btn next" onclick="go('c1l5rd','nav-c1l5rd')"><span class="pn-lbl">Next →</span><span class="pn-name">Reading</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5rd -->
+<div class="page" id="page-c1l5rd">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Reading</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Reading — Lectura</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5l','nav-c1l5l')"><span class="pn-lbl">← Previous</span><span class="pn-name">Listening</span></div><div class="pn-btn next" onclick="go('c1l5fw','nav-c1l5fw')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Writing</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5fw -->
+<div class="page" id="page-c1l5fw">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Free Writing</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Writing — Escritura Libre</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5rd','nav-c1l5rd')"><span class="pn-lbl">← Previous</span><span class="pn-name">Reading</span></div><div class="pn-btn next" onclick="go('c1l5ss','nav-c1l5ss')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Speaking</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5ss -->
+<div class="page" id="page-c1l5ss">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">🗣️ Free Speaking</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Speaking — Expresión Oral</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5fw','nav-c1l5fw')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Writing</span></div><div class="pn-btn next" onclick="go('c1l5q','nav-c1l5q')"><span class="pn-lbl">Next →</span><span class="pn-name">Quiz</span></div></div>
+  </div>
+</div>
+
+<!-- c1l5q -->
+<div class="page" id="page-c1l5q">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 5</div>
+    <div class="ph-title">Tú vs. Usted</div>
+    <div class="ph-es">Tú y Usted</div>
+    <div class="ph-tags"><span class="ph-tag">📝 Quiz</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Quiz — Cuestionario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5ss','nav-c1l5ss')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Speaking</span></div><div class="pn-btn next" onclick="go('c1l6v','nav-c1l6v')"><span class="pn-lbl">Next →</span><span class="pn-name">Vocabulary</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6v -->
+<div class="page" id="page-c1l6v">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Vocabulary</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Vocabulary — Vocabulario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l5q','nav-c1l5q')"><span class="pn-lbl">← Previous</span><span class="pn-name">Quiz</span></div><div class="pn-btn next" onclick="go('c1l6w','nav-c1l6w')"><span class="pn-lbl">Next →</span><span class="pn-name">Fill in the Blank</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6w -->
+<div class="page" id="page-c1l6w">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Fill in the Blank</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Fill in the Blank — Rellena los Espacios</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6v','nav-c1l6v')"><span class="pn-lbl">← Previous</span><span class="pn-name">Vocabulary</span></div><div class="pn-btn next" onclick="go('c1l6s','nav-c1l6s')"><span class="pn-lbl">Next →</span><span class="pn-name">Pronunciation</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6s -->
+<div class="page" id="page-c1l6s">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Pronunciation</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Pronunciation — Pronunciación</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6w','nav-c1l6w')"><span class="pn-lbl">← Previous</span><span class="pn-name">Fill in the Blank</span></div><div class="pn-btn next" onclick="go('c1l6gr','nav-c1l6gr')"><span class="pn-lbl">Next →</span><span class="pn-name">Grammar</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6gr -->
+<div class="page" id="page-c1l6gr">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">📚 Grammar</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Grammar — Gramática</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6s','nav-c1l6s')"><span class="pn-lbl">← Previous</span><span class="pn-name">Pronunciation</span></div><div class="pn-btn next" onclick="go('c1l6l','nav-c1l6l')"><span class="pn-lbl">Next →</span><span class="pn-name">Listening</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6l -->
+<div class="page" id="page-c1l6l">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">🎵 Listening</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Listening — Comprensión Auditiva</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6gr','nav-c1l6gr')"><span class="pn-lbl">← Previous</span><span class="pn-name">Grammar</span></div><div class="pn-btn next" onclick="go('c1l6rd','nav-c1l6rd')"><span class="pn-lbl">Next →</span><span class="pn-name">Reading</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6rd -->
+<div class="page" id="page-c1l6rd">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Reading</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Reading — Lectura</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6l','nav-c1l6l')"><span class="pn-lbl">← Previous</span><span class="pn-name">Listening</span></div><div class="pn-btn next" onclick="go('c1l6fw','nav-c1l6fw')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Writing</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6fw -->
+<div class="page" id="page-c1l6fw">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Free Writing</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Writing — Escritura Libre</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6rd','nav-c1l6rd')"><span class="pn-lbl">← Previous</span><span class="pn-name">Reading</span></div><div class="pn-btn next" onclick="go('c1l6ss','nav-c1l6ss')"><span class="pn-lbl">Next →</span><span class="pn-name">Free Speaking</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6ss -->
+<div class="page" id="page-c1l6ss">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">🗣️ Free Speaking</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Free Speaking — Expresión Oral</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6fw','nav-c1l6fw')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Writing</span></div><div class="pn-btn next" onclick="go('c1l6q','nav-c1l6q')"><span class="pn-lbl">Next →</span><span class="pn-name">Quiz</span></div></div>
+  </div>
+</div>
+
+<!-- c1l6q -->
+<div class="page" id="page-c1l6q">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 6</div>
+    <div class="ph-title">In the Classroom</div>
+    <div class="ph-es">En la Clase</div>
+    <div class="ph-tags"><span class="ph-tag">📝 Quiz</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Quiz — Cuestionario</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6ss','nav-c1l6ss')"><span class="pn-lbl">← Previous</span><span class="pn-name">Free Speaking</span></div><div class="pn-btn next" onclick="go('c1rv','nav-c1rv')"><span class="pn-lbl">Next →</span><span class="pn-name">Full Review</span></div></div>
+  </div>
+</div>
+
+<!-- c1rv -->
+<div class="page" id="page-c1rv">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Review</div>
+    <div class="ph-title">Chapter 1 Review</div>
+    <div class="ph-es">Repaso del Capítulo 1</div>
+    <div class="ph-tags"><span class="ph-tag">🔄 Full Review</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Full Review — Repaso Completo</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1l6q','nav-c1l6q')"><span class="pn-lbl">← Previous</span><span class="pn-name">Quiz</span></div><div class="pn-btn next" onclick="go('c1rs','nav-c1rs')"><span class="pn-lbl">Next →</span><span class="pn-name">Pronunciation Test</span></div></div>
+  </div>
+</div>
+
+<!-- c1rs -->
+<div class="page" id="page-c1rs">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Review</div>
+    <div class="ph-title">Chapter 1 Review</div>
+    <div class="ph-es">Repaso del Capítulo 1</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Pronunciation Test</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Pronunciation Test — Prueba de Pronunciación</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1rv','nav-c1rv')"><span class="pn-lbl">← Previous</span><span class="pn-name">Full Review</span></div><div class="pn-btn next" onclick="go('c1rq','nav-c1rq')"><span class="pn-lbl">Next →</span><span class="pn-name">Review Quiz</span></div></div>
+  </div>
+</div>
+
+<!-- c1rq -->
+<div class="page" id="page-c1rq">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Review</div>
+    <div class="ph-title">Chapter 1 Review</div>
+    <div class="ph-es">Repaso del Capítulo 1</div>
+    <div class="ph-tags"><span class="ph-tag">🏆 Review Quiz</span></div>
+  </div>
+  <div class="content">
+    <div class="card"><div class="card-t">Review Quiz — Cuestionario de Repaso</div><div class="placeholder-note">Content for this section will be added in a later build step.</div></div>
+    <div class="pn-bar"><div class="pn-btn prev" onclick="go('c1rs','nav-c1rs')"><span class="pn-lbl">← Previous</span><span class="pn-name">Pronunciation Test</span></div><span class="pn-btn disabled"></span></div>
+  </div>
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+<script>
+
+var SK={prog:'es_en_prog',streak:'es_en_streak',xp:'es_en_xp',srs:'es_en_srs',lastDay:'es_en_lastDay'};
+var curAud=null;
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=es&client=tw-ob';
+  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t);});
+}
+function bTTS(t){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(t);u.lang='es-ES';u.rate=0.85;
+  var v=window.speechSynthesis.getVoices();
+  var g=null;
+  for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.indexOf('es')===0){g=v[i];break;}}
+  if(g)u.voice=g;
+  window.speechSynthesis.speak(u);
+}
+window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
+function getXP(){try{return parseInt(localStorage.getItem(SK.xp)||'0');}catch(e){return 0;}}
+function addXP(n){
+  var v=getXP()+n;localStorage.setItem(SK.xp,v);
+  var el=document.getElementById('xpTop');if(el)el.textContent=v+' XP';
+}
+function checkStreak(){
+  var today=new Date().toISOString().slice(0,10);
+  var last=localStorage.getItem(SK.lastDay)||'';
+  var yesterday=new Date(Date.now()-864e5).toISOString().slice(0,10);
+  var streak=parseInt(localStorage.getItem(SK.streak)||'0');
+  if(last===today){}
+  else if(last===yesterday){streak++;localStorage.setItem(SK.streak,streak);localStorage.setItem(SK.lastDay,today);}
+  else{streak=1;localStorage.setItem(SK.streak,streak);localStorage.setItem(SK.lastDay,today);}
+  var el=document.getElementById('streakTop');if(el)el.textContent=streak;
+  var el2=document.getElementById('xpTop');if(el2)el2.textContent=getXP()+' XP';
+}
+function getProg(){try{return JSON.parse(localStorage.getItem(SK.prog)||'{}');}catch(e){return {};}}
+var DAY_TOTALS={c1l1:9,c1l2:9,c1l3:9,c1l4:9,c1l5:9,c1l6:9,c1r:3};
+function updateUI(){
+  var p=getProg();
+  Object.keys(DAY_TOTALS).forEach(function(day){
+    var total=DAY_TOTALS[day];
+    var visited=Object.keys(p).filter(function(k){return k.indexOf(day)===0;}).length;
+    var pct=Math.min(100,Math.round(visited/total*100));
+    var bar=document.getElementById('prog-'+day);
+    var txt=document.getElementById('progtext-'+day);
+    if(bar)bar.style.width=pct+'%';
+    if(txt)txt.textContent=visited+'/'+total+' lessons';
+    if(pct===100){var dh=document.getElementById('dh'+day);if(dh)dh.classList.add('done');}
+  });
+}
+function markVisit(day,tab){
+  var p=getProg();p[tab]=1;localStorage.setItem(SK.prog,JSON.stringify(p));
+  var el=document.getElementById('nav-'+tab);if(el)el.classList.add('visited');
+  updateUI();
+}
+function go(page,navId){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var _pg=document.getElementById('page-'+page);if(_pg)_pg.classList.add('active');
+  var ni=document.getElementById(navId);if(ni){ni.classList.add('active');ni.classList.add('visited');}
+  var ma=document.getElementById('mainArea');if(ma)ma.scrollTop=0;
+  if(window.innerWidth<=640){var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');}
+  if(data.fitb[page])buildFITB(page);
+  if(data.quiz[page])buildQuiz(page);
+}
+function toggleSB(){
+  var sb=document.getElementById('sidebar');
+  if(sb){if(sb.classList.contains('open')){sb.classList.remove('open');}else{sb.classList.add('open');}}
+}
+function toggleWeek(n){
+  var tl=document.getElementById('wl'+n),hdr=document.getElementById('wh'+n);
+  if(!tl||!hdr)return;
+  var isOpen=tl.classList.contains('open');
+  if(!isOpen){tl.classList.add('open');hdr.classList.add('open');}
+  else{tl.classList.remove('open');hdr.classList.remove('open');}
+}
+function toggleDay(n){
+  var dl=document.getElementById('dl'+n),dh=document.getElementById('dh'+n);
+  if(!dl||!dh)return;
+  var isOpen=dl.classList.contains('open');
+  document.querySelectorAll('.tab-list').forEach(function(t){t.classList.remove('open');});
+  document.querySelectorAll('.day-hdr').forEach(function(h){h.classList.remove('open');});
+  if(!isOpen){dl.classList.add('open');dh.classList.add('open');}
+}
+/* ===== LESSON DATA ===== */
+var data={
+  fitb:{
+    "c1l1w":[
+      {sentence:"C_S_ means \u201chouse.\u201d Fill in the two missing vowels.",answer:"asa",hint:"Both missing letters are the same vowel \u2014 the one that sounds like \u201cah.\u201d"},
+      {sentence:"M_S_ means \u201ctable.\u201d Fill in the two missing vowels.",answer:"esa",hint:"Both missing letters are the same vowel \u2014 the one that sounds like \u201ceh.\u201d"},
+      {sentence:"AM_G_ means \u201cfriend.\u201d Fill in the two missing vowels.",answer:"igo",hint:"First is the \u201cee\u201d sound, second is the \u201coh\u201d sound."},
+      {sentence:"The letter \u201c\u00f1\u201d is called ____ in Spanish.",answer:"e\u00f1e",hint:"It rhymes with \u201ckenya\u201d minus the k."},
+      {sentence:"In Spanish, the letter H is always ____.",answer:"silent",hint:"It is never pronounced, e.g. in \u201chola.\u201d"}
+    ]
+  },
+  quiz:{
+    "c1l1l":[
+      {q:"In the audio, how is the name \u201cAna\u201d spelled aloud?",opts:["a - ene - a","a - ka - a","a - ge - a"],correct:0},
+      {q:"Which letter in \u201cHola\u201d is silent, as confirmed in the audio?",opts:["O","L","H"],correct:2},
+      {q:"How do you say the letter \u201cJ\u201d in Spanish, per the audio?",opts:["jota","je","yod"],correct:0}
+    ],
+    "c1l1q":[
+      {q:"How many vowels does Spanish have?",opts:["5","6","7"],correct:0},
+      {q:"Which Spanish letter does not exist in the English alphabet?",opts:["W","\u00d1","K"],correct:1},
+      {q:"What is the Spanish name for the letter \u201cH\u201d?",opts:["hache","ha","hola"],correct:0},
+      {q:"An upside-down question mark (\u00bf) is placed \u2026",opts:["only at the end of a question","at the start of a question","nowhere \u2014 it's optional"],correct:1},
+      {q:"Which word carries a written accent (tilde) to mark irregular stress?",opts:["casa","mesa","caf\u00e9"],correct:2},
+      {q:"The Spanish word for \u201calphabet\u201d is\u2026",opts:["el abecedario","el alfabeto ingl\u00e9s","la palabra"],correct:0}
+    ]
+  }
+};
+/* ===== FILL IN THE BLANK ===== */
+function buildFITB(page){
+  var host=document.getElementById('fitb-'+page);
+  if(!host||host.dataset.built)return;
+  host.dataset.built='1';
+  var items=data.fitb[page];
+  if(!items)return;
+  var html='';
+  for(var i=0;i<items.length;i++){
+    html+='<div class="fitb-card" id="fc-'+page+'-'+i+'">';
+    html+='<div class="fitb-n">Item '+(i+1)+' of '+items.length+'</div>';
+    html+='<div class="fitb-sentence">'+items[i].sentence+'</div>';
+    html+='<input type="text" class="fitb-inline" id="fi-'+page+'-'+i+'" autocomplete="off">';
+    if(items[i].hint){html+='<div class="fitb-hint">Hint: '+items[i].hint+'</div>';}
+    html+='<div class="fitb-fb" id="ff-'+page+'-'+i+'"></div>';
+    html+='</div>';
+  }
+  html+='<button class="btn" onclick="checkFITB(\''+page+'\')">Check Answers</button>';
+  html+='<div class="score" id="fs-'+page+'"><div class="sc-big" id="fsb-'+page+'"></div><div class="sc-lbl">Correct</div></div>';
+  host.innerHTML=html;
+}
+function normAns(s){
+  return s.toLowerCase().replace(/[\u00e1]/g,'a').replace(/[\u00e9]/g,'e').replace(/[\u00ed]/g,'i').replace(/[\u00f3]/g,'o').replace(/[\u00fa]/g,'u').replace(/\s+/g,' ').trim();
+}
+function checkFITB(page){
+  var items=data.fitb[page];
+  var correct=0;
+  for(var i=0;i<items.length;i++){
+    var inp=document.getElementById('fi-'+page+'-'+i);
+    var fb=document.getElementById('ff-'+page+'-'+i);
+    var ok=normAns(inp.value)===normAns(items[i].answer);
+    if(ok){correct++;fb.className='fitb-fb show ok';fb.textContent='Correct!';}
+    else{fb.className='fitb-fb show no';fb.textContent='Answer: '+items[i].answer;}
+  }
+  var sc=document.getElementById('fs-'+page);
+  document.getElementById('fsb-'+page).textContent=correct+'/'+items.length;
+  sc.classList.add('show');
+  addXP(correct*2);
+}
+/* ===== QUIZ ===== */
+function buildQuiz(page){
+  var host=document.getElementById('quiz-'+page);
+  if(!host||host.dataset.built)return;
+  host.dataset.built='1';
+  var qs=data.quiz[page];
+  if(!qs)return;
+  var html='';
+  for(var i=0;i<qs.length;i++){
+    html+='<div class="qc"><div class="q-n">Question '+(i+1)+' of '+qs.length+'</div>';
+    html+='<div class="q-t">'+qs[i].q+'</div><div class="q-o">';
+    for(var j=0;j<qs[i].opts.length;j++){
+      html+='<button class="qo" id="qo-'+page+'-'+i+'-'+j+'" onclick="answerQuiz(\''+page+'\','+i+','+j+')">'+qs[i].opts[j]+'</button>';
+    }
+    html+='</div></div>';
+  }
+  html+='<div class="score" id="qs-'+page+'"><div class="sc-big" id="qsb-'+page+'"></div><div class="sc-lbl">Correct</div></div>';
+  host.innerHTML=html;
+  host.qState={};
+}
+function answerQuiz(page,i,j){
+  var host=document.getElementById('quiz-'+page);
+  if(host.qState[i]!==undefined)return;
+  var qs=data.quiz[page];
+  var correctIdx=qs[i].correct;
+  host.qState[i]=j;
+  for(var k=0;k<qs[i].opts.length;k++){
+    var el=document.getElementById('qo-'+page+'-'+i+'-'+k);
+    if(k===correctIdx)el.classList.add('correct');
+    else if(k===j)el.classList.add('wrong');
+  }
+  var answered=Object.keys(host.qState).length;
+  if(answered===qs.length){
+    var correct=0;
+    for(var k2=0;k2<qs.length;k2++){if(host.qState[k2]===qs[k2].correct)correct++;}
+    document.getElementById('qsb-'+page).textContent=correct+'/'+qs.length;
+    document.getElementById('qs-'+page).classList.add('show');
+    addXP(correct*3);
+  }
+}
+/* ===== SPEAKING PRACTICE ===== */
+var curRec=null;
+function speakPractice(id,target){
+  var btn=document.getElementById('sprec-'+id);
+  var res=document.getElementById('spres-'+id);
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    res.className='sp-result show';
+    res.textContent='Speech recognition is not supported in this browser. Practice by repeating the phrase out loud after the audio.';
+    return;
+  }
+  if(curRec){curRec.stop();curRec=null;btn.classList.remove('recording');return;}
+  var r=new SR();
+  r.lang='es-ES';r.interimResults=false;r.maxAlternatives=1;
+  curRec=r;btn.classList.add('recording');
+  r.onresult=function(e){
+    var heard=e.results[0][0].transcript;
+    var ok=normAns(heard)===normAns(target);
+    res.className='sp-result show';
+    res.innerHTML='<b>Heard:</b> '+heard+'<br><b>Target:</b> '+target+'<br>'+(ok?'\u2705 Great match!':'\u270f\ufe0f Close \u2014 try again.');
+    btn.classList.remove('recording');curRec=null;
+  };
+  r.onerror=function(){btn.classList.remove('recording');curRec=null;};
+  r.onend=function(){btn.classList.remove('recording');curRec=null;};
+  r.start();
+}
+/* ===== WRITE COUNTER ===== */
+function wcCount(id){
+  var ta=document.getElementById(id);
+  var el=document.getElementById(id+'-count');
+  if(ta&&el)el.textContent=ta.value.trim().length===0?'0 words':ta.value.trim().split(/\s+/).length+' words';
+}
+document.addEventListener('DOMContentLoaded',function(){
+  checkStreak();
+  updateUI();
+  toggleWeek(1);
+  toggleDay('c1l1');
+  go('c1l1v','nav-c1l1v');
+});
+
+</script>
+</body>
+</html>
