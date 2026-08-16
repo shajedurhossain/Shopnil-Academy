@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Chapter 1: Bonjour, le français ! | Shopnil Academy French A1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&subset=latin,latin-ext&display=swap" rel="stylesheet">
+  <style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans',Arial,sans-serif;background:#FBF8F0;color:#0F2418;overflow:hidden}
+:root{
+  --black:#052B1F;--gold:#E8B72A;--gold-l:#F3D060;--gold-dim:rgba(232,183,42,.15);
+  --cream:#FBF8F0;--red:#F42A41;--green:#006A4E;--blue:#2563EB;
+  --card:#fff;--border:#E7E2D6;--shadow:0 4px 20px rgba(0,0,0,.07);
+  --sb:220px;--bn:'DM Sans',Arial,sans-serif;
+}
+.site-nav{background:rgba(255,253,248,.96);height:58px;display:flex;align-items:center;gap:14px;padding:0 22px;flex-shrink:0;z-index:120;border-bottom:1px solid var(--border)}
+.sn-logo{display:flex;align-items:center;gap:11px;text-decoration:none}
+.sn-logo img{width:38px;height:38px;border-radius:8px;flex-shrink:0}
+.sn-name{display:flex;flex-direction:column;line-height:1.12}
+.sn-name strong{font-size:16px;font-weight:700;color:#0F2418}
+.sn-name small{font-size:11px;color:#7C8A82;font-weight:500;letter-spacing:.03em}
+.sn-links{display:flex;gap:4px;margin-left:18px}
+.sn-links a{font-size:14px;font-weight:500;color:#0F2418;padding:8px 14px;border-radius:999px;text-decoration:none;transition:background .15s,color .15s}
+.sn-links a:hover{background:rgba(0,106,78,.1);color:var(--green)}
+.sn-cta{margin-left:auto;font-size:14px;font-weight:600;background:var(--green);color:#fff;padding:9px 18px;border-radius:999px;text-decoration:none;white-space:nowrap}
+@media(max-width:760px){.sn-links{display:none}.sn-name small{display:none}.site-nav{height:54px;padding:0 16px}}
+.topbar{background:var(--black);height:54px;display:flex;align-items:center;gap:10px;padding:0 14px;flex-shrink:0;z-index:100;border-bottom:1px solid rgba(232,183,42,.25)}
+.tb-level{background:var(--gold-dim);border:1px solid rgba(232,183,42,.4);color:var(--gold-l);padding:3px 9px;border-radius:20px;font-size:.68rem;font-weight:700;letter-spacing:.5px;flex-shrink:0}
+.tb-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--gold-l);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-right{margin-left:auto;display:flex;gap:8px;align-items:center}
+.streak-chip{display:flex;align-items:center;gap:4px;background:rgba(232,183,42,.12);border:1px solid rgba(232,183,42,.25);border-radius:20px;padding:3px 9px;cursor:pointer}
+.streak-fire{font-size:.85rem}.streak-count{font-size:.75rem;font-weight:700;color:var(--gold-l)}
+.xp-chip{display:flex;align-items:center;gap:4px;background:rgba(0,106,78,.1);border:1px solid rgba(0,106,78,.25);border-radius:20px;padding:3px 9px}
+.xp-label{font-size:.72rem;font-weight:700;color:#4FB489}
+.menu-btn{background:none;border:none;color:rgba(255,255,255,.7);font-size:1.3rem;cursor:pointer;padding:4px 6px;display:none}
+.app-body{display:flex;flex-direction:row;flex:1;overflow:hidden;min-height:0}
+.sidebar{width:var(--sb);min-width:var(--sb);max-width:var(--sb);background:#052B1F;flex-shrink:0;display:flex;flex-direction:column;overflow:hidden;transition:transform .28s ease}
+.sb-nav{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0;scrollbar-width:thin;scrollbar-color:rgba(232,183,42,.25) transparent}
+.sb-nav::-webkit-scrollbar{width:3px}.sb-nav::-webkit-scrollbar-thumb{background:rgba(232,183,42,.25);border-radius:2px}
+.sb-head{padding:12px 14px 6px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:6px}
+.sb-head-title{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(243,208,96,.6)}
+.sb-head-bn{font-family:var(--bn);font-size:.73rem;color:rgba(255,255,255,.35);margin-top:2px}
+.week-block{margin-bottom:2px}
+.week-hdr{display:flex;align-items:center;gap:8px;padding:7px 14px;cursor:pointer;transition:background .18s;user-select:none}
+.week-hdr:hover{background:rgba(255,255,255,.04)}.week-hdr.open{background:rgba(232,183,42,.1)}
+.week-pill{background:rgba(232,183,42,.22);color:var(--gold-l);font-size:.63rem;font-weight:800;padding:2px 7px;border-radius:20px;flex-shrink:0}
+.week-name{font-size:.72rem;font-weight:600;color:#ddd;flex:1;line-height:1.3}
+.week-arr{font-size:.6rem;color:rgba(255,255,255,.25);transition:transform .22s;flex-shrink:0}
+.week-hdr.open .week-arr{transform:rotate(90deg);color:var(--gold-l)}
+.day-list{overflow:hidden;max-height:0;transition:max-height .28s ease}.day-list.open{max-height:1200px}
+.day-hdr{display:flex;align-items:center;gap:7px;padding:6px 14px 6px 22px;cursor:pointer;transition:background .15s;user-select:none}
+.day-hdr:hover{background:rgba(255,255,255,.03)}.day-hdr.open{background:rgba(232,183,42,.08)}
+.day-dot{width:6px;height:6px;border-radius:50%;background:rgba(232,183,42,.35);flex-shrink:0}
+.day-hdr.open .day-dot,.day-hdr.done .day-dot{background:var(--gold-l)}
+.day-name{font-size:.71rem;font-weight:600;color:#bbb;flex:1;line-height:1.35}
+.day-check{font-size:.7rem;color:var(--green);display:none;flex-shrink:0}
+.day-hdr.done .day-check{display:block}
+.day-arr{font-size:.55rem;color:rgba(255,255,255,.2);transition:transform .2s;flex-shrink:0}
+.day-hdr.open .day-arr{transform:rotate(90deg);color:rgba(243,208,96,.7)}
+.tab-list{overflow:hidden;max-height:0;transition:max-height .25s ease}.tab-list.open{max-height:400px}
+.nav-item{display:flex;align-items:center;gap:7px;padding:5px 14px 5px 28px;cursor:pointer;transition:all .15s;border-left:2px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.04);border-left-color:rgba(232,183,42,.35)}
+.nav-item.active{background:rgba(232,183,42,.12);border-left-color:var(--gold-l)}
+.ni-icon{font-size:.82rem;flex-shrink:0;width:18px;text-align:center;display:flex;align-items:center;justify-content:center}
+.ni-label{font-size:.71rem;color:#999;font-weight:500;flex:1;line-height:1.3}
+.nav-item.active .ni-label{color:var(--gold-l);font-weight:600}
+.ni-done{margin-left:auto;font-size:.6rem;color:var(--green);display:none}
+.nav-item.visited .ni-done{display:block}
+.prog-bar-wrap{background:#E7E2D6;border-radius:20px;height:6px;overflow:hidden;margin-top:5px}
+.prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
+.day-progress{font-size:.6rem;color:rgba(243,208,96,.7);margin-top:2px;font-family:var(--bn)}
+.main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+.page{display:none}
+.page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
+.ph::after{content:'';position:absolute;top:-50px;right:-50px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(232,183,42,.18) 0%,transparent 70%)}
+.ph-eye{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(243,208,96,.65);margin-bottom:4px}
+.ph-title{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold-l);line-height:1.15;margin-bottom:3px}
+.ph-bn{font-family:var(--bn);font-size:.95rem;color:rgba(255,255,255,.65);margin-bottom:4px}
+.ph-tags{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+.ph-tag{background:rgba(232,183,42,.16);border:1px solid rgba(232,183,42,.3);color:rgba(243,208,96,.9);padding:3px 9px;border-radius:20px;font-size:.66rem;font-weight:500}
+.content{padding:13px 13px 36px;max-width:660px}
+.bn{font-family:var(--bn)}.bn-note{font-family:var(--bn);font-size:.82rem;color:#555;line-height:1.65}
+.placeholder-note{font-family:var(--bn);font-size:.85rem;color:#888;padding:20px;text-align:center;border:1.5px dashed var(--border);border-radius:12px}
+.page-nav{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid var(--border)}
+.pn-btn{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:10px 16px;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--black);transition:all .15s;display:inline-flex;align-items:center;gap:6px;font-family:'DM Sans',Arial,sans-serif}
+.pn-btn:hover:not(:disabled){border-color:var(--gold);background:#fffbf0}
+.pn-btn:disabled{opacity:.32;cursor:not-allowed}
+.pn-btn.pn-next{margin-left:auto}
+@media(max-width:640px){.pn-btn{padding:10px 12px;font-size:.78rem}}
+@media(max-width:640px){
+  :root{--sb:200px}
+  .menu-btn{display:block}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;z-index:200;transform:translateX(-100%)}
+  .sidebar.open{transform:none}
+  .content{padding:11px 11px 30px}
+}
+@media(max-width:380px){
+  .ph-title{font-size:1.2rem}
+  .nav-item{padding:5px 12px 5px 22px}
+}
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- SITE NAV -->
+<nav class="site-nav">
+  <a href="../../../index.html" class="sn-logo">
+    <img src="../../../assets/logo.png" alt="Shopnil Academy" />
+    <div class="sn-name"><strong style="display:inline-block;align-self:flex-start;font-family:'Archivo',sans-serif;font-weight:800;text-transform:uppercase"><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">S</span><span style="color:#006A4E">H</span><span style="color:#F42A41">O</span><span style="color:#F42A41">P</span><span style="color:#F42A41">N</span><span style="color:#006A4E">I</span><span style="color:#006A4E">L</span></span><span style="display:flex;justify-content:space-between"><span style="color:#006A4E">A</span><span style="color:#006A4E">C</span><span style="color:#F42A41">A</span><span style="color:#F42A41">D</span><span style="color:#F42A41">E</span><span style="color:#006A4E">M</span><span style="color:#006A4E">Y</span></span></strong><small>French A1</small></div>
+  </a>
+  <div class="sn-links">
+    <a href="../../../index.html">Home</a>
+    <a href="../../../courses.html">Courses</a>
+    <a href="../index.html">Course page</a>
+  </div>
+  <a href="../../../courses.html" class="sn-cta">All courses &rarr;</a>
+</nav>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
+  <span class="tb-level">A1</span>
+  <span class="tb-title">🇫🇷 Chapter 1 — Bonjour, le français !</span>
+  <div class="tb-right">
+    <div class="streak-chip"><span class="streak-fire">&#x1f525;</span><span class="streak-count" id="streakTop">0</span></div>
+    <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
+  </div>
+</div>
+
+<!-- APP BODY -->
+<div class="app-body">
+
+<div class="sidebar" id="sidebar">
+  <div class="sb-nav">
+    <div class="sb-head">
+      <div class="sb-head-title">Chapter 1</div>
+      <div class="sb-head-bn">👋 Bonjour, le français !</div>
+    </div>
+
+    <div class="week-block">
+      <div class="week-hdr" id="wh1" onclick="toggleWeek(1)">
+        <span class="week-pill">Ch. 1</span>
+        <span class="week-name">Bonjour, le français !</span>
+        <span class="week-arr">►</span>
+      </div>
+      <div class="day-list" id="wl1">
+
+        <!-- L1 Bonjour ! et l'alphabet -->
+        <div class="day-hdr" id="dhc1l1" onclick="toggleDay('c1l1')">
+          <span class="day-dot"></span>
+          <span class="day-name">👋 L1 — Bonjour ! et l'alphabet</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l1">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l1" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l1">0/9 tabs</div></div>
+          <div class="nav-item" id="nav-c1l1v" onclick="go('c1l1v','nav-c1l1v');markVisit('c1l1','c1l1v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary · Vocabulaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1w" onclick="go('c1l1w','nav-c1l1w');markVisit('c1l1','c1l1w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill the blank · Texte &agrave; trous</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1s" onclick="go('c1l1s','nav-c1l1s');markVisit('c1l1','c1l1s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation · Prononciation</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1gr" onclick="go('c1l1gr','nav-c1l1gr');markVisit('c1l1','c1l1gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar · Grammaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1l" onclick="go('c1l1l','nav-c1l1l');markVisit('c1l1','c1l1l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening · &Eacute;coute</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1rd" onclick="go('c1l1rd','nav-c1l1rd');markVisit('c1l1','c1l1rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading · Lecture</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1fw" onclick="go('c1l1fw','nav-c1l1fw');markVisit('c1l1','c1l1fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free writing · Expression &eacute;crite</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1ss" onclick="go('c1l1ss','nav-c1l1ss');markVisit('c1l1','c1l1ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free speaking · Expression orale</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l1q" onclick="go('c1l1q','nav-c1l1q');markVisit('c1l1','c1l1q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L2 Je suis... (le verbe ÊTRE) -->
+        <div class="day-hdr" id="dhc1l2" onclick="toggleDay('c1l2')">
+          <span class="day-dot"></span>
+          <span class="day-name">🙋 L2 — Je suis... (le verbe ÊTRE)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l2">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l2" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l2">0/9 tabs</div></div>
+          <div class="nav-item" id="nav-c1l2v" onclick="go('c1l2v','nav-c1l2v');markVisit('c1l2','c1l2v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary · Vocabulaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2w" onclick="go('c1l2w','nav-c1l2w');markVisit('c1l2','c1l2w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill the blank · Texte &agrave; trous</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2s" onclick="go('c1l2s','nav-c1l2s');markVisit('c1l2','c1l2s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation · Prononciation</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2gr" onclick="go('c1l2gr','nav-c1l2gr');markVisit('c1l2','c1l2gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar · Grammaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2l" onclick="go('c1l2l','nav-c1l2l');markVisit('c1l2','c1l2l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening · &Eacute;coute</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2rd" onclick="go('c1l2rd','nav-c1l2rd');markVisit('c1l2','c1l2rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading · Lecture</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2fw" onclick="go('c1l2fw','nav-c1l2fw');markVisit('c1l2','c1l2fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free writing · Expression &eacute;crite</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2ss" onclick="go('c1l2ss','nav-c1l2ss');markVisit('c1l2','c1l2ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free speaking · Expression orale</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l2q" onclick="go('c1l2q','nav-c1l2q');markVisit('c1l2','c1l2q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L3 D'où viens-tu ? -->
+        <div class="day-hdr" id="dhc1l3" onclick="toggleDay('c1l3')">
+          <span class="day-dot"></span>
+          <span class="day-name">🌍 L3 — D'où viens-tu ?</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l3">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l3" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l3">0/9 tabs</div></div>
+          <div class="nav-item" id="nav-c1l3v" onclick="go('c1l3v','nav-c1l3v');markVisit('c1l3','c1l3v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary · Vocabulaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3w" onclick="go('c1l3w','nav-c1l3w');markVisit('c1l3','c1l3w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill the blank · Texte &agrave; trous</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3s" onclick="go('c1l3s','nav-c1l3s');markVisit('c1l3','c1l3s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation · Prononciation</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3gr" onclick="go('c1l3gr','nav-c1l3gr');markVisit('c1l3','c1l3gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar · Grammaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3l" onclick="go('c1l3l','nav-c1l3l');markVisit('c1l3','c1l3l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening · &Eacute;coute</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3rd" onclick="go('c1l3rd','nav-c1l3rd');markVisit('c1l3','c1l3rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading · Lecture</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3fw" onclick="go('c1l3fw','nav-c1l3fw');markVisit('c1l3','c1l3fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free writing · Expression &eacute;crite</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3ss" onclick="go('c1l3ss','nav-c1l3ss');markVisit('c1l3','c1l3ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free speaking · Expression orale</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l3q" onclick="go('c1l3q','nav-c1l3q');markVisit('c1l3','c1l3q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L4 Les nombres et les jours -->
+        <div class="day-hdr" id="dhc1l4" onclick="toggleDay('c1l4')">
+          <span class="day-dot"></span>
+          <span class="day-name">🔢 L4 — Les nombres et les jours</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l4">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l4" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l4">0/9 tabs</div></div>
+          <div class="nav-item" id="nav-c1l4v" onclick="go('c1l4v','nav-c1l4v');markVisit('c1l4','c1l4v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary · Vocabulaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4w" onclick="go('c1l4w','nav-c1l4w');markVisit('c1l4','c1l4w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill the blank · Texte &agrave; trous</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4s" onclick="go('c1l4s','nav-c1l4s');markVisit('c1l4','c1l4s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation · Prononciation</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4gr" onclick="go('c1l4gr','nav-c1l4gr');markVisit('c1l4','c1l4gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar · Grammaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4l" onclick="go('c1l4l','nav-c1l4l');markVisit('c1l4','c1l4l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening · &Eacute;coute</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4rd" onclick="go('c1l4rd','nav-c1l4rd');markVisit('c1l4','c1l4rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading · Lecture</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4fw" onclick="go('c1l4fw','nav-c1l4fw');markVisit('c1l4','c1l4fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free writing · Expression &eacute;crite</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4ss" onclick="go('c1l4ss','nav-c1l4ss');markVisit('c1l4','c1l4ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free speaking · Expression orale</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l4q" onclick="go('c1l4q','nav-c1l4q');markVisit('c1l4','c1l4q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L5 En classe -->
+        <div class="day-hdr" id="dhc1l5" onclick="toggleDay('c1l5')">
+          <span class="day-dot"></span>
+          <span class="day-name">🏫 L5 — En classe</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l5">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l5" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l5">0/9 tabs</div></div>
+          <div class="nav-item" id="nav-c1l5v" onclick="go('c1l5v','nav-c1l5v');markVisit('c1l5','c1l5v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary · Vocabulaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5w" onclick="go('c1l5w','nav-c1l5w');markVisit('c1l5','c1l5w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill the blank · Texte &agrave; trous</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5s" onclick="go('c1l5s','nav-c1l5s');markVisit('c1l5','c1l5s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation · Prononciation</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5gr" onclick="go('c1l5gr','nav-c1l5gr');markVisit('c1l5','c1l5gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar · Grammaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5l" onclick="go('c1l5l','nav-c1l5l');markVisit('c1l5','c1l5l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening · &Eacute;coute</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5rd" onclick="go('c1l5rd','nav-c1l5rd');markVisit('c1l5','c1l5rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading · Lecture</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5fw" onclick="go('c1l5fw','nav-c1l5fw');markVisit('c1l5','c1l5fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free writing · Expression &eacute;crite</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5ss" onclick="go('c1l5ss','nav-c1l5ss');markVisit('c1l5','c1l5ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free speaking · Expression orale</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l5q" onclick="go('c1l5q','nav-c1l5q');markVisit('c1l5','c1l5q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- L6 Comment tu t'appelles ? -->
+        <div class="day-hdr" id="dhc1l6" onclick="toggleDay('c1l6')">
+          <span class="day-dot"></span>
+          <span class="day-name">📛 L6 — Comment tu t'appelles ?</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1l6">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1l6" style="width:0%"></div></div><div class="day-progress" id="progtext-c1l6">0/9 tabs</div></div>
+          <div class="nav-item" id="nav-c1l6v" onclick="go('c1l6v','nav-c1l6v');markVisit('c1l6','c1l6v')"><span class="ni-icon">📖</span><span class="ni-label">Vocabulary · Vocabulaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6w" onclick="go('c1l6w','nav-c1l6w');markVisit('c1l6','c1l6w')"><span class="ni-icon">✏️</span><span class="ni-label">Fill the blank · Texte &agrave; trous</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6s" onclick="go('c1l6s','nav-c1l6s');markVisit('c1l6','c1l6s')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation · Prononciation</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6gr" onclick="go('c1l6gr','nav-c1l6gr');markVisit('c1l6','c1l6gr')"><span class="ni-icon">📚</span><span class="ni-label">Grammar · Grammaire</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6l" onclick="go('c1l6l','nav-c1l6l');markVisit('c1l6','c1l6l')"><span class="ni-icon">🎵</span><span class="ni-label">Listening · &Eacute;coute</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6rd" onclick="go('c1l6rd','nav-c1l6rd');markVisit('c1l6','c1l6rd')"><span class="ni-icon">📖</span><span class="ni-label">Reading · Lecture</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6fw" onclick="go('c1l6fw','nav-c1l6fw');markVisit('c1l6','c1l6fw')"><span class="ni-icon">✏️</span><span class="ni-label">Free writing · Expression &eacute;crite</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6ss" onclick="go('c1l6ss','nav-c1l6ss');markVisit('c1l6','c1l6ss')"><span class="ni-icon">🗣️</span><span class="ni-label">Free speaking · Expression orale</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1l6q" onclick="go('c1l6q','nav-c1l6q');markVisit('c1l6','c1l6q')"><span class="ni-icon">📝</span><span class="ni-label">Quiz</span><span class="ni-done">✓</span></div>
+        </div>
+
+        <!-- R1 Review -->
+        <div class="day-hdr" id="dhc1r" onclick="toggleDay('c1r')">
+          <span class="day-dot"></span>
+          <span class="day-name">🔄 R1 — Chapter 1 review</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
+        </div>
+        <div class="tab-list" id="dlc1r">
+          <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c1r" style="width:0%"></div></div><div class="day-progress" id="progtext-c1r">0/3 tabs</div></div>
+          <div class="nav-item" id="nav-c1rv" onclick="go('c1rv','nav-c1rv');markVisit('c1r','c1rv')"><span class="ni-icon">🔄</span><span class="ni-label">Full review · R&eacute;vision compl&egrave;te</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1rs" onclick="go('c1rs','nav-c1rs');markVisit('c1r','c1rs')"><span class="ni-icon">🎤</span><span class="ni-label">Pronunciation test · Test de prononciation</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c1rq" onclick="go('c1rq','nav-c1rq');markVisit('c1r','c1rq')"><span class="ni-icon">🏆</span><span class="ni-label">Review quiz · Quiz de r&eacute;vision</span><span class="ni-done">✓</span></div>
+        </div>
+
+      </div><!-- end wl1 -->
+    </div><!-- end week-block -->
+  </div><!-- end sb-nav -->
+</div><!-- end sidebar -->
+
+<!-- MAIN -->
+<div class="main-wrap">
+<div class="main" id="mainArea">
+
+<!-- L1 VOCAB -->
+<div class="page" id="page-c1l1v">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Vocabulary &amp; pictures</div>
+    <div class="ph-tags"><span class="ph-tag">👋 Greetings</span><span class="ph-tag">🔤 Alphabet</span><span class="ph-tag">Vocabulary · Vocabulaire</span></div>
+  </div>
+  <div class="content">
+    <div class="cult-tip">
+      <div class="cult-icon">💡</div>
+      <div class="cult-body">
+        <div class="cult-t">Good to know</div>
+        <div class="cult-bn">French spelling has its own logic once you learn the patterns — many <strong>final consonants are silent</strong> (bonjour&nbsp;&rarr; sounds like "bohn-ZHOOR", not "bohn-ZHOOR-t"), and the letter <strong>H is always silent</strong>. We'll unpack this properly in the dedicated pronunciation chapter (Chapter 4) — for now, just listen and repeat.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-t">Greetings <span class="ct-bn">— Salutations</span></div>
+      <div class="vh vh-3" style="grid-template-columns:32px 1fr 1fr 1fr 32px">
+        <span></span><span>Fran&ccedil;ais</span><span>English</span><span class="bn">Sounds like</span><span></span>
+      </div>
+      <div class="vr vr-4" onclick="tts('Bonjour')">
+        <span style="font-size:1.3rem;text-align:center">👋</span>
+        <span class="v-es">Bonjour</span><span class="v-en">Hello / Good morning</span><span class="v-bn bn">bohn-ZHOOR</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Bonjour')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('Salut')">
+        <span style="font-size:1.3rem;text-align:center">🙌</span>
+        <span class="v-es">Salut</span><span class="v-en">Hi / Bye (informal)</span><span class="v-bn bn">sah-LU</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Salut')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('Bonsoir')">
+        <span style="font-size:1.3rem;text-align:center">🌤️</span>
+        <span class="v-es">Bonsoir</span><span class="v-en">Good evening</span><span class="v-bn bn">bohn-SWAHR</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Bonsoir')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('Bonne nuit')">
+        <span style="font-size:1.3rem;text-align:center">🌙</span>
+        <span class="v-es">Bonne nuit</span><span class="v-en">Good night</span><span class="v-bn bn">buhn NWEE</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Bonne nuit')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('Au revoir')">
+        <span style="font-size:1.3rem;text-align:center">🙋</span>
+        <span class="v-es">Au revoir</span><span class="v-en">Goodbye</span><span class="v-bn bn">oh ruh-VWAHR</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Au revoir')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('Merci beaucoup')">
+        <span style="font-size:1.3rem;text-align:center">🙏</span>
+        <span class="v-es">Merci (beaucoup)</span><span class="v-en">Thank you (very much)</span><span class="v-bn bn">mehr-SEE (bo-KOO)</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Merci beaucoup')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('S\'il vous pla&icirc;t')">
+        <span style="font-size:1.3rem;text-align:center">🤲</span>
+        <span class="v-es">S'il vous pla&icirc;t</span><span class="v-en">Please (formal)</span><span class="v-bn bn">seel voo PLEH</span>
+        <button class="pb" onclick="event.stopPropagation();tts('S\'il vous pla&icirc;t')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('Excusez-moi')">
+        <span style="font-size:1.3rem;text-align:center">🙇</span>
+        <span class="v-es">Excusez-moi</span><span class="v-en">Excuse me (formal)</span><span class="v-bn bn">ex-kew-zay MWAH</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Excusez-moi')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('Ench&acirc;nt&eacute;')">
+        <span style="font-size:1.3rem;text-align:center">🤝</span>
+        <span class="v-es">Ench&acirc;nt&eacute;(e)</span><span class="v-en">Nice to meet you</span><span class="v-bn bn">ahn-shahn-TAY</span>
+        <button class="pb" onclick="event.stopPropagation();tts('Ench&acirc;nt&eacute;')">🔊</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-t">Tricky letters &amp; accents <span class="ct-bn">— L'alphabet</span></div>
+      <div class="vh vh-3" style="grid-template-columns:32px 1fr 1fr 1fr 32px">
+        <span></span><span>Letter</span><span>Example</span><span class="bn">Sounds like</span><span></span>
+      </div>
+      <div class="vr vr-4" onclick="tts('h&ocirc;pital')">
+        <span style="font-size:1.3rem;text-align:center">🔇</span>
+        <span class="v-es">H (silent)</span><span class="v-en">h&ocirc;pital</span><span class="v-bn bn">oh-pee-TAL (no "h" sound)</span>
+        <button class="pb" onclick="event.stopPropagation();tts('h&ocirc;pital')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('bonjour')">
+        <span style="font-size:1.3rem;text-align:center">🔤</span>
+        <span class="v-es">J</span><span class="v-en">bonjour</span><span class="v-bn bn">"zh" like the "s" in "measure"</span>
+        <button class="pb" onclick="event.stopPropagation();tts('bonjour')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('merci')">
+        <span style="font-size:1.3rem;text-align:center">🔤</span>
+        <span class="v-es">R</span><span class="v-en">merci</span><span class="v-bn bn">soft, back-of-throat "r"</span>
+        <button class="pb" onclick="event.stopPropagation();tts('merci')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('&eacute;cole')">
+        <span style="font-size:1.3rem;text-align:center">́</span>
+        <span class="v-es">&eacute; / &egrave; / &ecirc;</span><span class="v-en">&eacute;cole</span><span class="v-bn bn">accents change the vowel sound</span>
+        <button class="pb" onclick="event.stopPropagation();tts('&eacute;cole')">🔊</button>
+      </div>
+      <div class="vr vr-4" onclick="tts('gar&ccedil;on')">
+        <span style="font-size:1.3rem;text-align:center">̧</span>
+        <span class="v-es">&ccedil;</span><span class="v-en">gar&ccedil;on</span><span class="v-bn bn">always an "s" sound</span>
+        <button class="pb" onclick="event.stopPropagation();tts('gar&ccedil;on')">🔊</button>
+      </div>
+    </div>
+
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 FILL THE BLANK -->
+<div class="page" id="page-c1l1w">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Fill the blank &middot; Texte &agrave; trous</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Practice</span></div>
+  </div>
+  <div class="content">
+    <div class="bn-note" style="margin-bottom:13px">Type the missing word for each sentence, then check your answer. Small accent slips are OK — we'll flag them without marking you wrong.</div>
+    <div id="fitb-c1l1w"></div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 PRONUNCIATION -->
+<div class="page" id="page-c1l1s">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Pronunciation &middot; Prononciation</div>
+    <div class="ph-tags"><span class="ph-tag">🎤 Speak &amp; check</span></div>
+  </div>
+  <div class="content">
+    <div class="cult-tip">
+      <div class="cult-icon">🎤</div>
+      <div class="cult-body">
+        <div class="cult-t">Instructions</div>
+        <div class="cult-bn">Listen to each phrase, then press record and say it out loud. Your score compares what the microphone heard to the target phrase.</div>
+      </div>
+    </div>
+    <div id="sp-c1l1s"></div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 GRAMMAR -->
+<div class="page" id="page-c1l1gr">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Grammar &middot; Grammaire</div>
+    <div class="ph-tags"><span class="ph-tag">📚 tu vs. vous</span></div>
+  </div>
+  <div class="content">
+    <div class="trick">
+      <div class="trick-t">Formal vs. informal: tu / vous</div>
+      <div class="trick-bn">French has two ways to say "you". <strong>Tu</strong> is informal (friends, family, other students). <strong>Vous</strong> is formal (strangers, teachers, anyone older, or more than one person). When in doubt, use <strong>vous</strong> — it's never wrong to be polite. We'll build full sentences with both in Lesson 2.</div>
+    </div>
+    <table class="gram-table">
+      <tr><th>Situation</th><th>Use</th><th>Example greeting</th></tr>
+      <tr><td class="de">Friend, classmate</td><td class="bn">tu (informal)</td><td>Salut !</td></tr>
+      <tr><td class="de">Teacher, stranger, elder</td><td class="bn">vous (formal)</td><td>Bonjour !</td></tr>
+      <tr><td class="de">A group of people</td><td class="bn">vous (always)</td><td>Bonjour &agrave; tous !</td></tr>
+    </table>
+    <div class="cult-tip">
+      <div class="cult-icon">🔤</div>
+      <div class="cult-body">
+        <div class="cult-t">Reading rule to remember</div>
+        <div class="cult-bn">Most French words keep their final consonant silent (bonjour, salut) — but <strong>C, R, F, L</strong> at the end of a word are usually pronounced. Easy way to remember: the word "CaReFuL" spells out the exceptions.</div>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 LISTENING -->
+<div class="page" id="page-c1l1l">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Listening &middot; &Eacute;coute</div>
+    <div class="ph-tags"><span class="ph-tag">🎵 Dialogue</span></div>
+  </div>
+  <div class="content">
+    <div class="listen-card">
+      <div class="listen-script" id="listen-script-c1l1l">
+        <div><span class="speaker">L&eacute;a:</span> Bonjour !</div>
+        <div><span class="speaker">Marc:</span> Bonjour ! Comment allez-vous ?</div>
+        <div><span class="speaker">L&eacute;a:</span> Tr&egrave;s bien, merci. Et vous ?</div>
+        <div><span class="speaker">Marc:</span> Tr&egrave;s bien aussi. Ench&acirc;nt&eacute; de faire votre connaissance.</div>
+        <div><span class="speaker">L&eacute;a:</span> Ench&acirc;nt&eacute;e, Marc. &Agrave; bient&ocirc;t !</div>
+        <div><span class="speaker">Marc:</span> Au revoir !</div>
+      </div>
+      <div class="listen-plays" id="c1l1lplays">Plays left: 2</div>
+    </div>
+    <button class="listen-btn" onclick="playC1L1Listen(this)">▶️ Play dialogue (2 voices)</button>
+    <div class="listen-q">
+      <div class="listen-q-t">1. How does Marc first greet L&eacute;a?</div>
+      <div class="listen-opts">
+        <button class="listen-opt" onclick="ansListen(this,'wrong')">Salut</button>
+        <button class="listen-opt" onclick="ansListen(this,'correct')">Bonjour</button>
+        <button class="listen-opt" onclick="ansListen(this,'wrong')">Bonsoir</button>
+      </div>
+    </div>
+    <div class="listen-q">
+      <div class="listen-q-t">2. How does L&eacute;a say she is doing?</div>
+      <div class="listen-opts">
+        <button class="listen-opt" onclick="ansListen(this,'correct')">Very well</button>
+        <button class="listen-opt" onclick="ansListen(this,'wrong')">Not great</button>
+        <button class="listen-opt" onclick="ansListen(this,'wrong')">Tired</button>
+      </div>
+    </div>
+    <div class="listen-q">
+      <div class="listen-q-t">3. What does Marc say when they part?</div>
+      <div class="listen-opts">
+        <button class="listen-opt" onclick="ansListen(this,'wrong')">Bonjour</button>
+        <button class="listen-opt" onclick="ansListen(this,'wrong')">Merci beaucoup</button>
+        <button class="listen-opt" onclick="ansListen(this,'correct')">Au revoir</button>
+      </div>
+    </div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 READING -->
+<div class="page" id="page-c1l1rd">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Reading &middot; Lecture</div>
+    <div class="ph-tags"><span class="ph-tag">📖 Short text</span></div>
+  </div>
+  <div class="content">
+    <div class="read-label">Read the text below, then check the English gloss if needed</div>
+    <div class="read-text">
+      Bonjour ! Je m'appelle Camille. Le matin, je dis "bonjour" &agrave; mes voisins. Le soir, je dis "bonsoir". Avec mes amis, je dis "salut" — c'est plus simple ! Quand quelqu'un me remercie, je r&eacute;ponds "de rien". Et quand je pars, je dis toujours "au revoir" ou "&agrave; bient&ocirc;t".
+    </div>
+    <div class="read-bn-box">
+      <div class="read-label" style="margin-bottom:6px">English gloss</div>
+      <div class="read-bn-t">Hello! My name is Camille. In the morning, I say "bonjour" to my neighbors. In the evening, I say "bonsoir". With my friends, I say "salut" — it's simpler! When someone thanks me, I answer "you're welcome". And when I leave, I always say "goodbye" or "see you soon".</div>
+    </div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 FREE WRITING -->
+<div class="page" id="page-c1l1fw">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Free writing &middot; Expression &eacute;crite</div>
+    <div class="ph-tags"><span class="ph-tag">✏️ Your turn</span></div>
+  </div>
+  <div class="content">
+    <div class="cult-tip">
+      <div class="cult-icon">✏️</div>
+      <div class="cult-body">
+        <div class="cult-t">Prompt</div>
+        <div class="cult-bn">Write a short 3&ndash;4 line greeting exchange between two people meeting for the first time. Use at least three phrases from this lesson (e.g. bonjour, ench&acirc;nt&eacute;, au revoir).</div>
+      </div>
+    </div>
+    <textarea class="write-area" id="write-c1l1fw" placeholder="Bonjour ! Je m'appelle..."></textarea>
+    <div class="write-counter" id="writecount-c1l1fw">0 words</div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 FREE SPEAKING -->
+<div class="page" id="page-c1l1ss">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Free speaking &middot; Expression orale</div>
+    <div class="ph-tags"><span class="ph-tag">🗣️ Your turn</span></div>
+  </div>
+  <div class="content">
+    <div class="speak-prompt">
+      <div class="speak-prompt-es">Introduce yourself out loud</div>
+      <div class="speak-prompt-bn">Say hello, give your name, ask how the other person is doing, and say goodbye — all in French. Use at least four phrases from this lesson.</div>
+    </div>
+    <button class="speak-btn" id="speakbtn-c1l1ss" onclick="toggleFreeSpeak('c1l1ss',this)">🎤 Start speaking</button>
+    <div class="speak-res" id="speakres-c1l1ss"></div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- L1 QUIZ -->
+<div class="page" id="page-c1l1q">
+  <div class="ph">
+    <div class="ph-eye">Chapter 1 · Lesson 1</div>
+    <div class="ph-title">Bonjour ! et l'alphabet</div>
+    <div class="ph-bn">Quiz</div>
+    <div class="ph-tags"><span class="ph-tag">📝 Test yourself</span></div>
+  </div>
+  <div class="content">
+    <div class="bn-note" style="margin-bottom:13px">Score at least 60% to complete this lesson.</div>
+    <div id="qz-c1l1q"></div>
+    <div class="page-nav">
+      <button class="pn-btn pn-prev" onclick="goRel(-1)">&larr; Previous</button>
+      <button class="pn-btn pn-next" onclick="goRel(1)">Next &rarr;</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lessons L2–L6 and R1 (48 more page divs) follow in the next build steps. -->
+
+</div><!-- end mainArea -->
+</div><!-- end main-wrap -->
+
+</div><!-- end app-body -->
+
+<script>
+// ===== STORAGE KEYS (STORAGE PREFIX: fr_en_) =====
+var SK={prog:'fr_en_prog',streak:'fr_en_streak',xp:'fr_en_xp',srs:'fr_en_srs',lastDay:'fr_en_lastDay'};
+
+// ===== PAGE ORDER (for Previous/Next buttons) — full Chapter 1 tab sequence =====
+var PAGE_ORDER=['c1l1v','c1l1w','c1l1s','c1l1gr','c1l1l','c1l1rd','c1l1fw','c1l1ss','c1l1q',
+'c1l2v','c1l2w','c1l2s','c1l2gr','c1l2l','c1l2rd','c1l2fw','c1l2ss','c1l2q',
+'c1l3v','c1l3w','c1l3s','c1l3gr','c1l3l','c1l3rd','c1l3fw','c1l3ss','c1l3q',
+'c1l4v','c1l4w','c1l4s','c1l4gr','c1l4l','c1l4rd','c1l4fw','c1l4ss','c1l4q',
+'c1l5v','c1l5w','c1l5s','c1l5gr','c1l5l','c1l5rd','c1l5fw','c1l5ss','c1l5q',
+'c1l6v','c1l6w','c1l6s','c1l6gr','c1l6l','c1l6rd','c1l6fw','c1l6ss','c1l6q',
+'c1rv','c1rs','c1rq'];
+
+function updatePageNavButtons(page){
+  var idx=PAGE_ORDER.indexOf(page);
+  var pg=document.getElementById('page-'+page);if(!pg)return;
+  var prevBtn=pg.querySelector('.pn-prev');
+  var nextBtn=pg.querySelector('.pn-next');
+  if(prevBtn)prevBtn.disabled=(idx<=0);
+  if(nextBtn)nextBtn.disabled=(idx<0||idx>=PAGE_ORDER.length-1);
+}
+function goRel(dir){
+  var cur=document.querySelector('.page.active');if(!cur)return;
+  var curId=cur.id.replace('page-','');
+  var idx=PAGE_ORDER.indexOf(curId);if(idx<0)return;
+  var newIdx=idx+dir;
+  if(newIdx<0||newIdx>=PAGE_ORDER.length)return;
+  var newId=PAGE_ORDER[newIdx];
+  go(newId,'nav-'+newId);
+}
+
+// ===== MINIMAL NAV STUB (full engine arrives in Step 4) =====
+function go(page,navId){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  var pg=document.getElementById('page-'+page);if(!pg)return;
+  pg.classList.add('active');
+  var ni=document.getElementById(navId);if(ni){ni.classList.add('active');ni.classList.add('visited');}
+  var ma=document.getElementById('mainArea');if(ma)ma.scrollTop=0;
+  if(window.innerWidth<=640){var sb=document.getElementById('sidebar');if(sb)sb.classList.remove('open');}
+  updatePageNavButtons(page);
+}
+function toggleSB(){
+  var sb=document.getElementById('sidebar');
+  if(sb){if(sb.classList.contains('open')){sb.classList.remove('open');}else{sb.classList.add('open');}}
+}
+function toggleWeek(n){
+  var tl=document.getElementById('wl'+n),hdr=document.getElementById('wh'+n);
+  if(!tl||!hdr)return;
+  var isOpen=tl.classList.contains('open');
+  if(!isOpen){tl.classList.add('open');hdr.classList.add('open');}
+  else{tl.classList.remove('open');hdr.classList.remove('open');}
+}
+function toggleDay(n){
+  var dl=document.getElementById('dl'+n),dh=document.getElementById('dh'+n);
+  if(!dl||!dh)return;
+  var isOpen=dl.classList.contains('open');
+  document.querySelectorAll('.tab-list').forEach(function(t){t.classList.remove('open');});
+  document.querySelectorAll('.day-hdr').forEach(function(h){h.classList.remove('open');});
+  if(!isOpen){dl.classList.add('open');dh.classList.add('open');}
+}
+function markVisit(day,tab){
+  // Full progress engine arrives in Step 4; stubbed here so sidebar clicks don't error.
+}
+
+// ===== LESSON DATA (populated lesson by lesson; rendering engine arrives in Step 4) =====
+var spData={};
+var fitbData={};
+var qzData={};
+
+// ---- L1 data: Bonjour ! et l'alphabet ----
+fitbData.c1l1w=[
+  {q:'___ ! Comment allez-vous ?',blank:'Bonjour',hint:'formal hello / good morning'},
+  {q:'___, &agrave; demain !',blank:'Au revoir',hint:'goodbye'},
+  {q:'___ beaucoup !',blank:'Merci',hint:'thank you'},
+  {q:'___-moi, o&ugrave; est la gare ?',blank:'Excusez',hint:'formal "excuse me"'},
+  {q:'Bonjour, ___ !',blank:'ench&acirc;nt&eacute;',hint:'said when meeting someone for the first time'}
+];
+
+spData.c1l1s=[
+  {id:'a',es:'Bonjour, comment allez-vous ?',en:'Hello, how are you? (formal)',bn:'Practice the nasal "on" in "bonjour" and "comment".',h:'bohn-ZHOOR, koh-mahn tah-lay VOO'},
+  {id:'b',es:'Ench&acirc;nt&eacute; de faire votre connaissance.',en:'Pleased to meet you.',bn:'The "e" endings here are silent.',h:'ahn-shahn-TAY duh fehr VOH-truh koh-neh-SAHNSS'},
+  {id:'c',es:'Au revoir et &agrave; bient&ocirc;t !',en:'Goodbye and see you soon!',bn:'Note the silent "t" at the end of "bient&ocirc;t".',h:'oh ruh-VWAHR ay ah byan-TOH'},
+  {id:'d',es:'Merci beaucoup, s\'il vous pla&icirc;t.',en:'Thank you very much, please.',bn:'"eau" is one vowel sound, like "oh".',h:'mehr-SEE bo-KOO, seel voo PLEH'},
+  {id:'e',es:'Excusez-moi, madame.',en:'Excuse me, ma\'am.',bn:'The final "z" links smoothly into "moi".',h:'ex-kew-zay MWAH, mah-DAHM'}
+];
+
+qzData.c1l1q=[
+  {q:'Which word means "Hello / Good morning"?',o:['Bonsoir','Bonjour','Salut'],a:1,f:'Bonjour = hello / good morning, used any time before evening.'},
+  {q:'Which greeting is informal, used with friends?',o:['Vous','Salut','Excusez-moi'],a:1,f:'Salut is casual — save it for friends, not strangers.'},
+  {q:'What does "Ench&acirc;nt&eacute;" mean?',o:['Goodbye','Please','Nice to meet you'],a:2,f:'Ench&acirc;nt&eacute; is said right after being introduced to someone.'},
+  {q:'Which letter is always silent in French?',o:['H','C','R'],a:0,f:'H is never pronounced in French.'},
+  {q:'Which of these final consonants IS usually pronounced?',o:['T','D','R'],a:2,f:'Remember "CaReFuL" — C, R, F, L are usually pronounced at the end of a word.'},
+  {q:'"Vous" is used when...',o:['talking to a close friend','being formal or polite','talking to yourself'],a:1,f:'Vous = formal "you", or "you" (plural).'},
+  {q:'How do you say "Thank you very much"?',o:['Merci beaucoup','S\'il vous pla&icirc;t','De rien'],a:0,f:'Merci beaucoup = thank you very much.'}
+];
+
+// ---- L1 listening: two-voice dialogue player (voice-per-speaker wiring arrives in Step 4) ----
+var c1l1lTurns=[
+  {spk:'a',text:'Bonjour !'},
+  {spk:'b',text:'Bonjour ! Comment allez-vous ?'},
+  {spk:'a',text:'Tr&egrave;s bien, merci. Et vous ?'},
+  {spk:'b',text:'Tr&egrave;s bien aussi. Ench&acirc;nt&eacute; de faire votre connaissance.'},
+  {spk:'a',text:'Ench&acirc;nt&eacute;e, Marc. &Agrave; bient&ocirc;t !'},
+  {spk:'b',text:'Au revoir !'}
+];
+function playC1L1Listen(btn){
+  // Placeholder call — the real per-speaker-voice playback engine is built in Step 4.
+  if(btn)btn.disabled=true;
+}
+
+// ---- Simple word counter for free-writing textareas ----
+function wireWordCounter(id){
+  var ta=document.getElementById('write-'+id);
+  var ct=document.getElementById('writecount-'+id);
+  if(!ta||!ct)return;
+  ta.addEventListener('input',function(){
+    var words=ta.value.trim().length?ta.value.trim().split(/\s+/).length:0;
+    ct.textContent=words+' words';
+  });
+}
+wireWordCounter('c1l1fw');
+
+// ===== INIT =====
+go('c1l1v','nav-c1l1v');
+toggleWeek(1);
+toggleDay('c1l1');
+</script>
+</body>
+</html>
