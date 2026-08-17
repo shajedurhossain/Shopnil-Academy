@@ -73,9 +73,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
 .day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
 .main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
-.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
 .main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
-.page{display:none}
+.page{display:none}.page.active{}
 .page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
@@ -266,11 +266,33 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
 
 
-/* ---- MOBILE SCROLL FIX ---- */
-html,body{height:100%;height:100dvh}
-.app-body{height:calc(100dvh - 112px);max-height:calc(100dvh - 112px)}
-.main{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
-.page.active{display:block;min-height:auto;height:auto;overflow:visible}
+#mainArea{
+  position:fixed;
+  top:112px;
+  bottom:0;
+  left:var(--sb,220px);
+  right:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  z-index:1;
+}
+@media(max-width:640px){
+  #mainArea{
+    top:108px;
+    left:0;
+  }
+}
+
+/* ---- MOBILE NATURAL SCROLL ---- */
+@media(max-width:640px){
+  html,body{height:auto !important;overflow:auto !important}
+  .app-body{overflow:visible !important;height:auto !important;min-height:0}
+  .main-wrap{overflow:visible !important;height:auto !important}
+  .main{overflow:visible !important;height:auto !important;min-height:0}
+  .page.active{display:block}
+}
 </style>
 </head>
 <body>
@@ -293,9 +315,9 @@ html,body{height:100%;height:100dvh}
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
   <span class="tb-level">A1</span>
-  <span class="tb-title">&#x1f1e9;&#x1f1ea; &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09e9; &#x2014; &#x09b6;&#x09b9;&#x09b0;, &#x0986;&#x09ac;&#x09b9;&#x09be;&#x0993;&#x09af;&#x09bc;&#x09be; &#x09cb; &#x0998;&#x09b0;</span>
+  <span class="tb-title">&#x1f1e9;&#x1f1ea; &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09e9; — &#x09b6;&#x09b9;&#x09b0;, &#x0986;&#x09ac;&#x09b9;&#x09be;&#x0993;&#x09af;&#x09bc;&#x09be; &#x09cb; &#x0998;&#x09b0;</span>
   <div class="tb-right">
-    <div class="streak-chip"><span class="streak-fire">&#x1f525;</span><span class="streak-count" id="streakTop">0</span></div>
+    <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
   </div>
 </div>
@@ -308,161 +330,161 @@ html,body{height:100%;height:100dvh}
   <div class="sb-nav">
     <div class="sb-head">
       <div class="sb-head-title">Chapter 3</div>
-      <div class="sb-head-bn">&#x1f3d9;&#xfe0f; &#x09b6;&#x09b9;&#x09b0;, &#x0986;&#x09ac;&#x09b9;&#x09be;&#x0993;&#x09af;&#x09bc;&#x09be; &#x09cb; &#x0998;&#x09b0;</div>
+      <div class="sb-head-bn">🏙️ &#x09b6;&#x09b9;&#x09b0;, &#x0986;&#x09ac;&#x09b9;&#x09be;&#x0993;&#x09af;&#x09bc;&#x09be; &#x09cb; &#x0998;&#x09b0;</div>
     </div>
 
     <div class="week-block">
       <div class="week-hdr" id="wh1" onclick="toggleWeek(1)">
         <span class="week-pill">&#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09e9;</span>
         <span class="week-name">&#x09b6;&#x09b9;&#x09b0;, &#x0986;&#x09ac;&#x09b9;&#x09be;&#x0993;&#x09af;&#x09bc;&#x09be; &#x09cb; &#x0998;&#x09b0;</span>
-        <span class="week-arr">&#x25ba;</span>
+        <span class="week-arr">►</span>
       </div>
       <div class="day-list" id="wl1">
 
         <!-- L1 Stadtorte -->
         <div class="day-hdr" id="dhc3l1" onclick="toggleDay('c3l1')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f3d9;&#xfe0f; L1 — Stadtorte</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🏙️ L1 — Stadtorte</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3l1">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3l1" style="width:0%"></div></div><div class="day-progress" id="progtext-c3l1">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3l1v" onclick="go('c3l1v','nav-c3l1v');markVisit('c3l1','c3l1v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1w" onclick="go('c3l1w','nav-c3l1w');markVisit('c3l1','c3l1w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1s" onclick="go('c3l1s','nav-c3l1s');markVisit('c3l1','c3l1s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1gr" onclick="go('c3l1gr','nav-c3l1gr');markVisit('c3l1','c3l1gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1l" onclick="go('c3l1l','nav-c3l1l');markVisit('c3l1','c3l1l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1rd" onclick="go('c3l1rd','nav-c3l1rd');markVisit('c3l1','c3l1rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1fw" onclick="go('c3l1fw','nav-c3l1fw');markVisit('c3l1','c3l1fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1ss" onclick="go('c3l1ss','nav-c3l1ss');markVisit('c3l1','c3l1ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l1q" onclick="go('c3l1q','nav-c3l1q');markVisit('c3l1','c3l1q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3l1v" onclick="go('c3l1v','nav-c3l1v');markVisit('c3l1','c3l1v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1w" onclick="go('c3l1w','nav-c3l1w');markVisit('c3l1','c3l1w')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1s" onclick="go('c3l1s','nav-c3l1s');markVisit('c3l1','c3l1s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1gr" onclick="go('c3l1gr','nav-c3l1gr');markVisit('c3l1','c3l1gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1l" onclick="go('c3l1l','nav-c3l1l');markVisit('c3l1','c3l1l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1rd" onclick="go('c3l1rd','nav-c3l1rd');markVisit('c3l1','c3l1rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1fw" onclick="go('c3l1fw','nav-c3l1fw');markVisit('c3l1','c3l1fw')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1ss" onclick="go('c3l1ss','nav-c3l1ss');markVisit('c3l1','c3l1ss')"><span class="ni-icon">🗣️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l1q" onclick="go('c3l1q','nav-c3l1q');markVisit('c3l1','c3l1q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L2 Verkehrsmittel -->
         <div class="day-hdr" id="dhc3l2" onclick="toggleDay('c3l2')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f68c; L2 — Verkehrsmittel</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🚌 L2 — Verkehrsmittel</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3l2">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3l2" style="width:0%"></div></div><div class="day-progress" id="progtext-c3l2">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3l2v" onclick="go('c3l2v','nav-c3l2v');markVisit('c3l2','c3l2v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2w" onclick="go('c3l2w','nav-c3l2w');markVisit('c3l2','c3l2w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2s" onclick="go('c3l2s','nav-c3l2s');markVisit('c3l2','c3l2s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2gr" onclick="go('c3l2gr','nav-c3l2gr');markVisit('c3l2','c3l2gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2l" onclick="go('c3l2l','nav-c3l2l');markVisit('c3l2','c3l2l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2rd" onclick="go('c3l2rd','nav-c3l2rd');markVisit('c3l2','c3l2rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2fw" onclick="go('c3l2fw','nav-c3l2fw');markVisit('c3l2','c3l2fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2ss" onclick="go('c3l2ss','nav-c3l2ss');markVisit('c3l2','c3l2ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l2q" onclick="go('c3l2q','nav-c3l2q');markVisit('c3l2','c3l2q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3l2v" onclick="go('c3l2v','nav-c3l2v');markVisit('c3l2','c3l2v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2w" onclick="go('c3l2w','nav-c3l2w');markVisit('c3l2','c3l2w')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2s" onclick="go('c3l2s','nav-c3l2s');markVisit('c3l2','c3l2s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2gr" onclick="go('c3l2gr','nav-c3l2gr');markVisit('c3l2','c3l2gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2l" onclick="go('c3l2l','nav-c3l2l');markVisit('c3l2','c3l2l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2rd" onclick="go('c3l2rd','nav-c3l2rd');markVisit('c3l2','c3l2rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2fw" onclick="go('c3l2fw','nav-c3l2fw');markVisit('c3l2','c3l2fw')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2ss" onclick="go('c3l2ss','nav-c3l2ss');markVisit('c3l2','c3l2ss')"><span class="ni-icon">🗣️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l2q" onclick="go('c3l2q','nav-c3l2q');markVisit('c3l2','c3l2q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L3 Wetter -->
         <div class="day-hdr" id="dhc3l3" onclick="toggleDay('c3l3')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x26c5; L3 — Wetter</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">⛅ L3 — Wetter</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3l3">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3l3" style="width:0%"></div></div><div class="day-progress" id="progtext-c3l3">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3l3v" onclick="go('c3l3v','nav-c3l3v');markVisit('c3l3','c3l3v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3w" onclick="go('c3l3w','nav-c3l3w');markVisit('c3l3','c3l3w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3s" onclick="go('c3l3s','nav-c3l3s');markVisit('c3l3','c3l3s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3gr" onclick="go('c3l3gr','nav-c3l3gr');markVisit('c3l3','c3l3gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3l" onclick="go('c3l3l','nav-c3l3l');markVisit('c3l3','c3l3l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3rd" onclick="go('c3l3rd','nav-c3l3rd');markVisit('c3l3','c3l3rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3fw" onclick="go('c3l3fw','nav-c3l3fw');markVisit('c3l3','c3l3fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3ss" onclick="go('c3l3ss','nav-c3l3ss');markVisit('c3l3','c3l3ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l3q" onclick="go('c3l3q','nav-c3l3q');markVisit('c3l3','c3l3q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3l3v" onclick="go('c3l3v','nav-c3l3v');markVisit('c3l3','c3l3v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3w" onclick="go('c3l3w','nav-c3l3w');markVisit('c3l3','c3l3w')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3s" onclick="go('c3l3s','nav-c3l3s');markVisit('c3l3','c3l3s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3gr" onclick="go('c3l3gr','nav-c3l3gr');markVisit('c3l3','c3l3gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3l" onclick="go('c3l3l','nav-c3l3l');markVisit('c3l3','c3l3l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3rd" onclick="go('c3l3rd','nav-c3l3rd');markVisit('c3l3','c3l3rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3fw" onclick="go('c3l3fw','nav-c3l3fw');markVisit('c3l3','c3l3fw')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3ss" onclick="go('c3l3ss','nav-c3l3ss');markVisit('c3l3','c3l3ss')"><span class="ni-icon">🗣️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l3q" onclick="go('c3l3q','nav-c3l3q');markVisit('c3l3','c3l3q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L4 Haus & Möbel -->
         <div class="day-hdr" id="dhc3l4" onclick="toggleDay('c3l4')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f3e0; L4 — Haus &amp; M&#xf6;bel</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🏠 L4 — Haus &amp; M&#xf6;bel</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3l4">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3l4" style="width:0%"></div></div><div class="day-progress" id="progtext-c3l4">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3l4v" onclick="go('c3l4v','nav-c3l4v');markVisit('c3l4','c3l4v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4w" onclick="go('c3l4w','nav-c3l4w');markVisit('c3l4','c3l4w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4s" onclick="go('c3l4s','nav-c3l4s');markVisit('c3l4','c3l4s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4gr" onclick="go('c3l4gr','nav-c3l4gr');markVisit('c3l4','c3l4gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4l" onclick="go('c3l4l','nav-c3l4l');markVisit('c3l4','c3l4l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4rd" onclick="go('c3l4rd','nav-c3l4rd');markVisit('c3l4','c3l4rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4fw" onclick="go('c3l4fw','nav-c3l4fw');markVisit('c3l4','c3l4fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4ss" onclick="go('c3l4ss','nav-c3l4ss');markVisit('c3l4','c3l4ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l4q" onclick="go('c3l4q','nav-c3l4q');markVisit('c3l4','c3l4q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3l4v" onclick="go('c3l4v','nav-c3l4v');markVisit('c3l4','c3l4v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4w" onclick="go('c3l4w','nav-c3l4w');markVisit('c3l4','c3l4w')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4s" onclick="go('c3l4s','nav-c3l4s');markVisit('c3l4','c3l4s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4gr" onclick="go('c3l4gr','nav-c3l4gr');markVisit('c3l4','c3l4gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4l" onclick="go('c3l4l','nav-c3l4l');markVisit('c3l4','c3l4l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4rd" onclick="go('c3l4rd','nav-c3l4rd');markVisit('c3l4','c3l4rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4fw" onclick="go('c3l4fw','nav-c3l4fw');markVisit('c3l4','c3l4fw')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4ss" onclick="go('c3l4ss','nav-c3l4ss');markVisit('c3l4','c3l4ss')"><span class="ni-icon">🗣️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l4q" onclick="go('c3l4q','nav-c3l4q');markVisit('c3l4','c3l4q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L5 Tage, Monate & Datum -->
         <div class="day-hdr" id="dhc3l5" onclick="toggleDay('c3l5')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f4c5; L5 — Tage, Monate &amp; Datum</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">📅 L5 — Tage, Monate &amp; Datum</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3l5">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3l5" style="width:0%"></div></div><div class="day-progress" id="progtext-c3l5">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3l5v" onclick="go('c3l5v','nav-c3l5v');markVisit('c3l5','c3l5v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5w" onclick="go('c3l5w','nav-c3l5w');markVisit('c3l5','c3l5w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5s" onclick="go('c3l5s','nav-c3l5s');markVisit('c3l5','c3l5s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5gr" onclick="go('c3l5gr','nav-c3l5gr');markVisit('c3l5','c3l5gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5l" onclick="go('c3l5l','nav-c3l5l');markVisit('c3l5','c3l5l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5rd" onclick="go('c3l5rd','nav-c3l5rd');markVisit('c3l5','c3l5rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5fw" onclick="go('c3l5fw','nav-c3l5fw');markVisit('c3l5','c3l5fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5ss" onclick="go('c3l5ss','nav-c3l5ss');markVisit('c3l5','c3l5ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l5q" onclick="go('c3l5q','nav-c3l5q');markVisit('c3l5','c3l5q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3l5v" onclick="go('c3l5v','nav-c3l5v');markVisit('c3l5','c3l5v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5w" onclick="go('c3l5w','nav-c3l5w');markVisit('c3l5','c3l5w')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5s" onclick="go('c3l5s','nav-c3l5s');markVisit('c3l5','c3l5s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5gr" onclick="go('c3l5gr','nav-c3l5gr');markVisit('c3l5','c3l5gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5l" onclick="go('c3l5l','nav-c3l5l');markVisit('c3l5','c3l5l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5rd" onclick="go('c3l5rd','nav-c3l5rd');markVisit('c3l5','c3l5rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5fw" onclick="go('c3l5fw','nav-c3l5fw');markVisit('c3l5','c3l5fw')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5ss" onclick="go('c3l5ss','nav-c3l5ss');markVisit('c3l5','c3l5ss')"><span class="ni-icon">🗣️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l5q" onclick="go('c3l5q','nav-c3l5q');markVisit('c3l5','c3l5q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L6 Trennbare Verben -->
         <div class="day-hdr" id="dhc3l6" onclick="toggleDay('c3l6')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f501; L6 — Trennbare Verben</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🔁 L6 — Trennbare Verben</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3l6">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3l6" style="width:0%"></div></div><div class="day-progress" id="progtext-c3l6">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3l6v" onclick="go('c3l6v','nav-c3l6v');markVisit('c3l6','c3l6v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6w" onclick="go('c3l6w','nav-c3l6w');markVisit('c3l6','c3l6w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6s" onclick="go('c3l6s','nav-c3l6s');markVisit('c3l6','c3l6s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6gr" onclick="go('c3l6gr','nav-c3l6gr');markVisit('c3l6','c3l6gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6l" onclick="go('c3l6l','nav-c3l6l');markVisit('c3l6','c3l6l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6rd" onclick="go('c3l6rd','nav-c3l6rd');markVisit('c3l6','c3l6rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6fw" onclick="go('c3l6fw','nav-c3l6fw');markVisit('c3l6','c3l6fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6ss" onclick="go('c3l6ss','nav-c3l6ss');markVisit('c3l6','c3l6ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l6q" onclick="go('c3l6q','nav-c3l6q');markVisit('c3l6','c3l6q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3l6v" onclick="go('c3l6v','nav-c3l6v');markVisit('c3l6','c3l6v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6w" onclick="go('c3l6w','nav-c3l6w');markVisit('c3l6','c3l6w')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6s" onclick="go('c3l6s','nav-c3l6s');markVisit('c3l6','c3l6s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6gr" onclick="go('c3l6gr','nav-c3l6gr');markVisit('c3l6','c3l6gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6l" onclick="go('c3l6l','nav-c3l6l');markVisit('c3l6','c3l6l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6rd" onclick="go('c3l6rd','nav-c3l6rd');markVisit('c3l6','c3l6rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6fw" onclick="go('c3l6fw','nav-c3l6fw');markVisit('c3l6','c3l6fw')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6ss" onclick="go('c3l6ss','nav-c3l6ss');markVisit('c3l6','c3l6ss')"><span class="ni-icon">🗣️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l6q" onclick="go('c3l6q','nav-c3l6q');markVisit('c3l6','c3l6q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- L7 Präpositionen -->
         <div class="day-hdr" id="dhc3l7" onclick="toggleDay('c3l7')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f9ed; L7 — Pr&#xe4;positionen</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🧭 L7 — Pr&#xe4;positionen</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3l7">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3l7" style="width:0%"></div></div><div class="day-progress" id="progtext-c3l7">&#x09e6;/&#x09ef; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3l7v" onclick="go('c3l7v','nav-c3l7v');markVisit('c3l7','c3l7v')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7w" onclick="go('c3l7w','nav-c3l7w');markVisit('c3l7','c3l7w')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7s" onclick="go('c3l7s','nav-c3l7s');markVisit('c3l7','c3l7s')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7gr" onclick="go('c3l7gr','nav-c3l7gr');markVisit('c3l7','c3l7gr')"><span class="ni-icon">&#x1f4da;</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7l" onclick="go('c3l7l','nav-c3l7l');markVisit('c3l7','c3l7l')"><span class="ni-icon">&#x1f3b5;</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7rd" onclick="go('c3l7rd','nav-c3l7rd');markVisit('c3l7','c3l7rd')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7fw" onclick="go('c3l7fw','nav-c3l7fw');markVisit('c3l7','c3l7fw')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7ss" onclick="go('c3l7ss','nav-c3l7ss');markVisit('c3l7','c3l7ss')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3l7q" onclick="go('c3l7q','nav-c3l7q');markVisit('c3l7','c3l7q')"><span class="ni-icon">&#x1f4dd;</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3l7v" onclick="go('c3l7v','nav-c3l7v');markVisit('c3l7','c3l7v')"><span class="ni-icon">📖</span><span class="ni-label">&#x09b6;&#x09ac;&#x09cd;&#x09a6; &#x09cb; &#x099b;&#x09ac;&#x09bf;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7w" onclick="go('c3l7w','nav-c3l7w');markVisit('c3l7','c3l7w')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ab;&#x09be;&#x0981;&#x0995;&#x09be; &#x09aa;&#x09c2;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7s" onclick="go('c3l7s','nav-c3l7s');markVisit('c3l7','c3l7s')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7gr" onclick="go('c3l7gr','nav-c3l7gr');markVisit('c3l7','c3l7gr')"><span class="ni-icon">📚</span><span class="ni-label">&#x09ac;&#x09cd;&#x09af;&#x09be;&#x0995;&#x09b0;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7l" onclick="go('c3l7l','nav-c3l7l');markVisit('c3l7','c3l7l')"><span class="ni-icon">🎵</span><span class="ni-label">&#x09b6;&#x09cd;&#x09b0;&#x09ac;&#x09a3;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7rd" onclick="go('c3l7rd','nav-c3l7rd');markVisit('c3l7','c3l7rd')"><span class="ni-icon">📖</span><span class="ni-label">&#x09aa;&#x09a0;&#x09a8;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7fw" onclick="go('c3l7fw','nav-c3l7fw');markVisit('c3l7','c3l7fw')"><span class="ni-icon">✏️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09b2;&#x09c7;&#x0996;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7ss" onclick="go('c3l7ss','nav-c3l7ss');markVisit('c3l7','c3l7ss')"><span class="ni-icon">🗣️</span><span class="ni-label">&#x09ae;&#x09c1;&#x0995;&#x09cd;&#x09a4; &#x09ac;&#x09b2;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3l7q" onclick="go('c3l7q','nav-c3l7q');markVisit('c3l7','c3l7q')"><span class="ni-icon">📝</span><span class="ni-label">&#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- R3 Review -->
         <div class="day-hdr" id="dhc3r" onclick="toggleDay('c3r')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f504; R3 — &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09e9; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span>
-          <span class="day-check">&#x2713;</span><span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🔄 R3 — &#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09e9; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span>
+          <span class="day-check">✓</span><span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc3r">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c3r" style="width:0%"></div></div><div class="day-progress" id="progtext-c3r">&#x09e6;/&#x09e9; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c3rv" onclick="go('c3rv','nav-c3rv');markVisit('c3r','c3rv')"><span class="ni-icon">&#x1f504;</span><span class="ni-label">&#x09aa;&#x09c2;&#x09b0;&#x09cd;&#x09a3; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3rs" onclick="go('c3rs','nav-c3rs');markVisit('c3r','c3rs')"><span class="ni-icon">&#x1f3a4;</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3; &#x09aa;&#x09b0;&#x09c0;&#x0995;&#x09cd;&#x09b7;&#x09be;</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c3rq" onclick="go('c3rq','nav-c3rq');markVisit('c3r','c3rq')"><span class="ni-icon">&#x1f3c6;</span><span class="ni-label">&#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989; &#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c3rv" onclick="go('c3rv','nav-c3rv');markVisit('c3r','c3rv')"><span class="ni-icon">🔄</span><span class="ni-label">&#x09aa;&#x09c2;&#x09b0;&#x09cd;&#x09a3; &#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3rs" onclick="go('c3rs','nav-c3rs');markVisit('c3r','c3rs')"><span class="ni-icon">🎤</span><span class="ni-label">&#x09c1;&#x099a;&#x09cd;&#x099a;&#x09be;&#x09b0;&#x09a3; &#x09aa;&#x09b0;&#x09c0;&#x0995;&#x09cd;&#x09b7;&#x09be;</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c3rq" onclick="go('c3rq','nav-c3rq');markVisit('c3r','c3rq')"><span class="ni-icon">🏆</span><span class="ni-label">&#x09b0;&#x09bf;&#x09ad;&#x09bf;&#x0989; &#x0995;&#x09c1;&#x0987;&#x099c;</span><span class="ni-done">✓</span></div>
         </div>
 
       </div><!-- end wl1 -->
@@ -483,7 +505,7 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৩ · পাঠ ১</div>
     <div class="ph-title">Stadtorte</div>
     <div class="ph-bn">শহরের জায়গা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3d9;&#xfe0f; শহর</span><span class="ph-tag">&#x1f5fa;&#xfe0f; দিকনির্দেশ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🏙️ শহর</span><span class="ph-tag">🗺️ দিকনির্দেশ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
@@ -495,54 +517,59 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="pic-grid">
       <div class="pic-card" onclick="tts('die Post')">
-        <div class="pic-img">&#x1f4eb;<button class="pic-play" onclick="event.stopPropagation();tts('die Post')">&#x1f50a;</button></div>
+        <div class="pic-img">📫<button class="pic-play" onclick="event.stopPropagation();tts('die Post')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">die Post</div><div class="pic-en">post office</div><div class="pic-bn">ডাকঘর</div></div>
       </div>
       <div class="pic-card" onclick="tts('die Bank')">
-        <div class="pic-img">&#x1f3e6;<button class="pic-play" onclick="event.stopPropagation();tts('die Bank')">&#x1f50a;</button></div>
+        <div class="pic-img">🏦<button class="pic-play" onclick="event.stopPropagation();tts('die Bank')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">die Bank</div><div class="pic-en">bank</div><div class="pic-bn">ব্যাংক</div></div>
       </div>
       <div class="pic-card" onclick="tts('das Krankenhaus')">
-        <div class="pic-img">&#x1f3e5;<button class="pic-play" onclick="event.stopPropagation();tts('das Krankenhaus')">&#x1f50a;</button></div>
+        <div class="pic-img">🏥<button class="pic-play" onclick="event.stopPropagation();tts('das Krankenhaus')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Krankenhaus</div><div class="pic-en">hospital</div><div class="pic-bn">হাসপাতাল</div></div>
       </div>
       <div class="pic-card" onclick="tts('die Schule')">
-        <div class="pic-img">&#x1f3eb;<button class="pic-play" onclick="event.stopPropagation();tts('die Schule')">&#x1f50a;</button></div>
+        <div class="pic-img">🏫<button class="pic-play" onclick="event.stopPropagation();tts('die Schule')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">die Schule</div><div class="pic-en">school</div><div class="pic-bn">স্কুল</div></div>
       </div>
       <div class="pic-card" onclick="tts('der Bahnhof')">
-        <div class="pic-img">&#x1f686;<button class="pic-play" onclick="event.stopPropagation();tts('der Bahnhof')">&#x1f50a;</button></div>
+        <div class="pic-img">🚆<button class="pic-play" onclick="event.stopPropagation();tts('der Bahnhof')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">der Bahnhof</div><div class="pic-en">train station</div><div class="pic-bn">রেলস্টেশন</div></div>
       </div>
       <div class="pic-card" onclick="tts('der Park')">
-        <div class="pic-img">&#x1f333;<button class="pic-play" onclick="event.stopPropagation();tts('der Park')">&#x1f50a;</button></div>
+        <div class="pic-img">🌳<button class="pic-play" onclick="event.stopPropagation();tts('der Park')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">der Park</div><div class="pic-en">park</div><div class="pic-bn">পার্ক</div></div>
       </div>
     </div>
     <div class="card">
       <div class="card-t">আরো শহরের জায়গা <span class="ct-bn">— mehr Orte</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Rathaus')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Rathaus')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Rathaus</span><span class="v-en">town hall</span><span class="v-bn bn">টাউন হল</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Rathaus')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Rathaus')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Apotheke')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Apotheke')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Apotheke</span><span class="v-en">pharmacy</span><span class="v-bn bn">ফার্মেসি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Apotheke')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Apotheke')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Bibliothek')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Bibliothek')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Bibliothek</span><span class="v-en">library</span><span class="v-bn bn">লাইব্রেরি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Bibliothek')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Bibliothek')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Marktplatz')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Marktplatz')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Marktplatz</span><span class="v-en">market square</span><span class="v-bn bn">বাজার চত্বর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Marktplatz')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Marktplatz')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Museum')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Museum')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Museum</span><span class="v-en">museum</span><span class="v-bn bn">জাদুঘর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Museum')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Museum')">▶</button>
       </div>
     </div>
     <div class="trick">
@@ -551,7 +578,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -567,7 +594,7 @@ html,body{height:100%;height:100dvh}
     <div class="fitb-score" id="fitb-score-c3l1w"><div class="sc-big" id="fitb-sc-c3l1w">&#x09e6;/&#x09eb;</div><div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -582,7 +609,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3l1s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -617,7 +644,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -644,8 +671,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l1ll">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l1ll" onclick="apTogglePlay('l1ll',[{text:'Entschuldigung, ich suche die Bibliothek.',female:false},{text:'Die Bibliothek? Die ist nicht weit. Gehen Sie geradeaus bis zur Kreuzung, dann rechts.',female:false},{text:'Und wie lange dauert das zu Fuß?',female:false},{text:'Ungefähr zehn Minuten. Die Bibliothek ist gegenüber dem Rathaus — ein großes rotes Gebäude.',female:false},{text:'Vielen Dank!',female:false},{text:'Gern geschehen!',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l1ll')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l1ll" onclick="apTogglePlay('l1ll',[{text:'Entschuldigung, ich suche die Bibliothek.',female:false},{text:'Die Bibliothek? Die ist nicht weit. Gehen Sie geradeaus bis zur Kreuzung, dann rechts.',female:false},{text:'Und wie lange dauert das zu Fuß?',female:false},{text:'Ungefähr zehn Minuten. Die Bibliothek ist gegenüber dem Rathaus — ein großes rotes Gebäude.',female:false},{text:'Vielen Dank!',female:false},{text:'Gern geschehen!',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1ll')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l1ll"></span>
       <span class="ap-plays-left" id="applays-l1ll">সর্বোচ্চ ২ বার</span>
@@ -676,7 +703,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -716,21 +743,21 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
 <div class="page" id="page-c3l1fw">
   <div class="ph"><div class="ph-eye">অধ্যায় ৩ · পাঠ ১</div><div class="ph-title">মুক্ত লেখা</div><div class="ph-bn">নিজে লিখুন</div></div>
   <div class="content">
-    <div class="cult-tip"><div class="cult-icon">&#x270f;&#xfe0f;</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার শহর বা এলাকা সম্পর্কে German এ লিখুন। Wo ist...? ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In meiner Stadt gibt es..."</em></div></div></div>
+    <div class="cult-tip"><div class="cult-icon">&#x270f;️</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার শহর বা এলাকা সম্পর্কে German এ লিখুন। Wo ist...? ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In meiner Stadt gibt es..."</em></div></div></div>
     <textarea class="write-area" id="fw-c3l1fw" placeholder="In meiner Stadt gibt es..." oninput="countWords('fw-c3l1fw','wc-c3l1fw')"></textarea>
     <div class="write-counter" id="wc-c3l1fw">&#x09e6; শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c3l1fw','wr-c3l1fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c3l1fw','wr-c3l1fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c3l1fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -739,11 +766,11 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div class="speak-prompt"><div class="speak-prompt-de">Wo wohnst du? Was gibt es in deiner Stadt?</div><div class="speak-prompt-bn">আপনি কোথায় থাকেন? আপনার শহরে কী আছে? German এ বলুন।</div></div>
     <div class="cult-tip"><div class="cult-icon">&#x1f4a1;</div><div class="cult-body"><div class="cult-t">সাহায্যকারী শব্দ</div><div class="cult-bn">In meiner Stadt gibt es... · Die Post ist... · Der Bahnhof ist neben... · Es gibt einen/eine/ein...</div></div></div>
-    <button class="speak-btn" id="fsbtn-c3l1ss" onclick="toggleFreeSpeak('c3l1ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c3l1ss" onclick="toggleFreeSpeak('c3l1ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c3l1ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -752,10 +779,10 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div id="qz-c3l1q"></div>
     <div class="score" id="sc-c3l1q"><div class="sc-big" id="scn-c3l1q">০/১০</div><div class="sc-lbl">কুইজ সম্পন্ন!</div><div class="sc-msg" id="scm-c3l1q"></div></div>
-    <div class="mistakes-box" id="mb-c3l1q"><div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l1q"></div></div>
+    <div class="mistakes-box" id="mb-c3l1q"><div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l1q"></div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L2: VERKEHRSMITTEL ==================== -->
@@ -766,7 +793,7 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৩ · পাঠ ২</div>
     <div class="ph-title">Verkehrsmittel</div>
     <div class="ph-bn">যানবাহন</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f68c; পরিবহন</span><span class="ph-tag">&#x1f6f4; যাতায়াত</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🚌 পরিবহন</span><span class="ph-tag">🛴 যাতায়াত</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
@@ -778,27 +805,27 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="pic-grid">
       <div class="pic-card" onclick="tts('der Bus')">
-        <div class="pic-img">&#x1f68c;<button class="pic-play" onclick="event.stopPropagation();tts('der Bus')">&#x1f50a;</button></div>
+        <div class="pic-img">🚌<button class="pic-play" onclick="event.stopPropagation();tts('der Bus')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">der Bus</div><div class="pic-en">bus</div><div class="pic-bn">বাস</div></div>
       </div>
       <div class="pic-card" onclick="tts('die U-Bahn')">
-        <div class="pic-img">&#x1f687;<button class="pic-play" onclick="event.stopPropagation();tts('die U-Bahn')">&#x1f50a;</button></div>
+        <div class="pic-img">🚇<button class="pic-play" onclick="event.stopPropagation();tts('die U-Bahn')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">die U-Bahn</div><div class="pic-en">subway/metro</div><div class="pic-bn">সাবওয়ে</div></div>
       </div>
       <div class="pic-card" onclick="tts('das Fahrrad')">
-        <div class="pic-img">&#x1f6b2;<button class="pic-play" onclick="event.stopPropagation();tts('das Fahrrad')">&#x1f50a;</button></div>
+        <div class="pic-img">🚲<button class="pic-play" onclick="event.stopPropagation();tts('das Fahrrad')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Fahrrad</div><div class="pic-en">bicycle</div><div class="pic-bn">সাইকেল</div></div>
       </div>
       <div class="pic-card" onclick="tts('das Auto')">
-        <div class="pic-img">&#x1f697;<button class="pic-play" onclick="event.stopPropagation();tts('das Auto')">&#x1f50a;</button></div>
+        <div class="pic-img">🚗<button class="pic-play" onclick="event.stopPropagation();tts('das Auto')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Auto</div><div class="pic-en">car</div><div class="pic-bn">গাড়ি</div></div>
       </div>
       <div class="pic-card" onclick="tts('der Zug')">
-        <div class="pic-img">&#x1f686;<button class="pic-play" onclick="event.stopPropagation();tts('der Zug')">&#x1f50a;</button></div>
+        <div class="pic-img">🚆<button class="pic-play" onclick="event.stopPropagation();tts('der Zug')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">der Zug</div><div class="pic-en">train</div><div class="pic-bn">ট্রেন</div></div>
       </div>
       <div class="pic-card" onclick="tts('das Flugzeug')">
-        <div class="pic-img">&#x2708;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('das Flugzeug')">&#x1f50a;</button></div>
+        <div class="pic-img">✈️<button class="pic-play" onclick="event.stopPropagation();tts('das Flugzeug')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Flugzeug</div><div class="pic-en">airplane</div><div class="pic-bn">বিমান</div></div>
       </div>
     </div>
@@ -808,7 +835,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -820,7 +847,7 @@ html,body{height:100%;height:100dvh}
     <div class="fitb-score" id="fitb-score-c3l2w"><div class="sc-big" id="fitb-sc-c3l2w">&#x09e6;/&#x09eb;</div><div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -831,7 +858,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3l2s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -866,7 +893,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -888,8 +915,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l2ll">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l2ll" onclick="apTogglePlay('l2ll',[{text:'Wie kommst du zur Arbeit?',female:true},{text:'Ich fahre meistens mit dem Fahrrad. Es dauert zwanzig Minuten. Und du?',female:false},{text:'Ich nehme die U-Bahn. Mit der U-Bahn bin ich in zehn Minuten da.',female:true},{text:'Das ist schnell! Aber das Fahrrad ist günstiger und gesünder.',female:false},{text:'Stimmt! Im Winter nehme ich aber auch die U-Bahn — zu kalt für das Fahrrad!',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l2ll')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l2ll" onclick="apTogglePlay('l2ll',[{text:'Wie kommst du zur Arbeit?',female:true},{text:'Ich fahre meistens mit dem Fahrrad. Es dauert zwanzig Minuten. Und du?',female:false},{text:'Ich nehme die U-Bahn. Mit der U-Bahn bin ich in zehn Minuten da.',female:true},{text:'Das ist schnell! Aber das Fahrrad ist günstiger und gesünder.',female:false},{text:'Stimmt! Im Winter nehme ich aber auch die U-Bahn — zu kalt für das Fahrrad!',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2ll')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l2ll"></span>
       <span class="ap-plays-left" id="applays-l2ll">সর্বোচ্চ ২ বার</span>
@@ -920,7 +947,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -956,21 +983,21 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
 <div class="page" id="page-c3l2fw">
   <div class="ph"><div class="ph-eye">অধ্যায় ৩ · পাঠ ২</div><div class="ph-title">মুক্ত লেখা</div><div class="ph-bn">নিজে লিখুন</div></div>
   <div class="content">
-    <div class="cult-tip"><div class="cult-icon">&#x270f;&#xfe0f;</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনি কীভাবে যাতায়াত করেন? German এ লিখুন। fahren ও mit dem/der ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich fahre mit..."</em></div></div></div>
+    <div class="cult-tip"><div class="cult-icon">&#x270f;️</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনি কীভাবে যাতায়াত করেন? German এ লিখুন। fahren ও mit dem/der ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich fahre mit..."</em></div></div></div>
     <textarea class="write-area" id="fw-c3l2fw" placeholder="Ich fahre mit..." oninput="countWords('fw-c3l2fw','wc-c3l2fw')"></textarea>
     <div class="write-counter" id="wc-c3l2fw">&#x09e6; শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c3l2fw','wr-c3l2fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c3l2fw','wr-c3l2fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c3l2fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -979,11 +1006,11 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div class="speak-prompt"><div class="speak-prompt-de">Wie fährst du zur Schule oder zur Arbeit?</div><div class="speak-prompt-bn">আপনি স্কুল বা কাজে কীভাবে যান? German এ বলুন।</div></div>
     <div class="cult-tip"><div class="cult-icon">&#x1f4a1;</div><div class="cult-body"><div class="cult-t">সাহায্যকারী শব্দ</div><div class="cult-bn">Ich fahre mit dem/der... · Es dauert... Minuten · Ich gehe zu Fuß · Im Winter/Sommer...</div></div></div>
-    <button class="speak-btn" id="fsbtn-c3l2ss" onclick="toggleFreeSpeak('c3l2ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c3l2ss" onclick="toggleFreeSpeak('c3l2ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c3l2ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -992,10 +1019,10 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div id="qz-c3l2q"></div>
     <div class="score" id="sc-c3l2q"><div class="sc-big" id="scn-c3l2q">০/১০</div><div class="sc-lbl">কুইজ সম্পন্ন!</div><div class="sc-msg" id="scm-c3l2q"></div></div>
-    <div class="mistakes-box" id="mb-c3l2q"><div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l2q"></div></div>
+    <div class="mistakes-box" id="mb-c3l2q"><div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l2q"></div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L3: WETTER ==================== -->
@@ -1006,7 +1033,7 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৩ · পাঠ ৩</div>
     <div class="ph-title">Wetter</div>
     <div class="ph-bn">আবহাওয়া</div>
-    <div class="ph-tags"><span class="ph-tag">&#x26c5; আবহাওয়া</span><span class="ph-tag">&#x1f321;&#xfe0f; তাপমাত্রা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">⛅ আবহাওয়া</span><span class="ph-tag">🌡️ তাপমাত্রা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
@@ -1018,59 +1045,64 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="pic-grid">
       <div class="pic-card" onclick="tts('die Sonne scheint')">
-        <div class="pic-img">&#x2600;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('Es ist sonnig')">&#x1f50a;</button></div>
+        <div class="pic-img">☀️<button class="pic-play" onclick="event.stopPropagation();tts('Es ist sonnig')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">sonnig</div><div class="pic-en">sunny</div><div class="pic-bn">রোদেলা</div></div>
       </div>
       <div class="pic-card" onclick="tts('Es regnet')">
-        <div class="pic-img">&#x1f327;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('Es regnet')">&#x1f50a;</button></div>
+        <div class="pic-img">🌧️<button class="pic-play" onclick="event.stopPropagation();tts('Es regnet')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">regnerisch</div><div class="pic-en">rainy</div><div class="pic-bn">বৃষ্টিপাত</div></div>
       </div>
       <div class="pic-card" onclick="tts('Es schneit')">
-        <div class="pic-img">&#x2744;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('Es schneit')">&#x1f50a;</button></div>
+        <div class="pic-img">❄️<button class="pic-play" onclick="event.stopPropagation();tts('Es schneit')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">schneeig</div><div class="pic-en">snowy</div><div class="pic-bn">তুষারপাত</div></div>
       </div>
       <div class="pic-card" onclick="tts('Es ist bewölkt')">
-        <div class="pic-img">&#x2601;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('Es ist bewölkt')">&#x1f50a;</button></div>
+        <div class="pic-img">☁️<button class="pic-play" onclick="event.stopPropagation();tts('Es ist bewölkt')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">bew&#xf6;lkt</div><div class="pic-en">cloudy</div><div class="pic-bn">মেঘলা</div></div>
       </div>
       <div class="pic-card" onclick="tts('Es ist windig')">
-        <div class="pic-img">&#x1f32c;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('Es ist windig')">&#x1f50a;</button></div>
+        <div class="pic-img">🌬️<button class="pic-play" onclick="event.stopPropagation();tts('Es ist windig')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">windig</div><div class="pic-en">windy</div><div class="pic-bn">বাতাসী</div></div>
       </div>
       <div class="pic-card" onclick="tts('Es donnert')">
-        <div class="pic-img">&#x26a1;<button class="pic-play" onclick="event.stopPropagation();tts('Es donnert')">&#x1f50a;</button></div>
+        <div class="pic-img">⚡<button class="pic-play" onclick="event.stopPropagation();tts('Es donnert')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Gewitter</div><div class="pic-en">thunderstorm</div><div class="pic-bn">ঝড়বৃষ্টি</div></div>
       </div>
     </div>
     <div class="card">
       <div class="card-t">তাপমাত্রা ও ঋতু <span class="ct-bn">— Temperatur & Jahreszeiten</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Frühling')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Frühling')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4cd;</span>
         <span class="v-de">der Fr&#xfc;hling</span><span class="v-en">spring</span><span class="v-bn bn">বসন্ত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Frühling')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Frühling')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Sommer')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Sommer')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Sommer</span><span class="v-en">summer</span><span class="v-bn bn">গ্রীষ্ম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Sommer')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Sommer')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Herbst')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Herbst')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Herbst</span><span class="v-en">autumn</span><span class="v-bn bn">শরৎ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Herbst')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Herbst')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Winter')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Winter')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4cd;</span>
         <span class="v-de">der Winter</span><span class="v-en">winter</span><span class="v-bn bn">শীত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Winter')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Winter')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Temperatur')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Temperatur')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Temperatur</span><span class="v-en">temperature</span><span class="v-bn bn">তাপমাত্রা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Temperatur')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Temperatur')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1082,7 +1114,7 @@ html,body{height:100%;height:100dvh}
     <div class="fitb-score" id="fitb-score-c3l3w"><div class="sc-big" id="fitb-sc-c3l3w">&#x09e6;/&#x09eb;</div><div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1093,7 +1125,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3l3s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1128,7 +1160,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1150,8 +1182,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l3ll">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l3ll" onclick="apTogglePlay('l3ll',[{text:'Wie ist das Wetter heute bei dir?',female:true},{text:'Hier in Hamburg ist es grau und regnerisch. Die Temperatur ist nur zehn Grad. Typisch Hamburg!',female:false},{text:'Hier in München ist es schön sonnig und warm — fast zwanzig Grad.',female:true},{text:'Oh, das klingt toll! Ich mag den Herbst nicht so gern. Es ist immer so kalt und nass.',female:false},{text:'Ich liebe den Herbst! Die Blätter sind so bunt — rot, orange und gelb. Sehr schön!',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l3ll')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l3ll" onclick="apTogglePlay('l3ll',[{text:'Wie ist das Wetter heute bei dir?',female:true},{text:'Hier in Hamburg ist es grau und regnerisch. Die Temperatur ist nur zehn Grad. Typisch Hamburg!',female:false},{text:'Hier in München ist es schön sonnig und warm — fast zwanzig Grad.',female:true},{text:'Oh, das klingt toll! Ich mag den Herbst nicht so gern. Es ist immer so kalt und nass.',female:false},{text:'Ich liebe den Herbst! Die Blätter sind so bunt — rot, orange und gelb. Sehr schön!',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3ll')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l3ll"></span>
       <span class="ap-plays-left" id="applays-l3ll">সর্বোচ্চ ২ বার</span>
@@ -1182,7 +1214,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1218,21 +1250,21 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
 <div class="page" id="page-c3l3fw">
   <div class="ph"><div class="ph-eye">অধ্যায় ৩ · পাঠ ৩</div><div class="ph-title">মুক্ত লেখা</div><div class="ph-bn">নিজে লিখুন</div></div>
   <div class="content">
-    <div class="cult-tip"><div class="cult-icon">&#x270f;&#xfe0f;</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আজকের আবহাওয়া ও আপনার প্রিয় ঋতু সম্পর্কে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Heute ist das Wetter..."</em></div></div></div>
+    <div class="cult-tip"><div class="cult-icon">&#x270f;️</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আজকের আবহাওয়া ও আপনার প্রিয় ঋতু সম্পর্কে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Heute ist das Wetter..."</em></div></div></div>
     <textarea class="write-area" id="fw-c3l3fw" placeholder="Heute ist das Wetter..." oninput="countWords('fw-c3l3fw','wc-c3l3fw')"></textarea>
     <div class="write-counter" id="wc-c3l3fw">&#x09e6; শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c3l3fw','wr-c3l3fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c3l3fw','wr-c3l3fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c3l3fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1241,11 +1273,11 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div class="speak-prompt"><div class="speak-prompt-de">Wie ist das Wetter heute? Welche Jahreszeit magst du am liebsten?</div><div class="speak-prompt-bn">আজ আবহাওয়া কেমন? কোন ঋতু সবচেয়ে পছন্দ? German এ বলুন।</div></div>
     <div class="cult-tip"><div class="cult-icon">&#x1f4a1;</div><div class="cult-body"><div class="cult-t">সাহায্যকারী শব্দ</div><div class="cult-bn">Heute ist es... · Es regnet/schneit · Die Temperatur ist... Grad · Im Sommer/Winter mag ich... · Ich liebe den...</div></div></div>
-    <button class="speak-btn" id="fsbtn-c3l3ss" onclick="toggleFreeSpeak('c3l3ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c3l3ss" onclick="toggleFreeSpeak('c3l3ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c3l3ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1254,10 +1286,10 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div id="qz-c3l3q"></div>
     <div class="score" id="sc-c3l3q"><div class="sc-big" id="scn-c3l3q">০/১০</div><div class="sc-lbl">কুইজ সম্পন্ন!</div><div class="sc-msg" id="scm-c3l3q"></div></div>
-    <div class="mistakes-box" id="mb-c3l3q"><div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l3q"></div></div>
+    <div class="mistakes-box" id="mb-c3l3q"><div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l3q"></div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L4: HAUS & MÖBEL ==================== -->
@@ -1268,7 +1300,7 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৩ · পাঠ ৪</div>
     <div class="ph-title">Haus &amp; M&#xf6;bel</div>
     <div class="ph-bn">বাড়ি ও আসবাবপত্র</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3e0; বাড়ি</span><span class="ph-tag">&#x1f6cb;&#xfe0f; আসবাব</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🏠 বাড়ি</span><span class="ph-tag">🛋️ আসবাব</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
@@ -1280,54 +1312,59 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="pic-grid">
       <div class="pic-card" onclick="tts('das Bett')">
-        <div class="pic-img">&#x1f6cf;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('das Bett')">&#x1f50a;</button></div>
+        <div class="pic-img">🛏️<button class="pic-play" onclick="event.stopPropagation();tts('das Bett')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Bett</div><div class="pic-en">bed</div><div class="pic-bn">বিছানা</div></div>
       </div>
       <div class="pic-card" onclick="tts('der Tisch')">
-        <div class="pic-img">&#x1f4cb;<button class="pic-play" onclick="event.stopPropagation();tts('der Tisch')">&#x1f50a;</button></div>
+        <div class="pic-img">📋<button class="pic-play" onclick="event.stopPropagation();tts('der Tisch')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">der Tisch</div><div class="pic-en">table</div><div class="pic-bn">টেবিল</div></div>
       </div>
       <div class="pic-card" onclick="tts('der Stuhl')">
-        <div class="pic-img">&#x1f4ba;<button class="pic-play" onclick="event.stopPropagation();tts('der Stuhl')">&#x1f50a;</button></div>
+        <div class="pic-img">💺<button class="pic-play" onclick="event.stopPropagation();tts('der Stuhl')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">der Stuhl</div><div class="pic-en">chair</div><div class="pic-bn">চেয়ার</div></div>
       </div>
       <div class="pic-card" onclick="tts('das Sofa')">
-        <div class="pic-img">&#x1f6cb;&#xfe0f;<button class="pic-play" onclick="event.stopPropagation();tts('das Sofa')">&#x1f50a;</button></div>
+        <div class="pic-img">🛋️<button class="pic-play" onclick="event.stopPropagation();tts('das Sofa')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Sofa</div><div class="pic-en">sofa</div><div class="pic-bn">সোফা</div></div>
       </div>
       <div class="pic-card" onclick="tts('der Schrank')">
-        <div class="pic-img">&#x1f6aa;<button class="pic-play" onclick="event.stopPropagation();tts('der Schrank')">&#x1f50a;</button></div>
+        <div class="pic-img">🚪<button class="pic-play" onclick="event.stopPropagation();tts('der Schrank')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">der Schrank</div><div class="pic-en">wardrobe/cabinet</div><div class="pic-bn">আলমারি</div></div>
       </div>
       <div class="pic-card" onclick="tts('das Fenster')">
-        <div class="pic-img">&#x1fa9f;<button class="pic-play" onclick="event.stopPropagation();tts('das Fenster')">&#x1f50a;</button></div>
+        <div class="pic-img">🪟<button class="pic-play" onclick="event.stopPropagation();tts('das Fenster')">🔊</button></div>
         <div class="pic-info"><div class="pic-de">das Fenster</div><div class="pic-en">window</div><div class="pic-bn">জানালা</div></div>
       </div>
     </div>
     <div class="card">
       <div class="card-t">ঘরের অংশ <span class="ct-bn">— Zimmer & Räume</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Wohnzimmer')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Wohnzimmer')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Wohnzimmer</span><span class="v-en">living room</span><span class="v-bn bn">বসার ঘর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Wohnzimmer')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Wohnzimmer')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Küche')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Küche')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f373;</span>
         <span class="v-de">die K&#xfc;che</span><span class="v-en">kitchen</span><span class="v-bn bn">রান্নাঘর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Küche')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Küche')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Schlafzimmer')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Schlafzimmer')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Schlafzimmer</span><span class="v-en">bedroom</span><span class="v-bn bn">শোবার ঘর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Schlafzimmer')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Schlafzimmer')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Badezimmer')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Badezimmer')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f6bf;</span>
         <span class="v-de">das Badezimmer</span><span class="v-en">bathroom</span><span class="v-bn bn">বাথরুম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Badezimmer')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Badezimmer')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Balkon')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Balkon')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f686;</span>
         <span class="v-de">der Balkon</span><span class="v-en">balcony</span><span class="v-bn bn">বারান্দা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Balkon')">&#x1f50a;</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Balkon')">▶</button>
       </div>
     </div>
     <div class="trick">
@@ -1336,7 +1373,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1348,7 +1385,7 @@ html,body{height:100%;height:100dvh}
     <div class="fitb-score" id="fitb-score-c3l4w"><div class="sc-big" id="fitb-sc-c3l4w">&#x09e6;/&#x09eb;</div><div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1359,7 +1396,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3l4s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1387,7 +1424,7 @@ html,body{height:100%;height:100dvh}
       </table>
     </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1411,8 +1448,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l4ll">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l4ll" onclick="apTogglePlay('l4ll',[{text:'Wie ist deine neue Wohnung?',female:true},{text:'Sie ist toll! Ich habe drei Zimmer — ein Schlafzimmer, ein Wohnzimmer und eine Küche.',female:false},{text:'Hast du auch ein Badezimmer?',female:true},{text:'Natürlich! Und ich habe einen kleinen Balkon. Von dort kann ich den Park sehen.',female:false},{text:'Wie ist die Küche eingerichtet?',female:true},{text:'Im Wohnzimmer steht ein großes Sofa und ein Couchtisch. In der Küche gibt es einen Tisch mit vier Stühlen.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l4ll')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l4ll" onclick="apTogglePlay('l4ll',[{text:'Wie ist deine neue Wohnung?',female:true},{text:'Sie ist toll! Ich habe drei Zimmer — ein Schlafzimmer, ein Wohnzimmer und eine Küche.',female:false},{text:'Hast du auch ein Badezimmer?',female:true},{text:'Natürlich! Und ich habe einen kleinen Balkon. Von dort kann ich den Park sehen.',female:false},{text:'Wie ist die Küche eingerichtet?',female:true},{text:'Im Wohnzimmer steht ein großes Sofa und ein Couchtisch. In der Küche gibt es einen Tisch mit vier Stühlen.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4ll')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l4ll"></span>
       <span class="ap-plays-left" id="applays-l4ll">সর্বোচ্চ ২ বার</span>
@@ -1443,7 +1480,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1479,21 +1516,21 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
 <div class="page" id="page-c3l4fw">
   <div class="ph"><div class="ph-eye">অধ্যায় ৩ · পাঠ ৪</div><div class="ph-title">মুক্ত লেখা</div><div class="ph-bn">নিজে লিখুন</div></div>
   <div class="content">
-    <div class="cult-tip"><div class="cult-icon">&#x270f;&#xfe0f;</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার ঘর বা বাড়ি সম্পর্কে German এ লিখুন। es gibt ও অবস্থান শব্দ ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Meine Wohnung hat..."</em></div></div></div>
+    <div class="cult-tip"><div class="cult-icon">&#x270f;️</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার ঘর বা বাড়ি সম্পর্কে German এ লিখুন। es gibt ও অবস্থান শব্দ ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Meine Wohnung hat..."</em></div></div></div>
     <textarea class="write-area" id="fw-c3l4fw" placeholder="Meine Wohnung hat..." oninput="countWords('fw-c3l4fw','wc-c3l4fw')"></textarea>
     <div class="write-counter" id="wc-c3l4fw">&#x09e6; শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c3l4fw','wr-c3l4fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c3l4fw','wr-c3l4fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c3l4fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1502,11 +1539,11 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div class="speak-prompt"><div class="speak-prompt-de">Beschreibe dein Zimmer oder deine Wohnung!</div><div class="speak-prompt-bn">আপনার ঘর বা বাড়ি বর্ণনা করুন। German এ বলুন।</div></div>
     <div class="cult-tip"><div class="cult-icon">&#x1f4a1;</div><div class="cult-body"><div class="cult-t">সাহায্যকারী শব্দ</div><div class="cult-bn">Meine Wohnung hat... · Im Wohnzimmer gibt es... · Das Bett steht neben... · Es gibt keinen/keine/kein...</div></div></div>
-    <button class="speak-btn" id="fsbtn-c3l4ss" onclick="toggleFreeSpeak('c3l4ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c3l4ss" onclick="toggleFreeSpeak('c3l4ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c3l4ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1515,10 +1552,10 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div id="qz-c3l4q"></div>
     <div class="score" id="sc-c3l4q"><div class="sc-big" id="scn-c3l4q">০/১০</div><div class="sc-lbl">কুইজ সম্পন্ন!</div><div class="sc-msg" id="scm-c3l4q"></div></div>
-    <div class="mistakes-box" id="mb-c3l4q"><div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l4q"></div></div>
+    <div class="mistakes-box" id="mb-c3l4q"><div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l4q"></div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 
@@ -1530,7 +1567,7 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৩ · পাঠ ৫</div>
     <div class="ph-title">Tage, Monate &amp; Datum</div>
     <div class="ph-bn">দিন, মাস ও তারিখ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4c5; তারিখ</span><span class="ph-tag">&#x1f551; সময়</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">📅 তারিখ</span><span class="ph-tag">🕑 সময়</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
@@ -1542,24 +1579,35 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">সপ্তাহের দিন <span class="ct-bn">— Wochentage</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Montag')"><span class="v-de">Montag</span><span class="v-en">Monday</span><span class="v-bn bn">সোমবার</span><button class="pb" onclick="event.stopPropagation();tts('Montag')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Dienstag')"><span class="v-de">Dienstag</span><span class="v-en">Tuesday</span><span class="v-bn bn">মঙ্গলবার</span><button class="pb" onclick="event.stopPropagation();tts('Dienstag')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Mittwoch')"><span class="v-de">Mittwoch</span><span class="v-en">Wednesday</span><span class="v-bn bn">বুধবার</span><button class="pb" onclick="event.stopPropagation();tts('Mittwoch')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Donnerstag')"><span class="v-de">Donnerstag</span><span class="v-en">Thursday</span><span class="v-bn bn">বৃহস্পতিবার</span><button class="pb" onclick="event.stopPropagation();tts('Donnerstag')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Freitag')"><span class="v-de">Freitag</span><span class="v-en">Friday</span><span class="v-bn bn">শুক্রবার</span><button class="pb" onclick="event.stopPropagation();tts('Freitag')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Samstag')"><span class="v-de">Samstag</span><span class="v-en">Saturday</span><span class="v-bn bn">শনিবার</span><button class="pb" onclick="event.stopPropagation();tts('Samstag')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Sonntag')"><span class="v-de">Sonntag</span><span class="v-en">Sunday</span><span class="v-bn bn">রবিবার</span><button class="pb" onclick="event.stopPropagation();tts('Sonntag')">&#x1f50a;</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Montag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Montag</span><span class="v-en">Monday</span><span class="v-bn bn">সোমবার</span><button class="pb" onclick="event.stopPropagation();tts('Montag')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Dienstag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Dienstag</span><span class="v-en">Tuesday</span><span class="v-bn bn">মঙ্গলবার</span><button class="pb" onclick="event.stopPropagation();tts('Dienstag')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Mittwoch')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Mittwoch</span><span class="v-en">Wednesday</span><span class="v-bn bn">বুধবার</span><button class="pb" onclick="event.stopPropagation();tts('Mittwoch')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Donnerstag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Donnerstag</span><span class="v-en">Thursday</span><span class="v-bn bn">বৃহস্পতিবার</span><button class="pb" onclick="event.stopPropagation();tts('Donnerstag')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Freitag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Freitag</span><span class="v-en">Friday</span><span class="v-bn bn">শুক্রবার</span><button class="pb" onclick="event.stopPropagation();tts('Freitag')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Samstag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Samstag</span><span class="v-en">Saturday</span><span class="v-bn bn">শনিবার</span><button class="pb" onclick="event.stopPropagation();tts('Samstag')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Sonntag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Sonntag</span><span class="v-en">Sunday</span><span class="v-bn bn">রবিবার</span><button class="pb" onclick="event.stopPropagation();tts('Sonntag')">▶</button></div>
     </div>
     <div class="card">
       <div class="card-t">মাসের নাম <span class="ct-bn">— Monate</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 32px"><span>Deutsch</span><span class="bn">বাংলা</span><span></span></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 32px" onclick="tts('Januar')"><span class="v-de">Januar · Februar · März</span><span class="v-bn bn">জানুয়ারি · ফেব্রুয়ারি · মার্চ</span><button class="pb" onclick="event.stopPropagation();tts('Januar')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 32px" onclick="tts('April')"><span class="v-de">April · Mai · Juni</span><span class="v-bn bn">এপ্রিল · মে · জুন</span><button class="pb" onclick="event.stopPropagation();tts('April')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 32px" onclick="tts('Juli')"><span class="v-de">Juli · August · September</span><span class="v-bn bn">জুলাই · আগস্ট · সেপ্টেম্বর</span><button class="pb" onclick="event.stopPropagation();tts('Juli')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 32px" onclick="tts('Oktober')"><span class="v-de">Oktober · November · Dezember</span><span class="v-bn bn">অক্টোবর · নভেম্বর · ডিসেম্বর</span><button class="pb" onclick="event.stopPropagation();tts('Oktober')">&#x1f50a;</button></div>
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 32px"><span></span><span>Deutsch</span><span class="bn">বাংলা</span><span></span></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 32px" onclick="tts('Januar')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4cc;</span><span class="v-de">Januar · Februar · März</span><span class="v-bn bn">জানুয়ারি · ফেব্রুয়ারি · মার্চ</span><button class="pb" onclick="event.stopPropagation();tts('Januar')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 32px" onclick="tts('April')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">April · Mai · Juni</span><span class="v-bn bn">এপ্রিল · মে · জুন</span><button class="pb" onclick="event.stopPropagation();tts('April')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 32px" onclick="tts('Juli')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Juli · August · September</span><span class="v-bn bn">জুলাই · আগস্ট · সেপ্টেম্বর</span><button class="pb" onclick="event.stopPropagation();tts('Juli')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 32px" onclick="tts('Oktober')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">Oktober · November · Dezember</span><span class="v-bn bn">অক্টোবর · নভেম্বর · ডিসেম্বর</span><button class="pb" onclick="event.stopPropagation();tts('Oktober')">▶</button></div>
     </div>
     <div class="trick">
       <div class="trick-t">&#x1f9e0; দিনের নাম মনে রাখুন</div>
@@ -1567,7 +1615,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1579,7 +1627,7 @@ html,body{height:100%;height:100dvh}
     <div class="fitb-score" id="fitb-score-c3l5w"><div class="sc-big" id="fitb-sc-c3l5w">&#x09e6;/&#x09eb;</div><div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1590,7 +1638,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3l5s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1625,7 +1673,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1648,8 +1696,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l5ll">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l5ll" onclick="apTogglePlay('l5ll',[{text:'Wann ist dein Geburtstag?',female:true},{text:'Mein Geburtstag ist am zwölften Juli. Und deiner?',female:false},{text:'Meiner ist am dritten März. Das ist ein Montag dieses Jahr.',female:true},{text:'Oh, ein Montag — das ist nicht so schön für eine Party!',female:false},{text:'Stimmt! Ich feiere am Samstag, dem fünften März. Kannst du kommen?',female:true},{text:'Ja, natürlich! Was schenkst du dir zum Geburtstag?',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l5ll')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l5ll" onclick="apTogglePlay('l5ll',[{text:'Wann ist dein Geburtstag?',female:true},{text:'Mein Geburtstag ist am zwölften Juli. Und deiner?',female:false},{text:'Meiner ist am dritten März. Das ist ein Montag dieses Jahr.',female:true},{text:'Oh, ein Montag — das ist nicht so schön für eine Party!',female:false},{text:'Stimmt! Ich feiere am Samstag, dem fünften März. Kannst du kommen?',female:true},{text:'Ja, natürlich! Was schenkst du dir zum Geburtstag?',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5ll')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l5ll"></span>
       <span class="ap-plays-left" id="applays-l5ll">সর্বোচ্চ ২ বার</span>
@@ -1680,7 +1728,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1716,21 +1764,21 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
 <div class="page" id="page-c3l5fw">
   <div class="ph"><div class="ph-eye">অধ্যায় ৩ · পাঠ ৫</div><div class="ph-title">মুক্ত লেখা</div><div class="ph-bn">নিজে লিখুন</div></div>
   <div class="content">
-    <div class="cult-tip"><div class="cult-icon">&#x270f;&#xfe0f;</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার সাপ্তাহিক রুটিন German এ লিখুন। দিন ও সময় উল্লেখ করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Am Montag..."</em></div></div></div>
+    <div class="cult-tip"><div class="cult-icon">&#x270f;️</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার সাপ্তাহিক রুটিন German এ লিখুন। দিন ও সময় উল্লেখ করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Am Montag..."</em></div></div></div>
     <textarea class="write-area" id="fw-c3l5fw" placeholder="Am Montag..." oninput="countWords('fw-c3l5fw','wc-c3l5fw')"></textarea>
     <div class="write-counter" id="wc-c3l5fw">&#x09e6; শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c3l5fw','wr-c3l5fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c3l5fw','wr-c3l5fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c3l5fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -1739,11 +1787,11 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div class="speak-prompt"><div class="speak-prompt-de">Was machst du am Wochenende? Wann ist dein Geburtstag?</div><div class="speak-prompt-bn">সপ্তাহান্তে কী করেন? জন্মদিন কবে? German এ বলুন।</div></div>
     <div class="cult-tip"><div class="cult-icon">&#x1f4a1;</div><div class="cult-body"><div class="cult-t">সাহায্যকারী শব্দ</div><div class="cult-bn">Am Samstag/Sonntag... · Mein Geburtstag ist am... · Im Januar/Februar... · Heute ist...</div></div></div>
-    <button class="speak-btn" id="fsbtn-c3l5ss" onclick="toggleFreeSpeak('c3l5ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c3l5ss" onclick="toggleFreeSpeak('c3l5ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c3l5ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -1752,10 +1800,10 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div id="qz-c3l5q"></div>
     <div class="score" id="sc-c3l5q"><div class="sc-big" id="scn-c3l5q">০/১০</div><div class="sc-lbl">কুইজ সম্পন্ন!</div><div class="sc-msg" id="scm-c3l5q"></div></div>
-    <div class="mistakes-box" id="mb-c3l5q"><div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l5q"></div></div>
+    <div class="mistakes-box" id="mb-c3l5q"><div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l5q"></div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L6: TRENNBARE VERBEN ==================== -->
@@ -1778,17 +1826,25 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">সাধারণ Trennbare Verben <span class="ct-bn">— Common Separable Verbs</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Infinitiv</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('aufstehen')"><span class="v-de">auf|stehen</span><span class="v-en">to get up</span><span class="v-bn bn">ওঠা</span><button class="pb" onclick="event.stopPropagation();tts('aufstehen')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('ankommen')"><span class="v-de">an|kommen</span><span class="v-en">to arrive</span><span class="v-bn bn">পৌঁছানো</span><button class="pb" onclick="event.stopPropagation();tts('ankommen')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('abfahren')"><span class="v-de">ab|fahren</span><span class="v-en">to depart</span><span class="v-bn bn">রওনা দেওয়া</span><button class="pb" onclick="event.stopPropagation();tts('abfahren')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einkaufen')"><span class="v-de">ein|kaufen</span><span class="v-en">to shop</span><span class="v-bn bn">কেনাকাটা করা</span><button class="pb" onclick="event.stopPropagation();tts('einkaufen')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('anrufen')"><span class="v-de">an|rufen</span><span class="v-en">to call (phone)</span><span class="v-bn bn">ফোন করা</span><button class="pb" onclick="event.stopPropagation();tts('anrufen')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('fernsehen')"><span class="v-de">fern|sehen</span><span class="v-en">to watch TV</span><span class="v-bn bn">টিভি দেখা</span><button class="pb" onclick="event.stopPropagation();tts('fernsehen')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('zumachen')"><span class="v-de">zu|machen</span><span class="v-en">to close</span><span class="v-bn bn">বন্ধ করা</span><button class="pb" onclick="event.stopPropagation();tts('zumachen')">&#x1f50a;</button></div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('aufmachen')"><span class="v-de">auf|machen</span><span class="v-en">to open</span><span class="v-bn bn">খোলা</span><button class="pb" onclick="event.stopPropagation();tts('aufmachen')">&#x1f50a;</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('aufstehen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x2b06;</span><span class="v-de">auf|stehen</span><span class="v-en">to get up</span><span class="v-bn bn">ওঠা</span><button class="pb" onclick="event.stopPropagation();tts('aufstehen')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('ankommen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4cc;</span><span class="v-de">an|kommen</span><span class="v-en">to arrive</span><span class="v-bn bn">পৌঁছানো</span><button class="pb" onclick="event.stopPropagation();tts('ankommen')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('abfahren')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">ab|fahren</span><span class="v-en">to depart</span><span class="v-bn bn">রওনা দেওয়া</span><button class="pb" onclick="event.stopPropagation();tts('abfahren')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('einkaufen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4cd;</span><span class="v-de">ein|kaufen</span><span class="v-en">to shop</span><span class="v-bn bn">কেনাকাটা করা</span><button class="pb" onclick="event.stopPropagation();tts('einkaufen')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('anrufen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4cc;</span><span class="v-de">an|rufen</span><span class="v-en">to call (phone)</span><span class="v-bn bn">ফোন করা</span><button class="pb" onclick="event.stopPropagation();tts('anrufen')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('fernsehen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">fern|sehen</span><span class="v-en">to watch TV</span><span class="v-bn bn">টিভি দেখা</span><button class="pb" onclick="event.stopPropagation();tts('fernsehen')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('zumachen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span><span class="v-de">zu|machen</span><span class="v-en">to close</span><span class="v-bn bn">বন্ধ করা</span><button class="pb" onclick="event.stopPropagation();tts('zumachen')">▶</button></div>
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('aufmachen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x2b06;</span><span class="v-de">auf|machen</span><span class="v-en">to open</span><span class="v-bn bn">খোলা</span><button class="pb" onclick="event.stopPropagation();tts('aufmachen')">▶</button></div>
     </div>
     <div class="trick">
       <div class="trick-t">&#x1f4a1; সাধারণ Prefix গুলো</div>
@@ -1796,7 +1852,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -1808,7 +1864,7 @@ html,body{height:100%;height:100dvh}
     <div class="fitb-score" id="fitb-score-c3l6w"><div class="sc-big" id="fitb-sc-c3l6w">&#x09e6;/&#x09eb;</div><div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -1819,7 +1875,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3l6s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -1843,7 +1899,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -1866,8 +1922,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l6ll">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l6ll" onclick="apTogglePlay('l6ll',[{text:'Wann stehst du normalerweise auf?',female:true},{text:'Ich stehe um halb sieben auf. Der Zug fährt um sieben Uhr fünf ab.',female:false},{text:'So früh? Ich stehe erst um acht auf. Ich arbeite von zu Hause.',female:true},{text:'Das ist schön! Ich komme abends erst um sieben Uhr an. Dann koche ich und sehe ein bisschen fern.',female:false},{text:'Rufst du abends manchmal deine Eltern an?',female:true},{text:'Ja, jeden Freitag rufe ich meine Eltern an. Das ist unser Familientradition!',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l6ll')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l6ll" onclick="apTogglePlay('l6ll',[{text:'Wann stehst du normalerweise auf?',female:true},{text:'Ich stehe um halb sieben auf. Der Zug fährt um sieben Uhr fünf ab.',female:false},{text:'So früh? Ich stehe erst um acht auf. Ich arbeite von zu Hause.',female:true},{text:'Das ist schön! Ich komme abends erst um sieben Uhr an. Dann koche ich und sehe ein bisschen fern.',female:false},{text:'Rufst du abends manchmal deine Eltern an?',female:true},{text:'Ja, jeden Freitag rufe ich meine Eltern an. Das ist unser Familientradition!',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6ll')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l6ll"></span>
       <span class="ap-plays-left" id="applays-l6ll">সর্বোচ্চ ২ বার</span>
@@ -1898,7 +1954,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1934,21 +1990,21 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
 <div class="page" id="page-c3l6fw">
   <div class="ph"><div class="ph-eye">অধ্যায় ৩ · পাঠ ৬</div><div class="ph-title">মুক্ত লেখা</div><div class="ph-bn">নিজে লিখুন</div></div>
   <div class="content">
-    <div class="cult-tip"><div class="cult-icon">&#x270f;&#xfe0f;</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার সারাদিনের রুটিন German এ লিখুন। Trennbare Verben ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich stehe um... Uhr auf..."</em></div></div></div>
+    <div class="cult-tip"><div class="cult-icon">&#x270f;️</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার সারাদিনের রুটিন German এ লিখুন। Trennbare Verben ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich stehe um... Uhr auf..."</em></div></div></div>
     <textarea class="write-area" id="fw-c3l6fw" placeholder="Ich stehe um... Uhr auf..." oninput="countWords('fw-c3l6fw','wc-c3l6fw')"></textarea>
     <div class="write-counter" id="wc-c3l6fw">&#x09e6; শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c3l6fw','wr-c3l6fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c3l6fw','wr-c3l6fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c3l6fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -1957,11 +2013,11 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div class="speak-prompt"><div class="speak-prompt-de">Wann stehst du auf? Was machst du dann?</div><div class="speak-prompt-bn">কটায় ওঠেন? তারপর কী করেন? Trennbare Verben ব্যবহার করুন।</div></div>
     <div class="cult-tip"><div class="cult-icon">&#x1f4a1;</div><div class="cult-body"><div class="cult-t">সাহায্যকারী শব্দ</div><div class="cult-bn">Ich stehe um... auf · Dann rufe ich... an · Ich kaufe... ein · Ich sehe fern · Der Zug fährt um... ab</div></div></div>
-    <button class="speak-btn" id="fsbtn-c3l6ss" onclick="toggleFreeSpeak('c3l6ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c3l6ss" onclick="toggleFreeSpeak('c3l6ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c3l6ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -1970,10 +2026,10 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div id="qz-c3l6q"></div>
     <div class="score" id="sc-c3l6q"><div class="sc-big" id="scn-c3l6q">০/১০</div><div class="sc-lbl">কুইজ সম্পন্ন!</div><div class="sc-msg" id="scm-c3l6q"></div></div>
-    <div class="mistakes-box" id="mb-c3l6q"><div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l6q"></div></div>
+    <div class="mistakes-box" id="mb-c3l6q"><div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l6q"></div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L7: PRÄPOSITIONEN ==================== -->
@@ -1984,7 +2040,7 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৩ · পাঠ ৭</div>
     <div class="ph-title">Pr&#xe4;positionen</div>
     <div class="ph-bn">অব্যয় পদ / Prepositions</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f9ed; অব্যয়</span><span class="ph-tag">&#x1f4cd; অবস্থান</span><span class="ph-tag">ব্যাকরণ ক্যাপস্টোন</span></div>
+    <div class="ph-tags"><span class="ph-tag">🧭 অব্যয়</span><span class="ph-tag">📍 অবস্থান</span><span class="ph-tag">ব্যাকরণ ক্যাপস্টোন</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
@@ -2022,7 +2078,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2034,7 +2090,7 @@ html,body{height:100%;height:100dvh}
     <div class="fitb-score" id="fitb-score-c3l7w"><div class="sc-big" id="fitb-sc-c3l7w">&#x09e6;/&#x09eb;</div><div class="sc-lbl">ফাঁকা পূরণ সম্পন্ন!</div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2045,7 +2101,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3l7s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2076,7 +2132,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2099,8 +2155,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l7ll">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l7ll" onclick="apTogglePlay('l7ll',[{text:'Kommst du heute Abend zur Party?',female:true},{text:'Ja! Ich fahre mit dem Fahrrad zu dir. Ist das okay?',female:false},{text:'Natürlich! Ich wohne gegenüber vom Park — du kennst den Weg?',female:true},{text:'Ja, ich gehe durch den Park und dann rechts. Ich komme aus der Richtung vom Bahnhof.',female:false},{text:'Perfekt! Ich habe ein Geschenk für dich — warte bis du kommst!',female:true},{text:'Oh, für mich? Wie schön! Ich komme nach dem Abendessen, okay?',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l7ll')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l7ll" onclick="apTogglePlay('l7ll',[{text:'Kommst du heute Abend zur Party?',female:true},{text:'Ja! Ich fahre mit dem Fahrrad zu dir. Ist das okay?',female:false},{text:'Natürlich! Ich wohne gegenüber vom Park — du kennst den Weg?',female:true},{text:'Ja, ich gehe durch den Park und dann rechts. Ich komme aus der Richtung vom Bahnhof.',female:false},{text:'Perfekt! Ich habe ein Geschenk für dich — warte bis du kommst!',female:true},{text:'Oh, für mich? Wie schön! Ich komme nach dem Abendessen, okay?',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7ll')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l7ll"></span>
       <span class="ap-plays-left" id="applays-l7ll">সর্বোচ্চ ২ বার</span>
@@ -2131,7 +2187,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2169,21 +2225,21 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
 <div class="page" id="page-c3l7fw">
   <div class="ph"><div class="ph-eye">অধ্যায় ৩ · পাঠ ৭</div><div class="ph-title">মুক্ত লেখা</div><div class="ph-bn">নিজে লিখুন</div></div>
   <div class="content">
-    <div class="cult-tip"><div class="cult-icon">&#x270f;&#xfe0f;</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার বাড়ি থেকে স্কুল/কাজে যাওয়ার পথ German এ লিখুন। Prepositions ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich fahre mit... zur/zum..."</em></div></div></div>
+    <div class="cult-tip"><div class="cult-icon">&#x270f;️</div><div class="cult-body"><div class="cult-t">লেখার বিষয়</div><div class="cult-bn">আপনার বাড়ি থেকে স্কুল/কাজে যাওয়ার পথ German এ লিখুন। Prepositions ব্যবহার করুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich fahre mit... zur/zum..."</em></div></div></div>
     <textarea class="write-area" id="fw-c3l7fw" placeholder="Ich fahre mit... zur/zum..." oninput="countWords('fw-c3l7fw','wc-c3l7fw')"></textarea>
     <div class="write-counter" id="wc-c3l7fw">&#x09e6; শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="submitWrite('fw-c3l7fw','wr-c3l7fw')">জমা দিন &#x1f4e4;</button>
+    <button class="btn" onclick="submitWrite('fw-c3l7fw','wr-c3l7fw')">জমা দিন 📤</button>
     <div class="write-res" id="wr-c3l7fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2192,11 +2248,11 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div class="speak-prompt"><div class="speak-prompt-de">Woher kommst du? Wohin gehst du heute? Benutze Präpositionen!</div><div class="speak-prompt-bn">কোথা থেকে আসছেন? আজ কোথায় যাচ্ছেন? Prepositions ব্যবহার করুন।</div></div>
     <div class="cult-tip"><div class="cult-icon">&#x1f4a1;</div><div class="cult-body"><div class="cult-t">সাহায্যকারী শব্দ</div><div class="cult-bn">Ich komme aus... · Ich fahre zu/nach... · Ich gehe mit... · für mich · ohne...</div></div></div>
-    <button class="speak-btn" id="fsbtn-c3l7ss" onclick="toggleFreeSpeak('c3l7ss')">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-c3l7ss" onclick="toggleFreeSpeak('c3l7ss')">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-c3l7ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2205,10 +2261,10 @@ html,body{height:100%;height:100dvh}
   <div class="content">
     <div id="qz-c3l7q"></div>
     <div class="score" id="sc-c3l7q"><div class="sc-big" id="scn-c3l7q">০/১০</div><div class="sc-lbl">কুইজ সম্পন্ন!</div><div class="sc-msg" id="scm-c3l7q"></div></div>
-    <div class="mistakes-box" id="mb-c3l7q"><div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l7q"></div></div>
+    <div class="mistakes-box" id="mb-c3l7q"><div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div><div id="mlist-c3l7q"></div></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== R3: REVIEW ==================== -->
@@ -2219,47 +2275,47 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৩ · রিভিউ</div>
     <div class="ph-title">পূর্ণ রিভিউ</div>
     <div class="ph-bn">অধ্যায় ৩ সারসংক্ষেপ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">&#x1f3d9;&#xfe0f; শহর</span><span class="ph-tag">&#x1f9ed; Prepositions</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">🏙️ শহর</span><span class="ph-tag">🧭 Prepositions</span></div>
   </div>
   <div class="content">
     <div class="review-card">
-      <div class="review-t">&#x1f3d9;&#xfe0f; পাঠ ১ — Stadtorte</div>
+      <div class="review-t">🏙️ পাঠ ১ — Stadtorte</div>
       <div class="review-item">die Post · die Bank · das Krankenhaus · die Schule · der Bahnhof · der Park</div>
       <div class="review-item">das Rathaus · die Apotheke · die Bibliothek · der Marktplatz · das Museum</div>
       <div class="review-item">Wo ist...? · links · rechts · geradeaus · neben · gegenüber · zu Fuß</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f68c; পাঠ ২ — Verkehrsmittel</div>
+      <div class="review-t">🚌 পাঠ ২ — Verkehrsmittel</div>
       <div class="review-item">der Bus · die U-Bahn · das Fahrrad · das Auto · der Zug · das Flugzeug</div>
       <div class="review-item">fahren conjugation: ich fahre, du fährst, er fährt, wir fahren</div>
       <div class="review-item">mit dem (der/das) · mit der (die) · zu Fuß (article নেই)</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x26c5; পাঠ ৩ — Wetter</div>
+      <div class="review-t">⛅ পাঠ ৩ — Wetter</div>
       <div class="review-item">sonnig · regnerisch · schneeig · bewölkt · windig · das Gewitter</div>
       <div class="review-item">Wie ist das Wetter? · Es regnet. · Es schneit. · Es ist kalt/warm.</div>
       <div class="review-item">im Frühling · im Sommer · im Herbst · im Winter</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f3e0; পাঠ ৪ — Haus &amp; M&#xf6;bel</div>
+      <div class="review-t">🏠 পাঠ ৪ — Haus &amp; M&#xf6;bel</div>
       <div class="review-item">das Bett · der Tisch · der Stuhl · das Sofa · der Schrank · das Fenster</div>
       <div class="review-item">das Wohnzimmer · die K&#xfc;che · das Schlafzimmer · das Badezimmer · der Balkon</div>
       <div class="review-item">es gibt + Akkusativ · neben/vor/hinter + Dativ · an der Wand</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f4c5; পাঠ ৫ — Tage, Monate &amp; Datum</div>
+      <div class="review-t">📅 পাঠ ৫ — Tage, Monate &amp; Datum</div>
       <div class="review-item">Montag · Dienstag · Mittwoch · Donnerstag · Freitag · Samstag · Sonntag</div>
       <div class="review-item">Januar–Dezember (১২ মাস)</div>
       <div class="review-item">am + Ordinal + Monat: am dritten M&#xe4;rz · am ersten Januar</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f501; পাঠ ৬ — Trennbare Verben</div>
+      <div class="review-t">🔁 পাঠ ৬ — Trennbare Verben</div>
       <div class="review-item">auf|stehen · an|kommen · ab|fahren · ein|kaufen · an|rufen · fern|sehen</div>
       <div class="review-item">নিয়ম: conjugated verb 2nd position, PREFIX বাক্যের শেষে</div>
       <div class="review-item">Ich stehe um 7 Uhr auf. · Er ruft seine Mutter an. · Der Zug fährt ab.</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f9ed; পাঠ ৭ — Pr&#xe4;positionen — ক্যাপস্টোন</div>
+      <div class="review-t">🧭 পাঠ ৭ — Pr&#xe4;positionen — ক্যাপস্টোন</div>
       <div class="review-item">Dativ: mit · bei · nach · von · zu · aus · seit · gegenüber</div>
       <div class="review-item">Akkusativ: durch · für · ohne · um</div>
       <div class="review-item">zum (zu+dem) · zur (zu+der) · nach Hause · aus Bangladesh</div>
@@ -2280,7 +2336,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R3 SPEAKING REVIEW -->
@@ -2295,7 +2351,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c3rs"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R3 REVIEW QUIZ -->
@@ -2314,12 +2370,12 @@ html,body{height:100%;height:100dvh}
       <div class="sc-msg" id="scm-c3rq"></div>
     </div>
     <div class="mistakes-box" id="mb-c3rq">
-      <div class="mistakes-hdr">&#x274c; ভুল উত্তরগুলো দেখুন:</div>
+      <div class="mistakes-hdr">❌ ভুল উত্তরগুলো দেখুন:</div>
       <div id="mlist-c3rq"></div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা ►</button></div>
 </div>
 
 
@@ -3197,7 +3253,7 @@ function _apTime(id, cur, total) {
 function _apSetPlayBtn(id, playing) {
   var btn = document.getElementById('appbtn-' + id);
   if (!btn) return;
-  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+  btn.innerHTML = playing ? '⏸' : '▶';
 }
 
 function _apPlayFrom(id, lines, fromIdx) {
