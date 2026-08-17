@@ -73,9 +73,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
 .day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
 .main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
-.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
 .main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
-.page{display:none}
+.page{display:none}.page.active{}
 .page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
@@ -291,11 +291,33 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
 
 
-/* ---- MOBILE SCROLL FIX ---- */
-html,body{height:100%;height:100dvh}
-.app-body{height:calc(100dvh - 112px);max-height:calc(100dvh - 112px)}
-.main{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
-.page.active{display:block;min-height:auto;height:auto;overflow:visible}
+#mainArea{
+  position:fixed;
+  top:112px;
+  bottom:0;
+  left:var(--sb,220px);
+  right:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  z-index:1;
+}
+@media(max-width:640px){
+  #mainArea{
+    top:108px;
+    left:0;
+  }
+}
+
+/* ---- MOBILE NATURAL SCROLL ---- */
+@media(max-width:640px){
+  html,body{height:auto !important;overflow:auto !important}
+  .app-body{overflow:visible !important;height:auto !important;min-height:0}
+  .main-wrap{overflow:visible !important;height:auto !important}
+  .main{overflow:visible !important;height:auto !important;min-height:0}
+  .page.active{display:block}
+}
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -319,7 +341,7 @@ html,body{height:100%;height:100dvh}
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
   <span class="tb-level">A1</span>
-  <span class="tb-title">🇩🇪 অধ্যায় ১০ — Wohnen &amp; Alltag</span>
+  <span class="tb-title">&#x1f1e9;&#x1f1ea; অধ্যায় ১০ — Wohnen &amp; Alltag</span>
   <div class="tb-right">
     <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
@@ -388,7 +410,7 @@ html,body{height:100%;height:100dvh}
         <!-- L3 Hausarbeit -->
         <div class="day-hdr" id="dhc10l3" onclick="toggleDay('c10l3')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f9f9; L3 — Hausarbeit</span>
+          <span class="day-name">🧹 L3 — Hausarbeit</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -428,7 +450,7 @@ html,body{height:100%;height:100dvh}
         <!-- L5 Wohnungssuche -->
         <div class="day-hdr" id="dhc10l5" onclick="toggleDay('c10l5')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f50d; L5 — Wohnungssuche</span>
+          <span class="day-name">🔍 L5 — Wohnungssuche</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -448,7 +470,7 @@ html,body{height:100%;height:100dvh}
         <!-- L6 Wohnen in Deutschland -->
         <div class="day-hdr" id="dhc10l6" onclick="toggleDay('c10l6')">
           <span class="day-dot"></span>
-          <span class="day-name">🇩🇪 L6 — Wohnen in Deutschland</span>
+          <span class="day-name">&#x1f1e9;&#x1f1ea; L6 — Wohnen in Deutschland</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -468,7 +490,7 @@ html,body{height:100%;height:100dvh}
         <!-- L7 Possessivpronomen -->
         <div class="day-hdr" id="dhc10l7" onclick="toggleDay('c10l7')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f9e9; L7 — Possessivpronomen</span>
+          <span class="day-name">🧩 L7 — Possessivpronomen</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -520,7 +542,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">মনে রাখুন</div>
         <div class="cult-bn">German এ ঘরের অংশের নাম জানা থাকলে বাসা খোঁজা ও বর্ণনা করা সহজ হবে।</div>
@@ -534,56 +556,56 @@ html,body{height:100%;height:100dvh}
       <div class="vr vr-4" onclick="tts('das Wohnzimmer')">
         <span style="font-size:1.3rem;text-align:center">🛋️</span>
         <span class="v-de">das Wohnzimmer</span><span class="v-en">living room</span><span class="v-bn bn">বসার ঘর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Wohnzimmer')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Wohnzimmer')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Küche')">
         <span style="font-size:1.3rem;text-align:center">🍳</span>
         <span class="v-de">die K&#xfc;che</span><span class="v-en">kitchen</span><span class="v-bn bn">রান্নাঘর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Küche')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Küche')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Schlafzimmer')">
         <span style="font-size:1.3rem;text-align:center">🛏️</span>
         <span class="v-de">das Schlafzimmer</span><span class="v-en">bedroom</span><span class="v-bn bn">শোবার ঘর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Schlafzimmer')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Schlafzimmer')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Badezimmer')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f6bf;</span>
+        <span style="font-size:1.3rem;text-align:center">🚿</span>
         <span class="v-de">das Badezimmer</span><span class="v-en">bathroom</span><span class="v-bn bn">গোসলখানা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Badezimmer')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Badezimmer')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Balkon')">
         <span style="font-size:1.3rem;text-align:center">🏢</span>
         <span class="v-de">der Balkon</span><span class="v-en">balcony</span><span class="v-bn bn">বারান্দা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Balkon')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Balkon')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Flur')">
         <span style="font-size:1.3rem;text-align:center">🚪</span>
         <span class="v-de">der Flur</span><span class="v-en">hallway</span><span class="v-bn bn">বারান্দা / করিডোর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Flur')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Flur')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Keller')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f3da;️</span>
+        <span style="font-size:1.3rem;text-align:center">🏚️</span>
         <span class="v-de">der Keller</span><span class="v-en">basement/cellar</span><span class="v-bn bn">নিচতলা / সেলার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Keller')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Keller')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Garten')">
         <span style="font-size:1.3rem;text-align:center">🌿</span>
         <span class="v-de">der Garten</span><span class="v-en">garden</span><span class="v-bn bn">বাগান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Garten')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Garten')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Haus')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f3e1;</span>
+        <span style="font-size:1.3rem;text-align:center">🏡</span>
         <span class="v-de">das Haus</span><span class="v-en">house</span><span class="v-bn bn">বাড়ি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Haus')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Haus')">▶</button>
       </div>
     </div>
     <div class="trick">
-      <div class="trick-t">🧠 "in" + Dativ মনে রাখুন</div>
+      <div class="trick-t">&#x1f9e0; "in" + Dativ মনে রাখুন</div>
       <div class="trick-bn">ঘরের অবস্থান বোঝাতে: "Ich bin <strong>im</strong> Wohnzimmer." (in + dem = im, das Wohnzimmer neutral)</div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -602,7 +624,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -614,7 +636,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Küche</strong> = KUE-khe (ü ঠোঁট গোল) | <strong>Wohnzimmer</strong> = VOHN-tsim-mer | <strong>Schlafzimmer</strong> = SHLAHF-tsim-mer</div>
@@ -623,7 +645,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10l1s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -653,13 +675,13 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">Wir haben eine Wohnung mit Balkon.</td><td class="bn">আমাদের একটা বারান্দাসহ বাসা আছে।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 im মনে রাখুন</div>
+        <div class="trick-t">&#x1f4a1; im মনে রাখুন</div>
         <div class="trick-bn"><strong>im</strong> = in + dem (masculine/neutral Dativ এর সংকুচিত রূপ)। "im Wohnzimmer", "im Garten" — খুব সাধারণ।</div>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -671,7 +693,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
+      <div class="read-label">&#x1f3a7; কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l1l">
     <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Wo wohnst du jetzt?</span></div>
@@ -686,8 +708,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Wo wohnst du jetzt?',female:false},{text:'Ich wohne in einer kleinen Wohnung. Sie hat ein Wohnzimmer, eine Küche und ein Schlafzimmer.',female:true},{text:'Hast du auch einen Balkon?',female:false},{text:'Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort.',female:true},{text:'Hast du einen Garten?',female:false},{text:'Nein, leider nicht. Aber wir haben einen Keller f&#xfc;r Sachen.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Wo wohnst du jetzt?',female:false},{text:'Ich wohne in einer kleinen Wohnung. Sie hat ein Wohnzimmer, eine Küche und ein Schlafzimmer.',female:true},{text:'Hast du auch einen Balkon?',female:false},{text:'Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort.',female:true},{text:'Hast du einen Garten?',female:false},{text:'Nein, leider nicht. Aber wir haben einen Keller f&#xfc;r Sachen.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l1l"></span>
       <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
@@ -721,7 +743,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -734,7 +756,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Meine Wohnung</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Meine Wohnung</div>
       Hallo! Ich heisse Max und ich möchte euch meine Wohnung zeigen.<br><br>
       Meine Wohnung hat vier Zimmer: ein Wohnzimmer, eine Küche, ein Schlafzimmer und ein Badezimmer. Das Wohnzimmer ist mein Lieblingsraum, weil es sehr gemütlich ist.<br><br>
       Die Küche ist klein, aber praktisch. Ich kann dort gut kochen. Im Schlafzimmer habe ich ein groses Fenster, durch das viel Licht kommt.<br><br>
@@ -742,7 +764,7 @@ html,body{height:100%;height:100dvh}
       Im Keller können wir Fahrräder und alte Möbel aufbewahren. Insgesamt bin ich sehr zufrieden mit meiner Wohnung!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Max এর বাসায় ৪টা ঘর: বসার ঘর, রান্নাঘর, শোবার ঘর, গোসলখানা। বসার ঘর তার পছন্দের কারণ এটা আরামদায়ক। রান্নাঘর ছোট কিন্তু ব্যবহারিক। শোবার ঘরে বড় জানালা আছে। গ্রীষ্মে বারান্দায় কফি পান করেন। শহরে থাকার কারণে বাগান নেই, কিন্তু সেলারে সাইকেল ও পুরনো আসবাবপত্র রাখেন।</div>
     </div>
     <div class="listen-q">
@@ -771,7 +793,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
@@ -783,7 +805,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার বাসা সম্পর্কে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Meine Wohnung hat..."</em></div>
@@ -795,7 +817,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c10l1fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -811,7 +833,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনার বাসা বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Meine Wohnung hat... · Ich habe einen/eine/ein... · Mein Lieblingsraum ist...</div>
@@ -821,7 +843,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c10l1ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -835,7 +857,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10l1q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L2: MÖBEL & EINRICHTUNG ==================== -->
@@ -846,54 +868,63 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ১০ · পাঠ ২</div>
     <div class="ph-title">M&#xf6;bel &amp; Einrichtung</div>
     <div class="ph-bn">আসবাবপত্র</div>
-    <div class="ph-tags"><span class="ph-tag">🛋️ আসবাব</span><span class="ph-tag">📝 প্রতিশব্দ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🛋️ আসবাব</span><span class="ph-tag">&#x1f4dd; প্রতিশব্দ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">আসবাবপত্রের নাম <span class="ct-bn">— M&#xf6;bel-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Tisch')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Tisch')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1fa91;</span>
         <span class="v-de">der Tisch</span><span class="v-en">table</span><span class="v-bn bn">টেবিল</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Tisch')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Tisch')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Stuhl')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Stuhl')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1fa91;</span>
         <span class="v-de">der Stuhl</span><span class="v-en">chair</span><span class="v-bn bn">চেয়ার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Stuhl')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Stuhl')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Bett')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Bett')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f6cf;</span>
         <span class="v-de">das Bett</span><span class="v-en">bed</span><span class="v-bn bn">খাট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Bett')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Bett')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Schrank')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Schrank')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f6aa;</span>
         <span class="v-de">der Schrank</span><span class="v-en">wardrobe/cabinet</span><span class="v-bn bn">আলমারি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Schrank')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Schrank')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Sofa')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Sofa')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f6cb;</span>
         <span class="v-de">das Sofa</span><span class="v-en">sofa</span><span class="v-bn bn">সোফা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Sofa')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Sofa')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Regal')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Regal')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4da;</span>
         <span class="v-de">das Regal</span><span class="v-en">shelf</span><span class="v-bn bn">তাক / শেলফ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Regal')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Regal')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Lampe')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Lampe')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4a1;</span>
         <span class="v-de">die Lampe</span><span class="v-en">lamp</span><span class="v-bn bn">বাতি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Lampe')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Lampe')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Spiegel')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Spiegel')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Spiegel</span><span class="v-en">mirror</span><span class="v-bn bn">আয়না</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Spiegel')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Spiegel')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Teppich')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Teppich')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Teppich</span><span class="v-en">carpet/rug</span><span class="v-bn bn">কার্পেট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Teppich')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Teppich')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -912,7 +943,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -924,7 +955,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Schrank</strong> = shrank | <strong>Teppich</strong> = TEP-pikh | <strong>Spiegel</strong> = SHPEE-gel</div>
@@ -933,7 +964,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10l2s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -953,7 +984,7 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">hängen</td><td class="de">ঝুলে থাকা</td><td class="de">Die Lampe hängt an der Decke.</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 কোনটা কী?</div>
+        <div class="trick-t">&#x1f4a1; কোনটা কী?</div>
         <div class="trick-bn">টেবিল, চেয়ার, সোফা <strong>stehen</strong> (খাড়া) | কার্পেট, বই <strong>liegen</strong> (চ্যাপ্টা) | আয়না, ছবি, বাতি <strong>hängen</strong> (ঝুলে)</div>
       </div>
     </div>
@@ -967,7 +998,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -979,7 +1010,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 নতুন আসবাব কেনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; নতুন আসবাব কেনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l2l">
     <div class="ap-line"><span class="spk">Verkäufer:</span><span class="ap-text">Guten Tag! Suchen Sie etwas Bestimmtes?</span></div>
@@ -994,8 +1025,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag! Suchen Sie etwas Bestimmtes?',female:false},{text:'Ja, ich brauche einen neuen Schrank für mein Schlafzimmer.',female:false},{text:'Wir haben hier sch&#xf6;ne Schr&#xe4;nke. Brauchen Sie auch ein neues Bett?',female:false},{text:'Nein, das Bett habe ich schon. Aber ich brauche eine Lampe f&#xfc;r das Wohnzimmer.',female:false},{text:'Diese Lampe hier ist sehr beliebt. Sie kostet f&#xfc;nfzig Euro.',female:false},{text:'Perfekt, ich nehme den Schrank und die Lampe.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag! Suchen Sie etwas Bestimmtes?',female:false},{text:'Ja, ich brauche einen neuen Schrank für mein Schlafzimmer.',female:false},{text:'Wir haben hier sch&#xf6;ne Schr&#xe4;nke. Brauchen Sie auch ein neues Bett?',female:false},{text:'Nein, das Bett habe ich schon. Aber ich brauche eine Lampe f&#xfc;r das Wohnzimmer.',female:false},{text:'Diese Lampe hier ist sehr beliebt. Sie kostet f&#xfc;nfzig Euro.',female:false},{text:'Perfekt, ich nehme den Schrank und die Lampe.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l2l"></span>
       <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
@@ -1029,7 +1060,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1042,7 +1073,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Möbel online verkaufen (online ad)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Möbel online verkaufen (online ad)</div>
       <strong>Möbel zu verkaufen — Umzug!</strong><br><br>
       Hallo! Ich ziehe um und muss leider einige Möbel verkaufen. Alles ist in gutem Zustand.<br><br>
       <strong>Sofa</strong> — grau, drei Sitze, 80 Euro<br>
@@ -1053,7 +1084,7 @@ html,body{height:100%;height:100dvh}
       Bei Interesse schreiben Sie mir bitte eine Nachricht. Abholung ist diese Woche möglich.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">একজন ব্যক্তি বাসা পরিবর্তনের কারণে আসবাব বিক্রি করছেন: সোফা (ধূসর, ৩ সিট) ৮০ ইউরো, খাবার টেবিল + ৪টা চেয়ার ১৫০ ইউরো, বুকশেলফ ৪০ ইউরো, ডেস্ক ল্যাম্প ১৫ ইউরো। আসবাব Goethestraße এর বাসায় আছে, দেখতে আসা যায়। এই সপ্তাহে নিয়ে যাওয়া যাবে।</div>
     </div>
     <div class="listen-q">
@@ -1082,7 +1113,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
@@ -1094,7 +1125,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার ঘরে কী কী আসবাব আছে? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In meinem Zimmer habe ich..."</em></div>
@@ -1106,7 +1137,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c10l2fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -1122,7 +1153,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনার ঘরে কী কী আসবাব আছে? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich habe einen/eine/ein... · Der/Die/Das... steht/liegt/hängt...</div>
@@ -1132,7 +1163,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c10l2ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -1146,7 +1177,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10l2q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L3: HAUSARBEIT ==================== -->
@@ -1157,50 +1188,58 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ১০ · পাঠ ৩</div>
     <div class="ph-title">Hausarbeit</div>
     <div class="ph-bn">ঘরের কাজ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f9f9; কাজ</span><span class="ph-tag">🏠 দৈনন্দিন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🧹 কাজ</span><span class="ph-tag">🏠 দৈনন্দিন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">ঘরের কাজের verb <span class="ct-bn">— Hausarbeit-Verben</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('putzen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('putzen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">putzen</span><span class="v-en">to clean</span><span class="v-bn bn">পরিষ্কার করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('putzen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('putzen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('waschen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('waschen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">waschen</span><span class="v-en">to wash</span><span class="v-bn bn">ধোয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('waschen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('waschen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('kochen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('kochen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">kochen</span><span class="v-en">to cook</span><span class="v-bn bn">রান্না করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('kochen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('kochen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('staubsaugen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('staubsaugen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">staubsaugen</span><span class="v-en">to vacuum</span><span class="v-bn bn">ভ্যাকুয়াম করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('staubsaugen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('staubsaugen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('aufräumen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('aufräumen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">aufr&#xe4;umen</span><span class="v-en">to tidy up</span><span class="v-bn bn">গুছিয়ে রাখা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('aufräumen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('aufräumen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('abwaschen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('abwaschen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">abwaschen</span><span class="v-en">to wash dishes</span><span class="v-bn bn">বাসন ধোয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('abwaschen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('abwaschen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('bügeln')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('bügeln')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">b&#xfc;geln</span><span class="v-en">to iron</span><span class="v-bn bn">ইস্ত্রি করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('bügeln')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('bügeln')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einkaufen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('einkaufen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f6d2;</span>
         <span class="v-de">einkaufen</span><span class="v-en">to shop (groceries)</span><span class="v-bn bn">বাজার করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('einkaufen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('einkaufen')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1219,7 +1258,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1231,7 +1270,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>staubsaugen</strong> = SHTOWP-zow-gen | <strong>aufräumen</strong> = OWF-roy-men | <strong>bügeln</strong> = BUE-geln</div>
@@ -1240,7 +1279,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10l3s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1271,7 +1310,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1283,7 +1322,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 ঘরের কাজ ভাগ করা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; ঘরের কাজ ভাগ করা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l3l">
     <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Wer macht heute die Hausarbeit?</span></div>
@@ -1298,8 +1337,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Wer macht heute die Hausarbeit?',female:true},{text:'Ich kann staubsaugen und das Bad putzen.',female:false},{text:'Gut, dann wasche ich die W&#xe4;sche und r&#xe4;ume die K&#xfc;che auf.',female:true},{text:'Wer kauft heute ein?',female:false},{text:'Das kann ich nach der Arbeit machen.',female:true},{text:'Perfekt, dann koche ich heute Abend das Essen.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Wer macht heute die Hausarbeit?',female:true},{text:'Ich kann staubsaugen und das Bad putzen.',female:false},{text:'Gut, dann wasche ich die W&#xe4;sche und r&#xe4;ume die K&#xfc;che auf.',female:true},{text:'Wer kauft heute ein?',female:false},{text:'Das kann ich nach der Arbeit machen.',female:true},{text:'Perfekt, dann koche ich heute Abend das Essen.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l3l"></span>
       <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
@@ -1333,7 +1372,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1346,7 +1385,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Putzplan für die WG (cleaning schedule)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Putzplan für die WG (cleaning schedule)</div>
       <strong>Putzplan für unsere WG</strong><br><br>
       Damit alles fair bleibt, haben wir einen Putzplan gemacht:<br><br>
       <strong>Montag:</strong> Lisa putzt das Badezimmer.<br>
@@ -1357,7 +1396,7 @@ html,body{height:100%;height:100dvh}
       Mit diesem Plan ist unsere Wohnung immer sauber und ordentlich!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">WG (shared flat) এর পরিষ্কার পরিকল্পনা: সোমবার Lisa বাথরুম পরিষ্কার করে, বুধবার Tom বসার ঘর ও করিডোর ভ্যাকুয়াম করে, শুক্রবার Sara বাসন ধোয় ও রান্নাঘর গোছায়, রবিবার সবাই মিলে বড় পরিষ্কার করে। প্রত্যেকে নিজের কাপড় ও ঘরের জন্য দায়ী।</div>
     </div>
     <div class="listen-q">
@@ -1386,7 +1425,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
@@ -1398,7 +1437,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার পরিবারে কে কোন ঘরের কাজ করে? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In meiner Familie..."</em></div>
@@ -1410,7 +1449,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c10l3fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1426,7 +1465,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনি কোন ঘরের কাজ পছন্দ করেন বা না করেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich putze gern... · Ich mag... nicht · Jeden Tag muss ich...</div>
@@ -1436,7 +1475,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c10l3ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1450,7 +1489,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10l3q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L4: DER TAGESABLAUF ==================== -->
@@ -1461,42 +1500,48 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ১০ · পাঠ ৪</div>
     <div class="ph-title">Der Tagesablauf</div>
     <div class="ph-bn">দৈনন্দিন রুটিন</div>
-    <div class="ph-tags"><span class="ph-tag">⏰ সময়</span><span class="ph-tag">🔄 রিফ্লেক্সিভ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">⏰ সময়</span><span class="ph-tag">&#x1f504; রিফ্লেক্সিভ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">দৈনন্দিন রুটিনের verb <span class="ct-bn">— Tagesablauf-Verben</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('aufstehen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('aufstehen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">aufstehen</span><span class="v-en">to get up</span><span class="v-bn bn">ঘুম থেকে উঠা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('aufstehen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('aufstehen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich duschen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich duschen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich duschen</span><span class="v-en">to shower</span><span class="v-bn bn">গোসল করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich duschen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich duschen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich anziehen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich anziehen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich anziehen</span><span class="v-en">to get dressed</span><span class="v-bn bn">কাপড় পরা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich anziehen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich anziehen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('frühstücken')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('frühstücken')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">fr&#xfc;hst&#xfc;cken</span><span class="v-en">to have breakfast</span><span class="v-bn bn">নাস্তা করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('frühstücken')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('frühstücken')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich ausziehen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich ausziehen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich ausziehen</span><span class="v-en">to get undressed</span><span class="v-bn bn">কাপড় খোলা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich ausziehen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich ausziehen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einschlafen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('einschlafen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">einschlafen</span><span class="v-en">to fall asleep</span><span class="v-bn bn">ঘুমিয়ে পড়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('einschlafen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('einschlafen')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1515,7 +1560,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1527,7 +1572,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>aufstehen</strong> = OWF-shtay-en | <strong>frühstücken</strong> = FRUE-shtue-ken | <strong>einschlafen</strong> = INE-shlah-fen</div>
@@ -1536,7 +1581,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10l4s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1557,7 +1602,7 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">Um acht Uhr frühstücke ich.</td><td class="bn">আটটায় আমি নাস্তা করি।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 সময়ের ক্রম শব্দ</div>
+        <div class="trick-t">&#x1f4a1; সময়ের ক্রম শব্দ</div>
         <div class="trick-bn"><strong>zuerst</strong> (প্রথমে) → <strong>dann/danach</strong> (তারপর) → <strong>zum Schluss</strong> (শেষে) — এই শব্দগুলো ক্রম বোঝাতে সাহায্য করে।</div>
       </div>
     </div>
@@ -1571,7 +1616,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 LISTENING -->
@@ -1583,7 +1628,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 দৈনন্দিন রুটিন — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; দৈনন্দিন রুটিন — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l4l">
     <div class="ap-line"><span class="spk">Reporter:</span><span class="ap-text">Wie sieht dein typischer Tag aus?</span></div>
@@ -1598,8 +1643,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Wie sieht dein typischer Tag aus?',female:false},{text:'Ich stehe normalerweise um sechs Uhr dreißig auf. Dann dusche ich mich und ziehe mich an.',female:true},{text:'Was machst du danach?',female:false},{text:'Ich frühstücke um sieben Uhr und gehe dann zur Arbeit.',female:true},{text:'Und am Abend?',female:false},{text:'Ich koche das Abendessen, sehe ein bisschen Fernsehen, und schlafe normalerweise um elf Uhr ein.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Wie sieht dein typischer Tag aus?',female:false},{text:'Ich stehe normalerweise um sechs Uhr dreißig auf. Dann dusche ich mich und ziehe mich an.',female:true},{text:'Was machst du danach?',female:false},{text:'Ich frühstücke um sieben Uhr und gehe dann zur Arbeit.',female:true},{text:'Und am Abend?',female:false},{text:'Ich koche das Abendessen, sehe ein bisschen Fernsehen, und schlafe normalerweise um elf Uhr ein.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l4l"></span>
       <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
@@ -1633,7 +1678,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1646,7 +1691,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Ein typischer Tag (a typical day)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Ein typischer Tag (a typical day)</div>
       <strong>Mein Tagesablauf</strong><br><br>
       Jeden Morgen stehe ich um sechs Uhr auf. Zuerst dusche ich mich, dann ziehe ich mich an und mache mein Bett.<br><br>
       Um sieben Uhr frühstücke ich — meistens Brot mit Marmelade und einen Kaffee. Danach putze ich mir die Zähne und gehe zur Arbeit.<br><br>
@@ -1655,7 +1700,7 @@ html,body{height:100%;height:100dvh}
       Am Abend sehe ich manchmal Fernsehen oder lese ein Buch. Ich schlafe normalerweise um zweiundzwanzig Uhr dreißig ein.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">প্রতিদিন সকাল ৬টায় উঠেন, গোসল করেন, কাপড় পরেন, বিছানা গোছান। ৭টায় নাস্তা করেন (রুটি ও কফি), দাঁত ব্রাশ করে কাজে যান। ৮টা থেকে ৫টা কাজ করেন, দুপুরে সহকর্মীদের সাথে খান। কাজের পর বাজার করেন, রান্না করেন, পরিবারের সাথে খান। সন্ধ্যায় টিভি দেখেন বা বই পড়েন, সাধারণত রাত ১০:৩০ এ ঘুমিয়ে পড়েন।</div>
     </div>
     <div class="listen-q">
@@ -1684,7 +1729,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
@@ -1696,7 +1741,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার দৈনন্দিন রুটিন German এ লিখুন (সময় উল্লেখ করুন)। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich stehe um..."</em></div>
@@ -1708,7 +1753,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c10l4fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1724,7 +1769,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনার সাধারণ দিন কেমন হয়? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Zuerst... · Dann... · Danach... · Am Abend...</div>
@@ -1734,7 +1779,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c10l4ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1748,7 +1793,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10l4q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L5: WOHNUNGSSUCHE ==================== -->
@@ -1759,46 +1804,53 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ১০ · পাঠ ৫</div>
     <div class="ph-title">Wohnungssuche</div>
     <div class="ph-bn">বাসা খোঁজা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f50d; খোঁজা</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🔍 খোঁজা</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">বাসা খোঁজার শব্দ <span class="ct-bn">— Wohnungssuche-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Miete')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Miete')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4b0;</span>
         <span class="v-de">die Miete</span><span class="v-en">rent</span><span class="v-bn bn">ভাড়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Miete')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Miete')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Vermieter')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Vermieter')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f9d4;</span>
         <span class="v-de">der Vermieter</span><span class="v-en">landlord</span><span class="v-bn bn">বাড়ির মালিক</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Vermieter')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Vermieter')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Mieter')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Mieter')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Mieter</span><span class="v-en">tenant</span><span class="v-bn bn">ভাড়াটে</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Mieter')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Mieter')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Vertrag')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Vertrag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f9d4;</span>
         <span class="v-de">der Vertrag</span><span class="v-en">contract</span><span class="v-bn bn">চুক্তি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Vertrag')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Vertrag')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Kaution')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Kaution')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Kaution</span><span class="v-en">deposit</span><span class="v-bn bn">জামানত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Kaution')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Kaution')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('möbliert')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('möbliert')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">m&#xf6;bliert</span><span class="v-en">furnished</span><span class="v-bn bn">আসবাবসহ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('möbliert')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('möbliert')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Anzeige')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Anzeige')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Anzeige</span><span class="v-en">advertisement</span><span class="v-bn bn">বিজ্ঞাপন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Anzeige')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Anzeige')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1817,7 +1869,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1829,7 +1881,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Miete</strong> = MEE-te | <strong>Kaution</strong> = kow-tsee-OHN | <strong>Vermieter</strong> = fer-MEE-ter</div>
@@ -1838,7 +1890,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10l5s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1859,13 +1911,13 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">Wann kann ich einziehen?</td><td class="bn">আমি কখন ঢুকতে পারব?</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 einziehen vs ausziehen</div>
+        <div class="trick-t">&#x1f4a1; einziehen vs ausziehen</div>
         <div class="trick-bn"><strong>einziehen</strong> = বাসায় ঢোকা/উঠা, <strong>ausziehen</strong> = বাসা থেকে চলে যাওয়া — দুটোই separable verb।</div>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1877,7 +1929,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 বাড়ির মালিকের সাথে কথা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; বাড়ির মালিকের সাথে কথা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l5l">
     <div class="ap-line"><span class="spk">Interessent:</span><span class="ap-text">Guten Tag, ich rufe wegen der Wohnungsanzeige an.</span></div>
@@ -1892,8 +1944,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Guten Tag, ich rufe wegen der Wohnungsanzeige an.',female:false},{text:'Ah ja, die Zweizimmerwohnung. Was möchten Sie wissen?',female:false},{text:'Wie hoch ist die Miete?',female:false},{text:'Die Kaltmiete ist sechshundert Euro, plus hundert Euro Nebenkosten.',female:false},{text:'Ist die Wohnung möbliert?',female:false},{text:'Nein, sie ist nicht möbliert. Möchten Sie sie sich anschauen?',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Guten Tag, ich rufe wegen der Wohnungsanzeige an.',female:false},{text:'Ah ja, die Zweizimmerwohnung. Was möchten Sie wissen?',female:false},{text:'Wie hoch ist die Miete?',female:false},{text:'Die Kaltmiete ist sechshundert Euro, plus hundert Euro Nebenkosten.',female:false},{text:'Ist die Wohnung möbliert?',female:false},{text:'Nein, sie ist nicht möbliert. Möchten Sie sie sich anschauen?',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l5l"></span>
       <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
@@ -1927,7 +1979,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1940,7 +1992,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Wohnungsanzeige (rental listing)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Wohnungsanzeige (rental listing)</div>
       <strong>Schöne 2-Zimmer-Wohnung in zentraler Lage</strong><br><br>
       Wir bieten eine helle, renovierte Zweizimmerwohnung mit 65 Quadratmetern. Die Wohnung hat ein grosses Wohnzimmer, ein Schlafzimmer, eine moderne Küche und ein Badezimmer mit Dusche.<br><br>
       <strong>Details:</strong><br>
@@ -1953,7 +2005,7 @@ html,body{height:100%;height:100dvh}
       Bei Interesse bitte eine E-Mail mit Gehaltsnachweis und Mietschuldenfreiheitsbescheinigung senden.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">শহরের মাঝখানে ৬৫ বর্গমিটারের ২ রুমের বাসা। বসার ঘর, শোবার ঘর, রান্নাঘর, বাথরুম। মূল ভাড়া ৬৫০ ইউরো, Nebenkosten ১৫০ ইউরো, জামানত দুই মাসের ভাড়া, ১ মার্চ থেকে খালি, আসবাবসহ নয়। ৩য় তলায়, পাতাল ট্রেন থেকে ৫ মিনিট। আগ্রহী হলে বেতনের প্রমাণ ও ভাড়া বকেয়া না থাকার সার্টিফিকেট সহ ইমেইল করতে হবে।</div>
     </div>
     <div class="listen-q">
@@ -1982,7 +2034,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
@@ -1994,7 +2046,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি কোন ধরনের বাসা খুঁজছেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich suche eine Wohnung..."</em></div>
@@ -2006,7 +2058,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c10l5fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -2022,7 +2074,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনি একটা বাসার বিজ্ঞাপন নিয়ে ফোন করছেন। তথ্য জিজ্ঞেস করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী বাক্য</div>
         <div class="cult-bn">Wie hoch ist die Miete? · Ist sie möbliert? · Wann kann ich einziehen?</div>
@@ -2032,7 +2084,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c10l5ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -2046,7 +2098,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10l5q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L6: WOHNEN IN DEUTSCHLAND ==================== -->
@@ -2057,11 +2109,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ১০ · পাঠ ৬</div>
     <div class="ph-title">Wohnen in Deutschland</div>
     <div class="ph-bn">জার্মানিতে বসবাস</div>
-    <div class="ph-tags"><span class="ph-tag">🇩🇪 সংস্কৃতি</span><span class="ph-tag">🏠 বাসস্থান</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f1e9;&#x1f1ea; সংস্কৃতি</span><span class="ph-tag">🏠 বাসস্থান</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">WG সংস্কৃতি</div>
         <div class="cult-bn"><strong>WG (Wohngemeinschaft)</strong> জার্মানিতে খুব জনপ্রিয় — অনেক ছাত্র ও তরুণ একসাথে বাসা ভাগ করে থাকে। এটা খরচ কমায় এবং সামাজিক জীবনের অংশ।</div>
@@ -2069,32 +2121,37 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">বাসস্থান সংস্কৃতির শব্দ <span class="ct-bn">— Wohnkultur-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die WG')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die WG')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die WG</span><span class="v-en">shared flat</span><span class="v-bn bn">শেয়ার করা বাসা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die WG')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die WG')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Nebenkosten')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Nebenkosten')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4b8;</span>
         <span class="v-de">die Nebenkosten</span><span class="v-en">utility costs</span><span class="v-bn bn">অতিরিক্ত খরচ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Nebenkosten')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Nebenkosten')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Kaltmiete')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Kaltmiete')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Kaltmiete</span><span class="v-en">base rent</span><span class="v-bn bn">মূল ভাড়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Kaltmiete')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Kaltmiete')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Warmmiete')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Warmmiete')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Warmmiete</span><span class="v-en">total rent (incl. utilities)</span><span class="v-bn bn">সকল খরচসহ ভাড়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Warmmiete')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Warmmiete')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Mülltrennung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Mülltrennung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die M&#xfc;lltrennung</span><span class="v-en">waste separation</span><span class="v-bn bn">বর্জ্য পৃথকীকরণ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Mülltrennung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Mülltrennung')">▶</button>
       </div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x267b;️</div>
+      <div class="cult-icon">♻️</div>
       <div class="cult-body">
         <div class="cult-t">বর্জ্য পৃথকীকরণ</div>
         <div class="cult-bn">জার্মানিতে <strong>Mülltrennung</strong> খুব গুরুত্বপূর্ণ — কাগজ (নীল), প্লাস্টিক (হলুদ), জৈব (বাদামী), অন্যান্য (কালো/ধূসর) আলাদা বিনে ফেলা হয়।</div>
@@ -2102,7 +2159,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -2121,7 +2178,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -2133,7 +2190,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Nebenkosten</strong> = NAY-ben-kos-ten | <strong>Mülltrennung</strong> = MUEL-tren-noong</div>
@@ -2142,7 +2199,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10l6s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -2172,7 +2229,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -2184,7 +2241,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 জার্মান বাসস্থান সংস্কৃতি — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; জার্মান বাসস্থান সংস্কৃতি — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l6l">
     <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Was ist eigentlich eine WG?</span></div>
@@ -2199,8 +2256,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist eigentlich eine WG?',female:false},{text:'Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind.',female:false},{text:'Ist das beliebt in Deutschland?',female:false},{text:'Ja, sehr beliebt, besonders unter Studenten. Es ist g&#xfc;nstiger und man hat Gesellschaft.',female:false},{text:'Und was ist Mülltrennung?',female:false},{text:'Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen M&#xfc;ll und Restm&#xfc;ll in verschiedene T&#xf6;nnen.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist eigentlich eine WG?',female:false},{text:'Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind.',female:false},{text:'Ist das beliebt in Deutschland?',female:false},{text:'Ja, sehr beliebt, besonders unter Studenten. Es ist g&#xfc;nstiger und man hat Gesellschaft.',female:false},{text:'Und was ist Mülltrennung?',female:false},{text:'Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen M&#xfc;ll und Restm&#xfc;ll in verschiedene T&#xf6;nnen.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l6l"></span>
       <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
@@ -2234,7 +2291,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2247,7 +2304,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Leben in einer WG (article)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Leben in einer WG (article)</div>
       <strong>Warum WGs in Deutschland so beliebt sind</strong><br><br>
       In deutschen Studentenstädten ist die WG (Wohngemeinschaft) eine sehr verbreitete Wohnform. Mehrere Personen teilen sich eine Wohnung, haben aber meistens ihr eigenes Zimmer.<br><br>
       Der Hauptgrund ist Geld: Eine WG ist viel günstiger als eine eigene Wohnung, besonders in teuren Städten wie München oder Berlin.<br><br>
@@ -2256,7 +2313,7 @@ html,body{height:100%;height:100dvh}
       Ein wichtiger Aspekt des Zusammenlebens ist auch die Mülltrennung, die in jedem deutschen Haushalt Standard ist.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মান ছাত্র শহরে WG খুব জনপ্রিয় একটা বাসস্থান। মূল কারণ টাকা — WG অনেক সস্তা, বিশেষ করে München বা Berlin এর মতো শহরে। সামাজিক সুবিধাও আছে — নতুন মানুষের সাথে পরিচয়, একা না থাকা। চ্যালেঞ্জও আছে — ঘরের কাজ ভাগাভাগি, compromise করা। Mülltrennung প্রত্যেক জার্মান বাসায় স্ট্যান্ডার্ড।</div>
     </div>
     <div class="listen-q">
@@ -2285,7 +2342,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
@@ -2297,7 +2354,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি কি WG তে থাকতে চাইবেন? কেন বা কেন না? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich möchte/möchte nicht in einer WG wohnen, weil..."</em></div>
@@ -2309,7 +2366,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c10l6fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -2325,7 +2382,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">জার্মান বাসস্থান সংস্কৃতি সম্পর্কে যা জানলেন German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Eine WG ist... · Man muss... · Die Kaltmiete/Nebenkosten...</div>
@@ -2335,7 +2392,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c10l6ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -2349,7 +2406,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10l6q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L7: POSSESSIVPRONOMEN ==================== -->
@@ -2360,11 +2417,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ১০ · পাঠ ৭</div>
     <div class="ph-title">Possessivpronomen</div>
     <div class="ph-bn">অধিকারবোধক সর্বনাম</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f9e9; ব্যাকরণ</span><span class="ph-tag">🏠 ঘর</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🧩 ব্যাকরণ</span><span class="ph-tag">🏠 ঘর</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">Possessivpronomen কী?</div>
         <div class="cult-bn">"আমার", "তোমার", "তার" — এই শব্দগুলো German এ noun এর gender ও case অনুযায়ী পরিবর্তিত হয়।</div>
@@ -2372,45 +2429,53 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">Possessivpronomen (Nominativ) <span class="ct-bn">— মূল রূপ</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Pronoun</span><span>Possessivpronomen</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('mein')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('mein')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">ich</span><span class="v-en">mein</span><span class="v-bn bn">আমার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('mein')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('mein')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('dein')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('dein')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">du</span><span class="v-en">dein</span><span class="v-bn bn">তোমার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('dein')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('dein')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sein')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sein')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">er</span><span class="v-en">sein</span><span class="v-bn bn">তার (পুরুষ)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sein')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sein')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('ihr')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('ihr')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sie</span><span class="v-en">ihr</span><span class="v-bn bn">তার (নারী)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('ihr')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('ihr')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('unser')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('unser')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">wir</span><span class="v-en">unser</span><span class="v-bn bn">আমাদের</span>
-        <button class="pb" onclick="event.stopPropagation();tts('unser')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('unser')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('euer')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('euer')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">ihr</span><span class="v-en">euer</span><span class="v-bn bn">তোমাদের</span>
-        <button class="pb" onclick="event.stopPropagation();tts('euer')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('euer')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('ihr')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('ihr')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sie (plural)</span><span class="v-en">ihr</span><span class="v-bn bn">তাদের</span>
-        <button class="pb" onclick="event.stopPropagation();tts('ihr')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('ihr')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('Ihr')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('Ihr')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">Sie (formal)</span><span class="v-en">Ihr</span><span class="v-bn bn">আপনার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('Ihr')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('Ihr')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2429,7 +2494,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2441,7 +2506,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>unser</strong> = OON-zer | <strong>euer</strong> = OY-er | <strong>ihre</strong> = EE-re</div>
@@ -2450,7 +2515,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10l7s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2471,7 +2536,7 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">plural (die)</td><td class="de">meine</td><td class="de">meine Eltern</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 ein-words এর মতো</div>
+        <div class="trick-t">&#x1f4a1; ein-words এর মতো</div>
         <div class="trick-bn">Possessivpronomen "ein" এর মতোই declension অনুসরণ করে — masculine/neutral এ কোনো ending নেই, feminine/plural এ -e।</div>
       </div>
     </div>
@@ -2487,7 +2552,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2499,7 +2564,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 বাসা সম্পর্কে কথা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; বাসা সম্পর্কে কথা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l7l">
     <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Ist das deine Wohnung?</span></div>
@@ -2514,8 +2579,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Ist das deine Wohnung?',female:false},{text:'Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester.',female:true},{text:'Und das ist euer Wohnzimmer?',female:false},{text:'Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster.',female:true},{text:'Sch&#xf6;n! Wo ist dein Zimmer?',female:false},{text:'Mein Zimmer ist links, und ihres ist rechts.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Ist das deine Wohnung?',female:false},{text:'Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester.',female:true},{text:'Und das ist euer Wohnzimmer?',female:false},{text:'Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster.',female:true},{text:'Sch&#xf6;n! Wo ist dein Zimmer?',female:false},{text:'Mein Zimmer ist links, und ihres ist rechts.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l7l"></span>
       <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
@@ -2549,7 +2614,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2562,7 +2627,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Unsere Familie und unser Zuhause (a family description)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Unsere Familie und unser Zuhause (a family description)</div>
       <strong>Meine Familie und unser Zuhause</strong><br><br>
       Ich heisse Klara und ich möchte euch von meiner Familie und unserem Zuhause erzählen.<br><br>
       Unser Haus hat drei Schlafzimmer. Mein Zimmer ist im ersten Stock, neben dem Zimmer meines Bruders. Sein Zimmer ist immer sehr unordentlich!<br><br>
@@ -2571,7 +2636,7 @@ html,body{height:100%;height:100dvh}
       Ich liebe unser Zuhause, weil es immer warm und gemütlich ist!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Klara তার পরিবার ও বাড়ির বর্ণনা দিচ্ছেন: বাড়িতে ৩টা শোবার ঘর। তার ঘর ১ম তলায়, ভাইয়ের ঘরের পাশে (যেটা সবসময় অগোছালো)। বাবা-মার ঘর নিচ তলায়, বড় ও আলোকিত। বসার ঘরে পরিবারের সোফায় সবাই টিভি দেখে। রান্নাঘর ছোট কিন্তু মা সেখানে প্রতিদিন রান্না করেন।</div>
     </div>
     <div class="listen-q">
@@ -2600,7 +2665,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
@@ -2612,7 +2677,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার পরিবার ও বাড়ি সম্পর্কে possessivpronomen ব্যবহার করে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Mein Haus..."</em></div>
@@ -2624,7 +2689,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c10l7fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2640,7 +2705,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">Possessivpronomen ব্যবহার করে আপনার বাড়ি বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Mein/Meine... · Unser/Unsere... · Ihr/Ihre...</div>
@@ -2650,7 +2715,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c10l7ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2664,7 +2729,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10l7q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== R11: REVIEW ==================== -->
@@ -2675,7 +2740,7 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ১০ · রিভিউ</div>
     <div class="ph-title">পূর্ণ রিভিউ</div>
     <div class="ph-bn">অধ্যায় ১০ সারসংক্ষেপ</div>
-    <div class="ph-tags"><span class="ph-tag">🔄 রিভিউ</span><span class="ph-tag">🏠 Wohnen</span><span class="ph-tag">⏰ Alltag</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">🏠 Wohnen</span><span class="ph-tag">⏰ Alltag</span></div>
   </div>
   <div class="content">
     <div class="review-card">
@@ -2689,7 +2754,7 @@ html,body{height:100%;height:100dvh}
       <div class="review-item">stehen (খাড়া), liegen (চ্যাপ্টা), hängen (ঝুলে)</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f9f9; পাঠ ৩ — Hausarbeit</div>
+      <div class="review-t">🧹 পাঠ ৩ — Hausarbeit</div>
       <div class="review-item">putzen, waschen, kochen, staubsaugen, aufräumen, abwaschen, bügeln, einkaufen</div>
       <div class="review-item">Trennbare Verben: aufräumen → "Ich räume auf."</div>
     </div>
@@ -2699,22 +2764,22 @@ html,body{height:100%;height:100dvh}
       <div class="review-item">সময়ের ক্রম: zuerst, dann, danach, zum Schluss</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f50d; পাঠ ৫ — Wohnungssuche</div>
+      <div class="review-t">🔍 পাঠ ৫ — Wohnungssuche</div>
       <div class="review-item">die Miete, der Vermieter, der Mieter, der Vertrag, die Kaution, möbliert</div>
       <div class="review-item">einziehen/ausziehen (separable verbs)</div>
     </div>
     <div class="review-card">
-      <div class="review-t">🇩🇪 পাঠ ৬ — Wohnen in Deutschland</div>
+      <div class="review-t">&#x1f1e9;&#x1f1ea; পাঠ ৬ — Wohnen in Deutschland</div>
       <div class="review-item">die WG, die Nebenkosten, die Kaltmiete, die Warmmiete, die Mülltrennung</div>
       <div class="review-item">man + verb দিয়ে সাধারণ নিয়ম বলা</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f9e9; পাঠ ৭ — Possessivpronomen</div>
+      <div class="review-t">🧩 পাঠ ৭ — Possessivpronomen</div>
       <div class="review-item">mein, dein, sein, ihr, unser, euer, ihr (plural), Ihr (formal)</div>
       <div class="review-item">ein-words এর মতো declension: masculine/neutral কোনো ending নেই, feminine/plural এ -e</div>
     </div>
     <div class="card">
-      <div class="card-t">🎯 অধ্যায় ১০ — মূল Grammar Points</div>
+      <div class="card-t">&#x1f3af; অধ্যায় ১০ — মূল Grammar Points</div>
       <table class="gram-table">
         <tr><th>Topic</th><th>Rule</th><th class="bn">উদাহরণ</th></tr>
         <tr><td class="de">in + Dativ</td><td class="de">ঘরের অবস্থান</td><td class="bn">im Wohnzimmer</td></tr>
@@ -2726,7 +2791,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R11 SPEAKING REVIEW -->
@@ -2738,7 +2803,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত উচ্চারণ পরীক্ষা</div>
         <div class="cult-bn">অধ্যায় ১০ এর সবচেয়ে গুরুত্বপূর্ণ বাক্যগুলো বলুন। প্রতিটি শুনুন, তারপর নিজে বলুন।</div>
@@ -2747,19 +2812,19 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c10rs"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R11 QUIZ -->
 <div class="page" id="page-c10rq">
   <div class="ph">
     <div class="ph-eye">অধ্যায় ১০ · রিভিউ</div>
-    <div class="ph-title">রিভিউ কুইজ 🏆</div>
+    <div class="ph-title">রিভিউ কুইজ &#x1f3c6;</div>
     <div class="ph-bn">অধ্যায় ১০ সম্পূর্ণ পরীক্ষা</div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🏆</div>
+      <div class="cult-icon">&#x1f3c6;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত কুইজ</div>
         <div class="cult-bn">এই কুইজে অধ্যায় ১০ এর সব পাঠ থেকে প্রশ্ন আছে। পাস করতে ৬০% দরকার।</div>
@@ -2768,7 +2833,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c10rq"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা ►</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -3735,7 +3800,7 @@ function _apTime(id, cur, total) {
 function _apSetPlayBtn(id, playing) {
   var btn = document.getElementById('appbtn-' + id);
   if (!btn) return;
-  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+  btn.innerHTML = playing ? '⏸' : '▶';
 }
 
 function _apPlayFrom(id, lines, fromIdx) {
