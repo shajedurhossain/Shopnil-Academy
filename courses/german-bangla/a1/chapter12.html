@@ -73,9 +73,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
 .day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
 .main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
-.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
 .main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
-.page{display:none}
+.page{display:none}.page.active{}
 .page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
@@ -290,6 +290,34 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
 .ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
 
+
+#mainArea{
+  position:fixed;
+  top:112px;
+  bottom:0;
+  left:var(--sb,220px);
+  right:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  z-index:1;
+}
+@media(max-width:640px){
+  #mainArea{
+    top:108px;
+    left:0;
+  }
+}
+
+/* ---- MOBILE NATURAL SCROLL ---- */
+@media(max-width:640px){
+  html,body{height:auto !important;overflow:auto !important}
+  .app-body{overflow:visible !important;height:auto !important;min-height:0}
+  .main-wrap{overflow:visible !important;height:auto !important}
+  .main{overflow:visible !important;height:auto !important;min-height:0}
+  .page.active{display:block}
+}
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -313,7 +341,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
   <span class="tb-level">A1</span>
-  <span class="tb-title">🇩🇪 অধ্যায় ১২ — Feste &amp; Traditionen</span>
+  <span class="tb-title">&#x1f1e9;&#x1f1ea; অধ্যায় ১২ — Feste &amp; Traditionen</span>
   <div class="tb-right">
     <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
@@ -362,7 +390,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L2 Weihnachten & Silvester -->
         <div class="day-hdr" id="dhc12l2" onclick="toggleDay('c12l2')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f384; L2 — Weihnachten &amp; Silvester</span>
+          <span class="day-name">🎄 L2 — Weihnachten &amp; Silvester</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -402,7 +430,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L4 Karneval & Oktoberfest -->
         <div class="day-hdr" id="dhc12l4" onclick="toggleDay('c12l4')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f37b; L4 — Karneval &amp; Oktoberfest</span>
+          <span class="day-name">🍻 L4 — Karneval &amp; Oktoberfest</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -422,7 +450,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L5 Einladungen & Glückwünsche -->
         <div class="day-hdr" id="dhc12l5" onclick="toggleDay('c12l5')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f4ee; L5 — Einladungen &amp; Gl&#xfc;ckw&#xfc;nsche</span>
+          <span class="day-name">📮 L5 — Einladungen &amp; Gl&#xfc;ckw&#xfc;nsche</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -442,7 +470,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L6 Traditionen in Deutschland -->
         <div class="day-hdr" id="dhc12l6" onclick="toggleDay('c12l6')">
           <span class="day-dot"></span>
-          <span class="day-name">🇩🇪 L6 — Traditionen in Deutschland</span>
+          <span class="day-name">&#x1f1e9;&#x1f1ea; L6 — Traditionen in Deutschland</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -462,7 +490,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L7 Adjektivdeklination -->
         <div class="day-hdr" id="dhc12l7" onclick="toggleDay('c12l7')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f9e9; L7 — Adjektivdeklination</span>
+          <span class="day-name">🧩 L7 — Adjektivdeklination</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -510,11 +538,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১২ · পাঠ ১</div>
     <div class="ph-title">Feiertage in Deutschland</div>
     <div class="ph-bn">জার্মানির ছুটির দিন</div>
-    <div class="ph-tags"><span class="ph-tag">📅 ছুটি</span><span class="ph-tag">🇩🇪 সংস্কৃতি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">📅 ছুটি</span><span class="ph-tag">&#x1f1e9;&#x1f1ea; সংস্কৃতি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">মনে রাখুন</div>
         <div class="cult-bn">জার্মানির ছুটির দিন রাজ্যভেদে আলাদা হতে পারে (federal states), কারণ কিছু ছুটি জাতীয়, আর কিছু আঞ্চলিক।</div>
@@ -528,46 +556,46 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="vr vr-4" onclick="tts('der Feiertag')">
         <span style="font-size:1.3rem;text-align:center">📅</span>
         <span class="v-de">der Feiertag</span><span class="v-en">holiday</span><span class="v-bn bn">ছুটির দিন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Feiertag')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Feiertag')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Neujahrstag')">
         <span style="font-size:1.3rem;text-align:center">🎉</span>
         <span class="v-de">der Neujahrstag</span><span class="v-en">New Year's Day</span><span class="v-bn bn">নববর্ষ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Neujahrstag')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Neujahrstag')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Ostern')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f430;</span>
+        <span style="font-size:1.3rem;text-align:center">🐰</span>
         <span class="v-de">die Ostern</span><span class="v-en">Easter</span><span class="v-bn bn">ইস্টার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Ostern')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Ostern')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Tag der Arbeit')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f477;</span>
+        <span style="font-size:1.3rem;text-align:center">👷</span>
         <span class="v-de">der Tag der Arbeit</span><span class="v-en">Labor Day</span><span class="v-bn bn">শ্রমিক দিবস</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Tag der Arbeit')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Tag der Arbeit')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Tag der Deutschen Einheit')">
-        <span style="font-size:1.3rem;text-align:center">🇩🇪</span>
+        <span style="font-size:1.3rem;text-align:center">&#x1f1e9;&#x1f1ea;</span>
         <span class="v-de">der Tag der Deutschen Einheit</span><span class="v-en">German Unity Day</span><span class="v-bn bn">জার্মান একতা দিবস</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Tag der Deutschen Einheit')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Tag der Deutschen Einheit')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Weihnachten')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f384;</span>
+        <span style="font-size:1.3rem;text-align:center">🎄</span>
         <span class="v-de">das Weihnachten</span><span class="v-en">Christmas</span><span class="v-bn bn">বড়দিন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Weihnachten')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Weihnachten')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('geschlossen')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f512;</span>
+        <span style="font-size:1.3rem;text-align:center">🔒</span>
         <span class="v-de">geschlossen</span><span class="v-en">closed</span><span class="v-bn bn">বন্ধ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('geschlossen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('geschlossen')">▶</button>
       </div>
     </div>
     <div class="trick">
-      <div class="trick-t">🧠 gesetzlicher Feiertag মনে রাখুন</div>
+      <div class="trick-t">&#x1f9e0; gesetzlicher Feiertag মনে রাখুন</div>
       <div class="trick-bn"><strong>gesetzlicher Feiertag</strong> = সরকারি ছুটির দিন। এই দিনে বেশিরভাগ দোকান ও অফিস বন্ধ থাকে।</div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -586,7 +614,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -598,7 +626,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Feiertag</strong> = FY-er-tahg | <strong>Einheit</strong> = INE-hyt | <strong>Weihnachten</strong> = VY-nakh-ten</div>
@@ -607,7 +635,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12l1s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -627,7 +655,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Die Geschäfte sind am Sonntag geschlossen.</td><td class="bn">দোকানগুলো রবিবার বন্ধ থাকে।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 am মনে রাখুন</div>
+        <div class="trick-t">&#x1f4a1; am মনে রাখুন</div>
         <div class="trick-bn"><strong>am</strong> = an + dem (সংকুচিত)। দিন ও তারিখ বলতে "am" ব্যবহার হয়: "am Montag", "am 25. Dezember"।</div>
       </div>
     </div>
@@ -641,7 +669,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -653,7 +681,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
+      <div class="read-label">&#x1f3a7; কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l1l">
     <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Warum sind heute alle Geschäfte geschlossen?</span></div>
@@ -668,8 +696,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Warum sind heute alle Geschäfte geschlossen?',female:false},{text:'Heute ist ein Feiertag — der Tag der Deutschen Einheit.',female:false},{text:'Ach, das wusste ich nicht! Wann ist das genau?',female:false},{text:'Immer am dritten Oktober. Es erinnert an die Wiedervereinigung von 1990.',female:false},{text:'Interessant! Gibt es noch andere wichtige Feiertage?',female:false},{text:'Ja, zum Beispiel Weihnachten, Ostern, und der Tag der Arbeit am ersten Mai.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Warum sind heute alle Geschäfte geschlossen?',female:false},{text:'Heute ist ein Feiertag — der Tag der Deutschen Einheit.',female:false},{text:'Ach, das wusste ich nicht! Wann ist das genau?',female:false},{text:'Immer am dritten Oktober. Es erinnert an die Wiedervereinigung von 1990.',female:false},{text:'Interessant! Gibt es noch andere wichtige Feiertage?',female:false},{text:'Ja, zum Beispiel Weihnachten, Ostern, und der Tag der Arbeit am ersten Mai.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l1l"></span>
       <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
@@ -703,7 +731,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -716,7 +744,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Gesetzliche Feiertage in Deutschland</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Gesetzliche Feiertage in Deutschland</div>
       In Deutschland gibt es neun bundesweite gesetzliche Feiertage, die in allen sechzehn Bundesländern gefeiert werden.<br><br>
       Dazu gehören der <strong>Neujahrstag</strong> (1. Januar), <strong>Karfreitag</strong>, <strong>Ostermontag</strong>, der <strong>Tag der Arbeit</strong> (1. Mai), <strong>Christi Himmelfahrt</strong>, <strong>Pfingstmontag</strong>, der <strong>Tag der Deutschen Einheit</strong> (3. Oktober), und die zwei Weihnachtstage (25. und 26. Dezember).<br><br>
       Einige Bundesländer haben zusätzliche regionale Feiertage. Zum Beispiel feiert Bayern, ein katholisches Bundesland, mehr religiöse Feiertage als andere Länder.<br><br>
@@ -724,7 +752,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Diese Feiertage sind wichtig für die Work-Life-Balance und geben den Menschen Zeit für Familie und Erholung.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মানিতে ৯টা জাতীয় সরকারি ছুটি আছে যা ১৬টা রাজ্যেই পালিত হয়: নববর্ষ, Karfreitag, Ostermontag, শ্রমিক দিবস (১ মে), Christi Himmelfahrt, Pfingstmontag, জার্মান একতা দিবস (৩ অক্টোবর), এবং ২ দিনের বড়দিন (২৫-২৬ ডিসেম্বর)। কিছু রাজ্যে অতিরিক্ত আঞ্চলিক ছুটি আছে — যেমন Catholic Bavaria তে বেশি ধর্মীয় ছুটি। সরকারি ছুটিতে বেশিরভাগ দোকান, ব্যাংক, অফিস বন্ধ থাকে।</div>
     </div>
     <div class="listen-q">
@@ -753,7 +781,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
@@ -765,7 +793,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার দেশের ছুটির দিনগুলো German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In Bangladesch haben wir..."</em></div>
@@ -777,7 +805,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c12l1fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -793,7 +821,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার দেশে কোন ছুটির দিন আছে? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">In meinem Land gibt es... · Der Feiertag ist am... · Wir feiern...</div>
@@ -803,7 +831,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c12l1ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -817,7 +845,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12l1q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L2: WEIHNACHTEN & SILVESTER ==================== -->
@@ -828,11 +856,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১২ · পাঠ ২</div>
     <div class="ph-title">Weihnachten &amp; Silvester</div>
     <div class="ph-bn">বড়দিন ও নববর্ষের আগের রাত</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f384; বড়দিন</span><span class="ph-tag">&#x1f386; নববর্ষ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🎄 বড়দিন</span><span class="ph-tag">🎆 নববর্ষ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান বড়দিন সংস্কৃতি</div>
         <div class="cult-bn">German এ <strong>Heiligabend</strong> (২৪ ডিসেম্বর সন্ধ্যা) সবচেয়ে গুরুত্বপূর্ণ — পরিবার একসাথে উপহার খোলে, ২৫-২৬ ডিসেম্বর সরকারি ছুটি।</div>
@@ -840,40 +868,47 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">বড়দিনের শব্দ <span class="ct-bn">— Weihnachts-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Weihnachtsbaum')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Weihnachtsbaum')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Weihnachtsbaum</span><span class="v-en">Christmas tree</span><span class="v-bn bn">ক্রিসমাস ট্রি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Weihnachtsbaum')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Weihnachtsbaum')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Geschenk')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Geschenk')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f381;</span>
         <span class="v-de">das Geschenk</span><span class="v-en">gift</span><span class="v-bn bn">উপহার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Geschenk')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Geschenk')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Weihnachtsmarkt')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Weihnachtsmarkt')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Weihnachtsmarkt</span><span class="v-en">Christmas market</span><span class="v-bn bn">ক্রিসমাস বাজার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Weihnachtsmarkt')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Weihnachtsmarkt')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Heiligabend')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Heiligabend')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Heiligabend</span><span class="v-en">Christmas Eve</span><span class="v-bn bn">বড়দিনের আগের সন্ধ্যা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Heiligabend')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Heiligabend')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Silvester')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Silvester')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f386;</span>
         <span class="v-de">das Silvester</span><span class="v-en">New Year's Eve</span><span class="v-bn bn">৩১ ডিসেম্বরের রাত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Silvester')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Silvester')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Feuerwerk')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Feuerwerk')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f389;</span>
         <span class="v-de">das Feuerwerk</span><span class="v-en">fireworks</span><span class="v-bn bn">আগুনের ফুলকি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Feuerwerk')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Feuerwerk')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('schenken')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('schenken')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">schenken</span><span class="v-en">to gift</span><span class="v-bn bn">উপহার দেওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('schenken')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('schenken')">▶</button>
       </div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f386;</div>
+      <div class="cult-icon">🎆</div>
       <div class="cult-body">
         <div class="cult-t">Silvester রীতি</div>
         <div class="cult-bn">৩১ ডিসেম্বর রাতে জার্মানরা <strong>Feuerwerk</strong> (আতশবাজি) করে এবং মধ্যরাতে "Frohes neues Jahr!" বলে শুভেচ্ছা জানায়।</div>
@@ -881,7 +916,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -900,7 +935,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -912,7 +947,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Weihnachtsbaum</strong> = VY-nakhts-bowm | <strong>Heiligabend</strong> = HY-likh-ah-bent | <strong>Feuerwerk</strong> = FOY-er-vairk</div>
@@ -921,7 +956,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12l2s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -941,7 +976,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Er schenkt seinem Sohn ein Fahrrad.</td><td class="bn">সে তার ছেলেকে একটা সাইকেল দেয়।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 Dativ আগে, Akkusativ পরে</div>
+        <div class="trick-t">&#x1f4a1; Dativ আগে, Akkusativ পরে</div>
         <div class="trick-bn">সাধারণত word order: verb + Dativ object (কাকে) + Akkusativ object (কী)।</div>
       </div>
     </div>
@@ -955,7 +990,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -967,7 +1002,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 বড়দিনের পরিকল্পনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; বড়দিনের পরিকল্পনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l2l">
     <div class="ap-line"><span class="spk-f">Lena:</span><span class="ap-text">Was machst du an Weihnachten?</span></div>
@@ -982,8 +1017,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Was machst du an Weihnachten?',female:true},{text:'Wir feiern am Heiligabend mit der ganzen Familie. Wir schmücken den Weihnachtsbaum und öffnen die Geschenke.',female:false},{text:'Klingt schön! Und an Silvester?',female:true},{text:'Da gehen wir zu Freunden und sehen das Feuerwerk um Mitternacht.',female:false},{text:'Wir gehen dieses Jahr auf den Weihnachtsmarkt. Ich liebe den Glühwein dort!',female:true},{text:'Oh ja, der Weihnachtsmarkt ist auch toll!',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Was machst du an Weihnachten?',female:true},{text:'Wir feiern am Heiligabend mit der ganzen Familie. Wir schmücken den Weihnachtsbaum und öffnen die Geschenke.',female:false},{text:'Klingt schön! Und an Silvester?',female:true},{text:'Da gehen wir zu Freunden und sehen das Feuerwerk um Mitternacht.',female:false},{text:'Wir gehen dieses Jahr auf den Weihnachtsmarkt. Ich liebe den Glühwein dort!',female:true},{text:'Oh ja, der Weihnachtsmarkt ist auch toll!',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l2l"></span>
       <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
@@ -1017,7 +1052,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1030,7 +1065,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Weihnachten in Deutschland</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Weihnachten in Deutschland</div>
       Weihnachten ist das wichtigste Fest in Deutschland. Die Feierlichkeiten beginnen schon im November mit den Weihnachtsmärkten in fast jeder Stadt.<br><br>
       Auf den Weihnachtsmärkten kann man Glühwein trinken, Lebkuchen essen, und handgemachte Geschenke kaufen. Die Atmosphäre mit Lichtern und Musik ist sehr festlich.<br><br>
       Der wichtigste Tag ist der <strong>Heiligabend</strong> (24. Dezember). Am Abend kommt die Familie zusammen, isst ein festliches Essen, und öffnet die Geschenke unter dem Weihnachtsbaum.<br><br>
@@ -1038,7 +1073,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Eine Woche später, am 31. Dezember, feiert man <strong>Silvester</strong> mit Freunden, gutem Essen, und um Mitternacht mit spektakulärem Feuerwerk.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">বড়দিন জার্মানির সবচেয়ে গুরুত্বপূর্ণ উৎসব। নভেম্বর থেকে শুরু হয় ক্রিসমাস বাজার — Glühwein, Lebkuchen, হাতে তৈরি উপহার। সবচেয়ে গুরুত্বপূর্ণ দিন Heiligabend (২৪ ডিসেম্বর) — পরিবার একসাথে খায়, উপহার খোলে। ২৫-২৬ ডিসেম্বর আত্মীয়দের সাথে দেখা বা বিশ্রাম। ৩১ ডিসেম্বর Silvester — বন্ধুদের সাথে, মধ্যরাতে আতশবাজি।</div>
     </div>
     <div class="listen-q">
@@ -1067,7 +1102,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
@@ -1079,7 +1114,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি বড়দিন বা নববর্ষ কীভাবে পালন করেন (বা করতেন) German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "An Silvester..."</em></div>
@@ -1091,7 +1126,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c12l2fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -1107,7 +1142,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি নববর্ষ কীভাবে পালন করেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">An Silvester... · Wir feiern mit... · Um Mitternacht...</div>
@@ -1117,7 +1152,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c12l2ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -1131,7 +1166,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12l2q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L3: GEBURTSTAG & FEIERN ==================== -->
@@ -1146,7 +1181,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">একটা জার্মান কুসংস্কার</div>
         <div class="cult-bn">জার্মানিতে জন্মদিনের আগে অভিনন্দন জানানো অশুভ মনে করা হয়! সবসময় জন্মদিনের দিনেই বা পরে শুভেচ্ছা জানাতে হয়।</div>
@@ -1154,41 +1189,48 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">জন্মদিনের শব্দ <span class="ct-bn">— Geburtstags-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Geburtstag')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Geburtstag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f382;</span>
         <span class="v-de">der Geburtstag</span><span class="v-en">birthday</span><span class="v-bn bn">জন্মদিন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Geburtstag')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Geburtstag')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Kerze')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Kerze')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f56f;</span>
         <span class="v-de">die Kerze</span><span class="v-en">candle</span><span class="v-bn bn">মোমবাতি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Kerze')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Kerze')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Torte')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Torte')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Torte</span><span class="v-en">cake</span><span class="v-bn bn">কেক</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Torte')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Torte')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Party')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Party')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Party</span><span class="v-en">party</span><span class="v-bn bn">পার্টি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Party')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Party')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einladen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('einladen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4e7;</span>
         <span class="v-de">einladen</span><span class="v-en">to invite</span><span class="v-bn bn">দাওয়াত দেওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('einladen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('einladen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('gratulieren')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('gratulieren')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">gratulieren</span><span class="v-en">to congratulate</span><span class="v-bn bn">অভিনন্দন জানানো</span>
-        <button class="pb" onclick="event.stopPropagation();tts('gratulieren')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('gratulieren')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('feiern')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('feiern')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f37e;</span>
         <span class="v-de">feiern</span><span class="v-en">to celebrate</span><span class="v-bn bn">উদযাপন করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('feiern')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('feiern')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1207,7 +1249,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1219,7 +1261,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Geburtstag</strong> = ge-BOORTS-tahg | <strong>gratulieren</strong> = grah-too-LEE-ren | <strong>einladen</strong> = INE-lah-den</div>
@@ -1228,7 +1270,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12l3s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1248,7 +1290,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Alles Gute zum Geburtstag!</td><td class="bn">জন্মদিনে সব শুভকামনা!</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 zum মনে রাখুন</div>
+        <div class="trick-t">&#x1f4a1; zum মনে রাখুন</div>
         <div class="trick-bn"><strong>zum</strong> = zu + dem (সংকুচিত)। "gratulieren zu" + Dativ: "zum Geburtstag", "zur Hochzeit"।</div>
       </div>
     </div>
@@ -1262,7 +1304,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1274,7 +1316,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 জন্মদিনের পার্টি — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; জন্মদিনের পার্টি — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l3l">
     <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Herzlichen Glückwunsch zum Geburtstag, Max!</span></div>
@@ -1289,8 +1331,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Herzlichen Glückwunsch zum Geburtstag, Max!',female:true},{text:'Danke, Mia! Sch&#xf6;n, dass du gekommen bist.',female:false},{text:'Wie alt wirst du heute?',female:true},{text:'Ich werde heute fünfundzwanzig Jahre alt.',female:false},{text:'Tolle Party! Hast du viele Leute eingeladen?',female:true},{text:'Ja, etwa zwanzig Freunde. Wir feiern bis Mitternacht!',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Herzlichen Glückwunsch zum Geburtstag, Max!',female:true},{text:'Danke, Mia! Sch&#xf6;n, dass du gekommen bist.',female:false},{text:'Wie alt wirst du heute?',female:true},{text:'Ich werde heute fünfundzwanzig Jahre alt.',female:false},{text:'Tolle Party! Hast du viele Leute eingeladen?',female:true},{text:'Ja, etwa zwanzig Freunde. Wir feiern bis Mitternacht!',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l3l"></span>
       <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
@@ -1324,7 +1366,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1337,7 +1379,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Eine Einladungskarte (an invitation card)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Eine Einladungskarte (an invitation card)</div>
       <strong>Du bist herzlich eingeladen!</strong><br><br>
       Liebe Freunde,<br><br>
       ich feiere meinen 30. Geburtstag und möchte euch herzlich zu meiner Party einladen!<br><br>
@@ -1349,7 +1391,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Eure Sophie
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Sophie তার ৩০তম জন্মদিনের পার্টিতে বন্ধুদের দাওয়াত দিচ্ছেন: শনিবার ১৪ জুন সন্ধ্যা ৭টায়, তার বাগানে। খাবার, গান, মজা থাকবে। উপহার আনতে হবে না, তবে কেউ চাইলে ওয়াইন আনতে পারে। ৭ জুনের মধ্যে জানাতে হবে আসবেন কিনা।</div>
     </div>
     <div class="listen-q">
@@ -1378,7 +1420,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
@@ -1390,7 +1432,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার জন্মদিন কীভাবে পালন করেন German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "An meinem Geburtstag..."</em></div>
@@ -1402,7 +1444,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c12l3fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1418,7 +1460,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি সাধারণত জন্মদিন কীভাবে পালন করেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich feiere mit... · Ich lade... ein · Wir essen Torte</div>
@@ -1428,7 +1470,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c12l3ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1442,7 +1484,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12l3q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L4: KARNEVAL & OKTOBERFEST ==================== -->
@@ -1453,11 +1495,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১২ · পাঠ ৪</div>
     <div class="ph-title">Karneval &amp; Oktoberfest</div>
     <div class="ph-bn">কার্নিভাল ও অক্টোবরফেস্ট</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3ad; কার্নিভাল</span><span class="ph-tag">&#x1f37b; অক্টোবরফেস্ট</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🎭 কার্নিভাল</span><span class="ph-tag">🍻 অক্টোবরফেস্ট</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">দুটো বিশ্ববিখ্যাত জার্মান উৎসব</div>
         <div class="cult-bn"><strong>Karneval</strong> (কোলন, ডুসেলডর্ফে) ফেব্রুয়ারিতে, আর <strong>Oktoberfest</strong> (München এ) সেপ্টেম্বর-অক্টোবরে — দুটোই বিশ্বের লক্ষ লক্ষ মানুষ আকর্ষণ করে।</div>
@@ -1465,37 +1507,43 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">উৎসবের শব্দ <span class="ct-bn">— Fest-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Kostüm')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Kostüm')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Kost&#xfc;m</span><span class="v-en">costume</span><span class="v-bn bn">পোশাক / কস্টিউম</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Kostüm')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Kostüm')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Parade')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Parade')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Parade</span><span class="v-en">parade</span><span class="v-bn bn">প্যারেড</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Parade')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Parade')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Bier')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Bier')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Bier</span><span class="v-en">beer</span><span class="v-bn bn">বিয়ার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Bier')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Bier')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Zelt')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Zelt')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Zelt</span><span class="v-en">tent</span><span class="v-bn bn">তাঁবু</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Zelt')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Zelt')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('verkleiden')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('verkleiden')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">verkleiden</span><span class="v-en">to dress up/disguise</span><span class="v-bn bn">ছদ্মবেশ ধরা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('verkleiden')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('verkleiden')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Tradition')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Tradition')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f3f0;</span>
         <span class="v-de">die Tradition</span><span class="v-en">tradition</span><span class="v-bn bn">প্রথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Tradition')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Tradition')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1514,7 +1562,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1526,7 +1574,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Kostüm</strong> = kos-TUEM | <strong>verkleiden</strong> = fer-KLY-den | <strong>Oktoberfest</strong> = ok-TOH-ber-fest</div>
@@ -1535,7 +1583,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12l4s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1554,7 +1602,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Wir verkleiden uns für Karneval.</td><td class="bn">আমরা কার্নিভালের জন্য পোশাক পরি।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 als মনে রাখুন</div>
+        <div class="trick-t">&#x1f4a1; als মনে রাখুন</div>
         <div class="trick-bn">"verkleiden als" = "...এর মতো পোশাক পরা" — "Ich verkleide mich <strong>als</strong> Prinzessin."</div>
       </div>
     </div>
@@ -1568,7 +1616,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 LISTENING -->
@@ -1580,7 +1628,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 অক্টোবরফেস্ট নিয়ে কথা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; অক্টোবরফেস্ট নিয়ে কথা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l4l">
     <div class="ap-line"><span class="spk">Tourist:</span><span class="ap-text">Was ist das Oktoberfest genau?</span></div>
@@ -1595,8 +1643,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Was ist das Oktoberfest genau?',female:false},{text:'Es ist das größte Bierfest der Welt, jedes Jahr in München.',female:false},{text:'Wann findet es statt?',female:false},{text:'Trotz des Namens beginnt es im September und endet Anfang Oktober.',female:false},{text:'Tragen die Leute besondere Kleidung?',female:false},{text:'Ja! Viele tragen Tracht — Frauen tragen Dirndl, M&#xe4;nner tragen Lederhosen.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Was ist das Oktoberfest genau?',female:false},{text:'Es ist das größte Bierfest der Welt, jedes Jahr in München.',female:false},{text:'Wann findet es statt?',female:false},{text:'Trotz des Namens beginnt es im September und endet Anfang Oktober.',female:false},{text:'Tragen die Leute besondere Kleidung?',female:false},{text:'Ja! Viele tragen Tracht — Frauen tragen Dirndl, M&#xe4;nner tragen Lederhosen.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l4l"></span>
       <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
@@ -1630,7 +1678,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1643,7 +1691,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Karneval in Köln (cultural article)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Karneval in Köln (cultural article)</div>
       <strong>Karneval — die fünfte Jahreszeit</strong><br><br>
       In Köln und anderen Städten am Rhein nennt man Karneval auch "die fünfte Jahreszeit" — so wichtig ist dieses Fest für die Menschen dort.<br><br>
       Der Karneval beginnt offiziell am 11. November, aber die Hauptfeierlichkeiten finden im Februar statt, kurz vor der christlichen Fastenzeit.<br><br>
@@ -1652,7 +1700,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Restaurants, Bars und Straßen sind voller Musik, Tanz und fröhlicher Stimmung — eine Zeit, um Alltagssorgen zu vergessen und einfach Spaß zu haben.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Köln এ Karneval কে "পঞ্চম মৌসুম" বলা হয়, এতটাই গুরুত্বপূর্ণ। আনুষ্ঠানিকভাবে ১১ নভেম্বর শুরু হয়, কিন্তু মূল উৎসব ফেব্রুয়ারিতে। চূড়ান্ত দিন Rosenmontag — বড় প্যারেড, রঙিন কস্টিউম, ক্যান্ডি ছোড়া। মানুষ "Kölle Alaaf!" বলে অভিবাদন জানায়। রেস্টুরেন্ট, বার, রাস্তা গান-নাচে ভরে যায়।</div>
     </div>
     <div class="listen-q">
@@ -1681,7 +1729,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
@@ -1693,7 +1741,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি Oktoberfest বা Karneval এ গেলে কী করতে চাইবেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Beim Oktoberfest würde ich..."</em></div>
@@ -1705,7 +1753,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c12l4fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1721,7 +1769,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">Karneval বা Oktoberfest সম্পর্কে যা জানলেন German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Karneval findet... statt · Beim Oktoberfest trägt man... · Die Leute verkleiden sich als...</div>
@@ -1731,7 +1779,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c12l4ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1745,7 +1793,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12l4q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L5: EINLADUNGEN & GLÜCKWÜNSCHE ==================== -->
@@ -1756,42 +1804,48 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১২ · পাঠ ৫</div>
     <div class="ph-title">Einladungen &amp; Gl&#xfc;ckw&#xfc;nsche</div>
     <div class="ph-bn">দাওয়াত ও শুভেচ্ছা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4ee; দাওয়াত</span><span class="ph-tag">&#x1f49d; শুভেচ্ছা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">📮 দাওয়াত</span><span class="ph-tag">💝 শুভেচ্ছা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">দাওয়াত ও শুভেচ্ছার শব্দ <span class="ct-bn">— Einladungs-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Einladung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Einladung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Einladung</span><span class="v-en">invitation</span><span class="v-bn bn">দাওয়াত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Einladung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Einladung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Glückwunsch')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Glückwunsch')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Gl&#xfc;ckwunsch</span><span class="v-en">congratulations</span><span class="v-bn bn">শুভেচ্ছা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Glückwunsch')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Glückwunsch')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('zusagen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('zusagen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">zusagen</span><span class="v-en">to accept (an invitation)</span><span class="v-bn bn">রাজি হওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('zusagen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('zusagen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('absagen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('absagen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">absagen</span><span class="v-en">to decline</span><span class="v-bn bn">প্রত্যাখ্যান করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('absagen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('absagen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Hochzeit')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Hochzeit')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f492;</span>
         <span class="v-de">die Hochzeit</span><span class="v-en">wedding</span><span class="v-bn bn">বিয়ে</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Hochzeit')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Hochzeit')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('herzlich')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('herzlich')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f38a;</span>
         <span class="v-de">herzlich</span><span class="v-en">heartfelt/warmly</span><span class="v-bn bn">আন্তরিকভাবে</span>
-        <button class="pb" onclick="event.stopPropagation();tts('herzlich')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('herzlich')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1810,7 +1864,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1822,7 +1876,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Glückwunsch</strong> = GLUEK-voonsh | <strong>Einladung</strong> = INE-lah-doong | <strong>Hochzeit</strong> = HOHKH-tsyt</div>
@@ -1831,7 +1885,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12l5s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1860,13 +1914,13 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Gute Besserung!</td><td class="bn">দ্রুত সুস্থ হও!</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 zur মনে রাখুন</div>
+        <div class="trick-t">&#x1f4a1; zur মনে রাখুন</div>
         <div class="trick-bn"><strong>zur</strong> = zu + der (feminine Dativ সংকুচিত)। "zur Hochzeit" (die Hochzeit feminine)।</div>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1878,7 +1932,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 বিয়ের দাওয়াত — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; বিয়ের দাওয়াত — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l5l">
     <div class="ap-line"><span class="spk-f">Anna:</span><span class="ap-text">Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen.</span></div>
@@ -1893,8 +1947,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen.',female:true},{text:'Oh, wie wunderbar! Wann ist die Hochzeit?',female:false},{text:'Am zweiten August, um vierzehn Uhr in der Kirche.',female:true},{text:'Ich sage gern zu! Ich freue mich schon sehr.',female:false},{text:'Wunderbar! Bring gern deine Frau auch mit.',female:true},{text:'Vielen Dank f&#xfc;r die Einladung. Herzlichen Glückwunsch im Voraus!',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Hallo Tom! Ich möchte dich herzlich zu meiner Hochzeit einladen.',female:true},{text:'Oh, wie wunderbar! Wann ist die Hochzeit?',female:false},{text:'Am zweiten August, um vierzehn Uhr in der Kirche.',female:true},{text:'Ich sage gern zu! Ich freue mich schon sehr.',female:false},{text:'Wunderbar! Bring gern deine Frau auch mit.',female:true},{text:'Vielen Dank f&#xfc;r die Einladung. Herzlichen Glückwunsch im Voraus!',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l5l"></span>
       <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
@@ -1928,7 +1982,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1941,7 +1995,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Eine Glückwunschkarte (a congratulations card)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Eine Glückwunschkarte (a congratulations card)</div>
       <strong>Herzlichen Glückwunsch zur Geburt!</strong><br><br>
       Liebe Lisa und Markus,<br><br>
       wir haben uns sehr gefreut, von der Geburt eurer Tochter zu h&#xf6;ren! Herzlichen Glückwunsch zu eurem neuen Familienmitglied!<br><br>
@@ -1952,7 +2006,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Familie Schneider
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Lisa ও Markus এর কন্যা Emma এর জন্মে অভিনন্দন কার্ড। তাদের সুস্বাস্থ্য ও খুশি কামনা করা হয়েছে। চিঠির লেখক Emma কে দেখতে আসতে চান, কখন সুবিধামত জানাতে বলেছেন।</div>
     </div>
     <div class="listen-q">
@@ -1981,7 +2035,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
@@ -1993,7 +2047,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">একজন বন্ধুকে একটা ইভেন্টে দাওয়াত দিয়ে German এ একটা ছোট কার্ড লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich möchte dich herzlich einladen..."</em></div>
@@ -2005,7 +2059,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c12l5fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -2021,7 +2075,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">একজন বন্ধুকে একটা উদযাপনে দাওয়াত দিন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich möchte dich einladen zu... · Hast du Lust zu kommen? · Sagst du zu?</div>
@@ -2031,7 +2085,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c12l5ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -2045,7 +2099,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12l5q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L6: TRADITIONEN IN DEUTSCHLAND ==================== -->
@@ -2056,11 +2110,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১২ · পাঠ ৬</div>
     <div class="ph-title">Traditionen in Deutschland</div>
     <div class="ph-bn">জার্মান প্রথা</div>
-    <div class="ph-tags"><span class="ph-tag">🇩🇪 সংস্কৃতি</span><span class="ph-tag">&#x1f3f0; প্রথা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f1e9;&#x1f1ea; সংস্কৃতি</span><span class="ph-tag">🏰 প্রথা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">আঞ্চলিক বৈচিত্র্য</div>
         <div class="cult-bn">জার্মানির ১৬টা রাজ্যের নিজস্ব প্রথা ও উৎসব আছে — উত্তর থেকে দক্ষিণে সংস্কৃতি ভিন্ন হতে পারে।</div>
@@ -2068,32 +2122,37 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">জার্মান প্রথার শব্দ <span class="ct-bn">— Traditions-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Tracht')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Tracht')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f3f0;</span>
         <span class="v-de">die Tracht</span><span class="v-en">traditional costume</span><span class="v-bn bn">ঐতিহ্যগত পোশাক</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Tracht')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Tracht')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Brauch')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Brauch')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4dc;</span>
         <span class="v-de">der Brauch</span><span class="v-en">custom</span><span class="v-bn bn">প্রথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Brauch')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Brauch')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Erntedankfest')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Erntedankfest')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Erntedankfest</span><span class="v-en">harvest festival</span><span class="v-bn bn">ফসল উৎসব</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Erntedankfest')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Erntedankfest')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Maibaum')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Maibaum')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Maibaum</span><span class="v-en">maypole</span><span class="v-bn bn">মে দিবসের খুঁটি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Maibaum')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Maibaum')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Volksmusik')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Volksmusik')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Volksmusik</span><span class="v-en">folk music</span><span class="v-bn bn">লোকসংগীত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Volksmusik')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Volksmusik')">▶</button>
       </div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f33e;</div>
+      <div class="cult-icon">🌾</div>
       <div class="cult-body">
         <div class="cult-t">Maibaum প্রথা</div>
         <div class="cult-bn">বাভারিয়া ও Austria তে ১লা মে গ্রামবাসীরা সাজানো <strong>Maibaum</strong> (মে দিবসের খুঁটি) স্থাপন করে — বসন্তের আগমন উদযাপন করতে।</div>
@@ -2101,7 +2160,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -2120,7 +2179,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -2132,7 +2191,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Tracht</strong> = trakht | <strong>Erntedankfest</strong> = AIRN-te-dank-fest | <strong>Maibaum</strong> = MY-bowm</div>
@@ -2141,7 +2200,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12l6s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -2171,7 +2230,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -2183,7 +2242,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 জার্মান প্রথা আলোচনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; জার্মান প্রথা আলোচনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l6l">
     <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Was ist das Erntedankfest?</span></div>
@@ -2198,8 +2257,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist das Erntedankfest?',female:false},{text:'Es ist ein Fest, um die Ernte zu feiern, meistens im Oktober.',female:false},{text:'Wird das überall in Deutschland gefeiert?',female:false},{text:'Ja, besonders in l&#xe4;ndlichen Gebieten. Es gibt oft Paraden und traditionelle Musik.',female:false},{text:'Und was ist mit dem Maibaum?',female:false},{text:'Das ist eine bayerische Tradition. Am ersten Mai wird ein dekorierter Baum aufgestellt, um den Frühling zu feiern.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist das Erntedankfest?',female:false},{text:'Es ist ein Fest, um die Ernte zu feiern, meistens im Oktober.',female:false},{text:'Wird das überall in Deutschland gefeiert?',female:false},{text:'Ja, besonders in l&#xe4;ndlichen Gebieten. Es gibt oft Paraden und traditionelle Musik.',female:false},{text:'Und was ist mit dem Maibaum?',female:false},{text:'Das ist eine bayerische Tradition. Am ersten Mai wird ein dekorierter Baum aufgestellt, um den Frühling zu feiern.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l6l"></span>
       <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
@@ -2233,7 +2292,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2246,7 +2305,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Regionale Traditionen in Deutschland</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Regionale Traditionen in Deutschland</div>
       <strong>Vielfalt der deutschen Traditionen</strong><br><br>
       Deutschland hat eine reiche Vielfalt an regionalen Traditionen, die sich von Norden nach Süden stark unterscheiden.<br><br>
       Im Norden, an der Küste, gibt es Traditionen wie das Biikebrennen auf den nordfriesischen Inseln — ein Feuerfest im Februar, das den Winter vertreiben soll.<br><br>
@@ -2255,7 +2314,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Diese Traditionen verbinden die Generationen und geben den Menschen ein Gefühl der Zugehörigkeit zu ihrer Region.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মানির আঞ্চলিক প্রথা উত্তর থেকে দক্ষিণে ভিন্ন। উত্তরে Biikebrennen (আগুনের উৎসব) ফেব্রুয়ারিতে শীত তাড়ানোর জন্য। দক্ষিণে Bayern তে Dirndl, Lederhosen, লোকসংগীত ও নাচ এখনো জনপ্রিয়। শরৎকালে Erntedankfest পালিত হয় ফসল উদযাপন করতে, গির্জা ফল-সবজি দিয়ে সাজানো হয়। এই প্রথাগুলো প্রজন্মকে সংযুক্ত করে এবং নিজ অঞ্চলের প্রতি belonging অনুভূতি দেয়।</div>
     </div>
     <div class="listen-q">
@@ -2284,7 +2343,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
@@ -2296,7 +2355,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার দেশের একটা প্রথা/উৎসব German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In Bangladesch feiern wir..."</em></div>
@@ -2308,7 +2367,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c12l6fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -2324,7 +2383,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">জার্মান প্রথা সম্পর্কে যা জানলেন German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Im Norden/Süden... · Die Tracht wird... · Jede Region hat...</div>
@@ -2334,7 +2393,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c12l6ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -2348,7 +2407,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12l6q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L7: ADJEKTIVDEKLINATION ==================== -->
@@ -2359,11 +2418,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১২ · পাঠ ৭</div>
     <div class="ph-title">Adjektivdeklination</div>
     <div class="ph-bn">বিশেষণের রূপ পরিবর্তন</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f9e9; ব্যাকরণ</span><span class="ph-tag">🎯 ক্যাপস্টোন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🧩 ব্যাকরণ</span><span class="ph-tag">&#x1f3af; ক্যাপস্টোন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎯</div>
+      <div class="cult-icon">&#x1f3af;</div>
       <div class="cult-body">
         <div class="cult-t">A1 এর চূড়ান্ত ব্যাকরণ চ্যালেঞ্জ</div>
         <div class="cult-bn">Adjektivdeklination (adjective ending) — noun এর আগে বিশেষণ ব্যবহার করলে এটার ending পরিবর্তন হয়, article এর উপস্থিতি ও case অনুযায়ী।</div>
@@ -2371,33 +2430,38 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">উৎসবের বিশেষণ <span class="ct-bn">— Adjektive für Feste</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('festlich')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('festlich')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">festlich</span><span class="v-en">festive</span><span class="v-bn bn">উৎসবমুখর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('festlich')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('festlich')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('bunt')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('bunt')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">bunt</span><span class="v-en">colorful</span><span class="v-bn bn">রঙিন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('bunt')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('bunt')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('traditionell')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('traditionell')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">traditionell</span><span class="v-en">traditional</span><span class="v-bn bn">প্রথাগত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('traditionell')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('traditionell')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('fröhlich')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('fröhlich')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">fr&#xf6;hlich</span><span class="v-en">cheerful</span><span class="v-bn bn">আনন্দিত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('fröhlich')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('fröhlich')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('wichtig')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('wichtig')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">wichtig</span><span class="v-en">important</span><span class="v-bn bn">গুরুত্বপূর্ণ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('wichtig')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('wichtig')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2416,7 +2480,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2428,7 +2492,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>festlich</strong> = FEST-likh | <strong>traditionell</strong> = trah-di-tsyo-NEL | <strong>fröhlich</strong> = FRER-likh</div>
@@ -2437,7 +2501,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12l7s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2459,7 +2523,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">plural</td><td class="de">die bunt<strong>en</strong> Kostüme</td><td class="bn">রঙিন কস্টিউমগুলো</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 der/die/das এর পরে সহজ নিয়ম</div>
+        <div class="trick-t">&#x1f4a1; der/die/das এর পরে সহজ নিয়ম</div>
         <div class="trick-bn">definite article থাকলে Nominativ এ adjective এর ending সাধারণত <strong>-e</strong> (singular), <strong>-en</strong> (plural)।</div>
       </div>
     </div>
@@ -2472,7 +2536,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">neutral</td><td class="de">ein traditionell<strong>es</strong> Fest</td><td class="bn">একটা প্রথাগত উৎসব</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 ein/eine এর পরে</div>
+        <div class="trick-t">&#x1f4a1; ein/eine এর পরে</div>
         <div class="trick-bn">"ein" এর article ending না থাকলে, adjective সেই ending নিয়ে নেয়: <strong>-er</strong> (masc), <strong>-e</strong> (fem), <strong>-es</strong> (neut)।</div>
       </div>
     </div>
@@ -2487,7 +2551,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2499,7 +2563,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 পার্টির বর্ণনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; পার্টির বর্ণনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l7l">
     <div class="ap-line"><span class="spk-f">Mia:</span><span class="ap-text">Wie war die Hochzeit am Wochenende?</span></div>
@@ -2514,8 +2578,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Wie war die Hochzeit am Wochenende?',female:true},{text:'Es war eine wundersch&#xf6;ne Feier! Die Braut trug ein elegantes Kleid.',female:false},{text:'Und wie war das Essen?',female:true},{text:'Das Essen war fantastisch — ein traditionelles deutsches Menü mit vielen leckeren Gerichten.',female:false},{text:'Hattet ihr auch Musik?',female:true},{text:'Ja, eine tolle Band hat fröhliche Musik gespielt. Es war ein unvergesslicher Abend!',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Wie war die Hochzeit am Wochenende?',female:true},{text:'Es war eine wundersch&#xf6;ne Feier! Die Braut trug ein elegantes Kleid.',female:false},{text:'Und wie war das Essen?',female:true},{text:'Das Essen war fantastisch — ein traditionelles deutsches Menü mit vielen leckeren Gerichten.',female:false},{text:'Hattet ihr auch Musik?',female:true},{text:'Ja, eine tolle Band hat fröhliche Musik gespielt. Es war ein unvergesslicher Abend!',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l7l"></span>
       <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
@@ -2549,7 +2613,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2562,7 +2626,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Ein unvergesslicher Tag (an unforgettable day)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Ein unvergesslicher Tag (an unforgettable day)</div>
       <strong>Ein unvergesslicher Geburtstag</strong><br><br>
       Letztes Wochenende hatte ich einen wundersch&#xf6;nen Geburtstag. Meine Freunde organisierten eine &#xfc;berraschende Party in einem netten Restaurant.<br><br>
       Als ich ankam, sah ich einen gro&#xdf;en bunten Luftballon an der T&#xfc;r und h&#xf6;rte fröhliche Musik. Alle meine besten Freunde waren da, mit lustigen Geschenken und einer riesigen Torte.<br><br>
@@ -2571,7 +2635,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Es war wirklich ein unvergesslicher und wunderbarer Tag, den ich nie vergessen werde!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">গত সপ্তাহান্তে লেখকের একটা অসাধারণ জন্মদিন হয়েছিল। বন্ধুরা একটা রেস্টুরেন্টে আশ্চর্য পার্টি আয়োজন করেছিল — রঙিন বেলুন, আনন্দিত গান, মজার উপহার, বড় কেক। প্রথাগত জার্মান খাবার খেয়েছেন, পরিবেশ উৎসবমুখর ছিল রঙিন ডেকোরেশন দিয়ে। শেষে সবাই Happy Birthday গান গেয়েছে এবং মোমবাতি নিভিয়েছেন।</div>
     </div>
     <div class="listen-q">
@@ -2600,7 +2664,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
@@ -2612,7 +2676,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">একটা স্মরণীয় উৎসব/পার্টি বিশেষণ ব্যবহার করে German এ বর্ণনা করুন (festlich, bunt, fröhlich)। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Es war eine..."</em></div>
@@ -2624,7 +2688,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c12l7fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2640,7 +2704,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">বিশেষণ ব্যবহার করে একটা স্মরণীয় উদযাপন বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Es war eine schöne/festliche... · Wir hatten einen tollen... · Die Atmosphäre war...</div>
@@ -2650,7 +2714,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c12l7ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2664,7 +2728,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12l7q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== R12: REVIEW ==================== -->
@@ -2675,7 +2739,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১২ · রিভিউ</div>
     <div class="ph-title">পূর্ণ রিভিউ</div>
     <div class="ph-bn">অধ্যায় ১২ সারসংক্ষেপ</div>
-    <div class="ph-tags"><span class="ph-tag">🔄 রিভিউ</span><span class="ph-tag">🎉 Feste</span><span class="ph-tag">🇩🇪 Traditionen</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">🎉 Feste</span><span class="ph-tag">&#x1f1e9;&#x1f1ea; Traditionen</span></div>
   </div>
   <div class="content">
     <div class="review-card">
@@ -2684,7 +2748,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="review-item">an + Dativ: am Montag, am 25. Dezember</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f384; পাঠ ২ — Weihnachten & Silvester</div>
+      <div class="review-t">🎄 পাঠ ২ — Weihnachten & Silvester</div>
       <div class="review-item">der Weihnachtsbaum, das Geschenk, der Heiligabend, das Silvester, das Feuerwerk</div>
       <div class="review-item">schenken (Dativ + Akkusativ): "Ich schenke meiner Mutter ein Buch."</div>
     </div>
@@ -2694,27 +2758,27 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="review-item">gratulieren zu + Dativ: "Herzlichen Glückwunsch zum Geburtstag!"</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f37b; পাঠ ৪ — Karneval & Oktoberfest</div>
+      <div class="review-t">🍻 পাঠ ৪ — Karneval & Oktoberfest</div>
       <div class="review-item">das Kostüm, die Parade, das Bier, verkleiden, die Tradition</div>
       <div class="review-item">sich verkleiden als: "Ich verkleide mich als Pirat."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f4ee; পাঠ ৫ — Einladungen & Glückwünsche</div>
+      <div class="review-t">📮 পাঠ ৫ — Einladungen & Glückwünsche</div>
       <div class="review-item">die Einladung, der Glückwunsch, zusagen, absagen, die Hochzeit</div>
       <div class="review-item">zur/zum (zu+der/zu+dem): "zur Hochzeit", "zum Geburtstag"</div>
     </div>
     <div class="review-card">
-      <div class="review-t">🇩🇪 পাঠ ৬ — Traditionen in Deutschland</div>
+      <div class="review-t">&#x1f1e9;&#x1f1ea; পাঠ ৬ — Traditionen in Deutschland</div>
       <div class="review-item">die Tracht, der Brauch, das Erntedankfest, der Maibaum, die Volksmusik</div>
       <div class="review-item">Passiv পরিচিতি: werden + Partizip II — "Der Maibaum wird aufgestellt."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f9e9; পাঠ ৭ — Adjektivdeklination — ক্যাপস্টোন</div>
+      <div class="review-t">🧩 পাঠ ৭ — Adjektivdeklination — ক্যাপস্টোন</div>
       <div class="review-item">definite article: -e (singular), -en (plural)</div>
       <div class="review-item">indefinite article: -er (masc), -e (fem), -es (neut)</div>
     </div>
     <div class="card">
-      <div class="card-t">🎯 অধ্যায় ১২ — মূল Grammar Points</div>
+      <div class="card-t">&#x1f3af; অধ্যায় ১২ — মূল Grammar Points</div>
       <table class="gram-table">
         <tr><th>Topic</th><th>Rule</th><th class="bn">উদাহরণ</th></tr>
         <tr><td class="de">an + Dativ</td><td class="de">দিন/তারিখ</td><td class="bn">am Montag</td></tr>
@@ -2726,7 +2790,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R12 SPEAKING REVIEW -->
@@ -2738,7 +2802,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত উচ্চারণ পরীক্ষা</div>
         <div class="cult-bn">অধ্যায় ১২ এর সবচেয়ে গুরুত্বপূর্ণ বাক্যগুলো বলুন। প্রতিটি শুনুন, তারপর নিজে বলুন।</div>
@@ -2747,19 +2811,19 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c12rs"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R12 QUIZ -->
 <div class="page" id="page-c12rq">
   <div class="ph">
     <div class="ph-eye">অধ্যায় ১২ · রিভিউ</div>
-    <div class="ph-title">রিভিউ কুইজ 🏆</div>
+    <div class="ph-title">রিভিউ কুইজ &#x1f3c6;</div>
     <div class="ph-bn">অধ্যায় ১২ সম্পূর্ণ পরীক্ষা</div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🏆</div>
+      <div class="cult-icon">&#x1f3c6;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত কুইজ</div>
         <div class="cult-bn">এই কুইজে অধ্যায় ১২ এর সব পাঠ থেকে প্রশ্ন আছে। পাস করতে ৬০% দরকার।</div>
@@ -2768,7 +2832,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c12rq"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা ►</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -3638,24 +3702,36 @@ if (window.speechSynthesis) {
 
 function _getVoice(female) {
   if (!_deVoices || !_deVoices.length) return null;
-  var preferred = female
-    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
-    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
-  for (var p = 0; p < preferred.length; p++) {
-    for (var v = 0; v < _deVoices.length; v++) {
-      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+  // Separate into female and male voices
+  var femaleVoices = [], maleVoices = [];
+  for (var v = 0; v < _deVoices.length; v++) {
+    var vname = _deVoices[v].name.toLowerCase();
+    // Female voice keywords
+    if (vname.indexOf('female') >= 0 || vname.indexOf('frau') >= 0 ||
+        vname.indexOf('anna') >= 0 || vname.indexOf('katja') >= 0 ||
+        vname.indexOf('hedda') >= 0 || vname.indexOf('sabina') >= 0 ||
+        vname.indexOf('zira') >= 0 || vname.indexOf('google') >= 0) {
+      femaleVoices.push(_deVoices[v]);
+    } else {
+      maleVoices.push(_deVoices[v]);
     }
   }
-  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+  if (female) {
+    return femaleVoices.length ? femaleVoices[0] : _deVoices[0];
+  } else {
+    // For male: prefer explicitly male voices, never use female-named voices
+    if (maleVoices.length) return maleVoices[0];
+    // fallback: use last voice (usually differs from first)
+    return _deVoices[_deVoices.length > 1 ? _deVoices.length - 1 : 0];
+  }
 }
-
 function _speakLine(text, female, onEnd) {
   if (window.speechSynthesis) {
     window.speechSynthesis.cancel();
     var utt = new SpeechSynthesisUtterance(text);
     utt.lang = 'de-DE';
-    utt.rate = 0.88;
-    utt.pitch = female ? 1.15 : 0.82;
+    utt.pitch = female ? 1.2 : 0.6;
+    utt.rate = female ? 0.88 : 0.82;
     var v = _getVoice(female);
     if (v) utt.voice = v;
     utt.onend = onEnd || function(){};
@@ -3723,7 +3799,7 @@ function _apTime(id, cur, total) {
 function _apSetPlayBtn(id, playing) {
   var btn = document.getElementById('appbtn-' + id);
   if (!btn) return;
-  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+  btn.innerHTML = playing ? '⏸' : '▶';
 }
 
 function _apPlayFrom(id, lines, fromIdx) {
