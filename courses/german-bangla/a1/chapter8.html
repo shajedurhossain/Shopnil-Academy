@@ -73,9 +73,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
 .day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
 .main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
-.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
 .main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
-.page{display:none}
+.page{display:none}.page.active{}
 .page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
@@ -291,11 +291,33 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
 
 
-/* ---- MOBILE SCROLL FIX ---- */
-html,body{height:100%;height:100dvh}
-.app-body{height:calc(100dvh - 112px);max-height:calc(100dvh - 112px)}
-.main{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
-.page.active{display:block;min-height:auto;height:auto;overflow:visible}
+#mainArea{
+  position:fixed;
+  top:112px;
+  bottom:0;
+  left:var(--sb,220px);
+  right:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  z-index:1;
+}
+@media(max-width:640px){
+  #mainArea{
+    top:108px;
+    left:0;
+  }
+}
+
+/* ---- MOBILE NATURAL SCROLL ---- */
+@media(max-width:640px){
+  html,body{height:auto !important;overflow:auto !important}
+  .app-body{overflow:visible !important;height:auto !important;min-height:0}
+  .main-wrap{overflow:visible !important;height:auto !important}
+  .main{overflow:visible !important;height:auto !important;min-height:0}
+  .page.active{display:block}
+}
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -319,7 +341,7 @@ html,body{height:100%;height:100dvh}
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
   <span class="tb-level">A1</span>
-  <span class="tb-title">🇩🇪 অধ্যায় ৮ — Gesundheit &amp; K&#xf6;rper</span>
+  <span class="tb-title">&#x1f1e9;&#x1f1ea; অধ্যায় ৮ — Gesundheit &amp; K&#xf6;rper</span>
   <div class="tb-right">
     <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
@@ -348,7 +370,7 @@ html,body{height:100%;height:100dvh}
         <!-- L1 Der Körper -->
         <div class="day-hdr" id="dhc8l1" onclick="toggleDay('c8l1')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f9b4; L1 — Der K&#xf6;rper</span>
+          <span class="day-name">🦴 L1 — Der K&#xf6;rper</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -368,7 +390,7 @@ html,body{height:100%;height:100dvh}
         <!-- L2 Beim Arzt -->
         <div class="day-hdr" id="dhc8l2" onclick="toggleDay('c8l2')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1fa7a; L2 — Beim Arzt</span>
+          <span class="day-name">🩺 L2 — Beim Arzt</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -388,7 +410,7 @@ html,body{height:100%;height:100dvh}
         <!-- L3 Krankheiten & Symptome -->
         <div class="day-hdr" id="dhc8l3" onclick="toggleDay('c8l3')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f912; L3 — Krankheiten &amp; Symptome</span>
+          <span class="day-name">🤒 L3 — Krankheiten &amp; Symptome</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -408,7 +430,7 @@ html,body{height:100%;height:100dvh}
         <!-- L4 Tut weh — schmerzen -->
         <div class="day-hdr" id="dhc8l4" onclick="toggleDay('c8l4')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f615; L4 — Tut weh — schmerzen</span>
+          <span class="day-name">😕 L4 — Tut weh — schmerzen</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -428,7 +450,7 @@ html,body{height:100%;height:100dvh}
         <!-- L5 In der Apotheke -->
         <div class="day-hdr" id="dhc8l5" onclick="toggleDay('c8l5')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f48a; L5 — In der Apotheke</span>
+          <span class="day-name">💊 L5 — In der Apotheke</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -448,7 +470,7 @@ html,body{height:100%;height:100dvh}
         <!-- L6 Gesundheitssystem in Deutschland -->
         <div class="day-hdr" id="dhc8l6" onclick="toggleDay('c8l6')">
           <span class="day-dot"></span>
-          <span class="day-name">🇩🇪 L6 — Gesundheitssystem</span>
+          <span class="day-name">&#x1f1e9;&#x1f1ea; L6 — Gesundheitssystem</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -516,11 +538,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ১</div>
     <div class="ph-title">Der K&#xf6;rper</div>
     <div class="ph-bn">শরীরের অংশ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f9b4; শরীর</span><span class="ph-tag">🏥 স্বাস্থ্য</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🦴 শরীর</span><span class="ph-tag">🏥 স্বাস্থ্য</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">মনে রাখুন</div>
         <div class="cult-bn">শরীরের অংশের নাম জানা থাকলে ডাক্তারের কাছে গিয়ে কী সমস্যা সেটা সহজে বলতে পারবেন।</div>
@@ -534,71 +556,71 @@ html,body{height:100%;height:100dvh}
       <div class="vr vr-4" onclick="tts('der Kopf')">
         <span style="font-size:1.3rem;text-align:center">🧠</span>
         <span class="v-de">der Kopf</span><span class="v-en">head</span><span class="v-bn bn">মাথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Kopf')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Kopf')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Auge')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f441;️</span>
+        <span style="font-size:1.3rem;text-align:center">👁️</span>
         <span class="v-de">das Auge</span><span class="v-en">eye</span><span class="v-bn bn">চোখ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Auge')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Auge')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Nase')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f443;</span>
+        <span style="font-size:1.3rem;text-align:center">👃</span>
         <span class="v-de">die Nase</span><span class="v-en">nose</span><span class="v-bn bn">নাক</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Nase')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Nase')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Mund')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f444;</span>
+        <span style="font-size:1.3rem;text-align:center">👄</span>
         <span class="v-de">der Mund</span><span class="v-en">mouth</span><span class="v-bn bn">মুখ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Mund')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Mund')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Ohr')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f442;</span>
+        <span style="font-size:1.3rem;text-align:center">👂</span>
         <span class="v-de">das Ohr</span><span class="v-en">ear</span><span class="v-bn bn">কান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Ohr')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Ohr')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Arm')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f4aa;</span>
+        <span style="font-size:1.3rem;text-align:center">💪</span>
         <span class="v-de">der Arm</span><span class="v-en">arm</span><span class="v-bn bn">হাত (বাহু)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Arm')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Arm')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Hand')">
-        <span style="font-size:1.3rem;text-align:center">&#x270b;</span>
+        <span style="font-size:1.3rem;text-align:center">✋</span>
         <span class="v-de">die Hand</span><span class="v-en">hand</span><span class="v-bn bn">হাত (পাঞ্জা)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Hand')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Hand')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Bein')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f9b5;</span>
+        <span style="font-size:1.3rem;text-align:center">🦵</span>
         <span class="v-de">das Bein</span><span class="v-en">leg</span><span class="v-bn bn">পা (ঊরু থেকে)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Bein')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Bein')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Fuß')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f9b6;</span>
+        <span style="font-size:1.3rem;text-align:center">🦶</span>
         <span class="v-de">der Fu&#xdf;</span><span class="v-en">foot</span><span class="v-bn bn">পা (পায়ের পাতা)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Fuß')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Fuß')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Bauch')">
-        <span style="font-size:1.3rem;text-align:center">&#x1fac3;</span>
+        <span style="font-size:1.3rem;text-align:center">🫃</span>
         <span class="v-de">der Bauch</span><span class="v-en">stomach/belly</span><span class="v-bn bn">পেট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Bauch')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Bauch')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Rücken')">
-        <span style="font-size:1.3rem;text-align:center">&#x1fac1;</span>
+        <span style="font-size:1.3rem;text-align:center">🫁</span>
         <span class="v-de">der R&#xfc;cken</span><span class="v-en">back</span><span class="v-bn bn">পিঠ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Rücken')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Rücken')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('das Herz')">
         <span style="font-size:1.3rem;text-align:center">❤️</span>
         <span class="v-de">das Herz</span><span class="v-en">heart</span><span class="v-bn bn">হৃদয়</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Herz')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Herz')">▶</button>
       </div>
     </div>
     <div class="trick">
-      <div class="trick-t">🧠 মনে রাখার কৌশল</div>
+      <div class="trick-t">&#x1f9e0; মনে রাখার কৌশল</div>
       <div class="trick-bn"><strong>Arm vs Hand</strong>: Arm পুরো হাত (কাঁধ থেকে কব্জি), Hand হলো শুধু পাঞ্জা। তেমনি <strong>Bein vs Fuß</strong>: Bein পুরো পা, Fuß শুধু পায়ের পাতা।</div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -617,7 +639,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -629,7 +651,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Kopf</strong> = KOPF | <strong>Rücken</strong> = RUE-ken (ü ঠোঁট গোল) | <strong>Bauch</strong> = BOWKH</div>
@@ -638,7 +660,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8l1s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -678,7 +700,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -690,7 +712,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
+      <div class="read-label">&#x1f3a7; কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l1l">
     <div class="ap-line"><span class="spk-f">Mutter:</span><span class="ap-text">Was ist los? Du siehst nicht gut aus.</span></div>
@@ -705,8 +727,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was ist los? Du siehst nicht gut aus.',female:true},{text:'Mein Kopf tut weh, und mein Bauch auch.',female:true},{text:'Oh nein! Hast du auch Halsschmerzen?',female:true},{text:'Ja, mein Hals tut auch weh. Und meine Augen sind so m&#xfc;de.',female:true},{text:'Du solltest dich ausruhen. Ich rufe den Arzt an.',female:true},{text:'Okay, danke Mama.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was ist los? Du siehst nicht gut aus.',female:true},{text:'Mein Kopf tut weh, und mein Bauch auch.',female:true},{text:'Oh nein! Hast du auch Halsschmerzen?',female:true},{text:'Ja, mein Hals tut auch weh. Und meine Augen sind so m&#xfc;de.',female:true},{text:'Du solltest dich ausruhen. Ich rufe den Arzt an.',female:true},{text:'Okay, danke Mama.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l1l"></span>
       <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
@@ -740,7 +762,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -753,7 +775,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Mein K&#xf6;rper (একটি স্কুলের রচনা)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Mein K&#xf6;rper (একটি স্কুলের রচনা)</div>
       Hallo! Ich hei&#xdf;e Tim und ich erz&#xe4;hle euch heute &#xfc;ber meinen K&#xf6;rper.<br><br>
       Ich habe zwei Augen, eine Nase, einen Mund und zwei Ohren. Mit meinen Augen kann ich sehen, mit meiner Nase kann ich riechen, und mit meinem Mund kann ich essen und sprechen.<br><br>
       Meine Arme und H&#xe4;nde sind sehr wichtig — ich benutze sie zum Schreiben, Essen und Spielen. Meine Beine und F&#xfc;&#xdf;e helfen mir beim Laufen und Springen.<br><br>
@@ -761,7 +783,7 @@ html,body{height:100%;height:100dvh}
       Ich muss meinen K&#xf6;rper gut pflegen — gesund essen, viel Sport machen und genug schlafen!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Tim তার শরীরের বর্ণনা দিচ্ছে: দুটো চোখ দিয়ে দেখা, নাক দিয়ে গন্ধ পাওয়া, মুখ দিয়ে খাওয়া ও বলা। হাত-পা দিয়ে লেখা, খাওয়া, খেলা, দৌড়ানো। হৃদয় রক্ত পাম্প করে, মাথার মস্তিষ্ক চিন্তা ও শেখার সাহায্য করে। শরীরের যত্ন নিতে হবে — স্বাস্থ্যকর খাবার, খেলাধুলা ও ঘুম।</div>
     </div>
     <div class="listen-q">
@@ -790,7 +812,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
@@ -802,7 +824,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার শরীরের অংশগুলো German এ বর্ণনা করুন — কী দিয়ে কী করেন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich habe..."</em></div>
@@ -814,7 +836,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c8l1fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -830,7 +852,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনার শরীর বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich habe... · Mit meinen Augen kann ich... · Mein Kopf/Arm/Bein...</div>
@@ -840,7 +862,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c8l1ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -854,7 +876,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8l1q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L2: BEIM ARZT ==================== -->
@@ -865,11 +887,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ২</div>
     <div class="ph-title">Beim Arzt</div>
     <div class="ph-bn">ডাক্তারের কাছে</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1fa7a; ডাক্তার</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🩺 ডাক্তার</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান ডাক্তারের কাছে যাওয়া</div>
         <div class="cult-bn">Germany তে ডাক্তারের কাছে যেতে সাধারণত অগ্রিম অ্যাপয়েন্টমেন্ট লাগে (Termin)। জরুরি অবস্থায় Notaufnahme (emergency room) এ যাওয়া হয়।</div>
@@ -877,40 +899,48 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">ডাক্তারের কাছে শব্দ <span class="ct-bn">— Beim Arzt-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Arzt')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Arzt')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4aa;</span>
         <span class="v-de">der Arzt</span><span class="v-en">doctor</span><span class="v-bn bn">ডাক্তার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Arzt')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Arzt')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Termin')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Termin')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4c5;</span>
         <span class="v-de">der Termin</span><span class="v-en">appointment</span><span class="v-bn bn">অ্যাপয়েন্টমেন্ট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Termin')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Termin')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Praxis')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Praxis')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Praxis</span><span class="v-en">doctor's office</span><span class="v-bn bn">ডাক্তারের চেম্বার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Praxis')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Praxis')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('untersuchen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('untersuchen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">untersuchen</span><span class="v-en">to examine</span><span class="v-bn bn">পরীক্ষা করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('untersuchen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('untersuchen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Rezept')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Rezept')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4dd;</span>
         <span class="v-de">das Rezept</span><span class="v-en">prescription</span><span class="v-bn bn">প্রেসক্রিপশন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Rezept')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Rezept')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Versicherung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Versicherung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Versicherung</span><span class="v-en">insurance</span><span class="v-bn bn">ইন্স্যুরেন্স</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Versicherung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Versicherung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Fieber')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Fieber')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f321;</span>
         <span class="v-de">das Fieber</span><span class="v-en">fever</span><span class="v-bn bn">জ্বর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Fieber')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Fieber')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('krank')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('krank')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f912;</span>
         <span class="v-de">krank</span><span class="v-en">sick</span><span class="v-bn bn">অসুস্থ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('krank')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('krank')">▶</button>
       </div>
     </div>
     <div class="card">
@@ -924,7 +954,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -943,7 +973,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -955,7 +985,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Termin</strong> = ter-MEEN | <strong>Versicherung</strong> = fer-ZIKH-er-oong | <strong>untersuchen</strong> = oon-ter-ZOO-khen</div>
@@ -964,7 +994,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8l2s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -985,7 +1015,7 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de"><strong>Mir</strong> fehlt nichts.</td><td class="bn">আমার কোনো সমস্যা নেই।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 Dativ Pronoun মনে রাখুন</div>
+        <div class="trick-t">&#x1f4a1; Dativ Pronoun মনে রাখুন</div>
         <div class="trick-bn">ich → mir, du → dir, Sie → Ihnen — fehlen এর সাথে Dativ pronoun ব্যবহার হয়।</div>
       </div>
     </div>
@@ -1000,7 +1030,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -1012,7 +1042,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 ডাক্তারের কাছে — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; ডাক্তারের কাছে — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l2l">
     <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Guten Tag! Was fehlt Ihnen?</span></div>
@@ -1028,8 +1058,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag! Was fehlt Ihnen?',female:false},{text:'Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen.',female:false},{text:'Haben Sie auch Husten?',female:false},{text:'Ja, ein bisschen. Und ich fühle mich sehr müde.',female:false},{text:'Ich werde Sie untersuchen. Machen Sie bitte den Mund auf.',female:false},{text:'Okay, Doktor.',female:false},{text:'Es ist eine Erk&#xe4;ltung. Ich gebe Ihnen ein Rezept f&#xfc;r Medikamente.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Guten Tag! Was fehlt Ihnen?',female:false},{text:'Guten Tag, Doktor. Ich habe seit drei Tagen Fieber und Halsschmerzen.',female:false},{text:'Haben Sie auch Husten?',female:false},{text:'Ja, ein bisschen. Und ich fühle mich sehr müde.',female:false},{text:'Ich werde Sie untersuchen. Machen Sie bitte den Mund auf.',female:false},{text:'Okay, Doktor.',female:false},{text:'Es ist eine Erk&#xe4;ltung. Ich gebe Ihnen ein Rezept f&#xfc;r Medikamente.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l2l"></span>
       <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
@@ -1063,7 +1093,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1076,7 +1106,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Eine Arztpraxis Information</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Eine Arztpraxis Information</div>
       <strong>Hausarztpraxis Dr. Schmidt</strong><br><br>
       Liebe Patienten,<br><br>
       bitte beachten Sie unsere &#xd6;ffnungszeiten: Montag bis Freitag von 8:00 bis 18:00 Uhr.<br><br>
@@ -1086,7 +1116,7 @@ html,body{height:100%;height:100dvh}
       Wir freuen uns auf Ihren Besuch!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Dr. Schmidt এর চেম্বার সোম-শুক্র সকাল ৮টা থেকে সন্ধ্যা ৬টা খোলা। অ্যাপয়েন্টমেন্টের জন্য ফোন করতে হবে বা অনলাইনে বুক করতে হবে। ছুটির সময়ে জরুরি অবস্থায় হাসপাতালের Notaufnahme (emergency room) এ যেতে হবে। সব সময় ইন্স্যুরেন্স কার্ড সাথে আনতে হবে।</div>
     </div>
     <div class="listen-q">
@@ -1115,7 +1145,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
@@ -1127,7 +1157,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি ডাক্তারের কাছে গেছেন। কী সমস্যার কথা বলবেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich habe..."</em></div>
@@ -1139,7 +1169,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c8l2fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -1155,7 +1185,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনি ডাক্তারের কাছে আছেন। আপনার লক্ষণ বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী বাক্য</div>
         <div class="cult-bn">Ich habe Fieber/Kopfschmerzen... · Mir fehlt... · Seit wann haben Sie...?</div>
@@ -1165,7 +1195,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c8l2ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -1179,7 +1209,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8l2q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L3: KRANKHEITEN & SYMPTOME ==================== -->
@@ -1190,58 +1220,68 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৩</div>
     <div class="ph-title">Krankheiten &amp; Symptome</div>
     <div class="ph-bn">রোগ ও লক্ষণ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f912; রোগ</span><span class="ph-tag">&#x1fa7a; লক্ষণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🤒 রোগ</span><span class="ph-tag">🩺 লক্ষণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">সাধারণ রোগ <span class="ct-bn">— H&#xe4;ufige Krankheiten</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Erkältung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Erkältung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Erk&#xe4;ltung</span><span class="v-en">common cold</span><span class="v-bn bn">সাধারণ ঠান্ডা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Erkältung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Erkältung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Grippe')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Grippe')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Grippe</span><span class="v-en">flu</span><span class="v-bn bn">ফ্লু</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Grippe')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Grippe')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Husten')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Husten')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Husten</span><span class="v-en">cough</span><span class="v-bn bn">কাশি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Husten')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Husten')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Schnupfen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Schnupfen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f915;</span>
         <span class="v-de">der Schnupfen</span><span class="v-en">runny nose</span><span class="v-bn bn">সর্দি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Schnupfen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Schnupfen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Kopfschmerzen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Kopfschmerzen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Kopfschmerzen</span><span class="v-en">headache</span><span class="v-bn bn">মাথা ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Kopfschmerzen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Kopfschmerzen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Halsschmerzen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Halsschmerzen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x270b;</span>
         <span class="v-de">die Halsschmerzen</span><span class="v-en">sore throat</span><span class="v-bn bn">গলা ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Halsschmerzen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Halsschmerzen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Bauchschmerzen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Bauchschmerzen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Bauchschmerzen</span><span class="v-en">stomach ache</span><span class="v-bn bn">পেট ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Bauchschmerzen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Bauchschmerzen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Allergie')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Allergie')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Allergie</span><span class="v-en">allergy</span><span class="v-bn bn">এলার্জি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Allergie')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Allergie')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('müde')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('müde')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">m&#xfc;de</span><span class="v-en">tired</span><span class="v-bn bn">ক্লান্ত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('müde')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('müde')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('schwindelig')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('schwindelig')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">schwindelig</span><span class="v-en">dizzy</span><span class="v-bn bn">মাথা ঘোরা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('schwindelig')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('schwindelig')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1260,7 +1300,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1272,7 +1312,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Erkältung</strong> = air-KELL-toong | <strong>Grippe</strong> = GRIP-pe | <strong>schwindelig</strong> = SHVIN-de-likh</div>
@@ -1281,7 +1321,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8l3s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1302,7 +1342,7 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">Wir haben Husten und Schnupfen.</td><td class="bn">আমাদের কাশি ও সর্দি।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 sein দিয়েও বলা যায়</div>
+        <div class="trick-t">&#x1f4a1; sein দিয়েও বলা যায়</div>
         <div class="trick-bn">কিছু adjective এর সাথে <strong>sein</strong> ব্যবহার হয়: "Ich bin müde." (আমি ক্লান্ত) "Mir ist schwindelig." (আমার মাথা ঘোরে)</div>
       </div>
     </div>
@@ -1317,7 +1357,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1329,7 +1369,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 লক্ষণ বর্ণনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; লক্ষণ বর্ণনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l3l">
     <div class="ap-line"><span class="spk">Freund:</span><span class="ap-text">Du siehst nicht gut aus. Was ist los?</span></div>
@@ -1344,8 +1384,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Du siehst nicht gut aus. Was ist los?',female:false},{text:'Ich glaube, ich habe eine Erk&#xe4;ltung. Ich habe Husten und Schnupfen.',female:true},{text:'Hast du auch Fieber?',female:false},{text:'Nein, kein Fieber. Aber ich bin sehr müde, und mir ist manchmal schwindelig.',female:true},{text:'Du solltest dich ausruhen und viel Wasser trinken.',female:false},{text:'Ja, das werde ich machen. Danke für deinen Rat.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Du siehst nicht gut aus. Was ist los?',female:false},{text:'Ich glaube, ich habe eine Erk&#xe4;ltung. Ich habe Husten und Schnupfen.',female:true},{text:'Hast du auch Fieber?',female:false},{text:'Nein, kein Fieber. Aber ich bin sehr müde, und mir ist manchmal schwindelig.',female:true},{text:'Du solltest dich ausruhen und viel Wasser trinken.',female:false},{text:'Ja, das werde ich machen. Danke für deinen Rat.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l3l"></span>
       <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
@@ -1379,7 +1419,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1392,7 +1432,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Erk&#xe4;ltung oder Grippe? (স্বাস্থ্য সচেতনতা)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Erk&#xe4;ltung oder Grippe? (স্বাস্থ্য সচেতনতা)</div>
       <strong>Wie unterscheidet man eine Erk&#xe4;ltung von der Grippe?</strong><br><br>
       Viele Menschen verwechseln eine Erk&#xe4;ltung mit der Grippe, aber es gibt wichtige Unterschiede.<br><br>
       Bei einer <strong>Erk&#xe4;ltung</strong> hat man normalerweise Husten, Schnupfen und manchmal Halsschmerzen. Die Symptome entwickeln sich langsam, und man hat selten hohes Fieber.<br><br>
@@ -1401,7 +1441,7 @@ html,body{height:100%;height:100dvh}
       Um beide Krankheiten zu vermeiden, sollte man oft die Hände waschen und einen gesunden Lebensstil f&#xfc;hren.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">সাধারণ ঠান্ডায় কাশি, সর্দি, কখনো গলা ব্যথা থাকে, ধীরে ধীরে আসে, জ্বর কম থাকে। ফ্লুতে লক্ষণ দ্রুত ও তীব্র আসে — উচ্চ জ্বর, তীব্র মাথা ব্যথা, ক্লান্তি, মাংসপেশী ব্যথা। সাধারণ ঠান্ডায় বিশ্রাম, পানি, মধু-চা সাহায্য করে। ফ্লুতে ডাক্তার দেখানো প্রয়োজন। হাত ধোয়া ও স্বাস্থ্যকর জীবনযাপন প্রতিরোধে সাহায্য করে।</div>
     </div>
     <div class="listen-q">
@@ -1430,7 +1470,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
@@ -1442,7 +1482,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি গত সপ্তাহে অসুস্থ ছিলেন। কী লক্ষণ ছিল? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Letzte Woche hatte ich..."</em></div>
@@ -1454,7 +1494,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c8l3fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1470,7 +1510,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনি অসুস্থ হলে আপনার লক্ষণ বর্ণনা করুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich habe... · Mir ist... · Ich bin müde/schwindelig</div>
@@ -1480,7 +1520,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c8l3ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1494,7 +1534,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8l3q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L4: TUT WEH — SCHMERZEN ==================== -->
@@ -1505,11 +1545,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৪</div>
     <div class="ph-title">Tut weh — schmerzen</div>
     <div class="ph-bn">ব্যথা প্রকাশ করা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f615; ব্যথা</span><span class="ph-tag">&#x1f4d0; ব্যাকরণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">😕 ব্যথা</span><span class="ph-tag">📐 ব্যাকরণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">ব্যথা প্রকাশের দুই ধরন</div>
         <div class="cult-bn">German এ ব্যথা বলতে <strong>weh tun</strong> (Dativ সহ) অথবা <strong>schmerzen</strong> verb ব্যবহার করা যায়।</div>
@@ -1517,28 +1557,33 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">ব্যথা প্রকাশের শব্দ <span class="ct-bn">— Schmerzausdr&#xfc;cke</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('weh tun')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('weh tun')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f915;</span>
         <span class="v-de">weh tun</span><span class="v-en">to hurt</span><span class="v-bn bn">ব্যথা করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('weh tun')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('weh tun')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('schmerzen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('schmerzen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">schmerzen</span><span class="v-en">to hurt/ache</span><span class="v-bn bn">ব্যথা হওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('schmerzen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('schmerzen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Schmerz')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Schmerz')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f915;</span>
         <span class="v-de">der Schmerz</span><span class="v-en">pain</span><span class="v-bn bn">ব্যথা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Schmerz')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Schmerz')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('stark')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('stark')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">stark</span><span class="v-en">strong/severe</span><span class="v-bn bn">তীব্র</span>
-        <button class="pb" onclick="event.stopPropagation();tts('stark')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('stark')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('leicht')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('leicht')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">leicht</span><span class="v-en">mild/light</span><span class="v-bn bn">মৃদু / হালকা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('leicht')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('leicht')">▶</button>
       </div>
     </div>
     <div class="card">
@@ -1551,7 +1596,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1570,7 +1615,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1582,7 +1627,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>weh tun</strong> = vay toon | <strong>schmerzen</strong> = SHMER-tsen | <strong>der Schmerz</strong> = dair shmairts</div>
@@ -1591,7 +1636,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8l4s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1616,7 +1661,7 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">sie/Sie</td><td class="de">ihnen/Ihnen</td><td class="de">Was tut ihnen weh?</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 সহজ ভাবে বলা</div>
+        <div class="trick-t">&#x1f4a1; সহজ ভাবে বলা</div>
         <div class="trick-bn">দৈনন্দিন কথায় প্রায়ই Dativ pronoun ছাড়াই বলা হয়: "Mein Kopf tut weh." (simplified, but grammatically Dativ pronoun যুক্ত করা যায়)</div>
       </div>
     </div>
@@ -1631,7 +1676,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 LISTENING -->
@@ -1643,7 +1688,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 ব্যথা বর্ণনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; ব্যথা বর্ণনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l4l">
     <div class="ap-line"><span class="spk">Arzt:</span><span class="ap-text">Wo tut es Ihnen weh?</span></div>
@@ -1658,8 +1703,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Wo tut es Ihnen weh?',female:false},{text:'Mein R&#xfc;cken tut sehr weh, besonders wenn ich sitze.',female:false},{text:'Seit wann haben Sie diese Schmerzen?',female:false},{text:'Seit etwa einer Woche. Es ist ein starker Schmerz.',female:false},{text:'Tun Ihnen auch die Beine weh?',female:false},{text:'Nein, nur der R&#xfc;cken. Aber meine Schultern schmerzen auch ein bisschen.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Wo tut es Ihnen weh?',female:false},{text:'Mein R&#xfc;cken tut sehr weh, besonders wenn ich sitze.',female:false},{text:'Seit wann haben Sie diese Schmerzen?',female:false},{text:'Seit etwa einer Woche. Es ist ein starker Schmerz.',female:false},{text:'Tun Ihnen auch die Beine weh?',female:false},{text:'Nein, nur der R&#xfc;cken. Aber meine Schultern schmerzen auch ein bisschen.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l4l"></span>
       <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
@@ -1693,7 +1738,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1706,7 +1751,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — একটি ফোরাম পোস্ট</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — একটি ফোরাম পোস্ট</div>
       <strong>Gesundheitsforum: Hilfe bei Rückenschmerzen</strong><br><br>
       Hallo zusammen,<br><br>
       seit zwei Wochen tut mir der R&#xfc;cken sehr weh. Ich arbeite viel am Computer, und ich glaube, das ist das Problem.<br><br>
@@ -1718,7 +1763,7 @@ html,body{height:100%;height:100dvh}
       Geh am besten zu einem Physiotherapeuten. Bei mir hat das wirklich geholfen!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">একজন ব্যক্তি দুই সপ্তাহ ধরে পিঠ ব্যথায় ভুগছেন, কম্পিউটারে কাজ করার কারণে। সকালে উঠলে ব্যথা সবচেয়ে বেশি, কাঁধেও ব্যথা হয়। Sabine পরামর্শ দিলেন নিয়মিত নড়াচড়া করতে ও যোগব্যায়াম করতে। Markus পরামর্শ দিলেন ফিজিওথেরাপিস্টের কাছে যেতে।</div>
     </div>
     <div class="listen-q">
@@ -1747,7 +1792,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
@@ -1759,7 +1804,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার শরীরের কোথায় ব্যথা হয় বা হতো? "weh tun" বা "schmerzen" ব্যবহার করে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Mein/Meine... tut/tun weh."</em></div>
@@ -1771,7 +1816,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c8l4fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1787,7 +1832,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনার কোথায় ব্যথা করে? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Mein... tut weh · Meine... tun weh · Ich habe starke/leichte Schmerzen</div>
@@ -1797,7 +1842,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c8l4ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1811,7 +1856,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8l4q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L5: IN DER APOTHEKE ==================== -->
@@ -1822,11 +1867,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৫</div>
     <div class="ph-title">In der Apotheke</div>
     <div class="ph-bn">ফার্মেসিতে</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f48a; ঔষধ</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">💊 ঔষধ</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান ফার্মেসি (Apotheke)</div>
         <div class="cult-bn">Germany তে Apotheke একটা সবুজ "A" চিহ্ন দিয়ে চেনা যায়। ফার্মাসিস্ট অনেক স্বাস্থ্য পরামর্শ দিতে পারেন, কিছু ঔষধের জন্য প্রেসক্রিপশন লাগে না।</div>
@@ -1834,40 +1879,48 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">ফার্মেসির শব্দ <span class="ct-bn">— Apotheken-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Apotheke')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Apotheke')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f48a;</span>
         <span class="v-de">die Apotheke</span><span class="v-en">pharmacy</span><span class="v-bn bn">ফার্মেসি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Apotheke')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Apotheke')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Medikament')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Medikament')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Medikament</span><span class="v-en">medicine</span><span class="v-bn bn">ঔষধ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Medikament')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Medikament')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Tablette')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Tablette')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Tablette</span><span class="v-en">pill/tablet</span><span class="v-bn bn">ট্যাবলেট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Tablette')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Tablette')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Apotheker')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Apotheker')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Apotheker</span><span class="v-en">pharmacist</span><span class="v-bn bn">ফার্মাসিস্ট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Apotheker')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Apotheker')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Hustensaft')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Hustensaft')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Hustensaft</span><span class="v-en">cough syrup</span><span class="v-bn bn">কাশির সিরাপ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Hustensaft')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Hustensaft')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Pflaster')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Pflaster')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Pflaster</span><span class="v-en">band-aid</span><span class="v-bn bn">ব্যান্ডেজ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Pflaster')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Pflaster')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Dosierung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Dosierung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Dosierung</span><span class="v-en">dosage</span><span class="v-bn bn">মাত্রা / ডোজ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Dosierung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Dosierung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('einnehmen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('einnehmen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">einnehmen</span><span class="v-en">to take (medicine)</span><span class="v-bn bn">খাওয়া (ঔষধ)</span>
-        <button class="pb" onclick="event.stopPropagation();tts('einnehmen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('einnehmen')">▶</button>
       </div>
     </div>
     <div class="card">
@@ -1880,7 +1933,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1899,7 +1952,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1911,7 +1964,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Apotheke</strong> = ah-poh-TAY-ke | <strong>Medikament</strong> = may-dee-kah-MENT | <strong>einnehmen</strong> = INE-nay-men</div>
@@ -1920,7 +1973,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8l5s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1952,7 +2005,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1964,7 +2017,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 ফার্মেসিতে — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; ফার্মেসিতে — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l5l">
     <div class="ap-line"><span class="spk">Kunde:</span><span class="ap-text">Guten Tag, ich brauche etwas gegen Halsschmerzen.</span></div>
@@ -1981,8 +2034,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Guten Tag, ich brauche etwas gegen Halsschmerzen.',female:false},{text:'Haben Sie auch Husten?',female:false},{text:'Ja, ein bisschen.',female:false},{text:'Ich empfehle diesen Hustensaft und diese Halstabletten.',female:false},{text:'Wie oft soll ich die Tabletten nehmen?',female:false},{text:'Alle vier Stunden, maximal sechs Tabletten pro Tag.',female:false},{text:'Danke sehr. Was kostet das alles?',female:false},{text:'Das macht zusammen zw&#xf6;lf Euro f&#xfc;nfzig.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Guten Tag, ich brauche etwas gegen Halsschmerzen.',female:false},{text:'Haben Sie auch Husten?',female:false},{text:'Ja, ein bisschen.',female:false},{text:'Ich empfehle diesen Hustensaft und diese Halstabletten.',female:false},{text:'Wie oft soll ich die Tabletten nehmen?',female:false},{text:'Alle vier Stunden, maximal sechs Tabletten pro Tag.',female:false},{text:'Danke sehr. Was kostet das alles?',female:false},{text:'Das macht zusammen zw&#xf6;lf Euro f&#xfc;nfzig.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l5l"></span>
       <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
@@ -2016,7 +2069,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2029,7 +2082,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Medikamenten-Beipackzettel (medicine label)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Medikamenten-Beipackzettel (medicine label)</div>
       <strong>Schmerztabletten — Gebrauchsanweisung</strong><br><br>
       <strong>Anwendung:</strong> Gegen leichte bis mittelstarke Schmerzen und Fieber.<br><br>
       <strong>Dosierung f&#xfc;r Erwachsene:</strong><br>
@@ -2040,7 +2093,7 @@ html,body{height:100%;height:100dvh}
       Bei Fragen wenden Sie sich an Ihren Apotheker oder Arzt.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">ব্যথার ট্যাবলেটের নির্দেশনা: হালকা থেকে মাঝারি ব্যথা ও জ্বরের জন্য। বড়দের জন্য ১-২টা ট্যাবলেট প্রতি ৬-৮ ঘণ্টায়, সর্বোচ্চ ৬টা প্রতিদিন। খাবারের পর পানি দিয়ে খাওয়া ভালো। ডাক্তারের পরামর্শ ছাড়া ৩ দিনের বেশি না খাওয়া। পার্শ্বপ্রতিক্রিয়া: কদাচিৎ পেট ব্যথা, বমি বমি ভাব।</div>
     </div>
     <div class="listen-q">
@@ -2069,7 +2122,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
@@ -2081,7 +2134,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি ফার্মেসিতে গিয়ে কী চাইবেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich brauche etwas gegen..."</em></div>
@@ -2093,7 +2146,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c8l5fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -2109,7 +2162,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আপনি ফার্মেসিতে আছেন। কী চান বলুন। German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী বাক্য</div>
         <div class="cult-bn">Ich brauche etwas gegen... · Haben Sie...? · Wie oft soll ich das einnehmen?</div>
@@ -2119,7 +2172,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c8l5ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -2133,7 +2186,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8l5q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L6: GESUNDHEITSSYSTEM IN DEUTSCHLAND ==================== -->
@@ -2144,11 +2197,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৬</div>
     <div class="ph-title">Gesundheitssystem in Deutschland</div>
     <div class="ph-bn">জার্মান স্বাস্থ্যব্যবস্থা</div>
-    <div class="ph-tags"><span class="ph-tag">🇩🇪 সংস্কৃতি</span><span class="ph-tag">🏥 স্বাস্থ্যব্যবস্থা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f1e9;&#x1f1ea; সংস্কৃতি</span><span class="ph-tag">🏥 স্বাস্থ্যব্যবস্থা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">জার্মান স্বাস্থ্যব্যবস্থা</div>
         <div class="cult-bn">Germany তে স্বাস্থ্য ইন্স্যুরেন্স <strong>আইনত বাধ্যতামূলক</strong> — সবার একটা public বা private insurance থাকতে হবে। এটা বিশ্বের প্রথম modern স্বাস্থ্যবিমা সিস্টেম (১৮৮৩ সালে চালু)।</div>
@@ -2156,36 +2209,42 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">স্বাস্থ্যব্যবস্থার শব্দ <span class="ct-bn">— Gesundheitssystem-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Krankenversicherung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Krankenversicherung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f912;</span>
         <span class="v-de">die Krankenversicherung</span><span class="v-en">health insurance</span><span class="v-bn bn">স্বাস্থ্য ইন্স্যুরেন্স</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Krankenversicherung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Krankenversicherung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Krankenhaus')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Krankenhaus')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f912;</span>
         <span class="v-de">das Krankenhaus</span><span class="v-en">hospital</span><span class="v-bn bn">হাসপাতাল</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Krankenhaus')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Krankenhaus')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Hausarzt')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Hausarzt')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f9b7;</span>
         <span class="v-de">der Hausarzt</span><span class="v-en">family doctor/GP</span><span class="v-bn bn">পরিবারের ডাক্তার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Hausarzt')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Hausarzt')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('gesetzlich')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('gesetzlich')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">gesetzlich</span><span class="v-en">statutory/legal</span><span class="v-bn bn">সরকারি / আইনগত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('gesetzlich')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('gesetzlich')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('privat')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('privat')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">privat</span><span class="v-en">private</span><span class="v-bn bn">ব্যক্তিগত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('privat')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('privat')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Krankenkasse')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Krankenkasse')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f912;</span>
         <span class="v-de">die Krankenkasse</span><span class="v-en">health insurance fund</span><span class="v-bn bn">স্বাস্থ্য বিমা প্রতিষ্ঠান</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Krankenkasse')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Krankenkasse')">▶</button>
       </div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">Hausarzt প্রথম যোগাযোগ</div>
         <div class="cult-bn">সাধারণত যেকোনো স্বাস্থ্য সমস্যার জন্য প্রথমে <strong>Hausarzt</strong> (পরিবারের ডাক্তার) এর কাছে যেতে হয়। দরকার হলে তিনি specialist এর কাছে refer করেন।</div>
@@ -2193,7 +2252,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -2212,7 +2271,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -2224,7 +2283,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Krankenversicherung</strong> = KRAN-ken-fer-zikh-er-oong (লম্বা শব্দ, ভেঙে বলুন) | <strong>Hausarzt</strong> = HOWS-artst</div>
@@ -2233,7 +2292,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8l6s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -2263,7 +2322,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -2275,7 +2334,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 স্বাস্থ্যব্যবস্থা নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; স্বাস্থ্যব্যবস্থা নিয়ে আলোচনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l6l">
     <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Wie funktioniert das Gesundheitssystem in Deutschland?</span></div>
@@ -2290,8 +2349,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Wie funktioniert das Gesundheitssystem in Deutschland?',female:false},{text:'Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat.',female:false},{text:'Was ist der Unterschied?',female:false},{text:'Die meisten Menschen haben die gesetzliche Versicherung — das ist eine Krankenkasse. Privat ist meistens f&#xfc;r Selbstst&#xe4;ndige oder Beamte.',female:false},{text:'Und wenn ich krank bin, wohin gehe ich zuerst?',female:false},{text:'Zuerst zum Hausarzt. Wenn n&#xf6;tig, schickt er dich zu einem Spezialisten.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Wie funktioniert das Gesundheitssystem in Deutschland?',female:false},{text:'Jeder in Deutschland muss eine Krankenversicherung haben. Es gibt zwei Arten: gesetzlich und privat.',female:false},{text:'Was ist der Unterschied?',female:false},{text:'Die meisten Menschen haben die gesetzliche Versicherung — das ist eine Krankenkasse. Privat ist meistens f&#xfc;r Selbstst&#xe4;ndige oder Beamte.',female:false},{text:'Und wenn ich krank bin, wohin gehe ich zuerst?',female:false},{text:'Zuerst zum Hausarzt. Wenn n&#xf6;tig, schickt er dich zu einem Spezialisten.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l6l"></span>
       <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
@@ -2325,7 +2384,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2338,7 +2397,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Das deutsche Gesundheitssystem (informational article)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Das deutsche Gesundheitssystem (informational article)</div>
       <strong>Wie funktioniert das Gesundheitssystem in Deutschland?</strong><br><br>
       Deutschland hat eines der &#xe4;ltesten Gesundheitssysteme der Welt — es wurde 1883 unter Otto von Bismarck eingef&#xfc;hrt.<br><br>
       Jeder, der in Deutschland lebt, muss eine Krankenversicherung haben. Es gibt zwei Hauptarten: die <strong>gesetzliche Krankenversicherung</strong> (f&#xfc;r etwa 90% der Bev&#xf6;lkerung) und die <strong>private Krankenversicherung</strong>.<br><br>
@@ -2347,7 +2406,7 @@ html,body{height:100%;height:100dvh}
       Das System gilt als sehr effektiv, obwohl es manchmal lange Wartezeiten f&#xfc;r Termine bei Spezialisten gibt.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মান স্বাস্থ্যব্যবস্থা বিশ্বের প্রাচীনতম, ১৮৮৩ সালে Otto von Bismarck এর সময় চালু হয়েছিল। প্রত্যেকের ইন্স্যুরেন্স থাকতে হবে — গণতান্ত্রিক (৯০% মানুষের জন্য) ও ব্যক্তিগত। গণতান্ত্রিক বিমায় আয়ের একটা শতাংশ দিতে হয়, employer ও দেয়। অসুস্থ হলে প্রথমে Hausarzt এর কাছে যেতে হয়, প্রয়োজনে specialist এর কাছে পাঠানো হয়। সিস্টেম কার্যকর, যদিও specialist দেখানোর জন্য মাঝে মাঝে দীর্ঘ অপেক্ষা করতে হয়।</div>
     </div>
     <div class="listen-q">
@@ -2376,7 +2435,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
@@ -2388,7 +2447,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার দেশের স্বাস্থ্যব্যবস্থা সম্পর্কে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In Bangladesch..."</em></div>
@@ -2400,7 +2459,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c8l6fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -2416,7 +2475,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">জার্মান স্বাস্থ্যব্যবস্থা সম্পর্কে যা জানলেন German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Jeder muss... · Es gibt gesetzliche und private... · Man geht zuerst zum...</div>
@@ -2426,7 +2485,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c8l6ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -2440,7 +2499,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8l6q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L7: REFLEXIVE VERBEN ==================== -->
@@ -2451,11 +2510,11 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · পাঠ ৭</div>
     <div class="ph-title">Reflexive Verben</div>
     <div class="ph-bn">রিফ্লেক্সিভ ভার্ব</div>
-    <div class="ph-tags"><span class="ph-tag">🔄 ব্যাকরণ</span><span class="ph-tag">&#x1f60c; অনুভূতি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f504; ব্যাকরণ</span><span class="ph-tag">😌 অনুভূতি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">reflexive verb কী?</div>
         <div class="cult-bn">যে verb এ কর্তা নিজের উপর কাজ করে — যেমন <strong>sich fühlen</strong> (নিজেকে অনুভব করা)। German এ স্বাস্থ্য সম্পর্কিত অনেক verb reflexive।</div>
@@ -2463,37 +2522,43 @@ html,body{height:100%;height:100dvh}
     </div>
     <div class="card">
       <div class="card-t">Reflexive verb (স্বাস্থ্য সম্পর্কিত) <span class="ct-bn">— Reflexive Verben</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich fühlen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich fühlen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f60c;</span>
         <span class="v-de">sich f&#xfc;hlen</span><span class="v-en">to feel</span><span class="v-bn bn">নিজেকে অনুভব করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich fühlen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich fühlen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich erholen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich erholen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich erholen</span><span class="v-en">to recover</span><span class="v-bn bn">সুস্থ হওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich erholen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich erholen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich ausruhen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich ausruhen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich ausruhen</span><span class="v-en">to rest</span><span class="v-bn bn">বিশ্রাম নেওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich ausruhen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich ausruhen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich verletzen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich verletzen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich verletzen</span><span class="v-en">to injure oneself</span><span class="v-bn bn">আঘাত পাওয়া</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich verletzen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich verletzen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich erkälten')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich erkälten')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich erk&#xe4;lten</span><span class="v-en">to catch a cold</span><span class="v-bn bn">ঠান্ডা লাগা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich erkälten')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich erkälten')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich entspannen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich entspannen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich entspannen</span><span class="v-en">to relax</span><span class="v-bn bn">বিশ্রাম/আরাম করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich entspannen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich entspannen')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2512,7 +2577,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2524,7 +2589,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>sich fühlen</strong> = zikh FUE-len | <strong>sich erholen</strong> = zikh air-HOH-len | <strong>sich erkälten</strong> = zikh air-KELL-ten</div>
@@ -2533,7 +2598,7 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8l7s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2558,7 +2623,7 @@ html,body{height:100%;height:100dvh}
         <tr><td class="de">sie</td><td class="de">sich</td><td class="de">Sie fühlen sich wohl.</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 mnemonic</div>
+        <div class="trick-t">&#x1f4a1; mnemonic</div>
         <div class="trick-bn">শুধু ich (mich) ও du (dich) ছাড়া বাকি সব pronoun এর জন্য reflexive pronoun "sich" বা "uns" — মুখস্থ করতে সহজ!</div>
       </div>
     </div>
@@ -2574,7 +2639,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2586,7 +2651,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 কেমন অনুভব করছেন — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; কেমন অনুভব করছেন — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l7l">
     <div class="ap-line"><span class="spk-f">Freundin:</span><span class="ap-text">Hallo! Wie f&#xfc;hlst du dich heute?</span></div>
@@ -2601,8 +2666,8 @@ html,body{height:100%;height:100dvh}
     <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Hallo! Wie f&#xfc;hlst du dich heute?',female:true},{text:'Ich f&#xfc;hle mich schon viel besser. Ich erhole mich gut von der Grippe.',female:true},{text:'Das ist toll! Hast du dich gut ausgeruht?',female:true},{text:'Ja, ich habe mich die ganze Woche ausgeruht und viel Tee getrunken.',female:true},{text:'Hast du dich beim Sport verletzt? Ich habe geh&#xf6;rt, dein Knie tat weh.',female:true},{text:'Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Hallo! Wie f&#xfc;hlst du dich heute?',female:true},{text:'Ich f&#xfc;hle mich schon viel besser. Ich erhole mich gut von der Grippe.',female:true},{text:'Das ist toll! Hast du dich gut ausgeruht?',female:true},{text:'Ja, ich habe mich die ganze Woche ausgeruht und viel Tee getrunken.',female:true},{text:'Hast du dich beim Sport verletzt? Ich habe geh&#xf6;rt, dein Knie tat weh.',female:true},{text:'Ach, das war nur eine kleine Verletzung. Es geht mir jetzt gut.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l7l"></span>
       <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
@@ -2636,7 +2701,7 @@ html,body{height:100%;height:100dvh}
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2649,7 +2714,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Mein Genesungstagebuch (recovery diary)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Mein Genesungstagebuch (recovery diary)</div>
       <strong>Mein Genesungstagebuch</strong><br><br>
       <strong>Montag:</strong> Ich fühle mich heute sehr schlecht. Ich habe mich wahrscheinlich erkältet — mein Hals tut weh, und ich habe Fieber.<br><br>
       <strong>Dienstag:</strong> Ich habe mich heute den ganzen Tag ausgeruht. Ich fühle mich ein bisschen besser, aber ich bin noch sehr müde.<br><br>
@@ -2658,7 +2723,7 @@ html,body{height:100%;height:100dvh}
       <strong>Freitag:</strong> Ich fühle mich wieder gesund! Die Erkältung ist vorbei.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">এক সপ্তাহের সুস্থতার ডায়েরি: সোমবার খুব খারাপ অনুভূতি, গলা ব্যথা ও জ্বর। মঙ্গলবার পুরো দিন বিশ্রাম, একটু ভালো লাগছে। বুধবার ধীরে সুস্থ হচ্ছেন, জ্বর চলে গেছে। বৃহস্পতিবার প্রায় স্বাভাবিক অনুভব করছেন। শুক্রবার সম্পূর্ণ সুস্থ — ঠান্ডা শেষ।</div>
     </div>
     <div class="listen-q">
@@ -2687,7 +2752,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
@@ -2699,7 +2764,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি কেমন অনুভব করছেন? Reflexive verb (sich fühlen, sich erholen) ব্যবহার করে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich fühle mich..."</em></div>
@@ -2711,7 +2776,7 @@ html,body{height:100%;height:100dvh}
     <div class="write-res" id="wr-c8l7fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2727,7 +2792,7 @@ html,body{height:100%;height:100dvh}
       <div class="speak-prompt-bn">আজ আপনি কেমন অনুভব করছেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich fühle mich... · Ich erhole mich von... · Ich habe mich ausgeruht</div>
@@ -2737,7 +2802,7 @@ html,body{height:100%;height:100dvh}
     <div class="speak-res" id="fsr-c8l7ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2751,7 +2816,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8l7q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== R9: REVIEW ==================== -->
@@ -2762,36 +2827,36 @@ html,body{height:100%;height:100dvh}
     <div class="ph-eye">অধ্যায় ৮ · রিভিউ</div>
     <div class="ph-title">পূর্ণ রিভিউ</div>
     <div class="ph-bn">অধ্যায় ৮ সারসংক্ষেপ</div>
-    <div class="ph-tags"><span class="ph-tag">🔄 রিভিউ</span><span class="ph-tag">🏥 Gesundheit</span><span class="ph-tag">&#x1f9b4; K&#xf6;rper</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">🏥 Gesundheit</span><span class="ph-tag">🦴 K&#xf6;rper</span></div>
   </div>
   <div class="content">
     <div class="review-card">
-      <div class="review-t">&#x1f9b4; পাঠ ১ — Der Körper</div>
+      <div class="review-t">🦴 পাঠ ১ — Der Körper</div>
       <div class="review-item">der Kopf, das Auge, die Nase, der Mund, das Ohr, der Arm, die Hand, das Bein, der Fuß, der Bauch, der Rücken, das Herz</div>
       <div class="review-item">Arm vs Hand, Bein vs Fuß — পুরো অঙ্গ vs নির্দিষ্ট অংশ</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1fa7a; পাঠ ২ — Beim Arzt</div>
+      <div class="review-t">🩺 পাঠ ২ — Beim Arzt</div>
       <div class="review-item">der Arzt, der Termin, die Praxis, das Rezept, die Versicherung, krank</div>
       <div class="review-item">fehlen (Dativ verb): "Was fehlt Ihnen?" — mir, dir, Ihnen</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f912; পাঠ ৩ — Krankheiten & Symptome</div>
+      <div class="review-t">🤒 পাঠ ৩ — Krankheiten & Symptome</div>
       <div class="review-item">die Erkältung, die Grippe, der Husten, der Schnupfen, die Kopfschmerzen, müde, schwindelig</div>
       <div class="review-item">haben + Symptome: "Ich habe Kopfschmerzen." sein + adjective: "Ich bin müde."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f615; পাঠ ৪ — Tut weh — schmerzen</div>
+      <div class="review-t">😕 পাঠ ৪ — Tut weh — schmerzen</div>
       <div class="review-item">weh tun, schmerzen, der Schmerz, stark, leicht</div>
       <div class="review-item">[body part] + tut/tun + [Dativ] + weh: "Mein Kopf tut mir weh." singular→tut, plural→tun</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f48a; পাঠ ৫ — In der Apotheke</div>
+      <div class="review-t">💊 পাঠ ৫ — In der Apotheke</div>
       <div class="review-item">die Apotheke, das Medikament, die Tablette, der Apotheker, einnehmen</div>
       <div class="review-item">gegen + Akkusativ: "Ich brauche etwas gegen Kopfschmerzen."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">🇩🇪 পাঠ ৬ — Gesundheitssystem</div>
+      <div class="review-t">&#x1f1e9;&#x1f1ea; পাঠ ৬ — Gesundheitssystem</div>
       <div class="review-item">die Krankenversicherung, das Krankenhaus, der Hausarzt, gesetzlich, privat</div>
       <div class="review-item">১৮৮৩ সালে চালু হওয়া বিশ্বের প্রাচীনতম স্বাস্থ্যব্যবস্থা; ৯০% মানুষের গণতান্ত্রিক বিমা; müssen দিয়ে বাধ্যতা প্রকাশ</div>
     </div>
@@ -2801,7 +2866,7 @@ html,body{height:100%;height:100dvh}
       <div class="review-item">Reflexivpronomen: mich, dich, sich, uns, sich — "Wie fühlst du dich?"</div>
     </div>
     <div class="card">
-      <div class="card-t">🎯 অধ্যায় ৮ — মূল Grammar Points</div>
+      <div class="card-t">&#x1f3af; অধ্যায় ৮ — মূল Grammar Points</div>
       <table class="gram-table">
         <tr><th>Topic</th><th>Rule</th><th class="bn">উদাহরণ</th></tr>
         <tr><td class="de">fehlen</td><td class="de">Dativ verb</td><td class="bn">Was fehlt Ihnen?</td></tr>
@@ -2814,7 +2879,7 @@ html,body{height:100%;height:100dvh}
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R9 SPEAKING REVIEW -->
@@ -2826,7 +2891,7 @@ html,body{height:100%;height:100dvh}
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত উচ্চারণ পরীক্ষা</div>
         <div class="cult-bn">অধ্যায় ৮ এর সবচেয়ে গুরুত্বপূর্ণ বাক্যগুলো বলুন। প্রতিটি শুনুন, তারপর নিজে বলুন।</div>
@@ -2835,19 +2900,19 @@ html,body{height:100%;height:100dvh}
     <div id="sp-c8rs"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R9 QUIZ -->
 <div class="page" id="page-c8rq">
   <div class="ph">
     <div class="ph-eye">অধ্যায় ৮ · রিভিউ</div>
-    <div class="ph-title">রিভিউ কুইজ 🏆</div>
+    <div class="ph-title">রিভিউ কুইজ &#x1f3c6;</div>
     <div class="ph-bn">অধ্যায় ৮ সম্পূর্ণ পরীক্ষা</div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🏆</div>
+      <div class="cult-icon">&#x1f3c6;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত কুইজ</div>
         <div class="cult-bn">এই কুইজে অধ্যায় ৮ এর সব পাঠ থেকে প্রশ্ন আছে। পাস করতে ৬০% দরকার।</div>
@@ -2856,7 +2921,7 @@ html,body{height:100%;height:100dvh}
     <div id="qz-c8rq"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা ►</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -3826,7 +3891,7 @@ function _apTime(id, cur, total) {
 function _apSetPlayBtn(id, playing) {
   var btn = document.getElementById('appbtn-' + id);
   if (!btn) return;
-  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+  btn.innerHTML = playing ? '⏸' : '▶';
 }
 
 function _apPlayFrom(id, lines, fromIdx) {
