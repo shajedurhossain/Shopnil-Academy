@@ -73,9 +73,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
 .day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
 .main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
-.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;-webkit-overflow-scrolling:touch;touch-action:pan-y}
 .main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
-.page{display:none}
+.page{display:none}.page.active{touch-action:pan-y}
 .page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
@@ -293,11 +293,6 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
 
-/* ---- MOBILE SCROLL FIX ---- */
-html,body{height:100%;height:100dvh}
-.app-body{height:calc(100dvh - 112px);max-height:calc(100dvh - 112px)}
-.main{overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
-.page.active{display:block;min-height:auto;height:auto;overflow:visible}
 </style>
 </head>
 <body>
