@@ -73,9 +73,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
 .day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
 .main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
-.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
 .main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
-.page{display:none}
+.page{display:none}.page.active{}
 .page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
@@ -290,6 +290,34 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .ap-line-counter{font-size:.7rem;color:rgba(255,255,255,.45);font-family:var(--bn)}
 .ap-plays-left{font-size:.68rem;color:rgba(232,183,42,.6);font-family:var(--bn)}
 
+
+#mainArea{
+  position:fixed;
+  top:112px;
+  bottom:0;
+  left:var(--sb,220px);
+  right:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  z-index:1;
+}
+@media(max-width:640px){
+  #mainArea{
+    top:108px;
+    left:0;
+  }
+}
+
+/* ---- MOBILE NATURAL SCROLL ---- */
+@media(max-width:640px){
+  html,body{height:auto !important;overflow:auto !important}
+  .app-body{overflow:visible !important;height:auto !important;min-height:0}
+  .main-wrap{overflow:visible !important;height:auto !important}
+  .main{overflow:visible !important;height:auto !important;min-height:0}
+  .page.active{display:block}
+}
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&display=swap" rel="stylesheet">
 </head>
@@ -313,7 +341,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <div class="topbar">
   <button class="menu-btn" onclick="toggleSB()">&#9776;</button>
   <span class="tb-level">A1</span>
-  <span class="tb-title">🇩🇪 অধ্যায় ১১ — Beruf &amp; Zukunft</span>
+  <span class="tb-title">&#x1f1e9;&#x1f1ea; অধ্যায় ১১ — Beruf &amp; Zukunft</span>
   <div class="tb-right">
     <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
@@ -328,7 +356,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="sb-nav">
     <div class="sb-head">
       <div class="sb-head-title">Chapter 11</div>
-      <div class="sb-head-bn">&#x1f4bc; Beruf &amp; Zukunft</div>
+      <div class="sb-head-bn">💼 Beruf &amp; Zukunft</div>
     </div>
 
     <div class="week-block">
@@ -342,7 +370,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L1 Berufe -->
         <div class="day-hdr" id="dhc11l1" onclick="toggleDay('c11l1')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f4bc; L1 — Berufe</span>
+          <span class="day-name">💼 L1 — Berufe</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -382,7 +410,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L3 Bewerbung & Lebenslauf -->
         <div class="day-hdr" id="dhc11l3" onclick="toggleDay('c11l3')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f4c4; L3 — Bewerbung &amp; Lebenslauf</span>
+          <span class="day-name">📄 L3 — Bewerbung &amp; Lebenslauf</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -402,7 +430,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L4 Zukunftspläne -->
         <div class="day-hdr" id="dhc11l4" onclick="toggleDay('c11l4')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f52e; L4 — Zukunftspl&#xe4;ne</span>
+          <span class="day-name">🔮 L4 — Zukunftspl&#xe4;ne</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -442,7 +470,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L6 Arbeiten in Deutschland -->
         <div class="day-hdr" id="dhc11l6" onclick="toggleDay('c11l6')">
           <span class="day-dot"></span>
-          <span class="day-name">🇩🇪 L6 — Arbeiten in Deutschland</span>
+          <span class="day-name">&#x1f1e9;&#x1f1ea; L6 — Arbeiten in Deutschland</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -462,7 +490,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <!-- L7 Nebensätze -->
         <div class="day-hdr" id="dhc11l7" onclick="toggleDay('c11l7')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f517; L7 — Nebens&#xe4;tze (weil/dass/wenn)</span>
+          <span class="day-name">🔗 L7 — Nebens&#xe4;tze (weil/dass/wenn)</span>
           <span class="day-check">✓</span>
           <span class="day-arr">►</span>
         </div>
@@ -510,11 +538,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · পাঠ ১</div>
     <div class="ph-title">Berufe</div>
     <div class="ph-bn">পেশা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4bc; পেশা</span><span class="ph-tag">🏢 কাজ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">💼 পেশা</span><span class="ph-tag">🏢 কাজ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">মনে রাখুন</div>
         <div class="cult-bn">German এ পেশা বলতে সাধারণত article ছাড়াই বলা হয়: "Ich bin Lehrer." (না "ein Lehrer")</div>
@@ -526,58 +554,58 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span></span><span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
       <div class="vr vr-4" onclick="tts('der Lehrer')">
-        <span style="font-size:1.3rem;text-align:center">👨&#x200d;🏫</span>
+        <span style="font-size:1.3rem;text-align:center">👨​🏫</span>
         <span class="v-de">der Lehrer</span><span class="v-en">teacher</span><span class="v-bn bn">শিক্ষক</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Lehrer')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Lehrer')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Arzt')">
-        <span style="font-size:1.3rem;text-align:center">&#x1fa7a;</span>
+        <span style="font-size:1.3rem;text-align:center">🩺</span>
         <span class="v-de">der Arzt</span><span class="v-en">doctor</span><span class="v-bn bn">ডাক্তার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Arzt')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Arzt')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Ingenieur')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f477;</span>
+        <span style="font-size:1.3rem;text-align:center">👷</span>
         <span class="v-de">der Ingenieur</span><span class="v-en">engineer</span><span class="v-bn bn">প্রকৌশলী</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Ingenieur')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Ingenieur')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Koch')">
-        <span style="font-size:1.3rem;text-align:center">👨&#x200d;🍳</span>
+        <span style="font-size:1.3rem;text-align:center">👨​🍳</span>
         <span class="v-de">der Koch</span><span class="v-en">cook/chef</span><span class="v-bn bn">রাঁধুনি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Koch')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Koch')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Verkäufer')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f6cd;️</span>
+        <span style="font-size:1.3rem;text-align:center">🛍️</span>
         <span class="v-de">der Verk&#xe4;ufer</span><span class="v-en">salesperson</span><span class="v-bn bn">বিক্রয়কর্মী</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Verkäufer')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Verkäufer')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Programmierer')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f4bb;</span>
+        <span style="font-size:1.3rem;text-align:center">💻</span>
         <span class="v-de">der Programmierer</span><span class="v-en">programmer</span><span class="v-bn bn">প্রোগ্রামার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Programmierer')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Programmierer')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('die Krankenschwester')">
-        <span style="font-size:1.3rem;text-align:center">👩&#x200d;&#x2695;️</span>
+        <span style="font-size:1.3rem;text-align:center">👩​⚕️</span>
         <span class="v-de">die Krankenschwester</span><span class="v-en">nurse</span><span class="v-bn bn">নার্স</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Krankenschwester')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Krankenschwester')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Polizist')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f46e;</span>
+        <span style="font-size:1.3rem;text-align:center">👮</span>
         <span class="v-de">der Polizist</span><span class="v-en">police officer</span><span class="v-bn bn">পুলিশ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Polizist')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Polizist')">▶</button>
       </div>
       <div class="vr vr-4" onclick="tts('der Student')">
-        <span style="font-size:1.3rem;text-align:center">&#x1f393;</span>
+        <span style="font-size:1.3rem;text-align:center">🎓</span>
         <span class="v-de">der Student</span><span class="v-en">student</span><span class="v-bn bn">ছাত্র</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Student')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Student')">▶</button>
       </div>
     </div>
     <div class="trick">
-      <div class="trick-t">🧠 Feminine form</div>
+      <div class="trick-t">&#x1f9e0; Feminine form</div>
       <div class="trick-bn">বেশিরভাগ পেশায় -in যোগ করে feminine form হয়: Lehrer→Lehrer<strong>in</strong>, Arzt→Ärzt<strong>in</strong>, Verkäufer→Verkäuferin।</div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FITB -->
@@ -596,7 +624,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 SPEAKING -->
@@ -608,7 +636,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Ingenieur</strong> = in-zhen-YOOR | <strong>Krankenschwester</strong> = KRAN-ken-shves-ter | <strong>Programmierer</strong> = proh-grah-MEE-rer</div>
@@ -617,7 +645,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11l1s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 GRAMMAR -->
@@ -637,7 +665,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Was bist du von Beruf?</td><td class="bn">তুমি পেশায় কী?</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 English থেকে আলাদা!</div>
+        <div class="trick-t">&#x1f4a1; English থেকে আলাদা!</div>
         <div class="trick-bn">ইংরেজিতে "I am <strong>a</strong> teacher" বলা হয়, কিন্তু German এ "Ich bin Lehrer" — কোনো article লাগে না।</div>
       </div>
     </div>
@@ -652,7 +680,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 LISTENING -->
@@ -664,7 +692,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
+      <div class="read-label">&#x1f3a7; কথোপকথন — সর্বোচ্চ ২ বার শুনুন</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l1l">
     <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Was bist du von Beruf?</span></div>
@@ -679,8 +707,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l1l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was bist du von Beruf?',female:false},{text:'Ich bin Krankenschwester. Und du?',female:true},{text:'Ich arbeite als Programmierer bei einer kleinen Firma.',female:false},{text:'Interessant! Gef&#xe4;llt dir die Arbeit?',female:true},{text:'Ja, sehr. Und deine Arbeit im Krankenhaus?',female:false},{text:'Es ist anstrengend, aber ich helfe gern Menschen.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l1l" onclick="apTogglePlay('l1l',[{text:'Was bist du von Beruf?',female:false},{text:'Ich bin Krankenschwester. Und du?',female:true},{text:'Ich arbeite als Programmierer bei einer kleinen Firma.',female:false},{text:'Interessant! Gef&#xe4;llt dir die Arbeit?',female:true},{text:'Ja, sehr. Und deine Arbeit im Krankenhaus?',female:false},{text:'Es ist anstrengend, aber ich helfe gern Menschen.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l1l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l1l"></span>
       <span class="ap-plays-left" id="applays-l1l">সর্বোচ্চ ২ বার</span>
@@ -714,7 +742,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -727,7 +755,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Mein Beruf</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Mein Beruf</div>
       Hallo! Ich hei&#xdf;e Felix und ich m&#xf6;chte euch von meinem Beruf erz&#xe4;hlen.<br><br>
       Ich bin Ingenieur und arbeite bei einer gro&#xdf;en Autofirma. Ich entwickle neue Motoren f&#xfc;r Elektroautos. Meine Arbeit ist sehr interessant, aber manchmal auch stressig.<br><br>
       Meine Schwester ist Lehrerin. Sie unterrichtet Mathematik an einer Grundschule. Sie liebt ihre Arbeit, weil sie gern mit Kindern arbeitet.<br><br>
@@ -735,7 +763,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Jeder Beruf hat Vor- und Nachteile, aber ich denke, es ist wichtig, eine Arbeit zu haben, die man mag.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Felix একজন প্রকৌশলী, একটা বড় গাড়ি কোম্পানিতে কাজ করেন, ইলেকট্রিক গাড়ির ইঞ্জিন বানান। তার বোন শিক্ষিকা, প্রাথমিক স্কুলে গণিত পড়ান। তার বন্ধু একজন রাঁধুনি, বিখ্যাত রেস্টুরেন্টে কাজ করেন। সব পেশার ভালো-খারাপ দিক আছে, কিন্তু পছন্দের কাজ করা গুরুত্বপূর্ণ।</div>
     </div>
     <div class="listen-q">
@@ -764,7 +792,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE WRITING -->
@@ -776,7 +804,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার পেশা বা আপনি কী হতে চান German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich bin..." বা "Ich möchte... werden."</em></div>
@@ -788,7 +816,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c11l1fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 FREE SPEAKING -->
@@ -804,7 +832,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার পেশা কী? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich bin... · Ich arbeite als... · Ich möchte... werden</div>
@@ -814,7 +842,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c11l1ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L1 QUIZ -->
@@ -828,7 +856,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11l1q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L2: AM ARBEITSPLATZ ==================== -->
@@ -839,50 +867,58 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · পাঠ ২</div>
     <div class="ph-title">Am Arbeitsplatz</div>
     <div class="ph-bn">কর্মক্ষেত্রে</div>
-    <div class="ph-tags"><span class="ph-tag">🏢 অফিস</span><span class="ph-tag">💬 কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🏢 অফিস</span><span class="ph-tag">&#x1f4ac; কথোপকথন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">কর্মক্ষেত্রের শব্দ <span class="ct-bn">— Arbeitsplatz-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Chef')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Chef')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Chef</span><span class="v-en">boss</span><span class="v-bn bn">বস</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Chef')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Chef')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Kollege')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Kollege')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Kollege</span><span class="v-en">colleague</span><span class="v-bn bn">সহকর্মী</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Kollege')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Kollege')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Büro')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Büro')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das B&#xfc;ro</span><span class="v-en">office</span><span class="v-bn bn">অফিস</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Büro')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Büro')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Besprechung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Besprechung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Besprechung</span><span class="v-en">meeting</span><span class="v-bn bn">মিটিং</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Besprechung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Besprechung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Gehalt')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Gehalt')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4b0;</span>
         <span class="v-de">das Gehalt</span><span class="v-en">salary</span><span class="v-bn bn">বেতন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Gehalt')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Gehalt')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Pause')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Pause')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Pause</span><span class="v-en">break</span><span class="v-bn bn">বিরতি</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Pause')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Pause')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Aufgabe')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Aufgabe')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Aufgabe</span><span class="v-en">task</span><span class="v-bn bn">কাজ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Aufgabe')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Aufgabe')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Termin')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Termin')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Termin</span><span class="v-en">appointment</span><span class="v-bn bn">অ্যাপয়েন্টমেন্ট</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Termin')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Termin')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FITB -->
@@ -901,7 +937,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 SPEAKING -->
@@ -913,7 +949,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Besprechung</strong> = be-SHPREKH-oong | <strong>Gehalt</strong> = ge-HALT | <strong>Kollege</strong> = ko-LAY-ge</div>
@@ -922,7 +958,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11l2s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 GRAMMAR -->
@@ -953,7 +989,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 LISTENING -->
@@ -965,7 +1001,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 অফিসে কথোপকথন — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; অফিসে কথোপকথন — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l2l">
     <div class="ap-line"><span class="spk">Kollege:</span><span class="ap-text">Hast du die Besprechung mit dem Chef heute?</span></div>
@@ -980,8 +1016,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l2l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Hast du die Besprechung mit dem Chef heute?',female:false},{text:'Ja, um vierzehn Uhr. Ich muss noch meine Pr&#xe4;sentation fertig machen.',female:true},{text:'Brauchst du Hilfe?',female:false},{text:'Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.',female:true},{text:'Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.',female:false},{text:'Stimmt, danke f&#xfc;r die Erinnerung!',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l2l" onclick="apTogglePlay('l2l',[{text:'Hast du die Besprechung mit dem Chef heute?',female:false},{text:'Ja, um vierzehn Uhr. Ich muss noch meine Pr&#xe4;sentation fertig machen.',female:true},{text:'Brauchst du Hilfe?',female:false},{text:'Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.',female:true},{text:'Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.',female:false},{text:'Stimmt, danke f&#xfc;r die Erinnerung!',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l2l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l2l"></span>
       <span class="ap-plays-left" id="applays-l2l">সর্বোচ্চ ২ বার</span>
@@ -1015,7 +1051,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1028,7 +1064,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Ein Tag im Büro (a day at the office)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Ein Tag im Büro (a day at the office)</div>
       <strong>Mein typischer Arbeitstag</strong><br><br>
       Ich arbeite in einem gro&#xdf;en B&#xfc;ro im Zentrum der Stadt. Mein Arbeitstag beginnt um neun Uhr.<br><br>
       Zuerst lese ich meine E-Mails und beantworte die wichtigsten. Um zehn Uhr habe ich oft eine Besprechung mit meinem Team, wo wir &#xfc;ber aktuelle Projekte sprechen.<br><br>
@@ -1037,7 +1073,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Mein Chef ist sehr unterst&#xfc;tzend und gibt uns viel Verantwortung. Ich mag meine Arbeit, obwohl sie manchmal stressig ist.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">একজনের অফিসের দিনের বর্ণনা: ৯টায় কাজ শুরু, ইমেইল পড়া, ১০টায় টিমের সাথে মিটিং। দুপুরে এক ঘণ্টা বিরতি সহকর্মীদের সাথে ক্যান্টিনে। বিকেলে কাজ করা, কখনো ক্লায়েন্ট মিটিং। বস সহায়ক, অনেক দায়িত্ব দেন। কাজ পছন্দ, যদিও কখনো কখনো চাপ থাকে।</div>
     </div>
     <div class="listen-q">
@@ -1066,7 +1102,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE WRITING -->
@@ -1078,7 +1114,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার কর্মক্ষেত্র সম্পর্কে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Mein Arbeitstag beginnt..."</em></div>
@@ -1090,7 +1126,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c11l2fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 FREE SPEAKING -->
@@ -1106,7 +1142,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনার কাজের দিন কেমন হয়? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Mein Chef ist... · Ich habe eine Besprechung um... · Mittags mache ich eine Pause</div>
@@ -1116,7 +1152,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c11l2ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L2 QUIZ -->
@@ -1130,7 +1166,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11l2q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L3: BEWERBUNG & LEBENSLAUF ==================== -->
@@ -1141,46 +1177,53 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · পাঠ ৩</div>
     <div class="ph-title">Bewerbung &amp; Lebenslauf</div>
     <div class="ph-bn">চাকরির আবেদন</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4c4; আবেদন</span><span class="ph-tag">📝 সিভি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">📄 আবেদন</span><span class="ph-tag">&#x1f4dd; সিভি</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">আবেদনের শব্দ <span class="ct-bn">— Bewerbungs-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Bewerbung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Bewerbung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Bewerbung</span><span class="v-en">application</span><span class="v-bn bn">আবেদন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Bewerbung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Bewerbung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Lebenslauf')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Lebenslauf')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Lebenslauf</span><span class="v-en">CV/resume</span><span class="v-bn bn">জীবনবৃত্তান্ত</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Lebenslauf')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Lebenslauf')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Erfahrung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Erfahrung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Erfahrung</span><span class="v-en">experience</span><span class="v-bn bn">অভিজ্ঞতা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Erfahrung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Erfahrung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Qualifikation')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Qualifikation')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Qualifikation</span><span class="v-en">qualification</span><span class="v-bn bn">যোগ্যতা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Qualifikation')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Qualifikation')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Vorstellungsgespräch')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Vorstellungsgespräch')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Vorstellungsgespr&#xe4;ch</span><span class="v-en">job interview</span><span class="v-bn bn">চাকরির সাক্ষাৎকার</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Vorstellungsgespräch')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Vorstellungsgespräch')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Stelle')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Stelle')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Stelle</span><span class="v-en">job position</span><span class="v-bn bn">পদ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Stelle')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Stelle')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('sich bewerben')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('sich bewerben')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">sich bewerben</span><span class="v-en">to apply</span><span class="v-bn bn">আবেদন করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('sich bewerben')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('sich bewerben')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FITB -->
@@ -1199,7 +1242,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 SPEAKING -->
@@ -1211,7 +1254,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Bewerbung</strong> = be-VER-boong | <strong>Lebenslauf</strong> = LAY-bens-lowf | <strong>Vorstellungsgespräch</strong> = FOR-shtel-loongs-ge-shpraykh (ভেঙে বলুন)</div>
@@ -1220,7 +1263,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11l3s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 GRAMMAR -->
@@ -1240,7 +1283,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Wann bewirbst du dich?</td><td class="bn">তুমি কখন আবেদন করবে?</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 um + Akkusativ মনে রাখুন</div>
+        <div class="trick-t">&#x1f4a1; um + Akkusativ মনে রাখুন</div>
         <div class="trick-bn">sich bewerben এর পরে "um" + Akkusativ ব্যবহার হয়: "sich bewerben <strong>um die</strong> Stelle"।</div>
       </div>
     </div>
@@ -1254,7 +1297,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 LISTENING -->
@@ -1266,7 +1309,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 চাকরির সাক্ষাৎকার — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; চাকরির সাক্ষাৎকার — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l3l">
     <div class="ap-line"><span class="spk-f">Personalchefin:</span><span class="ap-text">Warum bewerben Sie sich um diese Stelle?</span></div>
@@ -1281,8 +1324,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l3l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Warum bewerben Sie sich um diese Stelle?',female:true},{text:'Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.',female:false},{text:'Wie viele Jahre Erfahrung haben Sie?',female:true},{text:'Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.',female:false},{text:'Sehr gut. Wann k&#xf6;nnten Sie anfangen?',female:true},{text:'Ich k&#xf6;nnte n&#xe4;chsten Monat anfangen.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l3l" onclick="apTogglePlay('l3l',[{text:'Warum bewerben Sie sich um diese Stelle?',female:true},{text:'Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.',female:false},{text:'Wie viele Jahre Erfahrung haben Sie?',female:true},{text:'Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.',female:false},{text:'Sehr gut. Wann k&#xf6;nnten Sie anfangen?',female:true},{text:'Ich k&#xf6;nnte n&#xe4;chsten Monat anfangen.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l3l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l3l"></span>
       <span class="ap-plays-left" id="applays-l3l">সর্বোচ্চ ২ বার</span>
@@ -1316,7 +1359,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1329,7 +1372,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Bewerbungstipps (job application tips)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Bewerbungstipps (job application tips)</div>
       <strong>Tipps für eine erfolgreiche Bewerbung</strong><br><br>
       Eine gute Bewerbung braucht normalerweise drei Teile: ein Anschreiben, einen Lebenslauf, und manchmal Zeugnisse.<br><br>
       Im <strong>Anschreiben</strong> sollten Sie erklären, warum Sie sich für die Stelle interessieren und warum Sie qualifiziert sind.<br><br>
@@ -1338,7 +1381,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Viel Erfolg bei Ihrer n&#xe4;chsten Bewerbung!
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">সফল আবেদনের জন্য ৩টা অংশ লাগে: cover letter, CV, কখনো সার্টিফিকেট। Cover letter এ ব্যাখ্যা করতে হবে কেন আবেদন করছেন ও কেন যোগ্য। CV তে শিক্ষা, অভিজ্ঞতা, দক্ষতা থাকবে — জার্মানিতে professional ছবি যুক্ত করা প্রচলিত। সাক্ষাৎকারে সময়মতো যাওয়া ও কোম্পানি সম্পর্কে জানা গুরুত্বপূর্ণ।</div>
     </div>
     <div class="listen-q">
@@ -1367,7 +1410,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE WRITING -->
@@ -1379,7 +1422,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনি কোন পদের জন্য আবেদন করতে চান? কেন? German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich bewerbe mich um..."</em></div>
@@ -1391,7 +1434,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c11l3fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 FREE SPEAKING -->
@@ -1407,7 +1450,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি এই পদের জন্য কেন আবেদন করছেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich habe Erfahrung in... · Ich bin qualifiziert, weil... · Ich mag die Firma</div>
@@ -1417,7 +1460,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c11l3ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L3 QUIZ -->
@@ -1431,7 +1474,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11l3q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L4: ZUKUNFTSPLÄNE ==================== -->
@@ -1442,11 +1485,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · পাঠ ৪</div>
     <div class="ph-title">Zukunftspl&#xe4;ne</div>
     <div class="ph-bn">ভবিষ্যৎ পরিকল্পনা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f52e; ভবিষ্যৎ</span><span class="ph-tag">&#x1f4d0; ব্যাকরণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">🔮 ভবিষ্যৎ</span><span class="ph-tag">📐 ব্যাকরণ</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">Futur বলার দুই উপায়</div>
         <div class="cult-bn">German এ ভবিষ্যৎ বলতে প্রায়ই <strong>Präsens + সময়ের শব্দ</strong> ব্যবহার হয় (যেমন "morgen"), কিন্তু আনুষ্ঠানিকভাবে <strong>werden + Infinitiv</strong> ব্যবহার হয়।</div>
@@ -1454,33 +1497,38 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">ভবিষ্যতের শব্দ <span class="ct-bn">— Zukunfts-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Zukunft')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Zukunft')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f52e;</span>
         <span class="v-de">die Zukunft</span><span class="v-en">future</span><span class="v-bn bn">ভবিষ্যৎ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Zukunft')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Zukunft')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('das Ziel')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('das Ziel')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">das Ziel</span><span class="v-en">goal</span><span class="v-bn bn">লক্ষ্য</span>
-        <button class="pb" onclick="event.stopPropagation();tts('das Ziel')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('das Ziel')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Plan')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Plan')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4cb;</span>
         <span class="v-de">der Plan</span><span class="v-en">plan</span><span class="v-bn bn">পরিকল্পনা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Plan')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Plan')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('nächstes Jahr')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('nächstes Jahr')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">n&#xe4;chstes Jahr</span><span class="v-en">next year</span><span class="v-bn bn">পরের বছর</span>
-        <button class="pb" onclick="event.stopPropagation();tts('nächstes Jahr')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('nächstes Jahr')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('in fünf Jahren')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('in fünf Jahren')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">in f&#xfc;nf Jahren</span><span class="v-en">in five years</span><span class="v-bn bn">পাঁচ বছরে</span>
-        <button class="pb" onclick="event.stopPropagation();tts('in fünf Jahren')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('in fünf Jahren')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FITB -->
@@ -1499,7 +1547,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 SPEAKING -->
@@ -1511,7 +1559,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>werden</strong> = VAIR-den | <strong>Zukunft</strong> = TSOO-koonft</div>
@@ -1520,7 +1568,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11l4s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 GRAMMAR -->
@@ -1543,7 +1591,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">sie/Sie</td><td class="de">werden</td><td class="de">Sie werden umziehen.</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 werden + Infinitiv শেষে</div>
+        <div class="trick-t">&#x1f4a1; werden + Infinitiv শেষে</div>
         <div class="trick-bn">গঠন: <strong>werden</strong> (conjugated, দ্বিতীয় স্থানে) + [বাকি বাক্য] + <strong>Infinitiv</strong> (শেষে)।</div>
       </div>
     </div>
@@ -1558,7 +1606,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 LISTENING -->
@@ -1570,7 +1618,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 ভবিষ্যৎ পরিকল্পনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; ভবিষ্যৎ পরিকল্পনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l4l">
     <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Was wirst du nach dem Studium machen?</span></div>
@@ -1585,8 +1633,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l4l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Was wirst du nach dem Studium machen?',female:false},{text:'Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.',female:true},{text:'Wirklich? Wohin?',female:false},{text:'Ich werde mich um eine Stelle in Kanada bewerben.',female:true},{text:'Spannend! Und in f&#xfc;nf Jahren, wo wirst du sein?',female:false},{text:'Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gr&#xfc;nden.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l4l" onclick="apTogglePlay('l4l',[{text:'Was wirst du nach dem Studium machen?',female:false},{text:'Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.',female:true},{text:'Wirklich? Wohin?',female:false},{text:'Ich werde mich um eine Stelle in Kanada bewerben.',female:true},{text:'Spannend! Und in f&#xfc;nf Jahren, wo wirst du sein?',female:false},{text:'Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gr&#xfc;nden.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l4l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l4l"></span>
       <span class="ap-plays-left" id="applays-l4l">সর্বোচ্চ ২ বার</span>
@@ -1620,7 +1668,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1633,7 +1681,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Meine Zukunftspläne</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Meine Zukunftspläne</div>
       <strong>Was werde ich in der Zukunft machen?</strong><br><br>
       Ich bin jetzt zwanzig Jahre alt und studiere Informatik. In zwei Jahren werde ich mein Studium beenden.<br><br>
       Nach dem Studium werde ich wahrscheinlich erst ein Praktikum machen, um praktische Erfahrung zu sammeln. Danach werde ich mich um eine Vollzeitstelle bewerben.<br><br>
@@ -1642,7 +1690,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Die Zukunft ist ungewiss, aber ich bin optimistisch und werde hart arbeiten, um meine Tr&#xe4;ume zu verwirklichen.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">২০ বছর বয়সী, কম্পিউটার সায়েন্স পড়ছেন, ২ বছরে পড়াশোনা শেষ হবে। পড়াশোনার পর internship করবেন অভিজ্ঞতার জন্য, তারপর full-time চাকরির জন্য আবেদন করবেন। স্বপ্ন: একদিন নিজের টেক কোম্পানি প্রতিষ্ঠা করা। ১০ বছরে আশা করেন সফল ক্যারিয়ার ও সম্ভবত পরিবার গঠনের। ভবিষ্যৎ অনিশ্চিত কিন্তু optimistic থাকবেন।</div>
     </div>
     <div class="listen-q">
@@ -1671,7 +1719,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE WRITING -->
@@ -1683,7 +1731,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার ভবিষ্যৎ পরিকল্পনা werden-Futur ব্যবহার করে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In der Zukunft werde ich..."</em></div>
@@ -1695,7 +1743,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c11l4fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 FREE SPEAKING -->
@@ -1711,7 +1759,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">পাঁচ বছরে আপনি কী করবেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich werde... · In der Zukunft... · Mein Ziel ist...</div>
@@ -1721,7 +1769,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c11l4ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L4 QUIZ -->
@@ -1735,7 +1783,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11l4q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L5: WÜNSCHE & TRÄUME ==================== -->
@@ -1746,38 +1794,43 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · পাঠ ৫</div>
     <div class="ph-title">W&#xfc;nsche &amp; Tr&#xe4;ume</div>
     <div class="ph-bn">ইচ্ছা ও স্বপ্ন</div>
-    <div class="ph-tags"><span class="ph-tag">✨ স্বপ্ন</span><span class="ph-tag">&#x1f4ad; ইচ্ছা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x2728; স্বপ্ন</span><span class="ph-tag">💭 ইচ্ছা</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="card">
       <div class="card-t">ইচ্ছা ও স্বপ্নের শব্দ <span class="ct-bn">— W&#xfc;nsche-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Traum')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Traum')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4ad;</span>
         <span class="v-de">der Traum</span><span class="v-en">dream</span><span class="v-bn bn">স্বপ্ন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Traum')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Traum')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Wunsch')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Wunsch')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Wunsch</span><span class="v-en">wish</span><span class="v-bn bn">ইচ্ছা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Wunsch')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Wunsch')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Hoffnung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Hoffnung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Hoffnung</span><span class="v-en">hope</span><span class="v-bn bn">আশা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Hoffnung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Hoffnung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('erreichen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('erreichen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">erreichen</span><span class="v-en">to achieve</span><span class="v-bn bn">অর্জন করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('erreichen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('erreichen')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('verwirklichen')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('verwirklichen')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">verwirklichen</span><span class="v-en">to make come true</span><span class="v-bn bn">বাস্তবায়ন করা</span>
-        <button class="pb" onclick="event.stopPropagation();tts('verwirklichen')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('verwirklichen')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FITB -->
@@ -1796,7 +1849,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 SPEAKING -->
@@ -1808,7 +1861,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Traum</strong> = trowm | <strong>verwirklichen</strong> = fer-VIRK-likh-en | <strong>Hoffnung</strong> = HOF-noong</div>
@@ -1817,7 +1870,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11l5s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 GRAMMAR -->
@@ -1837,7 +1890,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">Was würdest du gern werden?</td><td class="bn">তুমি কী হতে চাইতে?</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 werden এর Konjunktiv II</div>
+        <div class="trick-t">&#x1f4a1; werden এর Konjunktiv II</div>
         <div class="trick-bn">"হতে চাওয়া" বোঝাতে: "Ich würde gern Arzt <strong>werden</strong>." — werden এখানে main verb (Infinitiv, শেষে)।</div>
       </div>
     </div>
@@ -1851,7 +1904,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 LISTENING -->
@@ -1863,7 +1916,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 স্বপ্ন নিয়ে কথা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; স্বপ্ন নিয়ে কথা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l5l">
     <div class="ap-line"><span class="spk">Interviewer:</span><span class="ap-text">Was w&#xfc;rdest du gern in deinem Leben erreichen?</span></div>
@@ -1878,8 +1931,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l5l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Was w&#xfc;rdest du gern in deinem Leben erreichen?',female:false},{text:'Ich w&#xfc;rde gern Architektin werden und besondere Geb&#xe4;ude entwerfen.',female:true},{text:'Hast du diesen Traum schon lange?',female:false},{text:'Ja, seit ich ein Kind war. Ich h&#xe4;tte gern die Chance, in einer gro&#xdf;en Stadt zu arbeiten.',female:true},{text:'Was sind deine n&#xe4;chsten Schritte?',female:false},{text:'Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l5l" onclick="apTogglePlay('l5l',[{text:'Was w&#xfc;rdest du gern in deinem Leben erreichen?',female:false},{text:'Ich w&#xfc;rde gern Architektin werden und besondere Geb&#xe4;ude entwerfen.',female:true},{text:'Hast du diesen Traum schon lange?',female:false},{text:'Ja, seit ich ein Kind war. Ich h&#xe4;tte gern die Chance, in einer gro&#xdf;en Stadt zu arbeiten.',female:true},{text:'Was sind deine n&#xe4;chsten Schritte?',female:false},{text:'Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l5l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l5l"></span>
       <span class="ap-plays-left" id="applays-l5l">সর্বোচ্চ ২ বার</span>
@@ -1913,7 +1966,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -1926,7 +1979,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Träume von jungen Menschen (survey article)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Träume von jungen Menschen (survey article)</div>
       <strong>Was träumen junge Menschen heute?</strong><br><br>
       Eine neue Umfrage zeigt interessante Ergebnisse &#xfc;ber die Tr&#xe4;ume junger Menschen in Deutschland.<br><br>
       45% der Befragten w&#xfc;rden gern ihr eigenes Unternehmen gr&#xfc;nden. Sie m&#xf6;chten unabh&#xe4;ngig sein und ihre eigenen Ideen verwirklichen.<br><br>
@@ -1935,7 +1988,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Trotz wirtschaftlicher Unsicherheit bleiben die meisten jungen Menschen optimistisch &#xfc;ber ihre Zukunft.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মান তরুণদের স্বপ্ন নিয়ে জরিপ: ৪৫% নিজের ব্যবসা প্রতিষ্ঠা করতে চান, স্বাধীন থাকতে চান। ৩০% বিদেশে কাজ বা পড়াশোনা করতে চান নতুন সংস্কৃতি অনুভব করতে। অন্যান্য ইচ্ছা: ভালো work-life balance, আর্থিক নিরাপত্তা, এমন কাজ যা অর্থবহ। অর্থনৈতিক অনিশ্চয়তা থাকলেও বেশিরভাগ তরুণ optimistic।</div>
     </div>
     <div class="listen-q">
@@ -1964,7 +2017,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE WRITING -->
@@ -1976,7 +2029,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার সবচেয়ে বড় স্বপ্ন কী? German এ লিখুন (würde/hätte gern ব্যবহার করুন)। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Mein Traum ist..."</em></div>
@@ -1988,7 +2041,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c11l5fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 FREE SPEAKING -->
@@ -2004,7 +2057,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি জীবনে কী অর্জন করতে চাইতেন? German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Ich würde gern... · Ich hätte gern... · Mein Traum ist...</div>
@@ -2014,7 +2067,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c11l5ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L5 QUIZ -->
@@ -2028,7 +2081,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11l5q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L6: ARBEITEN IN DEUTSCHLAND ==================== -->
@@ -2039,11 +2092,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · পাঠ ৬</div>
     <div class="ph-title">Arbeiten in Deutschland</div>
     <div class="ph-bn">জার্মানিতে কাজ</div>
-    <div class="ph-tags"><span class="ph-tag">🇩🇪 সংস্কৃতি</span><span class="ph-tag">&#x1f4bc; কর্মজীবন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f1e9;&#x1f1ea; সংস্কৃতি</span><span class="ph-tag">💼 কর্মজীবন</span><span class="ph-tag">শব্দ ভান্ডার</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🇩🇪</div>
+      <div class="cult-icon">&#x1f1e9;&#x1f1ea;</div>
       <div class="cult-body">
         <div class="cult-t">Ausbildung সিস্টেম</div>
         <div class="cult-bn">জার্মানির <strong>dual Ausbildung</strong> (vocational training) সিস্টেম বিশ্বে অনুকরণীয় — ছাত্ররা একই সাথে কোম্পানিতে কাজ করে এবং স্কুলে পড়াশোনা করে।</div>
@@ -2051,33 +2104,38 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">কর্মজীবন সংস্কৃতির শব্দ <span class="ct-bn">— Arbeitskultur-Vokabular</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Ausbildung')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Ausbildung')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Ausbildung</span><span class="v-en">vocational training</span><span class="v-bn bn">প্রশিক্ষণ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Ausbildung')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Ausbildung')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('der Urlaubstag')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('der Urlaubstag')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">der Urlaubstag</span><span class="v-en">vacation day</span><span class="v-bn bn">ছুটির দিন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('der Urlaubstag')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('der Urlaubstag')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Arbeitszeit')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Arbeitszeit')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Arbeitszeit</span><span class="v-en">working hours</span><span class="v-bn bn">কাজের সময়</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Arbeitszeit')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Arbeitszeit')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Rente')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Rente')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Rente</span><span class="v-en">pension</span><span class="v-bn bn">পেনশন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Rente')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Rente')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('die Gewerkschaft')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('die Gewerkschaft')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">die Gewerkschaft</span><span class="v-en">labor union</span><span class="v-bn bn">শ্রমিক ইউনিয়ন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('die Gewerkschaft')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('die Gewerkschaft')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FITB -->
@@ -2096,7 +2154,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 SPEAKING -->
@@ -2108,7 +2166,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>Ausbildung</strong> = OWS-bil-doong | <strong>Gewerkschaft</strong> = ge-VAIRK-shaft</div>
@@ -2117,7 +2175,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11l6s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 GRAMMAR -->
@@ -2137,7 +2195,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de">lang</td><td class="de">länger</td><td class="de">am längsten</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 জার্মান কাজের সময় তুলনা</div>
+        <div class="trick-t">&#x1f4a1; জার্মান কাজের সময় তুলনা</div>
         <div class="trick-bn">"In Deutschland hat man mehr Urlaubstage als in vielen anderen Ländern." — comparativ দিয়ে দেশের মধ্যে তুলনা করা যায়।</div>
       </div>
     </div>
@@ -2151,7 +2209,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 LISTENING -->
@@ -2163,7 +2221,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 কর্মজীবন সংস্কৃতি আলোচনা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; কর্মজীবন সংস্কৃতি আলোচনা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l6l">
     <div class="ap-line"><span class="spk">Student:</span><span class="ap-text">Was ist eine Ausbildung in Deutschland?</span></div>
@@ -2178,8 +2236,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l6l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist eine Ausbildung in Deutschland?',female:false},{text:'Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.',female:false},{text:'Wie lange dauert das?',female:false},{text:'Meistens zwei bis drei Jahre. Es ist sehr beliebt und f&#xfc;hrt oft zu einer guten Karriere.',female:false},{text:'Und wie viele Urlaubstage haben Arbeiter normalerweise?',female:false},{text:'Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreissig Tage.',female:false}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l6l" onclick="apTogglePlay('l6l',[{text:'Was ist eine Ausbildung in Deutschland?',female:false},{text:'Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.',female:false},{text:'Wie lange dauert das?',female:false},{text:'Meistens zwei bis drei Jahre. Es ist sehr beliebt und f&#xfc;hrt oft zu einer guten Karriere.',female:false},{text:'Und wie viele Urlaubstage haben Arbeiter normalerweise?',female:false},{text:'Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreissig Tage.',female:false}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l6l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l6l"></span>
       <span class="ap-plays-left" id="applays-l6l">সর্বোচ্চ ২ বার</span>
@@ -2213,7 +2271,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2226,7 +2284,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Das deutsche Arbeitssystem (informational article)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Das deutsche Arbeitssystem (informational article)</div>
       <strong>Wie funktioniert Arbeit in Deutschland?</strong><br><br>
       Deutschland hat ein gut entwickeltes Arbeitssystem mit starken Arbeitnehmerrechten.<br><br>
       Die <strong>duale Ausbildung</strong> ist ein einzigartiges System — junge Menschen lernen einen Beruf, indem sie gleichzeitig in einer Firma arbeiten und eine Berufsschule besuchen. Dieses System ist sehr erfolgreich und wird international bewundert.<br><br>
@@ -2235,7 +2293,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <strong>Gewerkschaften</strong> spielen eine wichtige Rolle beim Schutz der Arbeitnehmerrechte und bei Gehaltsverhandlungen.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">জার্মান কর্মব্যবস্থা শক্তিশালী শ্রমিক অধিকার দিয়ে গড়া। Dual Ausbildung একটি অনন্য সিস্টেম — তরুণরা কোম্পানিতে কাজ ও স্কুলে পড়াশোনা একসাথে করে, আন্তর্জাতিকভাবে প্রশংসিত। আইনগতভাবে সর্বনিম্ন ২০ ছুটির দিন, বেশিরভাগ কোম্পানি ২৫-৩০ দিন দেয়। স্বাভাবিক কাজের সপ্তাহ ৪০ ঘণ্টা। Gewerkschaft (labor union) শ্রমিকের অধিকার ও বেতন আলোচনায় গুরুত্বপূর্ণ ভূমিকা রাখে।</div>
     </div>
     <div class="listen-q">
@@ -2264,7 +2322,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE WRITING -->
@@ -2276,7 +2334,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার দেশের কর্মজীবন সংস্কৃতি German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "In Bangladesch arbeiten die Menschen..."</em></div>
@@ -2288,7 +2346,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c11l6fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 FREE SPEAKING -->
@@ -2304,7 +2362,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">জার্মান কর্মজীবন সংস্কৃতি সম্পর্কে যা জানলেন German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">Die Ausbildung ist... · Man hat mindestens... · Die Arbeitswoche beträgt...</div>
@@ -2314,7 +2372,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c11l6ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L6 QUIZ -->
@@ -2328,7 +2386,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11l6q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== L7: NEBENSÄTZE MIT WEIL/DASS/WENN ==================== -->
@@ -2339,11 +2397,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · পাঠ ৭</div>
     <div class="ph-title">Nebens&#xe4;tze: weil/dass/wenn</div>
     <div class="ph-bn">যৌগিক বাক্য — সম্পূর্ণ রিভিউ</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f517; সংযোগ</span><span class="ph-tag">&#x1f4d0; ব্যাকরণ</span><span class="ph-tag">ক্যাপস্টোন</span></div>
+    <div class="ph-tags"><span class="ph-tag">🔗 সংযোগ</span><span class="ph-tag">📐 ব্যাকরণ</span><span class="ph-tag">ক্যাপস্টোন</span></div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎯</div>
+      <div class="cult-icon">&#x1f3af;</div>
       <div class="cult-body">
         <div class="cult-t">A1 এর সবচেয়ে গুরুত্বপূর্ণ ব্যাকরণ</div>
         <div class="cult-bn">Subordinate clause (Nebensatz) — weil, dass, wenn — সারা A1 কোর্সের সবচেয়ে গুরুত্বপূর্ণ গঠন। এই পাঠে আমরা সব একসাথে review করব।</div>
@@ -2351,29 +2409,33 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <div class="card">
       <div class="card-t">প্রধান সংযোজক <span class="ct-bn">— Hauptkonjunktionen</span></div>
-      <div class="vh" style="grid-template-columns:1fr 1fr 1fr 32px">
+      <div class="vh" style="grid-template-columns:36px 1fr 1fr 1fr 32px"><span></span>
         <span>Deutsch</span><span>English</span><span class="bn">বাংলা</span><span></span>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('weil')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('weil')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">weil</span><span class="v-en">because</span><span class="v-bn bn">কারণ</span>
-        <button class="pb" onclick="event.stopPropagation();tts('weil')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('weil')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('dass')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('dass')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">dass</span><span class="v-en">that</span><span class="v-bn bn">যে</span>
-        <button class="pb" onclick="event.stopPropagation();tts('dass')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('dass')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('wenn')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('wenn')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">wenn</span><span class="v-en">if/when</span><span class="v-bn bn">যদি/যখন</span>
-        <button class="pb" onclick="event.stopPropagation();tts('wenn')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('wenn')">▶</button>
       </div>
-      <div class="vr" style="grid-template-columns:1fr 1fr 1fr 32px" onclick="tts('obwohl')">
+      <div class="vr" style="grid-template-columns:36px 1fr 1fr 1fr 32px" onclick="tts('obwohl')">
+        <span style="font-size:1.5rem;text-align:center;line-height:1">&#x1f4d6;</span>
         <span class="v-de">obwohl</span><span class="v-en">although</span><span class="v-bn bn">যদিও</span>
-        <button class="pb" onclick="event.stopPropagation();tts('obwohl')">🔊</button>
+        <button class="pb" onclick="event.stopPropagation();tts('obwohl')">▶</button>
       </div>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FITB -->
@@ -2392,7 +2454,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 SPEAKING -->
@@ -2404,7 +2466,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">উচ্চারণ টিপস</div>
         <div class="cult-bn"><strong>weil</strong> = vyl | <strong>dass</strong> = das | <strong>obwohl</strong> = op-VOHL</div>
@@ -2413,7 +2475,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11l7s"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 GRAMMAR -->
@@ -2443,7 +2505,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <tr><td class="de"><strong>Obwohl</strong> es kalt ist, <strong>gehen wir</strong>.</td><td class="bn">যদিও ঠান্ডা, আমরা যাচ্ছি।</td></tr>
       </table>
       <div class="trick">
-        <div class="trick-t">💡 A1 এর সবচেয়ে গুরুত্বপূর্ণ নিয়ম!</div>
+        <div class="trick-t">&#x1f4a1; A1 এর সবচেয়ে গুরুত্বপূর্ণ নিয়ম!</div>
         <div class="trick-bn">Nebensatz যদি বাক্যের শুরুতে থাকে, তাহলে main clause এ subject-verb উল্টে যায় — verb আগে আসে, subject পরে।</div>
       </div>
     </div>
@@ -2457,7 +2519,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 LISTENING -->
@@ -2469,7 +2531,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="listen-card">
-      <div class="read-label">🎧 কারণ ব্যাখ্যা করা — সর্বোচ্চ ২ বার</div>
+      <div class="read-label">&#x1f3a7; কারণ ব্যাখ্যা করা — সর্বোচ্চ ২ বার</div>
       <div class="audio-player">
   <div class="ap-script" id="apscript-l7l">
     <div class="ap-line"><span class="spk">Tom:</span><span class="ap-text">Warum hast du dich um diese Stelle beworben?</span></div>
@@ -2484,8 +2546,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ap-time"><span id="aptime-l7l">0:00 / 0:00</span></div>
   </div>
   <div class="ap-controls">
-    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Warum hast du dich um diese Stelle beworben?',female:false},{text:'Ich habe mich beworben, weil ich die Firma sehr mag.',female:true},{text:'Glaubst du, dass du den Job bekommst?',female:false},{text:'Ich hoffe es, obwohl es viele Bewerber gibt.',female:true},{text:'Wenn du den Job bekommst, was wirst du machen?',female:false},{text:'Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.',female:true}])">&#x25b6;</button>
-    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">&#x23f9;</button>
+    <button class="ap-btn ap-btn-play" id="appbtn-l7l" onclick="apTogglePlay('l7l',[{text:'Warum hast du dich um diese Stelle beworben?',female:false},{text:'Ich habe mich beworben, weil ich die Firma sehr mag.',female:true},{text:'Glaubst du, dass du den Job bekommst?',female:false},{text:'Ich hoffe es, obwohl es viele Bewerber gibt.',female:true},{text:'Wenn du den Job bekommst, was wirst du machen?',female:false},{text:'Wenn ich den Job bekomme, werde ich sehr hart arbeiten und beweisen, dass ich qualifiziert bin.',female:true}])">▶</button>
+    <button class="ap-btn ap-btn-stop" onclick="apStop('l7l')" title="থামুন">⏹</button>
     <div class="ap-meta">
       <span class="ap-line-counter" id="apctr-l7l"></span>
       <span class="ap-plays-left" id="applays-l7l">সর্বোচ্চ ২ বার</span>
@@ -2519,7 +2581,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       </div>
     </div>
   
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 </div>
 
@@ -2532,7 +2594,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="read-text">
-      <div class="read-label">📰 পাঠ্য — Eine Erfolgsgeschichte (a success story)</div>
+      <div class="read-label">&#x1f4f0; পাঠ্য — Eine Erfolgsgeschichte (a success story)</div>
       <strong>Vom Studenten zum Unternehmer</strong><br><br>
       Michael hat Informatik studiert, weil er schon als Kind Computer liebte. Er wusste, dass er eines Tages etwas Eigenes erschaffen wollte.<br><br>
       Obwohl er anfangs wenig Geld hatte, arbeitete er hart an seiner Idee f&#xfc;r eine App. Er glaubte, dass seine Idee erfolgreich sein w&#xfc;rde, wenn er genug Zeit und Energie investierte.<br><br>
@@ -2541,7 +2603,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       Seine Geschichte zeigt, dass harte Arbeit und Durchhaltevermögen zum Erfolg f&#xfc;hren k&#xf6;nnen.
     </div>
     <div class="read-bn-box">
-      <div class="read-label">📝 বাংলা সারসংক্ষেপ</div>
+      <div class="read-label">&#x1f4dd; বাংলা সারসংক্ষেপ</div>
       <div class="read-bn-t">Michael কম্পিউটার সায়েন্স পড়েছেন কারণ শৈশব থেকে কম্পিউটার পছন্দ করতেন। কম টাকা থাকলেও app idea তে কঠোর পরিশ্রম করেছেন, বিশ্বাস করতেন সফল হবে যথেষ্ট সময় দিলে। পড়াশোনা শেষে নিজের কোম্পানি প্রতিষ্ঠা করেন, কঠিন ছিল কারণ সব নিজে শিখতে হয়েছে। আজ ৫ বছর পর তার কোম্পানিতে ৫০+ কর্মী। তিনি গর্বিত যে কখনো হাল ছাড়েননি যদিও কঠিন ছিল।</div>
     </div>
     <div class="listen-q">
@@ -2570,7 +2632,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE WRITING -->
@@ -2582,7 +2644,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">✏️️</div>
+      <div class="cult-icon">&#x270f;️️</div>
       <div class="cult-body">
         <div class="cult-t">লেখার বিষয়</div>
         <div class="cult-bn">আপনার ভবিষ্যৎ পেশা সম্পর্কে weil/dass/wenn ব্যবহার করে German এ লিখুন। কমপক্ষে ২০টি শব্দ।<br><br><em>শুরু করুন: "Ich möchte... werden, weil..."</em></div>
@@ -2594,7 +2656,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="write-res" id="wr-c11l7fw"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 FREE SPEAKING -->
@@ -2610,7 +2672,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="speak-prompt-bn">আপনি কেন এই পেশা বেছে নিয়েছেন (বা নিতে চান)? weil/dass/wenn ব্যবহার করে German এ বলুন।</div>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">💡</div>
+      <div class="cult-icon">&#x1f4a1;</div>
       <div class="cult-body">
         <div class="cult-t">সাহায্যকারী শব্দ</div>
         <div class="cult-bn">..., weil... · Ich glaube, dass... · Wenn..., dann...</div>
@@ -2620,7 +2682,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="speak-res" id="fsr-c11l7ss"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- L7 QUIZ -->
@@ -2634,7 +2696,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11l7q"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== R12: REVIEW ==================== -->
@@ -2645,11 +2707,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">অধ্যায় ১১ · রিভিউ</div>
     <div class="ph-title">পূর্ণ রিভিউ</div>
     <div class="ph-bn">অধ্যায় ১১ সারসংক্ষেপ</div>
-    <div class="ph-tags"><span class="ph-tag">🔄 রিভিউ</span><span class="ph-tag">&#x1f4bc; Beruf</span><span class="ph-tag">&#x1f52e; Zukunft</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f504; রিভিউ</span><span class="ph-tag">💼 Beruf</span><span class="ph-tag">🔮 Zukunft</span></div>
   </div>
   <div class="content">
     <div class="review-card">
-      <div class="review-t">&#x1f4bc; পাঠ ১ — Berufe</div>
+      <div class="review-t">💼 পাঠ ১ — Berufe</div>
       <div class="review-item">der Lehrer, der Arzt, der Ingenieur, der Koch, die Krankenschwester</div>
       <div class="review-item">sein + পেশা: article ছাড়া — "Ich bin Lehrer."</div>
     </div>
@@ -2659,12 +2721,12 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="review-item">Perfekt: gearbeitet, angerufen, geschrieben</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f4c4; পাঠ ৩ — Bewerbung & Lebenslauf</div>
+      <div class="review-t">📄 পাঠ ৩ — Bewerbung & Lebenslauf</div>
       <div class="review-item">die Bewerbung, der Lebenslauf, die Erfahrung, das Vorstellungsgespräch</div>
       <div class="review-item">sich bewerben um + Akkusativ: "Ich bewerbe mich um die Stelle."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f52e; পাঠ ৪ — Zukunftspläne</div>
+      <div class="review-t">🔮 পাঠ ৪ — Zukunftspläne</div>
       <div class="review-item">die Zukunft, das Ziel, der Plan, nächstes Jahr, in fünf Jahren</div>
       <div class="review-item">werden + Infinitiv (Futur I): "Ich werde Lehrer werden."</div>
     </div>
@@ -2674,17 +2736,17 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="review-item">würde gern / hätte gern review + werden এর সাথে: "Ich würde gern Arzt werden."</div>
     </div>
     <div class="review-card">
-      <div class="review-t">🇩🇪 পাঠ ৬ — Arbeiten in Deutschland</div>
+      <div class="review-t">&#x1f1e9;&#x1f1ea; পাঠ ৬ — Arbeiten in Deutschland</div>
       <div class="review-item">die Ausbildung, der Urlaubstag, die Arbeitszeit, die Gewerkschaft</div>
       <div class="review-item">Comparativ/Superlativ: gut→besser→am besten</div>
     </div>
     <div class="review-card">
-      <div class="review-t">&#x1f517; পাঠ ৭ — Nebensätze (weil/dass/wenn) — ক্যাপস্টোন</div>
+      <div class="review-t">🔗 পাঠ ৭ — Nebensätze (weil/dass/wenn) — ক্যাপস্টোন</div>
       <div class="review-item">weil, dass, wenn, obwohl — verb সবসময় শেষে</div>
       <div class="review-item">Nebensatz শুরুতে থাকলে main clause এ verb-subject উল্টে যায়</div>
     </div>
     <div class="card">
-      <div class="card-t">🎯 অধ্যায় ১১ — মূল Grammar Points</div>
+      <div class="card-t">&#x1f3af; অধ্যায় ১১ — মূল Grammar Points</div>
       <table class="gram-table">
         <tr><th>Topic</th><th>Rule</th><th class="bn">উদাহরণ</th></tr>
         <tr><td class="de">sein + পেশা</td><td class="de">article ছাড়া</td><td class="bn">Ich bin Lehrer.</td></tr>
@@ -2696,7 +2758,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R12 SPEAKING REVIEW -->
@@ -2708,7 +2770,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🎤</div>
+      <div class="cult-icon">&#x1f3a4;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত উচ্চারণ পরীক্ষা</div>
         <div class="cult-bn">অধ্যায় ১১ এর সবচেয়ে গুরুত্বপূর্ণ বাক্যগুলো বলুন। প্রতিটি শুনুন, তারপর নিজে বলুন।</div>
@@ -2717,19 +2779,19 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="sp-c11rs"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- R12 QUIZ -->
 <div class="page" id="page-c11rq">
   <div class="ph">
     <div class="ph-eye">অধ্যায় ১১ · রিভিউ</div>
-    <div class="ph-title">রিভিউ কুইজ 🏆</div>
+    <div class="ph-title">রিভিউ কুইজ &#x1f3c6;</div>
     <div class="ph-bn">অধ্যায় ১১ সম্পূর্ণ পরীক্ষা</div>
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">🏆</div>
+      <div class="cult-icon">&#x1f3c6;</div>
       <div class="cult-body">
         <div class="cult-t">চূড়ান্ত কুইজ</div>
         <div class="cult-bn">এই কুইজে অধ্যায় ১১ এর সব পাঠ থেকে প্রশ্ন আছে। পাস করতে ৬০% দরকার। অভিনন্দন — এটি A1 কোর্সের শেষ কন্টেন্ট অধ্যায়!</div>
@@ -2738,7 +2800,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div id="qz-c11rq"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা ►</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -3608,24 +3670,36 @@ if (window.speechSynthesis) {
 
 function _getVoice(female) {
   if (!_deVoices || !_deVoices.length) return null;
-  var preferred = female
-    ? ['female','frau','weiblich','zira','hedda','katja','sabina','anna','google deutsch']
-    : ['male','mann','männlich','stefan','markus','hans','google deutsch'];
-  for (var p = 0; p < preferred.length; p++) {
-    for (var v = 0; v < _deVoices.length; v++) {
-      if (_deVoices[v].name.toLowerCase().indexOf(preferred[p]) >= 0) return _deVoices[v];
+  // Separate into female and male voices
+  var femaleVoices = [], maleVoices = [];
+  for (var v = 0; v < _deVoices.length; v++) {
+    var vname = _deVoices[v].name.toLowerCase();
+    // Female voice keywords
+    if (vname.indexOf('female') >= 0 || vname.indexOf('frau') >= 0 ||
+        vname.indexOf('anna') >= 0 || vname.indexOf('katja') >= 0 ||
+        vname.indexOf('hedda') >= 0 || vname.indexOf('sabina') >= 0 ||
+        vname.indexOf('zira') >= 0 || vname.indexOf('google') >= 0) {
+      femaleVoices.push(_deVoices[v]);
+    } else {
+      maleVoices.push(_deVoices[v]);
     }
   }
-  return female ? _deVoices[0] : (_deVoices[_deVoices.length > 1 ? 1 : 0]);
+  if (female) {
+    return femaleVoices.length ? femaleVoices[0] : _deVoices[0];
+  } else {
+    // For male: prefer explicitly male voices, never use female-named voices
+    if (maleVoices.length) return maleVoices[0];
+    // fallback: use last voice (usually differs from first)
+    return _deVoices[_deVoices.length > 1 ? _deVoices.length - 1 : 0];
+  }
 }
-
 function _speakLine(text, female, onEnd) {
   if (window.speechSynthesis) {
     window.speechSynthesis.cancel();
     var utt = new SpeechSynthesisUtterance(text);
     utt.lang = 'de-DE';
-    utt.rate = 0.88;
-    utt.pitch = female ? 1.15 : 0.82;
+    utt.pitch = female ? 1.2 : 0.6;
+    utt.rate = female ? 0.88 : 0.82;
     var v = _getVoice(female);
     if (v) utt.voice = v;
     utt.onend = onEnd || function(){};
@@ -3693,7 +3767,7 @@ function _apTime(id, cur, total) {
 function _apSetPlayBtn(id, playing) {
   var btn = document.getElementById('appbtn-' + id);
   if (!btn) return;
-  btn.innerHTML = playing ? '&#x23f8;' : '&#x25b6;';
+  btn.innerHTML = playing ? '⏸' : '▶';
 }
 
 function _apPlayFrom(id, lines, fromIdx) {
