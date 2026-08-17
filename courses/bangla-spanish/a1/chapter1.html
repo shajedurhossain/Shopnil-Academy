@@ -1672,10 +1672,19 @@ var curAud=null;
 function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
   var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t);});
+  var a=new Audio();
+  curAud=a;
+  var fell=false;
+  a.onerror=function(){if(!fell){fell=true;bTTS(t);}};
+  a.src=u;
+  var p=a.play();
+  if(p&&typeof p.catch==='function'){
+    p.catch(function(){if(!fell){fell=true;bTTS(t);}});
+  }
 }
 function bTTS(t){
-  if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
   var u=new SpeechSynthesisUtterance(t);u.lang='bn-BD';u.rate=0.85;
   var v=window.speechSynthesis.getVoices();
   var g=null;
@@ -1683,7 +1692,10 @@ function bTTS(t){
   if(g)u.voice=g;
   window.speechSynthesis.speak(u);
 }
-window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
+if(window.speechSynthesis){
+  window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged=function(){window.speechSynthesis.getVoices();};
+}
 
 // ===== STREAK & XP =====
 function getXP(){try{return parseInt(localStorage.getItem(SK.xp)||'0');}catch(e){return 0;}}
