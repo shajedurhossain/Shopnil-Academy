@@ -1,25 +1,29 @@
 # ==============================================================================
 # Shopnil Academy - Auto-publish Watcher
-# Monitors two locations and auto-pushes changes to GitHub Pages.
-#
-# 1. E:\SA  (drop zone)
-#    Mirror mode  : E:\SA\courses\german-bangla\index.html
-#                    -> repo\courses\german-bangla\index.html
-#    Filename mode: course-[name].html  -> courses/[name]/index.html
-#                   blog-[name].html    -> blog/[name].html
-#                   lesson-[c]-[n].*   -> courses/[c]/lessons/[n].*
-#                   anything else      -> repo root
-#
-# 2. G:\My Drive\Shopnil-Academy  (repo folder)
-#    Any change detected by git status triggers an auto-commit and push.
-#
-# Usage: powershell -ExecutionPolicy Bypass -File watcher.ps1
 # ==============================================================================
 
 $WatchFolder    = "E:\SA"
 $RepoFolder     = "G:\My Drive\Shopnil-Academy"
 $LogFile        = Join-Path $PSScriptRoot "watcher.log"
+$PidFile        = Join-Path $PSScriptRoot "watcher.pid"
 $RepoIgnoreDirs = @('.git', '.automation')
+
+# --- Single-instance guard ----------------------------------------------------
+# If another instance is already running, exit immediately.
+
+if (Test-Path $PidFile) {
+    $oldPid = Get-Content $PidFile -ErrorAction SilentlyContinue
+    if ($oldPid -and (Get-Process -Id $oldPid -ErrorAction SilentlyContinue)) {
+        Write-Host "Watcher already running (PID $oldPid). Exiting." -ForegroundColor Yellow
+        exit 0
+    }
+}
+$PID | Set-Content $PidFile
+
+# Clean up PID file on exit
+$null = Register-EngineEvent -SourceIdentifier PowerShell.Exiting -Action {
+    Remove-Item $PidFile -Force -ErrorAction SilentlyContinue
+}
 
 # --- Logging ------------------------------------------------------------------
 
@@ -80,7 +84,7 @@ function Get-FilenameDestination {
     return $FileName
 }
 
-# --- Resolve destination for a file from E:\SA --------------------------------
+# --- Resolve destination for a drop-zone file ---------------------------------
 
 function Get-DropZoneDestination {
     param([string]$FilePath)
@@ -98,15 +102,13 @@ function Get-DropZoneDestination {
 
 function Wait-FileReady {
     param([string]$FilePath)
-    $retries = 0
-    while ($retries -lt 15) {
+    for ($i = 0; $i -lt 15; $i++) {
         try {
             $s = [System.IO.File]::Open($FilePath, 'Open', 'Read', 'None')
             $s.Close()
             return $true
         } catch {
             Start-Sleep -Seconds 1
-            $retries++
         }
     }
     return $false
@@ -117,41 +119,52 @@ function Wait-FileReady {
 function Get-RepoDirty {
     Push-Location $RepoFolder
     try {
-        $status = git status --porcelain 2>&1
-        return ($null -ne $status -and $status.ToString().Trim() -ne '')
+        $out = git status --porcelain 2>&1
+        return ($null -ne $out -and "$out".Trim() -ne '')
     } finally {
         Pop-Location
     }
 }
 
-# --- Git commit and push ------------------------------------------------------
+# --- Remove stale git lock if present -----------------------------------------
+
+function Remove-GitLock {
+    $lock = Join-Path $RepoFolder ".git\index.lock"
+    if (Test-Path $lock) {
+        Remove-Item $lock -Force -ErrorAction SilentlyContinue
+        Write-Log "Removed stale index.lock"
+    }
+}
+
+# --- Git pull + commit + push -------------------------------------------------
 
 function Invoke-GitPublish {
     param([string[]]$ChangedFiles, [string]$Source = "")
-    if ($ChangedFiles.Count -eq 0) { return }
-    $summary = if ($ChangedFiles.Count -eq 1) { $ChangedFiles[0] } else { "$($ChangedFiles.Count) files" }
-    $prefix  = if ($Source) { "[$Source] " } else { "" }
-    $msg     = "publish: $prefix$summary"
 
-    if ($script:gitRunning) {
-        Write-Log "Git already running, skipping cycle." "INFO"
-        return
-    }
-    $script:gitRunning = $true
+    if ($ChangedFiles.Count -eq 0) { return }
+
+    $summary = if ($ChangedFiles.Count -eq 1) { $ChangedFiles[0] } else { "$($ChangedFiles.Count) files" }
+    $msg     = "publish: $(if ($Source) { "[$Source] " })$summary"
+
+    Remove-GitLock
+
     Push-Location $RepoFolder
     try {
-        git add . | Out-Null
-        $commitOut = git commit -m $msg 2>&1
-        if ($commitOut -match 'nothing to commit') {
-            Write-Log "Nothing new to commit."
-            return
-        }
-        # Pull remote changes first to avoid non-fast-forward rejections
+        # Pull first so we never commit on top of a stale base
         $pullOut = git pull origin main 2>&1
         if ($LASTEXITCODE -ne 0) {
-            Write-Log "Pull failed before push: $pullOut" "ERROR"
+            Write-Log "Pull failed: $pullOut" "ERROR"
             return
         }
+
+        git add . | Out-Null
+
+        $commitOut = git commit -m $msg 2>&1
+        if ("$commitOut" -match 'nothing to commit') {
+            Write-Log "Nothing to commit after pull."
+            return
+        }
+
         $pushOut = git push origin main 2>&1
         if ($LASTEXITCODE -eq 0) {
             Write-Log "Pushed: $msg"
@@ -161,23 +174,18 @@ function Invoke-GitPublish {
     } catch {
         Write-Log "Git error: $_" "ERROR"
     } finally {
-        $script:gitRunning = $false
         Pop-Location
     }
 }
 
-# --- Startup checks -----------------------------------------------------------
+# --- Startup ------------------------------------------------------------------
 
-if (-not (Test-Path $WatchFolder)) {
-    Write-Log "Drop zone not found: $WatchFolder" "ERROR"
-    exit 1
-}
-if (-not (Test-Path $RepoFolder)) {
-    Write-Log "Repo folder not found: $RepoFolder" "ERROR"
-    exit 1
-}
+if (-not (Test-Path $WatchFolder)) { Write-Log "Drop zone not found: $WatchFolder" "ERROR"; exit 1 }
+if (-not (Test-Path $RepoFolder))  { Write-Log "Repo not found: $RepoFolder" "ERROR"; exit 1 }
 
-Write-Log "Watcher started."
+Remove-GitLock
+
+Write-Log "Watcher started (PID $PID)."
 Write-Host ""
 Write-Host "  Shopnil Academy Auto-Publisher" -ForegroundColor Green
 Write-Host "  Drop zone : $WatchFolder"
@@ -186,14 +194,15 @@ Write-Host "  Log       : $LogFile"
 Write-Host "  Press Ctrl+C to stop."
 Write-Host ""
 
-$inProgress = @{}
-$gitRunning = $false   # prevents overlapping git operations
+$inProgress     = @{}
+$gitBusy        = $false
+$lastPushTime   = [datetime]::MinValue
 
 # --- Main polling loop --------------------------------------------------------
 
 while ($true) {
 
-    # 1. Process drop zone (E:\SA)
+    # 1. Process drop zone
     $dropFiles = Get-ChildItem -Path $WatchFolder -Recurse -File -ErrorAction SilentlyContinue |
                  Where-Object { $_.Extension -in @('.html', '.css') }
 
@@ -204,19 +213,18 @@ while ($true) {
         if ($inProgress.ContainsKey($key)) { continue }
         $inProgress[$key] = $true
         try {
-            if (-not (Wait-FileReady -FilePath $file.FullName)) {
-                Write-Log "Skipped (locked): $($file.Name)" "ERROR"
-                continue
+            if (-not (Wait-FileReady $file.FullName)) {
+                Write-Log "Skipped (locked): $($file.Name)" "ERROR"; continue
             }
-            $relDest  = Get-DropZoneDestination -FilePath $file.FullName
+            $relDest  = Get-DropZoneDestination $file.FullName
             $destFull = Join-Path $RepoFolder $relDest
-            $destDir  = [System.IO.Path]::GetDirectoryName($destFull)
+            $destDir  = Split-Path $destFull -Parent
             if (-not (Test-Path $destDir)) {
                 New-Item -ItemType Directory -Path $destDir -Force | Out-Null
                 Write-Log "Created dir: $destDir"
             }
-            Copy-Item -Path $file.FullName -Destination $destFull -Force
-            Remove-Item -Path $file.FullName -Force
+            Copy-Item $file.FullName $destFull -Force
+            Remove-Item $file.FullName -Force
             Write-Log "Moved $($file.Name) -> $relDest"
             $movedThisCycle.Add($file.Name)
         } catch {
@@ -226,14 +234,19 @@ while ($true) {
         }
     }
 
-    if ($movedThisCycle.Count -gt 0) {
-        Invoke-GitPublish -ChangedFiles $movedThisCycle.ToArray() -Source "drop"
+    if ($movedThisCycle.Count -gt 0 -and -not $gitBusy) {
+        $gitBusy = $true
+        try { Invoke-GitPublish $movedThisCycle.ToArray() "drop" }
+        finally { $gitBusy = $false; $lastPushTime = [datetime]::UtcNow }
     }
 
-    # 2. Watch repo folder for direct edits (via git status)
-    if ($movedThisCycle.Count -eq 0 -and (Get-RepoDirty)) {
+    # 2. Watch repo for direct edits — wait 5s after a push before re-checking
+    $cooldownOk = ([datetime]::UtcNow - $lastPushTime).TotalSeconds -gt 5
+    if ($movedThisCycle.Count -eq 0 -and -not $gitBusy -and $cooldownOk -and (Get-RepoDirty)) {
         Write-Log "Repo has uncommitted changes - pushing..."
-        Invoke-GitPublish -ChangedFiles @("repo update") -Source "repo"
+        $gitBusy = $true
+        try { Invoke-GitPublish @("repo update") "repo" }
+        finally { $gitBusy = $false; $lastPushTime = [datetime]::UtcNow }
     }
 
     Start-Sleep -Seconds 3
