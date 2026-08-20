@@ -3180,6 +3180,7 @@ function showToast(msg){
 }
 function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
+  if(googleTTSBlocked){bTTS(t);return;}
   var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
   var a=new Audio();
   curAud=a;
@@ -3198,6 +3199,23 @@ function tts(t){
   var p=a.play();
   if(p&&typeof p.catch==='function'){p.catch(fallback);}
 }
+// ===== Proactive Google TTS reachability probe (runs once on load, no click needed) =====
+// If Google's endpoint is unreachable (e.g. blocked by the hosting site's security headers),
+// every future tts() call skips straight to the device voice, called synchronously within
+// the click that triggered it -- browsers silently refuse to start audio/speech that begins
+// asynchronously (e.g. after a timeout) outside the original tap, so this avoids that trap.
+var googleTTSBlocked=false;
+(function probeGoogleTTS(){
+  var resolved=false;
+  var test=new Audio();
+  function markBlocked(){if(!resolved){resolved=true;googleTTSBlocked=true;}}
+  function markOk(){resolved=true;}
+  test.onerror=markBlocked;
+  test.oncanplaythrough=markOk;
+  test.onloadeddata=markOk;
+  test.src='https://translate.google.com/translate_tts?ie=UTF-8&q=a&tl=bn&client=tw-ob';
+  setTimeout(markBlocked,2500);
+})();
 function bTTS(t){
   if(!window.speechSynthesis){
     showToast('Este navegador no tiene voz disponible. Prueba en Chrome, Safari o Edge actualizados.');
