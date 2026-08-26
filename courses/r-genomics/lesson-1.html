@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — R & RStudio Setup for Bioinformatics | Shopnil Academy</title>
+  <meta name="description" content="Set up R and RStudio for bioinformatics work. Install Bioconductor, configure your workspace, and run your first genomics-ready R session." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Sidebar ─────────────────────────────────────────── */
+    .lesson-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 0;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 96px;
+      padding: 28px 0 28px 0;
+      border-right: 1px solid var(--line);
+      min-height: calc(100vh - 120px);
+      padding-right: 24px;
+    }
+    .sidebar-course-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .prog-track {
+      background: var(--green-mint);
+      border-radius: 999px;
+      height: 6px;
+      margin-bottom: 24px;
+    }
+    .prog-fill {
+      background: var(--green);
+      height: 6px;
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+    .mod-group { margin-bottom: 4px; }
+    .mod-group-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      user-select: none;
+      transition: background .15s ease;
+    }
+    .mod-group-label:hover { background: var(--green-soft); }
+    .mod-group-label .chevron {
+      font-size: 10px;
+      color: var(--muted);
+      transition: transform .2s ease;
+    }
+    .mod-group-label.open .chevron { transform: rotate(180deg); }
+    .mod-lessons {
+      display: none;
+      padding: 4px 0 4px 10px;
+    }
+    .mod-lessons.open { display: block; }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: background .15s ease, color .15s ease;
+      text-decoration: none;
+    }
+    .lesson-link.soon { cursor: default; opacity: .55; }
+    .lesson-link.soon:hover { background: none; }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active {
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 600;
+    }
+    .lesson-link.done { color: var(--green); }
+    .l-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-size: 9px;
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+    .lesson-link.active .l-icon {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+    }
+    .lesson-link.done .l-icon {
+      background: var(--green-mint);
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .sidebar-toc { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 20px; }
+    .sidebar-toc h5 {
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .sidebar-toc a {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 8px;
+      border-left: 2px solid transparent;
+      transition: all .15s ease;
+    }
+    .sidebar-toc a:hover { background: var(--cream); color: var(--ink); }
+    .sidebar-toc a.toc-active {
+      color: var(--green);
+      border-left-color: var(--green);
+      background: var(--green-soft);
+    }
+
+    /* ── Lesson content ──────────────────────────────────── */
+    .lesson-content { padding: 36px 0 36px 48px; }
+
+    .lesson-meta-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .lm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid rgba(0,106,78,.15);
+    }
+    .lm-num { font-family: var(--font-display); }
+    .lm-time { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
+    .lm-sep { color: var(--line); font-size: 18px; }
+
+    /* ── Code blocks ─────────────────────────────────────── */
+    .code-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      margin: 18px 0;
+    }
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1a2820;
+      padding: 10px 16px;
+    }
+    .code-lang {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+    }
+    .copy-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.08);
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease;
+      font-family: var(--font-body);
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.16); color: #fff; }
+    pre {
+      background: #111d16;
+      margin: 0;
+      padding: 20px 22px;
+      overflow-x: auto;
+      font-family: var(--font-mono), 'Courier New', monospace;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #c8d8c8;
+    }
+    /* R syntax colours */
+    .c-cmd  { color: #7ec8a4; font-weight: 500; }   /* functions */
+    .c-kw   { color: #569cd6; }                       /* keywords: TRUE FALSE NULL if else */
+    .c-str  { color: #ce9178; }                       /* strings */
+    .c-num  { color: #b5cea8; }                       /* numbers */
+    .c-flag { color: #9cdcfe; }                       /* argument names */
+    .c-path { color: #e8c97a; }                       /* paths / package names */
+    .c-out  { color: #6a9955; font-style: italic; }  /* output / comments starting [1] */
+    .c-comment { color: #5a7a5a; font-style: italic; } /* # comments */
+    .c-op   { color: #d4b4f5; }                       /* <- = :: $ operators */
+
+    /* ── Explain box ─────────────────────────────────────── */
+    .explain-box {
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.3);
+      border-left: 4px solid var(--gold);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+    .explain-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: #8a6800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .explain-box p {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #5a4400;
+      margin: 0;
+    }
+
+    /* ── Folder note ─────────────────────────────────────── */
+    .folder-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-soft);
+      border: 1px solid rgba(0,106,78,.18);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-family: var(--font-mono);
+      color: var(--green-deep);
+      margin: 10px 0 4px;
+    }
+
+    /* ── Tips & warnings ─────────────────────────────────── */
+    .tip, .warn {
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: 18px 0;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .tip { background: var(--green-soft); border: 1px solid rgba(0,106,78,.18); }
+    .warn { background: var(--red-soft); border: 1px solid rgba(244,42,65,.18); }
+    .tip-icon, .warn-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .tip p, .warn p {
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    /* ── Streams table ───────────────────────────────────── */
+    .cmd-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--cream);
+      padding: 10px 14px;
+      text-align: left;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: .04em;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+    .cmd-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      color: #33433b;
+      vertical-align: top;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--green-deep);
+      white-space: nowrap;
+    }
+
+    /* ── Exercises ───────────────────────────────────────── */
+    .exercise {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
+    }
+    .ex-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .ex-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .ex-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    details.answer {
+      margin-top: 14px;
+      border: 1px dashed rgba(0,106,78,.3);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    details.answer summary {
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .answer-body {
+      padding: 0 16px 16px;
+    }
+
+    /* ── Mark complete ───────────────────────────────────── */
+    .mark-complete-wrap {
+      margin-top: 48px;
+      text-align: center;
+      padding: 32px;
+      background: var(--green-soft);
+      border-radius: 20px;
+      border: 1px solid rgba(0,106,78,.15);
+    }
+    .mark-complete {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background .2s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-2px); }
+    .mark-complete.done { background: var(--muted); cursor: default; transform: none; }
+
+    /* ── Lesson nav footer ───────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 0;
+      margin-top: 32px;
+      border-top: 1px solid var(--line);
+      gap: 16px;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green);
+    }
+    .lesson-nav-footer a:hover { color: var(--green-deep); }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .lesson-layout { grid-template-columns: 1fr; padding: 0 20px; }
+      .sidebar { position: static; border-right: none; border-bottom: 1px solid var(--line); padding-right: 0; min-height: auto; }
+      .lesson-content { padding: 28px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────── -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN · BUILD · PUBLISH</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../bioinformatics-curriculum.html">Bioinformatics</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enrol Free</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </nav>
+</div>
+
+<!-- ── INNER HEADER ──────────────────────────────────────────── -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="./index.html">R — Beyond Basics</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <h1>R &amp; RStudio Setup for Bioinformatics</h1>
+    <p class="lead">Install R and RStudio, configure your workspace for genomics, install Bioconductor, and run your first gene-expression-ready R session.</p>
+    <div style="margin-top:18px;">
+      <span class="free-pill">✓ Free lesson</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOP AD SLOT ───────────────────────────────────────────── -->
+<div class="wrap" style="padding-top:28px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here — Google AdSense</small>
+  </div>
+</div>
+
+<!-- ── MAIN LAYOUT ───────────────────────────────────────────── -->
+<div class="article" style="padding-top:32px;">
+  <div class="lesson-layout">
+
+    <!-- ── SIDEBAR ─────────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-course-label">Module 4 · Phase 1</div>
+      <div class="sidebar-course-title">R — Beyond Basics</div>
+
+      <div class="prog-label">
+        <span>Progress</span>
+        <span id="progPct">0 / 13</span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="progFill" style="width:0%"></div>
+      </div>
+
+      <!-- Module accordion -->
+      <div class="mod-group">
+        <div class="mod-group-label open" onclick="toggleMod(this)">
+          <span>Module 4 — R Beyond Basics</span>
+          <span class="chevron">▼</span>
+        </div>
+        <div class="mod-lessons open">
+          <a href="lesson-1.html" class="lesson-link active" id="ll-1">
+            <span class="l-icon">1</span>R &amp; RStudio Setup
+          </a>
+          <span class="lesson-link soon" id="ll-2" title="Coming soon">
+            <span class="l-icon">2</span>Data Types &amp; Data Frames
+          </span>
+          <span class="lesson-link soon" id="ll-3" title="Coming soon">
+            <span class="l-icon">3</span>Control Flow &amp; Functions
+          </span>
+          <span class="lesson-link soon" id="ll-4" title="Coming soon">
+            <span class="l-icon">4</span>dplyr &amp; Data Wrangling
+          </span>
+          <span class="lesson-link soon" id="ll-5" title="Coming soon">
+            <span class="l-icon">5</span>ggplot2 &amp; Plots
+          </span>
+          <span class="lesson-link soon" id="ll-6" title="Coming soon">
+            <span class="l-icon">6</span>Bioinformatics File Formats
+          </span>
+          <span class="lesson-link soon" id="ll-7" title="Coming soon">
+            <span class="l-icon">7</span>Statistical Testing
+          </span>
+          <span class="lesson-link soon" id="ll-8" title="Coming soon">
+            <span class="l-icon">8</span>Bioconductor Intro
+          </span>
+          <span class="lesson-link soon" id="ll-9" title="Coming soon">
+            <span class="l-icon">9</span>Gene Expression Matrices
+          </span>
+          <span class="lesson-link soon" id="ll-10" title="Coming soon">
+            <span class="l-icon">10</span>Heatmaps &amp; Clustering
+          </span>
+          <span class="lesson-link soon" id="ll-11" title="Coming soon">
+            <span class="l-icon">11</span>PCA &amp; Dimensionality
+          </span>
+          <span class="lesson-link soon" id="ll-12" title="Coming soon">
+            <span class="l-icon">12</span>R Markdown Reports
+          </span>
+          <span class="lesson-link soon" id="ll-13" title="Coming soon">
+            <span class="l-icon">13</span>Capstone: Expression Analysis
+          </span>
+        </div>
+      </div>
+
+      <!-- On this page TOC -->
+      <div class="sidebar-toc">
+        <h5>On this page</h5>
+        <a href="#why-r" class="toc-link">Why R for bioinformatics?</a>
+        <a href="#install-r" class="toc-link">Install R</a>
+        <a href="#install-rstudio" class="toc-link">Install RStudio</a>
+        <a href="#rstudio-tour" class="toc-link">RStudio tour</a>
+        <a href="#rprofile" class="toc-link">Configure .Rprofile</a>
+        <a href="#bioconductor" class="toc-link">Install Bioconductor</a>
+        <a href="#core-packages" class="toc-link">Core packages</a>
+        <a href="#first-session" class="toc-link">First R session</a>
+        <a href="#reference" class="toc-link">Quick reference</a>
+        <a href="#exercises" class="toc-link">Exercises</a>
+      </div>
+    </aside>
+
+    <!-- ── LESSON CONTENT ───────────────────────────────────── -->
+    <main class="lesson-content">
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 1</span>
+        <span class="lm-pill lm-time">⏱ 45 min</span>
+        <span class="lm-pill" style="background:var(--green-soft);color:var(--green);">🌱 Beginner</span>
+        <span class="lm-pill" style="background:var(--cream);color:var(--muted);border:1px solid var(--line);">R · Bioconductor</span>
+      </div>
+
+      <!-- ── SECTION 1 ── -->
+      <section id="why-r" style="scroll-margin-top:96px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Why R for bioinformatics?</h2>
+
+        <div class="explain-box">
+          <strong>Why this matters</strong>
+          <p>R is not just a statistics language — it is the language bioinformatics was built in. Nearly every major genomics method — DESeq2 for differential expression, rrBLUP for genomic selection, edgeR for RNA-seq, Seurat for single-cell data — was first implemented as an R package. If you are doing plant genomics, variant analysis, or GWAS, you will use R every single day. Learning to configure it correctly from the start saves hours of frustration later.</p>
+        </div>
+
+        <p class="prose" style="color:#33433b;font-size:16px;line-height:1.7;margin-bottom:14px;">Most scientific programming languages are general-purpose tools that scientists adapt for biology. R is different — it was designed specifically for statistical computing, and the bioinformatics community built Bioconductor on top of it, giving us more than 2,200 packages purpose-built for genomics data. This is why a single command like <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">DESeqDataSetFromMatrix()</code> handles what would take hundreds of lines in Python.</p>
+
+        <p class="prose" style="color:#33433b;font-size:16px;line-height:1.7;margin-bottom:14px;">In your thesis work on <em>Sorghum bicolor</em> genomic selection, you are already using rrBLUP and BGLR — both R packages. This module deepens your R fluency so that package is the minimum, not the ceiling.</p>
+      </section>
+
+      <!-- ── SECTION 2 ── -->
+      <section id="install-r" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Install R</h2>
+
+        <div class="explain-box">
+          <strong>Why install from CRAN, not apt?</strong>
+          <p>Ubuntu's default <code style="font-family:var(--font-mono);font-size:13px;">apt</code> repository ships a version of R that may be one or two major versions behind. Bioconductor packages require the latest stable R release. Installing from CRAN's Ubuntu repository guarantees you get R 4.4+ with full Bioconductor compatibility — crucial for packages like DESeq2 and Seurat.</p>
+        </div>
+
+        <p class="prose" style="color:#33433b;font-size:16px;line-height:1.7;margin-bottom:10px;">Open your Ubuntu terminal and run these commands one at a time:</p>
+
+        <div class="folder-note">📁 Run from: any terminal (no specific folder needed)</div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Bash — Ubuntu terminal</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Step 1: add CRAN's signing key so Ubuntu trusts the repository</span>
+<span class="c-cmd">wget</span> <span class="c-flag">-qO-</span> <span class="c-path">https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc</span> \
+  | <span class="c-cmd">sudo</span> <span class="c-cmd">tee</span> <span class="c-flag">-a</span> <span class="c-path">/etc/apt/trusted.gpg.d/cran_ubuntu_key.asc</span>
+
+<span class="c-comment"># Step 2: add the CRAN repository for Ubuntu 22.04 (jammy)</span>
+<span class="c-comment"># Replace "jammy" with "focal" if you are on Ubuntu 20.04</span>
+<span class="c-cmd">sudo</span> <span class="c-cmd">add-apt-repository</span> <span class="c-str">"deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"</span>
+
+<span class="c-comment"># Step 3: refresh the package list and install R</span>
+<span class="c-cmd">sudo</span> <span class="c-cmd">apt</span> <span class="c-kw">update</span>
+<span class="c-cmd">sudo</span> <span class="c-cmd">apt</span> install <span class="c-flag">-y</span> <span class="c-path">r-base r-base-dev</span>
+
+<span class="c-comment"># Step 4: confirm the version — should be 4.4.x or higher</span>
+<span class="c-cmd">R</span> <span class="c-flag">--version</span>
+<span class="c-out"># R version 4.4.1 (2024-06-14) -- "Race for Your Life"</span></pre>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <p><strong>r-base-dev</strong> is essential — it includes the compilers and headers needed to build R packages from source. Without it, many Bioconductor packages will fail to install with cryptic "cannot compile" errors.</p>
+        </div>
+
+        <p class="prose" style="color:#33433b;font-size:16px;line-height:1.7;margin-bottom:14px;">You can also install system libraries that many bioinformatics R packages depend on:</p>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Bash — system dependencies</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Libraries for XML, curl, openssl, image rendering — needed by many R packages</span>
+<span class="c-cmd">sudo</span> <span class="c-cmd">apt</span> <span class="c-kw">install</span> <span class="c-flag">-y</span> \
+  <span class="c-path">libcurl4-openssl-dev</span> \
+  <span class="c-path">libssl-dev</span> \
+  <span class="c-path">libxml2-dev</span> \
+  <span class="c-path">libfontconfig1-dev</span> \
+  <span class="c-path">libharfbuzz-dev</span> \
+  <span class="c-path">libfribidi-dev</span> \
+  <span class="c-path">libfreetype6-dev</span> \
+  <span class="c-path">libpng-dev</span> \
+  <span class="c-path">libtiff5-dev</span> \
+  libjpeg-dev</pre>
+        </div>
+      </section>
+
+      <!-- ── SECTION 3 ── -->
+      <section id="install-rstudio" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Install RStudio</h2>
+
+        <div class="explain-box">
+          <strong>RStudio vs the R terminal</strong>
+          <p>You can use R purely from the terminal. But RStudio gives you something the terminal cannot — a persistent, visual workspace where your plots, data frames, environment variables, and history all live together. When you are debugging a DESeq2 result at midnight, being able to visually inspect your count matrix in the Environment panel saves enormous time. RStudio is industry-standard for bioinformatics R work.</p>
+        </div>
+
+        <div class="folder-note">📁 Run from: ~/Downloads</div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Bash — install RStudio Desktop</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Download the latest RStudio .deb for Ubuntu/Debian</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/Downloads</span>
+<span class="c-cmd">wget</span> <span class="c-path">https://download1.rstudio.org/electron/jammy/amd64/rstudio-2024.04.2-764-amd64.deb</span>
+
+<span class="c-comment"># Install it</span>
+<span class="c-cmd">sudo</span> <span class="c-cmd">dpkg</span> <span class="c-flag">-i</span> <span class="c-path">rstudio-2024.04.2-764-amd64.deb</span>
+
+<span class="c-comment"># Fix any missing dependency errors automatically</span>
+<span class="c-cmd">sudo</span> <span class="c-cmd">apt</span> <span class="c-flag">-f</span> <span class="c-kw">install</span>
+
+<span class="c-comment"># Launch RStudio from the terminal (or find it in your app menu)</span>
+<span class="c-cmd">rstudio</span> &amp;</pre>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <p>Check <a href="https://posit.co/download/rstudio-desktop/" style="color:var(--green);font-weight:600;">posit.co/download/rstudio-desktop</a> for the latest version number — replace <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 4px;border-radius:4px;">2024.04.2-764</code> with whatever is current.</p>
+        </div>
+      </section>
+
+      <!-- ── SECTION 4 ── -->
+      <section id="rstudio-tour" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">RStudio tour — the four panels</h2>
+
+        <p class="prose" style="color:#33433b;font-size:16px;line-height:1.7;margin-bottom:16px;">RStudio divides its window into four panels. Understanding what each does will prevent confusion when you start running real analyses:</p>
+
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Panel</th>
+              <th>Location</th>
+              <th>What it does</th>
+              <th>Bioinformatics use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Source</td>
+              <td>Top-left</td>
+              <td>Write and save R scripts (.R files)</td>
+              <td>Your DESeq2 or rrBLUP analysis scripts live here</td>
+            </tr>
+            <tr>
+              <td>Console</td>
+              <td>Bottom-left</td>
+              <td>Run R commands interactively</td>
+              <td>Quick tests: <code style="font-family:var(--font-mono);font-size:12px;">dim(counts_matrix)</code></td>
+            </tr>
+            <tr>
+              <td>Environment / History</td>
+              <td>Top-right</td>
+              <td>Shows all objects in memory; browseable history</td>
+              <td>Inspect your count matrix, check sample sizes</td>
+            </tr>
+            <tr>
+              <td>Files / Plots / Packages / Help</td>
+              <td>Bottom-right</td>
+              <td>Browse files, view plots, manage packages, search help</td>
+              <td>View your PCA plot; search <code style="font-family:var(--font-mono);font-size:12px;">?DESeqDataSet</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tip">
+          <span class="tip-icon">⌨️</span>
+          <p><strong>Essential shortcut:</strong> <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">Ctrl + Enter</code> sends the current line (or selection) from the Source panel to the Console and runs it. You will use this hundreds of times per day.</p>
+        </div>
+      </section>
+
+      <!-- ── SECTION 5 ── -->
+      <section id="rprofile" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Configure .Rprofile for bioinformatics</h2>
+
+        <div class="explain-box">
+          <strong>What is .Rprofile?</strong>
+          <p>Every time R starts, it silently reads a file called <code style="font-family:var(--font-mono);font-size:13px;">.Rprofile</code> in your home directory and runs whatever is in it. This is your chance to set defaults that make every R session bioinformatics-ready — setting CRAN mirrors, loading frequently used packages, and configuring how many CPU cores your analyses use.</p>
+        </div>
+
+        <div class="folder-note">📁 Run from: R Console (inside RStudio) or terminal</div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">R — create and configure .Rprofile</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Open your .Rprofile for editing (creates it if it does not exist)</span>
+<span class="c-cmd">file.edit</span>(<span class="c-str">"~/.Rprofile"</span>)
+
+<span class="c-comment"># Paste the following into the file that opens, then save it:</span>
+
+<span class="c-comment"># ── Set CRAN mirror (Germany — closest to Gießen) ──</span>
+<span class="c-cmd">options</span>(<span class="c-flag">repos</span> <span class="c-op">=</span> <span class="c-cmd">c</span>(<span class="c-flag">CRAN</span> <span class="c-op">=</span> <span class="c-str">"https://ftp.fau.de/cran/"</span>))
+
+<span class="c-comment"># ── Show warnings immediately, not at the end ──</span>
+<span class="c-cmd">options</span>(<span class="c-flag">warn</span> <span class="c-op">=</span> <span class="c-num">1</span>)
+
+<span class="c-comment"># ── Increase console output width for wide data frames ──</span>
+<span class="c-cmd">options</span>(<span class="c-flag">width</span> <span class="c-op">=</span> <span class="c-num">120</span>)
+
+<span class="c-comment"># ── Disable scientific notation for small numbers ──</span>
+<span class="c-comment"># (0.0001 instead of 1e-04 — better for p-values)</span>
+<span class="c-cmd">options</span>(<span class="c-flag">scipen</span> <span class="c-op">=</span> <span class="c-num">999</span>)
+
+<span class="c-comment"># ── Set default number of threads for parallel packages ──</span>
+<span class="c-cmd">options</span>(<span class="c-flag">mc.cores</span> <span class="c-op">=</span> <span class="c-num">4</span>)  <span class="c-comment"># adjust to your CPU core count</span>
+
+<span class="c-comment"># ── Quiet startup message ──</span>
+<span class="c-cmd">options</span>(<span class="c-flag">startup.banner</span> <span class="c-op">=</span> <span class="c-kw">FALSE</span>)</pre>
+        </div>
+
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <p><strong>.Rprofile applies to every R session</strong>, including non-interactive ones (e.g. scripts run on HPC). Avoid auto-loading packages in .Rprofile — this can cause scripts to fail on servers that don't have those packages. Use <code style="font-family:var(--font-mono);font-size:13px;background:rgba(244,42,65,.08);padding:2px 6px;border-radius:4px;">library()</code> inside each script instead.</p>
+        </div>
+      </section>
+
+      <!-- ── SECTION 6 ── -->
+      <section id="bioconductor" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Install Bioconductor</h2>
+
+        <div class="explain-box">
+          <strong>What is Bioconductor — and why is it separate from CRAN?</strong>
+          <p>CRAN is the general R package repository. Bioconductor is a separate, specialised repository maintained by a dedicated team for biological data. It enforces stricter documentation standards, requires all packages to pass automated checks, and releases in synchrony with R itself twice per year. Every major genomics package — DESeq2, edgeR, limma, GenomicRanges, Seurat's dependencies — lives on Bioconductor. You cannot install these with <code style="font-family:var(--font-mono);font-size:13px;">install.packages()</code> alone.</p>
+        </div>
+
+        <div class="folder-note">📁 Run from: R Console inside RStudio</div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">R — install BiocManager then Bioconductor core</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Step 1: install BiocManager from CRAN</span>
+<span class="c-comment"># BiocManager is the gateway — it manages all Bioconductor packages</span>
+<span class="c-cmd">install.packages</span>(<span class="c-str">"BiocManager"</span>)
+
+<span class="c-comment"># Step 2: check which Bioconductor version will be used</span>
+<span class="c-cmd">library</span>(<span class="c-path">BiocManager</span>)
+<span class="c-cmd">BiocManager</span><span class="c-op">::</span><span class="c-cmd">version</span>()
+<span class="c-out"># [1] '3.19'</span>
+
+<span class="c-comment"># Step 3: install core Bioconductor packages for this course</span>
+<span class="c-cmd">BiocManager</span><span class="c-op">::</span><span class="c-cmd">install</span>(<span class="c-cmd">c</span>(
+  <span class="c-str">"Biobase"</span>,          <span class="c-comment"># core data structures for genomics</span>
+  <span class="c-str">"BiocGenerics"</span>,     <span class="c-comment"># generic functions used by most Bioc packages</span>
+  <span class="c-str">"GenomicRanges"</span>,    <span class="c-comment"># represents genomic intervals (chromosomes, positions)</span>
+  <span class="c-str">"SummarizedExperiment"</span>, <span class="c-comment"># the main data container for RNA-seq counts</span>
+  <span class="c-str">"DESeq2"</span>,           <span class="c-comment"># differential expression (Module 8)</span>
+  <span class="c-str">"edgeR"</span>,            <span class="c-comment"># differential expression — alternative to DESeq2</span>
+  <span class="c-str">"limma"</span>             <span class="c-comment"># linear models for microarray and RNA-seq</span>
+))
+
+<span class="c-comment"># Step 4: verify installation — should print TRUE</span>
+<span class="c-cmd">BiocManager</span><span class="c-op">::</span><span class="c-cmd">valid</span>()
+<span class="c-out"># All installed Bioconductor packages are current.</span></pre>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <p>Bioconductor installs can take 5–15 minutes the first time because it compiles packages from source. This is normal. You will see many lines of output — the install has succeeded if you reach the R prompt again without an error in red.</p>
+        </div>
+      </section>
+
+      <!-- ── SECTION 7 ── -->
+      <section id="core-packages" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Core CRAN packages for this module</h2>
+
+        <div class="explain-box">
+          <strong>Why tidyverse for bioinformatics?</strong>
+          <p>Tidyverse is a collection of R packages (dplyr, ggplot2, tidyr, readr, purrr) that share a common grammar for data manipulation and visualisation. In bioinformatics, you constantly reshape tables — sample metadata, gene annotation files, differential expression results. Tidyverse makes these operations readable and fast. ggplot2 alone is used for nearly every publication-quality figure in genomics journals.</p>
+        </div>
+
+        <div class="folder-note">📁 Run from: R Console inside RStudio</div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">R — install CRAN packages</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Install all CRAN packages for this module in one call</span>
+<span class="c-cmd">install.packages</span>(<span class="c-cmd">c</span>(
+  <span class="c-comment"># Tidyverse core</span>
+  <span class="c-str">"tidyverse"</span>,    <span class="c-comment"># dplyr + ggplot2 + tidyr + readr + purrr + stringr + forcats</span>
+  <span class="c-str">"ggplot2"</span>,      <span class="c-comment"># publication-quality plots (loaded by tidyverse, but explicit)</span>
+
+  <span class="c-comment"># Data handling</span>
+  <span class="c-str">"data.table"</span>,   <span class="c-comment"># blazing-fast reading of large genomics tables (VCF, GTF)</span>
+  <span class="c-str">"readxl"</span>,       <span class="c-comment"># read Excel files (field data, phenotype tables)</span>
+
+  <span class="c-comment"># Visualisation</span>
+  <span class="c-str">"pheatmap"</span>,     <span class="c-comment"># heatmaps for expression data</span>
+  <span class="c-str">"RColorBrewer"</span>, <span class="c-comment"># colour palettes for figures</span>
+  <span class="c-str">"ggrepel"</span>,      <span class="c-comment"># non-overlapping labels on volcano / MA plots</span>
+  <span class="c-str">"cowplot"</span>,      <span class="c-comment"># combine multiple ggplot panels</span>
+  <span class="c-str">"viridis"</span>,      <span class="c-comment"># colour-blind-safe palettes</span>
+
+  <span class="c-comment"># Statistics</span>
+  <span class="c-str">"broom"</span>,        <span class="c-comment"># tidy output from statistical models</span>
+
+  <span class="c-comment"># Genomic selection (your thesis tools)</span>
+  <span class="c-str">"rrBLUP"</span>,       <span class="c-comment"># ridge regression BLUP for genomic prediction</span>
+  <span class="c-str">"BGLR"</span>,         <span class="c-comment"># Bayesian generalised linear regression for GS</span>
+
+  <span class="c-comment"># Reproducibility</span>
+  <span class="c-str">"rmarkdown"</span>,    <span class="c-comment"># R Markdown for reproducible reports</span>
+  <span class="c-str">"knitr"</span>         <span class="c-comment"># renders R Markdown to HTML, PDF, Word</span>
+))
+
+<span class="c-comment"># Confirm everything loaded without error</span>
+<span class="c-cmd">library</span>(<span class="c-path">tidyverse</span>)
+<span class="c-out"># ── Attaching core tidyverse packages ─────────────────────</span>
+<span class="c-out"># ✔ dplyr   1.1.4   ✔ readr   2.1.5</span>
+<span class="c-out"># ✔ ggplot2 3.5.1   ✔ stringr 1.5.1</span>
+<span class="c-out"># ✔ purrr   1.0.2   ✔ tibble  3.2.1</span>
+<span class="c-out"># ✔ tidyr   1.3.1   ✔ forcats 1.0.0</span></pre>
+        </div>
+      </section>
+
+      <!-- ── SECTION 8 ── -->
+      <section id="first-session" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Your first R session — a genomics warm-up</h2>
+
+        <div class="explain-box">
+          <strong>Why simulate gene expression data?</strong>
+          <p>Before you work with real RNA-seq count matrices, it helps to understand the data structure by building a small one yourself. A count matrix is just a table of integers — rows are genes, columns are samples. The values represent how many RNA fragments were sequenced from each gene. Simulating this lets you understand the shape of the data without needing real FASTQ files.</p>
+        </div>
+
+        <p class="prose" style="color:#33433b;font-size:16px;line-height:1.7;margin-bottom:10px;">Create a new R script in RStudio: <strong>File → New File → R Script</strong>. Save it as <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">lesson-01-setup.R</code> inside a folder called <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">~/r-genomics-notebooks/</code>.</p>
+
+        <div class="folder-note">📁 Save script to: ~/r-genomics-notebooks/lesson-01-setup.R</div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">R — lesson-01-setup.R</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># ================================================================</span>
+<span class="c-comment"># Lesson 1 — R & RStudio Setup for Bioinformatics</span>
+<span class="c-comment"># Shopnil Academy · Module 4: R Beyond Basics</span>
+<span class="c-comment"># github.com/shajedurhossain/r-genomics-notebooks</span>
+<span class="c-comment"># ================================================================</span>
+
+<span class="c-comment"># ── 1. Confirm R version ──────────────────────────────────────</span>
+<span class="c-cmd">R.version.string</span>
+<span class="c-out"># [1] "R version 4.4.1 (2024-06-14)"</span>
+
+<span class="c-comment"># ── 2. Load libraries ─────────────────────────────────────────</span>
+<span class="c-cmd">library</span>(<span class="c-path">tidyverse</span>)
+<span class="c-cmd">library</span>(<span class="c-path">ggplot2</span>)
+
+<span class="c-comment"># ── 3. Simulate a small RNA-seq count matrix ──────────────────</span>
+<span class="c-comment"># Rows = genes, Columns = samples (3 control, 3 treatment)</span>
+<span class="c-cmd">set.seed</span>(<span class="c-num">42</span>)  <span class="c-comment"># makes results reproducible</span>
+
+<span class="c-flag">n_genes</span>   <span class="c-op">&lt;-</span> <span class="c-num">200</span>
+<span class="c-flag">n_samples</span> <span class="c-op">&lt;-</span> <span class="c-num">6</span>
+
+<span class="c-flag">counts</span> <span class="c-op">&lt;-</span> <span class="c-cmd">matrix</span>(
+  <span class="c-cmd">rnbinom</span>(<span class="c-flag">n</span> <span class="c-op">=</span> <span class="c-flag">n_genes</span> <span class="c-op">*</span> <span class="c-flag">n_samples</span>, <span class="c-flag">mu</span> <span class="c-op">=</span> <span class="c-num">500</span>, <span class="c-flag">size</span> <span class="c-op">=</span> <span class="c-num">1</span>),
+  <span class="c-flag">nrow</span> <span class="c-op">=</span> <span class="c-flag">n_genes</span>,
+  <span class="c-flag">ncol</span> <span class="c-op">=</span> <span class="c-flag">n_samples</span>
+)
+
+<span class="c-comment"># Give genes and samples meaningful names</span>
+<span class="c-cmd">rownames</span>(counts) <span class="c-op">&lt;-</span> <span class="c-cmd">paste0</span>(<span class="c-str">"Sobic."</span>, <span class="c-cmd">sprintf</span>(<span class="c-str">"%03d"</span>, <span class="c-num">1</span><span class="c-op">:</span>n_genes))
+<span class="c-cmd">colnames</span>(counts) <span class="c-op">&lt;-</span> <span class="c-cmd">c</span>(<span class="c-str">"ctrl_1"</span>, <span class="c-str">"ctrl_2"</span>, <span class="c-str">"ctrl_3"</span>,
+                       <span class="c-str">"treat_1"</span>, <span class="c-str">"treat_2"</span>, <span class="c-str">"treat_3"</span>)
+
+<span class="c-comment"># Peek at the matrix — what does RNA-seq data look like?</span>
+<span class="c-flag">counts</span>[<span class="c-num">1</span><span class="c-op">:</span><span class="c-num">5</span>, ]
+<span class="c-out">#           ctrl_1 ctrl_2 ctrl_3 treat_1 treat_2 treat_3</span>
+<span class="c-out"># Sobic.001    312    847    421     203     598     714</span>
+<span class="c-out"># Sobic.002      0      1      2       0       1       0</span>
+<span class="c-out"># Sobic.003   1823    992   2201    1560    2089    1834</span>
+<span class="c-out"># Sobic.004    445    220    381     309     422     510</span>
+<span class="c-out"># Sobic.005      7     18      3      12       9       6</span>
+
+<span class="c-comment"># ── 4. Basic summary statistics ───────────────────────────────</span>
+<span class="c-cmd">cat</span>(<span class="c-str">"Matrix dimensions: "</span>, <span class="c-cmd">dim</span>(<span class="c-flag">counts</span>), <span class="c-str">"\n"</span>)
+<span class="c-out"># Matrix dimensions:  200 6</span>
+
+<span class="c-cmd">cat</span>(<span class="c-str">"Total counts per sample:\n"</span>)
+<span class="c-cmd">colSums</span>(<span class="c-flag">counts</span>)
+<span class="c-out">#  ctrl_1  ctrl_2  ctrl_3 treat_1 treat_2 treat_3</span>
+<span class="c-out">#  98432  101234   99018   97821  100543   98901</span>
+
+<span class="c-comment"># ── 5. Library size plot ───────────────────────────────────────</span>
+<span class="c-comment"># Library size = total reads per sample</span>
+<span class="c-comment"># In real RNA-seq, samples must have comparable library sizes</span>
+<span class="c-flag">lib_sizes</span> <span class="c-op">&lt;-</span> <span class="c-cmd">data.frame</span>(
+  <span class="c-flag">sample</span>     <span class="c-op">=</span> <span class="c-cmd">colnames</span>(counts),
+  <span class="c-flag">lib_size</span>   <span class="c-op">=</span> <span class="c-cmd">colSums</span>(<span class="c-flag">counts</span>),
+  <span class="c-flag">condition</span>  <span class="c-op">=</span> <span class="c-cmd">c</span>(<span class="c-cmd">rep</span>(<span class="c-str">"Control"</span>, <span class="c-num">3</span>), <span class="c-cmd">rep</span>(<span class="c-str">"Treatment"</span>, <span class="c-num">3</span>))
+)
+
+<span class="c-cmd">ggplot</span>(<span class="c-flag">lib_sizes</span>, <span class="c-cmd">aes</span>(<span class="c-flag">x</span> <span class="c-op">=</span> <span class="c-flag">sample</span>, <span class="c-flag">y</span> <span class="c-op">=</span> <span class="c-flag">lib_size</span> <span class="c-op">/</span> <span class="c-num">1e6</span>, <span class="c-flag">fill</span> <span class="c-op">=</span> <span class="c-flag">condition</span>)) <span class="c-op">+</span>
+  <span class="c-cmd">geom_col</span>(<span class="c-flag">width</span> <span class="c-op">=</span> <span class="c-num">0.6</span>) <span class="c-op">+</span>
+  <span class="c-cmd">scale_fill_manual</span>(<span class="c-flag">values</span> <span class="c-op">=</span> <span class="c-cmd">c</span>(<span class="c-str">"Control"</span> <span class="c-op">=</span> <span class="c-str">"#006A4E"</span>, <span class="c-str">"Treatment"</span> <span class="c-op">=</span> <span class="c-str">"#E8B72A"</span>)) <span class="c-op">+</span>
+  <span class="c-cmd">labs</span>(
+    <span class="c-flag">title</span>   <span class="c-op">=</span> <span class="c-str">"Library sizes across samples"</span>,
+    <span class="c-flag">x</span>       <span class="c-op">=</span> <span class="c-str">"Sample"</span>,
+    <span class="c-flag">y</span>       <span class="c-op">=</span> <span class="c-str">"Total counts (millions)"</span>,
+    <span class="c-flag">fill</span>    <span class="c-op">=</span> <span class="c-str">"Condition"</span>
+  ) <span class="c-op">+</span>
+  <span class="c-cmd">theme_minimal</span>(<span class="c-flag">base_size</span> <span class="c-op">=</span> <span class="c-num">13</span>) <span class="c-op">+</span>
+  <span class="c-cmd">theme</span>(<span class="c-flag">axis.text.x</span> <span class="c-op">=</span> <span class="c-cmd">element_text</span>(<span class="c-flag">angle</span> <span class="c-op">=</span> <span class="c-num">45</span>, <span class="c-flag">hjust</span> <span class="c-op">=</span> <span class="c-num">1</span>))
+
+<span class="c-comment"># Save plot</span>
+<span class="c-cmd">ggsave</span>(<span class="c-str">"library_sizes.png"</span>, <span class="c-flag">width</span> <span class="c-op">=</span> <span class="c-num">7</span>, <span class="c-flag">height</span> <span class="c-op">=</span> <span class="c-num">4</span>, <span class="c-flag">dpi</span> <span class="c-op">=</span> <span class="c-num">150</span>)
+<span class="c-out"># Saving 7 x 4 in image</span>
+
+<span class="c-comment"># ── 6. Check Bioconductor is working ──────────────────────────</span>
+<span class="c-cmd">library</span>(<span class="c-path">SummarizedExperiment</span>)
+
+<span class="c-comment"># Wrap the count matrix in a SummarizedExperiment object</span>
+<span class="c-comment"># This is the standard container DESeq2 expects</span>
+<span class="c-flag">col_data</span> <span class="c-op">&lt;-</span> <span class="c-cmd">data.frame</span>(
+  <span class="c-flag">condition</span> <span class="c-op">=</span> <span class="c-cmd">c</span>(<span class="c-cmd">rep</span>(<span class="c-str">"ctrl"</span>, <span class="c-num">3</span>), <span class="c-cmd">rep</span>(<span class="c-str">"treat"</span>, <span class="c-num">3</span>)),
+  <span class="c-flag">row.names</span> <span class="c-op">=</span> <span class="c-cmd">colnames</span>(counts)
+)
+
+<span class="c-flag">se</span> <span class="c-op">&lt;-</span> <span class="c-cmd">SummarizedExperiment</span>(
+  <span class="c-flag">assays</span>    <span class="c-op">=</span> <span class="c-cmd">list</span>(<span class="c-flag">counts</span> <span class="c-op">=</span> counts),
+  <span class="c-flag">colData</span>   <span class="c-op">=</span> col_data
+)
+
+<span class="c-cmd">se</span>  <span class="c-comment"># print the object</span>
+<span class="c-out"># class: SummarizedExperiment</span>
+<span class="c-out"># dim: 200 6</span>
+<span class="c-out"># metadata(0):</span>
+<span class="c-out"># assays(1): counts</span>
+<span class="c-out"># rownames(200): Sobic.001 Sobic.002 ... Sobic.200</span>
+<span class="c-out"># colnames(6): ctrl_1 ctrl_2 ctrl_3 treat_1 treat_2 treat_3</span>
+<span class="c-out"># colData names(1): condition</span>
+
+<span class="c-cmd">cat</span>(<span class="c-str">"\n✅ Setup complete — R, RStudio, and Bioconductor are ready.\n"</span>)</pre>
+        </div>
+
+        <div class="callout">
+          <p>🔬 <strong>Bioinformatics context:</strong> The <code style="font-family:var(--font-mono);font-size:13px;">SummarizedExperiment</code> object you just created is the exact format that DESeq2 accepts. When you run a real RNA-seq experiment, your count matrix from STAR + HTSeq-count goes straight into this container. You have just touched the skeleton of a full differential expression pipeline.</p>
+        </div>
+      </section>
+
+      <!-- ── MIDDLE AD SLOT ── -->
+      <div class="ad-slot in-feed" style="margin:40px 0;">
+        <strong>Advertisement</strong>
+        <small>Google AdSense — in-feed slot</small>
+      </div>
+
+      <!-- ── SECTION 9 ── -->
+      <section id="reference" style="scroll-margin-top:96px;margin-top:8px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:14px;">Quick reference — setup commands</h2>
+
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>What it does</th>
+              <th>When you need it</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>install.packages("pkg")</td>
+              <td>Install a package from CRAN</td>
+              <td>Any general R package (tidyverse, ggplot2)</td>
+            </tr>
+            <tr>
+              <td>BiocManager::install("pkg")</td>
+              <td>Install a package from Bioconductor</td>
+              <td>DESeq2, edgeR, GenomicRanges, limma</td>
+            </tr>
+            <tr>
+              <td>library(pkg)</td>
+              <td>Load an installed package into the session</td>
+              <td>Top of every script you write</td>
+            </tr>
+            <tr>
+              <td>packageVersion("pkg")</td>
+              <td>Check what version is installed</td>
+              <td>Reporting versions in papers; debugging</td>
+            </tr>
+            <tr>
+              <td>BiocManager::valid()</td>
+              <td>Check all Bioc packages are up to date</td>
+              <td>Before starting a new analysis</td>
+            </tr>
+            <tr>
+              <td>sessionInfo()</td>
+              <td>Print full session details (R version, all packages)</td>
+              <td>Always save this at the end of analysis scripts</td>
+            </tr>
+            <tr>
+              <td>update.packages(ask=FALSE)</td>
+              <td>Update all CRAN packages silently</td>
+              <td>Monthly maintenance</td>
+            </tr>
+            <tr>
+              <td>.libPaths()</td>
+              <td>Show where R looks for packages</td>
+              <td>Debugging "package not found" errors</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ── EXERCISES ─────────────────────────────────────────── -->
+      <section id="exercises" style="scroll-margin-top:96px;margin-top:40px;">
+        <h2 class="prose" style="font-size:22px;margin-bottom:20px;">Exercises</h2>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <div class="ex-num">1</div>
+            <div class="ex-title">Verify your R + Bioconductor installation</div>
+          </div>
+          <p class="prose" style="color:#33433b;font-size:15px;line-height:1.65;">Run <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">BiocManager::valid()</code> and <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">sessionInfo()</code> in your R Console. Copy the output and save it as a comment block at the top of your <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">lesson-01-setup.R</code> file.</p>
+          <details class="answer">
+            <summary>▶ Show expected output</summary>
+            <div class="answer-body">
+              <div class="code-wrap">
+                <div class="code-header"><span class="code-lang">R</span></div>
+                <pre><span class="c-cmd">BiocManager</span><span class="c-op">::</span><span class="c-cmd">valid</span>()
+<span class="c-out"># All installed Bioconductor packages are current.</span>
+<span class="c-out"># [1] TRUE</span>
+
+<span class="c-cmd">sessionInfo</span>()
+<span class="c-out"># R version 4.4.1 (2024-06-14)</span>
+<span class="c-out"># Platform: x86_64-pc-linux-gnu (64-bit)</span>
+<span class="c-out"># Running under: Ubuntu 22.04.4 LTS</span>
+<span class="c-out"># ...</span>
+<span class="c-out"># other attached packages:</span>
+<span class="c-out"># [1] SummarizedExperiment_1.34.0  tidyverse_2.0.0</span></pre>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <div class="ex-num">2</div>
+            <div class="ex-title">Explore the SummarizedExperiment object</div>
+          </div>
+          <p class="prose" style="color:#33433b;font-size:15px;line-height:1.65;">Using the <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">se</code> object from the first session script, use <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">assay(se)</code>, <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">colData(se)</code>, and <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">rownames(se)[1:10]</code> to explore the structure. What does each function return?</p>
+          <details class="answer">
+            <summary>▶ Show answer</summary>
+            <div class="answer-body">
+              <div class="code-wrap">
+                <div class="code-header"><span class="code-lang">R</span></div>
+                <pre><span class="c-cmd">assay</span>(<span class="c-flag">se</span>)[<span class="c-num">1</span><span class="c-op">:</span><span class="c-num">3</span>, ]      <span class="c-comment"># the count matrix (rows=genes, cols=samples)</span>
+<span class="c-cmd">colData</span>(<span class="c-flag">se</span>)           <span class="c-comment"># sample metadata (condition column)</span>
+<span class="c-cmd">rownames</span>(<span class="c-flag">se</span>)[<span class="c-num">1</span><span class="c-op">:</span><span class="c-num">10</span>]   <span class="c-comment"># first 10 gene names</span>
+<span class="c-out"># [1] "Sobic.001" "Sobic.002" "Sobic.003" "Sobic.004" "Sobic.005"</span>
+<span class="c-out"># [6] "Sobic.006" "Sobic.007" "Sobic.008" "Sobic.009" "Sobic.010"</span>
+
+<span class="c-comment"># assay() extracts the raw count matrix</span>
+<span class="c-comment"># colData() extracts the sample information table</span>
+<span class="c-comment"># rownames() extracts gene identifiers</span></pre>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <div class="ex-num">3</div>
+            <div class="ex-title">Modify the library size plot</div>
+          </div>
+          <p class="prose" style="color:#33433b;font-size:15px;line-height:1.65;">Change the ggplot2 bar chart to use <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">theme_classic()</code> instead of <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">theme_minimal()</code>, and add a horizontal dashed line at 100 million reads using <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">geom_hline(yintercept = 100, linetype = "dashed")</code>. Save the result as <code style="font-family:var(--font-mono);font-size:13px;background:var(--cream);padding:2px 6px;border-radius:4px;">library_sizes_v2.png</code>.</p>
+          <details class="answer">
+            <summary>▶ Show answer</summary>
+            <div class="answer-body">
+              <div class="code-wrap">
+                <div class="code-header"><span class="code-lang">R</span></div>
+                <pre><span class="c-cmd">ggplot</span>(<span class="c-flag">lib_sizes</span>, <span class="c-cmd">aes</span>(<span class="c-flag">x</span> <span class="c-op">=</span> <span class="c-flag">sample</span>, <span class="c-flag">y</span> <span class="c-op">=</span> <span class="c-flag">lib_size</span> <span class="c-op">/</span> <span class="c-num">1e6</span>, <span class="c-flag">fill</span> <span class="c-op">=</span> <span class="c-flag">condition</span>)) <span class="c-op">+</span>
+  <span class="c-cmd">geom_col</span>(<span class="c-flag">width</span> <span class="c-op">=</span> <span class="c-num">0.6</span>) <span class="c-op">+</span>
+  <span class="c-cmd">geom_hline</span>(<span class="c-flag">yintercept</span> <span class="c-op">=</span> <span class="c-num">100</span>, <span class="c-flag">linetype</span> <span class="c-op">=</span> <span class="c-str">"dashed"</span>, <span class="c-flag">colour</span> <span class="c-op">=</span> <span class="c-str">"grey40"</span>) <span class="c-op">+</span>
+  <span class="c-cmd">scale_fill_manual</span>(<span class="c-flag">values</span> <span class="c-op">=</span> <span class="c-cmd">c</span>(<span class="c-str">"Control"</span> <span class="c-op">=</span> <span class="c-str">"#006A4E"</span>, <span class="c-str">"Treatment"</span> <span class="c-op">=</span> <span class="c-str">"#E8B72A"</span>)) <span class="c-op">+</span>
+  <span class="c-cmd">labs</span>(<span class="c-flag">title</span> <span class="c-op">=</span> <span class="c-str">"Library sizes"</span>, <span class="c-flag">x</span> <span class="c-op">=</span> <span class="c-str">"Sample"</span>, <span class="c-flag">y</span> <span class="c-op">=</span> <span class="c-str">"Total counts (millions)"</span>) <span class="c-op">+</span>
+  <span class="c-cmd">theme_classic</span>(<span class="c-flag">base_size</span> <span class="c-op">=</span> <span class="c-num">13</span>) <span class="c-op">+</span>
+  <span class="c-cmd">theme</span>(<span class="c-flag">axis.text.x</span> <span class="c-op">=</span> <span class="c-cmd">element_text</span>(<span class="c-flag">angle</span> <span class="c-op">=</span> <span class="c-num">45</span>, <span class="c-flag">hjust</span> <span class="c-op">=</span> <span class="c-num">1</span>))
+
+<span class="c-cmd">ggsave</span>(<span class="c-str">"library_sizes_v2.png"</span>, <span class="c-flag">width</span> <span class="c-op">=</span> <span class="c-num">7</span>, <span class="c-flag">height</span> <span class="c-op">=</span> <span class="c-num">4</span>, <span class="c-flag">dpi</span> <span class="c-op">=</span> <span class="c-num">150</span>)</pre>
+              </div>
+            </div>
+          </details>
+        </div>
+
+      </section>
+
+      <!-- ── MARK COMPLETE ──────────────────────────────────────── -->
+      <div class="mark-complete-wrap">
+        <p style="font-size:15px;color:var(--green-deep);margin-bottom:16px;font-weight:600;">Finished this lesson?</p>
+        <button class="mark-complete" id="markBtn" onclick="markDone()">
+          ✓ Mark Lesson 1 Complete
+        </button>
+      </div>
+
+      <!-- ── LESSON NAV ─────────────────────────────────────────── -->
+      <div class="lesson-nav-footer">
+        <span style="color:var(--muted);font-size:14px;">← Module start</span>
+        <a href="index.html">Module overview →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ── BOTTOM AD SLOT ────────────────────────────────────────── -->
+<div style="text-align:center;padding:32px 0 16px;">
+  <div class="ad-slot rectangle" style="max-width:340px;margin:0 auto;">
+    <strong>Advertisement</strong>
+    <small>Google AdSense — rectangle</small>
+  </div>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:48px;height:48px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>LEARN · BUILD · PUBLISH</small>
+          </div>
+        </div>
+        <p class="foot-about">Free, in-depth bioinformatics education for plant genomics researchers and life science graduates.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" aria-label="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" aria-label="ORCID">OR</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../bash-linux/lesson-1.html">Bash &amp; Linux</a></li>
+          <li><a href="lesson-1.html">R Beyond Basics</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../bioinformatics-curriculum.html">Bioinformatics Curriculum</a></li>
+          <li><a href="../../about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy · Shajedur Rahman Hossain</span>
+      <span>Built for plant genomics researchers worldwide</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── JAVASCRIPT ─────────────────────────────────────────────── -->
+<script>
+  // Mobile nav toggle
+  document.getElementById('navToggle').addEventListener('click', function () {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  // Module accordion
+  function toggleMod(el) {
+    el.classList.toggle('open');
+    const lessons = el.nextElementSibling;
+    lessons.classList.toggle('open');
+  }
+
+  // Copy code button
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  // Progress tracking with localStorage
+  const STORAGE_KEY = 'sa_r_done';
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const total = 13;
+    const count = done.length;
+    const pct = Math.round(count / total * 100);
+    document.getElementById('progFill').style.width = pct + '%';
+    document.getElementById('progPct').textContent = count + ' / ' + total;
+
+    // Update sidebar lesson links
+    for (let i = 1; i <= total; i++) {
+      const el = document.getElementById('ll-' + i);
+      if (!el) continue;
+      if (done.includes('r-lesson-' + i)) {
+        el.classList.add('done');
+        el.querySelector('.l-icon').textContent = '✓';
+      }
+    }
+
+    // Update mark complete button
+    if (done.includes('r-lesson-1')) {
+      const btn = document.getElementById('markBtn');
+      if (btn) { btn.textContent = '✓ Lesson 1 Complete'; btn.classList.add('done'); }
+    }
+  }
+
+  function markDone() {
+    const done = getDone();
+    if (!done.includes('r-lesson-1')) {
+      done.push('r-lesson-1');
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    }
+    updateProgress();
+  }
+
+  updateProgress();
+
+  // Active TOC link via IntersectionObserver
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc-link');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('toc-active'));
+        const active = document.querySelector('.toc-link[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('toc-active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
