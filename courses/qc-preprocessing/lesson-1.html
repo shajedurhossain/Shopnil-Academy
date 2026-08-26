@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — What is RNA-seq QC and Why It Matters | Shopnil Academy</title>
+  <meta name="description" content="Learn why quality control is the most important first step in any RNA-seq analysis. Understand what can go wrong with sequencing data and how QC catches it." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 0;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky; top: 96px;
+      padding: 28px 28px 28px 0;
+      border-right: 1px solid var(--line);
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--green-mint); border-radius: 99px; }
+    .sidebar-course-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+    .sidebar-course-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--ink); line-height: 1.2; margin-bottom: 18px; }
+    .prog-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 6px; font-weight: 500; }
+    .prog-track { height: 5px; background: var(--green-mint); border-radius: 99px; margin-bottom: 22px; }
+    .prog-fill { height: 5px; background: var(--green); border-radius: 99px; width: 0%; transition: width .4s ease; }
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--ink); padding: 8px 10px; border-radius: 10px; cursor: pointer; user-select: none; background: var(--cream); letter-spacing: .01em; }
+    .mod-group-label:hover { background: var(--green-soft); color: var(--green); }
+    .mod-group-label .mod-arrow { font-size: 10px; transition: transform .2s ease; color: var(--muted); }
+    .mod-group.open .mod-group-label .mod-arrow { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding: 4px 0 4px 8px; }
+    .mod-group.open .mod-lessons { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-link { display: flex; align-items: center; gap: 9px; font-size: 13px; color: var(--muted); padding: 7px 10px; border-radius: 8px; transition: background .15s ease, color .15s ease; text-decoration: none; }
+    .lesson-link.soon { cursor: default; opacity: .55; }
+    .lesson-link.soon:hover { background: none; }
+    .lesson-link:hover { background: var(--green-soft); color: var(--green); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .l-icon { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--line); font-size: 9px; display: grid; place-items: center; flex-shrink: 0; font-family: var(--font-display); font-weight: 700; color: var(--muted); }
+    .lesson-link.active .l-icon { background: var(--green); border-color: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green); border-color: var(--green); color: #fff; }
+    .sidebar-toc-head { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 22px 0 8px; }
+    .sidebar-toc { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+    .sidebar-toc a { display: block; font-size: 12.5px; color: var(--muted); padding: 5px 10px; border-radius: 7px; border-left: 2px solid transparent; transition: all .15s ease; }
+    .sidebar-toc a:hover { background: var(--cream); color: var(--ink); }
+    .sidebar-toc a.active { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+    .lesson-main { padding: 36px 0 36px 40px; min-width: 0; }
+    .lesson-meta-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .lm-pill { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
+    .lm-pill.green { background: var(--green-soft); color: var(--green); border-color: rgba(0,106,78,.15); }
+    .lm-num { font-family: var(--font-display); font-weight: 700; }
+    .explain-box { background: linear-gradient(135deg, var(--green-soft) 0%, #f0f8f4 100%); border: 1px solid rgba(0,106,78,.18); border-left: 4px solid var(--green); border-radius: 14px; padding: 20px 24px; margin: 24px 0; }
+    .explain-box .eb-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+    .explain-box p { font-size: 15px; color: var(--green-dark); line-height: 1.7; margin: 0; }
+    .explain-box p + p { margin-top: 10px; }
+    .folder-note { display: inline-flex; align-items: center; gap: 8px; background: var(--gold-soft); border: 1px solid rgba(232,183,42,.3); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 600; color: #7a5a00; font-family: var(--font-body); margin-bottom: 10px; }
+    .code-wrap { border-radius: 14px; overflow: hidden; margin: 16px 0 24px; box-shadow: var(--shadow-sm); }
+    .code-header { background: #1a2e25; display: flex; align-items: center; justify-content: space-between; padding: 10px 18px; }
+    .code-lang { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--green-mint); font-family: var(--font-display); }
+    .copy-btn { font-size: 11px; font-weight: 600; color: #a0bfb0; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 6px; padding: 4px 12px; cursor: pointer; font-family: inherit; transition: background .15s ease, color .15s ease; }
+    .copy-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+    pre { margin: 0; padding: 22px 20px; background: #0f1f18; font-family: 'DM Mono', monospace; font-size: 13.5px; line-height: 1.75; overflow-x: auto; color: #c8ddd4; }
+    .c-cmd    { color: #7ee8a2; font-weight: 600; }
+    .c-flag   { color: #f0c674; }
+    .c-path   { color: #82d9f5; }
+    .c-out    { color: #a8b8b0; font-style: italic; }
+    .c-comment{ color: #5a8a6a; font-style: italic; }
+    .c-kw     { color: #f9a86a; font-weight: 600; }
+    .c-str    { color: #e8b4f0; }
+    .c-err    { color: #ff7b7b; }
+    .c-ok     { color: #7ee8a2; }
+    .cmd-table { width: 100%; border-collapse: collapse; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; margin: 20px 0; font-size: 14px; }
+    .cmd-table th { background: var(--cream); padding: 12px 16px; font-family: var(--font-display); font-weight: 600; font-size: 12px; color: var(--ink); text-align: left; border-bottom: 1px solid var(--line); }
+    .cmd-table td { padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; color: #33433b; line-height: 1.55; }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: var(--green-soft); color: var(--green); padding: 2px 7px; border-radius: 5px; }
+    .tip, .warn { display: flex; gap: 14px; align-items: flex-start; padding: 16px 20px; border-radius: 14px; margin: 20px 0; }
+    .tip  { background: var(--green-soft); border: 1px solid rgba(0,106,78,.18); }
+    .warn { background: #fff8ec; border: 1px solid rgba(232,183,42,.35); }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .tip p, .warn p { font-size: 14.5px; line-height: 1.65; color: var(--ink); margin: 0; }
+    .tip strong { color: var(--green-dark); }
+    .warn strong { color: #7a5a00; }
+    .concept-box { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px; margin: 20px 0; box-shadow: var(--shadow-sm); }
+    .concept-box h4 { font-size: 15px; margin-bottom: 10px; color: var(--ink); }
+    .concept-box p { font-size: 14.5px; color: #33433b; line-height: 1.65; margin: 0; }
+    .pipeline-flow { display: flex; flex-direction: column; gap: 0; margin: 24px 0; }
+    .pf-step { display: flex; align-items: center; gap: 16px; }
+    .pf-icon { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 20px; flex-shrink: 0; }
+    .pf-body { flex: 1; }
+    .pf-body strong { font-size: 14px; font-weight: 700; color: var(--ink); display: block; }
+    .pf-body span { font-size: 12.5px; color: var(--muted); }
+    .pf-icon.s1 { background: var(--green-soft); color: var(--green); }
+    .pf-icon.s2 { background: #e8f4fb; color: #2563eb; }
+    .pf-icon.s3 { background: var(--gold-soft); color: #b8881a; }
+    .pf-icon.s4 { background: var(--red-soft); color: var(--red); }
+    .pf-icon.s5 { background: #f0ebff; color: #6d28d9; }
+    .pf-icon.s6 { background: var(--green-mint); color: var(--green-deep); }
+    .exercise { background: var(--cream); border-radius: 18px; padding: 28px; margin-top: 24px; }
+    .ex-head { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+    .ex-num { width: 38px; height: 38px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 15px; flex-shrink: 0; }
+    .ex-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink); }
+    .exercise ol { padding-left: 22px; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .exercise li { font-size: 15px; color: #33433b; line-height: 1.65; }
+    .exercise code { font-family: 'DM Mono', monospace; font-size: 12.5px; background: #fff; color: var(--green); padding: 2px 7px; border-radius: 5px; border: 1px solid var(--green-mint); }
+    details.answer { margin-top: 20px; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,106,78,.2); }
+    details.answer summary { background: var(--green-soft); color: var(--green); padding: 12px 18px; font-size: 13px; font-weight: 700; cursor: pointer; list-style: none; display: flex; gap: 8px; }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body { background: #fff; padding: 18px 20px; }
+    details.answer .ans-body p { font-size: 14px; color: #33433b; line-height: 1.65; margin: 0 0 8px; }
+    details.answer .ans-body p:last-child { margin: 0; }
+    .mark-complete-wrap { margin: 36px 0 0; display: flex; justify-content: center; }
+    .mark-complete { padding: 14px 32px; border-radius: 999px; background: var(--green); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 15px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: background .15s ease, transform .15s ease; }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: #fff; color: var(--green); border: 2px solid var(--green); }
+    .lesson-nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; border-top: 1px solid var(--line); margin-top: 48px; gap: 16px; flex-wrap: wrap; }
+    .lnf-prev, .lnf-next { display: flex; flex-direction: column; gap: 3px; }
+    .lnf-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .lnf-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--ink); }
+    .lnf-next { text-align: right; }
+    .lnf-arrow-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 600; font-size: 13px; border: none; cursor: pointer; font-family: inherit; transition: background .15s ease; text-decoration: none; }
+    .lnf-arrow-btn:hover { background: var(--green); }
+    @media (max-width: 900px) {
+      .lesson-shell { grid-template-columns: 1fr; padding: 0 20px; }
+      .sidebar { position: static; border-right: none; border-bottom: 1px solid var(--line); padding: 20px 0; }
+      .lesson-main { padding: 28px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a class="logo" href="/">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN · BUILD · PUBLISH</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/courses/">Courses</a>
+      <a href="/about.html">About</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/courses/" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="lesson-1.html" class="btn btn-primary btn-sm">Start Learning</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+  </nav>
+</div>
+
+<!-- INNER HEADER -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">›</span>
+      <a href="/courses/">Courses</a><span class="sep">›</span>
+      <a href="/courses/rnaseq-qc/">RNA-seq QC &amp; Preprocessing</a><span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <h1>What is RNA-seq QC<br>and Why It Matters</h1>
+    <p class="lead">Before any alignment or differential expression analysis, you need to know whether your raw sequencing data is trustworthy. This lesson explains what quality control means in RNA-seq and what it protects you from.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+      <span class="free-pill">&#127358; Free Lesson</span>
+      <span class="updated">&#128197; Module 6 &middot; Week 8</span>
+    </div>
+  </div>
+</div>
+
+<!-- AD SLOT TOP -->
+<div class="wrap" style="padding-top:28px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here — relevant to bioinformatics learners</small>
+  </div>
+</div>
+
+<!-- LESSON SHELL -->
+<div class="article" style="padding-top:20px;">
+  <div class="lesson-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-course-label">Module 6 &middot; Week 8</div>
+      <div class="sidebar-course-title">RNA-seq QC &amp; Preprocessing</div>
+      <div class="prog-label">
+        <span>Your progress</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+
+      <div class="mod-group open" id="mod-6">
+        <div class="mod-group-label" onclick="toggleMod('mod-6')">
+          <span>Module 6 — QC &amp; Preprocessing</span>
+          <span class="mod-arrow">&#9654;</span>
+        </div>
+        <div class="mod-lessons">
+          <a class="lesson-link active" href="lesson-1.html"><span class="l-icon">1</span>What is RNA-seq QC?</a>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">2</span>FASTQ files explained</span>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">3</span>Running FastQC</span>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">4</span>Reading a FastQC report</span>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">5</span>MultiQC — aggregating reports</span>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">6</span>Trimming with Trimmomatic</span>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">7</span>Trimming with Trim Galore</span>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">8</span>After trimming — re-running QC</span>
+          <span class="lesson-link soon" title="Coming soon"><span class="l-icon">9</span>Capstone: Full QC pipeline</span>
+        </div>
+      </div>
+
+      <div class="sidebar-toc-head">On this page</div>
+      <ul class="sidebar-toc" id="sidebar-toc">
+        <li><a href="#what-is-qc">What is QC?</a></li>
+        <li><a href="#rnaseq-workflow">Where QC fits in RNA-seq</a></li>
+        <li><a href="#what-goes-wrong">What can go wrong</a></li>
+        <li><a href="#tools">QC tools overview</a></li>
+        <li><a href="#setup">Setting up your environment</a></li>
+        <li><a href="#exercises">Exercises</a></li>
+      </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="lesson-main">
+      <div class="lesson-meta-strip">
+        <span class="lm-pill green">&#128214; Lesson <span class="lm-num">1</span> of 9</span>
+        <span class="lm-pill">&#9201; ~35 minutes</span>
+        <span class="lm-pill">&#128994; Beginner-friendly</span>
+        <span class="lm-pill">&#128039; Ubuntu / Linux</span>
+      </div>
+
+      <div class="prose">
+
+        <!-- SECTION 1 -->
+        <section id="what-is-qc">
+          <h2><span class="n">01</span> What is Quality Control?</h2>
+          <p>Quality control (QC) in RNA-seq is the process of inspecting your raw sequencing data <em>before you do any biology with it</em>. It is not an optional extra step — it is the single most important thing you do at the start of an RNA-seq analysis.</p>
+
+          <div class="explain-box">
+            <div class="eb-label">&#128161; Why QC exists</div>
+            <p>Sequencing machines are not perfect. A modern Illumina sequencer reads hundreds of millions of short DNA fragments (reads) and assigns a quality score to every single base it calls. Some bases are read confidently; others are guesses. Some reads are contaminated with adapter sequences from the library preparation step. Some samples degrade before sequencing even begins.</p>
+            <p>If you skip QC and align these imperfect reads directly to a genome, you get garbage in &rarr; garbage out. Your differential expression results will include false positives, your coverage plots will look noisy, and your conclusions could be wrong. QC is your protection against all of this.</p>
+          </div>
+
+          <p>QC tells you three things:</p>
+          <ul class="bullets">
+            <li><strong>Is the sequencing data good enough to use?</strong> — Some runs fail catastrophically and should be discarded entirely.</li>
+            <li><strong>What problems exist and how bad are they?</strong> — Low-quality tails, adapter contamination, GC bias, over-represented sequences.</li>
+            <li><strong>What preprocessing do I need?</strong> — Do I need to trim adapters? Remove low-quality bases? Filter out certain reads?</li>
+          </ul>
+
+          <div class="tip">
+            <span class="tip-icon">&#127807;</span>
+            <p><strong>Plant genomics note:</strong> In plant RNA-seq experiments, QC problems are especially common. Plant RNA extractions often contain phenolic compounds, polysaccharides, and secondary metabolites that can degrade RNA quality before sequencing even starts. The QC report is your first signal that something went wrong in the wet lab.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section id="rnaseq-workflow">
+          <h2><span class="n">02</span> Where QC Fits in the RNA-seq Workflow</h2>
+          <p>RNA-seq analysis is a pipeline — a sequence of steps that transforms raw sequencing reads into biological knowledge. QC always comes first, and it actually happens <em>twice</em>: before and after trimming.</p>
+
+          <div class="pipeline-flow">
+            <div class="pf-step">
+              <div class="pf-icon s1">&#129516;</div>
+              <div class="pf-body">
+                <strong>1. Raw sequencing data (FASTQ files)</strong>
+                <span>Output from the sequencer — millions of short reads with quality scores</span>
+              </div>
+            </div>
+            <div style="padding-left:20px;"><div style="width:2px;height:22px;background:var(--line);margin:0 0 0 12px;"></div></div>
+            <div class="pf-step">
+              <div class="pf-icon s2">&#128269;</div>
+              <div class="pf-body">
+                <strong>2. QC Round 1 — FastQC + MultiQC</strong>
+                <span>Inspect the raw reads. Identify problems before doing anything else.</span>
+              </div>
+            </div>
+            <div style="padding-left:20px;"><div style="width:2px;height:22px;background:var(--line);margin:0 0 0 12px;"></div></div>
+            <div class="pf-step">
+              <div class="pf-icon s3">&#9986;&#65039;</div>
+              <div class="pf-body">
+                <strong>3. Trimming — Trimmomatic or Trim Galore</strong>
+                <span>Remove adapter sequences and low-quality bases from the ends of reads</span>
+              </div>
+            </div>
+            <div style="padding-left:20px;"><div style="width:2px;height:22px;background:var(--line);margin:0 0 0 12px;"></div></div>
+            <div class="pf-step">
+              <div class="pf-icon s4">&#128269;</div>
+              <div class="pf-body">
+                <strong>4. QC Round 2 — FastQC + MultiQC again</strong>
+                <span>Confirm that trimming fixed the problems. Re-run on cleaned reads.</span>
+              </div>
+            </div>
+            <div style="padding-left:20px;"><div style="width:2px;height:22px;background:var(--line);margin:0 0 0 12px;"></div></div>
+            <div class="pf-step">
+              <div class="pf-icon s5">&#128205;</div>
+              <div class="pf-body">
+                <strong>5. Alignment — STAR or HISAT2</strong>
+                <span>Map the clean reads to a reference genome. This comes in Module 7.</span>
+              </div>
+            </div>
+            <div style="padding-left:20px;"><div style="width:2px;height:22px;background:var(--line);margin:0 0 0 12px;"></div></div>
+            <div class="pf-step">
+              <div class="pf-icon s6">&#128202;</div>
+              <div class="pf-body">
+                <strong>6. Downstream analysis — counting, DESeq2</strong>
+                <span>Quantify gene expression and find differentially expressed genes. Module 8.</span>
+              </div>
+            </div>
+          </div>
+
+          <p>This module covers steps 2, 3, and 4. By the end of the module you will be able to run a complete QC-to-trimming pipeline on any RNA-seq dataset.</p>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section id="what-goes-wrong">
+          <h2><span class="n">03</span> What Can Go Wrong with Sequencing Data</h2>
+          <p>Before you can interpret a QC report, you need to understand the types of problems that can appear. Here are the most common ones you will encounter in real RNA-seq projects.</p>
+
+          <div class="explain-box">
+            <div class="eb-label">&#128300; The Phred quality score — the number behind every base call</div>
+            <p>Every base in a FASTQ file has a quality score called a <strong>Phred score</strong> (also written Q score). This score encodes the probability that the base call is <em>wrong</em>.</p>
+            <p>The formula is: <strong>Q = &minus;10 &times; log&#8321;&#8320;(P)</strong> where P is the probability of an error.</p>
+            <p>This means Q30 = 1 in 1,000 chance of error (99.9% accuracy). Q20 = 1 in 100 chance (99% accuracy). In RNA-seq, you generally want the majority of your bases to have Q &ge; 30. Anything below Q20 is considered low quality and should be trimmed.</p>
+          </div>
+
+          <table class="cmd-table">
+            <thead>
+              <tr><th>Problem</th><th>What it means</th><th>Caused by</th><th>Fixed by</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>Low per-base quality</code></td>
+                <td>Quality scores drop at the 3&prime; end of reads</td>
+                <td>Normal Illumina chemistry — signal degrades over longer reads</td>
+                <td>Quality trimming</td>
+              </tr>
+              <tr>
+                <td><code>Adapter contamination</code></td>
+                <td>Adapter sequences appear at the end of reads</td>
+                <td>Short insert size — read runs off the end of the fragment into the adapter</td>
+                <td>Adapter trimming</td>
+              </tr>
+              <tr>
+                <td><code>High duplication rate</code></td>
+                <td>Many reads are identical copies</td>
+                <td>Low input RNA, PCR over-amplification during library prep</td>
+                <td>Mark duplicates after alignment; use more RNA input</td>
+              </tr>
+              <tr>
+                <td><code>GC content bias</code></td>
+                <td>GC distribution does not match the expected genome curve</td>
+                <td>PCR bias, contamination, or a highly AT/GC-rich organism</td>
+                <td>Investigate; may be normal for your organism</td>
+              </tr>
+              <tr>
+                <td><code>Over-represented sequences</code></td>
+                <td>A single sequence makes up &gt;1% of all reads</td>
+                <td>rRNA contamination, adapter dimers, library prep artefacts</td>
+                <td>rRNA depletion in the wet lab; adapter trimming</td>
+              </tr>
+              <tr>
+                <td><code>Low read count</code></td>
+                <td>Too few reads per sample (&lt;10M for most RNA-seq)</td>
+                <td>Sequencing failure, low RNA input, failed library</td>
+                <td>Re-sequence the sample</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="warn">
+            <span class="warn-icon">&#9888;&#65039;</span>
+            <p><strong>The rRNA contamination problem in plants:</strong> If your library preparation used poly-A selection, you should see very little rRNA in your data. If you see massive over-represented sequences similar to known rRNA, your poly-A selection may have failed. This is a serious wet-lab problem — QC catches it before you waste weeks of computational analysis.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section id="tools">
+          <h2><span class="n">04</span> QC Tools You Will Learn in This Module</h2>
+          <p>The bioinformatics community has settled on a core set of tools for RNA-seq QC. You will use all of these in this module.</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr><th>Tool</th><th>What it does</th><th>Output</th><th>Lesson</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>FastQC</code></td>
+                <td>Runs ~12 quality checks on a single FASTQ file and generates an HTML report with pass/warn/fail badges</td>
+                <td><code>.html</code> report + <code>.zip</code> data file</td>
+                <td>Lessons 3 &amp; 4</td>
+              </tr>
+              <tr>
+                <td><code>MultiQC</code></td>
+                <td>Aggregates FastQC reports from all samples into a single interactive HTML dashboard — essential for comparing 10+ samples at once</td>
+                <td><code>multiqc_report.html</code></td>
+                <td>Lesson 5</td>
+              </tr>
+              <tr>
+                <td><code>Trimmomatic</code></td>
+                <td>Java-based trimmer. Highly configurable. Trims adapters, low-quality bases, leading/trailing bases. Industry standard for many years.</td>
+                <td>Trimmed FASTQ files</td>
+                <td>Lesson 6</td>
+              </tr>
+              <tr>
+                <td><code>Trim Galore</code></td>
+                <td>Wrapper around Cutadapt. Simpler to use than Trimmomatic. Automatically detects adapter sequences. Excellent for paired-end data.</td>
+                <td>Trimmed FASTQ files + QC report</td>
+                <td>Lesson 7</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="concept-box">
+            <h4>&#129300; FastQC vs MultiQC — what is the difference?</h4>
+            <p><strong>FastQC</strong> analyses one FASTQ file and produces one report. If you have 24 samples (12 conditions &times; 2 replicates), you run FastQC 24 times and get 24 separate HTML reports. Reading 24 reports manually is tedious and error-prone.<br><br><strong>MultiQC</strong> reads all 24 FastQC outputs and combines them into a single interactive report where every sample appears as one line in every plot. You can immediately see which samples are outliers. This is why MultiQC is now standard practice in any serious RNA-seq project.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 5 -->
+        <section id="setup">
+          <h2><span class="n">05</span> Setting Up Your Environment</h2>
+          <p>Before running any QC tools, you need to set up a Conda environment with the required software. This keeps all your QC tools isolated from other projects and ensures reproducibility.</p>
+
+          <div class="explain-box">
+            <div class="eb-label">&#128161; Why a dedicated Conda environment for QC?</div>
+            <p>FastQC requires Java. Trimmomatic requires Java. MultiQC requires Python. Trim Galore requires Cutadapt (Python) and FastQC. If you install all these in your base environment, they can conflict with other tools. A dedicated <code>rnaseq-qc</code> environment means you can always recreate this exact software setup, share it with collaborators, and avoid dependency conflicts.</p>
+            <p>In Module 3 (Conda) you learned the full theory. Here you simply use it. If you have not set up Conda yet, install Miniconda3 first.</p>
+          </div>
+
+          <p><strong>Step 1 — Create and activate the environment</strong></p>
+          <div class="folder-note">&#128193; Run from: any directory (this is a system-level setup command)</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># Create a new Conda environment named rnaseq-qc</span>
+<span class="c-comment"># -c bioconda and -c conda-forge supply the bioinformatics packages</span>
+<span class="c-cmd">conda</span> <span class="c-flag">create</span> <span class="c-flag">-n</span> rnaseq-qc \
+    <span class="c-flag">-c</span> bioconda <span class="c-flag">-c</span> conda-forge \
+    fastqc multiqc trimmomatic trim-galore \
+    <span class="c-flag">-y</span>
+
+<span class="c-comment"># Activate the environment — must do this every new terminal session</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> rnaseq-qc
+
+<span class="c-comment"># Verify all four tools are installed</span>
+<span class="c-cmd">fastqc</span> <span class="c-flag">--version</span>
+<span class="c-out">FastQC v0.12.1</span>
+
+<span class="c-cmd">multiqc</span> <span class="c-flag">--version</span>
+<span class="c-out">multiqc, version 1.21</span>
+
+<span class="c-cmd">trimmomatic</span> <span class="c-flag">-version</span>
+<span class="c-out">0.39</span>
+
+<span class="c-cmd">trim_galore</span> <span class="c-flag">--version</span>
+<span class="c-out">Trim Galore version 0.6.10</span></pre>
+          </div>
+
+          <p><strong>Step 2 — Create your project directory structure</strong></p>
+          <p>Good directory organisation is essential in bioinformatics. Create this structure once and reuse it throughout the module.</p>
+
+          <div class="folder-note">&#128193; Run from: your home directory (~)</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># Create the full project directory tree in one command</span>
+<span class="c-comment"># Brace expansion {...} creates multiple directories simultaneously</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/rnaseq-project</span>/<span class="c-path">{data/{raw,trimmed},qc/{fastqc_raw,fastqc_trimmed,multiqc},results,logs}</span>
+
+<span class="c-comment"># Verify the full structure</span>
+<span class="c-cmd">tree</span> <span class="c-path">~/rnaseq-project</span>
+<span class="c-out">rnaseq-project/
+├── data/
+│   ├── raw/          ← original FASTQ files — NEVER modify these
+│   └── trimmed/      ← trimmed reads from Trimmomatic/Trim Galore
+├── qc/
+│   ├── fastqc_raw/   ← FastQC reports on raw data
+│   ├── fastqc_trimmed/ ← FastQC reports after trimming
+│   └── multiqc/      ← MultiQC combined dashboard
+├── results/          ← final outputs (counts tables, plots)
+└── logs/             ← log files from every tool you run</span>
+
+<span class="c-comment"># Protect raw data — make it read-only so you cannot accidentally delete it</span>
+<span class="c-cmd">chmod</span> <span class="c-flag">-R</span> 444 <span class="c-path">~/rnaseq-project/data/raw</span></pre>
+          </div>
+
+          <div class="tip">
+            <span class="tip-icon">&#128161;</span>
+            <p><strong>The golden rule of raw data:</strong> Never modify or delete files in <code>data/raw/</code>. These are your original, unprocessed reads from the sequencer. They are irreplaceable. The <code>chmod -R 444</code> command makes the entire directory read-only so even an accidental <code>rm</code> command will fail with a permission error.</p>
+          </div>
+
+          <p><strong>Step 3 — Peek at a FASTQ file to understand its format</strong></p>
+          <p>Before running FastQC, it is worth understanding what the raw data actually looks like. A FASTQ file is a plain text file — you can read it directly on the command line.</p>
+
+          <div class="folder-note">&#128193; Run from: ~/rnaseq-project/data/raw</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># FASTQ files are gzip-compressed (.gz) to save disk space</span>
+<span class="c-comment"># zcat decompresses on-the-fly and sends output to stdout</span>
+<span class="c-comment"># pipe to head -8 to see the first 2 reads (4 lines each)</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/rnaseq-project/data/raw</span>
+<span class="c-cmd">zcat</span> <span class="c-path">sample1_R1.fastq.gz</span> <span class="c-kw">|</span> <span class="c-cmd">head</span> <span class="c-flag">-8</span>
+
+<span class="c-out">@SRR8245019.1 1/1                 ← Line 1: read identifier (starts with @)
+ACTGGTACGATCGATCGTAGCTAGCTAGCTA  ← Line 2: the DNA sequence (150 bases)
++                                 ← Line 3: separator (always +)
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII  ← Line 4: quality scores (ASCII-encoded Phred)
+@SRR8245019.2 2/1
+GCTAGCTAGCGATCGATCGTAGCTAGCTAGC
++
+HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH</span>
+
+<span class="c-comment"># Count total reads: divide total lines by 4</span>
+<span class="c-cmd">zcat</span> <span class="c-path">sample1_R1.fastq.gz</span> <span class="c-kw">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span>
+<span class="c-out">80000000</span>
+<span class="c-comment"># 80,000,000 lines ÷ 4 = 20,000,000 reads — a typical RNA-seq run</span></pre>
+          </div>
+
+          <div class="explain-box">
+            <div class="eb-label">&#128161; Decoding the 4-line FASTQ format</div>
+            <p><strong>Line 1 — Read identifier:</strong> Starts with <code>@</code>. Contains the instrument name, run ID, flowcell coordinates, and read number. Every read has a unique identifier.</p>
+            <p><strong>Line 2 — DNA sequence:</strong> The actual nucleotide sequence the sequencer called. Each character is one base (A, T, G, C, or N for unknown). For paired-end 150 bp sequencing, this line is exactly 150 characters long.</p>
+            <p><strong>Line 3 — Separator:</strong> Always a <code>+</code> sign. Sometimes the read identifier is repeated here, but most modern tools just write <code>+</code> to save space.</p>
+            <p><strong>Line 4 — Quality scores:</strong> One ASCII character per base in Line 2. The character encodes a Phred quality score using the formula: Phred = ASCII value &minus; 33. The character <code>I</code> has ASCII value 73, so its Phred score is 73 &minus; 33 = 40, meaning 99.99% base-call accuracy. The character <code>!</code> (ASCII 33) gives Phred 0 — essentially a random guess.</p>
+          </div>
+        </section>
+
+        <!-- AD SLOT MID -->
+        <div class="ad-slot in-feed" style="margin:32px 0;">
+          <strong>Enjoying this lesson?</strong>
+          <small>Support Shopnil Academy by checking out our partners below</small>
+        </div>
+
+        <!-- SECTION 6 — EXERCISES -->
+        <section id="exercises">
+          <h2><span class="n">06</span> Exercises</h2>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">1</div>
+              <div class="ex-title">Set up your QC environment</div>
+            </div>
+            <ol>
+              <li>Create the Conda environment named <code>rnaseq-qc</code> with FastQC, MultiQC, Trimmomatic, and Trim Galore installed from the bioconda and conda-forge channels.</li>
+              <li>Activate the environment and confirm all four tools installed by running their <code>--version</code> flags.</li>
+              <li>Create the full project directory structure at <code>~/rnaseq-project/</code> with all subdirectories as shown in Step 2 above.</li>
+            </ol>
+            <details class="answer">
+              <summary>&#9654; Show answer</summary>
+              <div class="ans-body">
+                <p>Run: <code>conda create -n rnaseq-qc -c bioconda -c conda-forge fastqc multiqc trimmomatic trim-galore -y</code></p>
+                <p>Then: <code>conda activate rnaseq-qc</code> and verify with <code>fastqc --version</code>, <code>multiqc --version</code>, <code>trimmomatic -version</code>, <code>trim_galore --version</code>.</p>
+                <p>Create all directories in one command: <code>mkdir -p ~/rnaseq-project/{data/{raw,trimmed},qc/{fastqc_raw,fastqc_trimmed,multiqc},results,logs}</code></p>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise" style="margin-top:20px;">
+            <div class="ex-head">
+              <div class="ex-num">2</div>
+              <div class="ex-title">Inspect a FASTQ file manually</div>
+            </div>
+            <ol>
+              <li>Download or obtain any <code>.fastq.gz</code> file and place it in <code>~/rnaseq-project/data/raw/</code>.</li>
+              <li>Use <code>zcat</code> and <code>head -12</code> to display the first 12 lines. How many complete reads does this show?</li>
+              <li>Count the total number of reads using: <code>zcat sample.fastq.gz | wc -l</code> then divide by 4. How many reads are there?</li>
+              <li>What is the length of the first read? Try: <code>zcat sample.fastq.gz | head -2 | tail -1 | wc -c</code> (subtract 1 for the newline character).</li>
+            </ol>
+            <details class="answer">
+              <summary>&#9654; Show answer</summary>
+              <div class="ans-body">
+                <p>12 lines &divide; 4 lines per read = <strong>3 complete reads</strong> shown by <code>head -12</code>.</p>
+                <p>Divide total line count by 4 to get read count. A typical Illumina RNA-seq run has 20&ndash;50 million reads per sample.</p>
+                <p>Modern paired-end RNA-seq is usually 150 bp reads. Older runs may be 75 bp or 100 bp. The <code>wc -c</code> count includes the newline character, so the actual read length is the result minus 1.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise" style="margin-top:20px;">
+            <div class="ex-head">
+              <div class="ex-num">3</div>
+              <div class="ex-title">Decode Phred quality scores</div>
+            </div>
+            <ol>
+              <li>Look at Line 4 of the first read in your FASTQ file. What ASCII characters do you see?</li>
+              <li>The character <code>I</code> has ASCII value 73. What is its Phred score? (Subtract 33, because Illumina uses Phred+33 encoding.)</li>
+              <li>What does Phred 40 mean in terms of base-call accuracy? Use: accuracy = 1 &minus; 10^(&minus;Q/10)</li>
+              <li>What Phred score does the character <code>#</code> (ASCII 35) represent? Is this a good or bad quality base?</li>
+            </ol>
+            <details class="answer">
+              <summary>&#9654; Show answer</summary>
+              <div class="ans-body">
+                <p><code>I</code> &rarr; ASCII 73 &rarr; Phred score 73 &minus; 33 = <strong>40</strong>. Accuracy = 1 &minus; 10^(&minus;4) = <strong>99.99%</strong>. This is excellent — only 1 error per 10,000 base calls.</p>
+                <p><code>#</code> &rarr; ASCII 35 &rarr; Phred score 35 &minus; 33 = <strong>2</strong>. Accuracy = 1 &minus; 10^(&minus;0.2) = ~37%. This is a very poor quality base — nearly worthless. Bases with Phred &lt; 20 should be trimmed away before alignment.</p>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <!-- MARK COMPLETE -->
+        <div class="mark-complete-wrap">
+          <button class="mark-complete" id="mc-btn" onclick="markDone()">
+            <span id="mc-icon">&#9744;</span>
+            <span id="mc-text">Mark Lesson 1 Complete</span>
+          </button>
+        </div>
+
+        <!-- LESSON NAV FOOTER -->
+        <div class="lesson-nav-footer">
+          <div class="lnf-prev">
+            <span class="lnf-label">&larr; Module</span>
+            <span class="lnf-title">Back to Course Overview</span>
+            <a href="/courses/rnaseq-qc/" class="lnf-arrow-btn" style="margin-top:8px;">&larr; Course Home</a>
+          </div>
+          <div class="lnf-next">
+            <span class="lnf-label">Next Lesson &rarr;</span>
+            <span class="lnf-title">FASTQ Files Explained</span>
+            <span class="lnf-arrow-btn" style="margin-top:8px;opacity:.5">Lesson 2 &mdash; coming soon</span>
+          </div>
+        </div>
+
+      </div><!-- /.prose -->
+    </main>
+  </div><!-- /.lesson-shell -->
+</div><!-- /.article -->
+
+<!-- AD SLOT BOTTOM -->
+<div style="max-width:340px;margin:0 auto 64px;padding:0 20px;">
+  <div class="ad-slot rectangle">
+    <strong>Advertisement</strong>
+    <small>Google AdSense slot reserved</small>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="/" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text"><strong>Shopnil Academy</strong><small>LEARN &middot; BUILD &middot; PUBLISH</small></div>
+        </a>
+        <p class="foot-about">Free, research-grade bioinformatics education for scientists who want to do more with their data.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" title="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" target="_blank" title="ORCID">OR</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="/courses/bash-linux/">Bash &amp; Linux</a></li>
+          <li><a href="/courses/rnaseq-qc/">RNA-seq QC</a></li>
+          <li><a href="/courses/">All Courses</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy.html">Privacy Policy</a></li>
+          <li><a href="/terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>&copy; 2025 Shopnil Academy &middot; shopnilacademy.com</span>
+      <span>Built with &hearts; for bioinformatics learners</span>
+    </div>
+  </div>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+  document.querySelector('.nav-toggle').addEventListener('click', function () {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  function toggleMod(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1800);
+    });
+  }
+
+  const LESSON_ID   = 'rnaseq-qc-1';
+  const TOTAL       = 9;
+  const STORAGE_KEY = 'sa_rnaseq_qc_done';
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const pct  = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent  = pct + '%';
+    document.querySelectorAll('a.lesson-link').forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const m = href.match(/lesson-(\d+)\.html/);
+      if (m && done.includes('rnaseq-qc-' + m[1])) link.classList.add('done');
+    });
+  }
+
+  function markDone() {
+    const done = getDone();
+    if (done.includes(LESSON_ID)) return;
+    done.push(LESSON_ID);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    document.getElementById('mc-icon').textContent = '✓';
+    document.getElementById('mc-text').textContent = 'Lesson 1 Complete!';
+    document.getElementById('mc-btn').classList.add('done');
+    updateProgress();
+  }
+
+  updateProgress();
+  if (getDone().includes(LESSON_ID)) {
+    document.getElementById('mc-icon').textContent = '✓';
+    document.getElementById('mc-text').textContent = 'Lesson 1 Complete!';
+    document.getElementById('mc-btn').classList.add('done');
+  }
+
+  const sections = document.querySelectorAll('.prose section[id]');
+  const tocLinks = document.querySelectorAll('.sidebar-toc a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector('.sidebar-toc a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
