@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Introduction to Biological Databases | Shopnil Academy</title>
+  <meta name="description" content="Learn what biological databases are, how they are structured, and why every bioinformatician must know how to query them. Free lesson at Shopnil Academy." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar ─────────────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 0;
+      align-items: start;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .sidebar {
+      position: sticky;
+      top: 96px;
+      padding: 28px 0 28px 0;
+      border-right: 1px solid var(--line);
+      min-height: calc(100vh - 96px);
+      padding-right: 24px;
+    }
+    .sidebar-course-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 4px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 5px;
+      background: var(--line);
+      border-radius: 999px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      transition: background .15s;
+    }
+    .mod-group-label:hover { background: var(--green-soft); color: var(--green); }
+    .mod-group-label .chev { transition: transform .25s; font-style: normal; }
+    .mod-group-label.open .chev { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-left: 8px; }
+    .mod-lessons.open { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: background .15s, color .15s;
+      text-decoration: none;
+    }
+    .lesson-link.soon { cursor: default; opacity: .55; }
+    .lesson-link.soon:hover { background: none; }
+    .lesson-link:hover { background: var(--green-soft); color: var(--green); }
+    .lesson-link.active { background: var(--green); color: #fff; font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .lesson-link.done .l-icon { background: var(--green); color: #fff; }
+    .l-icon {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: grid; place-items: center;
+      font-size: 10px; font-weight: 700;
+      flex-shrink: 0;
+      font-family: var(--font-display);
+    }
+    .lesson-link.active .l-icon { background: rgba(255,255,255,.25); color: #fff; }
+
+    /* ── Lesson meta strip ───────────────────────────────── */
+    .lesson-meta-strip {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 6px; margin-bottom: 28px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 12px; color: var(--muted); font-weight: 500;
+    }
+    .lm-num {
+      background: var(--green); color: #fff;
+      border-radius: 999px; padding: 5px 14px;
+      font-size: 12px; font-weight: 700;
+      font-family: var(--font-display);
+    }
+    .lm-sep { color: var(--line); font-size: 18px; }
+
+    /* ── Code blocks ─────────────────────────────────────── */
+    .code-wrap {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 18px 0;
+      font-family: 'DM Mono', monospace;
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 16px;
+      background: #1a2e23;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .code-lang {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+      font-family: var(--font-body);
+    }
+    .copy-btn {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.45);
+      background: transparent; border: 0;
+      cursor: pointer; padding: 2px 8px;
+      border-radius: 6px;
+      transition: color .15s, background .15s;
+      font-family: var(--font-body);
+    }
+    .copy-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
+    pre {
+      margin: 0;
+      padding: 20px 22px;
+      background: #1e3528;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #a8c5b0;
+    }
+    /* Syntax colours */
+    .c-cmd   { color: #7dd3a8; font-weight: 600; }   /* commands / keywords */
+    .c-flag  { color: #f0c674; }                      /* flags / options */
+    .c-path  { color: #89b4e8; }                      /* paths / filenames */
+    .c-out   { color: #8fbcbb; font-style: italic; }  /* sample output */
+    .c-comment { color: #5d7a68; font-style: italic; }/* comments */
+    .c-str   { color: #ce9178; }                      /* strings */
+    .c-num   { color: #b5cea8; }                      /* numbers */
+    .c-kw    { color: #c792ea; font-weight: 600; }    /* bash keywords: if for do done */
+    .c-fn    { color: #dcdcaa; }                      /* function names */
+    .c-py    { color: #9cdcfe; }                      /* python identifiers */
+
+    /* ── Explain box ─────────────────────────────────────── */
+    .explain-box {
+      background: var(--green-soft);
+      border: 1px solid rgba(0,106,78,.16);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 18px 0;
+    }
+    .explain-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .explain-box p { font-size: 14.5px; color: #2a4a38; line-height: 1.65; margin: 0; }
+
+    /* ── Folder note ─────────────────────────────────────── */
+    .folder-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.3);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: #7a5e10;
+      font-family: 'DM Mono', monospace;
+      margin: 10px 0 4px;
+    }
+
+    /* ── Tip / warn callouts ─────────────────────────────── */
+    .tip, .warn {
+      display: flex; gap: 14px; align-items: flex-start;
+      border-radius: 12px; padding: 16px 18px; margin: 16px 0;
+    }
+    .tip { background: #e8f4f0; border: 1px solid rgba(0,106,78,.15); }
+    .warn { background: #fff4e5; border: 1px solid rgba(232,183,42,.3); }
+    .tip-icon, .warn-icon {
+      font-size: 18px; flex-shrink: 0; margin-top: 1px;
+    }
+    .tip p, .warn p { font-size: 14px; color: #2a4a38; line-height: 1.6; margin: 0; }
+    .warn p { color: #6b4a10; }
+
+    /* ── Reference / command table ───────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse;
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--ink); color: #fff;
+      padding: 11px 14px; text-align: left;
+      font-family: var(--font-display); font-size: 12px;
+      font-weight: 600; letter-spacing: .04em;
+    }
+    .cmd-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table tr:nth-child(even) td { background: var(--cream); }
+    .cmd-table code {
+      font-family: 'DM Mono', monospace;
+      font-size: 12.5px;
+      background: var(--green-soft);
+      color: var(--green-deep);
+      padding: 2px 7px; border-radius: 5px;
+    }
+
+    /* ── Exercises ───────────────────────────────────────── */
+    .exercise {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin: 16px 0;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 14px;
+    }
+    .ex-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--ink); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-weight: 700; font-size: 16px; }
+    details.answer { margin-top: 14px; }
+    details.answer summary {
+      cursor: pointer; font-size: 13px; font-weight: 600;
+      color: var(--green); list-style: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body {
+      margin-top: 12px;
+      padding: 14px 16px;
+      background: var(--green-soft);
+      border-radius: 10px;
+      font-size: 13.5px; line-height: 1.6;
+      color: #1e3528;
+    }
+
+    /* ── Mark complete ───────────────────────────────────── */
+    .mark-complete-wrap {
+      margin-top: 36px; padding-top: 28px;
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green); color: #fff;
+      border: 0; border-radius: 999px;
+      padding: 13px 24px; font-size: 14px; font-weight: 700;
+      font-family: var(--font-display);
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: #1a7a56; }
+
+    /* ── Lesson nav footer ───────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      margin-top: 28px; padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+      padding: 10px 18px; border-radius: 999px;
+      border: 1.5px solid rgba(0,106,78,.2);
+      transition: background .15s, border-color .15s;
+    }
+    .lesson-nav-footer a:hover { background: var(--green-soft); border-color: var(--green); }
+
+    /* ── Database card grid ──────────────────────────────── */
+    .db-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .db-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 16px;
+      transition: box-shadow .2s, transform .2s;
+    }
+    .db-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .db-card .db-icon {
+      font-size: 28px; margin-bottom: 10px;
+    }
+    .db-card h4 {
+      font-size: 15px; margin-bottom: 6px; color: var(--ink);
+    }
+    .db-card p {
+      font-size: 12.5px; color: var(--muted); line-height: 1.5; margin: 0;
+    }
+    .db-card .db-tag {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 10px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 999px;
+    }
+    .db-tag.sequence { background: var(--green-soft); color: var(--green); }
+    .db-tag.protein  { background: var(--gold-soft); color: #8a6010; }
+    .db-tag.genome   { background: #e8f0fe; color: #2d4db5; }
+    .db-tag.pathway  { background: var(--red-soft); color: #c41e32; }
+
+    /* ── Streams table (like lesson 3 of bash) ───────────── */
+    .streams-table {
+      width: 100%; border-collapse: collapse;
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 12px; overflow: hidden;
+    }
+    .streams-table th {
+      background: var(--ink); color: #fff;
+      padding: 10px 14px; font-size: 12px; font-family: var(--font-display);
+      font-weight: 600; letter-spacing: .04em; text-align: left;
+    }
+    .streams-table td {
+      padding: 11px 14px; font-size: 14px;
+      border-bottom: 1px solid var(--line); vertical-align: top;
+    }
+    .streams-table tr:last-child td { border-bottom: 0; }
+    .streams-table td:first-child { font-family: 'DM Mono', monospace; font-weight: 600; color: var(--green); }
+    .streams-table tr:nth-child(even) td { background: var(--cream); }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .lesson-shell { grid-template-columns: 1fr; padding: 0 20px; }
+      .sidebar { position: static; border-right: 0; border-bottom: 1px solid var(--line);
+                 min-height: auto; padding-right: 0; padding-bottom: 18px; margin-bottom: 18px; }
+      .mod-lessons { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVIGATION
+═══════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" width="52" height="52"
+           onerror="this.style.display='none'" />
+      <span class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>Learn · Build · Publish</small>
+      </span>
+    </a>
+
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../bioinformatics-curriculum.html">Bioinformatics</a>
+    </div>
+
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enrol Free</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     INNER HEADER
+═══════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a><span class="sep">›</span>
+      <a href="../../courses.html">Courses</a><span class="sep">›</span>
+      <a href="index.html">Biological Databases</a><span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <h1>Introduction to Biological Databases</h1>
+    <p class="lead">Understand the landscape of biological databases — what they store, how they are structured, and why every bioinformatician must know how to navigate them.</p>
+    <span class="updated">📅 Module 11 · Week 16 · Lesson 1 of 6</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     TOP AD SLOT
+═══════════════════════════════════════════════════════ -->
+<div style="padding: 24px 0;">
+  <div class="wrap">
+    <div class="ad-slot banner-728">
+      <strong>Advertisement</strong>
+      <small>Your ad here — shopnilacademy.com</small>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     MAIN LESSON SHELL
+═══════════════════════════════════════════════════════ -->
+<div style="padding-bottom: 80px;">
+  <div class="lesson-shell">
+
+    <!-- ── SIDEBAR ──────────────────────────────────────── -->
+    <aside class="sidebar">
+      <div class="sidebar-course-label">Module 11</div>
+      <div class="sidebar-course-title">Biological Databases &amp; Queries</div>
+
+      <div class="prog-label">
+        <span>Progress</span>
+        <span id="progText">0 / 6</span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="progFill" style="width:0%"></div>
+      </div>
+
+      <!-- Module accordion -->
+      <div class="mod-group">
+        <div class="mod-group-label open" onclick="toggleMod(this)">
+          <span>Module 11 — Biological Databases</span>
+          <i class="chev">›</i>
+        </div>
+        <div class="mod-lessons open">
+          <a href="lesson-1.html" class="lesson-link active" id="nav-l1">
+            <span class="l-icon">1</span>Introduction to Biological Databases
+          </a>
+          <span class="lesson-link soon" id="nav-l2" title="Coming soon">
+            <span class="l-icon">2</span>NCBI &amp; Entrez — Searching Sequences
+          </span>
+          <span class="lesson-link soon" id="nav-l3" title="Coming soon">
+            <span class="l-icon">3</span>UniProt &amp; Protein Databases
+          </span>
+          <span class="lesson-link soon" id="nav-l4" title="Coming soon">
+            <span class="l-icon">4</span>Ensembl &amp; Genome Browsers
+          </span>
+          <span class="lesson-link soon" id="nav-l5" title="Coming soon">
+            <span class="l-icon">5</span>Fetching Data — Biopython &amp; APIs
+          </span>
+          <span class="lesson-link soon" id="nav-l6" title="Coming soon">
+            <span class="l-icon">6</span>Local Database Query Workflow
+          </span>
+        </div>
+      </div>
+
+      <!-- On this page -->
+      <div style="margin-top: 28px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">On this page</div>
+        <div class="toc">
+          <ul>
+            <li><a href="#what-is-a-database" class="toc-link">What is a biological database?</a></li>
+            <li><a href="#types" class="toc-link">Types of databases</a></li>
+            <li><a href="#major-databases" class="toc-link">Major databases</a></li>
+            <li><a href="#database-formats" class="toc-link">Common data formats</a></li>
+            <li><a href="#first-query" class="toc-link">Your first query</a></li>
+            <li><a href="#reference" class="toc-link">Quick reference</a></li>
+            <li><a href="#exercises" class="toc-link">Exercises</a></li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ─────────────────────────────────── -->
+    <main style="padding: 32px 0 32px 40px; max-width: 780px;">
+
+      <!-- Lesson meta strip -->
+      <div class="lesson-meta-strip">
+        <span class="lm-num">Lesson 1</span>
+        <span class="lm-pill">⏱ 45 min</span>
+        <span class="lm-pill">🐍 Python</span>
+        <span class="lm-pill">🖥 CLI</span>
+        <span class="lm-pill">🔬 Bioinformatics</span>
+        <span class="lm-pill">⭐ Beginner</span>
+      </div>
+
+      <!-- ─────────────────────────────────────────────────
+           SECTION 1 — What is a biological database?
+      ────────────────────────────────────────────────── -->
+      <section id="what-is-a-database" class="prose" style="scroll-margin-top:100px;">
+        <h2>1. What is a biological database?</h2>
+
+        <p>A <strong>biological database</strong> is an organised, searchable collection of biological data — sequences, structures, functions, pathways, variants, annotations, and more. These databases are the foundation of modern bioinformatics. Without them, you would have no reference genome to align to, no protein structure to compare, and no pathway to place your genes in context.</p>
+
+        <div class="explain-box">
+          <strong>🔬 Why this matters for your work</strong>
+          <p>When you run an RNA-seq experiment on sorghum, every step depends on biological databases: the reference genome comes from <strong>Ensembl Plants</strong>, gene annotations from <strong>NCBI RefSeq</strong>, protein functions from <strong>UniProt</strong>, and metabolic pathways from <strong>KEGG</strong>. Knowing which database to query, how to query it, and how to interpret what comes back is not optional — it is the starting point for every downstream analysis.</p>
+        </div>
+
+        <p>Biological databases exist because biological knowledge is vast, distributed, and constantly updated. Individual researchers deposit their findings (sequences, structures, expression data) into centralised repositories so that the entire community can build on that work. This is the principle of <strong>open science</strong> — and it is what makes bioinformatics possible.</p>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <p><strong>Historical note:</strong> The first biological sequence database was <strong>GenBank</strong>, established by the US National Institutes of Health (NIH) in 1982. Today it holds over 300 billion nucleotide bases from more than 40 million sequences, doubling in size roughly every 18 months.</p>
+        </div>
+
+        <h3>How databases are structured</h3>
+        <p>Every database record has a predictable anatomy. Understanding this structure lets you extract exactly what you need programmatically. A typical record contains:</p>
+
+        <table class="streams-table">
+          <thead>
+            <tr>
+              <th>Field</th>
+              <th>What it contains</th>
+              <th>Example (GenBank)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Accession</td>
+              <td>Unique stable identifier</td>
+              <td><code>NM_001316.3</code></td>
+            </tr>
+            <tr>
+              <td>Definition</td>
+              <td>Plain-English description</td>
+              <td>Homo sapiens RNA gene</td>
+            </tr>
+            <tr>
+              <td>Organism</td>
+              <td>Source organism + taxonomy</td>
+              <td>Sorghum bicolor (9606)</td>
+            </tr>
+            <tr>
+              <td>Sequence</td>
+              <td>The actual nucleotide / AA sequence</td>
+              <td>ATGATCGGC…</td>
+            </tr>
+            <tr>
+              <td>Features</td>
+              <td>Annotated regions (CDS, exons, UTRs)</td>
+              <td>CDS 1..453</td>
+            </tr>
+            <tr>
+              <td>References</td>
+              <td>Publications linked to this record</td>
+              <td>PMID:12345678</td>
+            </tr>
+            <tr>
+              <td>Cross-references</td>
+              <td>IDs in other databases</td>
+              <td>UniProt: P12345</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ─────────────────────────────────────────────────
+           SECTION 2 — Types of databases
+      ────────────────────────────────────────────────── -->
+      <section id="types" class="prose" style="scroll-margin-top:100px; margin-top:44px;">
+        <h2>2. Types of biological databases</h2>
+
+        <p>Databases are classified by <strong>what they store</strong> and <strong>how they are curated</strong>. Understanding these categories prevents you from searching the wrong place and wasting hours of work.</p>
+
+        <h3>By data type</h3>
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>What it stores</th>
+              <th>Examples</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sequence databases</td>
+              <td>Nucleotide &amp; protein sequences</td>
+              <td>GenBank, EMBL-EBI, DDBJ, RefSeq</td>
+            </tr>
+            <tr>
+              <td>Structure databases</td>
+              <td>3D molecular structures (X-ray, cryo-EM, NMR)</td>
+              <td>PDB (Protein Data Bank)</td>
+            </tr>
+            <tr>
+              <td>Genome databases</td>
+              <td>Annotated reference genomes</td>
+              <td>Ensembl, UCSC Genome Browser, Phytozome</td>
+            </tr>
+            <tr>
+              <td>Protein function databases</td>
+              <td>Protein identities, domains, pathways</td>
+              <td>UniProt, InterPro, Pfam</td>
+            </tr>
+            <tr>
+              <td>Pathway &amp; interaction databases</td>
+              <td>Metabolic &amp; signalling pathways, PPIs</td>
+              <td>KEGG, Reactome, STRING</td>
+            </tr>
+            <tr>
+              <td>Expression databases</td>
+              <td>Transcriptomic &amp; proteomic data</td>
+              <td>GEO, ArrayExpress, Expression Atlas</td>
+            </tr>
+            <tr>
+              <td>Variant databases</td>
+              <td>SNPs, indels, structural variants</td>
+              <td>dbSNP, ClinVar, gnomAD</td>
+            </tr>
+            <tr>
+              <td>Ontology databases</td>
+              <td>Controlled vocabularies for annotation</td>
+              <td>Gene Ontology (GO), Plant Ontology</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>By curation level</h3>
+
+        <div class="explain-box">
+          <strong>🔬 Primary vs Secondary vs Tertiary databases</strong>
+          <p><strong>Primary databases</strong> (GenBank, PDB) hold raw deposited data — submitted directly by researchers. <strong>Secondary databases</strong> (UniProt/Swiss-Prot, RefSeq) take that raw data and add expert annotation and quality checks. <strong>Tertiary databases</strong> (KEGG, Reactome) integrate data from many primary and secondary sources to build higher-level knowledge. For bioinformatics analysis, you almost always want secondary or tertiary databases — the annotations are more reliable than raw deposits.</p>
+        </div>
+
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <p><strong>GenBank vs RefSeq:</strong> GenBank is the raw, unreviewed archive. RefSeq is a curated, non-redundant subset with standardised annotation. For gene/transcript sequences in your pipeline, always prefer RefSeq accessions (begin with <code>NM_</code>, <code>NR_</code>, <code>XM_</code>) over raw GenBank accessions where possible.</p>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────────────────────────────
+           SECTION 3 — Major databases
+      ────────────────────────────────────────────────── -->
+      <section id="major-databases" class="prose" style="scroll-margin-top:100px; margin-top:44px;">
+        <h2>3. Major databases you will use</h2>
+
+        <p>You do not need to memorise every database. You need to know the <strong>six core hubs</strong> that cover 90% of bioinformatics work — and which one to reach for in each situation.</p>
+
+        <div class="db-grid">
+          <div class="db-card">
+            <div class="db-icon">🧬</div>
+            <h4>NCBI / GenBank</h4>
+            <p>The US national repository for nucleotide sequences, proteins, genomes, literature (PubMed), and taxonomy. The starting point for most searches.</p>
+            <span class="db-tag sequence">Sequence</span>
+          </div>
+          <div class="db-card">
+            <div class="db-icon">🔵</div>
+            <h4>UniProt</h4>
+            <p>The definitive protein sequence and function database. Swiss-Prot (manually curated) + TrEMBL (automatically annotated). Essential for protein work.</p>
+            <span class="db-tag protein">Protein</span>
+          </div>
+          <div class="db-card">
+            <div class="db-icon">🌍</div>
+            <h4>Ensembl</h4>
+            <p>Annotated reference genomes for vertebrates and plants (Ensembl Plants). The go-to source for gene models, variants, and comparative genomics.</p>
+            <span class="db-tag genome">Genome</span>
+          </div>
+          <div class="db-card">
+            <div class="db-icon">🔗</div>
+            <h4>KEGG</h4>
+            <p>Kyoto Encyclopedia of Genes and Genomes. Maps genes to metabolic pathways and disease pathways. Indispensable for functional enrichment analysis.</p>
+            <span class="db-tag pathway">Pathway</span>
+          </div>
+          <div class="db-card">
+            <div class="db-icon">🔲</div>
+            <h4>PDB</h4>
+            <p>Worldwide Protein Data Bank. 3D structures of proteins, nucleic acids, and complexes. Used for structural bioinformatics and drug target analysis.</p>
+            <span class="db-tag protein">Structure</span>
+          </div>
+          <div class="db-card">
+            <div class="db-icon">📊</div>
+            <h4>GEO</h4>
+            <p>NCBI Gene Expression Omnibus. Thousands of publicly deposited RNA-seq, microarray, and epigenomics datasets you can re-analyse or use as controls.</p>
+            <span class="db-tag genome">Expression</span>
+          </div>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">🌱</span>
+          <p><strong>Plant genomics tip:</strong> For <em>Sorghum bicolor</em> specifically, you will work with <strong>Phytozome</strong> (JGI Plant Portal), <strong>Ensembl Plants</strong>, <strong>SorghumBase</strong>, and <strong>NCBI</strong>. SorghumBase is a newer community resource that aggregates sorghum genomics data including SNPs from GWAS studies — directly relevant to your thesis work on genomic selection.</p>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────────────────────────────
+           SECTION 4 — Data formats
+      ────────────────────────────────────────────────── -->
+      <section id="database-formats" class="prose" style="scroll-margin-top:100px; margin-top:44px;">
+        <h2>4. Common data formats from databases</h2>
+
+        <p>Every database exports data in specific file formats. Before you can parse or analyse anything, you must recognise the format you received. The most important ones are:</p>
+
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Format</th>
+              <th>Extension</th>
+              <th>What it looks like</th>
+              <th>Used for</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>FASTA</strong></td>
+              <td><code>.fa</code> <code>.fasta</code></td>
+              <td><code>&gt;ID description<br/>ATGATCGGC…</code></td>
+              <td>Sequences (DNA, RNA, protein)</td>
+            </tr>
+            <tr>
+              <td><strong>FASTQ</strong></td>
+              <td><code>.fq</code> <code>.fastq</code></td>
+              <td>4 lines per read: ID, seq, +, quality</td>
+              <td>Raw sequencing reads with quality scores</td>
+            </tr>
+            <tr>
+              <td><strong>GenBank flat file</strong></td>
+              <td><code>.gb</code> <code>.gbk</code></td>
+              <td>LOCUS / DEFINITION / FEATURES header block</td>
+              <td>Annotated sequence records</td>
+            </tr>
+            <tr>
+              <td><strong>GFF3 / GTF</strong></td>
+              <td><code>.gff3</code> <code>.gtf</code></td>
+              <td>Tab-separated: seqname, source, feature, start, end…</td>
+              <td>Gene annotations, exon coordinates</td>
+            </tr>
+            <tr>
+              <td><strong>VCF</strong></td>
+              <td><code>.vcf</code></td>
+              <td>## header + CHROM POS ID REF ALT columns</td>
+              <td>Variant calls (SNPs, indels)</td>
+            </tr>
+            <tr>
+              <td><strong>JSON / XML</strong></td>
+              <td><code>.json</code> <code>.xml</code></td>
+              <td>Key-value or tagged hierarchical text</td>
+              <td>API responses from Entrez, Ensembl REST</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="explain-box">
+          <strong>🔬 FASTA vs FASTQ — the critical distinction</strong>
+          <p>FASTA is a clean sequence you get <em>from</em> a database (a reference genome, a protein). FASTQ is a raw file you get <em>from your sequencer</em> — it contains quality scores because sequencers make errors. You align FASTQ reads <em>against</em> a FASTA reference. These two formats are never interchangeable. Confusing them at the start of your pipeline is one of the most common beginner mistakes.</p>
+        </div>
+
+        <h3>FASTA format — anatomy</h3>
+        <div class="folder-note">📁 No directory needed — this is a format reference</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">FASTA</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Every FASTA record has exactly two parts:</span>
+
+<span class="c-cmd">&gt;Sb01g000010.1</span> <span class="c-str">Sorghum bicolor gene SbDREB2 [Sorghum bicolor]</span>
+<span class="c-comment">#  ↑ Header line: starts with ">" then accession ID then description</span>
+
+<span class="c-out">ATGATCGGCATCGACGAGCTTCTCAAGGACTTCGAGCAGCAGCTCAAGAAGCACGGCATC
+GAGCTCGTCGCGTTCGACGCGCTCAAGGAGATCATCATCGAGCGCGTCGACGACGAGCTC
+ATCGAGCGCATGAAGAAGCTCGAGCAGCAGCTCAAGCACATCGGCATCGAGCTCGTCGCG</span>
+<span class="c-comment"># ↑ Sequence: any number of lines, no spaces or special characters</span>
+
+<span class="c-comment"># Multiple records in one file — simply repeat the pattern:</span>
+<span class="c-cmd">&gt;Sb01g000020.1</span> <span class="c-str">Sorghum bicolor gene SbWRKY1 [Sorghum bicolor]</span>
+<span class="c-out">ATGGCGAGCTTCGACGAGCTCATCAAGGACTTCGAGCAGCAGCTCAAG…</span></pre>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────────────────────────────
+           SECTION 5 — First query
+      ────────────────────────────────────────────────── -->
+      <section id="first-query" class="prose" style="scroll-margin-top:100px; margin-top:44px;">
+        <h2>5. Your first database query</h2>
+
+        <p>The fastest way to query a biological database from the command line is with <code>curl</code> — a tool that sends HTTP requests and receives the response. Most major databases (NCBI, Ensembl, UniProt) offer a <strong>REST API</strong> that you can call with nothing more than a URL. No registration, no software, just a URL.</p>
+
+        <div class="explain-box">
+          <strong>🔬 What is a REST API?</strong>
+          <p>REST (Representational State Transfer) is a convention for web services. A REST API lets you retrieve data by constructing a URL with parameters — exactly like a Google search, but for scientific data. The database server receives your request, runs the query on its side, and returns the result as text (FASTA, JSON, XML, plain text). This is how bioinformatics pipelines automatically download thousands of sequences without any human clicking.</p>
+        </div>
+
+        <h3>Query NCBI with <code>curl</code> — fetch a sequence</h3>
+        <p>NCBI's Entrez API is called <strong>E-utilities</strong> (eutils). The most important tool is <code>efetch</code>, which retrieves a record by accession number.</p>
+
+        <div class="folder-note">📁 Run from: ~/database-queries</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># First, create your working directory</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/database-queries</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/database-queries</span>
+
+<span class="c-comment"># Fetch a sorghum protein sequence from NCBI in FASTA format</span>
+<span class="c-comment"># Breakdown of the URL parameters:</span>
+<span class="c-comment">#   db=protein        — which NCBI database to query</span>
+<span class="c-comment">#   id=XP_002449040   — the accession number to retrieve</span>
+<span class="c-comment">#   rettype=fasta     — return format (fasta, gb, xml, etc.)</span>
+<span class="c-comment">#   retmode=text      — response encoding</span>
+
+<span class="c-cmd">curl</span> <span class="c-flag">-s</span> <span class="c-str">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&amp;id=XP_002449040&amp;rettype=fasta&amp;retmode=text"</span>
+
+<span class="c-comment"># -s flag = silent mode (suppresses progress bar)</span></pre>
+        </div>
+
+        <p>You will see FASTA output printed directly in your terminal:</p>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Output</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-out">&gt;XP_002449040.1 PREDICTED: putative DREB transcription factor [Sorghum bicolor]
+MAAMAEGSGGGGGMSGPPPPPPPYGLAQHHHHHHHHHHHPPLRAAEDPMTAEQLAQEFWSD
+DLEELIEALEAEMQALHADIVTGFREPDHRLLIQQVQRSAADMRGKMRGAVAKAGIEDSMS
+YRMKVGKGMPWSKKERVIVGPPADIAQIAEKYWQKYAPDATRGKQLRGRSAIPVPQEKFLQ</span></pre>
+        </div>
+
+        <h3>Save the output to a file</h3>
+
+        <div class="folder-note">📁 Run from: ~/database-queries</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Save directly to a FASTA file instead of printing to screen</span>
+<span class="c-cmd">curl</span> <span class="c-flag">-s</span> <span class="c-str">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&amp;id=XP_002449040&amp;rettype=fasta&amp;retmode=text"</span> <span class="c-flag">&gt;</span> <span class="c-path">sorghum_dreb.fasta</span>
+
+<span class="c-comment"># Verify the file was created and contains data</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">sorghum_dreb.fasta</span>
+<span class="c-cmd">head</span> <span class="c-flag">-3</span> <span class="c-path">sorghum_dreb.fasta</span></pre>
+        </div>
+
+        <h3>The same query with Python (Biopython Entrez)</h3>
+
+        <div class="explain-box">
+          <strong>🔬 Why use Biopython instead of curl?</strong>
+          <p>For a single sequence, <code>curl</code> is faster. But when you need to fetch <em>hundreds</em> of sequences, parse the results, handle errors, or integrate the query into a larger pipeline, Biopython's <code>Entrez</code> module is far superior. It manages rate limits automatically (NCBI allows max 3 requests/second without an API key, 10 with), handles pagination, and parses GenBank records into Python objects you can immediately work with.</p>
+        </div>
+
+        <div class="folder-note">📁 Run from: ~/database-queries</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Python</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment">#!/usr/bin/env python3</span>
+<span class="c-comment"># fetch_sequence.py — fetch a protein sequence from NCBI using Biopython</span>
+
+<span class="c-kw">from</span> <span class="c-py">Bio</span> <span class="c-kw">import</span> <span class="c-py">Entrez</span>, <span class="c-py">SeqIO</span>
+
+<span class="c-comment"># NCBI requires you to identify yourself with an email</span>
+<span class="c-comment"># (so they can contact you if your script causes problems)</span>
+<span class="c-py">Entrez</span>.<span class="c-fn">email</span> = <span class="c-str">"your.email@example.com"</span>
+
+<span class="c-comment"># efetch: retrieve a record from a specific database by ID</span>
+<span class="c-py">handle</span> = <span class="c-py">Entrez</span>.<span class="c-fn">efetch</span>(
+    <span class="c-fn">db</span>=<span class="c-str">"protein"</span>,          <span class="c-comment"># database name</span>
+    <span class="c-fn">id</span>=<span class="c-str">"XP_002449040"</span>,    <span class="c-comment"># accession number</span>
+    <span class="c-fn">rettype</span>=<span class="c-str">"fasta"</span>,       <span class="c-comment"># format: fasta, gb, xml</span>
+    <span class="c-fn">retmode</span>=<span class="c-str">"text"</span>         <span class="c-comment"># encoding: text or xml</span>
+)
+
+<span class="c-comment"># SeqIO.read() parses the FASTA into a SeqRecord object</span>
+<span class="c-py">record</span> = <span class="c-py">SeqIO</span>.<span class="c-fn">read</span>(<span class="c-py">handle</span>, <span class="c-str">"fasta"</span>)
+<span class="c-py">handle</span>.<span class="c-fn">close</span>()
+
+<span class="c-comment"># Now you can access the parts of the record as Python attributes</span>
+<span class="c-fn">print</span>(<span class="c-str">f"ID          : {record.id}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Description : {record.description}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Length      : {len(record.seq)} amino acids"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"First 30 aa : {record.seq[:30]}"</span>)
+
+<span class="c-comment"># Save to FASTA file</span>
+<span class="c-kw">with</span> <span class="c-fn">open</span>(<span class="c-str">"sorghum_dreb_biopython.fasta"</span>, <span class="c-str">"w"</span>) <span class="c-kw">as</span> <span class="c-py">out_f</span>:
+    <span class="c-py">SeqIO</span>.<span class="c-fn">write</span>(<span class="c-py">record</span>, <span class="c-py">out_f</span>, <span class="c-str">"fasta"</span>)</pre>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">Output</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-out">ID          : XP_002449040.1
+Description : XP_002449040.1 PREDICTED: putative DREB transcription factor [Sorghum bicolor]
+Length      : 217 amino acids
+First 30 aa : MAAMAEGSGGGGGMSGPPPPPPPYGLAQHHH</span></pre>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <p><strong>Install Biopython</strong> if you haven't yet: <code>pip install biopython</code> or <code>conda install -c conda-forge biopython</code>. Your conda environment from Module 3 is the right place to install it.</p>
+        </div>
+      </section>
+
+      <!-- ─────────────────────────────────────────────────
+           AD SLOT — mid page
+      ────────────────────────────────────────────────── -->
+      <div class="ad-slot in-feed" style="margin: 40px 0;">
+        <strong>Advertisement</strong>
+        <small>Support free bioinformatics education</small>
+      </div>
+
+      <!-- ─────────────────────────────────────────────────
+           SECTION 6 — Quick reference
+      ────────────────────────────────────────────────── -->
+      <section id="reference" class="prose" style="scroll-margin-top:100px; margin-top:44px;">
+        <h2>6. Quick reference — databases at a glance</h2>
+
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Database</th>
+              <th>URL</th>
+              <th>Best for</th>
+              <th>API?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>NCBI / GenBank</strong></td>
+              <td><code>ncbi.nlm.nih.gov</code></td>
+              <td>Sequences, genomes, literature, taxonomy</td>
+              <td>✅ E-utilities</td>
+            </tr>
+            <tr>
+              <td><strong>RefSeq</strong></td>
+              <td><code>ncbi.nlm.nih.gov/refseq</code></td>
+              <td>Curated reference sequences</td>
+              <td>✅ E-utilities</td>
+            </tr>
+            <tr>
+              <td><strong>UniProt</strong></td>
+              <td><code>uniprot.org</code></td>
+              <td>Protein function, domains, pathways</td>
+              <td>✅ REST API</td>
+            </tr>
+            <tr>
+              <td><strong>Ensembl</strong></td>
+              <td><code>ensembl.org</code></td>
+              <td>Vertebrate genomes, gene models</td>
+              <td>✅ REST API</td>
+            </tr>
+            <tr>
+              <td><strong>Ensembl Plants</strong></td>
+              <td><code>plants.ensembl.org</code></td>
+              <td>Plant genomes incl. sorghum, rice, maize</td>
+              <td>✅ REST API</td>
+            </tr>
+            <tr>
+              <td><strong>SorghumBase</strong></td>
+              <td><code>sorghumbase.org</code></td>
+              <td>Sorghum genomics, SNPs, expression</td>
+              <td>Partial</td>
+            </tr>
+            <tr>
+              <td><strong>PDB</strong></td>
+              <td><code>rcsb.org</code></td>
+              <td>3D protein structures</td>
+              <td>✅ REST API</td>
+            </tr>
+            <tr>
+              <td><strong>KEGG</strong></td>
+              <td><code>kegg.jp</code></td>
+              <td>Metabolic pathways, functional annotation</td>
+              <td>✅ KEGG API</td>
+            </tr>
+            <tr>
+              <td><strong>GEO</strong></td>
+              <td><code>ncbi.nlm.nih.gov/geo</code></td>
+              <td>Public RNA-seq / expression datasets</td>
+              <td>✅ E-utilities</td>
+            </tr>
+            <tr>
+              <td><strong>Gene Ontology</strong></td>
+              <td><code>geneontology.org</code></td>
+              <td>Functional annotation terms</td>
+              <td>✅ AmiGO API</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ─────────────────────────────────────────────────
+           SECTION 7 — Exercises
+      ────────────────────────────────────────────────── -->
+      <section id="exercises" class="prose" style="scroll-margin-top:100px; margin-top:44px;">
+        <h2>7. Exercises</h2>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <div class="ex-num">1</div>
+            <div class="ex-title">Identify the format</div>
+          </div>
+          <p style="font-size:15px;color:#33433b;line-height:1.6;">You download a file from NCBI that starts with the line <code>@SRR12345.1 1 length=150</code>. What format is this? What database would it have come from? Why does it have four lines per entry?</p>
+          <details class="answer">
+            <summary>▶ Show answer</summary>
+            <div class="ans-body">
+              This is <strong>FASTQ</strong> format. The <code>@</code> prefix on the header line (instead of <code>&gt;</code>) is the distinguishing feature. It would come from <strong>NCBI SRA</strong> (Sequence Read Archive) — the database for raw sequencing reads. It has four lines per entry because: (1) the header line with <code>@</code>, (2) the nucleotide sequence, (3) a <code>+</code> separator line, and (4) the quality score string — one ASCII character per base representing the Phred quality score of that base call.
+            </div>
+          </details>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <div class="ex-num">2</div>
+            <div class="ex-title">Curl query</div>
+          </div>
+          <p style="font-size:15px;color:#33433b;line-height:1.6;">Use <code>curl</code> and the NCBI E-utilities API to fetch the nucleotide sequence for accession <code>NM_001078124</code> (a sorghum mRNA) in FASTA format. Save it to a file called <code>sorghum_mrna.fasta</code>. Then use <code>grep</code> to count the number of lines in the file.</p>
+          <details class="answer">
+            <summary>▶ Show answer</summary>
+            <div class="ans-body">
+              <pre style="background:#1e3528;color:#a8c5b0;border-radius:8px;padding:14px;font-size:13px;overflow-x:auto;"><span class="c-cmd">curl</span> <span class="c-flag">-s</span> <span class="c-str">"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=nucleotide&amp;id=NM_001078124&amp;rettype=fasta&amp;retmode=text"</span> <span class="c-flag">&gt;</span> <span class="c-path">sorghum_mrna.fasta</span>
+<span class="c-cmd">wc</span> <span class="c-flag">-l</span> <span class="c-path">sorghum_mrna.fasta</span></pre>
+              Change <code>db=nucleotide</code> (not <code>protein</code>) since this is a nucleotide accession. The <code>wc -l</code> command counts lines. You should see the FASTA header on line 1 and the sequence split across subsequent lines.
+            </div>
+          </details>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <div class="ex-num">3</div>
+            <div class="ex-title">Python + Biopython</div>
+          </div>
+          <p style="font-size:15px;color:#33433b;line-height:1.6;">Modify the <code>fetch_sequence.py</code> script to fetch <strong>three</strong> sorghum protein accessions in a loop: <code>XP_002449040</code>, <code>XP_002463573</code>, <code>XP_002446972</code>. Print the ID and length of each. Save all three to a single FASTA file called <code>sorghum_proteins.fasta</code>.</p>
+          <details class="answer">
+            <summary>▶ Show answer</summary>
+            <div class="ans-body">
+              <pre style="background:#1e3528;color:#a8c5b0;border-radius:8px;padding:14px;font-size:13px;overflow-x:auto;"><span class="c-kw">from</span> <span class="c-py">Bio</span> <span class="c-kw">import</span> <span class="c-py">Entrez</span>, <span class="c-py">SeqIO</span>
+<span class="c-kw">import</span> <span class="c-py">time</span>
+
+<span class="c-py">Entrez</span>.<span class="c-fn">email</span> = <span class="c-str">"your.email@example.com"</span>
+
+<span class="c-py">accessions</span> = [<span class="c-str">"XP_002449040"</span>, <span class="c-str">"XP_002463573"</span>, <span class="c-str">"XP_002446972"</span>]
+<span class="c-py">records</span> = []
+
+<span class="c-kw">for</span> <span class="c-py">acc</span> <span class="c-kw">in</span> <span class="c-py">accessions</span>:
+    <span class="c-py">handle</span> = <span class="c-py">Entrez</span>.<span class="c-fn">efetch</span>(<span class="c-fn">db</span>=<span class="c-str">"protein"</span>, <span class="c-fn">id</span>=<span class="c-py">acc</span>, <span class="c-fn">rettype</span>=<span class="c-str">"fasta"</span>, <span class="c-fn">retmode</span>=<span class="c-str">"text"</span>)
+    <span class="c-py">rec</span> = <span class="c-py">SeqIO</span>.<span class="c-fn">read</span>(<span class="c-py">handle</span>, <span class="c-str">"fasta"</span>)
+    <span class="c-py">handle</span>.<span class="c-fn">close</span>()
+    <span class="c-py">records</span>.<span class="c-fn">append</span>(<span class="c-py">rec</span>)
+    <span class="c-fn">print</span>(<span class="c-str">f"{rec.id}: {len(rec.seq)} aa"</span>)
+    <span class="c-py">time</span>.<span class="c-fn">sleep</span>(<span class="c-num">0.4</span>)  <span class="c-comment"># respect NCBI rate limit</span>
+
+<span class="c-py">SeqIO</span>.<span class="c-fn">write</span>(<span class="c-py">records</span>, <span class="c-str">"sorghum_proteins.fasta"</span>, <span class="c-str">"fasta"</span>)</pre>
+              The <code>time.sleep(0.4)</code> is critical — without it, NCBI will block your IP after 3 rapid requests per second.
+            </div>
+          </details>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <div class="ex-num">4</div>
+            <div class="ex-title">Research task</div>
+          </div>
+          <p style="font-size:15px;color:#33433b;line-height:1.6;">Visit <strong>SorghumBase</strong> (sorghumbase.org) and find the reference genome version currently used for <em>Sorghum bicolor</em>. What is the genome assembly name? How many chromosomes does sorghum have? Where does that genome data ultimately come from (which primary database)?</p>
+          <details class="answer">
+            <summary>▶ Show answer</summary>
+            <div class="ans-body">
+              The current sorghum reference genome in SorghumBase is <strong>Sbicolor_454_v3.1.1</strong> (Sorghum bicolor v3, published by the DOE Joint Genome Institute). Sorghum has <strong>10 chromosomes</strong> (2n = 20). The genome data originates from <strong>Phytozome</strong> (JGI Plant Portal), which is one of the primary plant genome databases. SorghumBase integrates this genome with community annotation tracks, expression data, and variant data.
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- Mark complete + nav -->
+      <div class="mark-complete-wrap">
+        <div>
+          <div style="font-size:13px;color:var(--muted);margin-bottom:6px;">Track your progress</div>
+          <button class="mark-complete" id="markBtn" onclick="markDone()">
+            ✓ Mark lesson complete
+          </button>
+        </div>
+        <div style="font-size:13px;color:var(--muted);text-align:right;">
+          Lesson 1 of 6 · Module 11
+        </div>
+      </div>
+
+      <div class="lesson-nav-footer">
+        <span></span>
+        <span style="opacity:.5">Next: NCBI &amp; Entrez — Searching Sequences — coming soon</span>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     BOTTOM AD SLOT
+═══════════════════════════════════════════════════════ -->
+<div style="padding: 0 0 56px;">
+  <div class="wrap" style="display:flex;justify-content:center;">
+    <div class="ad-slot rectangle" style="max-width:340px;width:100%;min-height:280px;">
+      <strong>Advertisement</strong>
+      <small>Support free bioinformatics education</small>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" width="48" height="48"
+               onerror="this.style.display='none'" />
+          <span class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>Learn · Build · Publish</small>
+          </span>
+        </div>
+        <p class="foot-about">Free, in-depth bioinformatics education for plant genomics researchers, students, and aspiring computational biologists.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" title="GitHub">🐙</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" title="ORCID">🔬</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="../bash-linux/lesson-1.html">Bash &amp; Linux</a></li>
+          <li><a href="index.html" class="active">Biological Databases</a></li>
+          <li><a href="../deseq2/index.html">RNA-seq Analysis</a></li>
+          <li><a href="../gwas-genomic-prediction/index.html">GWAS &amp; Genomic Selection</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../bioinformatics-curriculum.html">Bioinformatics</a></li>
+          <li><a href="../../courses.html">All courses</a></li>
+          <li><a href="../../faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="../../about.html">About Shajedur</a></li>
+          <li><a href="../../contact.html">Contact</a></li>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy · shopnilacademy.com</span>
+      <span>Built with ♥ for plant genomics researchers</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+/* ── Mobile nav ─────────────────────────────────────── */
+document.getElementById('navToggle').addEventListener('click', function () {
+  const links = document.querySelector('.nav-links');
+  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+});
+
+/* ── Module accordion ───────────────────────────────── */
+function toggleMod(el) {
+  el.classList.toggle('open');
+  const panel = el.nextElementSibling;
+  panel.classList.toggle('open');
+}
+
+/* ── Copy code ──────────────────────────────────────── */
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1800);
+  });
+}
+
+/* ── Progress + mark complete ───────────────────────── */
+const STORAGE_KEY = 'sa_biodb_done';
+const TOTAL = 6;
+const LESSON_ID = 'lesson-1';
+
+function getDone() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+
+function updateProgress() {
+  const done = getDone();
+  const count = done.length;
+  document.getElementById('progText').textContent = count + ' / ' + TOTAL;
+  document.getElementById('progFill').style.width = (count / TOTAL * 100) + '%';
+
+  // Update sidebar icons
+  for (let i = 1; i <= TOTAL; i++) {
+    const link = document.getElementById('nav-l' + i);
+    if (!link) continue;
+    const icon = link.querySelector('.l-icon');
+    if (done.includes('lesson-' + i)) {
+      link.classList.add('done');
+      icon.textContent = '✓';
+    }
+  }
+}
+
+function markDone() {
+  const done = getDone();
+  const btn = document.getElementById('markBtn');
+  if (!done.includes(LESSON_ID)) {
+    done.push(LESSON_ID);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    btn.textContent = '✓ Completed!';
+    btn.classList.add('done');
+  }
+  updateProgress();
+}
+
+// On load — restore state
+window.addEventListener('DOMContentLoaded', () => {
+  const done = getDone();
+  if (done.includes(LESSON_ID)) {
+    const btn = document.getElementById('markBtn');
+    btn.textContent = '✓ Completed!';
+    btn.classList.add('done');
+  }
+  updateProgress();
+});
+
+/* ── Active TOC via IntersectionObserver ────────────── */
+const sections = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('.toc-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocLinks.forEach(a => a.style.color = '');
+      const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+      if (active) active.style.color = 'var(--green)';
+    }
+  });
+}, { rootMargin: '-20% 0px -60% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
