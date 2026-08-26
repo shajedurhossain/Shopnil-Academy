@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Introduction to Sequence Alignment | Shopnil Academy</title>
+  <meta name="description" content="Understand what sequence alignment is, why it is the central step in RNA-seq, and how short reads are mapped to a reference genome." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar layout ──────────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 0;
+      min-height: 100vh;
+    }
+    .sidebar {
+      border-right: 1px solid var(--line);
+      padding: 32px 0 64px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+    .sidebar-inner { padding: 0 20px; }
+    .sidebar-course-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 15px; color: var(--ink); line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 6px; background: var(--line); border-radius: 999px;
+      margin-bottom: 24px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green); border-radius: 999px;
+      transition: width .4s ease;
+    }
+
+    /* Module accordion */
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 10px; cursor: pointer;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .15s ease;
+      user-select: none;
+    }
+    .mod-group-label:hover { background: var(--green-soft); color: var(--green); }
+    .mod-group-label .arrow { font-size: 10px; transition: transform .2s ease; }
+    .mod-group.open .mod-group-label .arrow { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding: 4px 0 8px; }
+    .mod-group.open .mod-lessons { display: block; }
+
+    .lesson-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 8px;
+      font-size: 13px; color: var(--muted);
+      transition: background .15s ease, color .15s ease;
+      text-decoration: none;
+    }
+    .lesson-link.soon { cursor: default; opacity: .55; }
+    .lesson-link.soon:hover { background: none; }
+    .lesson-link:hover { background: var(--green-soft); color: var(--green); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .l-icon {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--cream); border: 1.5px solid var(--line);
+      display: grid; place-items: center;
+      font-size: 10px; flex-shrink: 0; color: var(--muted);
+    }
+    .lesson-link.done .l-icon { background: var(--green); border-color: var(--green); color: #fff; }
+    .lesson-link.active .l-icon { border-color: var(--green); color: var(--green); background: #fff; }
+
+    /* TOC (on-this-page) in sidebar */
+    .toc-sidebar { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 20px; }
+    .toc-sidebar h5 {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    }
+    .toc-sidebar a {
+      display: block; font-size: 12.5px; color: var(--muted);
+      padding: 5px 10px; border-radius: 6px; border-left: 2px solid transparent;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .toc-sidebar a:hover { background: var(--cream); color: var(--ink); }
+    .toc-sidebar a.active { color: var(--green); border-color: var(--green); background: var(--green-soft); }
+
+    /* ── Main content ───────────────────────────────────────── */
+    .lesson-main { min-width: 0; }
+
+    /* Lesson meta strip */
+    .lesson-meta-strip {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+      padding: 14px 0; margin-bottom: 8px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+    }
+    .lm-num { font-weight: 700; color: var(--green); font-family: var(--font-display); }
+    .lm-time { color: var(--muted); }
+    .lm-sep { color: var(--line); }
+
+    /* Code blocks */
+    .code-wrap {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      margin: 20px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,.18);
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #1a1f2e; padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .code-lang {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: #7c8fa6;
+    }
+    .copy-btn {
+      font-size: 11px; font-weight: 600; color: #7c8fa6;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px; padding: 4px 10px; cursor: pointer;
+      transition: color .15s, background .15s;
+      font-family: inherit;
+    }
+    .copy-btn:hover { color: #fff; background: rgba(255,255,255,.12); }
+    pre {
+      margin: 0; padding: 20px;
+      background: #141820;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px; line-height: 1.75;
+      overflow-x: auto;
+      color: #e2e8f0;
+    }
+    .c-cmd   { color: #79c0ff; font-weight: 500; }
+    .c-flag  { color: #ffab70; }
+    .c-path  { color: #a5d6a7; }
+    .c-out   { color: #b0bec5; }
+    .c-comment { color: #546e7a; font-style: italic; }
+    .c-kw    { color: #f97583; font-weight: 500; }
+    .c-str   { color: #9ccc65; }
+    .c-num   { color: #ce93d8; }
+
+    /* Explain box */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0f8f4 100%);
+      border: 1px solid rgba(0,106,78,.18);
+      border-left: 4px solid var(--green);
+      border-radius: 12px; padding: 18px 20px; margin: 18px 0;
+    }
+    .explain-box .eb-label {
+      font-size: 10px; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 8px;
+    }
+    .explain-box p { font-size: 14.5px; color: var(--green-deep); line-height: 1.7; margin: 0; }
+
+    /* Folder note */
+    .folder-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-soft); border: 1px solid rgba(232,183,42,.3);
+      border-radius: 8px; padding: 8px 14px; margin: 12px 0;
+      font-size: 13px; font-weight: 500; color: #7a5c00;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* Tip / Warn */
+    .tip, .warn {
+      border-radius: 12px; padding: 16px 20px; margin: 18px 0;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .tip { background: #e8f5e9; border: 1px solid #a5d6a7; }
+    .warn { background: #fff3e0; border: 1px solid #ffcc80; }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .tip p, .warn p { font-size: 14px; color: #1b5e20; margin: 0; line-height: 1.6; }
+    .warn p { color: #e65100; }
+
+    /* Concept table */
+    .cmd-table {
+      width: 100%; border-collapse: collapse; margin: 18px 0;
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+      font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--cream); padding: 12px 16px;
+      text-align: left; font-family: var(--font-display);
+      font-weight: 600; font-size: 13px; color: var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+    .cmd-table td {
+      padding: 12px 16px; border-bottom: 1px solid var(--line);
+      vertical-align: top; color: #33433b; line-height: 1.55;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--green-deep); font-weight: 500; }
+
+    /* Pipeline diagram */
+    .pipeline-diagram {
+      background: #141820; border-radius: 14px;
+      padding: 28px 24px; margin: 20px 0;
+      border: 1px solid rgba(255,255,255,.06);
+      overflow-x: auto;
+    }
+    .pipe-row {
+      display: flex; align-items: center; gap: 0;
+      margin-bottom: 0; flex-wrap: nowrap;
+    }
+    .pipe-step {
+      display: flex; flex-direction: column; align-items: center;
+      min-width: 110px;
+    }
+    .pipe-box {
+      background: rgba(0,106,78,.25); border: 1px solid rgba(0,106,78,.5);
+      border-radius: 10px; padding: 10px 14px;
+      font-size: 12px; font-weight: 600; color: #a5d6a7;
+      text-align: center; font-family: var(--font-display);
+      white-space: nowrap;
+    }
+    .pipe-box.highlight {
+      background: rgba(0,106,78,.55); border-color: #4caf50;
+      color: #c8e6c9; box-shadow: 0 0 16px rgba(0,106,78,.4);
+    }
+    .pipe-sub { font-size: 10px; color: #546e7a; margin-top: 5px; text-align: center; }
+    .pipe-arrow { color: #546e7a; font-size: 18px; padding: 0 6px; flex-shrink: 0; margin-top: -16px; }
+
+    /* Streams table */
+    .streams-table {
+      width: 100%; border-collapse: collapse; margin: 16px 0;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+    .streams-table th {
+      background: #1a1f2e; color: #7c8fa6;
+      font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+      padding: 10px 14px; text-align: left; font-weight: 600;
+    }
+    .streams-table td {
+      padding: 11px 14px; font-size: 13.5px;
+      border-bottom: 1px solid var(--line);
+      font-family: 'DM Mono', monospace;
+    }
+    .streams-table tr:last-child td { border-bottom: 0; }
+
+    /* Exercise */
+    .exercise {
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 16px; padding: 24px; margin: 20px 0;
+    }
+    .ex-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .ex-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-size: 14px; font-weight: 700; font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+    .ex-title { font-size: 16px; font-weight: 700; color: var(--ink); font-family: var(--font-display); }
+    .exercise p { font-size: 14.5px; color: #33433b; line-height: 1.65; margin-bottom: 12px; }
+    details.answer {
+      margin-top: 14px;
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 10px; overflow: hidden;
+    }
+    details.answer summary {
+      padding: 12px 16px; cursor: pointer;
+      font-size: 13px; font-weight: 600; color: var(--green);
+      list-style: none; display: flex; align-items: center; gap: 8px;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer summary::before { content: '▶'; font-size: 10px; transition: transform .2s; }
+    details.answer[open] summary::before { transform: rotate(90deg); }
+    details.answer .answer-body { padding: 0 16px 16px; }
+    details.answer .answer-body p { font-size: 14px; color: #33433b; line-height: 1.65; margin-bottom: 10px; }
+
+    /* Mark complete */
+    .mark-complete-wrap { margin: 36px 0 16px; text-align: center; }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 999px;
+      padding: 14px 28px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: inherit;
+      transition: background .2s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--green-dark); }
+
+    /* Lesson footer nav */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 0 56px; gap: 16px; flex-wrap: wrap;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px; border-radius: 999px;
+      font-weight: 600; font-size: 14px;
+      border: 1.5px solid var(--line); color: var(--ink);
+      transition: border-color .15s, background .15s;
+    }
+    .lesson-nav-footer a:hover { border-color: var(--green); color: var(--green); }
+    .lesson-nav-footer .next-btn {
+      background: var(--green); color: #fff; border-color: var(--green);
+    }
+    .lesson-nav-footer .next-btn:hover { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN · BUILD · PUBLISH</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../bioinformatics-curriculum.html">Bioinformatics</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enrol Free</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INNER HEADER
+════════════════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="index.html">Sequence Alignment</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <h1>Introduction to Sequence Alignment</h1>
+    <p class="lead">Understand what happens when short RNA-seq reads meet a reference genome — and why alignment is the central step in every transcriptomics pipeline.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px;align-items:center;">
+      <span class="free-pill">✓ Free Lesson</span>
+      <span class="updated">📅 Module 7 · Lesson 1 of 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AD SLOT — TOP BANNER
+════════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:28px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here — AdSense slot reserved</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LESSON SHELL (sidebar + main)
+════════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:32px;padding-bottom:0;">
+<div class="lesson-shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-course-label">Module 7 · Phase 2</div>
+      <div class="sidebar-course-title">Sequence Alignment for RNA-seq</div>
+
+      <div class="prog-label">
+        <span>Progress</span>
+        <span id="prog-pct">0 / 10</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+      <!-- Module accordion -->
+      <div class="mod-group open" id="mod-alignment">
+        <div class="mod-group-label" onclick="toggleMod('mod-alignment')">
+          Module 7 — Sequence Alignment <span class="arrow">›</span>
+        </div>
+        <div class="mod-lessons">
+          <a class="lesson-link active" href="lesson-1.html" id="link-al-1">
+            <span class="l-icon">1</span> Introduction to Sequence Alignment
+          </a>
+          <span class="lesson-link soon" id="link-al-2" title="Coming soon">
+            <span class="l-icon">2</span> The Reference Genome &amp; Indexing
+          </span>
+          <span class="lesson-link soon" id="link-al-3" title="Coming soon">
+            <span class="l-icon">3</span> Aligning Reads with STAR
+          </span>
+          <span class="lesson-link soon" id="link-al-4" title="Coming soon">
+            <span class="l-icon">4</span> Aligning Reads with HISAT2
+          </span>
+          <span class="lesson-link soon" id="link-al-5" title="Coming soon">
+            <span class="l-icon">5</span> SAM &amp; BAM Formats
+          </span>
+          <span class="lesson-link soon" id="link-al-6" title="Coming soon">
+            <span class="l-icon">6</span> Sorting &amp; Indexing BAM Files
+          </span>
+          <span class="lesson-link soon" id="link-al-7" title="Coming soon">
+            <span class="l-icon">7</span> Alignment QC
+          </span>
+          <span class="lesson-link soon" id="link-al-8" title="Coming soon">
+            <span class="l-icon">8</span> Generating Count Matrices
+          </span>
+          <span class="lesson-link soon" id="link-al-9" title="Coming soon">
+            <span class="l-icon">9</span> Splice-Aware Alignment
+          </span>
+          <span class="lesson-link soon" id="link-al-10" title="Coming soon">
+            <span class="l-icon">10</span> Capstone: Full Alignment Pipeline
+          </span>
+        </div>
+      </div><!-- /mod-group -->
+
+      <!-- On this page TOC -->
+      <div class="toc-sidebar">
+        <h5>On this page</h5>
+        <a href="#what-is-alignment" class="toc-link">What is sequence alignment?</a>
+        <a href="#why-it-matters" class="toc-link">Why alignment matters</a>
+        <a href="#the-pipeline" class="toc-link">Where alignment sits in the pipeline</a>
+        <a href="#read-types" class="toc-link">Types of RNA-seq reads</a>
+        <a href="#aligner-overview" class="toc-link">Aligner overview</a>
+        <a href="#key-concepts" class="toc-link">Key concepts &amp; terminology</a>
+        <a href="#exercises" class="toc-link">Exercises</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ── -->
+  <main class="lesson-main">
+    <div style="padding: 0 40px;">
+
+      <!-- Lesson meta strip -->
+      <div class="lesson-meta-strip">
+        <span class="lm-pill"><span class="lm-num">Lesson 1</span></span>
+        <span class="lm-sep">·</span>
+        <span class="lm-time">⏱ 40 min read</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill">🧬 Conceptual</span>
+        <span class="lm-pill">🔰 Beginner-friendly</span>
+      </div>
+
+      <!-- ── PROSE ── -->
+      <div class="prose">
+
+        <!-- ══ SECTION 1 ══ -->
+        <section id="what-is-alignment">
+          <h2><span class="n">01</span> What is sequence alignment?</h2>
+
+          <p>When you sequence RNA from a biological sample, you get millions of short DNA fragments called <strong>reads</strong>. Each read is typically 50–150 base pairs long. By itself, a single read tells you almost nothing — it is just a short string of A, T, G, C characters with no context.</p>
+
+          <p>Sequence alignment is the process of figuring out <em>where in the genome each read came from</em>. You take every read and find its best matching position on a known reference genome. Once you know where each read maps, you can answer the biological question: <strong>which genes are active and at what level?</strong></p>
+
+          <div class="explain-box">
+            <div class="eb-label">💡 Why this step exists</div>
+            <p>Think of a shredded book. If you shred 3 billion pages into 150-character strips, you need to reassemble them to read the story. Alignment is the reassembly step — every short read gets placed back onto the reference genome so that the full transcriptional picture emerges. Without alignment, raw reads are uninterpretable noise.</p>
+          </div>
+
+          <p>The output of alignment is a file that records, for every read: the chromosome it mapped to, its exact start position, and how confident the aligner is about that placement. This file (in SAM or BAM format) becomes the input for all downstream analyses — differential expression, variant calling, and more.</p>
+
+          <div class="tip">
+            <span class="tip-icon">🌱</span>
+            <p><strong>Plant genomics note:</strong> For crops like rice, maize, and sorghum, genome sizes range from 400 Mb (rice) to over 2 Gb (maize). Alignment to a plant genome uses the exact same tools and concepts as human genomics — only the reference FASTA file changes.</p>
+          </div>
+        </section>
+
+        <!-- ══ SECTION 2 ══ -->
+        <section id="why-it-matters">
+          <h2><span class="n">02</span> Why alignment matters</h2>
+
+          <p>Every RNA-seq analysis — whether you are studying drought stress in sorghum, cancer cell lines, or immune response — passes through alignment. It is the bridge between raw sequencing data and biological insight.</p>
+
+          <p>Getting alignment right matters for several practical reasons:</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th>Problem if alignment goes wrong</th>
+                <th>Consequence</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Too many reads fail to map</td>
+                <td>You lose statistical power; genes appear lowly expressed when they are not</td>
+              </tr>
+              <tr>
+                <td>Reads map to wrong locations</td>
+                <td>False-positive differentially expressed genes appear</td>
+              </tr>
+              <tr>
+                <td>Multi-mapping reads handled incorrectly</td>
+                <td>Counts for gene families with repeated sequences are inflated or deflated</td>
+              </tr>
+              <tr>
+                <td>Wrong aligner for the data type</td>
+                <td>Splice junctions in mRNA-seq are missed; gene models become inaccurate</td>
+              </tr>
+              <tr>
+                <td>Wrong reference genome version</td>
+                <td>Coordinate mismatch; downstream tools produce errors or silent nonsense</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <p><strong>Common mistake:</strong> Many beginners skip checking alignment rates. Always look at the percentage of reads that successfully mapped. A good RNA-seq alignment should map 85–95% of reads. If you see 30–50%, something is wrong — usually a wrong reference genome, adapter contamination, or a species mismatch.</p>
+          </div>
+        </section>
+
+        <!-- ══ SECTION 3 ══ -->
+        <section id="the-pipeline">
+          <h2><span class="n">03</span> Where alignment sits in the pipeline</h2>
+
+          <p>Alignment is step 3 in a standard RNA-seq pipeline. Understanding its position helps you know what inputs it expects and what outputs it produces.</p>
+
+          <div class="pipeline-diagram">
+            <div class="pipe-row">
+              <div class="pipe-step">
+                <div class="pipe-box">Raw FASTQ</div>
+                <div class="pipe-sub">Illumina output</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step">
+                <div class="pipe-box">QC &amp; Trim</div>
+                <div class="pipe-sub">FastQC · Trimmomatic</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step">
+                <div class="pipe-box highlight">Alignment</div>
+                <div class="pipe-sub">STAR · HISAT2 ← you are here</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step">
+                <div class="pipe-box">SAM/BAM</div>
+                <div class="pipe-sub">samtools sort/index</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step">
+                <div class="pipe-box">Count Matrix</div>
+                <div class="pipe-sub">featureCounts · HTSeq</div>
+              </div>
+              <div class="pipe-arrow">→</div>
+              <div class="pipe-step">
+                <div class="pipe-box">DESeq2</div>
+                <div class="pipe-sub">Differential expression</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="explain-box">
+            <div class="eb-label">💡 Inputs and outputs</div>
+            <p><strong>Alignment takes as input:</strong> (1) trimmed FASTQ files — your sequencing reads, and (2) an indexed reference genome — the complete genome sequence of your organism plus gene annotation.<br><br>
+            <strong>Alignment produces as output:</strong> a SAM or BAM file — a table with one row per read, recording its mapped position, mapping quality, and additional flags. This file is what every downstream tool (featureCounts, DESeq2, GATK) reads.</p>
+          </div>
+        </section>
+
+        <!-- ══ SECTION 4 ══ -->
+        <section id="read-types">
+          <h2><span class="n">04</span> Types of RNA-seq reads</h2>
+
+          <p>Not all sequencing reads are the same. The type of reads you have determines which aligner settings you need and what biological questions you can answer.</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th>Read type</th>
+                <th>Description</th>
+                <th>Alignment implication</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Single-end (SE)</td>
+                <td>One read per fragment, sequenced from one end only. Files: one FASTQ per sample.</td>
+                <td>Simpler to align; less accurate for quantification of overlapping genes</td>
+              </tr>
+              <tr>
+                <td>Paired-end (PE)</td>
+                <td>Two reads per fragment — one from each end. Files: R1.fastq.gz and R2.fastq.gz per sample.</td>
+                <td>More accurate placement; aligner uses both reads together to confirm the insert size</td>
+              </tr>
+              <tr>
+                <td>Stranded</td>
+                <td>Library prep preserves which DNA strand the RNA came from.</td>
+                <td>Must set strand parameter correctly (--rna-strandness in HISAT2, --outSAMstrandField in STAR)</td>
+              </tr>
+              <tr>
+                <td>Unstranded</td>
+                <td>Both strands are represented equally; strand of origin is unknown.</td>
+                <td>Default setting for most older datasets; simpler but loses strand information</td>
+              </tr>
+              <tr>
+                <td>Long reads (PacBio/ONT)</td>
+                <td>Reads of 5,000–50,000 bp; sequenced with PacBio or Oxford Nanopore.</td>
+                <td>Different aligners needed: minimap2 instead of STAR/HISAT2</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <p><strong>How to check your read type:</strong> Look at your FASTQ filenames. If you have <code>sample1_R1.fastq.gz</code> and <code>sample1_R2.fastq.gz</code>, you have paired-end data. If you only have <code>sample1.fastq.gz</code>, you have single-end data. The library preparation protocol documentation from your sequencing provider will tell you whether it was stranded.</p>
+          </div>
+        </section>
+
+        <!-- ══ SECTION 5 ══ -->
+        <section id="aligner-overview">
+          <h2><span class="n">05</span> Aligner overview</h2>
+
+          <p>Several aligners exist for RNA-seq. In this module we will learn the two most widely used in plant and human genomics: <strong>STAR</strong> and <strong>HISAT2</strong>. Here is how they compare:</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th>Aligner</th>
+                <th>Algorithm</th>
+                <th>Speed</th>
+                <th>Memory</th>
+                <th>Best for</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>STAR</td>
+                <td>Suffix array; loads entire genome index into RAM</td>
+                <td>Very fast</td>
+                <td>High (30–45 GB for human)</td>
+                <td>Large projects, HPC clusters, novel junction discovery</td>
+              </tr>
+              <tr>
+                <td>HISAT2</td>
+                <td>Graph-based FM-index (GCSA)</td>
+                <td>Fast</td>
+                <td>Low (4–8 GB)</td>
+                <td>Laptops, smaller organisms, known variant-aware alignment</td>
+              </tr>
+              <tr>
+                <td>HISAT2 (plant)</td>
+                <td>Same as above</td>
+                <td>Very fast for small genomes</td>
+                <td>1–4 GB for rice/sorghum</td>
+                <td>Plant genomics on standard workstations</td>
+              </tr>
+              <tr>
+                <td>minimap2</td>
+                <td>Minimiser-based chaining</td>
+                <td>Extremely fast</td>
+                <td>Moderate</td>
+                <td>Long-read data (PacBio, Oxford Nanopore) only</td>
+              </tr>
+              <tr>
+                <td>BWA-MEM</td>
+                <td>Burrows-Wheeler transform</td>
+                <td>Fast</td>
+                <td>Moderate</td>
+                <td>DNA alignment (WGS, variant calling) — NOT for RNA-seq</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <p><strong>Do not use BWA for RNA-seq.</strong> BWA is a DNA aligner — it does not understand splicing. If you align RNA-seq reads with BWA, reads that span exon-intron junctions will fail to map, and you will dramatically undercount most genes. Always use a splice-aware aligner (STAR or HISAT2) for mRNA sequencing data.</p>
+          </div>
+        </section>
+
+        <!-- ══ SECTION 6 ══ -->
+        <section id="key-concepts">
+          <h2><span class="n">06</span> Key concepts &amp; terminology</h2>
+
+          <p>These terms appear throughout every alignment workflow. Make sure you understand each one before moving to Lesson 2.</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th>Term</th>
+                <th>What it means</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Reference genome</td>
+                <td>The complete DNA sequence of an organism, stored in a FASTA file. The aligner uses this as a map to place reads against. Example: <code>Sbicolor_730_v5.0.fa</code> for sorghum.</td>
+              </tr>
+              <tr>
+                <td>Genome index</td>
+                <td>A pre-computed data structure built from the reference genome. Building it once allows the aligner to locate any sequence in milliseconds rather than scanning billions of bases each time.</td>
+              </tr>
+              <tr>
+                <td>Mapping rate</td>
+                <td>The percentage of reads that successfully aligned to the genome. Reported in the aligner log file after each run.</td>
+              </tr>
+              <tr>
+                <td>Mapping quality (MAPQ)</td>
+                <td>A score (0–255) that represents how confident the aligner is about each read's placement. Higher is better. MAPQ 255 = unique, unambiguous mapping in STAR.</td>
+              </tr>
+              <tr>
+                <td>Multi-mapper</td>
+                <td>A read that aligns equally well to two or more locations in the genome. Common in gene families and repeated elements. Most pipelines discard or down-weight these reads.</td>
+              </tr>
+              <tr>
+                <td>Splice junction</td>
+                <td>The boundary between two exons in mature mRNA. A read that spans a splice junction must be "split" across the gap — only splice-aware aligners like STAR and HISAT2 can handle this.</td>
+              </tr>
+              <tr>
+                <td>SAM / BAM</td>
+                <td>The output file format. SAM (Sequence Alignment Map) is human-readable text. BAM is the compressed binary version. BAM files are smaller and faster for downstream tools.</td>
+              </tr>
+              <tr>
+                <td>GTF / GFF annotation</td>
+                <td>A file that describes where genes, transcripts, and exons are located on the reference genome. The aligner uses this to understand splice junctions. Example: <code>Sbicolor_730_v5.1.gene.gtf</code></td>
+              </tr>
+              <tr>
+                <td>Soft-clipping</td>
+                <td>When the aligner cannot place the ends of a read, it "clips" them off and still maps the core of the read. Common at read ends where quality is lower or where adapters remain.</td>
+              </tr>
+              <tr>
+                <td>Insert size</td>
+                <td>For paired-end reads: the distance between the outer ends of the two reads on the original DNA fragment. Typically 100–500 bp for Illumina short-read sequencing.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="explain-box">
+            <div class="eb-label">💡 The splice junction problem — why RNA-seq alignment is hard</div>
+            <p>Mature mRNA has had its introns removed. So a 150 bp read from mRNA might have its first 80 bp from exon 5 and its last 70 bp from exon 6 — with a 10,000 bp intron in between on the genome. A standard DNA aligner would fail to place this read because it looks for a perfect continuous match. STAR and HISAT2 solve this by splitting the read and placing each part on its correct exon, with a "N" in the CIGAR string representing the skipped intron. This is why splice-aware alignment matters for every RNA-seq experiment.</p>
+          </div>
+        </section>
+
+        <!-- ═══ AD SLOT — MIDDLE ═══ -->
+        <div class="ad-slot in-feed" style="margin:32px 0;">
+          <strong>Advertisement</strong>
+          <small>AdSense in-feed slot reserved</small>
+        </div>
+
+        <!-- ══ SECTION 7 — EXERCISES ══ -->
+        <section id="exercises">
+          <h2><span class="n">07</span> Exercises</h2>
+          <p>These exercises are conceptual — no terminal needed yet. They prepare you for the hands-on work starting in Lesson 2.</p>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">1</div>
+              <div class="ex-title">Identify your read type</div>
+            </div>
+            <p>You receive a sequencing dataset with files named <code>drought_rep1_R1.fastq.gz</code> and <code>drought_rep1_R2.fastq.gz</code>. Answer the following:</p>
+            <p>(a) Is this single-end or paired-end data?<br>
+            (b) What does R1 represent and what does R2 represent?<br>
+            (c) Which aligner would you choose — STAR or BWA-MEM — and why?</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <p>(a) This is <strong>paired-end</strong> data. The presence of both R1 and R2 files for the same sample confirms this.</p>
+                <p>(b) <strong>R1</strong> is the forward read — sequenced from the 5′ end of the RNA fragment. <strong>R2</strong> is the reverse read — sequenced from the 3′ end of the same fragment. Together they cover both ends of one original RNA molecule.</p>
+                <p>(c) <strong>STAR</strong> (or HISAT2) — because this is RNA-seq data. BWA-MEM is a DNA aligner that does not understand splicing. Using BWA would cause reads that span exon-intron junctions to fail to map, leading to severely undercounted genes.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">2</div>
+              <div class="ex-title">Interpret a mapping rate</div>
+            </div>
+            <p>After running STAR on a sorghum RNA-seq dataset, the log file reports: <em>"Uniquely mapped reads %: 42.35%"</em>. The experiment used a sorghum reference genome downloaded from Phytozome three years ago.</p>
+            <p>(a) Is this mapping rate acceptable?<br>
+            (b) List three things you would check to diagnose the problem.</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <p>(a) <strong>No.</strong> A mapping rate of 42% is far below the expected 85–95% for a well-processed RNA-seq dataset. This strongly suggests a problem upstream of alignment.</p>
+                <p>(b) Things to check:</p>
+                <p><strong>1. Reference genome version mismatch.</strong> A three-year-old genome download may not match the current assembly version. The annotation (GTF) and genome (FASTA) must be from the same version — mixing versions causes poor alignment.</p>
+                <p><strong>2. Adapter contamination.</strong> If the reads were not trimmed before alignment, adapter sequences at read ends prevent clean mapping. Run FastQC on the raw reads and check the "Adapter Content" panel.</p>
+                <p><strong>3. Species contamination.</strong> If the sequenced sample contained contaminating organisms (fungi, bacteria, human), a significant fraction of reads would fail to map to the sorghum genome. BLAST a few unmapped reads to check their origin.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">3</div>
+              <div class="ex-title">Splice junction reasoning</div>
+            </div>
+            <p>A 150 bp read from an RNA-seq experiment maps to chromosome 1 with the CIGAR string <code>75M1000N75M</code>. Explain in plain language what this means. Would a standard DNA aligner (like BWA) have been able to map this read correctly?</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <p>The CIGAR string <code>75M1000N75M</code> means: the first 75 bases of the read matched the genome perfectly (75M), then there is a 1,000 bp gap on the genome (1000N — a skipped intron), and then the last 75 bases matched the genome (75M). This read spans a splice junction: it came from an mRNA where exon boundaries are separated by a 1,000 bp intron in the genomic DNA.</p>
+                <p><strong>No, BWA would not map this correctly.</strong> BWA looks for continuous matches. When it tries to align all 150 bp at once, it finds 75 bp matching at one location and then the next 75 bp 1,000 bp away — which looks like an impossibly large gap. BWA would either fail to map the read entirely or would soft-clip one half of it and report a poor alignment. Only splice-aware aligners like STAR and HISAT2 know to look for this pattern and correctly place both halves across the intron.</p>
+              </div>
+            </details>
+          </div>
+
+        </section><!-- /exercises -->
+
+        <!-- Mark complete -->
+        <div class="mark-complete-wrap">
+          <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+            ✓ Mark Lesson Complete
+          </button>
+        </div>
+
+        <!-- Lesson nav footer -->
+        <div class="lesson-nav-footer">
+          <a href="../../courses.html">← Back to Courses</a>
+          <span class="next-btn" style="opacity:.5;cursor:default">Lesson 2: The Reference Genome &amp; Indexing — coming soon</span>
+        </div>
+
+      </div><!-- /prose -->
+    </div><!-- /padding wrapper -->
+  </main>
+
+</div><!-- /lesson-shell -->
+</div><!-- /wrap -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     AD SLOT — BOTTOM
+════════════════════════════════════════════════════════════════ -->
+<div style="text-align:center;padding:40px 0 16px;">
+  <div class="ad-slot rectangle" style="max-width:340px;margin:0 auto;">
+    <strong>Advertisement</strong>
+    <small>AdSense rectangle slot reserved</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>LEARN · BUILD · PUBLISH</small>
+          </div>
+        </div>
+        <p class="foot-about">Free, deep bioinformatics education — from Bash basics to single-cell RNA-seq. Built by a plant genomics researcher, for the next generation of computational biologists.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" aria-label="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" aria-label="ORCID">OC</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../bash-linux/lesson-1.html">Bash &amp; Linux</a></li>
+          <li><a href="lesson-1.html">Sequence Alignment</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../bioinformatics-curriculum.html">Bioinformatics</a></li>
+          <li><a href="../../about.html">About</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+          <li><a href="../../terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy · shopnilacademy.com</span>
+      <span>Built with ❤️ in Gießen, Germany</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════════ -->
+<script>
+/* ── Module accordion ── */
+function toggleMod(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+/* ── Copy code ── */
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+/* ── Progress bar (localStorage) ── */
+const LS_KEY = 'sa_alignment_done';
+const TOTAL   = 10;
+
+function getDone() {
+  try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+  catch { return []; }
+}
+function saveDone(arr) {
+  localStorage.setItem(LS_KEY, JSON.stringify(arr));
+}
+function updateProgress() {
+  const done = getDone();
+  const pct  = Math.round((done.length / TOTAL) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-pct').textContent  = done.length + ' / ' + TOTAL;
+
+  /* Mark sidebar links */
+  for (let i = 1; i <= TOTAL; i++) {
+    const link = document.getElementById('link-al-' + i);
+    if (link && done.includes('al-' + i)) {
+      link.classList.add('done');
+      link.querySelector('.l-icon').textContent = '✓';
+    }
+  }
+
+  /* Update mark-complete button */
+  const btn = document.getElementById('mc-btn');
+  if (btn && done.includes('al-1')) {
+    btn.textContent = '✓ Completed';
+    btn.classList.add('done');
+  }
+}
+
+function markComplete() {
+  const done = getDone();
+  if (!done.includes('al-1')) {
+    done.push('al-1');
+    saveDone(done);
+  }
+  updateProgress();
+}
+
+/* ── Active TOC via IntersectionObserver ── */
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections  = document.querySelectorAll('.prose section[id]');
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector('.toc-link[href="#' + e.target.id + '"]');
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => obs.observe(s));
+
+/* ── Mobile nav ── */
+document.querySelector('.nav-toggle').addEventListener('click', function() {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+
+/* ── Init ── */
+updateProgress();
+</script>
+
+</body>
+</html>
