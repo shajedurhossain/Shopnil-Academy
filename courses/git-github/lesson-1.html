@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: What is Git? Install & Configure — Git & GitHub | Shopnil Academy</title>
+  <meta name="description" content="Learn what Git is, why every bioinformatician needs it, how to install it on Ubuntu, and how to configure your identity. Free bioinformatics course." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar layout ── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 0;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 96px;
+      padding: 28px 0 28px 0;
+      padding-right: 32px;
+      border-right: 1px solid var(--line);
+      min-height: calc(100vh - 120px);
+    }
+    .sidebar-course-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 5px;
+      background: var(--green-mint);
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+    .prog-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+    /* Module accordion */
+    .mod-group { margin-bottom: 4px; }
+    .mod-group-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 0;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .mod-group-label:hover { color: var(--ink); }
+    .mod-group-label .arr { transition: transform .2s ease; font-size: 10px; }
+    .mod-group-label.open .arr { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-bottom: 8px; }
+    .mod-lessons.open { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: background .15s ease, color .15s ease;
+      text-decoration: none;
+    }
+    .lesson-link.soon { cursor: default; opacity: .55; }
+    .lesson-link.soon:hover { background: none; }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--ink); }
+    .l-icon {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      display: grid; place-items: center;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+      background: var(--cream);
+      color: var(--muted);
+    }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-mint); color: var(--green-deep); }
+    /* "On this page" TOC */
+    .sidebar-toc-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 24px 0 10px;
+    }
+    .sidebar-toc a {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 5px 10px;
+      border-left: 2px solid transparent;
+      border-radius: 0 6px 6px 0;
+      transition: all .15s ease;
+      text-decoration: none;
+    }
+    .sidebar-toc a:hover { color: var(--ink); background: var(--cream); }
+    .sidebar-toc a.active { color: var(--green); border-left-color: var(--green); background: var(--green-soft); font-weight: 500; }
+
+    /* ── Main content ── */
+    .lesson-main { padding: 36px 0 80px 40px; }
+
+    /* Meta strip */
+    .lesson-meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .lm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--cream);
+      color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .lm-num { background: var(--green); color: #fff; }
+    .lm-time { background: var(--gold-soft); color: #8a6800; }
+    .lm-sep { color: var(--line); font-size: 18px; }
+
+    /* Code blocks */
+    .code-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(15,36,24,.1);
+      margin: 20px 0;
+    }
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #1a2b22;
+      padding: 10px 16px;
+    }
+    .code-lang {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #7db899;
+    }
+    .copy-btn {
+      font-size: 12px;
+      font-weight: 600;
+      color: #7db899;
+      background: transparent;
+      border: 1px solid rgba(125,184,153,.3);
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .15s ease;
+    }
+    .copy-btn:hover { background: rgba(125,184,153,.15); }
+    pre {
+      background: #0f1f17;
+      color: #c8e6c9;
+      margin: 0;
+      padding: 22px 22px;
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      line-height: 1.75;
+      overflow-x: auto;
+    }
+    /* Syntax colours */
+    .c-cmd  { color: #80cbc4; }   /* commands — teal */
+    .c-flag { color: #ffcc80; }   /* flags/options — amber */
+    .c-path { color: #a5d6a7; }   /* paths/filenames — light green */
+    .c-out  { color: #b0bec5; }   /* terminal output — grey */
+    .c-comment { color: #546e5a; font-style: italic; } /* comments */
+    .c-val  { color: #ef9a9a; }   /* values/strings — pink */
+    .c-kw   { color: #ce93d8; }   /* keywords (if/for/do) — purple */
+
+    /* Explain box */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0faf5 100%);
+      border: 1px solid rgba(0,106,78,.15);
+      border-left: 4px solid var(--green);
+      border-radius: 0 14px 14px 0;
+      padding: 18px 20px;
+      margin: 20px 0;
+    }
+    .explain-box .eb-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .explain-box p {
+      font-size: 14.5px;
+      color: var(--green-deep);
+      line-height: 1.65;
+      margin: 0;
+    }
+    .explain-box p + p { margin-top: 8px; }
+
+    /* Folder note */
+    .folder-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(184,136,21,.2);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-family: 'DM Mono', monospace;
+      color: #7a5c00;
+      margin: 12px 0;
+    }
+
+    /* Tip / warn */
+    .tip, .warn {
+      display: flex;
+      gap: 14px;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+    .tip { background: #e8f5e9; border: 1px solid rgba(0,106,78,.15); color: #1b4d30; }
+    .warn { background: #fff8e1; border: 1px solid rgba(184,136,21,.2); color: #6d4c00; }
+    .tip-icon, .warn-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Streams table */
+    .cmd-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .cmd-table th, .cmd-table td {
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .cmd-table th {
+      background: var(--cream);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--ink);
+    }
+    .cmd-table tr:last-child td { border-bottom: none; }
+    .cmd-table td:first-child { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--green-deep); font-weight: 500; }
+
+    /* Exercises */
+    .exercise {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .ex-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+    }
+    .ex-num {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      background: var(--green);
+      color: #fff;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 700;
+      font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+    .ex-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+    .exercise > p, .exercise > div.ex-body {
+      padding: 14px 18px;
+      font-size: 14.5px;
+      color: #33433b;
+      line-height: 1.65;
+    }
+    details.answer {
+      border-top: 1px solid var(--line);
+    }
+    details.answer summary {
+      list-style: none;
+      padding: 10px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      cursor: pointer;
+      user-select: none;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body { padding: 0 18px 14px; }
+
+    /* Mark complete */
+    .mark-complete-wrap {
+      text-align: center;
+      padding: 40px 0 20px;
+    }
+    .mark-complete {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background .2s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--green-mint); color: var(--green-deep); }
+
+    /* Lesson nav footer */
+    .lesson-nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      margin-top: 16px;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green);
+    }
+    .lesson-nav-footer a:hover { color: var(--green-deep); }
+
+    /* Concept card grid */
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+    .concept-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .concept-card .cc-icon { font-size: 28px; margin-bottom: 8px; }
+    .concept-card .cc-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; font-family: var(--font-display); }
+    .concept-card .cc-desc { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .lesson-shell { grid-template-columns: 1fr; padding: 0 20px; }
+      .sidebar { position: static; border-right: none; border-bottom: 1px solid var(--line); padding-right: 0; min-height: auto; }
+      .lesson-main { padding: 28px 0 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN · BUILD · PUBLISH</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../bioinformatics-curriculum.html">Bioinformatics</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enrol Free</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'" aria-label="Toggle navigation">☰</button>
+  </nav>
+</div>
+
+<!-- ══ INNER HEADER ══════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="index.html">Git &amp; GitHub</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <h1>What is Git? Install &amp; Configure</h1>
+    <p class="lead">Understand version control, install Git on Ubuntu, and set your global identity — the one-time setup every bioinformatician must do before writing a single commit.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+      <span class="free-pill">✓ Free lesson</span>
+      <span class="lm-pill" style="background:var(--green-soft);color:var(--green);border-color:rgba(0,106,78,.18);">Module 2 · Lesson 1 of 7</span>
+      <span class="lm-pill" style="background:var(--gold-soft);color:#7a5800;border-color:rgba(184,136,21,.2);">⏱ 35 min</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOP AD SLOT ════════════════════════════════════════════════════════ -->
+<div class="wrap" style="margin-top:28px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here</small>
+  </div>
+</div>
+
+<!-- ══ LESSON BODY ═══════════════════════════════════════════════════════ -->
+<div class="lesson-shell" style="margin-top:36px;">
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Module 2</div>
+    <div class="sidebar-course-title">Git &amp; GitHub Basics</div>
+
+    <div class="prog-label">
+      <span>Progress</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+
+    <!-- Module accordion -->
+    <div class="mod-group">
+      <button class="mod-group-label open" onclick="toggleMod(this)">
+        Module 2 — Git &amp; GitHub <span class="arr">▶</span>
+      </button>
+      <div class="mod-lessons open">
+        <a href="lesson-1.html" class="lesson-link active">
+          <span class="l-icon">1</span>What is Git? Install &amp; Configure
+        </a>
+        <span class="lesson-link soon" title="Coming soon">
+          <span class="l-icon">2</span>Your First Repository: init, add, commit
+        </span>
+        <span class="lesson-link soon" title="Coming soon">
+          <span class="l-icon">3</span>Branches: branch, checkout, merge
+        </span>
+        <span class="lesson-link soon" title="Coming soon">
+          <span class="l-icon">4</span>Remote Repos: clone, push, pull, fetch
+        </span>
+        <span class="lesson-link soon" title="Coming soon">
+          <span class="l-icon">5</span>GitHub for Bioinformatics: README, .gitignore, Releases
+        </span>
+        <span class="lesson-link soon" title="Coming soon">
+          <span class="l-icon">6</span>Undoing Things: reset, revert, stash
+        </span>
+        <span class="lesson-link soon" title="Coming soon">
+          <span class="l-icon">7</span>Collaboration: Forks, Pull Requests, Issues
+        </span>
+      </div>
+    </div>
+
+    <!-- On this page TOC -->
+    <div class="sidebar-toc-title">On this page</div>
+    <nav class="sidebar-toc" id="sidebar-toc">
+      <a href="#why-git">Why Git?</a>
+      <a href="#how-git-works">How Git works</a>
+      <a href="#install">Install Git</a>
+      <a href="#configure">Configure Git</a>
+      <a href="#verify">Verify setup</a>
+      <a href="#reference">Quick reference</a>
+      <a href="#exercises">Exercises</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="lesson-main">
+
+    <!-- Meta strip -->
+    <div class="lesson-meta-strip">
+      <span class="lm-pill lm-num">Lesson 1</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill lm-time">⏱ 35 min</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill">🐧 Ubuntu</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill">Beginner</span>
+    </div>
+
+    <!-- ── SECTION 1: Why Git? ── -->
+    <section id="why-git">
+      <h2>Why does a bioinformatician need Git?</h2>
+
+      <p class="prose" style="font-size:16px;line-height:1.75;color:#33433b;margin:14px 0 20px;">
+        Imagine you are running a GATK variant-calling pipeline. You tweak a parameter, your script breaks, and you cannot remember what it looked like before. Or you share your RNA-seq analysis with a colleague and they cannot reproduce your results because you have been editing the script all week. These are exactly the problems Git solves.
+      </p>
+
+      <div class="explain-box">
+        <div class="eb-title">💡 What is Git, exactly?</div>
+        <p>Git is a <strong>version control system</strong>. It tracks every change you make to your files over time, so you can always go back to any earlier version. Think of it as an unlimited "undo" button for your entire project — except smarter, because it remembers <em>who</em> changed <em>what</em>, <em>when</em>, and <em>why</em>.</p>
+        <p>In bioinformatics, Git is used to track analysis scripts (R, Python, Bash), pipeline configuration files (Snakemake, Nextflow), and small data-processing utilities. Large data files (FASTQ, BAM, VCF) are <em>not</em> tracked in Git — those go on HPC shared storage or cloud object storage.</p>
+      </div>
+
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="cc-icon">🔁</div>
+          <div class="cc-name">Version history</div>
+          <div class="cc-desc">Every saved state of your script is stored. Roll back at any time.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">🌿</div>
+          <div class="cc-name">Branching</div>
+          <div class="cc-desc">Try a new approach without breaking your working pipeline.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">🤝</div>
+          <div class="cc-name">Collaboration</div>
+          <div class="cc-desc">Work with supervisors and colleagues on the same codebase.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">📦</div>
+          <div class="cc-name">Reproducibility</div>
+          <div class="cc-desc">Share the exact code version used for a publication figure.</div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🌱</span>
+        <span><strong>Real example:</strong> When publishing your Sorghum genomic selection results, you can tag the exact Git commit used to produce each table and figure. A reviewer can clone your repository and reproduce the results exactly — a standard increasingly required by journals.</span>
+      </div>
+    </section>
+
+    <!-- ── SECTION 2: How Git works ── -->
+    <section id="how-git-works" style="margin-top:44px;">
+      <h2>How Git works — the three areas</h2>
+
+      <p class="prose" style="font-size:16px;line-height:1.75;color:#33433b;margin:14px 0 20px;">
+        Before installing anything, you need to understand the three places Git stores your work. Confusing these is the most common cause of mistakes for beginners.
+      </p>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>What it is</th>
+            <th>Bioinformatics analogy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Working directory</td>
+            <td>The actual files on your disk — what you see in your terminal</td>
+            <td>Your open R script in a text editor</td>
+          </tr>
+          <tr>
+            <td>Staging area (index)</td>
+            <td>A holding zone — you choose which changes to include in the next snapshot</td>
+            <td>Your lab notebook page you are about to sign off</td>
+          </tr>
+          <tr>
+            <td>Repository (.git)</td>
+            <td>The permanent record of all snapshots (commits) — stored in a hidden <code>.git/</code> folder</td>
+            <td>The signed, dated page in your lab notebook, never to be erased</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="explain-box">
+        <div class="eb-title">💡 Why three areas?</div>
+        <p>The staging area exists so you can make many small edits but only commit the ones that logically belong together. For example, you might edit both your Snakemake pipeline and your README at the same time — but you can stage and commit them separately, keeping your history clean and readable.</p>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">🧬</span>
+        <span><strong>The Git workflow in one line:</strong> You edit files in the <em>working directory</em>, stage the ones you want with <code>git add</code>, then permanently record them with <code>git commit</code>. That snapshot lives in the <em>repository</em> forever.</span>
+      </div>
+    </section>
+
+    <!-- ── SECTION 3: Install ── -->
+    <section id="install" style="margin-top:44px;">
+      <h2>Install Git on Ubuntu</h2>
+
+      <div class="explain-box">
+        <div class="eb-title">💡 Why apt-get?</div>
+        <p>Ubuntu (and Debian-based Linux systems used on most HPC clusters) uses the <code>apt</code> package manager to install software. It downloads Git from the official Ubuntu software repository, automatically handles dependencies, and registers it so it is available system-wide — which is why we need <code>sudo</code> (superuser permission).</p>
+        <p>On HPC systems where you do not have <code>sudo</code>, you will install Git via <code>conda</code> instead — we cover that in Module 3.</p>
+      </div>
+
+      <p style="font-size:15px;color:#33433b;margin:14px 0 8px;"><strong>Step 1 — Update the package list</strong></p>
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin-bottom:8px;">This tells Ubuntu to fetch the latest list of available software versions. Always run this before installing anything, so you get the current Git version rather than a stale one from months ago.</p>
+
+      <div class="folder-note">📁 Run from: anywhere — this is a system command</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">sudo</span> <span class="c-cmd">apt-get</span> <span class="c-flag">update</span></pre>
+      </div>
+
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin:0 0 8px;">You will be prompted for your Ubuntu password. Type it and press Enter — the cursor will not move as you type (this is normal Linux security behaviour).</p>
+
+      <p style="font-size:15px;color:#33433b;margin:20px 0 8px;"><strong>Step 2 — Install Git</strong></p>
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin-bottom:8px;">The <code>-y</code> flag automatically answers "yes" to the confirmation prompt, so the installation runs without pausing.</p>
+
+      <div class="folder-note">📁 Run from: anywhere</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">sudo</span> <span class="c-cmd">apt-get</span> <span class="c-flag">install</span> <span class="c-flag">-y</span> <span class="c-path">git</span></pre>
+      </div>
+
+      <p style="font-size:15px;color:#33433b;margin:20px 0 8px;"><strong>Step 3 — Confirm the installation</strong></p>
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin-bottom:8px;">Check that Git installed correctly and see its version number. You should see output like <code>git version 2.43.0</code> — the exact number does not matter as long as it is 2.x.</p>
+
+      <div class="folder-note">📁 Run from: anywhere</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">git</span> <span class="c-flag">--version</span>
+
+<span class="c-comment"># Expected output:</span>
+<span class="c-out">git version 2.43.0</span></pre>
+      </div>
+
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <span><strong>If you get "command not found":</strong> the installation failed. Try running <code>sudo apt-get update</code> again and then the install command. If you are on a restricted HPC system, use <code>conda install -c conda-forge git</code> instead — we cover this in Module 3.</span>
+      </div>
+    </section>
+
+    <!-- ── SECTION 4: Configure ── -->
+    <section id="configure" style="margin-top:44px;">
+      <h2>Configure Git — your global identity</h2>
+
+      <p style="font-size:15px;color:#33433b;line-height:1.75;margin:14px 0 20px;">
+        Git records <em>who made each commit</em>. Before you make your first commit anywhere, you must tell Git your name and email. This is a one-time setup that applies to all repositories on your machine.
+      </p>
+
+      <div class="explain-box">
+        <div class="eb-title">💡 Why does Git need your name and email?</div>
+        <p>Every commit in Git is permanently stamped with the author's name, email, and timestamp. This is what makes Git a trustworthy scientific record — when you look at a project's history, you can see exactly who changed a parameter in the alignment script, and when. When you push your commits to GitHub, your name and email appear next to each change.</p>
+        <p>Use the same email as your GitHub account — this is how GitHub links your commits to your profile and makes your contribution graph green.</p>
+      </div>
+
+      <p style="font-size:15px;color:#33433b;margin:20px 0 8px;"><strong>Set your name</strong></p>
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin-bottom:8px;">The <code>--global</code> flag means this setting applies to every Git repository on your machine, not just the current one. Replace the placeholder with your actual name.</p>
+
+      <div class="folder-note">📁 Run from: anywhere — this writes to ~/.gitconfig</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-flag">--global</span> <span class="c-path">user.name</span> <span class="c-val">"Shajedur Rahman Hossain"</span></pre>
+      </div>
+
+      <p style="font-size:15px;color:#33433b;margin:20px 0 8px;"><strong>Set your email</strong></p>
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin-bottom:8px;">Use the exact email linked to your GitHub account. This is how GitHub connects your commits to your profile page.</p>
+
+      <div class="folder-note">📁 Run from: anywhere — this writes to ~/.gitconfig</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-flag">--global</span> <span class="c-path">user.email</span> <span class="c-val">"your@email.com"</span></pre>
+      </div>
+
+      <p style="font-size:15px;color:#33433b;margin:20px 0 8px;"><strong>Set the default branch name to <code>main</code></strong></p>
+      <div class="explain-box">
+        <div class="eb-title">💡 Why set the default branch name?</div>
+        <p>Historically Git named the default branch <code>master</code>. GitHub and most of the scientific community now use <code>main</code> instead. Setting this globally means every new repository you create will automatically use <code>main</code>, matching what GitHub expects — avoiding a confusing mismatch the first time you push.</p>
+      </div>
+
+      <div class="folder-note">📁 Run from: anywhere</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-flag">--global</span> <span class="c-path">init.defaultBranch</span> <span class="c-val">main</span></pre>
+      </div>
+
+      <p style="font-size:15px;color:#33433b;margin:20px 0 8px;"><strong>Set your preferred text editor</strong></p>
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin-bottom:8px;">Git sometimes opens a text editor — for example, when you write a longer commit message. The default editor is <code>vi</code>, which confuses beginners. Set it to <code>nano</code> instead, which works just like any simple text editor.</p>
+
+      <div class="folder-note">📁 Run from: anywhere</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-flag">--global</span> <span class="c-path">core.editor</span> <span class="c-val">nano</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">📝</span>
+        <span><strong>Where does this go?</strong> All <code>--global</code> settings are saved in a file called <code>~/.gitconfig</code> in your home directory. You can always open it with <code>nano ~/.gitconfig</code> to see or edit your settings directly.</span>
+      </div>
+    </section>
+
+    <!-- ── SECTION 5: Verify ── -->
+    <section id="verify" style="margin-top:44px;">
+      <h2>Verify your configuration</h2>
+
+      <p style="font-size:15px;color:#33433b;line-height:1.75;margin:14px 0 20px;">
+        After setting everything, always verify it. One typo in your email will mean your commits are not linked to your GitHub profile — causing your green contribution graph to stay empty even after pushing.
+      </p>
+
+      <div class="explain-box">
+        <div class="eb-title">💡 What does --list do?</div>
+        <p><code>git config --list</code> prints every setting Git knows about — your name, email, editor, colour preferences, and more. The <code>--global</code> flag limits it to only the settings stored in <code>~/.gitconfig</code>, not any project-specific overrides. Always run this after setup to catch mistakes before they affect your commit history.</p>
+      </div>
+
+      <div class="folder-note">📁 Run from: anywhere</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">git</span> <span class="c-flag">config</span> <span class="c-flag">--global</span> <span class="c-flag">--list</span>
+
+<span class="c-comment"># Expected output — your values will differ:</span>
+<span class="c-out">user.name=Shajedur Rahman Hossain</span>
+<span class="c-out">user.email=your@email.com</span>
+<span class="c-out">init.defaultbranch=main</span>
+<span class="c-out">core.editor=nano</span></pre>
+      </div>
+
+      <p style="font-size:15px;color:#33433b;margin:20px 0 8px;"><strong>Read the raw config file directly</strong></p>
+      <p style="font-size:14.5px;color:#33433b;line-height:1.7;margin-bottom:8px;">You can also view your config file directly. This is useful if you ever need to edit it by hand.</p>
+
+      <div class="folder-note">📁 Run from: anywhere</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">cat</span> <span class="c-path">~/.gitconfig</span>
+
+<span class="c-comment"># You will see something like:</span>
+<span class="c-out">[user]</span>
+<span class="c-out">    name = Shajedur Rahman Hossain</span>
+<span class="c-out">    email = your@email.com</span>
+<span class="c-out">[init]</span>
+<span class="c-out">    defaultBranch = main</span>
+<span class="c-out">[core]</span>
+<span class="c-out">    editor = nano</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">✅</span>
+        <span>Your Git setup is complete. You never need to run <code>git config --global</code> again on this machine — these settings persist and apply to every repository you create or clone.</span>
+      </div>
+    </section>
+
+    <!-- ── SECTION 6: Reference table ── -->
+    <section id="reference" style="margin-top:44px;">
+      <h2>Quick reference — Lesson 1 commands</h2>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Command</th>
+            <th>What it does</th>
+            <th>When you use it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>sudo apt-get update</td>
+            <td>Refreshes Ubuntu's package list</td>
+            <td>Before installing any software</td>
+          </tr>
+          <tr>
+            <td>sudo apt-get install -y git</td>
+            <td>Installs Git from the Ubuntu repository</td>
+            <td>One-time setup on a new machine</td>
+          </tr>
+          <tr>
+            <td>git --version</td>
+            <td>Prints the installed Git version</td>
+            <td>Verifying the installation succeeded</td>
+          </tr>
+          <tr>
+            <td>git config --global user.name "…"</td>
+            <td>Sets the name stamped on every commit</td>
+            <td>One-time setup per machine</td>
+          </tr>
+          <tr>
+            <td>git config --global user.email "…"</td>
+            <td>Sets the email stamped on every commit</td>
+            <td>One-time setup per machine</td>
+          </tr>
+          <tr>
+            <td>git config --global init.defaultBranch main</td>
+            <td>Makes new repos default to branch "main"</td>
+            <td>One-time setup to match GitHub</td>
+          </tr>
+          <tr>
+            <td>git config --global core.editor nano</td>
+            <td>Uses nano as the default editor for commit messages</td>
+            <td>One-time setup for beginners</td>
+          </tr>
+          <tr>
+            <td>git config --global --list</td>
+            <td>Shows all global Git settings</td>
+            <td>Verifying configuration</td>
+          </tr>
+          <tr>
+            <td>cat ~/.gitconfig</td>
+            <td>Displays the raw configuration file</td>
+            <td>Viewing or editing settings directly</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ── MIDDLE AD SLOT ── -->
+    <div class="ad-slot in-feed" style="margin:36px 0;">
+      <strong>Advertisement</strong>
+      <small>Support free bioinformatics education</small>
+    </div>
+
+    <!-- ── SECTION 7: Exercises ── -->
+    <section id="exercises" style="margin-top:8px;">
+      <h2>Exercises</h2>
+      <p style="font-size:15px;color:#33433b;line-height:1.75;margin:10px 0 24px;">Complete all three exercises before moving to Lesson 2. The goal is to end this lesson with Git installed, configured, and verified on your Ubuntu machine.</p>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <span class="ex-num">1</span>
+          <span class="ex-title">Install Git and check the version</span>
+        </div>
+        <div style="padding:14px 18px;font-size:14.5px;color:#33433b;line-height:1.65;">
+          Run the three installation commands in order: <code>apt-get update</code>, <code>apt-get install -y git</code>, then <code>git --version</code>. Paste the version line you see in the terminal into a text file called <code>setup-notes.txt</code> — you will push this file to GitHub in Lesson 2.
+        </div>
+        <details class="answer">
+          <summary>▶ Show expected output</summary>
+          <div class="ans-body">
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash output</span></div>
+              <pre><span class="c-out">git version 2.43.0</span>
+<span class="c-comment"># (your version number may differ — anything 2.x is fine)</span></pre>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <span class="ex-num">2</span>
+          <span class="ex-title">Configure your global identity</span>
+        </div>
+        <div style="padding:14px 18px;font-size:14.5px;color:#33433b;line-height:1.65;">
+          Run all four <code>git config --global</code> commands from this lesson, using your real name and the email you used to create your GitHub account. Then run <code>git config --global --list</code> and confirm that all four settings appear correctly.
+        </div>
+        <details class="answer">
+          <summary>▶ Show expected output</summary>
+          <div class="ans-body">
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash output</span></div>
+              <pre><span class="c-out">user.name=Shajedur Rahman Hossain</span>
+<span class="c-out">user.email=your@email.com</span>
+<span class="c-out">init.defaultbranch=main</span>
+<span class="c-out">core.editor=nano</span></pre>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <span class="ex-num">3</span>
+          <span class="ex-title">Read your .gitconfig file</span>
+        </div>
+        <div style="padding:14px 18px;font-size:14.5px;color:#33433b;line-height:1.65;">
+          Run <code>cat ~/.gitconfig</code> and observe the INI-style format Git uses. Note the section headers in square brackets (<code>[user]</code>, <code>[init]</code>, <code>[core]</code>) and how each setting is indented beneath its section. This format is important to recognise when troubleshooting Git problems on HPC systems where you edit the file directly.
+        </div>
+        <details class="answer">
+          <summary>▶ Show expected output</summary>
+          <div class="ans-body">
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash output</span></div>
+              <pre><span class="c-out">[user]</span>
+<span class="c-out">    name = Shajedur Rahman Hossain</span>
+<span class="c-out">    email = your@email.com</span>
+<span class="c-out">[init]</span>
+<span class="c-out">    defaultBranch = main</span>
+<span class="c-out">[core]</span>
+<span class="c-out">    editor = nano</span></pre>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Mark complete -->
+    <div class="mark-complete-wrap">
+      <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+        ✓ Mark lesson complete
+      </button>
+    </div>
+
+    <!-- Lesson nav footer -->
+    <div class="lesson-nav-footer">
+      <span style="color:var(--muted);font-size:14px;">← Module 2, Lesson 1</span>
+      <a href="index.html">Module overview →</a>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ BOTTOM AD SLOT ═════════════════════════════════════════════════════ -->
+<div style="text-align:center;padding:40px 0 20px;">
+  <div class="ad-slot rectangle" style="max-width:340px;min-height:280px;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here</small>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo" style="margin-bottom:4px;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text"><strong>Shopnil Academy</strong><small>LEARN · BUILD · PUBLISH</small></div>
+        </a>
+        <p class="foot-about">Free, deep bioinformatics education — from Linux basics to single-cell RNA-seq. Built for the next generation of plant genomics researchers.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" aria-label="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" aria-label="ORCID">OC</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="../../courses/bash-linux/lesson-1.html">Bash &amp; Linux</a></li>
+          <li><a href="index.html">Git &amp; GitHub</a></li>
+          <li><a href="../../courses/conda/lesson-1.html">Conda</a></li>
+          <li><a href="../../courses/r-genomics/lesson-1.html">R for Genomics</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../bioinformatics-curriculum.html">Bioinformatics Curriculum</a></li>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="https://github.com/shajedurhossain">GitHub</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+          <li><a href="../../terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy · Shajedur Rahman Hossain</span>
+      <span>Free forever · No sign-up required</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════════════════════ -->
+<script>
+  /* Module accordion */
+  function toggleMod(btn) {
+    btn.classList.toggle('open');
+    const list = btn.nextElementSibling;
+    list.classList.toggle('open');
+  }
+
+  /* Copy code */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  /* Mark complete */
+  const LESSON_ID = 'git-github-1';
+  const STORE_KEY = 'sa_bash_done';
+  function markComplete() {
+    let done = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+    if (!done.includes(LESSON_ID)) done.push(LESSON_ID);
+    localStorage.setItem(STORE_KEY, JSON.stringify(done));
+    updateBtn(true);
+    updateProgress(done);
+  }
+  function updateBtn(isDone) {
+    const btn = document.getElementById('mc-btn');
+    if (isDone) { btn.textContent = '✓ Lesson complete!'; btn.classList.add('done'); }
+  }
+  function updateProgress(done) {
+    const total = 7;
+    const moduleIds = ['git-github-1','git-github-2','git-github-3','git-github-4','git-github-5','git-github-6','git-github-7'];
+    const count = moduleIds.filter(id => done.includes(id)).length;
+    const pct = Math.round((count / total) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '%';
+  }
+
+  /* Init on load */
+  (function() {
+    const done = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
+    if (done.includes(LESSON_ID)) updateBtn(true);
+    updateProgress(done);
+    done.forEach(id => {
+      const link = document.querySelector(`.lesson-link[href="lesson-${id.split('-').pop()}.html"]`);
+      if (link) link.classList.add('done');
+    });
+  })();
+
+  /* Active TOC via IntersectionObserver */
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('#sidebar-toc a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`#sidebar-toc a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
