@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: Python Setup & Jupyter for Bioinformatics — Python for Bioinformatics · Shopnil Academy</title>
+  <meta name="description" content="Set up Python and Jupyter for bioinformatics using conda. Learn why Python dominates biology, install key packages, and run your first notebook. Free at Shopnil Academy." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="index.htmllesson-1.html" />
+  <meta property="og:title" content="Lesson 1: Python Setup & Jupyter — Python for Bioinformatics · Shopnil Academy" />
+  <meta property="og:description" content="Set up Python and Jupyter for bioinformatics, install key packages, and run your first notebook. Free at Shopnil Academy." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="index.htmllesson-1.html" />
+  <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+  <meta property="og:site_name" content="Shopnil Academy" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@ShopnilAcademy" />
+  <meta name="theme-color" content="#006A4E" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- Shared stylesheet (two levels up) -->
+  <link rel="stylesheet" href="../../styles.css" />
+
+  <style>
+    /* ── LESSON LAYOUT ─────────────────────────────────────────── */
+    .lesson-body {
+      display: grid;
+      grid-template-columns: 256px minmax(0, 1fr);
+      gap: 0;
+      align-items: start;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+
+    /* ── LEFT SIDEBAR ──────────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 96px;
+      padding: 28px 28px 28px 0;
+      border-right: 1px solid var(--line);
+      min-height: calc(100vh - 120px);
+    }
+    .sidebar-course-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 5px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 18px;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .prog-track {
+      height: 5px;
+      background: var(--line);
+      border-radius: 999px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      width: 0%;
+      transition: width .5s ease;
+    }
+
+    /* Flat lesson list */
+    .lesson-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 24px;
+    }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      text-decoration: none;
+      transition: background .15s ease, color .15s ease;
+      line-height: 1.3;
+    }
+    .lesson-link.soon { cursor: default; opacity: .55; }
+    .lesson-link.soon:hover { background: none; }
+    .lesson-link:hover { background: var(--green-soft); color: var(--green); }
+    .lesson-link.active {
+      background: var(--green);
+      color: #fff;
+      font-weight: 600;
+    }
+    .lesson-link.done { color: var(--green); }
+    .l-icon {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--cream);
+      border: 1.5px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+    .lesson-link.active .l-icon {
+      background: rgba(255,255,255,.2);
+      border-color: rgba(255,255,255,.35);
+      color: #fff;
+    }
+    .lesson-link.done .l-icon {
+      background: var(--green-soft);
+      border-color: var(--green);
+      color: var(--green);
+      font-size: 11px;
+    }
+
+    /* On this page TOC */
+    .sidebar-toc { padding-top: 20px; border-top: 1px solid var(--line); }
+    .sidebar-toc h5 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      padding-left: 10px;
+    }
+    .sidebar-toc a {
+      display: block;
+      font-size: 12.5px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border-left: 2px solid transparent;
+      text-decoration: none;
+      transition: all .15s ease;
+    }
+    .sidebar-toc a:hover { background: var(--cream); color: var(--ink); }
+    .sidebar-toc a.active {
+      color: var(--green);
+      border-left-color: var(--green);
+      background: var(--green-soft);
+    }
+
+    /* ── MAIN CONTENT ──────────────────────────────────────────── */
+    .lesson-main { padding: 40px 0 40px 48px; }
+
+    /* Lesson meta strip */
+    .lesson-meta-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .lm-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--green-soft);
+      color: var(--green);
+      border: 1px solid rgba(0,106,78,.15);
+    }
+    .lm-num  { background: var(--green); color: #fff; }
+    .lm-time { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
+
+    /* ── CODE BLOCKS ───────────────────────────────────────────── */
+    .code-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      margin: 20px 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,.22);
+    }
+    .code-header {
+      background: #1a2920;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .code-lang {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #7ab89a;
+    }
+    .copy-btn {
+      font-size: 11px;
+      font-weight: 600;
+      color: #7ab89a;
+      background: rgba(122,184,154,.12);
+      border: 1px solid rgba(122,184,154,.2);
+      padding: 4px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+    .copy-btn:hover { background: rgba(122,184,154,.28); }
+    pre {
+      background: #0f1f17;
+      margin: 0;
+      padding: 22px 24px;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px;
+      line-height: 1.78;
+      color: #c8ddd4;
+    }
+
+    /* Syntax colour classes */
+    .c-kw      { color: #7dd3b0; font-weight: 600; }   /* keywords */
+    .c-fn      { color: #82cfb8; }                      /* functions / builtins */
+    .c-str     { color: #b5d99c; }                      /* strings */
+    .c-num     { color: #f0c97a; }                      /* numbers */
+    .c-comment { color: #5a7a68; font-style: italic; }  /* comments */
+    .c-path    { color: #e8c97a; }                      /* paths */
+    .c-out     { color: #a8d4bc; }                      /* output */
+    .c-cmd     { color: #82cfb8; font-weight: 600; }    /* bash commands */
+    .c-flag    { color: #f0c97a; }                      /* flags / options */
+    .c-pkg     { color: #b5d99c; }                      /* package names */
+
+    /* ── EXPLAIN BOX ───────────────────────────────────────────── */
+    .explain-box {
+      background: linear-gradient(135deg, #0d2419 0%, #0a1c12 100%);
+      border: 1px solid rgba(0,106,78,.3);
+      border-left: 3px solid var(--green);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 18px 0;
+    }
+    .explain-box .eb-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: #7ab89a;
+      margin-bottom: 8px;
+    }
+    .explain-box p {
+      font-size: 14px;
+      line-height: 1.72;
+      color: #b8d4c4;
+      margin: 0 0 8px;
+    }
+    .explain-box p:last-child { margin-bottom: 0; }
+
+    /* ── FOLDER NOTE ───────────────────────────────────────────── */
+    .folder-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.28);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #7a5a10;
+      margin: 10px 0 2px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ── CALLOUT VARIANTS ──────────────────────────────────────── */
+    .tip, .warn {
+      display: flex;
+      gap: 13px;
+      padding: 15px 20px;
+      border-radius: 12px;
+      margin: 18px 0;
+      font-size: 14.5px;
+      line-height: 1.65;
+    }
+    .tip  { background: var(--green-soft); border: 1px solid rgba(0,106,78,.18); color: var(--green-deep); }
+    .warn { background: #fff8e6; border: 1px solid rgba(232,183,42,.32); color: #6b4d0a; }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── REFERENCE TABLE ───────────────────────────────────────── */
+    .cmd-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      font-size: 13.5px;
+    }
+    .cmd-table th, .cmd-table td {
+      text-align: left;
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .cmd-table th {
+      background: var(--cream);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child {
+      font-family: 'DM Mono', monospace;
+      font-size: 12.5px;
+      color: var(--green-deep);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .cmd-table td code {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      background: var(--cream);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── EXERCISES ─────────────────────────────────────────────── */
+    .exercise {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .ex-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 15px 20px;
+      background: var(--cream);
+    }
+    .ex-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+    .ex-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .ex-body { padding: 16px 20px 6px; }
+    .ex-body p { font-size: 14.5px; color: #33433b; line-height: 1.65; margin-bottom: 10px; }
+
+    details.answer { margin: 10px 0 16px; }
+    details.answer summary {
+      cursor: pointer;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-soft);
+      border-radius: 8px;
+      list-style: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer[open] summary { border-radius: 8px 8px 0 0; }
+    details.answer .answer-body {
+      background: #0f1f17;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+    }
+    details.answer .answer-body pre {
+      font-size: 13px;
+      padding: 18px 22px;
+    }
+
+    /* ── MARK COMPLETE ─────────────────────────────────────────── */
+    .mark-complete-wrap {
+      margin-top: 48px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+    .mark-complete {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      background: var(--green);
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      transition: background .15s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-2px); }
+    .mark-complete.done { background: var(--green-dark); cursor: default; }
+
+    /* ── LESSON NAV FOOTER ─────────────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .lesson-nav-footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green);
+      text-decoration: none;
+    }
+    .lesson-nav-footer a:hover { color: var(--green-deep); }
+    .lesson-nav-footer .center-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── PROSE ─────────────────────────────────────────────────── */
+    .prose section { scroll-margin-top: 100px; }
+    .prose section + section { margin-top: 52px; }
+    .prose h2 {
+      font-size: 22px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .prose h2 .n {
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--green);
+      background: var(--green-soft);
+      border-radius: 6px;
+      padding: 3px 9px;
+      flex-shrink: 0;
+    }
+    .prose h3 { font-size: 17px; margin: 28px 0 10px; }
+    .prose p  { color: #33433b; font-size: 15.5px; line-height: 1.72; margin-bottom: 14px; }
+    .prose ul.bullets {
+      margin: 0 0 14px;
+      padding-left: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .prose ul.bullets li {
+      position: relative;
+      padding-left: 24px;
+      color: #33433b;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+    .prose ul.bullets li::before {
+      content: '';
+      position: absolute;
+      left: 4px; top: 9px;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    code {
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      padding: 2px 6px;
+      border-radius: 5px;
+      color: var(--green-deep);
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .lesson-body { grid-template-columns: 1fr; padding: 0 20px 60px; }
+      .sidebar {
+        position: static;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        padding: 20px 0 20px;
+        min-height: auto;
+      }
+      .lesson-main { padding: 32px 0 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════ NAV -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="https://shopnilacademy.com/index.html" class="logo">
+      <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy" />
+      <div class="logo-text">
+        <strong>SHOPNILACADEMY</strong>
+        <small>PYTHON FOR BIOINFORMATICS · LESSON 1</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="https://shopnilacademy.com/index.html">Home</a>
+      <a href="https://shopnilacademy.com/courses.html">Courses</a>
+      <a href="https://shopnilacademy.com/courses/bioinformatics-curriculum.html" class="active">Bioinformatics</a>
+      <a href="https://shopnilacademy.com/about.html">About</a>
+    </div>
+    <div class="nav-cta">
+      <a href="https://shopnilacademy.com/courses.html" class="btn btn-outline btn-sm">All courses</a>
+      <a href="index.html" class="btn btn-primary btn-sm">Course overview →</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- ════════════════════════════════════════════════ INNER HEADER -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="https://shopnilacademy.com/courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="index.html">Python for Bioinformatics</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <div class="lesson-meta-strip">
+      <span class="lm-pill lm-num">Lesson 1 of 10</span>
+      <span class="lm-pill lm-time">⏱ 55 min</span>
+      <span class="lm-pill">✓ Free</span>
+    </div>
+    <h1>Python Setup &amp; Jupyter for Bioinformatics</h1>
+    <p class="lead" style="margin-top:12px; color:var(--muted); font-size:17px; max-width:640px;">
+      Python is the primary language of modern bioinformatics. Set up your environment correctly with conda, install the essential packages, and get Jupyter running — your interactive workspace for sequence analysis.
+    </p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ AD — TOP -->
+<div class="wrap" style="padding-top:24px; padding-bottom:8px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>728 × 90 leaderboard · AdSense unit goes here</small>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════ LESSON BODY -->
+<div class="lesson-body">
+
+  <!-- ── LEFT SIDEBAR ────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Tech &amp; Coding</div>
+    <div class="sidebar-course-title">Python for Bioinformatics</div>
+
+    <div class="prog-label">
+      <span>Your progress</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill"></div>
+    </div>
+
+    <!-- Flat lesson list -->
+    <div class="lesson-list">
+      <a href="lesson-1.html"  class="lesson-link active" id="ll-1"><span class="l-icon">1</span>Setup &amp; Jupyter</a>
+      <span class="lesson-link soon" id="ll-2" title="Coming soon"><span class="l-icon">2</span>Variables, Lists, Dicts</span>
+      <span class="lesson-link soon" id="ll-3" title="Coming soon"><span class="l-icon">3</span>File I/O — FASTA &amp; FASTQ</span>
+      <span class="lesson-link soon" id="ll-4" title="Coming soon"><span class="l-icon">4</span>String Ops on DNA/RNA</span>
+      <span class="lesson-link soon" id="ll-5" title="Coming soon"><span class="l-icon">5</span>NumPy &amp; Pandas</span>
+      <span class="lesson-link soon" id="ll-6" title="Coming soon"><span class="l-icon">6</span>Biopython Core Tools</span>
+      <span class="lesson-link soon" id="ll-7" title="Coming soon"><span class="l-icon">7</span>Parsing VCF &amp; GFF</span>
+      <span class="lesson-link soon" id="ll-8" title="Coming soon"><span class="l-icon">8</span>Matplotlib &amp; Seaborn</span>
+      <span class="lesson-link soon" id="ll-9" title="Coming soon"><span class="l-icon">9</span>Reusable Scripts</span>
+      <span class="lesson-link soon" id="ll-10" title="Coming soon"><span class="l-icon">10</span>Capstone Pipeline</span>
+    </div>
+
+    <!-- On this page -->
+    <div class="sidebar-toc">
+      <h5>On this page</h5>
+      <a href="#why-python"  class="toc-link">Why Python for biology?</a>
+      <a href="#setup"       class="toc-link">Setting up with conda</a>
+      <a href="#packages"    class="toc-link">Essential packages</a>
+      <a href="#jupyter"     class="toc-link">Jupyter notebooks</a>
+      <a href="#first-cell"  class="toc-link">Your first notebook</a>
+      <a href="#reference"   class="toc-link">Quick reference</a>
+      <a href="#exercises"   class="toc-link">Exercises</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ─────────────────────────────────────────── -->
+  <main class="lesson-main">
+    <div class="prose">
+
+      <!-- ══════════════════════════════ SECTION 1 — WHY PYTHON -->
+      <section id="why-python">
+        <h2><span class="n">01</span> Why Python for biology?</h2>
+
+        <p>
+          If you work in bioinformatics, you will write Python. Not because someone decided this arbitrarily — but because Python became the dominant language of this field for very concrete reasons. Every major analysis tool — <strong>Snakemake</strong>, <strong>Scanpy</strong>, <strong>MACS3</strong>, <strong>DeepVariant</strong> — is written in Python. The libraries for handling biological data are mature and actively maintained. And the syntax is readable enough that a biologist, not a computer scientist, can learn it productively.
+        </p>
+
+        <p>
+          Bash handles pipelines, file operations, and process management on the command line. Python handles everything more complex: parsing file formats, computing statistics on sequences, building reusable functions, querying databases, and producing publication-quality figures. The two languages work together — Bash orchestrates the pipeline, Python does the analysis inside each step.
+        </p>
+
+        <div class="explain-box">
+          <div class="eb-label">💡 A real example from a bioinformatics lab</div>
+          <p>You receive 48 RNA-seq FASTQ files. A Bash script loops over them and calls STAR to align each one. The counts from STAR go into a folder. A Python script then reads all count files, builds a gene-by-sample matrix, filters low-count genes, and writes a clean TSV that DESeq2 will read in R. That Python script is always custom — written by a bioinformatician for that specific project. That is the script you will be able to write after this module.</p>
+          <p>A second example: <em>Sorghum bicolor</em> has a GC content of ~61%. When you sequence a sample and suspect contamination, you write a Python script that reads each FASTQ read, computes GC content, and flags reads that deviate more than 15% from the expected value. Ten lines of Python. This lesson teaches you the foundation for exactly that.</p>
+        </div>
+
+        <h3>Python versions</h3>
+        <p>
+          Python 2 is dead and removed from all major Linux distributions. Every bioinformatics tool you will encounter requires <strong>Python 3</strong>. The current stable version is Python 3.12. This course uses 3.10 or higher throughout. Never install system-wide packages — always use a conda environment.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════ SECTION 2 — SETUP -->
+      <section id="setup">
+        <h2><span class="n">02</span> Setting up with conda</h2>
+
+        <p>
+          The first rule of bioinformatics Python: <strong>never install packages into system Python</strong>. The Python that ships with Ubuntu is owned by the operating system. Installing packages into it can break system tools. Instead, create a dedicated <strong>conda environment</strong> called <code>bioinfo-py</code> — an isolated Python installation with its own packages, completely separate from the system.
+        </p>
+
+        <div class="explain-box">
+          <div class="eb-label">💡 Why a dedicated environment?</div>
+          <p>Imagine two projects running in parallel. Project A needs Biopython 1.79 and numpy 1.23. Project B needs Biopython 1.83 and numpy 1.26. If they share one Python installation, the packages conflict and one project breaks. Conda environments solve this by giving each project its own isolated Python with its own dependency versions.</p>
+          <p>In bioinformatics this is not optional — tools like <strong>MACS3</strong>, <strong>Scanpy</strong>, and <strong>pysam</strong> each have strict and often conflicting dependency trees. Environments are how professionals stay sane. You will create a new environment for each major analysis in your career.</p>
+        </div>
+
+        <h3>Create the bioinfo-py environment</h3>
+
+        <div class="folder-note">📁 Run from: anywhere — this is a terminal command</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Create a fresh conda environment named "bioinfo-py"
+# with Python 3.12 — the current stable release</span>
+<span class="c-cmd">conda</span> <span class="c-flag">create</span> <span class="c-flag">-n</span> <span class="c-pkg">bioinfo-py</span> <span class="c-flag">python=3.12</span> <span class="c-flag">-y</span>
+
+<span class="c-comment"># Activate it — your prompt will change to (bioinfo-py)</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> <span class="c-pkg">bioinfo-py</span>
+
+<span class="c-comment"># Confirm you are using the environment's Python, not the system one</span>
+<span class="c-cmd">which</span> python
+<span class="c-out">/home/shajedur/miniforge3/envs/bioinfo-py/bin/python</span>
+
+<span class="c-cmd">python</span> <span class="c-flag">--version</span>
+<span class="c-out">Python 3.12.x</span></pre>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>The path returned by <code>which python</code> must contain your environment name (<code>envs/bioinfo-py</code>). If it shows <code>/usr/bin/python</code>, the environment is not active. Run <code>conda activate bioinfo-py</code> again.</span>
+        </div>
+
+        <h3>Create your working directory</h3>
+
+        <p>All scripts and notebooks for this course live in one folder. Create it now and keep it organised from lesson 1.</p>
+
+        <div class="folder-note">📁 Run from: ~ (your home directory)</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Create the full directory structure for the course</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/python-bioinfo-scripts/notebooks</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/python-bioinfo-scripts/scripts</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/python-bioinfo-scripts/data/raw</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/python-bioinfo-scripts/data/processed</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/python-bioinfo-scripts/results</span>
+
+<span class="c-comment"># Confirm the structure was created</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">~/python-bioinfo-scripts/</span>
+<span class="c-out">drwxr-xr-x  notebooks/
+drwxr-xr-x  scripts/
+drwxr-xr-x  data/
+drwxr-xr-x  results/</span></pre>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════ SECTION 3 — PACKAGES -->
+      <section id="packages">
+        <h2><span class="n">03</span> Essential packages</h2>
+
+        <p>
+          Python's power in bioinformatics comes from its ecosystem. Five packages cover the vast majority of what you will do in this course and in a real lab:
+        </p>
+
+        <div class="explain-box">
+          <div class="eb-label">💡 Why these five packages specifically?</div>
+          <p><strong>numpy</strong> gives you fast numerical arrays — essential when you have a matrix of 20,000 genes × 500 samples and need to compute means, standard deviations, or correlations across all of them in milliseconds. Plain Python lists are too slow for this.</p>
+          <p><strong>pandas</strong> gives you DataFrames — the table structure you will use to hold count matrices, VCF metadata, sample annotation files, and any tabular output from alignment tools. Think of it as a programmable spreadsheet.</p>
+          <p><strong>biopython</strong> understands biological file formats natively — FASTA, FASTQ, GenBank, BLAST XML, VCF — so you do not have to write parsers from scratch. It also wraps common operations: translation, reverse complement, sequence alignment scoring.</p>
+          <p><strong>matplotlib</strong> and <strong>seaborn</strong> produce the plots that go into papers: coverage plots, heatmaps, volcano plots, PCA scatter plots. Seaborn is built on top of matplotlib and adds statistical visualisations with less code.</p>
+        </div>
+
+        <div class="folder-note">📁 Run from: anywhere — conda environment must be active first</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Activate your environment (if not already active)</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> <span class="c-pkg">bioinfo-py</span>
+
+<span class="c-comment"># Install all core packages in one command
+# -c conda-forge  : the community-maintained package channel (more up-to-date)
+# -c bioconda     : the biology-specific package channel (biopython lives here)
+# -y              : auto-confirm without prompts</span>
+<span class="c-cmd">conda</span> <span class="c-flag">install</span> <span class="c-flag">-c</span> <span class="c-pkg">conda-forge</span> <span class="c-flag">-c</span> <span class="c-pkg">bioconda</span> <span class="c-flag">-y</span> \
+  <span class="c-pkg">numpy pandas biopython matplotlib seaborn jupyterlab ipykernel</span>
+
+<span class="c-comment"># Verify every package installed correctly
+# If any line throws an error, re-run the install above</span>
+<span class="c-cmd">python</span> <span class="c-flag">-c</span> <span class="c-str">"import numpy, pandas, Bio, matplotlib, seaborn; print('All packages OK')"</span>
+<span class="c-out">All packages OK</span></pre>
+        </div>
+
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Package</th>
+              <th>What it does</th>
+              <th>Used in lesson</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>numpy</td><td>Fast numerical arrays and maths</td><td>Lesson 5</td></tr>
+            <tr><td>pandas</td><td>DataFrames for tabular genomic data</td><td>Lesson 5</td></tr>
+            <tr><td>biopython</td><td>Biological file format parsers</td><td>Lesson 6</td></tr>
+            <tr><td>matplotlib</td><td>Core plotting library</td><td>Lesson 8</td></tr>
+            <tr><td>seaborn</td><td>Statistical visualisation</td><td>Lesson 8</td></tr>
+            <tr><td>jupyterlab</td><td>Interactive notebook environment</td><td>This lesson</td></tr>
+            <tr><td>ipykernel</td><td>Registers your conda env as a Jupyter kernel</td><td>This lesson</td></tr>
+          </tbody>
+        </table>
+
+        <div class="warn">
+          <span class="warn-icon">⚠️</span>
+          <span>Never use <code>sudo pip install</code> for bioinformatics packages. Always install inside an active conda environment. If your prompt shows <code>(base)</code> instead of <code>(bioinfo-py)</code>, your packages will go to the wrong place.</span>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════ SECTION 4 — JUPYTER -->
+      <section id="jupyter">
+        <h2><span class="n">04</span> Jupyter notebooks</h2>
+
+        <p>
+          A <strong>Jupyter notebook</strong> is an interactive document that mixes code, output, and explanation in a single file. You write Python in cells, run each cell individually, and see the result immediately below — including plots, tables, and printed output. The file is saved as <code>.ipynb</code> (IPython Notebook).
+        </p>
+
+        <div class="explain-box">
+          <div class="eb-label">💡 Why notebooks matter in bioinformatics</div>
+          <p>In a traditional script (<code>.py</code> file), you run the whole thing at once. When it crashes on line 200, you restart from scratch. In a notebook, you run cells one at a time. You can load a 2 GB FASTQ file into memory in cell 1, then experiment with different filtering approaches in cells 2–10, without reloading the data each time. This iterative style matches how biology research actually works — you explore first, then formalise.</p>
+          <p>Most bioinformatics publications and tutorials share their analysis as Jupyter notebooks. GitHub renders them directly in the browser. When you push your notebooks to GitHub, anyone can read your code and see your results without running anything. This is why notebooks are the standard format for reproducible bioinformatics analysis.</p>
+          <p>That said: <strong>notebooks are for exploration; scripts are for pipelines.</strong> In production, you convert a finished notebook into a clean <code>.py</code> script. Lesson 9 covers this transition.</p>
+        </div>
+
+        <h3>Register your conda environment as a Jupyter kernel</h3>
+
+        <p>
+          By default, JupyterLab uses its own built-in Python. You need to register your <code>bioinfo-py</code> environment so Jupyter knows about it and can run code inside it.
+        </p>
+
+        <div class="folder-note">📁 Run from: anywhere — bioinfo-py environment must be active</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Make sure bioinfo-py is active</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> <span class="c-pkg">bioinfo-py</span>
+
+<span class="c-comment"># Register the environment as a Jupyter kernel
+# --user   : installs for your user only (no sudo needed)
+# --name   : the internal kernel name
+# --display-name : what you see in the Jupyter kernel selector</span>
+<span class="c-cmd">python</span> <span class="c-flag">-m</span> <span class="c-pkg">ipykernel</span> install \
+  <span class="c-flag">--user</span> \
+  <span class="c-flag">--name</span> <span class="c-str">bioinfo-py</span> \
+  <span class="c-flag">--display-name</span> <span class="c-str">"Python (bioinfo-py)"</span>
+
+<span class="c-out">Installed kernelspec bioinfo-py in /home/shajedur/.local/share/jupyter/kernels/bioinfo-py</span>
+
+<span class="c-comment"># Confirm the kernel was registered</span>
+<span class="c-cmd">jupyter</span> kernelspec list
+<span class="c-out">Available kernels:
+  python3       /home/shajedur/miniforge3/share/jupyter/kernels/python3
+  bioinfo-py    /home/shajedur/.local/share/jupyter/kernels/bioinfo-py</span></pre>
+        </div>
+
+        <h3>Launch JupyterLab</h3>
+
+        <div class="folder-note">📁 Run from: ~/python-bioinfo-scripts</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">bash</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Navigate to your course folder first
+# (JupyterLab opens with this folder as its root)</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/python-bioinfo-scripts</span>
+
+<span class="c-comment"># Launch JupyterLab
+# This starts a local server and opens a browser tab automatically</span>
+<span class="c-cmd">jupyter</span> lab
+
+<span class="c-comment"># You will see output like:
+# [I] Serving notebooks from local directory: /home/shajedur/python-bioinfo-scripts
+# [I] Jupyter Server is running at: http://localhost:8888/lab?token=abc123...
+# A browser tab opens automatically. If it doesn't: copy the URL into Firefox.</span></pre>
+        </div>
+
+        <div class="tip">
+          <span class="tip-icon">💡</span>
+          <span>To stop JupyterLab, go back to the terminal and press <kbd>Ctrl</kbd>+<kbd>C</kbd> twice. Your notebooks are saved as <code>.ipynb</code> files in whichever folder you launched from. Never close the terminal while Jupyter is running — it will shut down.</span>
+        </div>
+
+        <h3>Select the right kernel</h3>
+        <p>
+          When you create a new notebook in JupyterLab, you will be asked to select a kernel. Always choose <strong>"Python (bioinfo-py)"</strong> — the one you just registered. This ensures the notebook has access to numpy, pandas, biopython, and all the other packages you installed. If you accidentally use the wrong kernel, click the kernel name in the top-right corner of the notebook to switch it.
+        </p>
+      </section>
+
+      <!-- ══════════════════════════════ SECTION 5 — FIRST NOTEBOOK -->
+      <section id="first-cell">
+        <h2><span class="n">05</span> Your first notebook</h2>
+
+        <p>
+          Create a new notebook in JupyterLab: <strong>File → New → Notebook</strong>, then select the <strong>Python (bioinfo-py)</strong> kernel. Save it as <code>notebooks/lesson-01-setup.ipynb</code>. Now type the following cells — one cell at a time, running each with <kbd>Shift</kbd>+<kbd>Enter</kbd>.
+        </p>
+
+        <h3>Cell 1 — Verify packages and print versions</h3>
+
+        <div class="folder-note">📁 Inside notebook: notebooks/lesson-01-setup.ipynb</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">python — cell 1</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Cell 1: confirm every package is available and print its version</span>
+<span class="c-kw">import</span> numpy <span class="c-kw">as</span> np
+<span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd
+<span class="c-kw">import</span> Bio
+<span class="c-kw">import</span> matplotlib
+<span class="c-kw">import</span> seaborn
+
+<span class="c-fn">print</span>(<span class="c-str">f"numpy      : {np.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"pandas     : {pd.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"biopython  : {Bio.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"matplotlib : {matplotlib.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"seaborn    : {seaborn.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">"\\n✓ All packages loaded successfully."</span>)</pre>
+        </div>
+
+        <p>Expected output after pressing <kbd>Shift</kbd>+<kbd>Enter</kbd>:</p>
+
+        <div class="code-wrap">
+          <div class="code-header"><span class="code-lang">output</span></div>
+          <pre><span class="c-out">numpy      : 1.26.x
+pandas     : 2.x.x
+biopython  : 1.83
+matplotlib : 3.8.x
+seaborn    : 0.13.x
+
+✓ All packages loaded successfully.</span></pre>
+        </div>
+
+        <h3>Cell 2 — Your first sequence analysis in a notebook</h3>
+
+        <div class="explain-box">
+          <div class="eb-label">💡 GC content — why it matters</div>
+          <p>GC content is the percentage of bases in a DNA sequence that are Guanine or Cytosine. It matters in three practical contexts: (1) <strong>PCR primer design</strong> — primers need 40–60% GC to bind at the right temperature; (2) <strong>quality control</strong> — reads with unusual GC content relative to the reference genome signal bias or contamination; (3) <strong>species identity</strong> — <em>Sorghum bicolor</em> has ~61% GC content, so a metagenomic sample with very different GC distribution warrants investigation.</p>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">python — cell 2</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Cell 2: analyse a DNA sequence — length, GC content, reverse complement</span>
+
+<span class="c-comment"># A real Sorghum bicolor gene fragment (SbDREB2 transcription factor)</span>
+sequence = <span class="c-str">"ATGGCGAGCGACGAGCTGCAGCAGCTGCAGCAGCAGATGCAGCAGCAGCAGCCGCCGCCG"</span>
+
+<span class="c-comment"># 1. Length</span>
+length = <span class="c-fn">len</span>(sequence)
+
+<span class="c-comment"># 2. GC content</span>
+gc = (sequence.<span class="c-fn">count</span>(<span class="c-str">"G"</span>) + sequence.<span class="c-fn">count</span>(<span class="c-str">"C"</span>)) / length * <span class="c-num">100</span>
+
+<span class="c-comment"># 3. Reverse complement
+# str.maketrans creates a character-by-character substitution table
+# A→T, T→A, G→C, C→G
+# Then [::-1] reverses the complemented string</span>
+comp_map   = <span class="c-fn">str</span>.<span class="c-fn">maketrans</span>(<span class="c-str">"ATGC"</span>, <span class="c-str">"TACG"</span>)
+rev_comp   = sequence.<span class="c-fn">translate</span>(comp_map)[::<span class="c-num">-1</span>]
+
+<span class="c-comment"># 4. Print report</span>
+<span class="c-fn">print</span>(<span class="c-str">f"Sequence   : {sequence}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"Length     : {length} bp"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"GC content : {gc:.1f}%"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"RevComp    : {rev_comp}"</span>)</pre>
+        </div>
+
+        <div class="code-wrap">
+          <div class="code-header"><span class="code-lang">output</span></div>
+          <pre><span class="c-out">Sequence   : ATGGCGAGCGACGAGCTGCAGCAGCTGCAGCAGCAGATGCAGCAGCAGCAGCCGCCGCCG
+Length     : 60 bp
+GC content : 68.3%
+RevComp    : CGGCGGCGGCTGCTGCTGCTGCTGTGCTGCTGCTGCAGCTGCTGCTCGTCGCTGCCAT</span></pre>
+        </div>
+
+        <h3>Cell 3 — Your first plot</h3>
+
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">python — cell 3</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          </div>
+          <pre><span class="c-comment"># Cell 3: plot base composition as a bar chart
+# %matplotlib inline makes plots appear inside the notebook</span>
+<span class="c-kw">import</span> matplotlib.pyplot <span class="c-kw">as</span> plt
+
+bases  = [<span class="c-str">"A"</span>, <span class="c-str">"T"</span>, <span class="c-str">"G"</span>, <span class="c-str">"C"</span>]
+counts = [sequence.<span class="c-fn">count</span>(b) <span class="c-kw">for</span> b <span class="c-kw">in</span> bases]
+colors = [<span class="c-str">"#e8b72a"</span>, <span class="c-str">"#f42a41"</span>, <span class="c-str">"#006a4e"</span>, <span class="c-str">"#3b82f6"</span>]
+
+fig, ax = plt.<span class="c-fn">subplots</span>(figsize=(<span class="c-num">6</span>, <span class="c-num">4</span>))
+ax.<span class="c-fn">bar</span>(bases, counts, color=colors, edgecolor=<span class="c-str">"white"</span>, linewidth=<span class="c-num">1.5</span>)
+ax.<span class="c-fn">set_title</span>(<span class="c-str">"Base composition — SbDREB2 fragment"</span>, fontsize=<span class="c-num">13</span>, fontweight=<span class="c-str">"bold"</span>)
+ax.<span class="c-fn">set_xlabel</span>(<span class="c-str">"Base"</span>)
+ax.<span class="c-fn">set_ylabel</span>(<span class="c-str">"Count"</span>)
+ax.<span class="c-fn">spines</span>[<span class="c-str">"top"</span>].<span class="c-fn">set_visible</span>(<span class="c-kw">False</span>)
+ax.<span class="c-fn">spines</span>[<span class="c-str">"right"</span>].<span class="c-fn">set_visible</span>(<span class="c-kw">False</span>)
+plt.<span class="c-fn">tight_layout</span>()
+plt.<span class="c-fn">show</span>()</pre>
+        </div>
+
+        <p>Running this cell produces a bar chart showing the count of each base — directly inside the notebook, below the cell. This is the core workflow of exploratory bioinformatics analysis.</p>
+
+        <!-- AD SLOT MIDDLE -->
+        <div class="ad-slot in-feed" style="margin: 32px 0;">
+          <strong>Advertisement</strong>
+          <small>In-article ad · AdSense unit goes here</small>
+        </div>
+      </section>
+
+      <!-- ══════════════════════════════ SECTION 6 — REFERENCE -->
+      <section id="reference">
+        <h2><span class="n">06</span> Quick reference</h2>
+
+        <table class="cmd-table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Command</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Create environment</td><td><code>conda create -n bioinfo-py python=3.12 -y</code></td><td>One time setup</td></tr>
+            <tr><td>Activate environment</td><td><code>conda activate bioinfo-py</code></td><td>Every new terminal session</td></tr>
+            <tr><td>Check active Python</td><td><code>which python</code></td><td>Must show envs/bioinfo-py path</td></tr>
+            <tr><td>Install packages</td><td><code>conda install -c conda-forge -c bioconda numpy pandas biopython matplotlib seaborn jupyterlab</code></td><td>Inside active env only</td></tr>
+            <tr><td>Register kernel</td><td><code>python -m ipykernel install --user --name bioinfo-py --display-name "Python (bioinfo-py)"</code></td><td>One time</td></tr>
+            <tr><td>List kernels</td><td><code>jupyter kernelspec list</code></td><td>Verify registration</td></tr>
+            <tr><td>Launch JupyterLab</td><td><code>jupyter lab</code></td><td>Run from course folder</td></tr>
+            <tr><td>Stop JupyterLab</td><td><code>Ctrl+C</code> twice in terminal</td><td>Save notebook first</td></tr>
+            <tr><td>Run notebook cell</td><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td><td>Runs cell and moves to next</td></tr>
+            <tr><td>Check package version</td><td><code>python -c "import numpy; print(numpy.__version__)"</code></td><td>From terminal</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ══════════════════════════════ SECTION 7 — EXERCISES -->
+      <section id="exercises">
+        <h2><span class="n">07</span> Exercises</h2>
+
+        <p>Complete all four exercises inside JupyterLab. Create a single notebook called <code>notebooks/lesson-01-exercises.ipynb</code> and add each exercise as a new cell. Run each cell with <kbd>Shift</kbd>+<kbd>Enter</kbd> before moving on.</p>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <span class="ex-num">1</span>
+            <span class="ex-title">Activate and verify</span>
+          </div>
+          <div class="ex-body">
+            <p>Activate the <code>bioinfo-py</code> environment in your terminal, launch JupyterLab, create a new notebook, select the <strong>Python (bioinfo-py)</strong> kernel, and print the version of all five packages in one cell. Every version should print without error.</p>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="answer-body">
+                <pre><span class="c-kw">import</span> numpy, pandas, Bio, matplotlib, seaborn
+<span class="c-fn">print</span>(<span class="c-str">f"numpy      {numpy.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"pandas     {pandas.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"biopython  {Bio.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"matplotlib {matplotlib.__version__}"</span>)
+<span class="c-fn">print</span>(<span class="c-str">f"seaborn    {seaborn.__version__}"</span>)</pre>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <span class="ex-num">2</span>
+            <span class="ex-title">Analyse a maize sequence</span>
+          </div>
+          <div class="ex-body">
+            <p>Copy the GC content code from Cell 2 above. Replace the sequence with this <em>Zea mays</em> (maize) Ubiquitin promoter fragment and rerun. What is the GC content? Is it higher or lower than the sorghum fragment?</p>
+            <div class="code-wrap" style="margin-top:10px;">
+              <div class="code-header">
+                <span class="code-lang">sequence to use</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-out">AGATCTTGCGCGCTATAAATACGCGCTATATATAGCGCGCGCGATATATATCGCGCGATAT</span></pre>
+            </div>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="answer-body">
+                <pre>sequence = <span class="c-str">"AGATCTTGCGCGCTATAAATACGCGCTATATATAGCGCGCGCGATATATATCGCGCGATAT"</span>
+gc = (sequence.<span class="c-fn">count</span>(<span class="c-str">"G"</span>) + sequence.<span class="c-fn">count</span>(<span class="c-str">"C"</span>)) / <span class="c-fn">len</span>(sequence) * <span class="c-num">100</span>
+<span class="c-fn">print</span>(<span class="c-str">f"GC content: {gc:.1f}%"</span>)
+<span class="c-comment"># ~43% — AT-rich compared to the sorghum fragment (68%)
+# Ubiquitin promoter regions are often AT-rich in grasses</span></pre>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <span class="ex-num">3</span>
+            <span class="ex-title">Build a GC content function</span>
+          </div>
+          <div class="ex-body">
+            <p>In a new cell, write a function called <code>gc_content(seq)</code> that takes any DNA string and returns the GC percentage as a float. Test it on three sequences of your choice and print the results.</p>
+            <div class="tip" style="margin-top:10px;">
+              <span class="tip-icon">💡</span>
+              <span>Define functions with <code>def function_name(parameter):</code>. The function body is indented. Use <code>return</code> to send a value back to the caller.</span>
+            </div>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="answer-body">
+                <pre><span class="c-kw">def</span> <span class="c-fn">gc_content</span>(seq):
+    <span class="c-str">"""Return GC content as a percentage (float)."""</span>
+    seq = seq.<span class="c-fn">upper</span>()
+    <span class="c-kw">return</span> (seq.<span class="c-fn">count</span>(<span class="c-str">"G"</span>) + seq.<span class="c-fn">count</span>(<span class="c-str">"C"</span>)) / <span class="c-fn">len</span>(seq) * <span class="c-num">100</span>
+
+<span class="c-fn">print</span>(<span class="c-fn">gc_content</span>(<span class="c-str">"ATATATATAT"</span>))   <span class="c-comment"># 20.0 — AT-rich</span>
+<span class="c-fn">print</span>(<span class="c-fn">gc_content</span>(<span class="c-str">"ATGCATGCAT"</span>))   <span class="c-comment"># 50.0 — balanced</span>
+<span class="c-fn">print</span>(<span class="c-fn">gc_content</span>(<span class="c-str">"GCGCGCGCGC"</span>))   <span class="c-comment"># 100.0 — GC-rich</span></pre>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <div class="exercise">
+          <div class="ex-head">
+            <span class="ex-num">4</span>
+            <span class="ex-title">Challenge — categorise multiple sequences</span>
+          </div>
+          <div class="ex-body">
+            <p>Create a Python list containing five different DNA sequences of your choice (at least 20 bp each). Loop over the list, call your <code>gc_content()</code> function on each, and print whether each sequence is <strong>AT-rich</strong> (&lt;50%), <strong>balanced</strong> (50–60%), or <strong>GC-rich</strong> (&gt;60%). Print the sequence number, GC%, and category on one line.</p>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="answer-body">
+                <pre>sequences = [
+    <span class="c-str">"ATATATATATATATATAT"</span>,
+    <span class="c-str">"ATGCATGCATGCATGCAT"</span>,
+    <span class="c-str">"GCGCGCGCGCGCGCGCGC"</span>,
+    <span class="c-str">"ATGGCGAGCGACGAGCTG"</span>,
+    <span class="c-str">"AGATCTTGCGCGCTATAA"</span>,
+]
+
+<span class="c-kw">for</span> i, seq <span class="c-kw">in</span> <span class="c-fn">enumerate</span>(sequences, <span class="c-num">1</span>):
+    gc = <span class="c-fn">gc_content</span>(seq)
+    <span class="c-kw">if</span>   gc &lt; <span class="c-num">50</span>: cat = <span class="c-str">"AT-rich"</span>
+    <span class="c-kw">elif</span> gc &lt;= <span class="c-num">60</span>: cat = <span class="c-str">"Balanced"</span>
+    <span class="c-kw">else</span>:          cat = <span class="c-str">"GC-rich"</span>
+    <span class="c-fn">print</span>(<span class="c-str">f"Seq {i}: {gc:.1f}%  →  {cat}"</span>)</pre>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Mark complete -->
+        <div class="mark-complete-wrap">
+          <button class="mark-complete" id="complete-btn" onclick="markComplete()">
+            ✓ Mark lesson complete
+          </button>
+          <p style="margin-top:10px; font-size:12px; color:var(--muted);">
+            Your progress saves automatically in this browser.
+          </p>
+        </div>
+
+        <!-- Lesson nav -->
+        <div class="lesson-nav-footer">
+          <a href="index.html">← Course overview</a>
+          <span class="center-label">Lesson 1 of 10</span>
+          <span style="font-size:13px;color:var(--muted)">Lesson 2 coming soon</span>
+        </div>
+
+      </section>
+    </div><!-- /.prose -->
+  </main>
+
+</div><!-- /.lesson-body -->
+
+<!-- ════════════════════════════════════════════ AD — BOTTOM -->
+<div style="text-align:center; padding:32px 32px 64px; max-width:400px; margin:0 auto;">
+  <div class="ad-slot rectangle">
+    <strong>Advertisement</strong>
+    <small>300 × 250 medium rectangle · AdSense unit goes here</small>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="https://shopnilacademy.com/index.html" class="logo" style="margin-bottom:0;">
+          <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>SHOPNILACADEMY</strong>
+            <small>LEARN WITHOUT LIMITS</small>
+          </div>
+        </a>
+        <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+        <div class="foot-social">
+          <a href="https://www.facebook.com/profile.php?id=100057403270810" title="Facebook">f</a>
+          <a href="https://x.com/ShopnilAcademy" title="X / Twitter">𝕏</a>
+          <a href="https://www.youtube.com/@ShopnilAcademy" title="YouTube">▶</a>
+          <a href="https://www.linkedin.com/company/shopnilacademy/" title="LinkedIn">in</a>
+          <a href="https://www.instagram.com/shopnil_academy/" title="Instagram">◻</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>This course</h4>
+        <ul>
+          <li><a href="index.html">Course overview</a></li>
+          <li><a href="lesson-1.html">Lesson 1 — Setup &amp; Jupyter</a></li>
+          <li><a href="../bioinformatics-curriculum.html">Bioinformatics curriculum</a></li>
+          <li><a href="../../courses.html">All courses</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=math">Science</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=guitar">Guitar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="https://shopnilacademy.com/about.html">About</a></li>
+          <li><a href="https://shopnilacademy.com/contact.html">Contact</a></li>
+          <li><a href="https://shopnilacademy.com/advertise.html">Advertise</a></li>
+          <li><a href="https://shopnilacademy.com/faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="https://shopnilacademy.com/privacy.html">Privacy</a></li>
+          <li><a href="https://shopnilacademy.com/terms.html">Terms</a></li>
+          <li><a href="https://shopnilacademy.com/cookies.html">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved. Made with care for learners worldwide. 🌍</span>
+      <span>Python for Bioinformatics · Lesson 1</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════ JS -->
+<script>
+  /* Mobile nav */
+  function toggleNav() {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  /* Copy code */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  /* Progress */
+  const STORAGE_KEY   = 'sa_python_done';
+  const TOTAL_LESSONS = 10;
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+  function saveDone(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+  function updateProgress() {
+    const done = getDone();
+    const pct  = Math.round((done.length / TOTAL_LESSONS) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent  = pct + '%';
+    for (let i = 1; i <= TOTAL_LESSONS; i++) {
+      const el = document.getElementById('ll-' + i);
+      if (el && done.includes(i) && !el.classList.contains('active')) {
+        el.classList.add('done');
+        el.querySelector('.l-icon').textContent = '✓';
+      }
+    }
+  }
+
+  /* Mark complete */
+  function markComplete() {
+    const done = getDone();
+    if (!done.includes(1)) { done.push(1); saveDone(done); }
+    const btn = document.getElementById('complete-btn');
+    btn.textContent = '✓ Lesson complete!';
+    btn.classList.add('done');
+    updateProgress();
+  }
+
+  /* Active TOC via IntersectionObserver */
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = document.querySelectorAll('.prose section[id]');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+
+  /* Init */
+  updateProgress();
+  if (getDone().includes(1)) {
+    const btn = document.getElementById('complete-btn');
+    if (btn) { btn.textContent = '✓ Lesson complete!'; btn.classList.add('done'); }
+  }
+</script>
+
+</body>
+</html>
