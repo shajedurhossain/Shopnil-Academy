@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — What is Sequence Search? BLAST Concepts · Shopnil Academy</title>
+  <meta name="description" content="Learn what sequence similarity search is, why BLAST was invented, and the core concepts (E-value, bit score, HSP) every bioinformatician must understand." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar layout ─────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 0;
+      min-height: 100vh;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 28px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .sidebar-course-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 20px;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 5px;
+      background: var(--green-soft);
+      border-radius: 999px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+    /* Module accordion */
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 8px 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background .15s;
+    }
+    .mod-group-label:hover { background: var(--green-soft); }
+    .mod-group-label .arr { font-size: 10px; transition: transform .2s; }
+    .mod-group.open .arr { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-left: 4px; margin-top: 2px; }
+    .mod-group.open .mod-lessons { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      transition: background .15s, color .15s;
+      text-decoration: none;
+    }
+    .lesson-link.soon { cursor: default; opacity: .55; }
+    .lesson-link.soon:hover { background: none; }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active {
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 700;
+    }
+    .l-icon {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      background: var(--cream);
+      display: grid; place-items: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-mint); color: var(--green-deep); }
+
+    /* On this page */
+    .toc-sidebar { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 18px; }
+    .toc-sidebar h5 {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    }
+    .toc-sidebar a {
+      display: block;
+      font-size: 12.5px;
+      color: var(--muted);
+      padding: 5px 10px;
+      border-radius: 8px;
+      border-left: 2px solid transparent;
+      transition: all .15s;
+      margin-bottom: 2px;
+    }
+    .toc-sidebar a:hover { color: var(--ink); background: var(--cream); }
+    .toc-sidebar a.active { color: var(--green); border-left-color: var(--green); background: var(--green-soft); font-weight: 600; }
+
+    /* ── Main content ───────────────────────────────── */
+    .lesson-main { min-width: 0; }
+
+    /* Meta strip */
+    .lesson-meta-strip {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+      padding: 12px 0 0;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--cream);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 12px;
+      font-size: 12px; font-weight: 600; color: var(--muted);
+    }
+    .lm-num { color: var(--green); font-weight: 700; }
+    .lm-sep { color: var(--line); }
+
+    /* Code blocks */
+    .code-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+      margin: 18px 0;
+      background: #0e1c14;
+    }
+    .code-header {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #162b1e;
+      padding: 9px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .code-lang {
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+    .copy-btn {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.45);
+      background: transparent; border: 0;
+      cursor: pointer; padding: 3px 8px;
+      border-radius: 6px;
+      transition: color .15s, background .15s;
+    }
+    .copy-btn:hover { color: #fff; background: rgba(255,255,255,.08); }
+    pre {
+      margin: 0;
+      padding: 20px 22px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #c8d8c0;
+      overflow-x: auto;
+      background: #0e1c14;
+    }
+    /* Syntax colours */
+    .c-cmd   { color: #7dd3a8; font-weight: 500; }
+    .c-flag  { color: #f0c97a; }
+    .c-path  { color: #82c4f0; }
+    .c-out   { color: #a0b8a8; }
+    .c-comment { color: #4a6b52; font-style: italic; }
+    .c-kw    { color: #c792ea; }
+    .c-num   { color: #f78c6c; }
+    .c-str   { color: #c3e88d; }
+
+    /* Explain box */
+    .explain-box {
+      background: var(--green-soft);
+      border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+    .explain-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green-deep);
+      margin-bottom: 6px;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .explain-box p {
+      font-size: 14.5px;
+      color: #1e4030;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* Folder note */
+    .folder-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.3);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-family: 'DM Mono', monospace;
+      color: #7a5a00;
+      margin: 10px 0 14px;
+    }
+
+    /* Tip / Warn */
+    .tip, .warn {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 14px 18px; border-radius: 12px; margin: 16px 0;
+      font-size: 14.5px; line-height: 1.6;
+    }
+    .tip { background: #e6f4ed; border: 1px solid rgba(0,106,78,.18); color: #1a3d2b; }
+    .warn { background: #fff4e5; border: 1px solid rgba(220,140,0,.25); color: #5a3800; }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* Concept / definition table */
+    .concept-table {
+      width: 100%; border-collapse: collapse;
+      margin: 18px 0; font-size: 14px;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+    .concept-table th {
+      background: var(--cream);
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+      padding: 11px 16px; text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+    .concept-table td {
+      padding: 12px 16px; vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      color: #33433b; line-height: 1.55;
+    }
+    .concept-table tr:last-child td { border-bottom: 0; }
+    .concept-table td:first-child { font-weight: 600; color: var(--ink); font-family: 'DM Mono', monospace; white-space: nowrap; }
+
+    /* Exercises */
+    .exercise {
+      border: 1px solid var(--line);
+      border-radius: 16px; overflow: hidden;
+      margin: 18px 0; background: #fff;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 20px;
+      background: var(--cream);
+      border-bottom: 1px solid var(--line);
+    }
+    .ex-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+    .exercise > p { padding: 16px 20px 4px; margin: 0; font-size: 14.5px; color: #33433b; }
+    details.answer { margin: 0 20px 16px; }
+    details.answer summary {
+      cursor: pointer; font-size: 13px; font-weight: 600;
+      color: var(--green); padding: 6px 0;
+      list-style: none;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body {
+      background: #0e1c14; border-radius: 10px;
+      padding: 14px 18px; margin-top: 8px;
+    }
+    details.answer .ans-body pre { padding: 0; background: transparent; font-size: 13px; }
+
+    /* Mark complete */
+    .mark-complete-wrap {
+      text-align: center; padding: 28px 0 10px;
+      border-top: 1px solid var(--line); margin-top: 32px;
+    }
+    .mark-complete {
+      background: var(--green); color: #fff;
+      border: none; border-radius: 999px;
+      padding: 13px 32px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: var(--font-display);
+      transition: background .2s, transform .15s;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--green-mint); color: var(--green-deep); }
+
+    /* Lesson nav footer */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0 60px;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+      padding: 10px 20px; border-radius: 999px;
+      border: 1.5px solid rgba(0,106,78,.25);
+      transition: all .15s;
+    }
+    .lesson-nav-footer a:hover { background: var(--green-soft); border-color: var(--green); }
+
+    /* Diagram box */
+    .diagram-box {
+      background: #0e1c14;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 18px 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      line-height: 1.9;
+      color: #c8d8c0;
+      overflow-x: auto;
+    }
+    .diagram-box .d-label { color: #7dd3a8; font-weight: 500; }
+    .diagram-box .d-arrow { color: #f0c97a; }
+    .diagram-box .d-note  { color: #4a6b52; font-style: italic; }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+      .toc-sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>LEARN · BUILD · PUBLISH</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../bioinformatics-curriculum.html">Bioinformatics</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enroll Free</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LESSON SHELL
+════════════════════════════════════════════════ -->
+<div class="lesson-shell">
+
+  <!-- ── SIDEBAR ─────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Module 10 · Phase 2</div>
+    <div class="sidebar-course-title">BLAST &amp; Minimap2:<br>Sequence Search Tools</div>
+
+    <div class="prog-label">
+      <span>Your progress</span>
+      <span id="prog-pct">0 / 8</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+    <!-- Module accordion -->
+    <div class="mod-group open" id="mod1">
+      <div class="mod-group-label" onclick="toggleMod('mod1')">
+        Module 10 — BLAST &amp; Minimap2
+        <span class="arr">▶</span>
+      </div>
+      <div class="mod-lessons">
+        <a href="lesson-1.html" class="lesson-link active" data-id="sst-1">
+          <span class="l-icon">1</span>What is Sequence Search?
+        </a>
+        <span class="lesson-link soon" data-id="sst-2" title="Coming soon">
+          <span class="l-icon">2</span>Installing BLAST &amp; Local DB
+        </span>
+        <span class="lesson-link soon" data-id="sst-3" title="Coming soon">
+          <span class="l-icon">3</span>Running blastn, blastp, blastx
+        </span>
+        <span class="lesson-link soon" data-id="sst-4" title="Coming soon">
+          <span class="l-icon">4</span>Parsing BLAST Output
+        </span>
+        <span class="lesson-link soon" data-id="sst-5" title="Coming soon">
+          <span class="l-icon">5</span>Introduction to Minimap2
+        </span>
+        <span class="lesson-link soon" data-id="sst-6" title="Coming soon">
+          <span class="l-icon">6</span>Long-read Alignment
+        </span>
+        <span class="lesson-link soon" data-id="sst-7" title="Coming soon">
+          <span class="l-icon">7</span>BLAST vs Minimap2
+        </span>
+        <span class="lesson-link soon" data-id="sst-8" title="Coming soon">
+          <span class="l-icon">8</span>Capstone: Annotate Sequences
+        </span>
+      </div>
+    </div>
+
+    <!-- On this page TOC -->
+    <div class="toc-sidebar">
+      <h5>On this page</h5>
+      <a href="#why-search" class="toc-link">Why Sequence Search?</a>
+      <a href="#what-is-blast" class="toc-link">What is BLAST?</a>
+      <a href="#blast-flavours" class="toc-link">BLAST Flavours</a>
+      <a href="#key-concepts" class="toc-link">Key Concepts</a>
+      <a href="#evalue-deep" class="toc-link">E-value Deep Dive</a>
+      <a href="#hsp-explained" class="toc-link">HSPs Explained</a>
+      <a href="#blast-algorithm" class="toc-link">How BLAST Works</a>
+      <a href="#exercises" class="toc-link">Exercises</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ────────────────────────────────────── -->
+  <main class="lesson-main">
+
+    <!-- Inner header -->
+    <div class="inner-header">
+      <div class="wrap">
+        <div class="breadcrumb">
+          <a href="../../index.html">Home</a>
+          <span class="sep">›</span>
+          <a href="../../courses.html">Courses</a>
+          <span class="sep">›</span>
+          <a href="index.html">BLAST &amp; Minimap2</a>
+          <span class="sep">›</span>
+          <span>Lesson 1</span>
+        </div>
+        <div class="lesson-meta-strip">
+          <span class="lm-pill"><span class="lm-num">Lesson 1 of 8</span></span>
+          <span class="lm-pill">⏱ 45 min</span>
+          <span class="lm-pill">🎯 Beginner-friendly</span>
+          <span class="lm-pill">📘 Theory + Concepts</span>
+          <span class="free-pill">✓ Free</span>
+        </div>
+        <h1 style="margin-top:18px;">What is Sequence Search?<br>BLAST Concepts</h1>
+        <p class="lead">Understand why sequence similarity search was invented, how BLAST thinks about your DNA, and master the vocabulary — E-value, bit score, HSP — that appears in every paper you will ever read.</p>
+      </div>
+    </div>
+
+    <!-- Ad slot top -->
+    <div class="wrap" style="padding-top:28px;">
+      <div class="ad-slot banner-728">
+        <strong>Advertisement</strong>
+        <small>Your ad could appear here · shopnilacademy.com</small>
+      </div>
+    </div>
+
+    <!-- Article -->
+    <div class="article">
+      <div class="wrap">
+        <div class="prose" style="max-width:820px; margin:0 auto;">
+
+          <!-- ─── Section 1: Why Search ─────────────── -->
+          <section id="why-search" style="scroll-margin-top:96px;">
+            <h2>Why Does Sequence Search Exist?</h2>
+
+            <div class="explain-box">
+              <strong>🔬 The Core Problem</strong>
+              <p>You have just sequenced an unknown gene from a wild rice variety. You have a string of A, T, G, C letters — but you have no idea what this gene <em>does</em>. How do you find out? You ask: <strong>"Has anyone seen a similar sequence before, and if so, what did it do in that organism?"</strong> That is sequence similarity search in one sentence.</p>
+            </div>
+
+            <p>Before the internet era, biologists had to manually compare sequences on paper — a completely impractical task once databases grew beyond a few hundred sequences. The question was: <em>how do you efficiently find the needle (your query) in a haystack of millions of known sequences?</em></p>
+
+            <p>The naive approach — align your query against every single database entry using dynamic programming (the Smith-Waterman algorithm) — gives <strong>perfect</strong> results but is too slow for large databases. BLAST was invented in 1990 specifically to solve this speed problem while remaining accurate enough for practical biology.</p>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <div><strong>Real-world moment:</strong> Every time you BLAST a sequence in a paper, click "BLAST" on NCBI's website, or annotate a new genome, the algorithm described in this lesson is running. It is one of the most-cited papers in all of science (Altschul et al., 1990).</div>
+            </div>
+
+            <p>Sequence search is used in bioinformatics for:</p>
+            <ul class="bullets">
+              <li><strong>Gene annotation</strong> — assigning function to newly sequenced genes by finding similar genes in model organisms</li>
+              <li><strong>Evolutionary analysis</strong> — finding orthologues (same gene, different species) and paralogues (duplicated genes)</li>
+              <li><strong>Primer design</strong> — checking that your PCR primers are specific and won't amplify off-target regions</li>
+              <li><strong>Contamination detection</strong> — checking whether your RNA-seq data contains sequences from an unexpected organism</li>
+              <li><strong>Metagenomics</strong> — identifying organisms in environmental samples by matching reads to known genomes</li>
+            </ul>
+          </section>
+
+          <!-- ─── Section 2: What is BLAST ─────────── -->
+          <section id="what-is-blast" style="scroll-margin-top:96px; margin-top:44px;">
+            <h2>What is BLAST?</h2>
+
+            <div class="explain-box">
+              <strong>🧬 BLAST Defined</strong>
+              <p>BLAST stands for <strong>Basic Local Alignment Search Tool</strong>. It searches a sequence database for regions that are locally similar to your input sequence. "Local" is the key word: BLAST does not require your query to align across its full length — it finds the best-matching <em>regions</em>, even if the rest of the sequence is totally different.</p>
+            </div>
+
+            <p>The word <strong>local</strong> distinguishes BLAST from global alignment tools like Needleman-Wunsch, which try to align two sequences from end to end. Local alignment is more useful for biology because:</p>
+
+            <ul class="bullets">
+              <li>Genes often share only <strong>functional domains</strong>, not their entire sequence</li>
+              <li>Proteins from distantly related organisms may share a conserved catalytic site but differ everywhere else</li>
+              <li>Your query (a 200 bp fragment) is often much shorter than the database sequence (a 50 kb chromosome)</li>
+            </ul>
+
+            <p>BLAST was created at the NCBI (National Center for Biotechnology Information) and is available both as a web tool at ncbi.nlm.nih.gov/blast and as a standalone command-line program you install locally. In this module, we focus on the <strong>command-line version</strong> — because that is what you use in automated pipelines.</p>
+
+            <div class="diagram-box">
+<span class="d-label">Your query sequence</span>  <span class="d-arrow">──────────────────────</span>
+          <span class="d-arrow">↓  BLAST search</span>
+<span class="d-label">Database</span> <span class="d-note">(e.g. nr, RefSeq, UniProt, your custom genome)</span>
+<span class="d-arrow">     ↓  finds similar regions</span>
+<span class="d-label">HSP 1:</span>  query 45–120   db_seq_A 1203–1278  <span class="d-note">identity 94%</span>
+<span class="d-label">HSP 2:</span>  query 45–120   db_seq_B 88–163     <span class="d-note">identity 72%</span>
+<span class="d-label">HSP 3:</span>  query 45–120   db_seq_C 5501–5576  <span class="d-note">identity 61%</span>
+            </div>
+          </section>
+
+          <!-- ─── Section 3: BLAST Flavours ─────────── -->
+          <section id="blast-flavours" style="scroll-margin-top:96px; margin-top:44px;">
+            <h2>BLAST Flavours — Which One Do You Use?</h2>
+
+            <p>BLAST is not a single program — it is a family of programs, each designed for a specific combination of query type and database type. Choosing the wrong one is a common beginner mistake.</p>
+
+            <table class="concept-table">
+              <thead>
+                <tr>
+                  <th>Program</th>
+                  <th>Query type</th>
+                  <th>Database type</th>
+                  <th>When to use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>blastn</td>
+                  <td>nucleotide</td>
+                  <td>nucleotide</td>
+                  <td>Find similar DNA/RNA sequences; check primer specificity</td>
+                </tr>
+                <tr>
+                  <td>blastp</td>
+                  <td>protein</td>
+                  <td>protein</td>
+                  <td>Find similar proteins; annotate protein function</td>
+                </tr>
+                <tr>
+                  <td>blastx</td>
+                  <td>nucleotide</td>
+                  <td>protein</td>
+                  <td>Translate DNA in all 6 frames and search protein DB — great for gene prediction</td>
+                </tr>
+                <tr>
+                  <td>tblastn</td>
+                  <td>protein</td>
+                  <td>nucleotide</td>
+                  <td>Search translated nucleotide DB with a protein query — find genes in unannotated genomes</td>
+                </tr>
+                <tr>
+                  <td>tblastx</td>
+                  <td>nucleotide</td>
+                  <td>nucleotide</td>
+                  <td>Translates both sides; slowest but most sensitive for distant homology</td>
+                </tr>
+                <tr>
+                  <td>dc-megablast</td>
+                  <td>nucleotide</td>
+                  <td>nucleotide</td>
+                  <td>Very fast for highly similar sequences (e.g. same species variants)</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="tip">
+              <span class="tip-icon">🌾</span>
+              <div><strong>Plant genomics tip:</strong> When working with rice or sorghum gene models, <code>blastx</code> is especially powerful — you take your newly assembled transcript, translate it in all 6 frames, and instantly check whether it matches any known plant protein in UniProt. This is how gene function is predicted in genome annotation pipelines.</div>
+            </div>
+          </section>
+
+          <!-- ─── Section 4: Key Concepts ───────────── -->
+          <section id="key-concepts" style="scroll-margin-top:96px; margin-top:44px;">
+            <h2>Key Concepts You Must Know</h2>
+
+            <p>BLAST output contains a set of statistics that look intimidating at first but each has a precise biological meaning. You will see these in every paper, every pipeline, and every database result page.</p>
+
+            <table class="concept-table">
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>What it measures</th>
+                  <th>Good value means</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>E-value</td>
+                  <td>Expected number of hits this good by random chance in a database of this size</td>
+                  <td>Smaller is better. E &lt; 1e-5 = significant; E &lt; 1e-50 = very confident</td>
+                </tr>
+                <tr>
+                  <td>Bit score</td>
+                  <td>A normalised alignment quality score (independent of database size)</td>
+                  <td>Higher is better. Comparable across different BLAST runs</td>
+                </tr>
+                <tr>
+                  <td>% Identity</td>
+                  <td>Percentage of aligned positions that are identical</td>
+                  <td>Higher is better. &gt;90% = likely same gene; 30–50% = likely same protein family</td>
+                </tr>
+                <tr>
+                  <td>% Coverage</td>
+                  <td>How much of your query aligns to the subject</td>
+                  <td>Higher is better. Low coverage (&lt;50%) may mean only a domain matches</td>
+                </tr>
+                <tr>
+                  <td>HSP</td>
+                  <td>High-scoring Segment Pair — a local alignment region</td>
+                  <td>Each hit may have multiple HSPs; take the best one</td>
+                </tr>
+                <tr>
+                  <td>Raw score</td>
+                  <td>Sum of match scores minus gap penalties in the alignment</td>
+                  <td>Depends on scoring matrix used; bit score is the normalised version</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ─── Section 5: E-value Deep Dive ──────── -->
+          <section id="evalue-deep" style="scroll-margin-top:96px; margin-top:44px;">
+            <h2>E-value: A Deep Dive</h2>
+
+            <div class="explain-box">
+              <strong>🎲 Why E-value, Not P-value?</strong>
+              <p>The E-value is the <strong>expected number of hits</strong> at least as good as your alignment that you would find <em>purely by chance</em> if you searched a database of this size with a random sequence. It is not a probability of a single hit — it is an expectation over the whole database. An E-value of 0.01 means you expect 1 false positive per 100 searches of this database.</p>
+            </div>
+
+            <p>The E-value depends on three things:</p>
+            <ul class="bullets">
+              <li><strong>The alignment score</strong> — higher scores give lower E-values</li>
+              <li><strong>The database size</strong> — a larger database gives a higher E-value for the same score (more chances for a random hit). This is why you cannot compare E-values from different databases directly</li>
+              <li><strong>The scoring matrix</strong> — BLOSUM62 for proteins, match/mismatch scores for DNA</li>
+            </ul>
+
+            <div class="diagram-box">
+<span class="d-label">E-value thresholds commonly used:</span>
+
+E &lt; <span class="c-num">1e-100</span>  <span class="d-arrow">→</span>  <span class="d-label">Virtually certain homologue</span>   <span class="d-note">same gene, same function</span>
+E &lt; <span class="c-num">1e-50</span>   <span class="d-arrow">→</span>  <span class="d-label">Very high confidence</span>          <span class="d-note">functionally related, likely same family</span>
+E &lt; <span class="c-num">1e-10</span>   <span class="d-arrow">→</span>  <span class="d-label">Significant</span>                   <span class="d-note">statistically meaningful hit</span>
+E &lt; <span class="c-num">1e-5</span>    <span class="d-arrow">→</span>  <span class="d-label">Borderline significant</span>        <span class="d-note">worth investigating further</span>
+E &gt; <span class="c-num">0.01</span>    <span class="d-arrow">→</span>  <span class="d-label">Not reliable</span>                  <span class="d-note">likely a chance match</span>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠️</span>
+              <div><strong>Common mistake:</strong> Never compare E-values from searches against different databases. An E-value of 1e-10 against the full <em>nr</em> database (billions of sequences) is <em>much</em> more significant than 1e-10 against a small custom genome (thousands of sequences). Always report which database you searched.</div>
+            </div>
+
+            <p>The formula behind E-value is:</p>
+
+            <div class="diagram-box">
+<span class="d-label">E  =  K · m · n · e^(−λ · S)</span>
+
+<span class="d-note">where:</span>
+  K   <span class="d-arrow">=</span> statistical constant (depends on scoring matrix)
+  m   <span class="d-arrow">=</span> effective length of your query sequence
+  n   <span class="d-arrow">=</span> effective total length of the database
+  λ   <span class="d-arrow">=</span> statistical constant (depends on scoring matrix)
+  S   <span class="d-arrow">=</span> raw alignment score
+
+<span class="d-note">→ You rarely need to compute this by hand — BLAST does it for you.
+  Understanding what goes into E-value helps you interpret results correctly.</span>
+            </div>
+          </section>
+
+          <!-- ─── Section 6: HSPs ────────────────────── -->
+          <section id="hsp-explained" style="scroll-margin-top:96px; margin-top:44px;">
+            <h2>HSPs — High-Scoring Segment Pairs</h2>
+
+            <div class="explain-box">
+              <strong>🔗 What is an HSP?</strong>
+              <p>An HSP (High-Scoring Segment Pair) is a contiguous region of alignment between your query and a database sequence that has no gaps and achieves a high alignment score. BLAST reports one or more HSPs per database hit. Multiple HSPs for a single hit usually indicate <strong>repeated domains</strong> or <strong>multiple exons</strong> matching the same database entry.</p>
+            </div>
+
+            <p>BLAST output shows HSPs like this (pairwise format):</p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">BLAST pairwise output</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre>Score = 285 bits (308),  Expect = 2e-75
+Identities = 147/158 (93%),  Gaps = 0/158 (0%)
+Strand = Plus/Plus
+
+Query  1    ATGGTCAAGCTCGTCGACGAGCTCATCACCAACGAGAAGGACCCCAACATCAAGCTGAC  60
+            |||||||||||||||||||||||||||||| ||||||||||||||||||| ||||||||||
+Sbjct  203  ATGGTCAAGCTCGTCGACGAGCTCATCATCAACGAGAAGGACCCCAACATCAAGCTGAC  262
+
+Query  61   CGAGCAGCTCAAGAAGGAGATCGAGCGCATGCTGCACAAGGAGCCCGTCGACGTCACCA  120
+            |||||||||||||||||| ||||||||||||||||||||||||||||||||||||||||||
+Sbjct  263  CGAGCAGCTCAAGAAGGATATCGAGCGCATGCTGCACAAGGAGCCCGTCGACGTCACCA  322</pre>
+            </div>
+
+            <p>Reading an HSP:</p>
+            <ul class="bullets">
+              <li><strong>Score</strong> — the raw + bit score pair. Bit score is in parentheses here; in tabular output it appears as a separate column</li>
+              <li><strong>Expect</strong> — the E-value for this HSP against this database</li>
+              <li><strong>Identities</strong> — matches / total aligned length. Pipes (<code>|</code>) show identical positions</li>
+              <li><strong>Gaps</strong> — number of gap characters inserted to improve the alignment</li>
+              <li><strong>Query / Sbjct lines</strong> — the actual aligned sequences with coordinates</li>
+            </ul>
+          </section>
+
+          <!-- ─── Section 7: How BLAST Works ──────────── -->
+          <section id="blast-algorithm" style="scroll-margin-top:96px; margin-top:44px;">
+            <h2>How BLAST Works: The Algorithm in Plain English</h2>
+
+            <p>BLAST achieves its speed through a clever heuristic — it avoids checking every possible alignment and instead uses a <strong>seed-and-extend</strong> strategy:</p>
+
+            <div class="diagram-box">
+<span class="d-label">Step 1 — WORD FINDING</span>
+  Break query into overlapping k-mers (words)
+  Default: k=11 for blastn, k=3 for blastp
+  <span class="d-note">e.g. "ATGGTCAAG" → "ATGGTCAAG", "TGGTCAAGC", "GGTCAAGCT" ...</span>
+
+<span class="d-label">Step 2 — NEIGHBOURHOOD GENERATION</span>
+  For each word, find all similar words scoring above threshold T
+  <span class="d-note">This is why BLAST catches near-matches, not just exact matches</span>
+
+<span class="d-label">Step 3 — DATABASE SCANNING</span>
+  Rapidly scan the database index for any of these words
+  <span class="d-note">Using a pre-built index (makeblastdb) — this is why you index first</span>
+
+<span class="d-label">Step 4 — EXTENSION</span>
+  When a word hit (seed) is found, extend the alignment in both directions
+  Stop when the score drops below a cutoff (X-dropoff)
+  <span class="d-note">This gives the HSP — the locally optimal aligned region</span>
+
+<span class="d-label">Step 5 — EVALUATION</span>
+  Compute E-value for each HSP
+  Report hits above your E-value threshold
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">⚡</span>
+              <div><strong>Why this matters for pipelines:</strong> The <code>makeblastdb</code> step (building the database index) is done once and stored on disk. Every subsequent BLAST search against that database reuses the index — this is why local BLAST is much faster than re-scanning raw FASTA files. You will do this in Lesson 2.</div>
+            </div>
+
+            <div class="explain-box">
+              <strong>🌱 BLAST vs Smith-Waterman — the tradeoff</strong>
+              <p>Smith-Waterman is the gold-standard exact local alignment algorithm — it is <strong>guaranteed</strong> to find the best alignment. BLAST is a heuristic (an approximation) — it is <strong>fast</strong> but can miss very short or very divergent alignments. For most bioinformatics work, BLAST is more than sufficient. For critical decisions (e.g. confirming gene family membership), you may want to follow up with a full Smith-Waterman alignment or profile-based tools like HMMER.</p>
+            </div>
+          </section>
+
+          <!-- ─── Ad slot middle ─────────────────────── -->
+          <div class="ad-slot in-feed" style="margin: 40px 0;">
+            <strong>Advertisement</strong>
+            <small>Support free bioinformatics education</small>
+          </div>
+
+          <!-- ─── Exercises ──────────────────────────── -->
+          <section id="exercises" style="scroll-margin-top:96px; margin-top:40px;">
+            <h2>Exercises</h2>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">1</div>
+                <div class="ex-title">Identify the correct BLAST flavour</div>
+              </div>
+              <p>You have assembled a new transcript from <em>Sorghum bicolor</em> and want to find similar proteins in the UniProt database. Which BLAST program should you use, and why?</p>
+              <details class="answer">
+                <summary>▶ Show answer</summary>
+                <div class="ans-body">
+                  <pre><span class="c-comment"># Use blastx</span>
+<span class="c-comment"># Reason: your query is a nucleotide (transcript = DNA/RNA),</span>
+<span class="c-comment"># but UniProt is a protein database.</span>
+<span class="c-comment"># blastx translates your nucleotide query in all 6 reading frames</span>
+<span class="c-comment"># and searches a protein database — perfect for gene annotation.</span>
+
+<span class="c-comment"># blastn would be wrong: it searches a nucleotide DB</span>
+<span class="c-comment"># blastp would be wrong: it requires a protein query</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">2</div>
+                <div class="ex-title">Interpret an E-value</div>
+              </div>
+              <p>You run a BLAST search and your top hit has E-value = 3e-82. Your second hit has E-value = 0.04. Which hit is more reliable, and would you accept the second hit as evidence of homology?</p>
+              <details class="answer">
+                <summary>▶ Show answer</summary>
+                <div class="ans-body">
+                  <pre><span class="c-comment"># Hit 1 (E = 3e-82) is far more reliable.</span>
+<span class="c-comment"># An E-value of 3e-82 means you would expect this good an alignment</span>
+<span class="c-comment"># to occur by chance only 3 × 10^-82 times — essentially never.</span>
+<span class="c-comment"># This is very strong evidence of true homology.</span>
+
+<span class="c-comment"># Hit 2 (E = 0.04) is borderline.</span>
+<span class="c-comment"># You would expect ~0.04 false positives per search at this score.</span>
+<span class="c-comment"># Standard threshold is E < 1e-5 for significance.</span>
+<span class="c-comment"># Most researchers would NOT accept E = 0.04 as evidence of homology</span>
+<span class="c-comment"># without additional evidence (e.g. conserved domain, phylogeny).</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">3</div>
+                <div class="ex-title">E-value and database size</div>
+              </div>
+              <p>You search sequence A against database X (10,000 sequences) and get E = 1e-8. Your colleague searches the same sequence against NCBI nr (200 million sequences). Will their E-value be larger or smaller? Why?</p>
+              <details class="answer">
+                <summary>▶ Show answer</summary>
+                <div class="ans-body">
+                  <pre><span class="c-comment"># Their E-value will be LARGER (less significant).</span>
+<span class="c-comment"># E-value = K × m × n × e^(-λ × S)</span>
+<span class="c-comment"># where n = effective database size.</span>
+
+<span class="c-comment"># NCBI nr has ~20,000× more sequences than your local DB.</span>
+<span class="c-comment"># So for the same alignment score S, the E-value scales proportionally:</span>
+<span class="c-comment"># your E = 1e-8</span>
+<span class="c-comment"># colleague's E ≈ 1e-8 × 20000 ≈ 2e-4</span>
+
+<span class="c-comment"># This does NOT mean the alignment is worse — the underlying biology</span>
+<span class="c-comment"># is the same. It just means there are more random hits in a bigger DB.</span>
+<span class="c-comment"># Always report which database you searched when reporting E-values!</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">4</div>
+                <div class="ex-title">Read an HSP</div>
+              </div>
+              <p>An HSP shows: Score = 420 bits, Expect = 5e-118, Identities = 198/210 (94%), Gaps = 2/210 (1%). In plain English, what does this tell you about the relationship between your query and the database sequence?</p>
+              <details class="answer">
+                <summary>▶ Show answer</summary>
+                <div class="ans-body">
+                  <pre><span class="c-comment"># This is an extremely high-confidence match.</span>
+
+<span class="c-comment"># Score = 420 bits → very high alignment quality</span>
+<span class="c-comment"># E = 5e-118 → essentially impossible to see by chance</span>
+<span class="c-comment"># Identities = 94% → 198 out of 210 positions are identical</span>
+<span class="c-comment"># Gaps = 1% → only 2 gap characters in 210 bp alignment</span>
+
+<span class="c-comment"># Conclusion: this query and the database sequence are</span>
+<span class="c-comment"># almost certainly the same gene or very recently diverged</span>
+<span class="c-comment"># orthologues (e.g. same gene in closely related species).</span>
+<span class="c-comment"># The 6% difference could be due to SNPs or allelic variation.</span></pre>
+                </div>
+              </details>
+            </div>
+          </section>
+
+          <!-- ─── Mark complete ──────────────────────── -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="mark-btn" onclick="markDone()">
+              ✓ Mark Lesson 1 Complete
+            </button>
+            <p style="margin-top:10px; font-size:13px; color:var(--muted);">Your progress is saved in your browser.</p>
+          </div>
+
+          <!-- ─── Lesson nav ─────────────────────────── -->
+          <div class="lesson-nav-footer">
+            <span></span>
+            <span style="opacity:.5">Lesson 2: Installing BLAST &amp; Local DB — coming soon</span>
+          </div>
+
+        </div><!-- /.prose -->
+      </div><!-- /.wrap -->
+    </div><!-- /.article -->
+
+    <!-- Ad slot bottom -->
+    <div class="wrap" style="padding-bottom:48px;">
+      <div style="max-width:340px; margin:0 auto;">
+        <div class="ad-slot rectangle">
+          <strong>Advertisement</strong>
+          <small>Support free bioinformatics education</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <div class="logo" style="margin-bottom:0;">
+              <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:48px;height:48px;" />
+              <div class="logo-text">
+                <strong>Shopnil Academy</strong>
+                <small>LEARN · BUILD · PUBLISH</small>
+              </div>
+            </div>
+            <p class="foot-about">Free, deep bioinformatics education — from command line basics to single-cell RNA-seq. Built by a plant genomics researcher, for the next generation of computational biologists.</p>
+            <div class="foot-social">
+              <a href="https://github.com/shajedurhossain" title="GitHub">GH</a>
+              <a href="https://orcid.org/0000-0003-4845-3802" title="ORCID">OR</a>
+            </div>
+          </div>
+          <div class="foot-col">
+            <h4>Courses</h4>
+            <ul>
+              <li><a href="../../courses.html">All Courses</a></li>
+              <li><a href="../bash-linux/lesson-1.html">Bash &amp; Linux</a></li>
+              <li><a href="lesson-1.html">BLAST &amp; Minimap2</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>Learn</h4>
+            <ul>
+              <li><a href="../bioinformatics-curriculum.html">Bioinformatics</a></li>
+              <li><a href="../../about.html">About</a></li>
+              <li><a href="../../index.html#curriculum">Curriculum</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="../../privacy.html">Privacy Policy</a></li>
+              <li><a href="../../terms.html">Terms of Use</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot-bot">
+          <span>© 2026 Shopnil Academy · shopnilacademy.com</span>
+          <span>Made with 🌱 for plant genomics learners worldwide</span>
+        </div>
+      </div>
+    </footer>
+
+  </main><!-- /.lesson-main -->
+</div><!-- /.lesson-shell -->
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+  /* ── Mobile nav ─────────────────────── */
+  function toggleNav() {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  /* ── Module accordion ───────────────── */
+  function toggleMod(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  /* ── Copy code ──────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  /* ── Progress (localStorage) ────────── */
+  const STORAGE_KEY = 'sa_sst_done';
+  const TOTAL = 8;
+  const LESSON_ID = 'sst-1';
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const pct = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = done.length + ' / ' + TOTAL;
+    document.querySelectorAll('.lesson-link').forEach(link => {
+      const id = link.dataset.id;
+      if (done.includes(id)) link.classList.add('done');
+    });
+    const btn = document.getElementById('mark-btn');
+    if (done.includes(LESSON_ID)) {
+      btn.textContent = '✓ Lesson 1 Complete';
+      btn.classList.add('done');
+    }
+  }
+
+  function markDone() {
+    const done = getDone();
+    if (!done.includes(LESSON_ID)) {
+      done.push(LESSON_ID);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    }
+    updateProgress();
+  }
+
+  updateProgress();
+
+  /* ── Active TOC via IntersectionObserver ── */
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.toc-link[href="#' + e.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>
