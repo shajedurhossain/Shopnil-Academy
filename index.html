@@ -84,6 +84,22 @@
   .hero h1 .accent { color: var(--red); }
   .hero-sub { font-size: 19px; color: var(--muted); max-width: 510px; margin-bottom: 32px; }
   .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-search { margin-bottom: 20px; max-width: 480px; position: relative; display: flex; align-items: center; }
+  .hero-search .hs-ic { position: absolute; left: 18px; font-size: 15px; color: var(--muted); pointer-events: none; }
+  .hero-search input {
+    width: 100%; padding: 15px 96px 15px 44px;
+    font-family: inherit; font-size: 15.5px; color: var(--ink);
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    box-shadow: var(--shadow-sm); transition: border-color .15s, box-shadow .15s;
+  }
+  .hero-search input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+  .hero-search button {
+    position: absolute; right: 8px;
+    background: var(--green); color: #fff; border: 0; border-radius: 10px;
+    padding: 9px 15px; font-family: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+  }
+  .hero-search button:hover { background: var(--green-dark); }
+  @media (max-width: 640px) { .hero-search input { font-size: 16px; } }
   .hero-meta { display: flex; gap: 28px; margin-top: 44px; flex-wrap: wrap; }
   .hero-meta-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); }
   .hero-meta-item .ic {
@@ -465,10 +481,15 @@
     </div>
     <div>
       <span class="hero-pill">
-        <span class="live-dot"></span>22 courses live <em>· more launching soon</em>
+        <span class="live-dot"></span>31 courses live <em>· more launching soon</em>
       </span>
       <h1>Learn anything.<br/><span class="underline">Pay nothing.<svg viewBox="0 0 200 14" preserveAspectRatio="none"><path d="M2 8 Q 25 0, 50 7 T 100 6 T 150 7 T 198 6" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/></svg></span> <span class="accent">Ever.</span></h1>
       <p class="hero-sub">A new kind of online academy: structured courses in bioinformatics, programming, languages, math, and guitar — built one careful course at a time. 100% free. Forever.</p>
+      <form class="hero-search" action="courses.html" method="get" role="search">
+        <span class="hs-ic" aria-hidden="true">⌕</span>
+        <input type="search" name="q" autocomplete="off" placeholder="Search all courses — German, RNA-seq, guitar…" aria-label="Search courses" />
+        <button type="submit">Search</button>
+      </form>
       <div class="hero-cta">
         <a href="courses/german-bangla/" class="btn btn-primary btn-lg">Start with German →</a>
         <a href="courses.html" class="btn btn-outline btn-lg">See all upcoming courses</a>
@@ -540,7 +561,7 @@
         </div>
         <h3>Tech & Coding</h3>
         <p>Bioinformatics, programming, infrastructure, and data engineering.</p>
-        <div class="cat-meta-row"><strong>31 courses</strong><span style="color: var(--green); font-weight: 700;">1 live · 30 soon</span></div>
+        <div class="cat-meta-row"><strong>31 courses</strong><span style="color: var(--green); font-weight: 700;">10 live · 21 soon</span></div>
       </a>
       <a href="courses.html#math" class="cat-card">
         <div class="cat-shape mint">
