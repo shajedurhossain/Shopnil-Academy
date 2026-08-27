@@ -474,6 +474,12 @@
       .sidebar { display: none; }
       .lesson-main { padding: 24px 0 60px; }
     }
+  
+    /* Wide layout — sidebar flush to the viewport edge */
+    .lesson-layout{max-width:none;margin:0;padding:0;min-height:100vh}
+    .lesson-layout>.sidebar{position:sticky;top:0;height:100vh;max-height:none;min-height:0;overflow-y:auto;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px 56px;scrollbar-width:thin}
+    .lesson-main{min-width:0;padding:32px 48px 80px;max-width:1100px}
+    @media(max-width:980px){.lesson-layout{grid-template-columns:1fr}.lesson-layout>.sidebar{display:none}.lesson-main{padding:24px 20px 60px}}
   </style>
 </head>
 <body>
@@ -530,7 +536,7 @@
 
 <!-- ── LESSON LAYOUT ──────────────────────────────────────────── -->
 <div style="max-width:1240px; margin:0 auto; padding:0 32px;">
-  <div class="lesson-layout" style="padding:0;">
+  <div class="lesson-layout">
     
     <!-- SIDEBAR -->
     <aside class="sidebar">
