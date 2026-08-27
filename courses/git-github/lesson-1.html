@@ -14,7 +14,7 @@
     /* ── Sidebar layout ── */
     .lesson-shell {
       display: grid;
-      grid-template-columns: 270px 1fr;
+      grid-template-columns: 270px minmax(0, 1fr);
       gap: 0;
       max-width: 1240px;
       margin: 0 auto;
@@ -406,6 +406,12 @@
       .sidebar { position: static; border-right: none; border-bottom: 1px solid var(--line); padding-right: 0; min-height: auto; }
       .lesson-main { padding: 28px 0 60px; }
     }
+  
+    /* Wide layout — sidebar flush to the viewport edge */
+    .lesson-shell{max-width:none;margin:0;padding:0;min-height:100vh}
+    .lesson-shell>.sidebar{position:sticky;top:0;height:100vh;max-height:none;min-height:0;overflow-y:auto;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px 56px;scrollbar-width:thin}
+    .lesson-main{min-width:0;padding:32px 48px 80px;max-width:1100px}
+    @media(max-width:980px){.lesson-shell{grid-template-columns:1fr}.lesson-shell>.sidebar{display:none}.lesson-main{padding:24px 20px 60px}}
   </style>
 </head>
 <body>
@@ -465,7 +471,7 @@
 </div>
 
 <!-- ══ LESSON BODY ═══════════════════════════════════════════════════════ -->
-<div class="lesson-shell" style="margin-top:36px;">
+<div class="lesson-shell">
 
   <!-- LEFT SIDEBAR -->
   <aside class="sidebar">
