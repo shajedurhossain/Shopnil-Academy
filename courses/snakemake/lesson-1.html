@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — What is Snakemake & Why It Matters · Shopnil Academy</title>
+  <meta name="description" content="Learn what Snakemake is, why bioinformatics pipelines need workflow managers, and how to install and run your very first Snakemake rule." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Layout shell ─────────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      min-height: 100vh;
+    }
+
+    /* ── Left sidebar ─────────────────────────────────────── */
+    .sidebar {
+      border-right: 1px solid var(--line);
+      background: var(--cream);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 28px 0 40px;
+      scrollbar-width: thin;
+    }
+    .sidebar-course-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--green);
+      padding: 0 22px;
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      padding: 0 22px;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 0 22px;
+      margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 4px;
+      background: var(--line);
+      margin: 0 22px 24px;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 99px;
+      transition: width .4s ease;
+    }
+    .sidebar-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 0 22px 20px;
+    }
+
+    /* module accordion */
+    .mod-group { margin-bottom: 4px; }
+    .mod-group-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 22px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      user-select: none;
+      gap: 8px;
+    }
+    .mod-group-label:hover { color: var(--ink); }
+    .mod-group-label .mod-arrow {
+      font-size: 10px;
+      transition: transform .2s ease;
+      flex-shrink: 0;
+    }
+    .mod-group.open .mod-arrow { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-bottom: 6px; }
+    .mod-group.open .mod-lessons { display: block; }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 22px 8px 28px;
+      font-size: 13px;
+      color: var(--muted);
+      border-left: 2px solid transparent;
+      transition: background .15s, color .15s, border-color .15s;
+      line-height: 1.35;
+    }
+    .lesson-link:hover { background: rgba(0,106,78,.06); color: var(--ink); }
+    .lesson-link.active {
+      color: var(--green);
+      border-left-color: var(--green);
+      background: rgba(0,106,78,.07);
+      font-weight: 600;
+    }
+    .l-icon {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      background: var(--green-soft);
+      color: var(--green);
+      display: grid; place-items: center;
+      font-size: 10px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .lesson-link.soon { color: var(--muted); opacity: .6; cursor: default; }
+    .lesson-link.soon:hover { background: transparent; color: var(--muted); }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon::after { content: '✓'; }
+
+    /* ── Main content area ────────────────────────────────── */
+    .lesson-main { min-width: 0; }
+
+    /* ── Lesson meta strip ────────────────────────────────── */
+    .lesson-meta-strip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 14px 0 0;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--green-soft); color: var(--green);
+      border: 1px solid rgba(0,106,78,.15);
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+    }
+    .lm-num { font-family: var(--font-display); font-weight: 700; color: var(--green); font-size: 13px; }
+    .lm-sep { color: var(--muted); opacity: .4; }
+    .lm-time { font-size: 12px; color: var(--muted); }
+
+    /* ── Code blocks ──────────────────────────────────────── */
+    .code-wrap {
+      background: #0d1f16;
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 20px 0;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: rgba(255,255,255,.04);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .code-lang {
+      font-family: var(--font-display);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.45);
+    }
+    .copy-btn {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.55);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, color .15s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+    pre {
+      margin: 0;
+      padding: 20px;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #a8c5b0;
+    }
+    /* syntax colours */
+    .c-cmd   { color: #7dd3a8; font-weight: 600; }   /* commands */
+    .c-flag  { color: #93c5fd; }                      /* flags / options */
+    .c-path  { color: #fcd34d; }                      /* paths / filenames */
+    .c-out   { color: #d1d5db; }                      /* stdout */
+    .c-comment { color: #6b7280; font-style: italic; }/* comments */
+    .c-kw    { color: #f9a8d4; font-weight: 600; }    /* keywords (rule, input, output…) */
+    .c-str   { color: #fcd34d; }                      /* strings */
+    .c-num   { color: #86efac; }                      /* numbers */
+    .c-op    { color: #c4b5fd; }                      /* operators = : , */
+
+    /* ── Explain box ──────────────────────────────────────── */
+    .explain-box {
+      background: #f0f7f4;
+      border: 1px solid rgba(0,106,78,.14);
+      border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 18px 0;
+    }
+    .explain-box strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .explain-box p {
+      font-size: 14.5px !important;
+      color: #2d4a3e !important;
+      margin: 0 !important;
+      line-height: 1.65 !important;
+    }
+
+    /* ── Folder note ──────────────────────────────────────── */
+    .folder-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.3);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: #7a5c00;
+      font-family: 'DM Mono', monospace;
+      margin: 14px 0;
+    }
+    .folder-note::before { content: '📁'; }
+
+    /* ── Tip / Warn ───────────────────────────────────────── */
+    .tip, .warn {
+      display: flex;
+      gap: 12px;
+      border-radius: 12px;
+      padding: 14px 18px;
+      margin: 18px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+    }
+    .tip { background: #e8f5ee; border: 1px solid rgba(0,106,78,.18); color: #1a3d2b; }
+    .warn { background: #fff8e6; border: 1px solid rgba(232,183,42,.35); color: #6b4c00; }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Command reference table ──────────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse;
+      margin: 18px 0; font-size: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px; overflow: hidden;
+    }
+    .cmd-table th {
+      background: var(--green-dark); color: #fff;
+      padding: 11px 16px; text-align: left;
+      font-family: var(--font-display);
+      font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .cmd-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child {
+      font-family: 'DM Mono', monospace;
+      font-size: 12.5px;
+      color: var(--green-deep);
+      background: var(--green-soft);
+      white-space: nowrap;
+    }
+    .cmd-table tr:nth-child(even) td:not(:first-child) { background: var(--cream); }
+
+    /* ── Exercises ────────────────────────────────────────── */
+    .exercise {
+      background: #fff;
+      border: 1.5px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin: 16px 0;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+    .ex-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+    details.answer {
+      margin-top: 14px;
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+    }
+    details.answer summary {
+      font-size: 13px; font-weight: 600; color: var(--green);
+      cursor: pointer; list-style: none;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body { margin-top: 12px; }
+
+    /* ── Mark complete ────────────────────────────────────── */
+    .mark-complete-wrap {
+      text-align: center;
+      margin: 40px 0 16px;
+      padding: 28px;
+      background: var(--green-soft);
+      border-radius: 20px;
+      border: 1px solid rgba(0,106,78,.14);
+    }
+    .mark-complete {
+      background: var(--green); color: #fff;
+      border: none; padding: 14px 32px;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-size: 15px; font-weight: 700;
+      cursor: pointer;
+      transition: background .15s, transform .15s;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: #1a7a4e; }
+
+    /* ── Lesson nav footer ────────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 0 60px;
+      border-top: 1px solid var(--line);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* ── TOC active state ─────────────────────────────────── */
+    .toc a.toc-active {
+      color: var(--green);
+      border-left-color: var(--green);
+      background: var(--green-soft);
+    }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; }
+    }
+
+    /* ── Wide lesson shell (site convention) ──────────────── */
+    .lesson-shell { grid-template-columns: 280px minmax(0, 1fr); }
+    .lesson-shell > main.lesson-main { min-width: 0; padding: 0 44px; }
+    .lesson-shell .article-grid { grid-template-columns: 220px minmax(0, 1fr); }
+    .lesson-shell .prose { min-width: 0; max-width: 1000px; }
+    @media (max-width: 980px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .lesson-shell > aside.sidebar { display: none; }
+      .lesson-shell > main.lesson-main { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All courses</a>
+      <span class="free-pill">100% Free</span>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INNER HEADER
+════════════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="./index.html">Snakemake — Workflow Automation</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <h1>What is Snakemake &amp; Why It Matters</h1>
+    <p class="lead">Understand the pipeline problem in bioinformatics, discover how Snakemake solves it, install it via conda, and run your very first rule.</p>
+    <div class="lesson-meta-strip">
+      <span class="lm-pill">📐 Module 13</span>
+      <span class="lm-num">Lesson 1 of 10</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-time">⏱ ~50 min</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill">🐍 Snakemake</span>
+      <span class="free-pill" style="margin-left:4px;">FREE</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AD SLOT — Top banner
+════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:32px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad helps keep this course free</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LESSON SHELL (sidebar + main)
+════════════════════════════════════════════════════════════ -->
+<div style="padding-top:36px;">
+<div class="lesson-shell">
+
+  <!-- ── LEFT SIDEBAR ───────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Module 13</div>
+    <div class="sidebar-course-title">Snakemake — Workflow Automation</div>
+
+    <div class="prog-label">
+      <span>Progress</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <!-- Lesson list -->
+    <div class="mod-group open" id="mod1">
+      <div class="mod-group-label" onclick="toggleMod('mod1')">
+        All Lessons <span class="mod-arrow">▶</span>
+      </div>
+      <div class="mod-lessons">
+        <a href="lesson-1.html" class="lesson-link active">
+          <span class="l-icon" id="icon-1">1</span>What is Snakemake &amp; Why It Matters
+        </a>
+        <span class="lesson-link soon" data-lesson="2"><span class="l-icon">2</span>Rules, Inputs &amp; Outputs</span>
+        <span class="lesson-link soon" data-lesson="3"><span class="l-icon">3</span>Wildcards &amp; Sample Generalisation</span>
+        <span class="lesson-link soon" data-lesson="4"><span class="l-icon">4</span>The Snakemake Config File</span>
+        <span class="lesson-link soon" data-lesson="5"><span class="l-icon">5</span>Shell vs Script vs Run Blocks</span>
+        <span class="lesson-link soon" data-lesson="6"><span class="l-icon">6</span>Log Files &amp; Benchmarking</span>
+        <span class="lesson-link soon" data-lesson="7"><span class="l-icon">7</span>Conda Environments per Rule</span>
+        <span class="lesson-link soon" data-lesson="8"><span class="l-icon">8</span>A Real RNA-seq Snakemake Pipeline</span>
+        <span class="lesson-link soon" data-lesson="9"><span class="l-icon">9</span>Cluster &amp; HPC Execution</span>
+        <span class="lesson-link soon" data-lesson="10"><span class="l-icon">10</span>Capstone: Reproducible Pipeline</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── MAIN CONTENT ───────────────────────────────────── -->
+  <main class="lesson-main">
+    <div class="article">
+      <div class="article-grid">
+
+        <!-- TOC -->
+        <nav class="toc">
+          <h5>On this page</h5>
+          <ul>
+            <li><a href="#the-problem">The Pipeline Problem</a></li>
+            <li><a href="#what-is-snakemake">What is Snakemake?</a></li>
+            <li><a href="#how-it-works">How Snakemake Thinks</a></li>
+            <li><a href="#install">Installing Snakemake</a></li>
+            <li><a href="#first-rule">Your First Rule</a></li>
+            <li><a href="#dry-run">Dry Run &amp; Execution</a></li>
+            <li><a href="#reference">Quick Reference</a></li>
+            <li><a href="#exercises">Exercises</a></li>
+          </ul>
+        </nav>
+
+        <!-- PROSE -->
+        <div class="prose">
+
+          <!-- ─ Section 1 ─────────────────────────────── -->
+          <section id="the-problem">
+            <h2><span class="n">01</span> The Pipeline Problem</h2>
+            <p>Imagine you are processing 48 sorghum RNA-seq samples. Your pipeline has six steps: quality control with FastQC, trimming with Trimmomatic, alignment with HISAT2, sorting with samtools, counting with featureCounts, and differential expression with DESeq2. In a Bash script, you might write a <code>for</code> loop and chain every command together.</p>
+            <p>This works — until something breaks at step 4 on sample 23. Now you must re-run everything from the beginning, or carefully track exactly where it failed. If you add a new sample later, you run the whole script again even though most outputs already exist. If a collaborator wants to reproduce your results on a different cluster, they need your exact Bash script, your exact sample names, and hope nothing has changed.</p>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <span>This is not a hypothetical problem. It is the reason nearly every published bioinformatics pipeline in Nature Methods, Genome Biology, and Bioinformatics journals now uses a workflow manager — Snakemake, Nextflow, or WDL.</span>
+            </div>
+
+            <p>The core issues with raw Bash pipelines are:</p>
+            <ul class="bullets">
+              <li><strong>No dependency tracking</strong> — Bash does not know that step 5 depends on step 4. If step 4 fails silently, step 5 runs on incomplete data.</li>
+              <li><strong>No resumability</strong> — If the pipeline crashes, you restart from zero unless you write complex checkpoint logic yourself.</li>
+              <li><strong>No parallelism</strong> — Running 48 samples sequentially wastes most of your compute time. Parallelising them with <code>&amp;</code> and <code>wait</code> is fragile and hard to control.</li>
+              <li><strong>No reproducibility</strong> — The pipeline is tied to your exact machine, your exact paths, your exact software versions.</li>
+            </ul>
+            <p>Snakemake was designed to solve all four of these problems at once.</p>
+          </section>
+
+          <!-- ─ Section 2 ─────────────────────────────── -->
+          <section id="what-is-snakemake">
+            <h2><span class="n">02</span> What is Snakemake?</h2>
+            <p>Snakemake is a Python-based workflow management system created by Johannes Köster at the University of Duisburg-Essen in 2012. It is now maintained by a large open-source community and is one of the two dominant workflow systems in bioinformatics (alongside Nextflow).</p>
+            <p>The key insight behind Snakemake is borrowed from GNU Make: instead of telling the computer <em>how</em> to run things step by step, you tell it <em>what outputs you want</em> and <em>how to produce them from inputs</em>. Snakemake figures out the rest — what order to run things in, which rules are already done, and how many rules can run simultaneously.</p>
+
+            <div class="explain-box">
+              <strong>Why "Snakemake"?</strong>
+              <p>The name comes from Python (the snake) plus Make (the classic Unix build tool). Snakemake uses Python syntax for rules and logic, but the dependency resolution philosophy comes directly from Make. If you have ever used <code>make</code> to compile C code, you already understand the core concept.</p>
+            </div>
+
+            <p>Snakemake is written in Python and its workflow files (<code>Snakefile</code>) use Python syntax. This means you can use any Python expression, import any Python library, and write arbitrarily complex logic inside a Snakemake pipeline — without leaving the Snakemake paradigm.</p>
+
+            <h3>Why Snakemake for RNA-seq?</h3>
+            <p>An RNA-seq pipeline is a perfect fit for Snakemake because it is inherently a directed acyclic graph (DAG) of file transformations. Each step takes files in and produces files out. Snakemake sees these file relationships and constructs the DAG automatically:</p>
+            <ul class="bullets">
+              <li>FASTQ files → FastQC HTML reports (QC, no file transformation needed)</li>
+              <li>FASTQ files → trimmed FASTQ files (Trimmomatic)</li>
+              <li>Trimmed FASTQ → BAM files (HISAT2 alignment)</li>
+              <li>BAM files → sorted BAM files (samtools sort)</li>
+              <li>Sorted BAM → count matrix (featureCounts)</li>
+              <li>Count matrix → differential expression results (DESeq2 in R)</li>
+            </ul>
+          </section>
+
+          <!-- ─ Section 3 ─────────────────────────────── -->
+          <section id="how-it-works">
+            <h2><span class="n">03</span> How Snakemake Thinks</h2>
+            <p>Understanding how Snakemake resolves rules is essential before writing any code. Snakemake works <strong>backwards from the target output</strong>.</p>
+            <p>When you ask Snakemake to produce <code>results/counts.txt</code>, it asks: "Which rule produces <code>results/counts.txt</code>?" It finds that rule, then looks at that rule's inputs. It asks: "Do these inputs already exist?" If not, it finds the rules that produce those inputs, and so on — building a dependency tree (DAG) from target back to source files.</p>
+            <p>Once the DAG is complete, Snakemake executes it in the correct order, running independent rules in parallel. If a rule has already produced its output and the output file is newer than the input, Snakemake skips that rule. This is called <strong>up-to-date checking</strong> — you get free resumability.</p>
+
+            <div class="explain-box">
+              <strong>The DAG in plain English</strong>
+              <p>A Directed Acyclic Graph (DAG) is a map of which steps depend on which other steps, where the arrows only go forward (acyclic = no loops). Snakemake draws this map for your pipeline automatically based on which files each rule reads and writes. You never have to specify the order manually — Snakemake infers it from the file relationships.</p>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">🌱</span>
+              <span>In your sorghum BPV project, if you re-run the pipeline after fixing a single alignment parameter, Snakemake will only re-run alignment and everything downstream of it — not the trimming step, which was already correct. This alone saves hours of compute time on real datasets.</span>
+            </div>
+          </section>
+
+          <!-- ─ Section 4 ─────────────────────────────── -->
+          <section id="install">
+            <h2><span class="n">04</span> Installing Snakemake</h2>
+            <p>Snakemake is best installed inside a dedicated conda environment. This keeps it isolated from other tools and makes it easy to recreate the environment on another machine.</p>
+
+            <div class="folder-note">Run from: any location — we are creating a new conda environment</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Create a dedicated environment for Snakemake</span>
+<span class="c-cmd">conda</span> <span class="c-flag">create</span> <span class="c-flag">-n</span> <span class="c-path">snakemake-env</span> <span class="c-flag">-c</span> conda-forge <span class="c-flag">-c</span> bioconda snakemake <span class="c-flag">-y</span>
+
+<span class="c-comment"># Activate the environment</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> <span class="c-path">snakemake-env</span>
+
+<span class="c-comment"># Verify the installation</span>
+<span class="c-cmd">snakemake</span> <span class="c-flag">--version</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <strong>Why -c conda-forge -c bioconda?</strong>
+              <p>Snakemake has many dependencies — Python packages, graphing libraries, and optional cluster-submission tools. The <code>conda-forge</code> channel provides current versions of most Python packages. The <code>bioconda</code> channel provides bioinformatics tools including Snakemake itself. Specifying both channels ensures conda can find and resolve all dependencies correctly. Without <code>bioconda</code>, conda would not find Snakemake at all.</p>
+            </div>
+
+            <p>Expected output from <code>--version</code>:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Output</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-out">8.x.x</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">⚠️</span>
+              <span>If you see <code>PackagesNotFoundError</code>, you may need to add the channels first: <code>conda config --add channels bioconda</code> and <code>conda config --add channels conda-forge</code>, then retry.</span>
+            </div>
+
+            <h3>Create the project directory</h3>
+            <p>Let's set up a clean project directory for this entire Snakemake module. We will build on this directory across all 10 lessons.</p>
+
+            <div class="folder-note">Run from: ~/</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Create the project tree for the entire module</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/rnaseq-snakemake-pipeline/{data/raw,data/trimmed,results,logs,envs}</span>
+
+<span class="c-comment"># Move into the project root</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/rnaseq-snakemake-pipeline</span>
+
+<span class="c-comment"># Confirm structure</span>
+<span class="c-cmd">tree</span> <span class="c-flag">-L</span> 2</pre>
+            </div>
+
+            <div class="explain-box">
+              <strong>Why this directory structure?</strong>
+              <p>Snakemake does not enforce a directory structure, but every major bioinformatics group uses a convention: <code>data/raw/</code> for unprocessed FASTQ files (never modified), <code>data/trimmed/</code> for adapter-trimmed reads, <code>results/</code> for final outputs, <code>logs/</code> for per-rule log files, and <code>envs/</code> for per-rule conda environment YAML files. This layout keeps raw data protected, separates intermediate files from final results, and makes the pipeline self-documenting. In your sorghum project this structure would contain your actual FASTQ files from JLU Gießen's sequencing core.</p>
+            </div>
+
+            <p>Expected output:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Output</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-out">.
+├── data
+│   ├── raw
+│   └── trimmed
+├── envs
+├── logs
+└── results</span></pre>
+            </div>
+          </section>
+
+          <!-- ─ Section 5 ─────────────────────────────── -->
+          <section id="first-rule">
+            <h2><span class="n">05</span> Your First Rule</h2>
+            <p>Every Snakemake workflow lives in a file called <code>Snakefile</code> (capital S, no extension). Let's write the simplest possible rule — one that copies a FASTQ file from <code>data/raw/</code> to <code>results/</code>. This is intentionally trivial: the goal is to understand the anatomy of a rule before adding real bioinformatics commands.</p>
+
+            <div class="folder-note">Run from: ~/rnaseq-snakemake-pipeline/</div>
+
+            <p>First, create a small test FASTQ file to work with:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Create a small fake FASTQ for testing (4-line FASTQ format)</span>
+<span class="c-cmd">cat</span> <span class="c-op">&gt;</span> <span class="c-path">data/raw/sorghum_sample1.fastq</span> <span class="c-op">&lt;&lt;</span> <span class="c-str">'EOF'</span>
+@SRR1234567.1 sorghum read 1
+ATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCGATCG
++
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+@SRR1234567.2 sorghum read 2
+GCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTAGCTA
++
+IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+EOF</pre>
+            </div>
+
+            <p>Now create the <code>Snakefile</code>:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Snakemake (Python)</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Snakefile — Lesson 1: your first rule
+# Save this as: ~/rnaseq-snakemake-pipeline/Snakefile</span>
+
+<span class="c-comment"># The 'rule all' tells Snakemake what the final target output is.
+# It is always listed first and drives the entire pipeline.</span>
+<span class="c-kw">rule</span> <span class="c-cmd">all</span><span class="c-op">:</span>
+    <span class="c-kw">input</span><span class="c-op">:</span>
+        <span class="c-str">"results/sorghum_sample1.fastq"</span>
+
+
+<span class="c-comment"># This rule copies a FASTQ file from data/raw/ to results/</span>
+<span class="c-kw">rule</span> <span class="c-cmd">copy_fastq</span><span class="c-op">:</span>
+    <span class="c-kw">input</span><span class="c-op">:</span>
+        <span class="c-str">"data/raw/sorghum_sample1.fastq"</span>
+    <span class="c-kw">output</span><span class="c-op">:</span>
+        <span class="c-str">"results/sorghum_sample1.fastq"</span>
+    <span class="c-kw">shell</span><span class="c-op">:</span>
+        <span class="c-str">"cp {input} {output}"</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <strong>Anatomy of a Snakemake rule</strong>
+              <p>Every rule has a <strong>name</strong> (e.g. <code>copy_fastq</code>), an <strong>input</strong> block listing the files the rule needs, an <strong>output</strong> block listing the files it will produce, and an <strong>action block</strong> — either <code>shell:</code>, <code>script:</code>, or <code>run:</code>. Inside the <code>shell:</code> string, <code>{input}</code> and <code>{output}</code> are automatically replaced with the actual file paths at runtime. The <code>rule all:</code> is a special convention: its <code>input</code> block lists the final targets of the entire pipeline. Snakemake traces backwards from these targets to figure out which other rules to run.</p>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠️</span>
+              <span><strong>Indentation is mandatory.</strong> Snakemake uses Python-style indentation — 4 spaces per level. If you mix tabs and spaces, or forget to indent the <code>input:</code>, <code>output:</code>, and <code>shell:</code> directives, Snakemake will throw a syntax error. Always use 4 spaces, never tabs.</span>
+            </div>
+          </section>
+
+          <!-- ─ Section 6 ─────────────────────────────── -->
+          <section id="dry-run">
+            <h2><span class="n">06</span> Dry Run &amp; Execution</h2>
+            <p>Before running any rule for real, always do a <strong>dry run</strong> first. A dry run tells you exactly what Snakemake <em>would</em> do — which rules it would execute and in what order — without actually executing any shell commands. This is one of Snakemake's most valuable features.</p>
+
+            <div class="folder-note">Run from: ~/rnaseq-snakemake-pipeline/</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Dry run — shows what would happen without running anything</span>
+<span class="c-cmd">snakemake</span> <span class="c-flag">--dry-run</span> <span class="c-flag">--printshellcmds</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <strong>Why dry run before every real run?</strong>
+              <p>On a 48-sample RNA-seq dataset, a real run could use 20 CPU cores and run for 6 hours. If your Snakefile has a typo, you might not discover it until hour 5. A dry run catches syntax errors, missing input files, and rule dependency problems in seconds — before wasting any compute time. The <code>--printshellcmds</code> flag additionally prints the exact shell commands that would be executed, so you can verify them.</p>
+            </div>
+
+            <p>Expected dry-run output:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Output</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-out">Building DAG of jobs...
+Job stats:
+job          count
+-----------  -------
+all          1
+copy_fastq   1
+total        2
+
+Reasons:
+    (check individual jobs above for details)
+    output files have to be generated:
+        copy_fastq: results/sorghum_sample1.fastq
+
+rule copy_fastq:
+    input: data/raw/sorghum_sample1.fastq
+    output: results/sorghum_sample1.fastq
+    jobid: 1
+    reason: Missing output files: results/sorghum_sample1.fastq
+    resources: tmpdir=/tmp
+
+cp data/raw/sorghum_sample1.fastq results/sorghum_sample1.fastq
+
+This was a dry-run (flag --dry-run). The order of jobs does not reflect the order of execution.</span></pre>
+            </div>
+
+            <p>Now run it for real:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Real run — executes all rules needed to produce the target</span>
+<span class="c-cmd">snakemake</span> <span class="c-flag">--cores</span> <span class="c-num">1</span>
+
+<span class="c-comment"># Verify the output was created</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">results/</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <strong>Why --cores?</strong>
+              <p>Snakemake requires you to specify how many CPU cores it can use. This is deliberate — Snakemake can run many rules in parallel, and it needs to know how many parallel jobs are allowed. On your laptop, <code>--cores 4</code> is a safe choice (uses 4 threads). On the JLU Gießen HPC cluster, you might specify <code>--cores 32</code> or hand control to SLURM (covered in Lesson 9). Using <code>--cores 1</code> here ensures sequential execution, which is easiest to follow for learning.</p>
+            </div>
+
+            <p>Expected output from <code>ls -lh results/</code>:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Output</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-out">total 4.0K
+-rw-r--r-- 1 shajedur shajedur 200 Aug 27 10:43 sorghum_sample1.fastq</span></pre>
+            </div>
+
+            <h3>Run it again — watch Snakemake skip</h3>
+            <p>Now run the exact same command a second time, without changing anything:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-cmd">snakemake</span> <span class="c-flag">--cores</span> <span class="c-num">1</span></pre>
+            </div>
+
+            <p>Expected output:</p>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Output</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-out">Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <strong>This is the core superpower</strong>
+              <p>"Nothing to be done" is Snakemake telling you: "All outputs already exist and are newer than their inputs — there is nothing to recompute." In a real 48-sample pipeline, this means you can safely re-run <code>snakemake --cores 16</code> at any time and it will only redo work that is actually necessary. You do not need to track which samples are done and which are not — Snakemake handles that entirely via file timestamps.</p>
+            </div>
+          </section>
+
+          <!-- ─ AD SLOT — in-feed ───────────────────── -->
+          <div class="ad-slot in-feed" style="margin: 32px 0;">
+            <strong>Advertisement</strong>
+            <small>Supports free bioinformatics education</small>
+          </div>
+
+          <!-- ─ Section 7 ─────────────────────────────── -->
+          <section id="reference">
+            <h2><span class="n">07</span> Quick Reference</h2>
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>Command / Concept</th>
+                  <th>What it does</th>
+                  <th>When to use it</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>snakemake --dry-run</td>
+                  <td>Shows which rules would run without executing them</td>
+                  <td>Before every real run</td>
+                </tr>
+                <tr>
+                  <td>snakemake --cores N</td>
+                  <td>Runs the pipeline using N CPU cores (enables parallelism)</td>
+                  <td>Every real run</td>
+                </tr>
+                <tr>
+                  <td>snakemake --printshellcmds</td>
+                  <td>Prints each shell command before executing it</td>
+                  <td>Debugging</td>
+                </tr>
+                <tr>
+                  <td>snakemake --forcerun RULE</td>
+                  <td>Forces a specific rule to re-run even if output exists</td>
+                  <td>After changing a rule's logic</td>
+                </tr>
+                <tr>
+                  <td>snakemake --dag | dot -Tsvg &gt; dag.svg</td>
+                  <td>Generates a visual graph of the pipeline DAG</td>
+                  <td>Understanding complex pipelines</td>
+                </tr>
+                <tr>
+                  <td>rule all:</td>
+                  <td>Special rule that defines the final targets of the pipeline</td>
+                  <td>Always first in every Snakefile</td>
+                </tr>
+                <tr>
+                  <td>input: / output:</td>
+                  <td>Declare files a rule reads (input) and writes (output)</td>
+                  <td>Every rule</td>
+                </tr>
+                <tr>
+                  <td>shell:</td>
+                  <td>The shell command to execute; {input} and {output} are placeholders</td>
+                  <td>Most bioinformatics rules</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ─ Section 8 ─────────────────────────────── -->
+          <section id="exercises">
+            <h2><span class="n">08</span> Exercises</h2>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">1</span>
+                <span class="ex-title">Verify your Snakemake installation</span>
+              </div>
+              <p class="prose" style="color:#33433b; font-size:15px;">Activate your <code>snakemake-env</code> conda environment and run <code>snakemake --version</code>. What version is installed? Then run <code>snakemake --help | head -40</code> and find the flag that limits the maximum number of jobs. Write it down.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="ans-body">
+                  <div class="code-wrap">
+                    <div class="code-header"><span class="code-lang">Bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                    <pre><span class="c-cmd">conda</span> <span class="c-flag">activate</span> <span class="c-path">snakemake-env</span>
+<span class="c-cmd">snakemake</span> <span class="c-flag">--version</span>
+<span class="c-comment"># Should print something like: 8.x.x</span>
+
+<span class="c-cmd">snakemake</span> <span class="c-flag">--help</span> <span class="c-op">|</span> <span class="c-cmd">head</span> <span class="c-flag">-40</span>
+<span class="c-comment"># Look for: --jobs N or -j N (maximum number of parallel jobs)</span></pre>
+                  </div>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">2</span>
+                <span class="ex-title">Add a second rule that compresses the output</span>
+              </div>
+              <p class="prose" style="color:#33433b; font-size:15px;">Modify your <code>Snakefile</code> to add a second rule called <code>compress_fastq</code> that uses <code>gzip</code> to compress <code>results/sorghum_sample1.fastq</code> into <code>results/sorghum_sample1.fastq.gz</code>. Update <code>rule all</code> to request the compressed file. Run a dry run first, then run for real.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="ans-body">
+                  <div class="code-wrap">
+                    <div class="code-header"><span class="code-lang">Snakemake</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                    <pre><span class="c-kw">rule</span> <span class="c-cmd">all</span><span class="c-op">:</span>
+    <span class="c-kw">input</span><span class="c-op">:</span>
+        <span class="c-str">"results/sorghum_sample1.fastq.gz"</span>
+
+<span class="c-kw">rule</span> <span class="c-cmd">copy_fastq</span><span class="c-op">:</span>
+    <span class="c-kw">input</span><span class="c-op">:</span>  <span class="c-str">"data/raw/sorghum_sample1.fastq"</span>
+    <span class="c-kw">output</span><span class="c-op">:</span> <span class="c-str">"results/sorghum_sample1.fastq"</span>
+    <span class="c-kw">shell</span><span class="c-op">:</span>  <span class="c-str">"cp {input} {output}"</span>
+
+<span class="c-kw">rule</span> <span class="c-cmd">compress_fastq</span><span class="c-op">:</span>
+    <span class="c-kw">input</span><span class="c-op">:</span>  <span class="c-str">"results/sorghum_sample1.fastq"</span>
+    <span class="c-kw">output</span><span class="c-op">:</span> <span class="c-str">"results/sorghum_sample1.fastq.gz"</span>
+    <span class="c-kw">shell</span><span class="c-op">:</span>  <span class="c-str">"gzip -k {input}"</span></pre>
+                  </div>
+                  <p style="font-size:14px; color:#33433b; margin-top:10px;">The <code>-k</code> flag tells gzip to keep the original file. Snakemake automatically figures out that <code>compress_fastq</code> must run after <code>copy_fastq</code> because its input is <code>copy_fastq</code>'s output.</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">3</span>
+                <span class="ex-title">Visualise the DAG</span>
+              </div>
+              <p class="prose" style="color:#33433b; font-size:15px;">Install <code>graphviz</code> in your environment (<code>conda install graphviz</code>), then run the DAG command below and open the resulting SVG in your browser. How many nodes and edges does the graph have?</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="ans-body">
+                  <div class="code-wrap">
+                    <div class="code-header"><span class="code-lang">Bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                    <pre><span class="c-cmd">conda</span> <span class="c-flag">install</span> <span class="c-flag">-c</span> conda-forge graphviz <span class="c-flag">-y</span>
+<span class="c-cmd">snakemake</span> <span class="c-flag">--dag</span> <span class="c-op">|</span> <span class="c-cmd">dot</span> <span class="c-flag">-Tsvg</span> <span class="c-op">&gt;</span> <span class="c-path">dag.svg</span>
+<span class="c-cmd">xdg-open</span> <span class="c-path">dag.svg</span>   <span class="c-comment"># Linux viewer</span></pre>
+                  </div>
+                  <p style="font-size:14px; color:#33433b; margin-top:10px;">With the two-rule pipeline, the DAG has 3 nodes (all → compress_fastq → copy_fastq) and 2 directed edges. Each box represents one rule execution; the arrows show which rule depends on which.</p>
+                </div>
+              </details>
+            </div>
+
+          </section>
+
+          <!-- ── Mark complete ───────────────────────── -->
+          <div class="mark-complete-wrap">
+            <p style="font-size:15px; color:var(--green-deep); margin-bottom:14px; font-weight:600;">Ready to move on?</p>
+            <button class="mark-complete" id="mc-btn" onclick="markComplete()">✓ Mark Lesson 1 Complete</button>
+          </div>
+
+          <!-- ── Lesson nav ──────────────────────────── -->
+          <div class="lesson-nav-footer">
+            <span style="color:var(--muted); font-size:14px;">← Module 12: SQL &amp; Database Querying</span>
+            <span style="color:var(--muted); font-size:14px;">Next: Rules, Inputs &amp; Outputs — coming soon</span>
+          </div>
+
+        </div><!-- /.prose -->
+      </div><!-- /.article-grid -->
+    </div><!-- /.article -->
+
+    <!-- AD SLOT — bottom rectangle -->
+    <div style="max-width:340px; margin:0 auto 60px;">
+      <div class="ad-slot rectangle">
+        <strong>Advertisement</strong>
+        <small>Supports free bioinformatics education</small>
+      </div>
+    </div>
+
+  </main>
+</div><!-- /.lesson-shell -->
+</div><!-- /.wrap -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text"><strong>Shopnil Academy</strong><small>FREE · ALWAYS</small></div>
+        </div>
+        <p class="foot-about">A free, open bioinformatics curriculum — from Bash to single-cell RNA-seq. Built for scientists, by a scientist.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" title="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" target="_blank" rel="noopener" title="ORCID">OR</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Curriculum</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../../courses.html#bioinformatics">Bioinformatics</a></li>
+          <li><a href="../../courses.html#programming">Programming</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>This Module</h4>
+        <ul>
+          <li><a href="lesson-1.html">Lesson 1 — Intro</a></li>
+          <li><span style="color:var(--muted);opacity:.65;">Lesson 2 — Rules — soon</span></li>
+          <li><span style="color:var(--muted);opacity:.65;">Lesson 3 — Wildcards — soon</span></li>
+          <li><span style="color:var(--muted);opacity:.65;">Lesson 8 — RNA-seq Pipeline — soon</span></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../faq.html">FAQ</a></li>
+          <li><a href="../../advertise.html">Advertise</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+          <li><a href="../../terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All courses free, forever.</span>
+      <span>Made with ♥ in Gießen, Germany</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Mobile nav ───────────────────────────────────────── */
+  function toggleNav() {
+    const links = document.querySelector('.nav-links');
+    if (links) links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  /* ── Module accordion ─────────────────────────────────── */
+  function toggleMod(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('open');
+  }
+
+  /* ── Copy code button ─────────────────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1800);
+    });
+  }
+
+  /* ── Progress tracking ────────────────────────────────── */
+  const STORAGE_KEY = 'sa_snakemake_done';
+  const TOTAL_LESSONS = 10;
+  const LESSON_ID = 'lesson-1';
+
+  function getCompleted() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getCompleted();
+    const pct = Math.round((done.length / TOTAL_LESSONS) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '%';
+
+    // Mark icons for done lessons
+    done.forEach(id => {
+      const num = id.replace('lesson-', '');
+      const icon = document.getElementById('icon-' + num);
+      if (icon) {
+        icon.textContent = '';
+        icon.classList.add('done');
+        const link = icon.closest('.lesson-link');
+        if (link) link.classList.add('done');
+      }
+    });
+
+    // Update this lesson's button
+    if (done.includes(LESSON_ID)) {
+      const btn = document.getElementById('mc-btn');
+      if (btn) { btn.textContent = '✓ Completed'; btn.classList.add('done'); }
+    }
+  }
+
+  function markComplete() {
+    const done = getCompleted();
+    if (!done.includes(LESSON_ID)) {
+      done.push(LESSON_ID);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    }
+    updateProgress();
+  }
+
+  updateProgress();
+
+  /* ── Active TOC via IntersectionObserver ──────────────── */
+  const tocLinks = document.querySelectorAll('.toc a');
+  const sections = document.querySelectorAll('.prose section[id]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('toc-active'));
+        const active = document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('toc-active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
