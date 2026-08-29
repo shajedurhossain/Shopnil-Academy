@@ -2988,7 +2988,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var _AUDIO_LANG='de';
+var _SPEECH_LANG='de-DE';
 
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+
+function tts(text){
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var a=new Audio(src);
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.speak(u);
+    }else{
+      console.warn('Audio not found: '+src);
+    }
+  });
+}
 var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
 function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
@@ -2996,21 +3024,9 @@ var curPage = "";
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
 
 // ===== TTS =====
-var curAud=null;
-function tts(t){
-  if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=de&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t);});
-}
-function bTTS(t){
-  if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=0.82;
-  var v=window.speechSynthesis.getVoices();
-  var g=null;
-  for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.startsWith('de')){g=v[i];break;}}
-  if(g)u.voice=g;
-  window.speechSynthesis.speak(u);
-}
+
+
+
 window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
 
 // ===== STREAK & XP =====
@@ -3293,7 +3309,7 @@ var fitbData={
   c1l5w:[
     {q:'M___dchen (girl - with umlaut)',blank:'ä',hint:'মেয়ে — Mädchen (ä)'},
     {q:'sch___n (beautiful - with umlaut)',blank:'ö',hint:'সুন্দর — schön (ö)'},
-    {q:'&#252;ber (above - with umlaut, type the base letter u)',blank:'ü',hint:'উপরে — über (ü)'},
+    {q:'über (above - with umlaut, type the base letter u)',blank:'ü',hint:'উপরে — über (ü)'},
     {q:'Stra___e (street)',blank:'ß',hint:'রাস্তা — Straße (ß = Eszett)'},
     {q:'Wie ___ man das? (writes)',blank:'schreibt',hint:'লেখা হয় — schreiben (man schreibt)'}
   ],
@@ -3821,14 +3837,14 @@ var _maleNames = [
 ];
 
 function _isFemale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
   for (var i = 0; i < _femaleNames.length; i++) {
     if (n.indexOf(_femaleNames[i]) >= 0) return true;
   }
   return false;
 }
 function _isMale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
   for (var i = 0; i < _maleNames.length; i++) {
     if (n.indexOf(_maleNames[i]) >= 0) return true;
   }
@@ -3876,23 +3892,24 @@ function _getVoice(female) {
   }
 }
 function _speakLine(text, female, onEnd) {
-  if (window.speechSynthesis) {
-    window.speechSynthesis.cancel();
-    var utt = new SpeechSynthesisUtterance(text);
-    utt.lang = 'de-DE';
-    utt.pitch = female ? 1.2 : 0.6;
-    utt.rate = female ? 0.88 : 0.82;
-    var v = _getVoice(female);
-    if (v) utt.voice = v;
-    utt.onend = onEnd || function(){};
-    window.speechSynthesis.speak(utt);
-  } else {
-    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
-      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
-    var a = new Audio(url);
-    a.onended = onEnd || function(){};
-    a.play();
-  }
+  var done = false;
+  function fin(){ if (done) return; done = true; (onEnd || function(){})(); }
+  var src = '/audio/' + _AUDIO_LANG + '/' + fnv1a(text) + '.mp3';
+  var a = new Audio(src);
+  a.onended = fin;
+  a.play().catch(function(){
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      var utt = new SpeechSynthesisUtterance(text);
+      utt.lang = _SPEECH_LANG;
+      utt.pitch = female ? 1.2 : 0.6;
+      utt.rate = female ? 0.88 : 0.82;
+      var v = _getVoice(female);
+      if (v) utt.voice = v;
+      utt.onend = fin;
+      window.speechSynthesis.speak(utt);
+    } else { console.warn('Audio missing: ' + src); fin(); }
+  });
 }
 
 function _playLines(lines, idx) {
