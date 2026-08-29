@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — What is HPC? | HPC & SLURM | Shopnil Academy</title>
+  <meta name="description" content="Understand what High-Performance Computing is, how clusters are structured, and why bioinformaticians need HPC to process large genomics datasets." />
+  <link rel="icon" href="../../assets/logo.png" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar layout ────────────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      min-height: 100vh;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--line);
+      background: #fff;
+      padding: 28px 20px 40px;
+      scrollbar-width: thin;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+    .sidebar-course-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .10em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px; font-weight: 700; color: var(--ink);
+      line-height: 1.25; margin-bottom: 18px;
+    }
+
+    /* Progress */
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--muted); margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 5px; background: var(--green-soft); border-radius: 99px;
+      margin-bottom: 20px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green); border-radius: 99px;
+      transition: width .4s ease;
+    }
+
+    /* Module accordion */
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 10px 4px;
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; border-radius: 8px;
+      transition: background .15s;
+      user-select: none;
+    }
+    .mod-group-label:hover { background: var(--green-soft); }
+    .mod-group-label .chevron { transition: transform .25s; font-size: 10px; }
+    .mod-group.open .chevron { transform: rotate(180deg); }
+    .mod-lessons {
+      display: none; flex-direction: column; gap: 2px; padding: 4px 0;
+    }
+    .mod-group.open .mod-lessons { display: flex; }
+
+    .lesson-link {
+      display: flex; align-items: center; gap: 9px;
+      padding: 8px 10px; border-radius: 8px;
+      font-size: 13px; color: var(--muted);
+      transition: background .15s, color .15s;
+      text-decoration: none;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active {
+      background: var(--green-soft); color: var(--green); font-weight: 600;
+    }
+    .l-icon {
+      width: 22px; height: 22px; border-radius: 6px;
+      display: grid; place-items: center;
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+      background: var(--cream); color: var(--muted);
+    }
+    .lesson-link.soon { color: var(--muted); opacity: .6; cursor: default; }
+    .lesson-link.soon:hover { background: transparent; color: var(--muted); }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-mint); color: var(--green-deep); }
+
+    /* On this page TOC */
+    .on-page-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .10em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 18px 10px 8px; display: block;
+    }
+    .on-page-links { display: flex; flex-direction: column; gap: 2px; }
+    .on-page-links a {
+      font-size: 12px; color: var(--muted);
+      padding: 5px 10px; border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: all .15s;
+    }
+    .on-page-links a:hover { color: var(--ink); background: var(--cream); }
+    .on-page-links a.active { color: var(--green); border-color: var(--green); background: var(--green-soft); }
+
+    /* ── Main content area ────────────────────────────────────── */
+    .lesson-main { min-width: 0; }
+
+    /* Meta strip */
+    .lesson-meta-strip {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+      padding: 14px 0 0;
+      margin-bottom: 6px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 11px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      background: var(--green-soft); color: var(--green);
+    }
+    .lm-num { font-family: var(--font-display); font-weight: 700; color: var(--green); font-size: 13px; }
+    .lm-time { color: var(--muted); font-size: 13px; }
+    .lm-sep { color: var(--line); }
+
+    /* Code blocks */
+    .code-wrap {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(15,36,24,.12);
+      margin: 18px 0;
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 16px;
+      background: #1a2e24;
+    }
+    .code-lang {
+      font-family: var(--font-display); font-size: 11px;
+      font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: #8ab89a;
+    }
+    .copy-btn {
+      font-size: 11px; font-weight: 600; color: #8ab89a;
+      background: rgba(138,184,154,.12); border: 1px solid rgba(138,184,154,.2);
+      padding: 4px 12px; border-radius: 999px; cursor: pointer;
+      transition: background .15s, color .15s;
+      font-family: var(--font-body);
+    }
+    .copy-btn:hover { background: rgba(138,184,154,.25); color: #c6e2d6; }
+
+    pre {
+      margin: 0; padding: 20px;
+      background: #0f1e17;
+      font-family: 'DM Mono', monospace; font-size: 13.5px;
+      line-height: 1.75; overflow-x: auto; color: #c6e2d6;
+    }
+    .c-cmd    { color: #7dd3aa; font-weight: 500; }
+    .c-flag   { color: #93c5fd; }
+    .c-path   { color: #fcd34d; }
+    .c-out    { color: #94a3b8; font-style: italic; }
+    .c-comment{ color: #4d7a5e; font-style: italic; }
+    .c-kw     { color: #f9a8d4; }
+    .c-num    { color: #fb923c; }
+    .c-str    { color: #a5f3a5; }
+
+    /* Explain box */
+    .explain-box {
+      background: var(--green-soft);
+      border: 1px solid rgba(0,106,78,.15);
+      border-left: 4px solid var(--green);
+      border-radius: 12px; padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .explain-box strong {
+      display: block; font-size: 12px; font-weight: 700;
+      letter-spacing: .07em; text-transform: uppercase;
+      color: var(--green); margin-bottom: 6px;
+    }
+    .explain-box p { font-size: 14.5px; color: #2d5a47; line-height: 1.65; margin: 0; }
+
+    /* Folder note */
+    .folder-note {
+      display: flex; align-items: center; gap: 9px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(184,136,21,.2);
+      border-radius: 9px; padding: 10px 15px;
+      font-size: 13px; font-family: 'DM Mono', monospace;
+      color: #7a5a10; margin: 12px 0 4px;
+    }
+
+    /* Tables */
+    .cmd-table {
+      width: 100%; border-collapse: collapse;
+      margin: 18px 0; font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--cream);
+      font-family: var(--font-display); font-size: 12px;
+      font-weight: 600; letter-spacing: .05em;
+      padding: 10px 14px; text-align: left;
+      border-bottom: 2px solid var(--line);
+    }
+    .cmd-table td {
+      padding: 11px 14px; border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child {
+      font-family: 'DM Mono', monospace; font-size: 12.5px;
+      color: var(--green-deep); white-space: nowrap;
+    }
+    .cmd-table tr:hover td { background: var(--cream); }
+
+    /* Tips & warnings */
+    .tip, .warn {
+      display: flex; gap: 14px; border-radius: 12px;
+      padding: 16px 18px; margin: 18px 0;
+    }
+    .tip { background: #e8f5f0; border: 1px solid rgba(0,106,78,.15); }
+    .warn { background: #fff8e6; border: 1px solid rgba(184,136,21,.25); }
+    .tip-icon, .warn-icon {
+      flex-shrink: 0; width: 28px; height: 28px;
+      border-radius: 50%; display: grid; place-items: center; font-size: 14px;
+    }
+    .tip-icon { background: var(--green); color: #fff; }
+    .warn-icon { background: var(--gold); color: #fff; }
+    .tip p, .warn p { font-size: 14px; color: #33433b; line-height: 1.6; margin: 0; }
+
+    /* Exercises */
+    .exercise {
+      border: 1px solid var(--line); border-radius: 16px;
+      overflow: hidden; margin: 14px 0;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px; background: var(--cream);
+      border-bottom: 1px solid var(--line);
+    }
+    .ex-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-size: 12px; font-weight: 700; flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+    .exercise .body { padding: 18px 20px; }
+    .exercise .body p { font-size: 14.5px; color: #33433b; line-height: 1.65; margin-bottom: 10px; }
+    details.answer { margin-top: 12px; }
+    details.answer summary {
+      font-size: 13px; font-weight: 600; color: var(--green);
+      cursor: pointer; padding: 8px 0; list-style: none;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body { margin-top: 10px; }
+
+    /* Mark complete */
+    .mark-complete-wrap { text-align: center; padding: 32px 0 8px; }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 999px;
+      padding: 14px 28px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: var(--font-body);
+      transition: background .2s, transform .15s;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--green-mint); color: var(--green-deep); cursor: default; transform: none; }
+
+    /* Lesson nav footer */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 0 0; margin-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+    }
+    .lesson-nav-footer a:hover { color: var(--green-deep); }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+    }
+
+    /* Diagram box */
+    .diagram-box {
+      background: #0f1e17; border-radius: 14px;
+      padding: 24px 28px; margin: 18px 0;
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      line-height: 1.8; color: #c6e2d6;
+      border: 1px solid rgba(138,184,154,.12);
+      overflow-x: auto;
+    }
+    .diagram-box .d-title {
+      font-family: var(--font-display); font-size: 11px;
+      font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      color: #8ab89a; margin-bottom: 14px;
+    }
+    .diagram-box .d-green { color: #7dd3aa; }
+    .diagram-box .d-gold  { color: #fcd34d; }
+    .diagram-box .d-blue  { color: #93c5fd; }
+    .diagram-box .d-muted { color: #4d7a5e; }
+
+    /* ── Wide lesson shell (site convention) ──────────────── */
+    .article > .wrap { max-width: none; margin: 0; padding: 0; }
+    .lesson-shell { grid-template-columns: 300px minmax(0, 1fr); align-items: start; }
+    .lesson-shell > aside.sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; margin: 0; padding: 28px 22px 40px; background: var(--cream, #FBF8F0); border-right: 1px solid var(--line); }
+    .lesson-shell > main { padding: 34px 44px 10px; max-width: 1040px; }
+    @media (max-width: 980px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .lesson-shell > aside.sidebar { display: none; }
+      .lesson-shell > main { padding: 28px 20px 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ NAV -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy" />
+      <div class="logo-text">
+        <strong>SHOPNILACADEMY</strong>
+        <small>LEARN WITHOUT LIMITS</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../../contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">Browse</a>
+      <a href="../../courses.html" class="btn btn-primary btn-sm">Start free →</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ INNER HEADER -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="lesson-1.html">HPC &amp; SLURM</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <div class="lesson-meta-strip">
+      <span class="lm-pill">Module 17</span>
+      <span class="lm-num">Lesson 1 of 10</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-time">⏱ 35 min</span>
+      <span class="lm-sep">·</span>
+      <span class="free-pill">Free</span>
+    </div>
+    <h1>What is HPC? Clusters, Nodes &amp; the Bioinformatics Case</h1>
+    <p class="lead">Understand why a laptop cannot process a whole genome, how computing clusters are built, and how SLURM manages thousands of jobs across hundreds of machines.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ TOP AD -->
+<div class="wrap" style="padding-top:24px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>728 × 90 leaderboard · AdSense slot</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ ARTICLE -->
+<div class="article">
+  <div class="wrap">
+    <div class="lesson-shell">
+
+      <!-- ── SIDEBAR ─────────────────────────────────────────── -->
+      <aside class="sidebar">
+        <div class="sidebar-course-label">Module 17</div>
+        <div class="sidebar-course-title">HPC &amp; SLURM for Bioinformatics</div>
+
+        <div class="prog-label">
+          <span>Progress</span>
+          <span id="prog-pct">0%</span>
+        </div>
+        <div class="prog-track">
+          <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+        </div>
+
+        <!-- Lessons accordion -->
+        <div class="mod-group open" id="mod1">
+          <div class="mod-group-label" onclick="toggleMod('mod1')">
+            Lessons <span class="chevron">▲</span>
+          </div>
+          <div class="mod-lessons">
+            <a href="lesson-1.html" class="lesson-link active">
+              <span class="l-icon">1</span>What is HPC?
+            </a>
+            <span class="lesson-link soon" data-lesson="2"><span class="l-icon">2</span>SSH &amp; File Transfer</span>
+            <span class="lesson-link soon" data-lesson="3"><span class="l-icon">3</span>The SLURM Scheduler</span>
+            <span class="lesson-link soon" data-lesson="4"><span class="l-icon">4</span>Your First sbatch Script</span>
+            <span class="lesson-link soon" data-lesson="5"><span class="l-icon">5</span>Requesting Resources</span>
+            <span class="lesson-link soon" data-lesson="6"><span class="l-icon">6</span>Job Arrays</span>
+            <span class="lesson-link soon" data-lesson="7"><span class="l-icon">7</span>Interactive Jobs &amp; Modules</span>
+            <span class="lesson-link soon" data-lesson="8"><span class="l-icon">8</span>Monitoring &amp; Debugging</span>
+            <span class="lesson-link soon" data-lesson="9"><span class="l-icon">9</span>Pipelines on HPC</span>
+            <span class="lesson-link soon" data-lesson="10"><span class="l-icon">10</span>Capstone Pipeline</span>
+          </div>
+        </div>
+
+        <!-- On this page -->
+        <span class="on-page-label">On this page</span>
+        <div class="on-page-links">
+          <a href="#why-hpc">Why bioinformatics needs HPC</a>
+          <a href="#anatomy">Anatomy of a cluster</a>
+          <a href="#nodes">Login vs compute nodes</a>
+          <a href="#slurm-intro">Where SLURM fits in</a>
+          <a href="#workflow">A real bioinformatics workflow</a>
+          <a href="#exercises">Exercises</a>
+        </div>
+      </aside>
+
+      <!-- ── MAIN PROSE ──────────────────────────────────────── -->
+      <main class="lesson-main">
+        <div class="prose">
+
+          <!-- ─── SECTION 1 ─── -->
+          <section id="why-hpc">
+            <h2><span class="n">01</span> Why bioinformatics needs HPC</h2>
+
+            <p>
+              A modern whole-genome sequencing run produces roughly <strong>100 GB of raw FASTQ data</strong> per sample.
+              A rice population study might have 200 accessions. A sorghum GWAS panel — like the one behind your BPV
+              genomic selection thesis — may contain tens of thousands of SNP markers across hundreds of lines.
+              Your laptop has 8–16 GB of RAM and 4–8 CPU cores. The maths does not work.
+            </p>
+
+            <div class="explain-box">
+              <strong>Why this matters</strong>
+              <p>
+                STAR alignment (RNA-seq) requires ~30 GB RAM just to load the genome index.
+                GATK variant calling for a single sample can take 6–12 hours on a laptop.
+                On an HPC cluster with 48 cores per node and 512 GB RAM, the same job finishes in 20 minutes.
+                HPC is not optional for real genomics — it is the infrastructure the field runs on.
+              </p>
+            </div>
+
+            <p>
+              HPC stands for <strong>High-Performance Computing</strong>. It refers to a networked collection of
+              computers (called a <em>cluster</em>) that work together and are managed by a job scheduler.
+              Instead of running your STAR alignment on your laptop, you write a script that says
+              "I need 16 CPUs, 64 GB RAM, and 4 hours" — and the scheduler finds the machines
+              and runs your job automatically, even while you sleep.
+            </p>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>
+                Most universities and research institutes in Germany — including Justus-Liebig-Universität Gießen —
+                provide access to HPC clusters through national computing initiatives (BMBF, DFG) or regional networks
+                (HRZ clusters, HLRS, or the national NHR system). Ask your thesis supervisor about cluster access.
+              </p>
+            </div>
+
+            <p>Here is how computational demand scales for common bioinformatics tasks:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>RAM needed</th>
+                  <th>CPU cores</th>
+                  <th>Time (laptop)</th>
+                  <th>Time (HPC node)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>FastQC on 1 sample</td>
+                  <td>1 GB</td>
+                  <td>1–2</td>
+                  <td>5 min</td>
+                  <td>1 min</td>
+                </tr>
+                <tr>
+                  <td>STAR genome index build</td>
+                  <td>30 GB</td>
+                  <td>8</td>
+                  <td>⛔ impossible</td>
+                  <td>25 min</td>
+                </tr>
+                <tr>
+                  <td>STAR alignment (1 sample)</td>
+                  <td>32 GB</td>
+                  <td>8</td>
+                  <td>⛔ impossible</td>
+                  <td>15 min</td>
+                </tr>
+                <tr>
+                  <td>GATK HaplotypeCaller (1 sample)</td>
+                  <td>16 GB</td>
+                  <td>4</td>
+                  <td>8–12 h</td>
+                  <td>45 min</td>
+                </tr>
+                <tr>
+                  <td>DESeq2 on 20 samples</td>
+                  <td>4 GB</td>
+                  <td>1</td>
+                  <td>10 min</td>
+                  <td>2 min</td>
+                </tr>
+                <tr>
+                  <td>rrBLUP / BGLR on large SNP panel</td>
+                  <td>8–64 GB</td>
+                  <td>1–4</td>
+                  <td>hours–days</td>
+                  <td>minutes–hours</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ─── SECTION 2 ─── -->
+          <section id="anatomy">
+            <h2><span class="n">02</span> Anatomy of a cluster</h2>
+
+            <p>
+              A computing cluster is not a single computer. It is a collection of many computers —
+              called <strong>nodes</strong> — connected by a high-speed internal network (InfiniBand or 10 GbE).
+              Each node looks like a powerful server with many CPU cores, large RAM, and fast local storage.
+              The nodes share access to a common, large <strong>parallel filesystem</strong> (like GPFS or Lustre)
+              where your data and scripts live.
+            </p>
+
+            <div class="diagram-box">
+              <div class="d-title">Cluster architecture — simplified</div>
+<span class="d-muted">┌───────────────────────────────────────────────────────────────┐</span>
+<span class="d-muted">│                        HPC CLUSTER                           │</span>
+<span class="d-muted">│                                                               │</span>
+<span class="d-muted">│  ┌──────────────────┐     ┌───────────────────────────────┐  │</span>
+<span class="d-muted">│  │</span>  <span class="d-green">LOGIN NODE</span>        <span class="d-muted">│     │</span>  <span class="d-gold">COMPUTE NODES</span>               <span class="d-muted">│  │</span>
+<span class="d-muted">│  │</span>  You SSH here     <span class="d-muted">│     │</span>                               <span class="d-muted">│  │</span>
+<span class="d-muted">│  │</span>  Submit jobs      <span class="d-muted">│     │</span>  <span class="d-blue">node001</span>  64 cores  256 GB    <span class="d-muted">│  │</span>
+<span class="d-muted">│  │</span>  Edit scripts     <span class="d-muted">│     │</span>  <span class="d-blue">node002</span>  64 cores  256 GB    <span class="d-muted">│  │</span>
+<span class="d-muted">│  └──────────────────┘     │</span>  <span class="d-blue">node003</span>  64 cores  512 GB    <span class="d-muted">│  │</span>
+<span class="d-muted">│                           │</span>  <span class="d-blue">node004</span>  64 cores  512 GB    <span class="d-muted">│  │</span>
+<span class="d-muted">│  ┌──────────────────┐     │</span>  <span class="d-muted">...   (up to 500+ nodes)</span>   <span class="d-muted">│  │</span>
+<span class="d-muted">│  │</span>  <span class="d-green">SLURM SCHEDULER</span>  <span class="d-muted">│     └───────────────────────────────┘  │</span>
+<span class="d-muted">│  │</span>  Queue manager    <span class="d-muted">│                                           │</span>
+<span class="d-muted">│  │</span>  Allocates nodes  <span class="d-muted">│     ┌───────────────────────────────┐  │</span>
+<span class="d-muted">│  └──────────────────┘     │</span>  <span class="d-green">SHARED FILESYSTEM</span>             <span class="d-muted">│  │</span>
+<span class="d-muted">│                           │</span>  /home/shajedur/               <span class="d-muted">│  │</span>
+<span class="d-muted">│                           │</span>  /scratch/shajedur/             <span class="d-muted">│  │</span>
+<span class="d-muted">│                           │</span>  /project/sorghum_gwas/         <span class="d-muted">│  │</span>
+<span class="d-muted">│                           └───────────────────────────────┘  │</span>
+<span class="d-muted">└───────────────────────────────────────────────────────────────┘</span>
+            </div>
+
+            <p>Key components you need to understand:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Component</th><th>What it is</th><th>Your role</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Login node</td>
+                  <td>The gateway machine you SSH into. Shared by all users.</td>
+                  <td>Edit scripts, transfer files, submit jobs only</td>
+                </tr>
+                <tr>
+                  <td>Compute nodes</td>
+                  <td>The worker machines with many cores and large RAM</td>
+                  <td>Your jobs run here — allocated by SLURM</td>
+                </tr>
+                <tr>
+                  <td>Scheduler (SLURM)</td>
+                  <td>Software that manages the queue of all users' jobs</td>
+                  <td>You submit jobs to it with <code>sbatch</code></td>
+                </tr>
+                <tr>
+                  <td>Shared filesystem</td>
+                  <td>A large disk system mounted on all nodes simultaneously</td>
+                  <td>Store data and scripts here — all nodes can read/write</td>
+                </tr>
+                <tr>
+                  <td>Scratch space</td>
+                  <td>Fast temporary storage for intermediate files</td>
+                  <td>Use for large temporary FASTQ/BAM files during a job</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ─── SECTION 3 ─── -->
+          <section id="nodes">
+            <h2><span class="n">03</span> Login nodes vs compute nodes</h2>
+
+            <p>
+              This is the most important rule of HPC etiquette:
+              <strong>never run heavy computation on the login node.</strong>
+            </p>
+
+            <div class="warn">
+              <span class="warn-icon">⚠️</span>
+              <p>
+                The login node is shared by all users on the cluster simultaneously. If you run STAR alignment or
+                GATK directly on the login node, you slow down everyone else's ability to edit files, check jobs,
+                and transfer data. Most clusters will automatically kill your process — and your HPC account may
+                be suspended. Always use <code>sbatch</code> (batch job) or <code>srun</code> (interactive job) to run computation.
+              </p>
+            </div>
+
+            <p>What is allowed on the login node vs what requires a job submission:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Allowed on login node</th><th>Requires sbatch / srun</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Editing scripts (<code>nano</code>, <code>vim</code>)</td>
+                  <td>STAR alignment</td>
+                </tr>
+                <tr>
+                  <td>Submitting jobs (<code>sbatch</code>)</td>
+                  <td>GATK variant calling</td>
+                </tr>
+                <tr>
+                  <td>Checking job status (<code>squeue</code>)</td>
+                  <td>FastQC on large files</td>
+                </tr>
+                <tr>
+                  <td>Small file transfers (<code>scp</code>, <code>rsync</code>)</td>
+                  <td>rrBLUP / BGLR models</td>
+                </tr>
+                <tr>
+                  <td>Listing files (<code>ls</code>, <code>head</code>)</td>
+                  <td>Any Python / R computation taking > 1 min</td>
+                </tr>
+                <tr>
+                  <td>Loading modules (<code>module load</code>)</td>
+                  <td>Compiling software</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="explain-box">
+              <strong>The queue mental model</strong>
+              <p>
+                Think of a cluster like a shared laboratory with 500 benches (compute nodes).
+                The login node is the reception desk — everyone checks in there. SLURM is the lab manager
+                who assigns benches. You tell the lab manager "I need 4 benches for 2 hours, with 64 kg
+                of reagents (RAM)." The lab manager says "bench 117–120 are free, go ahead."
+                You never work at the reception desk — you just check in and submit your request.
+              </p>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 4 ─── -->
+          <section id="slurm-intro">
+            <h2><span class="n">04</span> Where SLURM fits in</h2>
+
+            <p>
+              <strong>SLURM</strong> stands for <em>Simple Linux Utility for Resource Management</em>.
+              It is the job scheduler used by the vast majority of HPC clusters worldwide — including
+              those at German universities (HRZ, HLRS, NHR centres). Its job is simple in concept:
+              accept jobs from hundreds of users, decide who gets what resources and when,
+              and execute them in order.
+            </p>
+
+            <div class="explain-box">
+              <strong>Why SLURM exists</strong>
+              <p>
+                Without a scheduler, 200 researchers would all try to run their RNA-seq jobs at the same time.
+                The cluster would be overwhelmed and every job would fail or slow to a crawl. SLURM solves this
+                with a fair-share queue: it tracks how much compute each user has consumed, gives priority
+                to users who have used less recently, and ensures no single user monopolises the cluster.
+                It is the operating system of shared science.
+              </p>
+            </div>
+
+            <p>SLURM's core commands — you will learn every one of these in depth across this module:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Command</th><th>What it does</th><th>When you use it</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>sbatch job.sh</td>
+                  <td>Submit a batch job script to the queue</td>
+                  <td>Every time you run a pipeline</td>
+                </tr>
+                <tr>
+                  <td>squeue -u $USER</td>
+                  <td>Show your running and pending jobs</td>
+                  <td>While waiting for results</td>
+                </tr>
+                <tr>
+                  <td>scancel &lt;jobid&gt;</td>
+                  <td>Cancel a running or queued job</td>
+                  <td>When you made a mistake</td>
+                </tr>
+                <tr>
+                  <td>sinfo</td>
+                  <td>Show cluster partitions and node availability</td>
+                  <td>Choosing where to submit</td>
+                </tr>
+                <tr>
+                  <td>srun</td>
+                  <td>Start an interactive job on a compute node</td>
+                  <td>Testing and debugging</td>
+                </tr>
+                <tr>
+                  <td>sacct -j &lt;jobid&gt;</td>
+                  <td>Show resource usage for a completed job</td>
+                  <td>After a job finishes</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>
+              A SLURM job script is just a Bash script with special comment lines at the top that
+              tell SLURM what resources your job needs. Here is what a minimal one looks like
+              — we will build real ones from Lesson 4 onwards:
+            </p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">SLURM batch script (preview)</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment">#SBATCH --job-name=star_align        # name shown in squeue</span>
+<span class="c-comment">#SBATCH --ntasks=1                   # number of tasks</span>
+<span class="c-comment">#SBATCH --cpus-per-task=8            # CPU cores per task</span>
+<span class="c-comment">#SBATCH --mem=64G                    # RAM</span>
+<span class="c-comment">#SBATCH --time=02:00:00              # max wall-clock time (HH:MM:SS)</span>
+<span class="c-comment">#SBATCH --output=logs/star_%j.out   # stdout log (%j = job ID)</span>
+<span class="c-comment">#SBATCH --error=logs/star_%j.err    # stderr log</span>
+
+<span class="c-comment"># Load the STAR module</span>
+<span class="c-cmd">module load</span> STAR/2.7.10a
+
+<span class="c-comment"># Run the alignment</span>
+<span class="c-cmd">STAR</span> <span class="c-flag">--runThreadN</span> 8 \
+     <span class="c-flag">--genomeDir</span> <span class="c-path">/scratch/shajedur/sorghum_genome/star_index</span> \
+     <span class="c-flag">--readFilesIn</span> <span class="c-path">sample_R1.fastq.gz</span> <span class="c-path">sample_R2.fastq.gz</span> \
+     <span class="c-flag">--outSAMtype</span> BAM SortedByCoordinate \
+     <span class="c-flag">--outFileNamePrefix</span> <span class="c-path">results/sample_</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <strong>What those #SBATCH lines do</strong>
+              <p>
+                Lines starting with <code>#SBATCH</code> look like comments to Bash (they start with <code>#</code>),
+                but SLURM reads them before running the script. They are your "resource request form."
+                SLURM will not start your job until a node with exactly those resources becomes free.
+                If you ask for 64 GB RAM and only 32 GB is available on all nodes, you wait.
+                Lesson 5 covers how to choose resource requests wisely to minimise queue wait time.
+              </p>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 5 ─── -->
+          <section id="workflow">
+            <h2><span class="n">05</span> A real bioinformatics workflow on HPC</h2>
+
+            <p>
+              To make this concrete, here is how a typical RNA-seq analysis looks when run on an HPC cluster.
+              You would run this for your sorghum RNA-seq data — each step becomes a separate SLURM job,
+              and they chain together using job dependencies.
+            </p>
+
+            <div class="diagram-box">
+              <div class="d-title">RNA-seq pipeline — HPC job flow</div>
+
+<span class="d-muted">  Your laptop / login node</span>
+<span class="d-muted">  ─────────────────────────────────────────────────────</span>
+<span class="d-muted">  │</span>
+<span class="d-green">  ▼  scp sample.fastq.gz cluster:/scratch/shajedur/raw/</span>
+<span class="d-muted">  │   (transfer data to cluster)</span>
+<span class="d-muted">  │</span>
+<span class="d-gold">  ▼  sbatch 01_fastqc.sh</span>   <span class="d-muted">→ Job 12345 submitted</span>
+<span class="d-muted">  │   QC check on FASTQ files</span>
+<span class="d-muted">  │</span>
+<span class="d-gold">  ▼  sbatch 02_trimming.sh</span>  <span class="d-muted">→ Job 12346 (waits for 12345)</span>
+<span class="d-muted">  │   Trim adapters with Trimmomatic</span>
+<span class="d-muted">  │</span>
+<span class="d-gold">  ▼  sbatch 03_star.sh</span>      <span class="d-muted">→ Job 12347 (waits for 12346)</span>
+<span class="d-muted">  │   STAR alignment to sorghum genome</span>
+<span class="d-muted">  │</span>
+<span class="d-gold">  ▼  sbatch 04_counts.sh</span>    <span class="d-muted">→ Job 12348 (waits for 12347)</span>
+<span class="d-muted">  │   featureCounts → count matrix</span>
+<span class="d-muted">  │</span>
+<span class="d-blue">  ▼  scp cluster:/scratch/shajedur/results/ .</span>
+<span class="d-muted">      (download results to laptop for DESeq2 in R)</span>
+            </div>
+
+            <p>
+              Notice you only interact with the cluster for job submission and data transfer.
+              All the heavy computation happens automatically on compute nodes while you do other work.
+              You can log off completely — your jobs keep running.
+            </p>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>
+                This is the power model. Submit your STAR alignment at 9 PM before dinner.
+                By morning, 200 samples are aligned. No laptop fan running. No keeping your computer awake.
+                This is how production genomics analysis actually works at scale.
+              </p>
+            </div>
+
+            <h3>Key vocabulary summary</h3>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Term</th><th>Meaning in HPC</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Cluster</td><td>The entire HPC system — all nodes, network, and storage together</td></tr>
+                <tr><td>Node</td><td>One physical computer in the cluster</td></tr>
+                <tr><td>Core</td><td>One CPU processor within a node (a node may have 32–128 cores)</td></tr>
+                <tr><td>Partition</td><td>A group of nodes for different job types (short, long, GPU, highmem)</td></tr>
+                <tr><td>Job</td><td>A unit of work submitted to SLURM — your script + resource request</td></tr>
+                <tr><td>Queue</td><td>The list of all jobs waiting or running across the cluster</td></tr>
+                <tr><td>Wall time</td><td>Maximum real-world clock time your job is allowed to run</td></tr>
+                <tr><td>Scratch</td><td>Fast temporary disk space — data is deleted after your job</td></tr>
+                <tr><td>Home directory</td><td>Your permanent space: small quota, backed up</td></tr>
+                <tr><td>Module system</td><td>Software loaded on demand with <code>module load</code></td></tr>
+                <tr><td>Job array</td><td>One submission that spawns many parallel jobs (e.g., 200 samples)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ─── MID AD ─── -->
+          <div class="ad-slot in-feed" style="margin:32px 0;">
+            <strong>Advertisement</strong>
+            <small>In-feed ad · AdSense slot</small>
+          </div>
+
+          <!-- ─── EXERCISES ─── -->
+          <section id="exercises">
+            <h2><span class="n">06</span> Exercises</h2>
+            <p>No cluster access is required for these exercises — they are conceptual and research tasks to solidify your understanding before you SSH into a real cluster in Lesson 2.</p>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">1</span>
+                <span class="ex-title">Calculate RAM requirements for your sorghum GWAS</span>
+              </div>
+              <div class="body">
+                <p>
+                  Your BPV thesis uses rrBLUP and BGLR on a sorghum SNP panel.
+                  Estimate: if your marker matrix has 50,000 SNPs × 300 lines, and each value is an 8-byte float
+                  (double precision), how many MB of RAM does the matrix alone require?
+                  How does this change with 200,000 SNPs?
+                </p>
+                <details class="answer">
+                  <summary>▶ Show answer</summary>
+                  <div class="ans-body">
+                    <div class="code-wrap">
+                      <div class="code-header">
+                        <span class="code-lang">Calculation</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                      </div>
+                      <pre><span class="c-comment"># 50,000 SNPs × 300 lines × 8 bytes per value</span>
+<span class="c-num">50000</span> × <span class="c-num">300</span> × <span class="c-num">8</span> = <span class="c-num">120,000,000</span> bytes = <span class="c-num">~115 MB</span>
+
+<span class="c-comment"># With 200,000 SNPs</span>
+<span class="c-num">200000</span> × <span class="c-num">300</span> × <span class="c-num">8</span> = <span class="c-num">480,000,000</span> bytes = <span class="c-num">~457 MB</span>
+
+<span class="c-comment"># But rrBLUP builds a kinship matrix (G matrix): n × n</span>
+<span class="c-comment"># 300 × 300 × 8 = 720,000 bytes — tiny</span>
+<span class="c-comment"># BGLR with MCMC chains needs more: 2–4 GB for large panels</span>
+<span class="c-comment"># Request 16–32 GB on HPC to be safe</span></pre>
+                    </div>
+                    <p style="font-size:14px;color:#33433b;margin-top:10px;">
+                      The marker matrix itself is manageable, but BGLR's Markov Chain Monte Carlo iterations
+                      and BLUP's matrix inversions (G<sup>-1</sup> A<sup>-1</sup>) drive RAM up quickly.
+                      Always test with a small subset first, then scale on HPC.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">2</span>
+                <span class="ex-title">Identify the HPC facility at JLU Gießen</span>
+              </div>
+              <div class="body">
+                <p>
+                  Research: Does Justus-Liebig-Universität Gießen have an HPC cluster available to students?
+                  What is the HRZ (Hochschulrechenzentrum) page address? Is there a national allocation you could
+                  apply for through the DFG or NHR network? Write down the steps to request an account.
+                </p>
+                <details class="answer">
+                  <summary>▶ Show answer</summary>
+                  <div class="ans-body">
+                    <p style="font-size:14px;color:#33433b;">
+                      The HRZ at JLU Gießen offers HPC resources to researchers.
+                      Visit <strong>hrz.uni-giessen.de</strong> and search for "HPC" or "High Performance Computing."
+                      For larger allocations, the <strong>NHR (National High Performance Computing) network</strong>
+                      offers computing time to German university researchers through competitive proposals.
+                      Your thesis supervisor can submit a resource request — MSc thesis work often qualifies.
+                      The HLRS in Stuttgart and Jülich Supercomputing Centre also accept academic proposals.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <span class="ex-num">3</span>
+                <span class="ex-title">Map the STAR alignment job to cluster concepts</span>
+              </div>
+              <div class="body">
+                <p>
+                  You want to align 50 RNA-seq samples from a <em>Sorghum bicolor</em> drought study.
+                  Each sample needs 32 GB RAM, 8 CPU cores, and 45 minutes.
+                  If the cluster has 20 compute nodes with 64 cores and 256 GB RAM each:
+                </p>
+                <p>(a) How many samples can run simultaneously?<br>
+                (b) How long will all 50 samples take (wall-clock time, ignoring queue time)?<br>
+                (c) Should you use a job array or 50 separate <code>sbatch</code> calls?</p>
+                <details class="answer">
+                  <summary>▶ Show answer</summary>
+                  <div class="ans-body">
+                    <p style="font-size:14px;color:#33433b;margin-bottom:8px;">
+                      <strong>(a)</strong> Each node: 64 cores ÷ 8 cores/job = 8 jobs per node by CPU.
+                      RAM: 256 GB ÷ 32 GB = 8 jobs per node by RAM. So 8 jobs per node × 20 nodes = <strong>160 simultaneous jobs</strong>.
+                      All 50 samples can run at the same time.
+                    </p>
+                    <p style="font-size:14px;color:#33433b;margin-bottom:8px;">
+                      <strong>(b)</strong> If all 50 run in parallel: <strong>45 minutes</strong> total.
+                      Without HPC (laptop, 1 job at a time): 50 × 45 min = 37.5 hours.
+                    </p>
+                    <p style="font-size:14px;color:#33433b;">
+                      <strong>(c)</strong> Use a <strong>job array</strong> (<code>sbatch --array=1-50 align.sh</code>).
+                      Lesson 6 covers this in depth. A job array is one submission that creates 50 parallel jobs —
+                      much cleaner than 50 manual <code>sbatch</code> calls.
+                    </p>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </section>
+
+          <!-- Mark complete -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+              ✓ Mark lesson complete
+            </button>
+          </div>
+
+          <!-- Lesson nav -->
+          <div class="lesson-nav-footer">
+            <span style="color:var(--muted);font-size:14px;">← Module 16: Docker</span>
+            <span style="color:var(--muted);font-size:14px;">Next: SSH &amp; File Transfer — coming soon</span>
+          </div>
+
+        </div><!-- /.prose -->
+      </main>
+
+    </div><!-- /.lesson-shell -->
+  </div><!-- /.wrap -->
+</div><!-- /.article -->
+
+<!-- Bottom ad -->
+<div style="display:flex;justify-content:center;padding:0 20px 48px;">
+  <div class="ad-slot rectangle" style="max-width:340px;width:100%;">
+    <strong>Advertisement</strong>
+    <small>300 × 250 rectangle · AdSense slot</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:48px;height:48px;" />
+          <div class="logo-text">
+            <strong>SHOPNILACADEMY</strong>
+            <small>LEARN WITHOUT LIMITS</small>
+          </div>
+        </a>
+        <p class="foot-about">100% free online courses in bioinformatics, programming, languages, and more. Built for learners who want to actually finish.</p>
+        <div class="foot-social">
+          <a href="https://www.facebook.com/profile.php?id=100057403270810" title="Facebook">f</a>
+          <a href="https://x.com/ShopnilAcademy" title="X">𝕏</a>
+          <a href="https://www.youtube.com/@ShopnilAcademy" title="YouTube">▶</a>
+          <a href="https://www.linkedin.com/company/shopnilacademy/" title="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../../courses.html">All courses</a></li>
+          <li><a href="../../courses.html?track=tech">Tech &amp; Coding</a></li>
+          <li><a href="../../courses.html?track=lang">Languages</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="../../faq.html">FAQ</a></li>
+          <li><a href="../../advertise.html">Advertise</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+          <li><a href="../../cookies.html">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════ JS -->
+<script>
+  /* ── Mobile nav ── */
+  document.querySelector('.nav-toggle').addEventListener('click', () => {
+    document.querySelector('.nav-links').classList.toggle('open');
+  });
+
+  /* ── Module accordion ── */
+  function toggleMod(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  /* ── Copy code ── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1800);
+    });
+  }
+
+  /* ── Progress bar ── */
+  const LS_KEY = 'sa_hpc_done';
+  const TOTAL   = 10;
+  function getCompleted() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+    catch { return []; }
+  }
+  function updateProgress() {
+    const done = getCompleted();
+    const pct  = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent  = pct + '%';
+    document.querySelectorAll('.lesson-link').forEach(link => {
+      const lhref = link.getAttribute('href');
+      if (!lhref) return;
+      const lessonNum = parseInt(lhref.replace('lesson-','').replace('.html',''));
+      if (done.includes(lessonNum)) link.classList.add('done');
+    });
+  }
+
+  /* ── Mark complete ── */
+  function markComplete() {
+    const done = getCompleted();
+    if (!done.includes(1)) { done.push(1); localStorage.setItem(LS_KEY, JSON.stringify(done)); }
+    const btn = document.getElementById('mc-btn');
+    btn.textContent = '✓ Lesson complete!';
+    btn.classList.add('done');
+    updateProgress();
+  }
+  // On load, restore state
+  window.addEventListener('DOMContentLoaded', () => {
+    updateProgress();
+    const done = getCompleted();
+    if (done.includes(1)) {
+      const btn = document.getElementById('mc-btn');
+      btn.textContent = '✓ Lesson complete!';
+      btn.classList.add('done');
+    }
+  });
+
+  /* ── Active TOC via IntersectionObserver ── */
+  const sections  = document.querySelectorAll('.prose section[id]');
+  const tocLinks  = document.querySelectorAll('.on-page-links a');
+  const observer  = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.on-page-links a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
