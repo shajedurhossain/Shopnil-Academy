@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — What is Jupyter & Why Bioinformaticians Use It | Shopnil Academy</title>
+  <meta name="description" content="Learn what Jupyter notebooks are, why bioinformaticians use them, how to install JupyterLab with conda, and how to launch your first notebook." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar ─────────────────────────────────────────── */
+    .sidebar-course-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 4px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display); font-size: 15px; font-weight: 700;
+      color: var(--ink); line-height: 1.3; margin-bottom: 16px;
+    }
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 6px; background: var(--green-soft); border-radius: 999px;
+      overflow: hidden; margin-bottom: 20px;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green); border-radius: 999px;
+      transition: width .4s ease;
+    }
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 10px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      border-radius: 8px; transition: background .15s ease;
+      user-select: none;
+    }
+    .mod-group-label:hover { background: var(--cream); }
+    .mod-group-label .arr { font-size: 10px; transition: transform .2s ease; }
+    .mod-group-label.open .arr { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-left: 4px; }
+    .mod-lessons.open { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 8px; font-size: 13px;
+      color: var(--muted); transition: background .15s ease, color .15s ease;
+      text-decoration: none;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--green); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .lesson-link.soon { color: var(--muted); opacity: .6; cursor: default; }
+    .lesson-link.soon:hover { background: transparent; color: var(--muted); }
+    .l-icon {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center; font-size: 10px;
+      background: var(--cream); color: var(--muted); font-weight: 700;
+    }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-soft); color: var(--green); }
+
+    /* ── Meta strip ───────────────────────────────────────── */
+    .lesson-meta-strip {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 28px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+    }
+    .lm-num { color: var(--green); font-weight: 700; }
+    .lm-sep { color: var(--line); }
+    .lm-time::before { content: '⏱ '; }
+
+    /* ── Code blocks ──────────────────────────────────────── */
+    .code-wrap { margin: 20px 0; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .code-header {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #1a2e22; padding: 10px 16px;
+    }
+    .code-lang { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #7cb89a; text-transform: uppercase; }
+    .copy-btn {
+      font-size: 11px; font-weight: 600; color: #7cb89a;
+      background: rgba(124,184,154,.12); border: 1px solid rgba(124,184,154,.25);
+      border-radius: 6px; padding: 4px 10px; cursor: pointer;
+      transition: background .15s ease;
+    }
+    .copy-btn:hover { background: rgba(124,184,154,.22); }
+    pre {
+      margin: 0; background: #0f1f17;
+      padding: 20px; overflow-x: auto;
+      font-family: 'DM Mono', monospace; font-size: 13.5px; line-height: 1.75;
+      color: #d4e8dc;
+    }
+    .c-cmd   { color: #7cb89a; font-weight: 500; }
+    .c-flag  { color: #e8b72a; }
+    .c-path  { color: #80cbc4; }
+    .c-out   { color: #a5b4ac; font-style: italic; }
+    .c-comment { color: #4d6b57; font-style: italic; }
+    .c-kw    { color: #c792ea; font-weight: 500; }
+    .c-str   { color: #c3e88d; }
+
+    /* ── Explain box ──────────────────────────────────────── */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0f8f4 100%);
+      border: 1px solid rgba(0,106,78,.15);
+      border-left: 4px solid var(--green);
+      border-radius: 12px; padding: 18px 20px; margin: 20px 0;
+    }
+    .explain-box .eb-label {
+      font-size: 10px; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 6px;
+    }
+    .explain-box p { font-size: 14.5px; color: #2a4035; line-height: 1.65; margin: 0; }
+
+    /* ── Folder note ──────────────────────────────────────── */
+    .folder-note {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--gold-soft); border: 1px solid rgba(232,183,42,.3);
+      border-radius: 10px; padding: 10px 16px; margin: 14px 0;
+      font-size: 13px; font-family: 'DM Mono', monospace; color: #6b4c00;
+    }
+
+    /* ── Tip / Warn ───────────────────────────────────────── */
+    .tip, .warn {
+      display: flex; gap: 14px; border-radius: 12px;
+      padding: 16px 18px; margin: 20px 0; font-size: 14.5px; line-height: 1.6;
+    }
+    .tip  { background: var(--green-soft); border: 1px solid rgba(0,106,78,.15); color: #1e3d2f; }
+    .warn { background: var(--red-soft);   border: 1px solid rgba(244,42,65,.15); color: #5a1020; }
+    .tip-icon, .warn-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Comparison table ─────────────────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse; margin: 18px 0;
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+      font-size: 14px;
+    }
+    .cmd-table th, .cmd-table td {
+      text-align: left; padding: 12px 16px;
+      border-bottom: 1px solid var(--line); vertical-align: top;
+    }
+    .cmd-table th {
+      background: var(--cream); font-family: var(--font-display);
+      font-weight: 600; color: var(--ink); font-size: 13px;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child { font-family: 'DM Mono', monospace; font-weight: 600; color: var(--green); }
+
+    /* ── Exercises ────────────────────────────────────────── */
+    .exercise {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 16px; padding: 22px 24px; margin: 16px 0;
+    }
+    .ex-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .ex-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 700; font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+    details.answer { margin-top: 12px; }
+    details.answer summary {
+      font-size: 13px; font-weight: 600; color: var(--green);
+      cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer summary::before { content: '▶'; font-size: 10px; transition: transform .2s ease; }
+    details.answer[open] summary::before { transform: rotate(90deg); }
+    details.answer .answer-body {
+      margin-top: 10px; background: var(--cream); border-radius: 10px;
+      padding: 14px 16px; font-size: 13.5px; color: #2a4035; line-height: 1.6;
+    }
+
+    /* ── Mark complete ────────────────────────────────────── */
+    .mark-complete-wrap { text-align: center; margin: 40px 0 20px; }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 999px; padding: 14px 28px;
+      font-size: 15px; font-weight: 700; font-family: var(--font-display);
+      cursor: pointer; transition: background .2s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-2px); }
+    .mark-complete.done { background: var(--muted); cursor: default; transform: none; }
+
+    /* ── Lesson nav footer ────────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 0; border-top: 1px solid var(--line); margin-top: 32px;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+      padding: 10px 18px; border: 1.5px solid var(--green);
+      border-radius: 999px; transition: background .15s ease;
+    }
+    .lesson-nav-footer a:hover { background: var(--green-soft); }
+
+    /* ── Notebook anatomy diagram ─────────────────────────── */
+    .nb-anatomy {
+      background: #0f1f17; border-radius: 14px; overflow: hidden;
+      margin: 20px 0; box-shadow: var(--shadow-md);
+    }
+    .nb-toolbar {
+      background: #1a2e22; padding: 10px 16px;
+      display: flex; gap: 8px; align-items: center;
+    }
+    .nb-toolbar .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .nb-toolbar .dot.r { background: #F42A41; }
+    .nb-toolbar .dot.y { background: #E8B72A; }
+    .nb-toolbar .dot.g { background: #006A4E; }
+    .nb-toolbar span { font-size: 12px; color: #7cb89a; margin-left: 8px; font-family: 'DM Mono', monospace; }
+    .nb-cell {
+      margin: 12px 16px; border-radius: 8px; overflow: hidden;
+    }
+    .nb-cell-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: 4px 10px;
+      font-family: 'DM Mono', monospace;
+    }
+    .nb-cell.code-cell .nb-cell-label { background: rgba(124,184,154,.15); color: #7cb89a; }
+    .nb-cell.md-cell .nb-cell-label   { background: rgba(232,183,42,.12);  color: #e8b72a; }
+    .nb-cell.out-cell .nb-cell-label  { background: rgba(165,180,172,.1);  color: #a5b4ac; }
+    .nb-cell-body {
+      padding: 12px 16px;
+      font-family: 'DM Mono', monospace; font-size: 13px; line-height: 1.7;
+    }
+    .nb-cell.code-cell .nb-cell-body { color: #d4e8dc; background: rgba(0,0,0,.15); }
+    .nb-cell.md-cell   .nb-cell-body { color: #e8b72a; background: rgba(0,0,0,.1); }
+    .nb-cell.out-cell  .nb-cell-body { color: #a5b4ac; background: transparent; padding-top: 0; }
+
+    /* ── TOC active ───────────────────────────────────────── */
+    .toc a.active { background: var(--green-soft); color: var(--green); border-left-color: var(--green); font-weight: 600; }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .article-grid { grid-template-columns: 1fr; }
+      .toc { position: static; }
+    }
+
+    /* ── Wide lesson shell (site convention) ──────────────── */
+    .article > .wrap { max-width: none; margin: 0; padding: 0; }
+    .article-grid { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 0; align-items: start; }
+    aside.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; margin: 0; padding: 28px 22px 40px; background: var(--cream, #FBF8F0); border-right: 1px solid var(--line); }
+    .article-grid > .prose { padding: 34px 44px 10px; max-width: 1040px; }
+    @media (max-width: 980px) {
+      .article-grid { grid-template-columns: 1fr; }
+      aside.toc { display: none; }
+      .article-grid > .prose { padding: 28px 20px 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a class="logo" href="../../index.html">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS EDUCATION</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../bioinformatics-curriculum.html">Bioinformatics</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enrol Free</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INNER HEADER
+══════════════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="lesson-1.html">Jupyter Notebooks</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <div class="free-pill" style="margin-bottom:14px;">✦ Module 19 · Phase 3 — Advanced &amp; Specialised</div>
+    <h1>What is Jupyter &amp; Why Bioinformaticians Use It</h1>
+    <p class="lead">Understand the notebook paradigm, install JupyterLab via conda, and launch your first interactive analysis environment.</p>
+    <div class="updated">📅 Week 25 · Lesson 1 of 10</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOP AD SLOT
+══════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:28px; padding-bottom:0;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad here — shopnilacademy.com</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN ARTICLE
+══════════════════════════════════════════════════════════════ -->
+<div class="article">
+  <div class="wrap">
+    <div class="article-grid">
+
+      <!-- ── SIDEBAR ──────────────────────────────────────── -->
+      <aside class="toc" id="sidebar">
+        <div class="sidebar-course-label">Module 19</div>
+        <div class="sidebar-course-title">Jupyter Notebooks for Bioinformatics</div>
+
+        <div class="prog-label">
+          <span>Progress</span>
+          <span id="prog-text">0 / 10</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+        <!-- Lessons accordion -->
+        <div class="mod-group">
+          <div class="mod-group-label open" onclick="toggleMod(this)">
+            <span>All Lessons</span><span class="arr">›</span>
+          </div>
+          <div class="mod-lessons open">
+            <a class="lesson-link active" href="lesson-1.html"><span class="l-icon">1</span>What is Jupyter?</a>
+            <span class="lesson-link soon" data-lesson="2"><span class="l-icon">2</span>Cells, Kernels &amp; the Notebook Interface</span>
+            <span class="lesson-link soon" data-lesson="3"><span class="l-icon">3</span>Python in Jupyter — Bioinformatics Essentials</span>
+            <span class="lesson-link soon" data-lesson="4"><span class="l-icon">4</span>Plotting in Notebooks — matplotlib &amp; seaborn</span>
+            <span class="lesson-link soon" data-lesson="5"><span class="l-icon">5</span>Working with Biopython in Jupyter</span>
+            <span class="lesson-link soon" data-lesson="6"><span class="l-icon">6</span>RNA-seq Data Exploration in Jupyter</span>
+            <span class="lesson-link soon" data-lesson="7"><span class="l-icon">7</span>Genomic Selection Data in Jupyter</span>
+            <span class="lesson-link soon" data-lesson="8"><span class="l-icon">8</span>Parameterised Notebooks with papermill</span>
+            <span class="lesson-link soon" data-lesson="9"><span class="l-icon">9</span>Sharing &amp; Exporting Notebooks</span>
+            <span class="lesson-link soon" data-lesson="10"><span class="l-icon">10</span>Capstone — Full Analysis Notebook</span>
+          </div>
+        </div>
+
+        <!-- On this page TOC -->
+        <h5 style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:20px 0 10px;">On this page</h5>
+        <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;">
+          <li><a class="toc-link" href="#why-jupyter" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .15s ease;">Why Jupyter?</a></li>
+          <li><a class="toc-link" href="#notebook-vs-script" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .15s ease;">Notebook vs Script</a></li>
+          <li><a class="toc-link" href="#anatomy" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .15s ease;">Notebook Anatomy</a></li>
+          <li><a class="toc-link" href="#install" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .15s ease;">Install JupyterLab</a></li>
+          <li><a class="toc-link" href="#launch" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .15s ease;">Launch &amp; First Notebook</a></li>
+          <li><a class="toc-link" href="#kernels" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .15s ease;">Kernels Explained</a></li>
+          <li><a class="toc-link" href="#exercises" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;transition:all .15s ease;">Exercises</a></li>
+        </ul>
+      </aside>
+
+      <!-- ── PROSE ─────────────────────────────────────────── -->
+      <main class="prose">
+
+        <!-- Meta strip -->
+        <div class="lesson-meta-strip">
+          <span class="lm-pill"><span class="lm-num">Lesson 1</span></span>
+          <span class="lm-pill lm-time">45 minutes</span>
+          <span class="lm-pill">🐍 Python</span>
+          <span class="lm-pill">🌱 Beginner</span>
+          <span class="lm-pill">📦 conda · JupyterLab</span>
+        </div>
+
+        <!-- ── SECTION 1: Why Jupyter? ── -->
+        <section id="why-jupyter">
+          <h2><span class="n">01</span> Why Jupyter?</h2>
+
+          <p>Imagine you are analysing RNA-seq data from <em>Sorghum bicolor</em>. You load a counts matrix, filter low-expressed genes, run a PCA, and produce a volcano plot. If you do all of this in a plain Python script (<code>.py</code>), you see the final output — but nothing in between. You cannot easily pause after the PCA step, inspect the result, adjust a parameter, and continue. You have to re-run everything.</p>
+
+          <p>This is the problem Jupyter solves. A <strong>Jupyter notebook</strong> is an interactive document that combines live code, its output, explanatory text, equations, and figures — all in one file. You run one cell at a time, see the result immediately, and then decide what to do next. This matches how exploratory bioinformatics actually works.</p>
+
+          <div class="explain-box">
+            <div class="eb-label">Why this matters in bioinformatics</div>
+            <p>RNA-seq analysis, GWAS, and genomic selection involve many decision points: which samples to exclude, which normalisation method to choose, what significance threshold to set. These decisions are easier to make and easier to document when your code, your reasoning, and your plots all live in the same notebook. Jupyter turns analysis into a reproducible, readable story rather than a black-box script.</p>
+          </div>
+
+          <p>Jupyter notebooks are used by the biggest bioinformatics projects in the world — including the Human Cell Atlas, the Pan-Cancer Analysis of Whole Genomes, and most machine-learning genomics pipelines. They are also the standard format for sharing analyses on GitHub, where your notebook renders beautifully in the browser with no setup needed by the reader.</p>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <span><strong>JupyterLab vs Jupyter Notebook:</strong> There are two interfaces. The older "Jupyter Notebook" (classic) opens notebooks in a simple single-tab browser window. <strong>JupyterLab</strong> is the modern IDE-like interface with a file browser, multiple tabs, terminal panels, and extensions. We use JupyterLab throughout this module — it is what you will encounter in professional settings.</span>
+          </div>
+        </section>
+
+        <!-- ── SECTION 2: Notebook vs Script ── -->
+        <section id="notebook-vs-script">
+          <h2><span class="n">02</span> Notebook vs Script: When to Use Which</h2>
+
+          <p>Both notebooks and scripts have their place in a bioinformatics workflow. The key is knowing which tool fits the job.</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th>Situation</th>
+                <th>Use a Notebook</th>
+                <th>Use a Script</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Exploratory analysis</td>
+                <td>✅ Ideal — inspect data step by step</td>
+                <td>❌ Re-run everything each time</td>
+              </tr>
+              <tr>
+                <td>Visualisation</td>
+                <td>✅ Inline figures, easy iteration</td>
+                <td>⚠ Must save figures separately</td>
+              </tr>
+              <tr>
+                <td>Sharing results</td>
+                <td>✅ Renders on GitHub, nbviewer</td>
+                <td>❌ Reader must run the script</td>
+              </tr>
+              <tr>
+                <td>Production pipeline</td>
+                <td>⚠ Can be automated with papermill</td>
+                <td>✅ Ideal — fast, scriptable, schedulable</td>
+              </tr>
+              <tr>
+                <td>Snakemake rule</td>
+                <td>❌ Not directly compatible</td>
+                <td>✅ Designed for script-based rules</td>
+              </tr>
+              <tr>
+                <td>Teaching / documentation</td>
+                <td>✅ Text + code + output together</td>
+                <td>❌ Requires separate documentation</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="explain-box">
+            <div class="eb-label">The bioinformatics workflow split</div>
+            <p>A common professional pattern: use a Jupyter notebook to explore your data, decide on parameters, and produce figures for a paper. Once you are happy with the workflow, convert the key steps into a Python script and wrap it in Snakemake (Module 13) for automated batch processing. The notebook becomes your lab book; the script becomes your production tool.</p>
+          </div>
+        </section>
+
+        <!-- ── SECTION 3: Anatomy ── -->
+        <section id="anatomy">
+          <h2><span class="n">03</span> Anatomy of a Notebook</h2>
+
+          <p>A Jupyter notebook (<code>.ipynb</code>) is a JSON file on disk that stores a sequence of <strong>cells</strong>. Each cell has a type and can be run independently. Here is what a real notebook looks like in JupyterLab:</p>
+
+          <!-- Visual notebook mockup -->
+          <div class="nb-anatomy">
+            <div class="nb-toolbar">
+              <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+              <span>sorghum-rnaseq-exploration.ipynb — JupyterLab</span>
+            </div>
+
+            <div class="nb-cell md-cell" style="margin-top:16px;">
+              <div class="nb-cell-label">MARKDOWN CELL</div>
+              <div class="nb-cell-body">
+                ## Sorghum BPV — RNA-seq Exploration<br>
+                Loading normalised counts and computing PCA.<br>
+                <span style="color:#7cb89a;">*Data: JLU Gießen field trial 2024*</span>
+              </div>
+            </div>
+
+            <div class="nb-cell code-cell">
+              <div class="nb-cell-label">CODE CELL [1]</div>
+              <div class="nb-cell-body">
+                <span class="c-kw">import</span> pandas <span class="c-kw">as</span> pd<br>
+                <span class="c-kw">import</span> matplotlib.pyplot <span class="c-kw">as</span> plt<br>
+                counts = pd.read_csv(<span class="c-str">'counts_normalised.csv'</span>, index_col=<span class="c-str">'gene_id'</span>)<br>
+                counts.head()
+              </div>
+            </div>
+
+            <div class="nb-cell out-cell">
+              <div class="nb-cell-label">OUTPUT</div>
+              <div class="nb-cell-body" style="font-size:12px;">
+                <span style="color:#7cb89a;">         SRG_001  SRG_002  SRG_003  SRG_004</span><br>
+                <span style="color:#d4e8dc;">Sobic.001  245.3   312.1   198.7   287.4</span><br>
+                <span style="color:#d4e8dc;">Sobic.002  1204.8  998.2   1312.5  1089.3</span><br>
+                <span style="color:#a5b4ac;">...</span>
+              </div>
+            </div>
+
+            <div class="nb-cell code-cell" style="margin-bottom:16px;">
+              <div class="nb-cell-label">CODE CELL [2]</div>
+              <div class="nb-cell-body">
+                <span class="c-comment"># Quick histogram of expression values</span><br>
+                counts.values.flatten().plot.hist(bins=<span class="c-flag">50</span>)<br>
+                plt.xlabel(<span class="c-str">'Normalised count'</span>)<br>
+                plt.show()
+              </div>
+            </div>
+          </div>
+
+          <p>The three fundamental building blocks:</p>
+
+          <table class="cmd-table">
+            <thead><tr><th>Cell type</th><th>What it contains</th><th>Keyboard shortcut to run</th></tr></thead>
+            <tbody>
+              <tr><td>Code cell</td><td>Python (or R, Bash) code that executes against the kernel</td><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td></tr>
+              <tr><td>Markdown cell</td><td>Formatted text, headings, bullet points, LaTeX equations, links</td><td><kbd>Shift</kbd>+<kbd>Enter</kbd></td></tr>
+              <tr><td>Raw cell</td><td>Plain text that is not executed or rendered (used with nbconvert)</td><td>—</td></tr>
+            </tbody>
+          </table>
+
+          <p>The <code>.ipynb</code> file format is simply JSON. Every cell, its code, its outputs, and its metadata are stored as key-value pairs. This means notebooks are version-controllable with Git — though large output cells (especially images) can inflate file size, so <code>jupyter nbconvert --clear-output</code> before committing is good practice.</p>
+
+          <div class="tip">
+            <span class="tip-icon">📌</span>
+            <span><strong>Cell execution order matters.</strong> Cells are numbered in the order they were run, not the order they appear in the file. A cell at the bottom can be run before a cell at the top. This is both the power and the danger of notebooks — always run <strong>Kernel → Restart &amp; Run All</strong> before sharing a notebook to ensure top-to-bottom reproducibility.</span>
+          </div>
+        </section>
+
+        <!-- ── SECTION 4: Install ── -->
+        <section id="install">
+          <h2><span class="n">04</span> Install JupyterLab with conda</h2>
+
+          <p>We install JupyterLab into our existing <code>bioinfo-py</code> conda environment so it has access to all our bioinformatics packages (pandas, biopython, matplotlib, etc.) without any extra configuration.</p>
+
+          <div class="explain-box">
+            <div class="eb-label">Why install inside the conda environment?</div>
+            <p>If you install JupyterLab outside your environment (e.g. with <code>pip install jupyterlab</code> in the base environment), it will not see the packages you installed in <code>bioinfo-py</code>. By installing it <em>inside</em> the environment, the Jupyter kernel automatically has access to every package in that environment — numpy, pandas, biopython, scikit-learn — with no extra configuration.</p>
+          </div>
+
+          <div class="folder-note">📁 Run from: any location — we are managing conda environments</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># Step 1: Activate your bioinformatics conda environment</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> bioinfo-py
+
+<span class="c-comment"># Step 2: Install JupyterLab and the ipykernel package</span>
+<span class="c-comment"># ipykernel registers this environment as a Jupyter kernel</span>
+<span class="c-cmd">conda</span> <span class="c-flag">install</span> <span class="c-flag">-c</span> conda-forge jupyterlab ipykernel <span class="c-flag">-y</span>
+
+<span class="c-comment"># Step 3: Confirm the installation</span>
+<span class="c-cmd">jupyter</span> <span class="c-flag">lab</span> <span class="c-flag">--version</span>
+<span class="c-out"># Expected: 4.x.x</span></pre>
+          </div>
+
+          <div class="explain-box">
+            <div class="eb-label">What is ipykernel?</div>
+            <p><strong>ipykernel</strong> is the Python package that connects a Python environment to a Jupyter notebook. When you run a code cell, JupyterLab sends the code to the kernel via a network socket, the kernel executes it, and sends the result back. Without <code>ipykernel</code>, JupyterLab cannot run Python code in your environment. Think of it as the bridge between the browser-based interface and your Python installation.</p>
+          </div>
+
+          <p>If you want to use a separate, cleaner environment specifically for Jupyter (recommended for larger projects), create one now:</p>
+
+          <div class="folder-note">📁 Run from: any location</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># Optional: create a dedicated Jupyter environment</span>
+<span class="c-cmd">conda</span> <span class="c-flag">create</span> <span class="c-flag">-n</span> jupyter-bioinfo python=3.11 jupyterlab ipykernel \
+      pandas numpy matplotlib seaborn biopython <span class="c-flag">-y</span>
+
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> jupyter-bioinfo
+
+<span class="c-comment"># Register this environment as a named kernel</span>
+<span class="c-comment"># The --name flag sets the internal kernel ID</span>
+<span class="c-comment"># The --display-name flag sets what you see in the JupyterLab UI</span>
+<span class="c-cmd">python</span> <span class="c-flag">-m</span> ipykernel install <span class="c-flag">--user</span> \
+       <span class="c-flag">--name</span> jupyter-bioinfo \
+       <span class="c-flag">--display-name</span> <span class="c-str">"Python (bioinfo)"</span>
+
+<span class="c-comment"># List registered kernels to confirm</span>
+<span class="c-cmd">jupyter</span> kernelspec list
+<span class="c-out"># Available kernels:
+#   jupyter-bioinfo    /home/shajedur/.local/share/jupyter/kernels/jupyter-bioinfo
+#   python3            /usr/local/share/jupyter/kernels/python3</span></pre>
+          </div>
+
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <span><strong>conda vs pip:</strong> Always prefer <code>conda install</code> over <code>pip install</code> for JupyterLab itself. conda resolves library dependencies (including native libraries like zeromq that Jupyter depends on) more reliably than pip in a conda environment. If conda is slow, use <code>mamba install</code> as a faster drop-in replacement.</span>
+          </div>
+        </section>
+
+        <!-- ── SECTION 5: Launch ── -->
+        <section id="launch">
+          <h2><span class="n">05</span> Launch JupyterLab &amp; Create Your First Notebook</h2>
+
+          <p>Launching JupyterLab opens a local web server (usually at <code>http://localhost:8888</code>) and opens a browser tab with the full JupyterLab interface. Your files are not uploaded anywhere — everything runs locally on your machine.</p>
+
+          <div class="folder-note">📁 Run from: ~/jupyter-bioinfo-notebooks (your project folder)</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">bash</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># Create and move into your project directory</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/jupyter-bioinfo-notebooks</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/jupyter-bioinfo-notebooks</span>
+
+<span class="c-comment"># Activate your environment (if not already active)</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> bioinfo-py
+
+<span class="c-comment"># Launch JupyterLab</span>
+<span class="c-comment"># --no-browser: do not auto-open browser (useful on servers)</span>
+<span class="c-comment"># --port: specify a port (default 8888)</span>
+<span class="c-cmd">jupyter</span> lab
+<span class="c-out"># [I 2024-...] JupyterLab extension loaded from ...
+# [I 2024-...] Serving notebooks from local directory: /home/shajedur/jupyter-bioinfo-notebooks
+# [I 2024-...] Jupyter Server 2.x is running at:
+# [I 2024-...] http://localhost:8888/lab?token=abc123...</span>
+
+<span class="c-comment"># JupyterLab will open in your default browser automatically</span>
+<span class="c-comment"># To stop the server: press Ctrl+C in the terminal</span></pre>
+          </div>
+
+          <div class="explain-box">
+            <div class="eb-label">What is happening when you run "jupyter lab"?</div>
+            <p>Running <code>jupyter lab</code> starts a lightweight Python web server called <strong>Jupyter Server</strong> on your machine. Your browser connects to this server at <code>localhost:8888</code> and renders the JupyterLab interface as a web application. The token in the URL (<code>?token=abc123...</code>) is a one-time security key that prevents other users on the same machine from accessing your notebooks. Your files never leave your computer — you are simply using your browser as a display for a local application.</p>
+          </div>
+
+          <p>Once JupyterLab opens in your browser, create your first notebook:</p>
+
+          <ol style="margin:16px 0;padding-left:22px;display:flex;flex-direction:column;gap:10px;color:#33433b;font-size:15.5px;line-height:1.7;">
+            <li>In the <strong>Launcher</strong> tab, click <strong>Python 3 (ipykernel)</strong> under the Notebook section.</li>
+            <li>A new untitled notebook opens. Click the filename at the top (<code>Untitled.ipynb</code>) and rename it <code>lesson-01-intro.ipynb</code>.</li>
+            <li>Click the first code cell and type: <code>print("Hello, Sorghum!")</code></li>
+            <li>Press <kbd>Shift</kbd>+<kbd>Enter</kbd> to run the cell. The output appears immediately below.</li>
+            <li>Press <kbd>Esc</kbd> then <kbd>M</kbd> to convert the next cell to Markdown.</li>
+            <li>Type <code>## My first bioinformatics notebook</code> and press <kbd>Shift</kbd>+<kbd>Enter</kbd>.</li>
+          </ol>
+
+          <div class="tip">
+            <span class="tip-icon">⌨️</span>
+            <span><strong>Two modes in Jupyter:</strong> <strong>Command mode</strong> (blue border) — navigate between cells, add/delete cells, change cell type. <strong>Edit mode</strong> (green border) — type inside a cell. Press <kbd>Esc</kbd> to enter Command mode, <kbd>Enter</kbd> to enter Edit mode. We cover all keyboard shortcuts in Lesson 2.</span>
+          </div>
+        </section>
+
+        <!-- ── SECTION 6: Kernels ── -->
+        <section id="kernels">
+          <h2><span class="n">06</span> Kernels Explained</h2>
+
+          <p>A <strong>kernel</strong> is the computational engine behind a notebook. When you create a new notebook, you choose a kernel — this determines which programming language and which environment runs your code. Understanding kernels is essential for bioinformatics because you often need different environments for different analyses.</p>
+
+          <table class="cmd-table">
+            <thead><tr><th>Kernel</th><th>Language</th><th>Typical bioinformatics use</th></tr></thead>
+            <tbody>
+              <tr><td>ipykernel (Python 3)</td><td>Python</td><td>pandas, biopython, scikit-learn, scanpy, tensorflow</td></tr>
+              <tr><td>IRkernel</td><td>R</td><td>DESeq2, ggplot2, rrBLUP, BGLR — run R in a notebook</td></tr>
+              <tr><td>bash_kernel</td><td>Bash</td><td>Run shell commands, GATK, samtools inline</td></tr>
+              <tr><td>xeus-python</td><td>Python</td><td>Faster Python kernel with better debugger</td></tr>
+            </tbody>
+          </table>
+
+          <div class="explain-box">
+            <div class="eb-label">Why does this matter for your sorghum analysis?</div>
+            <p>Your thesis uses both R (rrBLUP, BGLR) and Python (data wrangling, ML). With Jupyter, you can have two notebooks open side by side — one with an R kernel running your genomic prediction models, one with a Python kernel handling your pandas DataFrames. Both notebooks share the same file system, so an R script can write a CSV that Python immediately reads. This is the hybrid workflow that professional computational biologists use daily.</p>
+          </div>
+
+          <p>To install the R kernel (IRkernel) for use with Jupyter:</p>
+
+          <div class="folder-note">📁 Run from: any location — open R console or RStudio</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">R</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># In R (not bash) — install IRkernel</span>
+install.packages(<span class="c-str">'IRkernel'</span>)
+
+<span class="c-comment"># Register the R kernel with Jupyter</span>
+<span class="c-comment"># user = TRUE installs for your user only (no sudo needed)</span>
+IRkernel::installspec(user = <span class="c-kw">TRUE</span>)
+
+<span class="c-comment"># Back in bash: confirm R kernel is registered</span>
+<span class="c-out"># $ jupyter kernelspec list
+# Available kernels:
+#   ir             /home/shajedur/.local/share/jupyter/kernels/ir
+#   python3        /usr/local/share/jupyter/kernels/python3</span></pre>
+          </div>
+
+          <p>After installing IRkernel, when you create a new notebook in JupyterLab you will see both <strong>Python 3</strong> and <strong>R</strong> as kernel options. Lesson 7 (Genomic Selection Data) uses the R kernel to explore your BPV output files directly in a notebook.</p>
+
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <span><strong>Kernel is dead / not starting?</strong> This usually means the kernel process crashed. Click <strong>Kernel → Restart Kernel</strong>. If it keeps crashing, the most common cause is running out of RAM (loading a very large dataset). Check memory usage with <code>htop</code> in a terminal while the notebook runs.</span>
+          </div>
+        </section>
+
+        <!-- ── Middle Ad Slot ── -->
+        <div class="ad-slot in-feed" style="margin:32px 0;">
+          <strong>Advertisement</strong>
+          <small>Support free bioinformatics education</small>
+        </div>
+
+        <!-- ── EXERCISES ── -->
+        <section id="exercises">
+          <h2><span class="n">07</span> Exercises</h2>
+          <p>Complete these exercises before moving to Lesson 2. They consolidate everything covered in this lesson.</p>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">1</div>
+              <div class="ex-title">Install and verify JupyterLab</div>
+            </div>
+            <p style="font-size:14.5px;color:#33433b;line-height:1.6;">Activate your <code>bioinfo-py</code> conda environment, install JupyterLab and ipykernel, and run <code>jupyter lab --version</code>. Paste the version number in a Markdown cell of your first notebook.</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <code>conda activate bioinfo-py</code><br>
+                <code>conda install -c conda-forge jupyterlab ipykernel -y</code><br>
+                <code>jupyter lab --version</code><br><br>
+                Expected output: <code>4.x.x</code>. Create a Markdown cell in your notebook and type: <code>JupyterLab version: 4.x.x</code>, then press Shift+Enter to render it.
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">2</div>
+              <div class="ex-title">Create your project directory and launch</div>
+            </div>
+            <p style="font-size:14.5px;color:#33433b;line-height:1.6;">Create the directory <code>~/jupyter-bioinfo-notebooks</code>, navigate into it, and launch JupyterLab from that directory. Why does launching from the project directory matter?</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <code>mkdir -p ~/jupyter-bioinfo-notebooks</code><br>
+                <code>cd ~/jupyter-bioinfo-notebooks</code><br>
+                <code>jupyter lab</code><br><br>
+                Launching from the project directory sets this folder as the <strong>root directory</strong> of the JupyterLab file browser. All relative file paths in your notebooks (e.g. <code>pd.read_csv('data/counts.csv')</code>) are resolved relative to this directory. If you launch from <code>~</code>, relative paths won't find your data files.
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">3</div>
+              <div class="ex-title">Notebook with two cell types</div>
+            </div>
+            <p style="font-size:14.5px;color:#33433b;line-height:1.6;">In your <code>lesson-01-intro.ipynb</code> notebook, create: (a) a Markdown cell with a heading "Sorghum bicolor Analysis" and one bullet point, and (b) a code cell that prints the Python version and the platform (use the <code>sys</code> and <code>platform</code> modules). Run both cells.</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <strong>Markdown cell:</strong><br>
+                <code>## Sorghum bicolor Analysis</code><br>
+                <code>- Exploring genomic selection data from JLU Gießen field trial</code><br><br>
+                <strong>Code cell:</strong><br>
+                <code>import sys, platform</code><br>
+                <code>print(f"Python: {sys.version}")</code><br>
+                <code>print(f"Platform: {platform.platform()}")</code><br><br>
+                Press Shift+Enter on each cell. The Markdown cell renders as formatted text; the code cell prints system information below it.
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">4</div>
+              <div class="ex-title">List registered kernels</div>
+            </div>
+            <p style="font-size:14.5px;color:#33443b;line-height:1.6;">Open a terminal (either inside JupyterLab via File → New → Terminal, or in a separate terminal window) and run <code>jupyter kernelspec list</code>. How many kernels are registered? What are their names and paths?</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                Run: <code>jupyter kernelspec list</code><br><br>
+                You should see at least <code>python3</code> pointing to your conda environment's Python. If you installed IRkernel, you will also see <code>ir</code>. The path shown is where the kernel's <code>kernel.json</code> configuration file lives — this file tells Jupyter how to start the kernel process.
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <!-- Mark complete -->
+        <div class="mark-complete-wrap">
+          <button class="mark-complete" id="mc-btn" onclick="markDone()">
+            ✓ Mark Lesson 1 Complete
+          </button>
+        </div>
+
+        <!-- Lesson nav -->
+        <div class="lesson-nav-footer">
+          <span style="font-size:14px;color:var(--muted);">← Module start</span>
+          <span style="font-size:14px;color:var(--muted);">Lesson 2: Cells, Kernels &amp; Interface — coming soon</span>
+        </div>
+
+      </main><!-- /.prose -->
+    </div><!-- /.article-grid -->
+  </div><!-- /.wrap -->
+</div><!-- /.article -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     BOTTOM AD SLOT
+══════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-bottom:48px;display:flex;justify-content:center;">
+  <div class="ad-slot rectangle" style="max-width:340px;width:100%;min-height:270px;">
+    <strong>Advertisement</strong>
+    <small>shopnilacademy.com</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>FREE BIOINFORMATICS EDUCATION</small>
+          </div>
+        </div>
+        <p class="foot-about">A free, research-grade bioinformatics curriculum built for scientists who want to do real computational work — from Bash foundations to single-cell RNA-seq.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" aria-label="GitHub">⌥</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" target="_blank" rel="noopener" aria-label="ORCID">Ⓡ</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Curriculum</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../../courses.html#phase1">Phase 1 — Foundations</a></li>
+          <li><a href="../../courses.html#phase2">Phase 2 — Core Bioinfo</a></li>
+          <li><a href="../../courses.html#phase3">Phase 3 — Advanced</a></li>
+          <li><a href="../../courses.html#phase4">Phase 4 — scRNA-seq</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>This Module</h4>
+        <ul>
+          <li><a href="lesson-1.html">Lesson 1 — What is Jupyter?</a></li>
+          <li><span style="color:var(--muted);opacity:.65;">Cells, Kernels &amp; the Notebook Interface — soon</span></li>
+          <li><span style="color:var(--muted);opacity:.65;">Python in Jupyter — Bioinformatics Essentials — soon</span></li>
+          <li><span style="color:var(--muted);opacity:.65;">Plotting in Notebooks — matplotlib &amp; seaborn — soon</span></li>
+          <li><span style="color:var(--muted);opacity:.65;">Working with Biopython in Jupyter — soon</span></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://jupyterlab.readthedocs.io" target="_blank" rel="noopener">JupyterLab Docs</a></li>
+          <li><a href="https://docs.conda.io" target="_blank" rel="noopener">conda Docs</a></li>
+          <li><a href="https://github.com/shajedurhossain" target="_blank" rel="noopener">GitHub Profile</a></li>
+          <li><a href="../../about.html">About Shajedur</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+          <li><a href="../../terms.html">Terms of Use</a></li>
+          <li><a href="../../advertise.html">Advertise</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy · shopnilacademy.com</span>
+      <span>Built with ♥ for open science</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Mobile nav ───────────────────────────────────────── */
+  function toggleNav() {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  /* ── Module accordion ─────────────────────────────────── */
+  function toggleMod(el) {
+    el.classList.toggle('open');
+    const lessons = el.nextElementSibling;
+    lessons.classList.toggle('open');
+  }
+
+  /* ── Copy code button ─────────────────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1800);
+    });
+  }
+
+  /* ── Progress & mark complete ─────────────────────────── */
+  const STORAGE_KEY = 'sa_jupyter_done';
+  const TOTAL = 10;
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const pct = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-text').textContent = done.length + ' / ' + TOTAL;
+
+    // Update lesson links
+    document.querySelectorAll('.lesson-link').forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href) return;
+      const num = parseInt(href.replace('lesson-', '').replace('.html', ''));
+      if (done.includes(num)) {
+        link.classList.add('done');
+        link.querySelector('.l-icon').textContent = '✓';
+      }
+    });
+  }
+
+  function markDone() {
+    const done = getDone();
+    if (!done.includes(1)) {
+      done.push(1);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    }
+    const btn = document.getElementById('mc-btn');
+    btn.textContent = '✓ Lesson 1 Complete!';
+    btn.classList.add('done');
+    updateProgress();
+  }
+
+  /* ── Active TOC via IntersectionObserver ──────────────── */
+  const tocLinks = document.querySelectorAll('.toc-link');
+  const sections = document.querySelectorAll('.prose section[id]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  /* ── Init ─────────────────────────────────────────────── */
+  updateProgress();
+
+  // Mark current lesson done indicator
+  const done = getDone();
+  if (done.includes(1)) {
+    const btn = document.getElementById('mc-btn');
+    btn.textContent = '✓ Lesson 1 Complete!';
+    btn.classList.add('done');
+  }
+</script>
+</body>
+</html>
