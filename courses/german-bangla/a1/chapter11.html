@@ -2808,7 +2808,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var _AUDIO_LANG='de';
+var _SPEECH_LANG='de-DE';
 
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+
+function tts(text){
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var a=new Audio(src);
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.speak(u);
+    }else{
+      console.warn('Audio not found: '+src);
+    }
+  });
+}
 var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
 function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
@@ -2816,21 +2844,9 @@ var curPage = "";
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
 
 // ===== TTS =====
-var curAud=null;
-function tts(t){
-  if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=de&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t);});
-}
-function bTTS(t){
-  if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=0.82;
-  var v=window.speechSynthesis.getVoices();
-  var g=null;
-  for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.startsWith('de')){g=v[i];break;}}
-  if(g)u.voice=g;
-  window.speechSynthesis.speak(u);
-}
+
+
+
 window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
 
 // ===== STREAK & XP =====
@@ -2934,47 +2950,47 @@ var playL1listen=makeGenderedPlayer('l1l',[
     {speaker:'Tom',text:'Was bist du von Beruf?',female:false},
     {speaker:'Mia',text:'Ich bin Krankenschwester. Und du?',female:true},
     {speaker:'Tom',text:'Ich arbeite als Programmierer bei einer kleinen Firma.',female:false},
-    {speaker:'Mia',text:'Interessant! Gef&#xe4;llt dir die Arbeit?',female:true},
+    {speaker:'Mia',text:'Interessant! Gefällt dir die Arbeit?',female:true},
     {speaker:'Tom',text:'Ja, sehr. Und deine Arbeit im Krankenhaus?',female:false},
     {speaker:'Mia',text:'Es ist anstrengend, aber ich helfe gern Menschen.',female:true}
   ]);
 var playL2listen=makeGenderedPlayer('l2l',[
     {speaker:'Kollege',text:'Hast du die Besprechung mit dem Chef heute?',female:false},
-    {speaker:'Anna',text:'Ja, um vierzehn Uhr. Ich muss noch meine Pr&#xe4;sentation fertig machen.',female:true},
+    {speaker:'Anna',text:'Ja, um vierzehn Uhr. Ich muss noch meine Präsentation fertig machen.',female:true},
     {speaker:'Kollege',text:'Brauchst du Hilfe?',female:false},
     {speaker:'Anna',text:'Nein, danke. Ich mache jetzt schnell eine Pause und dann arbeite ich weiter.',female:true},
     {speaker:'Kollege',text:'Gut. Vergiss nicht, dass wir auch einen Termin mit dem Kunden um sechzehn Uhr haben.',female:false},
-    {speaker:'Anna',text:'Stimmt, danke f&#xfc;r die Erinnerung!',female:true}
+    {speaker:'Anna',text:'Stimmt, danke für die Erinnerung!',female:true}
   ]);
 var playL3listen=makeGenderedPlayer('l3l',[
     {speaker:'Personalchefin',text:'Warum bewerben Sie sich um diese Stelle?',female:true},
     {speaker:'Bewerber',text:'Ich habe viel Erfahrung in diesem Bereich und ich mag die Firma sehr.',female:false},
     {speaker:'Personalchefin',text:'Wie viele Jahre Erfahrung haben Sie?',female:true},
     {speaker:'Bewerber',text:'Ich habe fünf Jahre Erfahrung als Programmierer gearbeitet.',female:false},
-    {speaker:'Personalchefin',text:'Sehr gut. Wann k&#xf6;nnten Sie anfangen?',female:true},
-    {speaker:'Bewerber',text:'Ich k&#xf6;nnte n&#xe4;chsten Monat anfangen.',female:false}
+    {speaker:'Personalchefin',text:'Sehr gut. Wann könnten Sie anfangen?',female:true},
+    {speaker:'Bewerber',text:'Ich könnte nächsten Monat anfangen.',female:false}
   ]);
 var playL4listen=makeGenderedPlayer('l4l',[
     {speaker:'Tom',text:'Was wirst du nach dem Studium machen?',female:false},
     {speaker:'Lena',text:'Ich werde wahrscheinlich ins Ausland gehen, um Erfahrung zu sammeln.',female:true},
     {speaker:'Tom',text:'Wirklich? Wohin?',female:false},
     {speaker:'Lena',text:'Ich werde mich um eine Stelle in Kanada bewerben.',female:true},
-    {speaker:'Tom',text:'Spannend! Und in f&#xfc;nf Jahren, wo wirst du sein?',female:false},
-    {speaker:'Lena',text:'Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gr&#xfc;nden.',female:true}
+    {speaker:'Tom',text:'Spannend! Und in fünf Jahren, wo wirst du sein?',female:false},
+    {speaker:'Lena',text:'Ich hoffe, ich werde eine gute Karriere haben und vielleicht eine eigene Firma gründen.',female:true}
   ]);
 var playL5listen=makeGenderedPlayer('l5l',[
-    {speaker:'Interviewer',text:'Was w&#xfc;rdest du gern in deinem Leben erreichen?',female:false},
-    {speaker:'Sara',text:'Ich w&#xfc;rde gern Architektin werden und besondere Geb&#xe4;ude entwerfen.',female:true},
+    {speaker:'Interviewer',text:'Was würdest du gern in deinem Leben erreichen?',female:false},
+    {speaker:'Sara',text:'Ich würde gern Architektin werden und besondere Gebäude entwerfen.',female:true},
     {speaker:'Interviewer',text:'Hast du diesen Traum schon lange?',female:false},
-    {speaker:'Sara',text:'Ja, seit ich ein Kind war. Ich h&#xe4;tte gern die Chance, in einer gro&#xdf;en Stadt zu arbeiten.',female:true},
-    {speaker:'Interviewer',text:'Was sind deine n&#xe4;chsten Schritte?',female:false},
+    {speaker:'Sara',text:'Ja, seit ich ein Kind war. Ich hätte gern die Chance, in einer großen Stadt zu arbeiten.',female:true},
+    {speaker:'Interviewer',text:'Was sind deine nächsten Schritte?',female:false},
     {speaker:'Sara',text:'Ich werde mein Studium beenden und dann ein Praktikum bei einer guten Firma machen.',female:true}
   ]);
 var playL6listen=makeGenderedPlayer('l6l',[
     {speaker:'Student',text:'Was ist eine Ausbildung in Deutschland?',female:false},
     {speaker:'Professor',text:'Eine Ausbildung ist ein duales System — man arbeitet bei einer Firma und geht gleichzeitig zur Berufsschule.',female:false},
     {speaker:'Student',text:'Wie lange dauert das?',female:false},
-    {speaker:'Professor',text:'Meistens zwei bis drei Jahre. Es ist sehr beliebt und f&#xfc;hrt oft zu einer guten Karriere.',female:false},
+    {speaker:'Professor',text:'Meistens zwei bis drei Jahre. Es ist sehr beliebt und führt oft zu einer guten Karriere.',female:false},
     {speaker:'Student',text:'Und wie viele Urlaubstage haben Arbeiter normalerweise?',female:false},
     {speaker:'Professor',text:'Das gesetzliche Minimum ist zwanzig Tage, aber viele Firmen geben dreissig Tage.',female:false}
   ]);
@@ -3110,7 +3126,7 @@ var fitbData={
     {q:'Was ___ du in der Zukunft machen? (will - du form)',blank:'wirst',hint:'করবে — werden (du wirst)'},
     {q:'Sie ___ heiraten. (will - sie form)',blank:'wird',hint:'করবে — werden (sie wird)'},
     {q:'Wir ___ eine neue Wohnung suchen. (will - wir form)',blank:'werden',hint:'করব — werden (wir werden)'},
-    {q:'In f&#252;nf ___ werde ich erfolgreich sein. (years)',blank:'Jahren',hint:'বছরে — die Jahre (Dativ plural)'}
+    {q:'In fünf ___ werde ich erfolgreich sein. (years)',blank:'Jahren',hint:'বছরে — die Jahre (Dativ plural)'}
   ],
   c11l5w:[
     {q:'Mein ___ ist es, Arzt zu werden. (dream)',blank:'Traum',hint:'স্বপ্ন — der Traum'},
@@ -3639,14 +3655,14 @@ var _maleNames = [
 ];
 
 function _isFemale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
   for (var i = 0; i < _femaleNames.length; i++) {
     if (n.indexOf(_femaleNames[i]) >= 0) return true;
   }
   return false;
 }
 function _isMale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
   for (var i = 0; i < _maleNames.length; i++) {
     if (n.indexOf(_maleNames[i]) >= 0) return true;
   }
@@ -3694,23 +3710,24 @@ function _getVoice(female) {
   }
 }
 function _speakLine(text, female, onEnd) {
-  if (window.speechSynthesis) {
-    window.speechSynthesis.cancel();
-    var utt = new SpeechSynthesisUtterance(text);
-    utt.lang = 'de-DE';
-    utt.pitch = female ? 1.2 : 0.6;
-    utt.rate = female ? 0.88 : 0.82;
-    var v = _getVoice(female);
-    if (v) utt.voice = v;
-    utt.onend = onEnd || function(){};
-    window.speechSynthesis.speak(utt);
-  } else {
-    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
-      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
-    var a = new Audio(url);
-    a.onended = onEnd || function(){};
-    a.play();
-  }
+  var done = false;
+  function fin(){ if (done) return; done = true; (onEnd || function(){})(); }
+  var src = '/audio/' + _AUDIO_LANG + '/' + fnv1a(text) + '.mp3';
+  var a = new Audio(src);
+  a.onended = fin;
+  a.play().catch(function(){
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      var utt = new SpeechSynthesisUtterance(text);
+      utt.lang = _SPEECH_LANG;
+      utt.pitch = female ? 1.2 : 0.6;
+      utt.rate = female ? 0.88 : 0.82;
+      var v = _getVoice(female);
+      if (v) utt.voice = v;
+      utt.onend = fin;
+      window.speechSynthesis.speak(utt);
+    } else { console.warn('Audio missing: ' + src); fin(); }
+  });
 }
 
 function _playLines(lines, idx) {
@@ -3909,7 +3926,7 @@ var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_la
 var curAud=null;
 function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=de&client=tw-ob';
+  var u='/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
   var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t);});
 }
 function bTTS(t){
