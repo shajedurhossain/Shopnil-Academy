@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Introduction to GWAS & Genomic Selection · Shopnil Academy</title>
+  <meta name="description" content="Understand what GWAS and genomic selection are, why they matter in plant breeding, and how marker data connects to phenotype prediction." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar ─────────────────────────────────────────── */
+    .lesson-shell { display: grid; grid-template-columns: 272px minmax(0, 1fr); gap: 0; min-height: 100vh; }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; width: auto; align-self: start;
+      overflow-y: auto; background: #fff; border-right: 1px solid var(--line);
+      padding: 24px 20px 40px; display: flex; flex-direction: column; gap: 20px;
+      z-index: 40;
+    }
+    .sidebar-logo { display: flex; align-items: center; gap: 10px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .sidebar-logo img { width: 38px; height: 38px; }
+    .sidebar-logo span { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--ink); }
+    .sidebar-course-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); }
+    .sidebar-course-title { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--ink); margin-top: 4px; line-height: 1.3; }
+    .prog-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 12px; }
+    .prog-track { height: 5px; background: var(--green-soft); border-radius: 99px; margin-top: 6px; }
+    .prog-fill  { height: 100%; background: var(--green); border-radius: 99px; width: 10%; transition: width .4s ease; }
+    .mod-group { margin-top: 4px; }
+    .mod-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      color: var(--muted); padding: 8px 10px 6px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      border-radius: 8px; transition: background .15s;
+    }
+    .mod-group-label:hover { background: var(--cream); }
+    .mod-group-label .arr { transition: transform .25s; font-size: 10px; }
+    .mod-group-label.open .arr { transform: rotate(90deg); }
+    .mod-lessons { display: none; flex-direction: column; gap: 2px; padding-left: 6px; }
+    .mod-lessons.open { display: flex; }
+    .lesson-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 9px; font-size: 13px; color: var(--muted);
+      transition: background .15s, color .15s; text-decoration: none;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--green); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .l-icon { width: 22px; height: 22px; border-radius: 6px; background: var(--cream); display: grid; place-items: center; font-size: 11px; flex-shrink: 0; color: var(--muted); }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-mint); color: var(--green); }
+    .toc-sidebar h5 { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .toc-sidebar a { display: block; font-size: 12.5px; color: var(--muted); padding: 5px 10px; border-radius: 7px; border-left: 2px solid transparent; transition: all .15s; }
+    .toc-sidebar a:hover, .toc-sidebar a.active { background: var(--cream); color: var(--green); border-left-color: var(--green); }
+
+    /* ── Main content ────────────────────────────────────── */
+    .lesson-main { min-height: 100vh; }
+
+    /* ── Inner header ────────────────────────────────────── */
+    .inner-header { padding: 40px 56px 36px; background: radial-gradient(circle at 8% 0%, rgba(0,106,78,.07), transparent 45%), radial-gradient(circle at 92% 20%, rgba(232,183,42,.10), transparent 45%), var(--cream); border-bottom: 1px solid var(--line); }
+    .breadcrumb { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+    .breadcrumb a:hover { color: var(--green); }
+    .breadcrumb .sep { opacity: .4; }
+    .inner-header h1 { font-size: clamp(28px, 3.5vw, 40px); max-width: 760px; margin-bottom: 12px; }
+    .inner-header p.lead { font-size: 16px; color: var(--muted); max-width: 640px; }
+
+    /* ── Lesson meta strip ───────────────────────────────── */
+    .lesson-meta-strip { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .lm-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; background: var(--green-soft); color: var(--green); border: 1px solid rgba(0,106,78,.15); }
+    .lm-num  { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--ink); }
+    .lm-time { color: var(--muted); font-size: 13px; }
+    .lm-sep  { color: var(--line); }
+
+    .lesson-link.soon { color: var(--muted); opacity: .6; cursor: default; }
+    .lesson-link.soon:hover { background: transparent; color: var(--muted); }
+    /* ── Article layout ──────────────────────────────────── */
+    .article { padding: 48px 56px 80px; }
+    .article-grid { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 56px; align-items: start; }
+    .prose-col { max-width: 900px; min-width: 0; }
+    .toc-col { position: sticky; top: 32px; }
+
+    /* ── Code blocks ─────────────────────────────────────── */
+    .code-wrap { border-radius: 14px; overflow: hidden; margin: 20px 0; box-shadow: var(--shadow-sm); }
+    .code-header { display: flex; justify-content: space-between; align-items: center; background: #1a2e23; padding: 10px 16px; }
+    .code-lang { font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+    .copy-btn { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.55); background: rgba(255,255,255,.08); border: none; border-radius: 6px; padding: 4px 10px; cursor: pointer; transition: background .15s, color .15s; }
+    .copy-btn:hover { background: rgba(255,255,255,.18); color: #fff; }
+    pre { margin: 0; background: #0f1f17; padding: 22px 20px; overflow-x: auto; font-family: 'DM Mono', monospace; font-size: 13.5px; line-height: 1.75; color: #a8c5b0; }
+    .c-cmd     { color: #7ee8a2; font-weight: 500; }
+    .c-flag    { color: #ffd580; }
+    .c-path    { color: #82cfff; }
+    .c-out     { color: #a8c5b0; }
+    .c-comment { color: #546e5a; font-style: italic; }
+    .c-kw      { color: #ff9d73; }
+    .c-str     { color: #f5c842; }
+    .c-num     { color: #b392f0; }
+    .c-fn      { color: #79c0ff; }
+
+    /* ── Explain / folder boxes ──────────────────────────── */
+    .explain-box { background: var(--gold-soft); border: 1px solid rgba(232,183,42,.35); border-radius: 14px; padding: 18px 22px; margin: 20px 0; }
+    .explain-box strong { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: #8a6800; display: block; margin-bottom: 6px; letter-spacing: .04em; text-transform: uppercase; }
+    .explain-box p { font-size: 14.5px; color: #5a4200; line-height: 1.65; margin: 0; }
+    .folder-note { display: flex; align-items: center; gap: 8px; background: var(--green-soft); border: 1px solid rgba(0,106,78,.18); border-radius: 10px; padding: 10px 16px; margin: 12px 0; font-size: 13px; color: var(--green-deep); font-family: 'DM Mono', monospace; font-weight: 500; }
+
+    /* ── Tip / warn callouts ─────────────────────────────── */
+    .tip  { background: var(--green-soft); border: 1px solid rgba(0,106,78,.18); border-radius: 14px; padding: 16px 20px; margin: 20px 0; display: flex; gap: 12px; }
+    .warn { background: var(--red-soft); border: 1px solid rgba(244,42,65,.18); border-radius: 14px; padding: 16px 20px; margin: 20px 0; display: flex; gap: 12px; }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .tip p, .warn p { font-size: 14.5px; line-height: 1.6; margin: 0; }
+    .tip p { color: var(--green-deep); }
+    .warn p { color: #8b1520; }
+
+    /* ── Comparison table ────────────────────────────────── */
+    .cmd-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-size: 14px; }
+    .cmd-table th { background: var(--cream); font-family: var(--font-display); font-weight: 600; font-size: 12px; text-align: left; padding: 12px 16px; color: var(--ink); border-bottom: 1px solid var(--line); }
+    .cmd-table td { padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; color: #33433b; }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--green-deep); font-weight: 500; }
+
+    /* ── Exercises ───────────────────────────────────────── */
+    .exercise { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 24px; margin: 16px 0; }
+    .ex-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .ex-num { width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: #fff; display: grid; place-items: center; font-family: var(--font-display); font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .ex-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--ink); }
+    details.answer { margin-top: 14px; }
+    details.answer summary { font-size: 13px; font-weight: 600; color: var(--green); cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 6px; }
+    details.answer summary::before { content: '▶'; font-size: 10px; }
+    details.answer[open] summary::before { content: '▼'; }
+    details.answer .answer-body { margin-top: 12px; background: var(--cream); border-radius: 10px; padding: 16px; font-size: 14px; color: #33433b; line-height: 1.65; }
+
+    /* ── Mark complete ───────────────────────────────────── */
+    .mark-complete-wrap { text-align: center; padding: 32px 0 8px; }
+    .mark-complete { display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 999px; background: var(--green); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 15px; border: none; cursor: pointer; transition: background .2s, transform .15s; }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--green-mint); color: var(--green-deep); }
+
+    /* ── Lesson nav footer ───────────────────────────────── */
+    .lesson-nav-footer { display: flex; justify-content: space-between; align-items: center; padding: 28px 56px; border-top: 1px solid var(--line); background: var(--cream); gap: 16px; flex-wrap: wrap; }
+    .lesson-nav-footer a { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; color: var(--ink); padding: 12px 20px; border-radius: 999px; border: 1.5px solid var(--line); transition: all .15s; }
+    .lesson-nav-footer a:hover { border-color: var(--green); color: var(--green); }
+    .lesson-nav-footer a.next { background: var(--green); color: #fff; border-color: var(--green); }
+    .lesson-nav-footer a.next:hover { background: var(--green-deep); }
+
+    /* ── Prose base ──────────────────────────────────────── */
+    .prose h2 { font-size: 22px; margin: 40px 0 14px; padding-top: 8px; }
+    .prose h3 { font-size: 17px; margin: 28px 0 10px; color: var(--ink); }
+    .prose p  { font-size: 15.5px; line-height: 1.75; color: #33433b; margin-bottom: 14px; }
+    .prose ul { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .prose ul li { position: relative; padding-left: 22px; font-size: 15px; color: #33433b; line-height: 1.65; }
+    .prose ul li::before { content: ''; position: absolute; left: 4px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+    .prose strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .article { padding: 32px 24px 60px; }
+      .inner-header { padding: 32px 24px 28px; }
+      .article-grid { grid-template-columns: 1fr; }
+      .toc-col { display: none; }
+      .lesson-nav-footer { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="lesson-shell">
+
+  <!-- ═══════════════════════════════════════════════════════
+       SIDEBAR
+  ═══════════════════════════════════════════════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy" />
+      <span>SHOPNILACADEMY</span>
+    </div>
+
+    <div>
+      <div class="sidebar-course-label">Phase 3 · Module 14</div>
+      <div class="sidebar-course-title">GWAS &amp; Genomic Prediction</div>
+      <div class="prog-label"><span>Progress</span><span id="prog-pct">10%</span></div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+
+    <!-- Module accordion -->
+    <nav>
+      <div class="mod-group">
+        <div class="mod-group-label open" onclick="toggleMod(this)">
+          <span>Module 14 Lessons</span><span class="arr">▶</span>
+        </div>
+        <div class="mod-lessons open">
+          <a href="lesson-1.html" class="lesson-link active"><span class="l-icon">1</span>Intro to GWAS &amp; GS</a>
+          <span class="lesson-link soon" data-lesson="2"><span class="l-icon">2</span>Genotype Data &amp; QC</span>
+          <span class="lesson-link soon" data-lesson="3"><span class="l-icon">3</span>Population Structure &amp; PCA</span>
+          <span class="lesson-link soon" data-lesson="4"><span class="l-icon">4</span>GWAS with Mixed Models</span>
+          <span class="lesson-link soon" data-lesson="5"><span class="l-icon">5</span>Interpreting GWAS Results</span>
+          <span class="lesson-link soon" data-lesson="6"><span class="l-icon">6</span>Genomic Relationship Matrices</span>
+          <span class="lesson-link soon" data-lesson="7"><span class="l-icon">7</span>GBLUP with rrBLUP</span>
+          <span class="lesson-link soon" data-lesson="8"><span class="l-icon">8</span>Bayesian GS with BGLR</span>
+          <span class="lesson-link soon" data-lesson="9"><span class="l-icon">9</span>Best Progeny Value (BPV)</span>
+          <span class="lesson-link soon" data-lesson="10"><span class="l-icon">10</span>Cross-validation &amp; Model Comparison</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- On this page TOC -->
+    <div class="toc-sidebar">
+      <h5>On this page</h5>
+      <a href="#what-is-gwas">What is GWAS?</a>
+      <a href="#what-is-gs">Genomic Selection</a>
+      <a href="#marker-data">Marker Data</a>
+      <a href="#gwas-vs-gs">GWAS vs GS</a>
+      <a href="#workflow">Overall Workflow</a>
+      <a href="#r-setup">R Setup</a>
+      <a href="#exercises">Exercises</a>
+    </div>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MAIN
+  ═══════════════════════════════════════════════════════ -->
+  <main class="lesson-main">
+
+    <!-- Inner header -->
+    <div class="inner-header">
+      <div class="breadcrumb">
+        <a href="../../index.html">Home</a><span class="sep">/</span>
+        <a href="../../courses.html">Courses</a><span class="sep">/</span>
+        <a href="../../courses/bioinformatics-curriculum.html">Bioinformatics</a><span class="sep">/</span>
+        <a href="index.html">GWAS &amp; Genomic Prediction</a><span class="sep">/</span>
+        Lesson 1
+      </div>
+      <h1>Introduction to GWAS &amp; Genomic Selection</h1>
+      <p class="lead">Understand how SNP markers connect to phenotypes, why plant breeders use statistical models instead of single-gene logic, and how GWAS and genomic selection differ in goal and design.</p>
+      <div class="lesson-meta-strip">
+        <span class="lm-pill">📍 Module 14 · Lesson 1 of 10</span>
+        <span class="lm-num">Phase 3</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-time">⏱ ~55 min</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill">R · rrBLUP · BGLR</span>
+      </div>
+    </div>
+
+    <!-- Top ad slot -->
+    <div style="padding: 20px 56px 0;">
+      <div class="ad-slot banner-728">
+        <strong>Advertisement</strong>
+        <small>728 × 90 leaderboard · AdSense slot</small>
+      </div>
+    </div>
+
+    <!-- Article -->
+    <div class="article">
+      <div class="article-grid">
+
+        <!-- ── Prose ── -->
+        <div class="prose-col prose">
+
+          <!-- 1. What is GWAS -->
+          <section id="what-is-gwas">
+            <h2>1 · What is GWAS?</h2>
+
+            <p><strong>Genome-Wide Association Study (GWAS)</strong> is a statistical approach that scans the entire genome of many individuals — plants, animals, or humans — to find regions of DNA (SNP markers) that are statistically associated with a trait of interest.</p>
+
+            <p>In plant breeding, that trait might be grain yield in sorghum, flowering time in rice, or drought tolerance in maize. Instead of looking at one gene at a time, GWAS tests <em>hundreds of thousands</em> of SNPs simultaneously, asking: "Is this marker position significantly more different between high-yielding and low-yielding plants than we'd expect by chance?"</p>
+
+            <div class="explain-box">
+              <strong>Why GWAS matters in plant breeding</strong>
+              <p>Complex agronomic traits — yield, drought tolerance, disease resistance — are controlled by dozens or hundreds of small-effect genes scattered across the genome. Classical single-gene mapping (QTL studies) finds large-effect loci but misses the polygenic architecture. GWAS, run across diverse germplasm panels, identifies the full landscape of trait-associated loci at fine resolution, making it possible to design marker-assisted breeding or — better — full genomic selection models.</p>
+            </div>
+
+            <h3>The core logic of GWAS</h3>
+            <p>Imagine you have 300 sorghum lines. Each line has been genotyped at 50,000 SNP positions and phenotyped for grain yield. For every SNP, you run a linear regression:</p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Concept (not runnable)</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># For each SNP marker j (j = 1 … 50,000):</span>
+<span class="c-out">y  =  μ  +  β_j · x_j  +  ε</span>
+
+<span class="c-comment"># where:</span>
+<span class="c-comment">#   y     = phenotype (e.g. grain yield, kg/ha)</span>
+<span class="c-comment">#   μ     = overall mean</span>
+<span class="c-comment">#   β_j   = allele substitution effect at SNP j</span>
+<span class="c-comment">#   x_j   = marker genotype (0, 1, or 2 copies of alt allele)</span>
+<span class="c-comment">#   ε     = residual error</span></pre>
+            </div>
+
+            <p>The test asks: is β_j significantly different from zero? If yes, that SNP is "associated" with yield. A Manhattan plot then visualises the −log₁₀(p-value) for every SNP across every chromosome, and peaks show candidate regions.</p>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>One critical complexity: populations have <strong>structure</strong> — related individuals share both alleles and environments. This inflates false positives. Modern GWAS accounts for this with a <strong>kinship matrix</strong> (the K matrix) or principal components (Q matrix) added to the model. This is called the Q+K or mixed model approach, which we cover in Lesson 4.</p>
+            </div>
+          </section>
+
+          <!-- 2. Genomic Selection -->
+          <section id="what-is-gs">
+            <h2>2 · What is Genomic Selection?</h2>
+
+            <p><strong>Genomic Selection (GS)</strong>, introduced by Meuwissen, Hayes and Goddard in 2001, is a method that uses marker data from across the entire genome to predict the breeding value of an individual — <em>without</em> needing to phenotype it in a field trial.</p>
+
+            <p>The workflow has two phases:</p>
+            <ul>
+              <li><strong>Training phase:</strong> A reference population (genotyped + phenotyped) is used to fit a statistical model that links marker genotypes to observed phenotypes.</li>
+              <li><strong>Prediction phase:</strong> The fitted model predicts the Genomic Estimated Breeding Value (GEBV) for new candidates that have only been genotyped.</li>
+            </ul>
+
+            <div class="explain-box">
+              <strong>Why this changes plant breeding</strong>
+              <p>Traditional breeding cycles take 5–10 years per generation: grow, cross, evaluate. Genomic selection can compress this to 1–2 years by selecting the best parents using predicted GEBVs before field trials are even completed. For a crop like sorghum — important for food security in semi-arid environments — GS accelerates genetic gain per unit time, which is the fundamental currency of a breeding programme.</p>
+            </div>
+
+            <h3>The GBLUP model</h3>
+            <p>The most widely used GS model is <strong>GBLUP</strong> (Genomic Best Linear Unbiased Prediction). It assumes all SNP effects are normally distributed with equal variance — a ridge regression in marker space:</p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Model (conceptual)</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># GBLUP model:</span>
+<span class="c-out">y  =  Xβ  +  Zu  +  ε</span>
+
+<span class="c-comment"># where:</span>
+<span class="c-comment">#   y     = phenotype vector (n individuals)</span>
+<span class="c-comment">#   β     = fixed effects (e.g. environment, block)</span>
+<span class="c-comment">#   u     = random genomic effects ~ N(0, Gσ²_g)</span>
+<span class="c-comment">#   G     = genomic relationship matrix (GRM)</span>
+<span class="c-comment">#   ε     = residual ~ N(0, Iσ²_e)</span>
+<span class="c-comment">#</span>
+<span class="c-comment"># u is the GEBV vector — the breeding value we want to predict</span></pre>
+            </div>
+
+            <p>In R, the <strong>rrBLUP</strong> package implements GBLUP via the <code>mixed.solve()</code> function. The <strong>BGLR</strong> package extends this to Bayesian models (BayesA, BayesB, BayesC, BayesR) that allow locus-specific effect variances — more powerful when a few large-effect QTL exist.</p>
+          </section>
+
+          <!-- 3. Marker data -->
+          <section id="marker-data">
+            <h2>3 · Understanding Marker Data</h2>
+
+            <p>Both GWAS and GS require genotype data: a matrix where rows are individuals and columns are SNP markers. Each cell holds the count of the alternate allele (0, 1, or 2), called <strong>additive dosage coding</strong>.</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>Format</th>
+                  <th>Description</th>
+                  <th>Used in</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>VCF / BCF</td>
+                  <td>Raw variant calls from GATK or bcftools. Contains genotype calls, quality scores, and allele frequencies.</td>
+                  <td>Upstream of GWAS/GS</td>
+                </tr>
+                <tr>
+                  <td>PLINK (.bed/.bim/.fam)</td>
+                  <td>Binary format optimised for large SNP panels. Standard input for PLINK, GEMMA, and many GWAS tools.</td>
+                  <td>GWAS pipelines</td>
+                </tr>
+                <tr>
+                  <td>HapMap (.hmp.txt)</td>
+                  <td>TASSEL-native format; encodes genotypes as nucleotide pairs (AA, AT, TT). Common in crop genomics.</td>
+                  <td>TASSEL, GAPIT</td>
+                </tr>
+                <tr>
+                  <td>Numeric matrix (012)</td>
+                  <td>Rows = individuals, columns = SNPs; values 0/1/2. Direct input for rrBLUP and BGLR in R.</td>
+                  <td>rrBLUP, BGLR, GAPIT</td>
+                </tr>
+                <tr>
+                  <td>dosage / HDF5</td>
+                  <td>Continuous dosage (0–2) from imputed or sequencing data; used for large panels.</td>
+                  <td>Imputed WGS / GBS</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="explain-box">
+              <strong>What "012 coding" means</strong>
+              <p>At each SNP position, each individual has two alleles (diploid). If the reference allele is A and the alternate is T: an AA individual scores <strong>0</strong>, an AT individual scores <strong>1</strong>, and a TT individual scores <strong>2</strong>. This integer coding converts diploid biology into a number that directly enters the linear model as a predictor. Missing genotypes are typically imputed (replaced with the mean dosage at that locus) before analysis.</p>
+            </div>
+
+            <h3>Typical SNP panel sizes</h3>
+            <ul>
+              <li><strong>GBS (Genotyping-by-Sequencing):</strong> 5,000–200,000 SNPs depending on genome size and coverage.</li>
+              <li><strong>SNP arrays:</strong> 9K, 50K, 90K chips exist for wheat, maize, sorghum.</li>
+              <li><strong>Whole-genome sequencing (WGS):</strong> Millions of SNPs; usually thinned by LD pruning for GS.</li>
+              <li><strong>Sorghum context:</strong> The sorghum genome is ~730 Mb. GBS panels of 10,000–100,000 SNPs are commonly used in GS research.</li>
+            </ul>
+          </section>
+
+          <!-- 4. GWAS vs GS -->
+          <section id="gwas-vs-gs">
+            <h2>4 · GWAS vs Genomic Selection — Key Differences</h2>
+
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>GWAS</th>
+                  <th>Genomic Selection</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Primary goal</td>
+                  <td>Find specific loci associated with a trait (discovery)</td>
+                  <td>Predict breeding values of unphenotyped individuals (prediction)</td>
+                </tr>
+                <tr>
+                  <td>Hypothesis</td>
+                  <td>Test each SNP individually; correction for multiple testing</td>
+                  <td>All SNPs contribute simultaneously; no individual test</td>
+                </tr>
+                <tr>
+                  <td>Output</td>
+                  <td>p-values, effect sizes, candidate gene regions</td>
+                  <td>Predicted GEBVs for each individual</td>
+                </tr>
+                <tr>
+                  <td>Trait architecture assumed</td>
+                  <td>Works best with few large-effect loci</td>
+                  <td>Works for complex polygenic traits (many small effects)</td>
+                </tr>
+                <tr>
+                  <td>Practical breeding use</td>
+                  <td>MAS (Marker-Assisted Selection) for major genes</td>
+                  <td>Genome-wide selection; rapid cycling; recurrent selection</td>
+                </tr>
+                <tr>
+                  <td>R packages</td>
+                  <td>GAPIT3, GEMMA, TASSEL</td>
+                  <td>rrBLUP, BGLR, sommer</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="tip">
+              <span class="tip-icon">🌱</span>
+              <p>In your thesis on <em>Sorghum bicolor</em>, you use <strong>genomic selection</strong> (not GWAS), specifically rrBLUP and BGLR to estimate GEBVs and then weight them into Best Progeny Values (BPV) for recurrent selection decisions. GWAS is complementary — it tells you <em>where</em> the genetic signal lives; GS tells you <em>how much</em> each candidate is worth selecting.</p>
+            </div>
+          </section>
+
+          <!-- 5. Overall workflow -->
+          <section id="workflow">
+            <h2>5 · The Overall Workflow (This Module)</h2>
+
+            <p>Across the 10 lessons of this module, you will build the complete pipeline from raw genotype data to a publishable GS analysis:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Lesson</th><th>Topic</th><th>Key tools</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>1</td><td>Concepts &amp; data types (this lesson)</td><td>—</td></tr>
+                <tr><td>2</td><td>Genotype QC &amp; filtering</td><td>PLINK, R</td></tr>
+                <tr><td>3</td><td>Population structure &amp; PCA</td><td>PLINK, ggplot2</td></tr>
+                <tr><td>4</td><td>GWAS with mixed model (Q+K)</td><td>GAPIT3, GEMMA</td></tr>
+                <tr><td>5</td><td>Interpreting GWAS results</td><td>Manhattan, QQ plots</td></tr>
+                <tr><td>6</td><td>Genomic relationship matrices</td><td>rrBLUP <code>A.mat()</code></td></tr>
+                <tr><td>7</td><td>GBLUP prediction</td><td>rrBLUP <code>mixed.solve()</code></td></tr>
+                <tr><td>8</td><td>Bayesian GS</td><td>BGLR (BayesB, BayesC)</td></tr>
+                <tr><td>9</td><td>BPV weighting for recurrent selection</td><td>rrBLUP, BGLR, custom R</td></tr>
+                <tr><td>10</td><td>Cross-validation &amp; model comparison</td><td>caret, custom CV</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- 6. R setup -->
+          <section id="r-setup">
+            <h2>6 · Setting Up Your R Environment</h2>
+
+            <p>All analyses in this module use R. Install the required packages now so you are ready from Lesson 2 onward.</p>
+
+            <div class="folder-note">📁 Run from: RStudio console or your R terminal</div>
+
+            <div class="explain-box">
+              <strong>Why these specific packages?</strong>
+              <p><strong>rrBLUP</strong> is the workhorse for GBLUP in plant genomics — fast, well-documented, and directly implements the mixed model used in most GS publications. <strong>BGLR</strong> (Bayesian Generalised Linear Regression) extends this to a full family of Bayesian shrinkage models. <strong>GAPIT3</strong> is the standard GWAS package in crop genomics, automating the Q+K mixed model with multiple GWAS methods (MLM, BLINK, FarmCPU). <strong>qqman</strong> and <strong>CMplot</strong> handle the visualisation.</p>
+            </div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># ── Install core GS / GWAS packages ──────────────────────</span>
+
+<span class="c-comment"># rrBLUP: GBLUP, G-matrix, ridge regression</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"rrBLUP"</span>)
+
+<span class="c-comment"># BGLR: Bayesian shrinkage models (BayesA/B/C/R, RKHS)</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"BGLR"</span>)
+
+<span class="c-comment"># GAPIT3: GWAS with mixed model (MLM, BLINK, FarmCPU)</span>
+<span class="c-kw">if</span> (<span class="c-fn">!</span><span class="c-fn">requireNamespace</span>(<span class="c-str">"devtools"</span>, quietly <span class="c-kw">=</span> <span class="c-kw">TRUE</span>))
+  <span class="c-fn">install.packages</span>(<span class="c-str">"devtools"</span>)
+devtools<span class="c-kw">::</span><span class="c-fn">install_github</span>(<span class="c-str">"jiabowang/GAPIT3"</span>)
+
+<span class="c-comment"># Visualisation</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"qqman"</span>)         <span class="c-comment"># Manhattan + QQ plots</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"CMplot"</span>)        <span class="c-comment"># Circular / rectangular Manhattan</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"ggplot2"</span>)       <span class="c-comment"># General plotting</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"tidyverse"</span>)     <span class="c-comment"># Data wrangling</span>
+
+<span class="c-comment"># Data handling</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"data.table"</span>)    <span class="c-comment"># Fast reading of large genotype files</span>
+<span class="c-fn">install.packages</span>(<span class="c-str">"Matrix"</span>)        <span class="c-comment"># Sparse matrix support for large GRMs</span></pre>
+            </div>
+
+            <div class="folder-note">📁 Run from: RStudio console or your R terminal</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># ── Verify installation ───────────────────────────────────</span>
+<span class="c-fn">library</span>(rrBLUP)
+<span class="c-fn">library</span>(BGLR)
+<span class="c-fn">library</span>(ggplot2)
+<span class="c-fn">library</span>(data.table)
+
+<span class="c-fn">cat</span>(<span class="c-str">"rrBLUP version:"</span>, <span class="c-fn">packageVersion</span>(<span class="c-str">"rrBLUP"</span>), <span class="c-str">"\n"</span>)
+<span class="c-fn">cat</span>(<span class="c-str">"BGLR version:"</span>,   <span class="c-fn">packageVersion</span>(<span class="c-str">"BGLR"</span>),   <span class="c-str">"\n"</span>)
+
+<span class="c-comment"># Expected output (versions may differ slightly):</span>
+<span class="c-out"># rrBLUP version: 4.6.1</span>
+<span class="c-out"># BGLR version: 1.1.1</span></pre>
+            </div>
+
+            <h3>Create your project folder</h3>
+            <div class="folder-note">📁 Run from: your home directory (~)</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Bash</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Create the folder structure for this module</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/genomic-selection-bpv</span>/{data/raw,data/processed,results,scripts}
+
+<span class="c-comment"># Move into the project folder</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/genomic-selection-bpv</span>
+
+<span class="c-comment"># Confirm the structure</span>
+<span class="c-cmd">tree</span> .
+
+<span class="c-comment"># Expected output:</span>
+<span class="c-out">.</span>
+<span class="c-out">├── data</span>
+<span class="c-out">│   ├── processed</span>
+<span class="c-out">│   └── raw</span>
+<span class="c-out">├── results</span>
+<span class="c-out">└── scripts</span></pre>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠️</span>
+              <p>If <code>tree</code> is not installed, run <code>sudo apt install tree</code> first. On Windows with WSL or Git Bash, use <code>find . -type d</code> as an alternative.</p>
+            </div>
+          </section>
+
+          <!-- Middle ad slot -->
+          <div class="ad-slot in-feed" style="margin: 36px 0;">
+            <strong>Advertisement</strong>
+            <small>In-feed ad · AdSense slot</small>
+          </div>
+
+          <!-- 7. Exercises -->
+          <section id="exercises">
+            <h2>7 · Exercises</h2>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">1</div>
+                <div class="ex-title">Concept check — GWAS vs GS</div>
+              </div>
+              <p style="font-size:15px; color:#33433b; line-height:1.65;">You have 200 sorghum lines genotyped at 80,000 SNPs. You want to <em>predict which unpheno­typed lines</em> from a new cross will have the highest grain yield. Should you run GWAS or genomic selection? Explain your reasoning in two sentences.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  Use <strong>genomic selection</strong> — specifically GBLUP or a Bayesian model. GWAS identifies associated loci but does not directly produce individual-level breeding value predictions; GS uses all marker information simultaneously to generate a GEBV for each candidate, which is exactly what is needed to rank unphenotyped lines for selection.
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">2</div>
+                <div class="ex-title">Marker coding</div>
+              </div>
+              <p style="font-size:15px; color:#33433b; line-height:1.65;">A sorghum line at SNP position 5:12345678 has the genotype TT. The reference allele at this position is C and the alternate allele is T. What numeric dosage value (0, 1, or 2) would this individual receive in the marker matrix? Why?</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  The individual receives a dosage of <strong>2</strong>. It carries two copies of the alternate allele (T/T). In additive dosage coding: 0 = homozygous reference (CC), 1 = heterozygous (CT), 2 = homozygous alternate (TT). This integer directly enters the regression as the predictor value for that SNP.
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">3</div>
+                <div class="ex-title">Install and verify rrBLUP</div>
+              </div>
+              <p style="font-size:15px; color:#33433b; line-height:1.65;">Install <code>rrBLUP</code> and run the verification code from Section 6. Then load the package and inspect the <code>mixed.solve</code> help page with <code>?mixed.solve</code>. What are the three main arguments the function requires? Write them below.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  The three core arguments of <code>mixed.solve()</code> are: <strong>y</strong> (the phenotype vector — the response variable), <strong>Z</strong> (the design matrix linking observations to random effects — typically the marker matrix M), and <strong>K</strong> (the optional kinship or covariance matrix for the random effects). When K is provided, GBLUP is performed using the genomic relationship matrix G.
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">4</div>
+                <div class="ex-title">Simulate a tiny marker matrix in R</div>
+              </div>
+              <p style="font-size:15px; color:#33433b; line-height:1.65;">Run the code below to simulate a small genotype matrix. Inspect its dimensions and content. What does each row and column represent? What is the range of values you see?</p>
+              <div class="code-wrap">
+                <div class="code-header">
+                  <span class="code-lang">R</span>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><span class="c-comment"># Simulate a marker matrix: 10 individuals × 20 SNPs</span>
+<span class="c-fn">set.seed</span>(<span class="c-num">42</span>)
+n_ind  <span class="c-kw">&lt;-</span> <span class="c-num">10</span>   <span class="c-comment"># number of individuals</span>
+n_snp  <span class="c-kw">&lt;-</span> <span class="c-num">20</span>   <span class="c-comment"># number of SNP markers</span>
+
+<span class="c-comment"># Sample genotypes: 0, 1, or 2 (additive dosage)</span>
+M <span class="c-kw">&lt;-</span> <span class="c-fn">matrix</span>(
+  <span class="c-fn">sample</span>(<span class="c-num">0</span><span class="c-kw">:</span><span class="c-num">2</span>, n_ind <span class="c-kw">*</span> n_snp, replace <span class="c-kw">=</span> <span class="c-kw">TRUE</span>,
+         prob <span class="c-kw">=</span> <span class="c-fn">c</span>(<span class="c-num">0.5</span>, <span class="c-num">0.3</span>, <span class="c-num">0.2</span>)),   <span class="c-comment"># minor allele freq ~0.25</span>
+  nrow <span class="c-kw">=</span> n_ind, ncol <span class="c-kw">=</span> n_snp
+)
+
+<span class="c-comment"># Name rows (individuals) and columns (SNPs)</span>
+<span class="c-fn">rownames</span>(M) <span class="c-kw">&lt;-</span> <span class="c-fn">paste0</span>(<span class="c-str">"IND"</span>, <span class="c-num">1</span><span class="c-kw">:</span>n_ind)
+<span class="c-fn">colnames</span>(M) <span class="c-kw">&lt;-</span> <span class="c-fn">paste0</span>(<span class="c-str">"SNP"</span>, <span class="c-num">1</span><span class="c-kw">:</span>n_snp)
+
+<span class="c-comment"># Inspect</span>
+<span class="c-fn">dim</span>(M)       <span class="c-comment"># should be 10 x 20</span>
+M[<span class="c-num">1</span><span class="c-kw">:</span><span class="c-num">5</span>, <span class="c-num">1</span><span class="c-kw">:</span><span class="c-num">6</span>]   <span class="c-comment"># preview first 5 rows, 6 columns</span>
+<span class="c-fn">table</span>(M)     <span class="c-comment"># counts of 0, 1, 2 across all cells</span></pre>
+              </div>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  Each <strong>row</strong> is one individual (sorghum line); each <strong>column</strong> is one SNP marker. The values are integers <strong>0, 1, or 2</strong>, representing the number of copies of the alternate allele. The <code>table(M)</code> call will show roughly 50% zeros, 30% ones, and 20% twos — matching the sampling probabilities set in the code.
+                </div>
+              </details>
+            </div>
+
+          </section>
+
+          <!-- Mark complete -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+              ✓ Mark lesson complete
+            </button>
+          </div>
+
+        </div><!-- /prose-col -->
+
+        <!-- ── TOC column ── -->
+        <aside class="toc-col">
+          <div class="toc">
+            <h5>On this page</h5>
+            <ul>
+              <li><a href="#what-is-gwas">1 · What is GWAS?</a></li>
+              <li><a href="#what-is-gs">2 · Genomic Selection</a></li>
+              <li><a href="#marker-data">3 · Marker Data</a></li>
+              <li><a href="#gwas-vs-gs">4 · GWAS vs GS</a></li>
+              <li><a href="#workflow">5 · Overall Workflow</a></li>
+              <li><a href="#r-setup">6 · R Setup</a></li>
+              <li><a href="#exercises">7 · Exercises</a></li>
+            </ul>
+          </div>
+        </aside>
+
+      </div><!-- /article-grid -->
+    </div><!-- /article -->
+
+    <!-- Bottom ad slot -->
+    <div style="padding: 0 56px 40px; display:flex; justify-content:center;">
+      <div class="ad-slot rectangle" style="max-width:340px; width:100%;">
+        <strong>Advertisement</strong>
+        <small>300 × 250 rectangle · AdSense slot</small>
+      </div>
+    </div>
+
+    <!-- Lesson nav footer -->
+    <div class="lesson-nav-footer">
+      <a href="index.html">← Module overview</a>
+      <span style="font-size:13px; color:var(--muted);">Lesson 1 of 10</span>
+      <span style="font-size:13px;color:var(--muted);">Genotype Data &amp; QC — coming soon</span>
+    </div>
+
+  </main><!-- /lesson-main -->
+</div><!-- /lesson-shell -->
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text"><strong>SHOPNILACADEMY</strong><small>LEARN WITHOUT LIMITS</small></div>
+        </a>
+        <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+        <div class="foot-social">
+          <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook">f</a>
+          <a href="https://x.com/ShopnilAcademy" aria-label="X">𝕏</a>
+          <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube">▶</a>
+          <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>This course</h4>
+        <ul>
+          <li><a href="../../courses/bioinformatics-curriculum.html">Full curriculum</a></li>
+          <li><a href="../../courses/bioinformatics-curriculum.html#phase3">Phase 3 — Advanced</a></li>
+          <li><a href="index.html">Module 14 overview</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../../courses.html">All courses</a></li>
+          <li><a href="../../courses.html#tech">Tech &amp; Coding</a></li>
+          <li><a href="../../courses.html#languages">Languages</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../contact.html">Contact</a></li>
+          <li><a href="../../faq.html">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+          <li><a href="../../cookies.html">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════ -->
+<script>
+  /* ── Module accordion ──────────────────────────────── */
+  function toggleMod(el) {
+    const lessons = el.nextElementSibling;
+    const isOpen  = lessons.classList.contains('open');
+    el.classList.toggle('open', !isOpen);
+    lessons.classList.toggle('open', !isOpen);
+  }
+
+  /* ── Copy code ─────────────────────────────────────── */
+  function copyCode(btn) {
+    const pre  = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1800);
+    });
+  }
+
+  /* ── Mark complete (localStorage) ─────────────────── */
+  const LS_KEY    = 'sa_gwas_done';
+  const LESSON_ID = 'lesson-1';
+  const TOTAL     = 10;
+
+  function markComplete() {
+    const done = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+    if (!done.includes(LESSON_ID)) done.push(LESSON_ID);
+    localStorage.setItem(LS_KEY, JSON.stringify(done));
+    updateUI(done);
+  }
+
+  function updateUI(done) {
+    const btn = document.getElementById('mc-btn');
+    if (done.includes(LESSON_ID)) {
+      btn.textContent = '✓ Completed';
+      btn.classList.add('done');
+    }
+    const pct = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-pct').textContent  = pct + '%';
+    document.getElementById('prog-fill').style.width = pct + '%';
+
+    // Mark sidebar links
+    document.querySelectorAll('.lesson-link').forEach(a => {
+      if (!a.href) return;
+      const id = 'lesson-' + a.href.split('lesson-')[1]?.replace('.html','');
+      if (done.includes(id)) a.classList.add('done');
+    });
+  }
+
+  // Init on load
+  updateUI(JSON.parse(localStorage.getItem(LS_KEY) || '[]'));
+
+  /* ── Active TOC via IntersectionObserver ───────────── */
+  const tocLinks = document.querySelectorAll('.toc a, .toc-sidebar a');
+  const sections = document.querySelectorAll('section[id]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => {
+          a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
