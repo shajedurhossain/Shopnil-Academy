@@ -73,9 +73,9 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .prog-bar-fill{height:100%;border-radius:20px;background:var(--gold);transition:width .5s ease}
 .day-progress{font-size:.6rem;color:rgba(232,183,42,.6);margin-top:2px;font-family:var(--bn)}
 .main-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0;min-width:0}
-.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0;min-width:0}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;min-height:0}
 .main::-webkit-scrollbar{width:5px}.main::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
-.page{display:none}
+.page{display:none}.page.active{}
 .page.active{display:block;width:100%;min-width:0;animation:fadeUp .2s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .ph{background:var(--black);padding:22px 16px 18px;position:relative;overflow:hidden}
@@ -243,6 +243,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 .pnb-next{background:var(--green);color:#fff}
 .pnb-next:hover{background:#04503B;transform:translateX(2px)}
 .pnb-prev:disabled,.pnb-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+
+
+#mainArea{
+  position:fixed;
+  top:112px;
+  bottom:0;
+  left:var(--sb,220px);
+  right:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  touch-action:pan-y;
+  z-index:1;
+}
+@media(max-width:640px){
+  #mainArea{
+    top:108px;
+    left:0;
+  }
+}
+
+/* ---- MOBILE NATURAL SCROLL ---- */
+@media(max-width:640px){
+  html,body{height:auto !important;overflow:auto !important}
+  .app-body{overflow:visible !important;height:auto !important;min-height:0}
+  .main-wrap{overflow:visible !important;height:auto !important}
+  .main{overflow:visible !important;height:auto !important;min-height:0}
+  .page.active{display:block}
+}
 </style>
 </head>
 <body>
@@ -267,7 +296,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <span class="tb-level">A1</span>
   <span class="tb-title">&#x1f1e9;&#x1f1ea; অধ্যায় ১৩ — Pr&#xfc;fungsvorbereitung</span>
   <div class="tb-right">
-    <div class="streak-chip"><span class="streak-fire">&#x1f525;</span><span class="streak-count" id="streakTop">0</span></div>
+    <div class="streak-chip"><span class="streak-fire">🔥</span><span class="streak-count" id="streakTop">0</span></div>
     <div class="xp-chip"><span class="xp-label" id="xpTop">0 XP</span></div>
   </div>
 </div>
@@ -280,79 +309,79 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   <div class="sb-nav">
     <div class="sb-head">
       <div class="sb-head-title">Chapter 13</div>
-      <div class="sb-head-bn">&#x1f3c6; Pr&#xfc;fungsvorbereitung</div>
+      <div class="sb-head-bn">🏆 Pr&#xfc;fungsvorbereitung</div>
     </div>
 
     <div class="week-block">
       <div class="week-hdr" id="wh13" onclick="toggleWeek(13)">
         <span class="week-pill">&#x0985;&#x09a7;&#x09cd;&#x09af;&#x09be;&#x09af;&#x09bc; &#x09e7;&#x09e9;</span>
         <span class="week-name">Pr&#xfc;fungssimulationen — A1 (পরীক্ষা অনুশীলন)</span>
-        <span class="week-arr">&#x25ba;</span>
+        <span class="week-arr">►</span>
       </div>
       <div class="day-list" id="wl13">
 
         <!-- Prüfung 1 — Goethe style -->
         <div class="day-hdr" id="dhc13m1" onclick="toggleDay('c13m1')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f3c6; Pr&#xfc;fung 1 — Goethe (পরীক্ষা ১)</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🏆 Pr&#xfc;fung 1 — Goethe (পরীক্ষা ১)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc13m1">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c13m1" style="width:0%"></div></div><div class="day-progress" id="progtext-c13m1">&#x09e6;/&#x09eb; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c13m1h" onclick="go('c13m1h','nav-c13m1h');markVisit('c13m1','c13m1h')"><span class="ni-icon">&#x1f3a7;</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m1l" onclick="go('c13m1l','nav-c13m1l');markVisit('c13m1','c13m1l')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">পঠন</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m1s" onclick="go('c13m1s','nav-c13m1s');markVisit('c13m1','c13m1s')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">লেখা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m1sp" onclick="go('c13m1sp','nav-c13m1sp');markVisit('c13m1','c13m1sp')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">বলা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m1res" onclick="go('c13m1res','nav-c13m1res');markVisit('c13m1','c13m1res')"><span class="ni-icon">&#x1f3c6;</span><span class="ni-label">ফলাফল</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c13m1h" onclick="go('c13m1h','nav-c13m1h');markVisit('c13m1','c13m1h')"><span class="ni-icon">🎧</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m1l" onclick="go('c13m1l','nav-c13m1l');markVisit('c13m1','c13m1l')"><span class="ni-icon">📖</span><span class="ni-label">পঠন</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m1s" onclick="go('c13m1s','nav-c13m1s');markVisit('c13m1','c13m1s')"><span class="ni-icon">✏️</span><span class="ni-label">লেখা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m1sp" onclick="go('c13m1sp','nav-c13m1sp');markVisit('c13m1','c13m1sp')"><span class="ni-icon">🗣️</span><span class="ni-label">বলা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m1res" onclick="go('c13m1res','nav-c13m1res');markVisit('c13m1','c13m1res')"><span class="ni-icon">🏆</span><span class="ni-label">ফলাফল</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- Prüfung 2 — Goethe style -->
         <div class="day-hdr" id="dhc13m2" onclick="toggleDay('c13m2')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f3c6; Pr&#xfc;fung 2 — Goethe (পরীক্ষা ২)</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🏆 Pr&#xfc;fung 2 — Goethe (পরীক্ষা ২)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc13m2">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c13m2" style="width:0%"></div></div><div class="day-progress" id="progtext-c13m2">&#x09e6;/&#x09eb; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c13m2h" onclick="go('c13m2h','nav-c13m2h');markVisit('c13m2','c13m2h')"><span class="ni-icon">&#x1f3a7;</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m2l" onclick="go('c13m2l','nav-c13m2l');markVisit('c13m2','c13m2l')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">পঠন</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m2s" onclick="go('c13m2s','nav-c13m2s');markVisit('c13m2','c13m2s')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">লেখা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m2sp" onclick="go('c13m2sp','nav-c13m2sp');markVisit('c13m2','c13m2sp')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">বলা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m2res" onclick="go('c13m2res','nav-c13m2res');markVisit('c13m2','c13m2res')"><span class="ni-icon">&#x1f3c6;</span><span class="ni-label">ফলাফল</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c13m2h" onclick="go('c13m2h','nav-c13m2h');markVisit('c13m2','c13m2h')"><span class="ni-icon">🎧</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m2l" onclick="go('c13m2l','nav-c13m2l');markVisit('c13m2','c13m2l')"><span class="ni-icon">📖</span><span class="ni-label">পঠন</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m2s" onclick="go('c13m2s','nav-c13m2s');markVisit('c13m2','c13m2s')"><span class="ni-icon">✏️</span><span class="ni-label">লেখা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m2sp" onclick="go('c13m2sp','nav-c13m2sp');markVisit('c13m2','c13m2sp')"><span class="ni-icon">🗣️</span><span class="ni-label">বলা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m2res" onclick="go('c13m2res','nav-c13m2res');markVisit('c13m2','c13m2res')"><span class="ni-icon">🏆</span><span class="ni-label">ফলাফল</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- Prüfung 3 — telc style -->
         <div class="day-hdr" id="dhc13m3" onclick="toggleDay('c13m3')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f396;&#xfe0f; Pr&#xfc;fung 3 — telc (পরীক্ষা ৩)</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🎖️ Pr&#xfc;fung 3 — telc (পরীক্ষা ৩)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc13m3">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c13m3" style="width:0%"></div></div><div class="day-progress" id="progtext-c13m3">&#x09e6;/&#x09eb; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c13m3h" onclick="go('c13m3h','nav-c13m3h');markVisit('c13m3','c13m3h')"><span class="ni-icon">&#x1f3a7;</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m3l" onclick="go('c13m3l','nav-c13m3l');markVisit('c13m3','c13m3l')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">পঠন</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m3s" onclick="go('c13m3s','nav-c13m3s');markVisit('c13m3','c13m3s')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">লেখা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m3sp" onclick="go('c13m3sp','nav-c13m3sp');markVisit('c13m3','c13m3sp')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">বলা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m3res" onclick="go('c13m3res','nav-c13m3res');markVisit('c13m3','c13m3res')"><span class="ni-icon">&#x1f3c6;</span><span class="ni-label">ফলাফল</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c13m3h" onclick="go('c13m3h','nav-c13m3h');markVisit('c13m3','c13m3h')"><span class="ni-icon">🎧</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m3l" onclick="go('c13m3l','nav-c13m3l');markVisit('c13m3','c13m3l')"><span class="ni-icon">📖</span><span class="ni-label">পঠন</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m3s" onclick="go('c13m3s','nav-c13m3s');markVisit('c13m3','c13m3s')"><span class="ni-icon">✏️</span><span class="ni-label">লেখা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m3sp" onclick="go('c13m3sp','nav-c13m3sp');markVisit('c13m3','c13m3sp')"><span class="ni-icon">🗣️</span><span class="ni-label">বলা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m3res" onclick="go('c13m3res','nav-c13m3res');markVisit('c13m3','c13m3res')"><span class="ni-icon">🏆</span><span class="ni-label">ফলাফল</span><span class="ni-done">✓</span></div>
         </div>
 
         <!-- Prüfung 4 — telc style -->
         <div class="day-hdr" id="dhc13m4" onclick="toggleDay('c13m4')">
           <span class="day-dot"></span>
-          <span class="day-name">&#x1f396;&#xfe0f; Pr&#xfc;fung 4 — telc (পরীক্ষা ৪)</span>
-          <span class="day-check">&#x2713;</span>
-          <span class="day-arr">&#x25ba;</span>
+          <span class="day-name">🎖️ Pr&#xfc;fung 4 — telc (পরীক্ষা ৪)</span>
+          <span class="day-check">✓</span>
+          <span class="day-arr">►</span>
         </div>
         <div class="tab-list" id="dlc13m4">
           <div style="padding:5px 10px 3px 30px"><div class="prog-bar-wrap"><div class="prog-bar-fill" id="prog-c13m4" style="width:0%"></div></div><div class="day-progress" id="progtext-c13m4">&#x09e6;/&#x09eb; &#x09aa;&#x09be;&#x09a0;</div></div>
-          <div class="nav-item" id="nav-c13m4h" onclick="go('c13m4h','nav-c13m4h');markVisit('c13m4','c13m4h')"><span class="ni-icon">&#x1f3a7;</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m4l" onclick="go('c13m4l','nav-c13m4l');markVisit('c13m4','c13m4l')"><span class="ni-icon">&#x1f4d6;</span><span class="ni-label">পঠন</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m4s" onclick="go('c13m4s','nav-c13m4s');markVisit('c13m4','c13m4s')"><span class="ni-icon">&#x270f;&#xfe0f;</span><span class="ni-label">লেখা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m4sp" onclick="go('c13m4sp','nav-c13m4sp');markVisit('c13m4','c13m4sp')"><span class="ni-icon">&#x1f5e3;&#xfe0f;</span><span class="ni-label">বলা</span><span class="ni-done">&#x2713;</span></div>
-          <div class="nav-item" id="nav-c13m4res" onclick="go('c13m4res','nav-c13m4res');markVisit('c13m4','c13m4res')"><span class="ni-icon">&#x1f3c6;</span><span class="ni-label">ফলাফল</span><span class="ni-done">&#x2713;</span></div>
+          <div class="nav-item" id="nav-c13m4h" onclick="go('c13m4h','nav-c13m4h');markVisit('c13m4','c13m4h')"><span class="ni-icon">🎧</span><span class="ni-label">H&#xf6;ren</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m4l" onclick="go('c13m4l','nav-c13m4l');markVisit('c13m4','c13m4l')"><span class="ni-icon">📖</span><span class="ni-label">পঠন</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m4s" onclick="go('c13m4s','nav-c13m4s');markVisit('c13m4','c13m4s')"><span class="ni-icon">✏️</span><span class="ni-label">লেখা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m4sp" onclick="go('c13m4sp','nav-c13m4sp');markVisit('c13m4','c13m4sp')"><span class="ni-icon">🗣️</span><span class="ni-label">বলা</span><span class="ni-done">✓</span></div>
+          <div class="nav-item" id="nav-c13m4res" onclick="go('c13m4res','nav-c13m4res');markVisit('c13m4','c13m4res')"><span class="ni-icon">🏆</span><span class="ni-label">ফলাফল</span><span class="ni-done">✓</span></div>
         </div>
 
       </div><!-- end wl13 -->
@@ -370,23 +399,23 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 1 (পরীক্ষা ১) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">H&#xf6;ren</div>
     <div class="ph-bn">শ্রবণ পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ৩ Teile</span><span class="ph-tag">⏱️ ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m1h">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m1h" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m1h">20:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m1h" onclick="startExamTimer('c13m1h',20)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m1h" onclick="startExamTimer('c13m1h',20)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m1h">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m1h">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Ansagen (৪টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Gespräch (৩টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ৩: Kurze Texte (৩টি প্রশ্ন)</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">Goethe A1 Hören গঠন</div>
         <div class="cult-bn">Goethe-Zertifikat A1 এ Hören পরীক্ষায় ৩টা ভাগ থাকে: ঘোষণা (announcements), দৈনন্দিন কথোপকথন, এবং ছোট তথ্যমূলক টেক্সট। প্রতিটা অডিও সাধারণত দুইবার শোনা যায়।</div>
@@ -399,7 +428,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Achtung, liebe Reisende! Der Zug nach Frankfurt f&#xe4;hrt heute von Gleis sieben ab, nicht von Gleis drei. Bitte beachten Sie die &#xc4;nderung.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h1',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m1h1',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m1h1plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -416,7 +445,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Liebe Kunden, unser Geschäft schließt heute schon um achtzehn Uhr wegen einer privaten Veranstaltung. Wir bitten um Ihr Verständnis.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h2',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m1h2',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m1h2plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -433,7 +462,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Willkommen im Schwimmbad! Bitte denken Sie daran: Das Schwimmbad schlie&#xdf;t heute Abend um einundzwanzig Uhr. Der letzte Einlass ist um zwanzig Uhr dreißig.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h3',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m1h3',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m1h3plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -450,7 +479,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Der Flug nach Berlin hat eine Verspätung von dreißig Minuten. Der neue Abflug ist um vierzehn Uhr.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h4',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m1h4',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m1h4plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -474,7 +503,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Frau Berg:</span> Ja, das passt gut. Vielen Dank.<br>
         <span class="speaker">Empfang:</span> Bitte bringen Sie Ihre Versicherungskarte mit.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h5',this)">&#x1f50a; Gespräch anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m1h5',this)">🔊 Gespräch anhören</button>
       <div class="listen-plays" id="m1h5plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -509,7 +538,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Ansage:</span> Die Bibliothek ist von Montag bis Freitag von neun bis achtzehn Uhr geöffnet. Am Samstag ist sie nur bis dreizehn Uhr geöffnet. Am Sonntag bleibt sie geschlossen.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h6',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m1h6',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m1h6plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -526,7 +555,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Ansage:</span> Achtung: Der Aufzug im zweiten Stock ist heute außer Betrieb. Bitte benutzen Sie die Treppe oder den Aufzug im Erdgeschoss.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h7',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m1h7',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m1h7plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -543,7 +572,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Ansage:</span> Der Supermarkt bietet heute einen Sonderrabatt: Alle Milchprodukte sind zwanzig Prozent günstiger. Das Angebot gilt nur heute.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m1h8',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m1h8',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m1h8plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -556,7 +585,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()" disabled>◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 1 (GOETHE) — LESEN ==================== -->
@@ -565,23 +594,23 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 1 (পরীক্ষা ১) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">পঠন</div>
     <div class="ph-bn">পঠন পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~২5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">⏱️ ~২5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m1l">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m1l" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m1l">25:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m1l" onclick="startExamTimer('c13m1l',25)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m1l" onclick="startExamTimer('c13m1l',25)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m1l">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m1l">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Anzeigen (৩টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Kurztexte (৪টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ৩: Formular (৩টি প্রশ্ন)</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">Goethe A1 Lesen গঠন</div>
         <div class="cult-bn">Goethe-Zertifikat A1 এ Lesen এ ৩টা ভাগ: বিজ্ঞাপন মিলানো, ছোট টেক্সট বোঝা, এবং একটা ফর্ম থেকে তথ্য খুঁজা।</div>
@@ -709,7 +738,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 1 (GOETHE) — SCHREIBEN ==================== -->
@@ -718,22 +747,22 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 1 (পরীক্ষা ১) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">লেখা</div>
     <div class="ph-bn">লেখা পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x270f;&#xfe0f; ২ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x270f;️ ২ Teile</span><span class="ph-tag">⏱️ ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m1s">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m1s" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m1s">20:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m1s" onclick="startExamTimer('c13m1s',20)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m1s" onclick="startExamTimer('c13m1s',20)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m1s">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m1s">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Formular পূরণ</span>
       <span class="exam-meta-chip">অংশ ২: ব্যক্তিগত বার্তা (২০+ শব্দ)</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">Goethe A1 Schreiben গঠন</div>
         <div class="cult-bn">Goethe-Zertifikat A1 এ Schreiben এ ২টা ভাগ: একটা ফর্ম পূরণ করা (personal data থেকে), এবং একটা ছোট ব্যক্তিগত বার্তা লেখা (যেমন বন্ধুকে চিঠি)।</div>
@@ -784,7 +813,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-m1s" placeholder="Liebe/r..." oninput="countWords('fw-m1s','wc-m1s')"></textarea>
     <div class="write-counter" id="wc-m1s">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="gradeExamWriting('m1s')">জমা দিন &amp; পরীক্ষা করুন &#x1f4ca;</button>
+    <button class="btn" onclick="gradeExamWriting('m1s')">জমা দিন &amp; পরীক্ষা করুন 📊</button>
     <div class="write-res" id="wr-m1s"></div>
 
     <div class="trick" style="margin-top:13px">
@@ -793,7 +822,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 1 (GOETHE) — SPRECHEN ==================== -->
@@ -802,23 +831,23 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 1 (পরীক্ষা ১) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">বলা</div>
     <div class="ph-bn">বলার পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;&#xfe0f; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;️ ৩ Teile</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m1sp">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m1sp" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m1sp">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m1sp" onclick="startExamTimer('c13m1sp',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m1sp" onclick="startExamTimer('c13m1sp',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m1sp">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m1sp">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: পরিচয় দেওয়া</span>
       <span class="exam-meta-chip">অংশ ২: প্রশ্ন করা</span>
       <span class="exam-meta-chip">অংশ ৩: অনুরোধ বলা</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">Goethe A1 Sprechen গঠন</div>
         <div class="cult-bn">Goethe-Zertifikat A1 এ Sprechen এ ৩টা ভাগ: নিজের পরিচয় দেওয়া, একটা বিষয় নিয়ে প্রশ্ন করা/উত্তর দেওয়া, এবং একটা Foto দেখে অনুরোধ/বাক্য তৈরি করা।</div>
@@ -844,7 +873,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m1sp1-2"></span><span>দেশ বলা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m1sp1-3"></span><span>ভাষা বলা</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m1sp1" onclick="examSpeakingTask('m1sp1',['heiße','jahre','komme','spreche'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m1sp1" onclick="examSpeakingTask('m1sp1',['heiße','jahre','komme','spreche'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m1sp1"></div>
 
     <div class="exam-divider"></div>
@@ -866,7 +895,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m1sp2-1"></span><span>পছন্দ প্রকাশ করা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m1sp2-2"></span><span>খেলাধুলা/শখের কথা</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m1sp2" onclick="examSpeakingTask('m1sp2',['freizeit','gern','sport','kino'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m1sp2" onclick="examSpeakingTask('m1sp2',['freizeit','gern','sport','kino'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m1sp2"></div>
 
     <div class="exam-divider"></div>
@@ -887,11 +916,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m1sp3-0"></span><span>ভদ্রভাবে অনুরোধ করা (bitte)</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m1sp3-1"></span><span>বিল চাওয়া (Rechnung)</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m1sp3" onclick="examSpeakingTask('m1sp3',['bitte','rechnung','hätte'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m1sp3" onclick="examSpeakingTask('m1sp3',['bitte','rechnung','hätte'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m1sp3"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 2 (GOETHE) — HÖREN ==================== -->
@@ -900,16 +929,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 2 (পরীক্ষা ২) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">H&#xf6;ren</div>
     <div class="ph-bn">শ্রবণ পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ৩ Teile</span><span class="ph-tag">⏱️ ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m2h">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m2h" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m2h">20:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m2h" onclick="startExamTimer('c13m2h',20)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m2h" onclick="startExamTimer('c13m2h',20)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m2h">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m2h">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Ansagen (৪টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Gespräch (৩টি প্রশ্ন)</span>
@@ -922,7 +951,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Liebe Fahrgäste, der Bus Linie zwölf hat heute zehn Minuten Verspätung wegen eines Staus. Wir bitten um Entschuldigung.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h1',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m2h1',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m2h1plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -939,7 +968,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Achtung! Die Post&#xfc;berhandlung im Erdgeschoss schließt heute schon um zwölf Uhr mittags, statt um siebzehn Uhr.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h2',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m2h2',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m2h2plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -956,7 +985,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Willkommen im Kino! Der Film beginnt in fünfzehn Minuten im Saal drei. Bitte nehmen Sie Ihre Plätze ein.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h3',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m2h3',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m2h3plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -973,7 +1002,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Achtung, der Aufzug ist außer Betrieb. Bitte benutzen Sie die Treppe neben dem Eingang.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h4',this)">&#x1f50a; Ansage h&#xf6;ren</button>
+      <button class="listen-btn" onclick="playExamListen('m2h4',this)">🔊 Ansage h&#xf6;ren</button>
       <div class="listen-plays" id="m2h4plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -997,7 +1026,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">Herr Klein:</span> Das ist gut. Wie spät ist der Check-in?<br>
         <span class="speaker">Rezeption:</span> Ab vierzehn Uhr. Check-out ist bis elf Uhr.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h5',this)">&#x1f50a; Gespräch anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m2h5',this)">🔊 Gespräch anhören</button>
       <div class="listen-plays" id="m2h5plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1032,7 +1061,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Ansage:</span> Das Museum ist heute kostenlos für alle Besucher unter achtzehn Jahren. Erwachsene zahlen den normalen Preis von acht Euro.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h6',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m2h6',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m2h6plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1049,7 +1078,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Ansage:</span> Wegen Bauarbeiten ist die Hauptstraße bis Ende des Monats gesperrt. Bitte nutzen Sie die Umleitung über die Bahnhofstraße.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h7',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m2h7',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m2h7plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1066,7 +1095,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Ansage:</span> Der Wetterbericht für morgen: Es wird sonnig mit Temperaturen bis zu zwanzig Grad. Am Nachmittag ist leichter Wind möglich.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m2h8',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m2h8',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m2h8plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1079,7 +1108,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 2 (GOETHE) — LESEN ==================== -->
@@ -1088,16 +1117,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 2 (পরীক্ষা ২) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">পঠন</div>
     <div class="ph-bn">পঠন পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~২5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">⏱️ ~২5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m2l">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m2l" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m2l">25:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m2l" onclick="startExamTimer('c13m2l',25)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m2l" onclick="startExamTimer('c13m2l',25)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m2l">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m2l">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Anzeigen (৩টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Kurztexte (৪টি প্রশ্ন)</span>
@@ -1225,7 +1254,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 2 (GOETHE) — SCHREIBEN ==================== -->
@@ -1234,16 +1263,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 2 (পরীক্ষা ২) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">লেখা</div>
     <div class="ph-bn">লেখা পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x270f;&#xfe0f; ২ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x270f;️ ২ Teile</span><span class="ph-tag">⏱️ ~20 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m2s">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m2s" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m2s">20:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m2s" onclick="startExamTimer('c13m2s',20)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m2s" onclick="startExamTimer('c13m2s',20)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m2s">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m2s">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Formular পূরণ</span>
       <span class="exam-meta-chip">অংশ ২: ব্যক্তিগত বার্তা (২০+ শব্দ)</span>
@@ -1293,7 +1322,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-m2s" placeholder="Sehr geehrte/r..." oninput="countWords('fw-m2s','wc-m2s')"></textarea>
     <div class="write-counter" id="wc-m2s">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="gradeExamWriting('m2s')">জমা দিন &amp; পরীক্ষা করুন &#x1f4ca;</button>
+    <button class="btn" onclick="gradeExamWriting('m2s')">জমা দিন &amp; পরীক্ষা করুন 📊</button>
     <div class="write-res" id="wr-m2s"></div>
 
     <div class="trick" style="margin-top:13px">
@@ -1302,7 +1331,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 2 (GOETHE) — SPRECHEN ==================== -->
@@ -1311,16 +1340,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 2 (পরীক্ষা ২) &middot; Goethe-Zertifikat A1</div>
     <div class="ph-title">বলা</div>
     <div class="ph-bn">বলার পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;&#xfe0f; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;️ ৩ Teile</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">Goethe A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m2sp">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m2sp" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m2sp">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m2sp" onclick="startExamTimer('c13m2sp',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m2sp" onclick="startExamTimer('c13m2sp',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m2sp">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m2sp">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: পরিচয় দেওয়া</span>
       <span class="exam-meta-chip">অংশ ২: প্রশ্ন করা</span>
@@ -1346,7 +1375,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m2sp1-2"></span><span>পরিবারের কথা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m2sp1-3"></span><span>পছন্দের খাবার</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m2sp1" onclick="examSpeakingTask('m2sp1',['heiße','wohne','familie','lieblingsessen'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m2sp1" onclick="examSpeakingTask('m2sp1',['heiße','wohne','familie','lieblingsessen'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m2sp1"></div>
 
     <div class="exam-divider"></div>
@@ -1368,7 +1397,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m2sp2-1"></span><span>নাস্তার কথা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m2sp2-2"></span><span>রান্নার কথা</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m2sp2" onclick="examSpeakingTask('m2sp2',['essen','frühstück','koche'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m2sp2" onclick="examSpeakingTask('m2sp2',['essen','frühstück','koche'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m2sp2"></div>
 
     <div class="exam-divider"></div>
@@ -1389,11 +1418,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m2sp3-0"></span><span>ভদ্রভাবে সাহায্য চাওয়া</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m2sp3-1"></span><span>ট্রেন/স্টেশন শব্দ</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m2sp3" onclick="examSpeakingTask('m2sp3',['bitte','helfen','zug'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m2sp3" onclick="examSpeakingTask('m2sp3',['bitte','helfen','zug'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m2sp3"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 3 (TELC) — HÖREN ==================== -->
@@ -1402,22 +1431,22 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 3 (পরীক্ষা ৩) &middot; telc Deutsch A1</div>
     <div class="ph-title">H&#xf6;ren</div>
     <div class="ph-bn">শ্রবণ পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ২ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ২ Teile</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m3h">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m3h" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m3h">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m3h" onclick="startExamTimer('c13m3h',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m3h" onclick="startExamTimer('c13m3h',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m3h">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m3h">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Gespräche (৫টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Durchsagen (৫টি প্রশ্ন)</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">telc A1 Hören গঠন</div>
         <div class="cult-bn">telc Deutsch A1 এ Hören এ ২টা ভাগ: ছোট কথোপকথন (richtig/falsch বা multiple choice) এবং সরকারি/পাবলিক ঘোষণা। telc এর প্রশ্নগুলো প্রায়ই True/False (Richtig/Falsch) স্টাইলে হয়।</div>
@@ -1431,7 +1460,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Kommst du heute Abend mit ins Kino?<br>
         <span class="speaker">B:</span> Nein, ich kann nicht. Ich muss noch arbeiten.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h1',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h1',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h1plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1448,7 +1477,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Wie komme ich am besten zum Bahnhof?<br>
         <span class="speaker">B:</span> Gehen Sie geradeaus und dann an der Ampel links. Es dauert nur fünf Minuten.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h2',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h2',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h2plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1465,7 +1494,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Hast du schon das neue Restaurant in der Stadt probiert?<br>
         <span class="speaker">B:</span> Ja, das Essen war sehr gut, aber es war auch ziemlich teuer.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h3',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h3',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h3plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1483,7 +1512,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">B:</span> Oh schön! Wie alt wird er denn?<br>
         <span class="speaker">A:</span> Er wird dreißig.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h4',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h4',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h4plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1500,7 +1529,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Wo hast du deinen Mantel gekauft?<br>
         <span class="speaker">B:</span> Im Kaufhaus in der Innenstadt, aber er war im Angebot, sonst zu teuer für mich.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h5',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h5',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h5plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1518,7 +1547,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Liebe Kunden, die Kasse drei ist jetzt geöffnet. Bitte gehen Sie zur Kasse drei für eine schnellere Bedienung.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h6',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h6',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h6plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1535,7 +1564,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Der ICE nach Hamburg fährt heute von Gleis neun, nicht von Gleis vier wie geplant.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h7',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h7',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h7plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1552,7 +1581,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Achtung, das Schwimmbad öffnet heute erst um elf Uhr wegen Reinigungsarbeiten.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h8',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h8',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h8plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1569,7 +1598,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Im Supermarkt gibt es heute Sonderangebote auf Obst und Gemüse — bis zu dreißig Prozent günstiger.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h9',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h9',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h9plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1586,7 +1615,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Der Flughafen-Bus fährt jetzt alle zwanzig Minuten statt alle dreißig Minuten.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m3h10',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m3h10',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m3h10plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1599,7 +1628,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 3 (TELC) — LESEN ==================== -->
@@ -1608,23 +1637,23 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 3 (পরীক্ষা ৩) &middot; telc Deutsch A1</div>
     <div class="ph-title">পঠন</div>
     <div class="ph-bn">পঠন পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~২5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">⏱️ ~২5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m3l">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m3l" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m3l">25:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m3l" onclick="startExamTimer('c13m3l',25)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m3l" onclick="startExamTimer('c13m3l',25)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m3l">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m3l">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Globalverstehen (৪টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Detailverstehen (৩টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ৩: Anzeigen (৩টি প্রশ্ন)</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">telc A1 Lesen গঠন</div>
         <div class="cult-bn">telc Deutsch A1 এ Lesen এ ৩টা ভাগ: সম্পূর্ণ বোঝা (global understanding), বিস্তারিত বোঝা (detail understanding), এবং বিজ্ঞাপন/তথ্যপত্র মিলানো।</div>
@@ -1747,7 +1776,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 3 (TELC) — SCHREIBEN ==================== -->
@@ -1756,21 +1785,21 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 3 (পরীক্ষা ৩) &middot; telc Deutsch A1</div>
     <div class="ph-title">লেখা</div>
     <div class="ph-bn">লেখা পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x270f;&#xfe0f; ১ Teil</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x270f;️ ১ Teil</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m3s">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m3s" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m3s">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m3s" onclick="startExamTimer('c13m3s',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m3s" onclick="startExamTimer('c13m3s',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m3s">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m3s">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Brief/E-Mail schreiben</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">telc A1 Schreiben গঠন</div>
         <div class="cult-bn">telc Deutsch A1 এ Schreiben এ সাধারণত একটা চিঠি/ইমেইল লেখা হয়, যেখানে ৩টা নির্দিষ্ট পয়েন্ট কভার করতে হয় (Goethe থেকে একটু আলাদা — কোনো ফর্ম-ফিলিং অংশ নেই)।</div>
@@ -1793,7 +1822,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-m3s" placeholder="Liebe/r..." oninput="countWords('fw-m3s','wc-m3s')"></textarea>
     <div class="write-counter" id="wc-m3s">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="gradeExamWriting('m3s')">জমা দিন &amp; পরীক্ষা করুন &#x1f4ca;</button>
+    <button class="btn" onclick="gradeExamWriting('m3s')">জমা দিন &amp; পরীক্ষা করুন 📊</button>
     <div class="write-res" id="wr-m3s"></div>
 
     <div class="trick" style="margin-top:13px">
@@ -1813,7 +1842,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 3 (TELC) — SPRECHEN ==================== -->
@@ -1822,23 +1851,23 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 3 (পরীক্ষা ৩) &middot; telc Deutsch A1</div>
     <div class="ph-title">বলা</div>
     <div class="ph-bn">বলার পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;&#xfe0f; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;️ ৩ Teile</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m3sp">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m3sp" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m3sp">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m3sp" onclick="startExamTimer('c13m3sp',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m3sp" onclick="startExamTimer('c13m3sp',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m3sp">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m3sp">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: নিজের সম্পর্কে বলা</span>
       <span class="exam-meta-chip">অংশ ২: তথ্য জিজ্ঞেস করা</span>
       <span class="exam-meta-chip">অংশ ৩: পরিকল্পনা ঠিক করা</span>
     </div>
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4cb;</div>
+      <div class="cult-icon">📋</div>
       <div class="cult-body">
         <div class="cult-t">telc A1 Sprechen গঠন</div>
         <div class="cult-bn">telc Deutsch A1 এ Sprechen এ ৩টা ভাগ: নিজের সম্পর্কে কথা বলা, তথ্য জিজ্ঞেস করা (একটা Foto/situation কার্ড থেকে), এবং একটা সাধারণ পরিকল্পনা/সিদ্ধান্ত নেওয়া (partner সহ — এখানে একা practice করব)।</div>
@@ -1864,7 +1893,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m3sp1-2"></span><span>পরিবারের কথা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m3sp1-3"></span><span>কাজের কথা</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m3sp1" onclick="examSpeakingTask('m3sp1',['heiße','jahre','familie','arbeite'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m3sp1" onclick="examSpeakingTask('m3sp1',['heiße','jahre','familie','arbeite'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m3sp1"></div>
 
     <div class="exam-divider"></div>
@@ -1886,7 +1915,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m3sp2-1"></span><span>প্রশ্ন করা (Haben Sie)</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m3sp2-2"></span><span>দাম জিজ্ঞেস করা</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m3sp2" onclick="examSpeakingTask('m3sp2',['kopfschmerzen','haben sie','kostet'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m3sp2" onclick="examSpeakingTask('m3sp2',['kopfschmerzen','haben sie','kostet'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m3sp2"></div>
 
     <div class="exam-divider"></div>
@@ -1908,11 +1937,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m3sp3-1"></span><span>প্রস্তাব দেওয়া (Lust)</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m3sp3-2"></span><span>দেখা করার কথা</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m3sp3" onclick="examSpeakingTask('m3sp3',['samstag','lust','treffen'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m3sp3" onclick="examSpeakingTask('m3sp3',['samstag','lust','treffen'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m3sp3"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 4 (TELC) — HÖREN ==================== -->
@@ -1921,16 +1950,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 4 (পরীক্ষা ৪) &middot; telc Deutsch A1</div>
     <div class="ph-title">H&#xf6;ren</div>
     <div class="ph-bn">শ্রবণ পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ২ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f3a7; ২ Teile</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m4h">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m4h" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m4h">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m4h" onclick="startExamTimer('c13m4h',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m4h" onclick="startExamTimer('c13m4h',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m4h">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m4h">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Gespräche (৫টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Durchsagen (৫টি প্রশ্ন)</span>
@@ -1943,7 +1972,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Möchtest du am Wochenende mit mir wandern gehen?<br>
         <span class="speaker">B:</span> Das klingt toll, aber ich habe leider schon Pläne mit meiner Familie.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h1',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h1',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h1plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1960,7 +1989,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Wann beginnt dein neuer Job?<br>
         <span class="speaker">B:</span> Nächsten Montag. Ich bin ein bisschen nervös, aber auch aufgeregt.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h2',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h2',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h2plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1977,7 +2006,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Ich suche eine neue Wohnung. Kennst du etwas Gutes?<br>
         <span class="speaker">B:</span> Ja, meine Nachbarin zieht aus. Ihre Wohnung wird bald frei.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h3',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h3',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h3plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -1994,7 +2023,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Hast du schon das neue Café am Markt gesehen?<br>
         <span class="speaker">B:</span> Ja, aber ich finde es zu laut und zu voll.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h4',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h4',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h4plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2011,7 +2040,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
         <span class="speaker">A:</span> Wie war dein Urlaub in Italien?<br>
         <span class="speaker">B:</span> Fantastisch! Das Essen war köstlich und das Wetter war perfekt.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h5',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h5',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h5plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2029,7 +2058,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Die Bibliothek hat heute verlängerte Öffnungszeiten bis zweiundzwanzig Uhr wegen der Prüfungszeit.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h6',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h6',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h6plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2046,7 +2075,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Der Flug nach Wien wird von Gate B7 statt B3 abfliegen. Bitte beachten Sie die Änderung.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h7',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h7',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h7plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2063,7 +2092,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Heute im Kino: Der neue Actionfilm startet um neunzehn Uhr dreißig im Saal zwei.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h8',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h8',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h8plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2080,7 +2109,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Im Restaurant gibt es heute ein Sonderangebot: Zwei Hauptgerichte zum Preis von einem.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h9',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h9',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h9plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2097,7 +2126,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="listen-script">
         <span class="speaker">Durchsage:</span> Wegen des Feiertags morgen sind alle Banken und die Post geschlossen.
       </div>
-      <button class="listen-btn" onclick="playExamListen('m4h10',this)">&#x1f50a; Anhören</button>
+      <button class="listen-btn" onclick="playExamListen('m4h10',this)">🔊 Anhören</button>
       <div class="listen-plays" id="m4h10plays">বাকি: ২ বার</div>
     </div>
     <div class="listen-q">
@@ -2110,7 +2139,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 4 (TELC) — LESEN ==================== -->
@@ -2119,16 +2148,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 4 (পরীক্ষা ৪) &middot; telc Deutsch A1</div>
     <div class="ph-title">পঠন</div>
     <div class="ph-bn">পঠন পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~২5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f4d6; ৩ Teile</span><span class="ph-tag">⏱️ ~২5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m4l">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m4l" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m4l">25:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m4l" onclick="startExamTimer('c13m4l',25)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m4l" onclick="startExamTimer('c13m4l',25)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m4l">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m4l">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Globalverstehen (৪টি প্রশ্ন)</span>
       <span class="exam-meta-chip">অংশ ২: Detailverstehen (৩টি প্রশ্ন)</span>
@@ -2252,7 +2281,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 4 (TELC) — SCHREIBEN ==================== -->
@@ -2261,16 +2290,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 4 (পরীক্ষা ৪) &middot; telc Deutsch A1</div>
     <div class="ph-title">লেখা</div>
     <div class="ph-bn">লেখা পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x270f;&#xfe0f; ১ Teil</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x270f;️ ১ Teil</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m4s">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m4s" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m4s">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m4s" onclick="startExamTimer('c13m4s',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m4s" onclick="startExamTimer('c13m4s',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m4s">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m4s">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: Brief/E-Mail schreiben</span>
     </div>
@@ -2291,7 +2320,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
     <textarea class="write-area" id="fw-m4s" placeholder="Liebe/r..." oninput="countWords('fw-m4s','wc-m4s')"></textarea>
     <div class="write-counter" id="wc-m4s">০ শব্দ (কমপক্ষে ২০)</div>
-    <button class="btn" onclick="gradeExamWriting('m4s')">জমা দিন &amp; পরীক্ষা করুন &#x1f4ca;</button>
+    <button class="btn" onclick="gradeExamWriting('m4s')">জমা দিন &amp; পরীক্ষা করুন 📊</button>
     <div class="write-res" id="wr-m4s"></div>
 
     <div class="trick" style="margin-top:13px">
@@ -2312,7 +2341,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 <!-- ==================== MOCK EXAM 4 (TELC) — SPRECHEN ==================== -->
@@ -2321,16 +2350,16 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
     <div class="ph-eye">Pr&#xfc;fung 4 (পরীক্ষা ৪) &middot; telc Deutsch A1</div>
     <div class="ph-title">বলা</div>
     <div class="ph-bn">বলার পরীক্ষা</div>
-    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;&#xfe0f; ৩ Teile</span><span class="ph-tag">&#x23f1;&#xfe0f; ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
+    <div class="ph-tags"><span class="ph-tag">&#x1f5e3;️ ৩ Teile</span><span class="ph-tag">⏱️ ~১5 Minuten</span><span class="ph-tag">telc A1</span></div>
   </div>
   <div class="content">
     <div class="exam-timer" id="timer-c13m4sp">
-      <span class="exam-timer-icon">&#x23f1;&#xfe0f;</span>
+      <span class="exam-timer-icon">⏱️</span>
       <div class="exam-timer-bar-wrap"><div class="exam-timer-bar" id="timerbar-c13m4sp" style="width:100%"></div></div>
       <span class="exam-timer-txt" id="timertxt-c13m4sp">15:00</span>
-      <button class="exam-timer-start" id="timerbtn-c13m4sp" onclick="startExamTimer('c13m4sp',15)">&#x25b6;&#xfe0f; শুরু</button>
+      <button class="exam-timer-start" id="timerbtn-c13m4sp" onclick="startExamTimer('c13m4sp',15)">▶️ শুরু</button>
     </div>
-    <div class="exam-timeup-box" id="timeup-c13m4sp">&#x23f0; সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
+    <div class="exam-timeup-box" id="timeup-c13m4sp">⏰ সময় শেষ! এখন আপনার উত্তরগুলো জমা দিন।</div>
     <div class="exam-meta">
       <span class="exam-meta-chip">অংশ ১: নিজের সম্পর্কে বলা</span>
       <span class="exam-meta-chip">অংশ ২: তথ্য জিজ্ঞেস করা</span>
@@ -2356,7 +2385,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m4sp1-2"></span><span>শখের কথা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m4sp1-3"></span><span>ভবিষ্যতের কথা</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m4sp1" onclick="examSpeakingTask('m4sp1',['komme aus','spreche','hobby','zukunft'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m4sp1" onclick="examSpeakingTask('m4sp1',['komme aus','spreche','hobby','zukunft'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m4sp1"></div>
 
     <div class="exam-divider"></div>
@@ -2378,7 +2407,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m4sp2-1"></span><span>আকারের কথা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m4sp2-2"></span><span>কবে ঢুকতে পারবেন</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m4sp2" onclick="examSpeakingTask('m4sp2',['miete','quadratmeter','einziehen'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m4sp2" onclick="examSpeakingTask('m4sp2',['miete','quadratmeter','einziehen'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m4sp2"></div>
 
     <div class="exam-divider"></div>
@@ -2400,11 +2429,11 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m4sp3-1"></span><span>সময় জিজ্ঞেস করা</span></div>
       <div class="task-point-row"><span class="task-point-dot" id="taskdot-m4sp3-2"></span><span>দেখা করার প্রস্তাব</span></div>
     </div>
-    <button class="speak-btn" id="fsbtn-m4sp3" onclick="examSpeakingTask('m4sp3',['mittagspause','wann','treffen'])">&#x1f3a4; বলা শুরু করুন</button>
+    <button class="speak-btn" id="fsbtn-m4sp3" onclick="examSpeakingTask('m4sp3',['mittagspause','wann','treffen'])">🎤 বলা শুরু করুন</button>
     <div class="speak-res" id="fsr-m4sp3"></div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 
@@ -2418,18 +2447,18 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4ca;</div>
+      <div class="cult-icon">📊</div>
       <div class="cult-body">
         <div class="cult-t">কীভাবে কাজ করে</div>
         <div class="cult-bn">H&#xf6;ren ও Lesen এর কুইজ স্কোর, Schreiben এর rubric স্কোর, এবং Sprechen এর task-completion স্কোর মিলিয়ে এই সামগ্রিক ObstাObst তৈরি হয়। প্রতিটা অংশ সম্পূর্ণ করুন, তারপর এখানে ফিরে আসুন।</div>
       </div>
     </div>
     <div id="examresult-c13m1">
-      <button class="btn" onclick="calcExamResult('c13m1')">আমার ObstাObst দেখুন &#x1f3c6;</button>
+      <button class="btn" onclick="calcExamResult('c13m1')">আমার ObstাObst দেখুন 🏆</button>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 
@@ -2443,18 +2472,18 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4ca;</div>
+      <div class="cult-icon">📊</div>
       <div class="cult-body">
         <div class="cult-t">কীভাবে কাজ করে</div>
         <div class="cult-bn">H&#xf6;ren ও Lesen এর কুইজ স্কোর, Schreiben এর rubric স্কোর, এবং Sprechen এর task-completion স্কোর মিলিয়ে এই সামগ্রিক ObstাObst তৈরি হয়। প্রতিটা অংশ সম্পূর্ণ করুন, তারপর এখানে ফিরে আসুন।</div>
       </div>
     </div>
     <div id="examresult-c13m2">
-      <button class="btn" onclick="calcExamResult('c13m2')">আমার ObstাObst দেখুন &#x1f3c6;</button>
+      <button class="btn" onclick="calcExamResult('c13m2')">আমার ObstাObst দেখুন 🏆</button>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 
@@ -2468,18 +2497,18 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4ca;</div>
+      <div class="cult-icon">📊</div>
       <div class="cult-body">
         <div class="cult-t">কীভাবে কাজ করে</div>
         <div class="cult-bn">H&#xf6;ren ও Lesen এর কুইজ স্কোর, Schreiben এর rubric স্কোর, এবং Sprechen এর task-completion স্কোর মিলিয়ে এই সামগ্রিক ObstাObst তৈরি হয়। প্রতিটা অংশ সম্পূর্ণ করুন, তারপর এখানে ফিরে আসুন।</div>
       </div>
     </div>
     <div id="examresult-c13m3">
-      <button class="btn" onclick="calcExamResult('c13m3')">আমার ObstাObst দেখুন &#x1f3c6;</button>
+      <button class="btn" onclick="calcExamResult('c13m3')">আমার ObstাObst দেখুন 🏆</button>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()">পরের পাতা ►</button></div>
 </div>
 
 
@@ -2493,18 +2522,18 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
   </div>
   <div class="content">
     <div class="cult-tip">
-      <div class="cult-icon">&#x1f4ca;</div>
+      <div class="cult-icon">📊</div>
       <div class="cult-body">
         <div class="cult-t">কীভাবে কাজ করে</div>
         <div class="cult-bn">H&#xf6;ren ও Lesen এর কুইজ স্কোর, Schreiben এর rubric স্কোর, এবং Sprechen এর task-completion স্কোর মিলিয়ে এই সামগ্রিক ObstাObst তৈরি হয়। প্রতিটা অংশ সম্পূর্ণ করুন, তারপর এখানে ফিরে আসুন।</div>
       </div>
     </div>
     <div id="examresult-c13m4">
-      <button class="btn" onclick="calcExamResult('c13m4')">আমার ObstাObst দেখুন &#x1f3c6;</button>
+      <button class="btn" onclick="calcExamResult('c13m4')">আমার ObstাObst দেখুন 🏆</button>
     </div>
   </div>
 
-  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">&#x25c4; আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা &#x25ba;</button></div>
+  <div class="page-nav-bar"><button class="pnb-prev" onclick="goPrev()">◄ আগের পাতা</button><button class="pnb-next" onclick="goNext()" disabled>পরের পাতা ►</button></div>
 </div>
 
 </div><!-- end mainArea -->
@@ -2512,26 +2541,43 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var _AUDIO_LANG='de';
+var _SPEECH_LANG='de-DE';
+
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+
+function tts(text){
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var a=new Audio(src);
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.speak(u);
+    }else{
+      console.warn('Audio not found: '+src);
+    }
+  });
+}
 var curPage = "";
 // ===== STORAGE KEYS =====
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
 
 // ===== TTS =====
-var curAud=null;
-function tts(t){
-  if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=de&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t);});
-}
-function bTTS(t){
-  if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=0.82;
-  var v=window.speechSynthesis.getVoices();
-  var g=null;
-  for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.startsWith('de')){g=v[i];break;}}
-  if(g)u.voice=g;
-  window.speechSynthesis.speak(u);
-}
+
+
+
 window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
 
 // ===== STREAK & XP =====
@@ -2649,7 +2695,7 @@ function checkExamForm(prefix){
   var res=document.getElementById(prefix+'-formres');
   if(!res)return;
   if(filled>=total&&total>0){
-    res.innerHTML='&#x2705; ফর্ম সম্পূর্ণ! সব তথ্য পূরণ করা হয়েছে। +10 XP';
+    res.innerHTML='✅ ফর্ম সম্পূর্ণ! সব তথ্য পূরণ করা হয়েছে। +10 XP';
     res.style.background='#f0fdf4';res.style.color='var(--green)';
     if(!res.dataset.awarded){addXP(10);res.dataset.awarded='1';}
   }else{
@@ -2678,11 +2724,11 @@ function submitWrite(taId,resId){
   var words=ta.value.trim().split(/\s+/).filter(function(w){return w.length>0;});
   var n=ta.value.trim()===''?0:words.length;
   if(n<20){
-    res.innerHTML='&#x26a0;&#xfe0f; কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ।';
+    res.innerHTML='⚠️ কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ।';
     res.style.display='block';res.style.background='#fff5f5';res.style.color='var(--red)';
     return;
   }
-  res.innerHTML='&#x2705; চমৎকার! '+n+'টি শব্দ লিখেছেন। +15 XP';
+  res.innerHTML='✅ চমৎকার! '+n+'টি শব্দ লিখেছেন। +15 XP';
   res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
   addXP(15);
   var examId=taId.replace('fw-','');
@@ -2699,33 +2745,33 @@ function toggleFreeSpeak(id){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';
+    btn.textContent='🎤 বলা শুরু করুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='&#x26a0;&#xfe0f; Chrome browser দরকার!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();rec.lang='de-DE';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='&#x23f9; থামাতে চাপুন';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপুন';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
       var words=t.trim().split(/\s+/).length;
       var ok=words>=3;
-      res.innerHTML=(ok?'&#x2705;':'&#x26a0;&#xfe0f;')+' শোনা গেছে: "'+t+'"'+(ok?' — চমৎকার! +10 XP':' — আরো বলুন!');
+      res.innerHTML=(ok?'✅':'⚠️')+' শোনা গেছে: "'+t+'"'+(ok?' — চমৎকার! +10 XP':' — আরো বলুন!');
       res.style.display='block';res.style.background=ok?'#f0fdf4':'#fffbf0';res.style.color=ok?'var(--green)':'#856404';
       if(ok)addXP(10);
     }
   };
   rec.onerror=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলা শুরু করুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }
@@ -2791,14 +2837,14 @@ function gradeExamWriting(mid){
   var n=ta.value.trim()===''?0:words.length;
   var wordOk=n>=20;
   if(!wordOk){
-    res.innerHTML='&#x26a0;&#xfe0f; কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ। rubric পয়েন্ট চেক করার আগে শব্দসংখ্যা ঠিক করুন।';
+    res.innerHTML='⚠️ কমপক্ষে ২০টি শব্দ লিখুন! এখন আছে: '+n+'টি শব্দ। rubric পয়েন্ট চেক করার আগে শব্দসংখ্যা ঠিক করুন।';
     res.style.display='block';res.style.background='#fff5f5';res.style.color='var(--red)';
     setExamScore(mid+'_pct',0);
     return;
   }
   // Self-assessment: user manually marks which rubric points they covered by clicking dots
   var rubric=examWritingRubrics[mid]||[];
-  res.innerHTML='&#x2705; শব্দসংখ্যা ঠিক আছে ('+n+' শব্দ)। এখন নিচের প্রতিটা পয়েন্টে ক্লিক করুন যদি আপনার লেখায় সেটা থাকে।';
+  res.innerHTML='✅ শব্দসংখ্যা ঠিক আছে ('+n+' শব্দ)। এখন নিচের প্রতিটা পয়েন্টে ক্লিক করুন যদি আপনার লেখায় সেটা থাকে।';
   res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
   for(var i=0;i<rubric.length;i++){
     (function(idx){
@@ -2834,18 +2880,18 @@ function examSpeakingTask(tid,keywords){
   if(examSpeakRec){
     try{examSpeakRec.stop();}catch(e){}
     examSpeakRec=null;
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';
+    btn.textContent='🎤 বলা শুরু করুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='&#x26a0;&#xfe0f; Chrome browser দরকার!';res.style.display='block';res.classList.add('show');}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';res.classList.add('show');}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();rec.lang='de-DE';rec.interimResults=false;rec.maxAlternatives=1;
   examSpeakRec=rec;
-  btn.textContent='&#x23f9; থামাতে চাপুন';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপুন';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript.toLowerCase();
     var hitCount=0;
@@ -2860,17 +2906,17 @@ function examSpeakingTask(tid,keywords){
     setExamScore(tid+'_pct',pct);
     if(res){
       var ok=pct>=50;
-      res.innerHTML=(ok?'&#x2705;':'&#x26a0;&#xfe0f;')+' শোনা গেছে: "'+t+'" — '+hitCount+'/'+keywords.length+' পয়েন্ট পাওয়া গেছে ('+pct+'%)';
+      res.innerHTML=(ok?'✅':'⚠️')+' শোনা গেছে: "'+t+'" — '+hitCount+'/'+keywords.length+' পয়েন্ট পাওয়া গেছে ('+pct+'%)';
       res.style.display='block';res.classList.add('show');
       res.style.background=ok?'#f0fdf4':'#fffbf0';res.style.color=ok?'var(--green)':'#856404';
       if(ok)addXP(10);
     }
   };
   rec.onerror=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');examSpeakRec=null;
+    btn.textContent='🎤 বলা শুরু করুন';btn.classList.remove('on');examSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='&#x1f3a4; বলা শুরু করুন';btn.classList.remove('on');examSpeakRec=null;
+    btn.textContent='🎤 বলা শুরু করুন';btn.classList.remove('on');examSpeakRec=null;
   };
   rec.start();
 }
@@ -2884,10 +2930,10 @@ function cefrLabel(pct){
 }
 function calcExamResult(eid){
   var sections=[
-    {key:eid+'h',label:'H&#xf6;ren',icon:'&#x1f3a7;',listenKey:eid+'h'},
-    {key:eid+'l',label:'Lesen',icon:'&#x1f4d6;',listenKey:eid+'l'},
-    {key:eid+'s',label:'Schreiben',icon:'&#x270f;&#xfe0f;',scoreKey:eid.replace('c13','m')+'s_pct'},
-    {key:eid+'sp',label:'Sprechen',icon:'&#x1f5e3;&#xfe0f;',scoreKeys:[eid.replace('c13','m')+'sp1_pct',eid.replace('c13','m')+'sp2_pct',eid.replace('c13','m')+'sp3_pct']}
+    {key:eid+'h',label:'Hören',icon:'🎧',listenKey:eid+'h'},
+    {key:eid+'l',label:'Lesen',icon:'📖',listenKey:eid+'l'},
+    {key:eid+'s',label:'Schreiben',icon:'✏️',scoreKey:eid.replace('c13','m')+'s_pct'},
+    {key:eid+'sp',label:'Sprechen',icon:'🗣️',scoreKeys:[eid.replace('c13','m')+'sp1_pct',eid.replace('c13','m')+'sp2_pct',eid.replace('c13','m')+'sp3_pct']}
   ];
   var totalPct=0,countDone=0;
   var cards='';
@@ -2915,7 +2961,7 @@ function calcExamResult(eid){
   var container=document.getElementById('examresult-'+eid);
   if(!container)return;
   if(countDone===0){
-    container.innerHTML='<div class="exam-timeup-box show">এখনো কোনো অংশ সম্পূর্ণ হয়নি। H&#xf6;ren, Lesen, Schreiben, ও Sprechen ট্যাবে গিয়ে কুইজ/টাস্ক সম্পন্ন করুন, তারপর এখানে ফিরে আসুন।</div>';
+    container.innerHTML='<div class="exam-timeup-box show">এখনো কোনো অংশ সম্পূর্ণ হয়নি। Hören, Lesen, Schreiben, ও Sprechen ট্যাবে গিয়ে কুইজ/টাস্ক সম্পন্ন করুন, তারপর এখানে ফিরে আসুন।</div>';
     return;
   }
   var avgPct=Math.round(totalPct/countDone);
@@ -2924,7 +2970,7 @@ function calcExamResult(eid){
   if(countDone<4){
     html+='<div class="exam-timeup-box show">এখনো সব অংশ সম্পূর্ণ হয়নি। অসম্পূর্ণ অংশ শেষ করে আবার দেখুন।</div>';
   }
-  html+='<div class="exam-result-cta"><button class="btn" onclick="calcExamResult(\''+eid+'\')">&#x1f504; আবার পরীক্ষা করুন</button></div>';
+  html+='<div class="exam-result-cta"><button class="btn" onclick="calcExamResult(\''+eid+'\')">🔄 আবার পরীক্ষা করুন</button></div>';
   container.innerHTML=html;
   if(countDone===4&&avgPct>=60){addXP(50);markVisit(eid,eid+'res');}
 }
