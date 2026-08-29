@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — What is Docker & Why Bioinformaticians Need It · Docker for Bioinformatics · Shopnil Academy</title>
+  <meta name="description" content="Learn what Docker is, why reproducibility is a crisis in bioinformatics, and how containers solve the 'it works on my machine' problem forever." />
+  <link rel="icon" href="../../assets/logo.png" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── PAGE-LEVEL LAYOUT ───────────────────────────────── */
+    .lesson-layout {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 0;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+      align-items: start;
+    }
+
+    /* ── LEFT SIDEBAR ────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 96px;
+      padding: 28px 24px 28px 0;
+      border-right: 1px solid var(--line);
+      min-height: 60vh;
+    }
+    .sidebar-course-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 5px;
+      background: var(--green-soft);
+      border-radius: 999px;
+      margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+
+    /* Module accordion */
+    .mod-group { margin-bottom: 4px; }
+    .mod-group-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: background .15s;
+    }
+    .mod-group-label:hover { background: var(--green-soft); color: var(--green); }
+    .mod-group-label.open { color: var(--green); }
+    .mod-group-label .chevron { font-size: 10px; transition: transform .2s; }
+    .mod-group-label.open .chevron { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-left: 4px; }
+    .mod-lessons.open { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: background .15s, color .15s;
+      text-decoration: none;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active { background: var(--green); color: #fff; font-weight: 600; }
+    .l-icon {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 9px; font-weight: 700;
+      background: var(--cream);
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .lesson-link.soon { color: var(--muted); opacity: .6; cursor: default; }
+    .lesson-link.soon:hover { background: transparent; color: var(--muted); }
+    .lesson-link.active .l-icon { background: rgba(255,255,255,.25); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-soft); color: var(--green); }
+    .lesson-link.done .l-icon::after { content: '✓'; }
+    .lesson-link.done .l-num { display: none; }
+
+    /* ── MAIN CONTENT ────────────────────────────────────── */
+    .lesson-main {
+      padding: 36px 0 0 44px;
+    }
+
+    /* Meta strip */
+    .lesson-meta-strip {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      background: var(--cream); color: var(--muted);
+      border: 1px solid var(--line);
+    }
+    .lm-pill.green { background: var(--green-soft); color: var(--green); border-color: rgba(0,106,78,.16); }
+    .lm-pill.gold  { background: var(--gold-soft);  color: #8a6200; border-color: rgba(232,183,42,.3); }
+    .lm-num  { font-weight: 700; color: var(--muted); font-size: 13px; }
+    .lm-time { font-size: 13px; color: var(--muted); }
+    .lm-sep  { color: var(--line); }
+
+    /* Code blocks */
+    .code-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 18px 0 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #1a2e25;
+      padding: 10px 16px;
+    }
+    .code-lang {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: #7db89a;
+    }
+    .copy-btn {
+      font-size: 12px; font-weight: 600; color: #7db89a;
+      background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 6px; padding: 4px 10px; cursor: pointer;
+      transition: background .15s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.14); }
+    pre {
+      margin: 0; padding: 20px;
+      background: #0f1f18;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px; line-height: 1.7;
+      overflow-x: auto;
+      color: #c8d8d0;
+    }
+    /* Syntax colours */
+    .c-cmd     { color: #7ec8a0; font-weight: 500; }   /* commands */
+    .c-flag    { color: #f0c060; }                      /* flags/options */
+    .c-path    { color: #80c8e8; }                      /* paths/files */
+    .c-out     { color: #a0b8a8; font-style: italic; }  /* output */
+    .c-comment { color: #4a6a58; font-style: italic; }  /* comments */
+    .c-kw      { color: #f08080; }                      /* keywords: for/do/done/if/then/else/fi */
+    .c-str     { color: #e8c080; }                      /* strings */
+    .c-var     { color: #c0a8f0; }                      /* variables */
+    .c-num     { color: #f0a060; }                      /* numbers */
+
+    /* Explain box */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0f7f4 100%);
+      border: 1px solid rgba(0,106,78,.16);
+      border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 0 0 18px;
+    }
+    .explain-box .eb-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 6px;
+    }
+    .explain-box p {
+      font-size: 14.5px; color: var(--green-dark);
+      line-height: 1.65; margin: 0;
+    }
+
+    /* Folder note */
+    .folder-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-soft); border: 1px solid rgba(232,183,42,.3);
+      border-radius: 8px; padding: 8px 14px;
+      font-size: 13px; color: #6b4e00;
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 10px;
+    }
+
+    /* Tip / Warn */
+    .tip, .warn {
+      border-radius: 12px; padding: 16px 20px; margin: 20px 0;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .tip  { background: #eef8f3; border: 1px solid rgba(0,106,78,.16); }
+    .warn { background: #fff8ec; border: 1px solid rgba(232,183,42,.3); }
+    .tip-icon, .warn-icon {
+      font-size: 18px; flex-shrink: 0; margin-top: 1px;
+    }
+    .tip p, .warn p {
+      font-size: 14.5px; line-height: 1.65; color: var(--ink); margin: 0;
+    }
+
+    /* Comparison table */
+    .cmd-table {
+      width: 100%; border-collapse: collapse;
+      margin: 18px 0 24px;
+      border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+      font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--cream); text-align: left;
+      padding: 12px 16px; font-family: var(--font-display);
+      font-size: 12px; font-weight: 600; color: var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+    .cmd-table td {
+      padding: 11px 16px; vertical-align: top;
+      border-bottom: 1px solid var(--line); color: #33433b;
+      line-height: 1.5;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      font-weight: 500; color: var(--green-dark); white-space: nowrap;
+    }
+    .cmd-table tr:nth-child(even) { background: #fafcfb; }
+
+    /* Exercises */
+    .exercise {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 16px; padding: 24px 28px; margin: 18px 0;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    }
+    .ex-num {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .ex-title {
+      font-family: var(--font-display); font-size: 16px; font-weight: 600;
+    }
+    details.answer {
+      margin-top: 14px;
+      background: var(--green-soft); border-radius: 10px; overflow: hidden;
+    }
+    details.answer summary {
+      list-style: none; cursor: pointer;
+      padding: 11px 16px; font-size: 13px; font-weight: 600; color: var(--green);
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .answer-body {
+      padding: 4px 16px 14px;
+      font-size: 14px; color: var(--green-dark); line-height: 1.6;
+    }
+
+    /* Mark complete */
+    .mark-complete-wrap { margin-top: 40px; text-align: center; }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px; border-radius: 999px;
+      background: var(--green); color: #fff;
+      font-family: var(--font-display); font-size: 15px; font-weight: 600;
+      border: none; cursor: pointer;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 16px rgba(0,106,78,.25);
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: #2a7a5a; }
+
+    /* Lesson nav footer */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 48px; padding-top: 28px;
+      border-top: 1px solid var(--line);
+      gap: 16px; flex-wrap: wrap;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px; border-radius: 999px;
+      font-size: 14px; font-weight: 600;
+      border: 1.5px solid var(--line);
+      transition: border-color .15s, background .15s;
+    }
+    .lesson-nav-footer a:hover { border-color: var(--ink); background: var(--cream); }
+    .lesson-nav-footer .next-btn {
+      background: var(--green); color: #fff; border-color: var(--green);
+    }
+    .lesson-nav-footer .next-btn:hover { background: var(--green-deep); border-color: var(--green-deep); }
+
+    /* Concept card grid */
+    .concept-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px; margin: 20px 0 28px;
+    }
+    .concept-card {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 14px; padding: 20px;
+      transition: box-shadow .2s;
+    }
+    .concept-card:hover { box-shadow: var(--shadow-sm); }
+    .cc-icon { font-size: 28px; margin-bottom: 10px; }
+    .cc-title {
+      font-family: var(--font-display); font-size: 14px; font-weight: 700;
+      color: var(--ink); margin-bottom: 6px;
+    }
+    .cc-body { font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+    /* Analogy box */
+    .analogy-box {
+      background: linear-gradient(135deg, #f0f4ff 0%, #f8f0ff 100%);
+      border: 1px solid rgba(100,80,200,.15);
+      border-radius: 14px; padding: 20px 24px; margin: 20px 0;
+    }
+    .analogy-box .ab-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: #6040b0; margin-bottom: 6px;
+    }
+    .analogy-box p {
+      font-size: 14.5px; color: #2a2040; line-height: 1.65; margin: 0;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .lesson-layout { grid-template-columns: 1fr; padding: 0 20px 60px; }
+      .sidebar { position: static; border-right: none; border-bottom: 1px solid var(--line); padding: 20px 0; }
+      .lesson-main { padding: 28px 0 0; }
+    }
+
+    /* ── Wide lesson shell (site convention) ──────────────── */
+    .lesson-layout { grid-template-columns: 300px minmax(0, 1fr); max-width: none; margin: 0; padding: 0 0 80px; align-items: start; }
+    .lesson-layout > aside.sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; margin: 0; padding: 28px 22px 40px; background: var(--cream, #FBF8F0); border-right: 1px solid var(--line); }
+    .lesson-layout > main.lesson-main { padding: 34px 44px 10px; max-width: 1040px; }
+    @media (max-width: 980px) {
+      .lesson-layout { grid-template-columns: 1fr; padding: 0 0 60px; }
+      .lesson-layout > aside.sidebar { display: none; }
+      .lesson-layout > main.lesson-main { padding: 28px 20px 10px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <span class="logo-text">
+        <strong>SHOPNILACADEMY</strong>
+        <small>LEARN WITHOUT LIMITS</small>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../../contact.html">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">Browse</a>
+      <a href="../../courses.html" class="btn btn-primary btn-sm">Start free →</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Open menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INNER HEADER
+════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="lesson-1.html">Docker for Bioinformatics</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <div class="eyebrow">Module 16 · Docker for Bioinformatics</div>
+    <h1 style="margin-top:12px;">What is Docker & Why Bioinformaticians Need It</h1>
+    <p class="lead">Understand the reproducibility crisis in bioinformatics, what containers actually are under the hood, and why Docker has become the standard for sharing computational pipelines.</p>
+    <span class="updated">🐳 Week 22 · Phase 3 — Advanced & Specialised</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     AD SLOT — TOP BANNER
+════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:28px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>728 × 90 leaderboard — AdSense / sponsor banner goes here</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LESSON LAYOUT
+════════════════════════════════════════════════ -->
+<div class="lesson-layout">
+
+  <!-- ─── LEFT SIDEBAR ─────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Currently studying</div>
+    <div class="sidebar-course-title">Docker for Bioinformatics</div>
+
+    <div class="prog-label">
+      <span>Your progress</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+
+    <!-- Module accordion -->
+    <div class="mod-group">
+      <button class="mod-group-label open" onclick="toggleMod(this)">
+        <span>📦 Module 16 — Docker</span>
+        <span class="chevron">›</span>
+      </button>
+      <div class="mod-lessons open">
+        <a class="lesson-link active" href="lesson-1.html">
+          <span class="l-icon"><span class="l-num">1</span></span>
+          What is Docker?
+        </a>
+        <span class="lesson-link soon" data-lesson="2"><span class="l-icon"><span class="l-num">2</span></span>Install & First Container</span>
+        <span class="lesson-link soon" data-lesson="3"><span class="l-icon"><span class="l-num">3</span></span>Images & Docker Hub</span>
+        <span class="lesson-link soon" data-lesson="4"><span class="l-icon"><span class="l-num">4</span></span>Writing a Dockerfile</span>
+        <span class="lesson-link soon" data-lesson="5"><span class="l-icon"><span class="l-num">5</span></span>Volumes & Data</span>
+        <span class="lesson-link soon" data-lesson="6"><span class="l-icon"><span class="l-num">6</span></span>Docker Compose</span>
+        <span class="lesson-link soon" data-lesson="7"><span class="l-icon"><span class="l-num">7</span></span>RNA-seq Container</span>
+        <span class="lesson-link soon" data-lesson="8"><span class="l-icon"><span class="l-num">8</span></span>Capstone Pipeline</span>
+      </div>
+    </div>
+
+    <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--line);">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">On this page</div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <a href="#section-crisis" style="font-size:13px;color:var(--muted);padding:5px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--green-soft)'" onmouseout="this.style.background=''">The reproducibility crisis</a>
+        <a href="#section-vm-vs-container" style="font-size:13px;color:var(--muted);padding:5px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--green-soft)'" onmouseout="this.style.background=''">VMs vs Containers</a>
+        <a href="#section-concepts" style="font-size:13px;color:var(--muted);padding:5px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--green-soft)'" onmouseout="this.style.background=''">Core concepts</a>
+        <a href="#section-bioinfo-use" style="font-size:13px;color:var(--muted);padding:5px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--green-soft)'" onmouseout="this.style.background=''">Docker in bioinformatics</a>
+        <a href="#section-architecture" style="font-size:13px;color:var(--muted);padding:5px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--green-soft)'" onmouseout="this.style.background=''">Docker architecture</a>
+        <a href="#section-exercises" style="font-size:13px;color:var(--muted);padding:5px 8px;border-radius:6px;transition:background .15s;" onmouseover="this.style.background='var(--green-soft)'" onmouseout="this.style.background=''">Exercises</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── MAIN CONTENT ─────────────────────────── -->
+  <main class="lesson-main">
+
+    <!-- Meta strip -->
+    <div class="lesson-meta-strip">
+      <span class="lm-pill green">🐳 Docker</span>
+      <span class="lm-pill gold">⚗️ Reproducibility</span>
+      <span class="lm-pill">📖 Conceptual</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-num">Lesson 1 of 8</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-time">⏱ ~35 min</span>
+    </div>
+
+    <!-- ─── SECTION 1: Reproducibility Crisis ─── -->
+    <section id="section-crisis" class="prose" style="scroll-margin-top:96px;">
+      <h2><span class="n">01</span> The reproducibility crisis in bioinformatics</h2>
+
+      <p>Imagine this scenario: you spend three months building an RNA-seq pipeline to analyse your sorghum transcriptome data. It runs perfectly on your Ubuntu machine in Gießen. You send the scripts to a collaborator in Tokyo. They run the exact same code and get different results — or the pipeline crashes entirely.</p>
+
+      <p>This is not a hypothetical. It is one of the most documented problems in computational biology. A 2016 survey found that more than 70% of researchers had failed to reproduce another scientist's results. In bioinformatics specifically, the problem is acute because a single pipeline depends on dozens of interlocking software versions.</p>
+
+      <div class="tip">
+        <span class="tip-icon">🔬</span>
+        <p><strong>Why does this happen?</strong> STAR 2.7.9 and STAR 2.7.10 produce different alignment statistics on the same reads. GATK 4.2 and GATK 4.3 have changed default parameters. DESeq2 0.99 and DESeq2 1.40 produce different normalisation results. Multiply these version gaps across 15 tools in your pipeline and you have a combinatorial nightmare.</p>
+      </div>
+
+      <p>The traditional solutions each have serious problems:</p>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Approach</th>
+            <th>The problem</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>README with software versions</td>
+            <td>Users still have to install everything manually. Dependencies conflict. "Works on my machine."</td>
+          </tr>
+          <tr>
+            <td>conda environments</td>
+            <td>Better, but environment.yml can still behave differently across operating systems. conda can't reproduce system-level libraries.</td>
+          </tr>
+          <tr>
+            <td>Virtual machines (VMs)</td>
+            <td>Reproducible, but enormous (10–50 GB). Slow to start. Hard to share. Not practical for HPC clusters.</td>
+          </tr>
+          <tr>
+            <td>Docker containers</td>
+            <td>✅ Lightweight, fast, portable, version-pinned, shareable as a single image. The current gold standard.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Docker is the answer the bioinformatics community has converged on. Journals like <em>Nature Methods</em> and <em>Bioinformatics</em> increasingly expect that published pipelines ship with a Dockerfile. Workflow frameworks like Nextflow and Snakemake have built-in Docker support. Learning Docker is not optional for a modern bioinformatician — it is foundational.</p>
+    </section>
+
+    <!-- ─── SECTION 2: VMs vs Containers ───────── -->
+    <section id="section-vm-vs-container" class="prose" style="scroll-margin-top:96px;margin-top:44px;">
+      <h2><span class="n">02</span> Virtual machines vs containers — what is the actual difference?</h2>
+
+      <p>To understand Docker, you need to understand what it replaced and <em>why</em> it is fundamentally different — not just faster, but architecturally different.</p>
+
+      <h3>Virtual machines (VMs): simulating entire hardware</h3>
+
+      <p>A virtual machine uses a piece of software called a <strong>hypervisor</strong> (e.g. VirtualBox, VMware, KVM) to simulate a complete physical computer inside your real computer. When you run a VM, you are running a fake CPU, fake RAM, fake hard disk — all simulated. On top of that fake hardware, you install a complete operating system (the "guest OS"), and on top of <em>that</em>, your actual software.</p>
+
+      <div class="analogy-box">
+        <div class="ab-label">🏗️ Analogy</div>
+        <p>A VM is like building a complete second house inside your house — walls, plumbing, electrical, the whole thing — just so you can use one specific piece of furniture in it. Completely isolated, completely reproducible, but enormously wasteful.</p>
+      </div>
+
+      <h3>Containers: sharing the host kernel</h3>
+
+      <p>A container takes a completely different approach. Instead of simulating hardware, it uses Linux kernel features — specifically <strong>namespaces</strong> and <strong>cgroups</strong> — to create isolated environments that share the host machine's kernel directly.</p>
+
+      <p>Namespaces isolate what a process can <em>see</em>: its own filesystem, its own network, its own process list — even though the host kernel is running everything. Cgroups limit what a process can <em>use</em>: CPU time, RAM, disk I/O. Together, they create the illusion of an isolated machine without actually simulating one.</p>
+
+      <div class="analogy-box">
+        <div class="ab-label">🏗️ Analogy</div>
+        <p>A container is like partitioning your existing house into separate rooms with separate locks — each room has its own furniture, its own key, and cannot see into other rooms. But they all share the same roof, foundation, and plumbing. Much cheaper to build. Much faster to create and destroy.</p>
+      </div>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Virtual Machine</th>
+            <th>Docker Container</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Startup time</td>
+            <td>Minutes (full OS boot)</td>
+            <td>Milliseconds to seconds</td>
+          </tr>
+          <tr>
+            <td>Size on disk</td>
+            <td>5–50 GB per VM</td>
+            <td>50 MB – 2 GB per image</td>
+          </tr>
+          <tr>
+            <td>Isolation level</td>
+            <td>Complete hardware emulation</td>
+            <td>Kernel-level namespace isolation</td>
+          </tr>
+          <tr>
+            <td>OS required inside</td>
+            <td>Full guest OS always</td>
+            <td>Minimal OS layer only (or none)</td>
+          </tr>
+          <tr>
+            <td>Portability</td>
+            <td>Difficult — VM format varies</td>
+            <td>Excellent — runs anywhere Docker runs</td>
+          </tr>
+          <tr>
+            <td>HPC cluster support</td>
+            <td>Rarely supported</td>
+            <td>Supported via Singularity/Apptainer</td>
+          </tr>
+          <tr>
+            <td>Performance overhead</td>
+            <td>10–30% CPU overhead</td>
+            <td>&lt; 1% CPU overhead (near-native)</td>
+          </tr>
+          <tr>
+            <td>Sharing mechanism</td>
+            <td>Copy enormous image files</td>
+            <td>Push/pull from Docker Hub (layered)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <p><strong>Important caveat:</strong> Docker containers on Linux share the Linux kernel directly. On Windows and macOS, Docker runs a lightweight Linux VM behind the scenes (Docker Desktop), so there is a small additional layer. This is why Docker is fastest and most natural on Linux — which is exactly the environment you will use for bioinformatics work.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 3: Core Concepts ────────────── -->
+    <section id="section-concepts" class="prose" style="scroll-margin-top:96px;margin-top:44px;">
+      <h2><span class="n">03</span> Core Docker concepts — the vocabulary you must know</h2>
+
+      <p>Docker has a small vocabulary of terms that are used precisely and consistently everywhere. Confusing "image" with "container" is the most common beginner mistake. Here is what each term means:</p>
+
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="cc-icon">📄</div>
+          <div class="cc-title">Dockerfile</div>
+          <div class="cc-body">A plain-text recipe file that describes how to build an image. It lists a base OS, software to install, files to copy in, and commands to run at startup. You write this once; Docker reads it to build the image.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">🖼️</div>
+          <div class="cc-title">Image</div>
+          <div class="cc-body">A read-only snapshot of a filesystem built from a Dockerfile. Think of it as a template or a blueprint — it exists on disk but is not running. You push/pull images to/from Docker Hub. Multiple containers can run from the same image simultaneously.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">📦</div>
+          <div class="cc-title">Container</div>
+          <div class="cc-body">A running instance of an image. The image is the class; the container is the object. A container has its own writable filesystem layer on top of the read-only image. You can start, stop, pause, and delete containers independently.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">🗃️</div>
+          <div class="cc-title">Registry</div>
+          <div class="cc-body">A server that stores and distributes Docker images. Docker Hub (hub.docker.com) is the default public registry. Biocontainers (biocontainers.pro) is a registry specifically for bioinformatics tools — every tool in Bioconda has a corresponding Docker image there.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">🔖</div>
+          <div class="cc-title">Tag</div>
+          <div class="cc-body">A label on an image that usually encodes the software version. <code style="font-family:'DM Mono',monospace;font-size:12px;">samtools:1.18</code> and <code style="font-family:'DM Mono',monospace;font-size:12px;">samtools:1.19</code> are the same tool, different versions. Always pin your tags in production — never use <code style="font-family:'DM Mono',monospace;font-size:12px;">:latest</code> for reproducible pipelines.</code></div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">📂</div>
+          <div class="cc-title">Volume</div>
+          <div class="cc-body">A persistent storage mechanism that exists outside the container's writable layer. When a container is deleted, its writable layer disappears — but data in a volume persists. Critical for keeping your FASTQ files and results accessible on the host filesystem.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">🏗️</div>
+          <div class="cc-title">Layer</div>
+          <div class="cc-body">Docker images are built in layers — each instruction in a Dockerfile creates a new layer. Layers are cached and reused across builds. If you change line 20 of a Dockerfile, Docker only rebuilds from line 20 onward. This is why Docker builds are fast.</div>
+        </div>
+        <div class="concept-card">
+          <div class="cc-icon">🧩</div>
+          <div class="cc-title">Docker Daemon</div>
+          <div class="cc-body">The background service (<code style="font-family:'DM Mono',monospace;font-size:12px;">dockerd</code>) that actually manages containers and images. The <code style="font-family:'DM Mono',monospace;font-size:12px;">docker</code> command you type in the terminal is a client that talks to this daemon via a socket.</div>
+        </div>
+      </div>
+
+      <div class="explain-box">
+        <div class="eb-label">🔑 The most important distinction</div>
+        <p><strong>Image ≠ Container.</strong> An image is a static file on disk — like a frozen snapshot. A container is a live, running process that was started from that snapshot. You can run 10 containers simultaneously from the same image (e.g. 10 parallel STAR alignment jobs). Deleting a container does not delete the image. Deleting an image while containers are running from it will fail.</p>
+      </div>
+    </section>
+
+    <!-- ─── AD SLOT — IN-FEED ───────────────────── -->
+    <div class="ad-slot in-feed" style="margin:32px 0;">
+      <strong>Advertisement</strong>
+      <small>In-feed ad unit — AdSense / sponsor content goes here</small>
+    </div>
+
+    <!-- ─── SECTION 4: Docker in Bioinformatics ── -->
+    <section id="section-bioinfo-use" class="prose" style="scroll-margin-top:96px;margin-top:12px;">
+      <h2><span class="n">04</span> How Docker is actually used in bioinformatics today</h2>
+
+      <p>Docker is not just a theoretical tool — it is baked into the infrastructure of modern bioinformatics at every level. Here is where you will encounter it in real research workflows:</p>
+
+      <h3>1. Biocontainers: one image per tool</h3>
+      <p>The Biocontainers project (biocontainers.pro) automatically builds a Docker image for every package in Bioconda. This means that instead of installing STAR, samtools, GATK, and FastQC manually, you can run each tool from its own pre-built, version-pinned container with a single <code style="font-family:'DM Mono',monospace;">docker pull</code> command.</p>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash — pulling a Biocontainers image</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment"># Pull a specific version of STAR from Biocontainers</span>
+<span class="c-cmd">docker</span> pull <span class="c-path">quay.io/biocontainers/star:2.7.11b--h43eeafb_0</span>
+
+<span class="c-comment"># Pull samtools 1.18</span>
+<span class="c-cmd">docker</span> pull <span class="c-path">quay.io/biocontainers/samtools:1.18--hd87286a_0</span>
+
+<span class="c-comment"># Pull FastQC</span>
+<span class="c-cmd">docker</span> pull <span class="c-path">quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0</span></pre>
+      </div>
+
+      <div class="explain-box">
+        <div class="eb-label">🧬 Why this matters for your research</div>
+        <p>When you publish your sorghum RNA-seq analysis, your reviewer can reproduce your exact results by pulling the same three images with the same tags. No "I couldn't install STAR" emails, no version drift, no missing library errors. The tag <code style="font-family:'DM Mono',monospace;">2.7.11b--h43eeafb_0</code> uniquely identifies every dependency compiled into that image, down to the C compiler version.</p>
+      </div>
+
+      <h3>2. Nextflow and Snakemake native Docker support</h3>
+      <p>Both major workflow managers in bioinformatics support Docker natively. In Nextflow, you specify a Docker image per process and Nextflow automatically pulls it and runs each step inside the container. Your pipeline becomes entirely self-contained — collaborators just need Nextflow and Docker installed.</p>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">nextflow — using Docker per process</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment">// nextflow.config — Docker enabled globally</span>
+docker.enabled = <span class="c-kw">true</span>
+
+<span class="c-comment">// main.nf — each process specifies its own image</span>
+process STAR_ALIGN {
+    container <span class="c-str">'quay.io/biocontainers/star:2.7.11b--h43eeafb_0'</span>
+
+    input:
+      path reads
+      path genome_index
+
+    output:
+      path <span class="c-str">"*.bam"</span>
+
+    script:
+    <span class="c-str">"""
+    STAR --runThreadN 8 \
+         --genomeDir ${genome_index} \
+         --readFilesIn ${reads} \
+         --outSAMtype BAM SortedByCoordinate
+    """</span>
+}</pre>
+      </div>
+
+      <h3>3. HPC clusters via Singularity / Apptainer</h3>
+      <p>Most HPC clusters (like those at JLU Gießen or GWDG) do not allow Docker itself because it requires root privileges. Instead, they use <strong>Singularity</strong> (now called Apptainer), which can directly convert Docker images to Singularity format. This means you build and test with Docker locally, then run the exact same image on the cluster via Singularity — no root needed.</p>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash — converting a Docker image to Singularity on HPC</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment"># On the HPC cluster — convert Docker image to Singularity .sif file</span>
+<span class="c-cmd">singularity</span> pull <span class="c-flag">--name</span> <span class="c-path">star.sif</span> \
+    docker://quay.io/biocontainers/star:2.7.11b--h43eeafb_0
+
+<span class="c-comment"># Run STAR inside the Singularity container</span>
+<span class="c-cmd">singularity</span> exec <span class="c-path">star.sif</span> \
+    STAR <span class="c-flag">--runThreadN</span> 8 \
+         <span class="c-flag">--genomeDir</span> <span class="c-path">/data/sorghum_genome/</span> \
+         <span class="c-flag">--readFilesIn</span> <span class="c-path">sample1_R1.fastq.gz</span> <span class="c-path">sample1_R2.fastq.gz</span></pre>
+      </div>
+
+      <h3>4. Galaxy, CWL, and cloud platforms</h3>
+      <p>The Galaxy platform (usegalaxy.org) runs every tool inside a Docker container. The Common Workflow Language (CWL) standard — used to describe portable bioinformatics workflows — uses Docker images to specify tool environments. AWS, Google Cloud, and Azure all support Docker-based batch computing for large genomics jobs.</p>
+
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <p><strong>A note on rrBLUP and BGLR containers:</strong> The Bioconductor Docker images (e.g. <code style="font-family:'DM Mono',monospace;">bioconductor/bioconductor_docker</code>) include R and most Bioconductor packages. You can build a custom image on top of this that adds rrBLUP and BGLR, giving your genomic selection pipeline a fully reproducible R environment. We will do exactly this in Lesson 7.</p>
+      </div>
+    </section>
+
+    <!-- ─── SECTION 5: Docker Architecture ──────── -->
+    <section id="section-architecture" class="prose" style="scroll-margin-top:96px;margin-top:44px;">
+      <h2><span class="n">05</span> Docker's architecture — what happens when you type <code style="font-family:'DM Mono',monospace;font-size:19px;">docker run</code></h2>
+
+      <p>When you type <code style="font-family:'DM Mono',monospace;">docker run ubuntu:22.04 bash</code>, a surprisingly sophisticated sequence of events happens in milliseconds. Understanding this sequence prevents confusion when things go wrong.</p>
+
+      <div class="explain-box">
+        <div class="eb-label">🔄 The docker run sequence — step by step</div>
+        <p>
+          <strong>Step 1 — Client → Daemon:</strong> Your terminal's <code style="font-family:'DM Mono',monospace;">docker</code> command sends a request to the Docker daemon (<code style="font-family:'DM Mono',monospace;">dockerd</code>) via a Unix socket at <code style="font-family:'DM Mono',monospace;">/var/run/docker.sock</code>.<br><br>
+          <strong>Step 2 — Image check:</strong> The daemon checks if the <code style="font-family:'DM Mono',monospace;">ubuntu:22.04</code> image exists locally. If not, it automatically pulls it from Docker Hub.<br><br>
+          <strong>Step 3 — Container creation:</strong> The daemon creates a new container — a writable filesystem layer on top of the read-only image layers, plus isolated namespaces (filesystem, network, PID, user).<br><br>
+          <strong>Step 4 — Network setup:</strong> The daemon attaches the container to a virtual network bridge and assigns it an IP address.<br><br>
+          <strong>Step 5 — Process launch:</strong> The daemon starts the requested process (<code style="font-family:'DM Mono',monospace;">bash</code>) inside the container's namespace as PID 1.<br><br>
+          <strong>Step 6 — Output:</strong> Stdin/stdout/stderr are connected back to your terminal.
+        </p>
+      </div>
+
+      <p>The key architecture components are:</p>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Component</th>
+            <th>What it is</th>
+            <th>Where it lives</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Docker CLI</td>
+            <td>The <code style="font-family:'DM Mono',monospace;">docker</code> command you type. Just a client that sends API calls.</td>
+            <td>Your terminal session</td>
+          </tr>
+          <tr>
+            <td>Docker Daemon (<code style="font-family:'DM Mono',monospace;">dockerd</code>)</td>
+            <td>Background service that manages containers, images, volumes, and networks.</td>
+            <td>Host OS (runs as root)</td>
+          </tr>
+          <tr>
+            <td>containerd</td>
+            <td>Lower-level container runtime that dockerd delegates to. Also used independently by Kubernetes.</td>
+            <td>Host OS</td>
+          </tr>
+          <tr>
+            <td>runc</td>
+            <td>The actual binary that calls Linux kernel namespaces/cgroups to start the container process. OCI-compliant.</td>
+            <td>Host OS kernel interface</td>
+          </tr>
+          <tr>
+            <td>Docker Hub</td>
+            <td>Public image registry. Default source for <code style="font-family:'DM Mono',monospace;">docker pull</code>.</td>
+            <td>Cloud (hub.docker.com)</td>
+          </tr>
+          <tr>
+            <td>Image layers</td>
+            <td>Read-only filesystem snapshots stored in <code style="font-family:'DM Mono',monospace;">/var/lib/docker/overlay2/</code></td>
+            <td>Host disk</td>
+          </tr>
+          <tr>
+            <td>Container layer</td>
+            <td>Writable layer unique to each container. Deleted when the container is removed.</td>
+            <td>Host disk (temporary)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <span class="tip-icon">🧱</span>
+        <p><strong>The overlay filesystem:</strong> Docker uses a union filesystem (usually OverlayFS on Ubuntu) to stack read-only image layers under a single writable container layer. When a container modifies a file that exists in a read-only layer, the file is copied up to the writable layer first (copy-on-write). This is why containers start instantly — they do not copy the entire image, just create a thin writable layer on top.</p>
+      </div>
+
+      <h3>What gets isolated and what does not</h3>
+      <p>Containers are isolated but not fully sandboxed like VMs. This matters for security and for understanding what your pipeline can and cannot access:</p>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Resource</th>
+            <th>Isolated by default?</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Filesystem</td>
+            <td>✅ Yes</td>
+            <td>Container sees its own root filesystem. Host filesystem not visible unless explicitly mounted.</td>
+          </tr>
+          <tr>
+            <td>Network</td>
+            <td>✅ Yes</td>
+            <td>Container has its own virtual network interface and IP. Ports must be explicitly exposed.</td>
+          </tr>
+          <tr>
+            <td>Process list</td>
+            <td>✅ Yes</td>
+            <td>Container only sees its own processes. Cannot see host processes.</td>
+          </tr>
+          <tr>
+            <td>Users/UIDs</td>
+            <td>✅ Yes</td>
+            <td>User namespace isolation. Root inside container ≠ root on host (in rootless mode).</td>
+          </tr>
+          <tr>
+            <td>Linux kernel</td>
+            <td>❌ Shared</td>
+            <td>All containers share the host kernel. A kernel exploit breaks all containers.</td>
+          </tr>
+          <tr>
+            <td>CPU / RAM</td>
+            <td>❌ Shared (unless limited)</td>
+            <td>Containers share host resources. Use <code style="font-family:'DM Mono',monospace;">--memory</code> and <code style="font-family:'DM Mono',monospace;">--cpus</code> flags to set limits.</td>
+          </tr>
+          <tr>
+            <td>GPU</td>
+            <td>❌ Not by default</td>
+            <td>Requires <code style="font-family:'DM Mono',monospace;">--gpus all</code> flag and NVIDIA Container Toolkit for GPU access (e.g. for deep learning variant callers).</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ─── SECTION 6: Exercises ─────────────────── -->
+    <section id="section-exercises" class="prose" style="scroll-margin-top:96px;margin-top:44px;">
+      <h2><span class="n">06</span> Knowledge check exercises</h2>
+      <p>These are conceptual exercises for Lesson 1 — no terminal needed yet. Lesson 2 is where you install Docker and run your first container.</p>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">1</div>
+          <div class="ex-title">Image vs Container distinction</div>
+        </div>
+        <p style="font-size:15px;color:#33433b;line-height:1.65;">You have an image called <code style="font-family:'DM Mono',monospace;">star:2.7.11b</code> on your laptop. You start three separate STAR alignment jobs simultaneously, each processing a different FASTQ file. How many images exist? How many containers exist? Can you delete the image while the containers are running?</p>
+        <details class="answer">
+          <summary>▶ Show answer</summary>
+          <div class="answer-body">
+            <p><strong>1 image</strong> exists — <code style="font-family:'DM Mono',monospace;">star:2.7.11b</code> is a single read-only snapshot on disk. All three alignment jobs run from the same image.</p>
+            <p><strong>3 containers</strong> exist — each running STAR alignment job is a separate container with its own writable layer and its own isolated process.</p>
+            <p><strong>You cannot delete the image</strong> while containers are running from it. Docker will refuse with an error. You must stop and remove the containers first, then remove the image.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">2</div>
+          <div class="ex-title">The reproducibility scenario</div>
+        </div>
+        <p style="font-size:15px;color:#33433b;line-height:1.65;">Your sorghum RNA-seq pipeline uses: STAR 2.7.10a, samtools 1.17, featureCounts 2.0.3, and DESeq2 1.38. A reviewer asks you to make this pipeline reproducible. You have two options: (A) write a detailed README with installation instructions, or (B) create a Docker image containing all four tools. What are the specific advantages of option B that option A cannot provide?</p>
+        <details class="answer">
+          <summary>▶ Show answer</summary>
+          <div class="answer-body">
+            <p>Option B (Docker) provides several guarantees that a README cannot:</p>
+            <p><strong>1. Exact binary reproducibility:</strong> The Docker image captures not just the tool version but the exact compiled binary, including its linked C libraries, compiler version, and build flags. Two machines running the same image run the <em>identical</em> binary — not just the same source version compiled differently.</p>
+            <p><strong>2. Dependency isolation:</strong> All four tools and their dependencies are bundled inside the image. There is no possibility of them interfering with the reviewer's system packages or each other.</p>
+            <p><strong>3. One command to run:</strong> <code style="font-family:'DM Mono',monospace;">docker pull yourname/sorghum-pipeline:v1.0</code> takes 2 minutes and requires zero installation expertise. A README with 15 conda commands takes 45 minutes and still fails on some systems.</p>
+            <p><strong>4. OS independence:</strong> The image works identically on Ubuntu 20.04, 22.04, Fedora, macOS (via Docker Desktop), and Windows — the reviewer's OS is irrelevant.</p>
+            <p><strong>5. Version-controlled environment:</strong> The Dockerfile that built the image is a text file that can be committed to git alongside your analysis scripts, giving a complete audit trail of every tool version change.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">3</div>
+          <div class="ex-title">Container isolation boundaries</div>
+        </div>
+        <p style="font-size:15px;color:#33433b;line-height:1.65;">You run a GATK variant calling container on your Ubuntu server. Inside the container, a malicious script tries to: (A) read files in <code style="font-family:'DM Mono',monospace;">/home/shajedur/data/</code> on the host, (B) kill a STAR alignment process running on the host, (C) exploit a kernel vulnerability in the host's Linux kernel, (D) use 100% of the host's RAM. Which of these would Docker prevent by default, and which would it not?</p>
+        <details class="answer">
+          <summary>▶ Show answer</summary>
+          <div class="answer-body">
+            <p><strong>(A) Read host files:</strong> ✅ Prevented by default. The container filesystem is isolated — it cannot see <code style="font-family:'DM Mono',monospace;">/home/shajedur/data/</code> unless you explicitly mount it with <code style="font-family:'DM Mono',monospace;">-v /home/shajedur/data:/data</code>.</p>
+            <p><strong>(B) Kill host processes:</strong> ✅ Prevented by default. The container only sees its own PID namespace — the host's STAR process is completely invisible to it.</p>
+            <p><strong>(C) Kernel exploit:</strong> ❌ NOT prevented. This is the fundamental security limitation of containers. The kernel is shared. A kernel-level exploit could break out of the container entirely. This is why security-sensitive workloads still use VMs.</p>
+            <p><strong>(D) Use 100% RAM:</strong> ❌ NOT prevented by default. Containers share host RAM unless you set <code style="font-family:'DM Mono',monospace;">--memory 8g</code> to limit the container to 8 GB. Without a memory limit, a runaway process inside the container can cause the host's OOM killer to terminate other processes.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">4</div>
+          <div class="ex-title">Tag pinning — why :latest is dangerous</div>
+        </div>
+        <p style="font-size:15px;color:#33433b;line-height:1.65;">In January 2024, your pipeline uses <code style="font-family:'DM Mono',monospace;">docker pull samtools:latest</code> and gets version 1.18. In September 2024, you run the same pull command on a fresh server and get 1.21. Both tags say <code style="font-family:'DM Mono',monospace;">:latest</code> but they are different software. Explain why this breaks reproducibility and what you should do instead.</p>
+        <details class="answer">
+          <summary>▶ Show answer</summary>
+          <div class="answer-body">
+            <p><strong>The problem:</strong> <code style="font-family:'DM Mono',monospace;">:latest</code> is a floating tag — it points to whatever is the newest image at the moment of the pull. It is not a fixed reference. Every time you pull <code style="font-family:'DM Mono',monospace;">:latest</code>, you may get a different image. This means the January analysis and the September analysis may have used different samtools code, with different default behaviours, bug fixes, and output formats — making the results incomparable even if the rest of the pipeline is identical.</p>
+            <p><strong>The fix:</strong> Always use a specific version tag: <code style="font-family:'DM Mono',monospace;">docker pull quay.io/biocontainers/samtools:1.18--hd87286a_0</code>. The Biocontainers build hash (<code style="font-family:'DM Mono',monospace;">hd87286a_0</code>) is especially valuable — it encodes the exact conda build, including all compiled dependencies. This tag will always resolve to the identical binary, regardless of when or where you pull it.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ─── MARK COMPLETE ────────────────────────── -->
+    <div class="mark-complete-wrap">
+      <button class="mark-complete" id="complete-btn" onclick="markComplete()">
+        ✓ Mark lesson complete
+      </button>
+    </div>
+
+    <!-- ─── LESSON NAV FOOTER ─────────────────────── -->
+    <div class="lesson-nav-footer">
+      <span style="font-size:13px;color:var(--muted);">Lesson 1 of 8</span>
+      <span style="font-size:13px;color:var(--muted);">Lesson 2: Install Docker &amp; First Container — coming soon</span>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     AD SLOT — BOTTOM RECTANGLE
+════════════════════════════════════════════════ -->
+<div style="max-width:340px;margin:0 auto 48px;padding:0 32px;">
+  <div class="ad-slot rectangle">
+    <strong>Advertisement</strong>
+    <small>300 × 250 rectangle — AdSense / sponsor banner goes here</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo" style="margin-bottom:4px;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <span class="logo-text">
+            <strong>SHOPNILACADEMY</strong>
+            <small>LEARN WITHOUT LIMITS</small>
+          </span>
+        </a>
+        <p class="foot-about">100% free online courses in coding, math, languages, and guitar. Built for learners who want to actually finish.</p>
+        <div class="foot-social">
+          <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook">f</a>
+          <a href="https://x.com/ShopnilAcademy" aria-label="X">𝕏</a>
+          <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube">▶</a>
+          <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn">in</a>
+          <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram">◎</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="../../courses.html">All courses</a></li>
+          <li><a href="../../courses.html?track=tech">Tech & Coding</a></li>
+          <li><a href="../../courses.html?track=math">Science</a></li>
+          <li><a href="../../courses.html?track=lang">Languages</a></li>
+          <li><a href="../../courses.html?track=guitar">Guitar</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../about.html#instructors">Instructors</a></li>
+          <li><a href="../../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="../../contact.html">Get in touch</a></li>
+          <li><a href="../../faq.html">FAQ</a></li>
+          <li><a href="../../advertise.html">Advertise</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy</a></li>
+          <li><a href="../../terms.html">Terms</a></li>
+          <li><a href="../../cookies.html">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Shopnil Academy. All rights reserved.</span>
+      <span>Made with care for learners worldwide. 🌍</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════ -->
+<script>
+  /* ── Mobile nav ──────────────────────────────── */
+  function toggleNav() {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  /* ── Module accordion ────────────────────────── */
+  function toggleMod(btn) {
+    btn.classList.toggle('open');
+    const lessons = btn.nextElementSibling;
+    lessons.classList.toggle('open');
+  }
+
+  /* ── Copy code ───────────────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  /* ── Progress & mark complete ────────────────── */
+  const STORAGE_KEY = 'sa_docker_done';
+  const LESSON_ID   = 'lesson-1';
+  const TOTAL       = 8;
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const pct  = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent  = pct + '%';
+    const btn = document.getElementById('complete-btn');
+    if (done.includes(LESSON_ID)) {
+      btn.textContent = '✓ Lesson complete';
+      btn.classList.add('done');
+    }
+  }
+
+  function markComplete() {
+    const done = getDone();
+    if (!done.includes(LESSON_ID)) {
+      done.push(LESSON_ID);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    }
+    updateProgress();
+  }
+
+  updateProgress();
+
+  /* ── Active TOC via IntersectionObserver ─────── */
+  const sections  = document.querySelectorAll('section[id]');
+  const tocLinks  = document.querySelectorAll('.sidebar a[href^="#"]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocLinks.forEach(a => {
+          a.style.background = a.getAttribute('href') === '#' + id
+            ? 'var(--green-soft)' : '';
+          a.style.color = a.getAttribute('href') === '#' + id
+            ? 'var(--green)' : '';
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
