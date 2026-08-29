@@ -2841,7 +2841,35 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var _AUDIO_LANG='de';
+var _SPEECH_LANG='de-DE';
 
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+
+function tts(text){
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var a=new Audio(src);
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.speak(u);
+    }else{
+      console.warn('Audio not found: '+src);
+    }
+  });
+}
 var _bnD=['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
 function toBN(n){return String(n).split('').map(function(d){return _bnD[parseInt(d)]||d;}).join('');}
 var curPage = "";
@@ -2849,21 +2877,9 @@ var curPage = "";
 var SK={prog:'de_prog',streak:'de_streak',xp:'de_xp',srs:'de_srs',lastDay:'de_lastDay'};
 
 // ===== TTS =====
-var curAud=null;
-function tts(t){
-  if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=de&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t);});
-}
-function bTTS(t){
-  if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang='de-DE';u.rate=0.82;
-  var v=window.speechSynthesis.getVoices();
-  var g=null;
-  for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.startsWith('de')){g=v[i];break;}}
-  if(g)u.voice=g;
-  window.speechSynthesis.speak(u);
-}
+
+
+
 window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
 
 // ===== STREAK & XP =====
@@ -2969,20 +2985,20 @@ var playL1listen=makeGenderedPlayer('l1l',[
     {speaker:'Tom',text:'Hast du auch einen Balkon?',female:false},
     {speaker:'Lena',text:'Ja, der Balkon ist klein, aber sehr schön. Im Sommer sitze ich oft dort.',female:true},
     {speaker:'Tom',text:'Hast du einen Garten?',female:false},
-    {speaker:'Lena',text:'Nein, leider nicht. Aber wir haben einen Keller f&#xfc;r Sachen.',female:true}
+    {speaker:'Lena',text:'Nein, leider nicht. Aber wir haben einen Keller für Sachen.',female:true}
   ]);
 var playL2listen=makeGenderedPlayer('l2l',[
     {speaker:'Verkäufer',text:'Guten Tag! Suchen Sie etwas Bestimmtes?',female:false},
     {speaker:'Kunde',text:'Ja, ich brauche einen neuen Schrank für mein Schlafzimmer.',female:false},
-    {speaker:'Verkäufer',text:'Wir haben hier sch&#xf6;ne Schr&#xe4;nke. Brauchen Sie auch ein neues Bett?',female:false},
-    {speaker:'Kunde',text:'Nein, das Bett habe ich schon. Aber ich brauche eine Lampe f&#xfc;r das Wohnzimmer.',female:false},
-    {speaker:'Verk&#xe4;ufer',text:'Diese Lampe hier ist sehr beliebt. Sie kostet f&#xfc;nfzig Euro.',female:false},
+    {speaker:'Verkäufer',text:'Wir haben hier schöne Schränke. Brauchen Sie auch ein neues Bett?',female:false},
+    {speaker:'Kunde',text:'Nein, das Bett habe ich schon. Aber ich brauche eine Lampe für das Wohnzimmer.',female:false},
+    {speaker:'Verkäufer',text:'Diese Lampe hier ist sehr beliebt. Sie kostet fünfzig Euro.',female:false},
     {speaker:'Kunde',text:'Perfekt, ich nehme den Schrank und die Lampe.',female:false}
   ]);
 var playL3listen=makeGenderedPlayer('l3l',[
     {speaker:'Anna',text:'Wer macht heute die Hausarbeit?',female:true},
     {speaker:'Max',text:'Ich kann staubsaugen und das Bad putzen.',female:false},
-    {speaker:'Anna',text:'Gut, dann wasche ich die W&#xe4;sche und r&#xe4;ume die K&#xfc;che auf.',female:true},
+    {speaker:'Anna',text:'Gut, dann wasche ich die Wäsche und räume die Küche auf.',female:true},
     {speaker:'Max',text:'Wer kauft heute ein?',female:false},
     {speaker:'Anna',text:'Das kann ich nach der Arbeit machen.',female:true},
     {speaker:'Max',text:'Perfekt, dann koche ich heute Abend das Essen.',female:false}
@@ -3007,16 +3023,16 @@ var playL6listen=makeGenderedPlayer('l6l',[
     {speaker:'Student',text:'Was ist eigentlich eine WG?',female:false},
     {speaker:'Professor',text:'Eine WG, also Wohngemeinschaft, ist, wenn mehrere Personen zusammen in einer Wohnung leben, aber nicht verwandt sind.',female:false},
     {speaker:'Student',text:'Ist das beliebt in Deutschland?',female:false},
-    {speaker:'Professor',text:'Ja, sehr beliebt, besonders unter Studenten. Es ist g&#xfc;nstiger und man hat Gesellschaft.',female:false},
+    {speaker:'Professor',text:'Ja, sehr beliebt, besonders unter Studenten. Es ist günstiger und man hat Gesellschaft.',female:false},
     {speaker:'Student',text:'Und was ist Mülltrennung?',female:false},
-    {speaker:'Professor',text:'Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen M&#xfc;ll und Restm&#xfc;ll in verschiedene T&#xf6;nnen.',female:false}
+    {speaker:'Professor',text:'Das ist sehr wichtig in Deutschland. Man trennt Papier, Plastik, organischen Müll und Restmüll in verschiedene Tönnen.',female:false}
   ]);
 var playL7listen=makeGenderedPlayer('l7l',[
     {speaker:'Tom',text:'Ist das deine Wohnung?',female:false},
     {speaker:'Lisa',text:'Nein, das ist unsere Wohnung — ich wohne mit meiner Schwester.',female:true},
     {speaker:'Tom',text:'Und das ist euer Wohnzimmer?',female:false},
     {speaker:'Lisa',text:'Ja, genau. Mein Sofa ist da drüben, und ihr Sessel ist neben dem Fenster.',female:true},
-    {speaker:'Tom',text:'Sch&#xf6;n! Wo ist dein Zimmer?',female:false},
+    {speaker:'Tom',text:'Schön! Wo ist dein Zimmer?',female:false},
     {speaker:'Lisa',text:'Mein Zimmer ist links, und ihres ist rechts.',female:true}
   ]);
 
@@ -3672,14 +3688,14 @@ var _maleNames = [
 ];
 
 function _isFemale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
   for (var i = 0; i < _femaleNames.length; i++) {
     if (n.indexOf(_femaleNames[i]) >= 0) return true;
   }
   return false;
 }
 function _isMale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
   for (var i = 0; i < _maleNames.length; i++) {
     if (n.indexOf(_maleNames[i]) >= 0) return true;
   }
@@ -3727,23 +3743,24 @@ function _getVoice(female) {
   }
 }
 function _speakLine(text, female, onEnd) {
-  if (window.speechSynthesis) {
-    window.speechSynthesis.cancel();
-    var utt = new SpeechSynthesisUtterance(text);
-    utt.lang = 'de-DE';
-    utt.pitch = female ? 1.2 : 0.6;
-    utt.rate = female ? 0.88 : 0.82;
-    var v = _getVoice(female);
-    if (v) utt.voice = v;
-    utt.onend = onEnd || function(){};
-    window.speechSynthesis.speak(utt);
-  } else {
-    var url = 'https://translate.google.com/translate_tts?ie=UTF-8&q='
-      + encodeURIComponent(text) + '&tl=de&client=tw-ob';
-    var a = new Audio(url);
-    a.onended = onEnd || function(){};
-    a.play();
-  }
+  var done = false;
+  function fin(){ if (done) return; done = true; (onEnd || function(){})(); }
+  var src = '/audio/' + _AUDIO_LANG + '/' + fnv1a(text) + '.mp3';
+  var a = new Audio(src);
+  a.onended = fin;
+  a.play().catch(function(){
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      var utt = new SpeechSynthesisUtterance(text);
+      utt.lang = _SPEECH_LANG;
+      utt.pitch = female ? 1.2 : 0.6;
+      utt.rate = female ? 0.88 : 0.82;
+      var v = _getVoice(female);
+      if (v) utt.voice = v;
+      utt.onend = fin;
+      window.speechSynthesis.speak(utt);
+    } else { console.warn('Audio missing: ' + src); fin(); }
+  });
 }
 
 function _playLines(lines, idx) {
