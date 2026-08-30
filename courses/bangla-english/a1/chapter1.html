@@ -1614,14 +1614,46 @@ var SK={prog:'bn_en_prog',streak:'bn_en_streak',xp:'bn_en_xp',srs:'bn_en_srs',la
 // browser voice when Google TTS audio is unavailable and it falls back
 // to speechSynthesis.
 var curAud=null;
+var _AUDIO_LANG='bn';      /* target-language audio subfolder */
+var _SPEECH_LANG='bn-BD';  /* Web Speech API fallback locale */
+
+// FNV-1a 32-bit hash of the UTF-8 bytes of a string, hex-encoded.
+// Must stay byte-identical to the Python generator's fnv1a() -- if you ever
+// change one, change both and regenerate the /audio/bn/ files to match.
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+
+// Plays a pre-generated static audio file (audio/<fnv1a-hash>.mp3).
+// Called synchronously inside the click handler so the browser allows
+// playback -- do NOT wrap this call in a timeout or async chain, or
+// browsers will silently block it since it no longer looks like it
+// originated from the user's tap.
 function tts(t,voiceHint){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t,voiceHint);});
+  var h=fnv1a(t);
+  var src='/audio/'+_AUDIO_LANG+'/'+h+'.mp3';
+  var a=new Audio(src);
+  curAud=a;
+  a.play().catch(function(){
+    console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+    bTTS(t,voiceHint);
+  });
 }
+
+// Last-resort fallback only, used when a static audio file is missing.
 function bTTS(t,voiceHint){
   if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang='bn-BD';u.rate=0.82;
+  var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.82;
   var v=window.speechSynthesis.getVoices();
   var g=null,i;
   var bdVoices=[];
