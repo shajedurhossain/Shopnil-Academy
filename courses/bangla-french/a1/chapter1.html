@@ -1484,50 +1484,81 @@ var SK={prog:'bn_fr_prog',streak:'bn_fr_streak',xp:'bn_fr_xp',srs:'bn_fr_srs',la
 // ===== PAGE ORDER (for prev/next buttons) =====
 var PAGE_ORDER=['c1l1v','c1l1w','c1l1s','c1l1gr','c1l1l','c1l1rd','c1l1fw','c1l1ss','c1l1q','c1l2v','c1l2w','c1l2s','c1l2gr','c1l2l','c1l2rd','c1l2fw','c1l2ss','c1l2q','c1l3v','c1l3w','c1l3s','c1l3gr','c1l3l','c1l3rd','c1l3fw','c1l3ss','c1l3q','c1l4v','c1l4w','c1l4s','c1l4gr','c1l4l','c1l4rd','c1l4fw','c1l4ss','c1l4q','c1l5v','c1l5w','c1l5s','c1l5gr','c1l5l','c1l5rd','c1l5fw','c1l5ss','c1l5q','c1rv','c1rs','c1rq'];
 
-// ===== TTS (single voice, for vocabulary items) =====
+// ===== PLATFORM AUDIO CONFIG (per Shopnil Academy audio architecture) =====
+var _AUDIO_LANG='bn';      /* target-language code — audio lives at /audio/bn/ */
+var _SPEECH_LANG='bn-BD';  /* Web Speech API fallback locale */
+
+// ===== FNV-1a 32-bit hash (must stay byte-identical to the Python generator script) =====
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+
+// ===== TTS (pre-generated static mp3 files — no live TTS hotlinking) =====
+// Voice note: audio is generated offline with espeak-ng (Bangla), which sounds
+// noticeably robotic compared to a natural voice. This trades voice quality for
+// reliability — a live Google Translate TTS hotlink is blocked (403) on real
+// hosted websites, so it cannot be used in production. Files can be swapped for
+// higher-quality audio later under the same filenames with no code changes.
+// Fallback to Web Speech API is silent (console.warn only) per platform policy —
+// students should hear audio or silence, never an error message.
 var curAud=null;
-function tts(t){
+function tts(text){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t,null);});
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var a=new Audio(src);curAud=a;
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.speak(u);
+    }else{
+      console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+    }
+  });
 }
 
 // ===== TTS PER SPEAKER (for dialogues — each speaker gets a distinct voice) =====
-// Speaker 'A' uses the default Google Translate voice.
-// Speaker 'B' (and beyond) fall back to the browser's SpeechSynthesis engine with a
-// different pitch/rate so the two speakers are audibly distinguishable, and will pick a
-// different bn-BD voice from the device's voice list when more than one is available.
+// All speakers play the same pre-generated static file for a given line (the
+// file itself is one voice). To keep speakers audibly distinguishable, each
+// speaker profile also applies a slight pitch/rate shift via playbackRate on
+// the audio element itself (cheap, works with static files, no extra generation).
+// onEnded lets dialogue playback wait for the real audio to finish before the
+// next line starts, instead of guessing timing from text length.
 var SPEAKER_PROFILES={
-  A:{engine:'gtts',pitch:1,rate:0.85},
-  B:{engine:'webspeech',pitch:1.25,rate:0.95},
-  C:{engine:'webspeech',pitch:0.8,rate:0.8}
+  A:{rate:1},
+  B:{rate:1.12},
+  C:{rate:0.9}
 };
-function ttsSpeaker(t,speaker){
+function ttsSpeaker(text,speaker,onEnded){
   var prof=SPEAKER_PROFILES[speaker]||SPEAKER_PROFILES.A;
   if(curAud){curAud.pause();curAud.currentTime=0;}
   if(window.speechSynthesis)window.speechSynthesis.cancel();
-  if(prof.engine==='gtts'){
-    var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
-    var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t,prof);});
-  }else{
-    bTTS(t,prof);
-  }
-}
-function bTTS(t,prof){
-  if(!window.speechSynthesis)return;
-  window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);
-  u.lang='bn-BD';
-  u.rate=prof&&prof.rate?prof.rate:0.85;
-  u.pitch=prof&&prof.pitch?prof.pitch:1;
-  var v=window.speechSynthesis.getVoices();
-  var bnVoices=[];
-  for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.indexOf('bn')===0)bnVoices.push(v[i]);}
-  if(bnVoices.length){
-    var idx=(prof&&prof.voiceIdx)?prof.voiceIdx%bnVoices.length:0;
-    u.voice=bnVoices[idx];
-  }
-  window.speechSynthesis.speak(u);
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var a=new Audio(src);curAud=a;
+  a.playbackRate=prof.rate;
+  var safetyTimer=setTimeout(function(){if(onEnded)onEnded();},Math.max(1500,text.length*220));
+  a.onended=function(){clearTimeout(safetyTimer);if(onEnded)onEnded();};
+  a.play().catch(function(){
+    clearTimeout(safetyTimer);
+    if(window.speechSynthesis){
+      var u=new SpeechSynthesisUtterance(text);
+      u.lang=_SPEECH_LANG;u.rate=0.85;u.pitch=prof.rate;
+      if(onEnded){u.onend=onEnded;u.onerror=onEnded;}
+      window.speechSynthesis.speak(u);
+    }else{
+      console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      if(onEnded)onEnded();
+    }
+  });
 }
 window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
 
@@ -1713,9 +1744,9 @@ function playDialogue(id,btn){
 function playDialogueLines(lines,idx){
   if(idx>=lines.length)return;
   var line=lines[idx];
-  ttsSpeaker(line.t,line.spk);
-  var estMs=Math.max(1200,line.t.length*180);
-  setTimeout(function(){playDialogueLines(lines,idx+1);},estMs);
+  ttsSpeaker(line.t,line.spk,function(){
+    setTimeout(function(){playDialogueLines(lines,idx+1);},350);
+  });
 }
 
 // ===== SPEAKING ENGINE (pronunciation practice with speech recognition) =====
