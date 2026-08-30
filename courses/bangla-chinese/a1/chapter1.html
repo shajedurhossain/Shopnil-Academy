@@ -267,15 +267,38 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <script>
 var SK={prog:'bn_zh_prog',streak:'bn_zh_streak',xp:'bn_zh_xp',srs:'bn_zh_srs',lastDay:'bn_zh_lastDay'};
 
+var _AUDIO_LANG='bn';       /* target language subfolder under /audio/ */
+var _SPEECH_LANG='bn-BD';   /* Web Speech API fallback locale */
+
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
 var curAud=null;
-function tts(t){
+function tts(text,voiceSlot){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
-  var a=new Audio(u);curAud=a;a.play().catch(function(){bTTS(t,0);});
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var a=new Audio(src);
+  curAud=a;
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      bTTS(text,voiceSlot||0);
+    } else {
+      console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+    }
+  });
 }
 function bTTS(t,voiceSlot){
   if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang='bn-BD';
+  var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;
   u.rate=voiceSlot===1?0.86:0.82;
   u.pitch=voiceSlot===1?1.15:0.95;
   var v=window.speechSynthesis.getVoices();
