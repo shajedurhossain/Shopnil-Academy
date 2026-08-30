@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Why edgeR &amp; limma? | edgeR &amp; limma | Shopnil Academy</title>
+  <meta name="description" content="Understand the statistical foundations of edgeR and limma for RNA-seq differential expression analysis. Learn when to use each tool and why DESeq2 alone is not always enough." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── SIDEBAR ─────────────────────────────────────────────── */
+    .sidebar-course-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display); font-size: 15px; font-weight: 700;
+      color: var(--ink); line-height: 1.3; margin-bottom: 18px;
+    }
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 6px; background: var(--green-soft); border-radius: 999px;
+      margin-bottom: 20px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green); border-radius: 999px;
+      transition: width .4s ease;
+    }
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 12px; border-radius: 10px; cursor: pointer;
+      font-size: 13px; font-weight: 600; color: var(--ink);
+      background: var(--cream); border: 1px solid var(--line);
+      user-select: none;
+    }
+    .mod-group-label:hover { background: var(--green-soft); }
+    .mod-group-label .chevron { font-size: 10px; color: var(--muted); transition: transform .2s; }
+    .mod-group-label.open .chevron { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding: 4px 0 4px 8px; }
+    .mod-lessons.open { display: flex; flex-direction: column; gap: 2px; }
+    .lesson-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 8px;
+      font-size: 13px; color: var(--muted);
+      transition: background .15s ease, color .15s ease;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .l-icon {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center; font-size: 10px; font-weight: 700;
+      background: var(--cream); color: var(--muted); border: 1px solid var(--line);
+    }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; border-color: var(--green); }
+    .lesson-link.done .l-icon { background: var(--green-soft); color: var(--green); border-color: rgba(0,106,78,.2); }
+
+    /* ── LESSON META STRIP ───────────────────────────────────── */
+    .lesson-meta-strip {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      margin-bottom: 28px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--cream); border: 1px solid var(--line);
+      padding: 6px 13px; border-radius: 999px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+    }
+    .lm-num { background: var(--green-soft); color: var(--green); border-color: rgba(0,106,78,.18); font-weight: 700; }
+    .lm-time::before { content: '⏱ '; }
+    .lm-sep { color: var(--line); }
+
+    /* ── CODE BLOCKS ─────────────────────────────────────────── */
+    .code-wrap { margin: 20px 0; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .code-header {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #1a2e22; padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .code-lang { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #7db89a; }
+    .copy-btn {
+      font-size: 12px; font-weight: 600; color: #7db89a;
+      background: rgba(125,184,154,.12); border: 1px solid rgba(125,184,154,.2);
+      padding: 4px 12px; border-radius: 999px; cursor: pointer;
+      transition: background .15s ease;
+    }
+    .copy-btn:hover { background: rgba(125,184,154,.25); }
+    pre {
+      margin: 0; padding: 20px;
+      background: #0f1f16;
+      font-family: 'DM Mono', monospace; font-size: 13.5px; line-height: 1.7;
+      overflow-x: auto; color: #c8e6c9;
+    }
+    /* R syntax colours */
+    .c-kw  { color: #80cbc4; }   /* keywords: library, function, if, for */
+    .c-fn  { color: #82b1ff; }   /* function calls */
+    .c-str { color: #f48fb1; }   /* strings */
+    .c-num { color: #ffcc80; }   /* numbers */
+    .c-arg { color: #e2c4f0; }   /* argument names */
+    .c-out { color: #69f0ae; font-style: italic; } /* output */
+    .c-comment { color: #546e6a; font-style: italic; } /* comments */
+    .c-obj { color: #fff59d; }   /* objects/variables */
+    .c-op  { color: #ef9a9a; }   /* operators <- = ~ */
+    .c-pkg { color: #b3e5fc; }   /* package names */
+
+    /* ── EXPLAIN BOX ─────────────────────────────────────────── */
+    .explain-box {
+      background: linear-gradient(135deg, #f0f7f4 0%, #e8f4ee 100%);
+      border: 1px solid rgba(0,106,78,.15);
+      border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0;
+      padding: 18px 20px; margin: 20px 0;
+    }
+    .explain-box .eb-label {
+      font-size: 10px; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 8px;
+    }
+    .explain-box p { font-size: 14.5px; color: #2a4035; line-height: 1.65; margin: 0; }
+
+    /* ── FOLDER NOTE ─────────────────────────────────────────── */
+    .folder-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-soft); border: 1px solid rgba(232,183,42,.3);
+      padding: 7px 14px; border-radius: 8px; margin: 12px 0;
+      font-size: 13px; font-family: 'DM Mono', monospace; color: #6b5010;
+    }
+
+    /* ── TIP / WARN ──────────────────────────────────────────── */
+    .tip, .warn {
+      display: flex; gap: 12px; padding: 16px 18px;
+      border-radius: 12px; margin: 18px 0;
+    }
+    .tip { background: var(--green-soft); border: 1px solid rgba(0,106,78,.15); }
+    .warn { background: #fff8e1; border: 1px solid rgba(232,183,42,.35); }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .tip p, .warn p { font-size: 14.5px; line-height: 1.6; margin: 0; color: #1f3a2d; }
+    .warn p { color: #5a3e00; }
+
+    /* ── COMPARISON TABLE ────────────────────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse; margin: 18px 0;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--green-soft); color: var(--green-deep);
+      font-family: var(--font-display); font-weight: 600;
+      padding: 11px 14px; text-align: left; font-size: 13px;
+    }
+    .cmd-table td {
+      padding: 11px 14px; border-bottom: 1px solid var(--line);
+      color: #2a3d31; vertical-align: top;
+    }
+    .cmd-table tr:last-child td { border-bottom: none; }
+    .cmd-table tr:nth-child(even) td { background: #fafdf9; }
+
+    /* ── EXERCISE ────────────────────────────────────────────── */
+    .exercise { margin: 28px 0; }
+    .ex-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 16px;
+    }
+    .ex-num {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: var(--ink); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-size: 14px; font-weight: 700;
+    }
+    .ex-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
+    details.answer {
+      margin-top: 12px;
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 10px; overflow: hidden;
+    }
+    details.answer summary {
+      padding: 12px 16px; font-size: 13px; font-weight: 600;
+      color: var(--green); cursor: pointer; user-select: none;
+      list-style: none;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body { padding: 0 16px 16px; }
+    details.answer .ans-body p { font-size: 14px; color: #2a3d31; line-height: 1.65; }
+
+    /* ── MARK COMPLETE ───────────────────────────────────────── */
+    .mark-complete-wrap { text-align: center; padding: 40px 0 20px; }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--green); color: #fff;
+      padding: 16px 32px; border-radius: 999px;
+      font-size: 15px; font-weight: 700; border: none;
+      cursor: pointer; font-family: inherit;
+      transition: background .2s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-2px); }
+    .mark-complete.done { background: #2e7d52; }
+
+    /* ── LESSON NAV FOOTER ───────────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 0; border-top: 1px solid var(--line); margin-top: 16px;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+      padding: 11px 20px; border-radius: 999px;
+      border: 1.5px solid rgba(0,106,78,.25);
+      transition: background .15s ease, border-color .15s ease;
+    }
+    .lesson-nav-footer a:hover { background: var(--green-soft); border-color: var(--green); }
+
+    /* ── STAT CARD GRID ──────────────────────────────────────── */
+    .stat-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin: 24px 0;
+    }
+    .stat-card {
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 14px; padding: 18px 16px; text-align: center;
+    }
+    .stat-card .stat-val {
+      font-family: var(--font-display); font-size: 26px; font-weight: 700;
+      color: var(--green); line-height: 1; margin-bottom: 6px;
+    }
+    .stat-card .stat-label { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+
+    /* ── TOC ACTIVE ──────────────────────────────────────────── */
+    .toc a.toc-active { background: var(--green-soft); color: var(--green); border-left-color: var(--green); }
+
+    @media (max-width: 860px) {
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+    /* ── Wide lesson shell (site convention) ─────────────────── */
+    .article > .wrap { max-width: none; margin: 0; padding: 0; }
+    .article-grid { display: grid; grid-template-columns: 272px minmax(0, 1fr); gap: 0; align-items: start; }
+    .article-grid > aside.toc { position: sticky; top: 0; height: 100vh; overflow-y: auto; width: auto; max-width: none; padding: 30px 20px; background: var(--cream); border-right: 1px solid var(--line); }
+    .article-grid > .prose { min-width: 0; max-width: 1000px; padding: 0 44px 40px; }
+    .lesson-link.soon { opacity: .45; cursor: not-allowed; }
+    .lesson-link.soon:hover { background: transparent; color: var(--muted); }
+    @media (max-width: 980px) {
+      .article-grid { grid-template-columns: 1fr; }
+      .article-grid > aside.toc { display: none; }
+      .article-grid > .prose { padding: 0 20px 40px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS TRAINING</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../courses.html" class="btn btn-primary btn-sm">Start Learning</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INNER HEADER
+════════════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="index.html">edgeR &amp; limma</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <div class="lesson-meta-strip">
+      <span class="lm-pill lm-num">Lesson 1 of 10</span>
+      <span class="lm-pill lm-time">45 min</span>
+      <span class="lm-pill">📊 Conceptual + R theory</span>
+      <span class="lm-pill">🌱 Sorghum context</span>
+    </div>
+    <h1>Why edgeR &amp; limma?<br>The Statistics Behind RNA-seq DE</h1>
+    <p class="lead">Before running a single line of R, understand <em>why</em> count data needs special statistics — and when to reach for edgeR, limma-voom, or DESeq2.</p>
+    <div class="updated">✦ Module 20 · Phase 3 — Advanced &amp; Specialised</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AD SLOT — TOP BANNER
+════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:28px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here — AdSense slot reserved</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MAIN ARTICLE
+════════════════════════════════════════════════════════════ -->
+<div class="article">
+  <div class="wrap">
+    <div class="article-grid">
+
+      <!-- ── LEFT SIDEBAR ─────────────────────────────────── -->
+      <aside class="toc">
+        <div class="sidebar-course-label">Phase 3 · Module 20</div>
+        <div class="sidebar-course-title">edgeR &amp; limma: Differential Expression in R</div>
+
+        <div class="prog-label">
+          <span>Progress</span>
+          <span id="prog-pct">0 / 10</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+        <!-- Module accordion -->
+        <div class="mod-group">
+          <div class="mod-group-label open" onclick="toggleMod(this)">
+            <span>Module 20 — edgeR &amp; limma</span>
+            <span class="chevron">▶</span>
+          </div>
+          <div class="mod-lessons open">
+            <a href="lesson-1.html" class="lesson-link active" id="link-l1">
+              <span class="l-icon">1</span>Why edgeR &amp; limma?
+            </a>
+            <span class="lesson-link soon" id="link-l2">
+              <span class="l-icon">2</span>Installing &amp; Loading
+            </span>
+            <span class="lesson-link soon" id="link-l3">
+              <span class="l-icon">3</span>Filtering &amp; Normalisation
+            </span>
+            <span class="lesson-link soon" id="link-l4">
+              <span class="l-icon">4</span>Model Matrices &amp; Design
+            </span>
+            <span class="lesson-link soon" id="link-l5">
+              <span class="l-icon">5</span>DE with edgeR
+            </span>
+            <span class="lesson-link soon" id="link-l6">
+              <span class="l-icon">6</span>limma-voom
+            </span>
+            <span class="lesson-link soon" id="link-l7">
+              <span class="l-icon">7</span>Visualising DE Results
+            </span>
+            <span class="lesson-link soon" id="link-l8">
+              <span class="l-icon">8</span>Gene Set Testing
+            </span>
+            <span class="lesson-link soon" id="link-l9">
+              <span class="l-icon">9</span>edgeR vs limma vs DESeq2
+            </span>
+            <span class="lesson-link soon" id="link-l10">
+              <span class="l-icon">10</span>Capstone: Sorghum DE
+            </span>
+          </div>
+        </div>
+
+        <!-- On this page TOC -->
+        <div style="margin-top:24px;">
+          <h5 style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;">On this page</h5>
+          <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
+            <li><a href="#the-problem" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">The RNA-seq count problem</a></li>
+            <li><a href="#why-not-ttest" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">Why not a t-test?</a></li>
+            <li><a href="#negative-binomial" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">The negative binomial model</a></li>
+            <li><a href="#mean-variance" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">Mean–variance relationship</a></li>
+            <li><a href="#three-tools" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">Three tools compared</a></li>
+            <li><a href="#when-edger" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">When to reach for edgeR</a></li>
+            <li><a href="#when-limma" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">When to reach for limma-voom</a></li>
+            <li><a href="#exercises" class="toc-link" style="display:block;font-size:13px;color:var(--muted);padding:6px 10px;border-radius:8px;border-left:2px solid transparent;">Exercises</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- ── PROSE CONTENT ─────────────────────────────────── -->
+      <div class="prose">
+
+        <!-- SECTION 1 -->
+        <section id="the-problem">
+          <h2><span class="n">01</span> The RNA-seq count problem</h2>
+
+          <p>When you sequence a sorghum transcriptome, the sequencer produces millions of short reads. After alignment with STAR or HISAT2, you count how many reads overlap each gene. The result is a <strong>count matrix</strong> — genes as rows, samples as columns, integers as values.</p>
+
+          <p>This sounds simple, but the numbers have a peculiar statistical character that breaks classical methods:</p>
+
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-val">0</div>
+              <div class="stat-label">Many genes have zero counts in some samples (zero inflation)</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">10⁶</div>
+              <div class="stat-label">Counts span six orders of magnitude between lowly and highly expressed genes</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-val">≥2</div>
+              <div class="stat-label">Variance always exceeds the mean — a property called overdispersion</div>
+            </div>
+          </div>
+
+          <div class="explain-box">
+            <div class="eb-label">🔬 Why This Matters for Sorghum Research</div>
+            <p>In a drought-stress experiment comparing well-watered vs water-limited sorghum, you might have 30,000 genes but only 3 biological replicates per condition. Classical statistics assume large sample sizes to estimate variance accurately. With n=3, you need to <em>borrow information</em> across genes to make reliable estimates — this is exactly what edgeR and limma do differently from a simple t-test.</p>
+          </div>
+
+          <p>A raw count of 50 reads means something very different in a library of 1 million reads vs 50 million reads. This <strong>sequencing depth variation</strong> must be accounted for during normalisation, before any statistical test is applied.</p>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section id="why-not-ttest">
+          <h2><span class="n">02</span> Why not a t-test?</h2>
+
+          <p>The classic Student's t-test assumes that your measurements follow a <strong>normal (Gaussian) distribution</strong>. RNA-seq counts violate this assumption in three important ways:</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th>Assumption of t-test</th>
+                <th>Reality of RNA-seq counts</th>
+                <th>Consequence of ignoring it</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data is continuous</td>
+                <td>Counts are discrete integers (0, 1, 2 …)</td>
+                <td>Invalid probability calculations</td>
+              </tr>
+              <tr>
+                <td>Variance is constant (homoscedastic)</td>
+                <td>Variance increases with the mean</td>
+                <td>High-count genes dominate; low-count genes buried</td>
+              </tr>
+              <tr>
+                <td>Data is normally distributed</td>
+                <td>Heavily right-skewed; many zeros</td>
+                <td>Inflated false positives for lowly expressed genes</td>
+              </tr>
+              <tr>
+                <td>Large sample size</td>
+                <td>Typically 2–5 replicates per group</td>
+                <td>Poor variance estimation → unreliable p-values</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <p><strong>Historical note:</strong> Early microarray papers used t-tests and fold-change thresholds on log-transformed data. This worked reasonably well because microarray intensities are closer to normally distributed. The RNA-seq community learned the hard way — by comparing results — that importing microarray statistics into count data analysis produces poor results.</p>
+          </div>
+
+          <p>Some researchers attempt to log-transform counts and apply a t-test. While this fixes the skewness partially, it introduces a new problem: <strong>log(0) is undefined</strong>. Adding a pseudo-count (e.g., log(count + 1)) partially helps but distorts low-count genes. The dedicated methods described below handle this properly.</p>
+        </section>
+
+        <!-- SECTION 3 -->
+        <section id="negative-binomial">
+          <h2><span class="n">03</span> The negative binomial model</h2>
+
+          <p>The distribution that best describes RNA-seq count data is the <strong>negative binomial (NB) distribution</strong>. It generalises the simpler Poisson distribution by adding an extra parameter — the <strong>dispersion</strong> — that captures biological variability between samples.</p>
+
+          <div class="explain-box">
+            <div class="eb-label">📐 Intuition Without the Maths</div>
+            <p>Imagine a gene that produces exactly 100 mRNA molecules per cell. If you count 1,000 cells, the Poisson distribution describes the variation you see (it equals the mean: variance = 100). But cells in a real sorghum leaf are not identical — some cells respond more strongly to drought stress than others. This <em>extra</em> biological variability is captured by the dispersion parameter φ: Var(Y) = μ + φμ². When φ=0, you get back to Poisson. edgeR and DESeq2 both use this NB model. The difference is in <em>how they estimate φ</em>.</p>
+          </div>
+
+          <p>The NB distribution has two parameters:</p>
+          <ul class="bullets">
+            <li><strong>μ (mu)</strong> — the mean expression level for a gene in a condition. This is what we want to compare between groups.</li>
+            <li><strong>φ (phi), the dispersion</strong> — how much extra variation exists beyond what the mean alone predicts. High dispersion = noisy gene. Low dispersion = stable gene.</li>
+          </ul>
+
+          <p>Estimating φ reliably is the central challenge. With only 3 replicates, you cannot estimate gene-specific dispersion accurately. The three major tools (edgeR, DESeq2, limma-voom) each take a different approach to this problem, and understanding those differences tells you when to use which tool.</p>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">R — Conceptual</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># The NB variance formula — the key equation to understand</span>
+<span class="c-comment">#
+#   Var(Y) = mu + phi * mu^2
+#
+#   mu  = mean count for this gene in this condition
+#   phi = dispersion (biological + technical extra-variation)
+#
+# When phi = 0  →  Var = mu   (Poisson — no overdispersion)
+# When phi > 0  →  Var > mu   (negative binomial — realistic)
+#
+# Example: a gene with mu = 100 reads
+mu  <span class="c-op">&lt;-</span> <span class="c-num">100</span>
+
+<span class="c-comment"># Poisson variance</span>
+var_poisson  <span class="c-op">&lt;-</span> mu
+<span class="c-fn">cat</span>(<span class="c-str">"Poisson variance:"</span>, var_poisson, <span class="c-str">"\n"</span>)
+<span class="c-out"># Poisson variance: 100</span>
+
+<span class="c-comment"># Negative binomial variance with phi = 0.1 (10% dispersion)</span>
+phi <span class="c-op">&lt;-</span> <span class="c-num">0.1</span>
+var_nb <span class="c-op">&lt;-</span> mu <span class="c-op">+</span> phi <span class="c-op">*</span> mu<span class="c-op">^</span><span class="c-num">2</span>
+<span class="c-fn">cat</span>(<span class="c-str">"NB variance (phi=0.1):"</span>, var_nb, <span class="c-str">"\n"</span>)
+<span class="c-out"># NB variance (phi=0.1): 1100</span>
+
+<span class="c-comment"># The NB standard deviation is sqrt(1100) ≈ 33
+# Much larger than the Poisson sd of sqrt(100) = 10
+# This is why you need biological replicates — and proper statistics!</span></pre>
+          </div>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <p><strong>Key takeaway:</strong> The NB dispersion parameter φ is not a nuisance — it is biologically meaningful. Genes with high dispersion (e.g., stress-response genes in sorghum) are inherently noisier and need stronger evidence before you call them differentially expressed. edgeR and DESeq2 use this to penalise noisy genes automatically.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 4 -->
+        <section id="mean-variance">
+          <h2><span class="n">04</span> The mean–variance relationship</h2>
+
+          <p>One of the most important diagnostic plots in RNA-seq is the <strong>mean–variance plot</strong>. It reveals how variance scales with the mean across all genes in your dataset.</p>
+
+          <p>In RNA-seq data you will always observe that <em>highly expressed genes also have higher variance</em>. This is expected from the NB model: Var = μ + φμ². The challenge is that this trend is not perfectly smooth — some genes deviate from the trend, especially at low counts.</p>
+
+          <div class="explain-box">
+            <div class="eb-label">🔬 How Each Tool Handles This</div>
+            <p><strong>edgeR</strong> fits the mean–variance trend to estimate dispersion using a weighted likelihood approach. It then shrinks gene-level dispersion estimates towards a common trend (empirical Bayes shrinkage), borrowing strength across genes.<br><br>
+            <strong>limma-voom</strong> takes a different path: the <code>voom()</code> function computes <em>precision weights</em> for each observation (each count in each sample) based on where it falls on the mean–variance trend. These weights are then passed to limma's linear model framework, which was designed for microarray data. The weights convert the heteroscedastic count data into something that behaves like normally distributed data.<br><br>
+            <strong>DESeq2</strong> uses a slightly different parametrisation of the NB model and a different shrinkage estimator (the regularised log transform, rlog, or variance-stabilising transformation, VST). All three are valid — the choice depends on your experimental design and the size of your dataset.</p>
+          </div>
+
+          <p>The mean–variance trend also explains why <strong>normalisation</strong> must happen before DE testing. If Library A has 30M reads and Library B has 15M reads, every gene in Library A will have roughly double the counts — even if expression is identical. Normalisation methods (TMM in edgeR, median-of-ratios in DESeq2) correct for this before any statistical test.</p>
+        </section>
+
+        <!-- AD SLOT — IN FEED -->
+        <div class="ad-slot in-feed" style="margin:32px 0;">
+          <strong>Advertisement</strong>
+          <small>AdSense in-feed slot reserved</small>
+        </div>
+
+        <!-- SECTION 5 -->
+        <section id="three-tools">
+          <h2><span class="n">05</span> Three tools compared</h2>
+
+          <p>edgeR, limma-voom, and DESeq2 are the three dominant tools for bulk RNA-seq differential expression. They are not competitors — they are complementary approaches developed by the same bioinformatics community (mostly from the Gordon Smyth group at WEHI, Melbourne, and the Love/Anders/Huber group). Understanding their differences makes you a better analyst.</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>edgeR</th>
+                <th>limma-voom</th>
+                <th>DESeq2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Statistical model</strong></td>
+                <td>Negative binomial GLM</td>
+                <td>Linear model + precision weights (voom)</td>
+                <td>Negative binomial GLM</td>
+              </tr>
+              <tr>
+                <td><strong>Dispersion estimation</strong></td>
+                <td>Weighted conditional likelihood + empirical Bayes</td>
+                <td>Mean–variance trend weights (no explicit dispersion)</td>
+                <td>Local regression shrinkage (DESeq2 shrinkage)</td>
+              </tr>
+              <tr>
+                <td><strong>Normalisation</strong></td>
+                <td>TMM (Trimmed Mean of M-values)</td>
+                <td>TMM (via edgeR) or other</td>
+                <td>Median-of-ratios</td>
+              </tr>
+              <tr>
+                <td><strong>Fold change shrinkage</strong></td>
+                <td>Not by default (optional)</td>
+                <td>Not typically</td>
+                <td>Yes (apeglm, ashr, normal)</td>
+              </tr>
+              <tr>
+                <td><strong>Best for small n</strong></td>
+                <td>✅ Yes (n=2 possible)</td>
+                <td>✅ Yes</td>
+                <td>✅ Yes, with shrinkage</td>
+              </tr>
+              <tr>
+                <td><strong>Complex designs</strong></td>
+                <td>✅ Full GLM flexibility</td>
+                <td>✅ Excellent (uses limma's lmFit)</td>
+                <td>⚠️ Possible but less flexible</td>
+              </tr>
+              <tr>
+                <td><strong>Gene set testing</strong></td>
+                <td>✅ fry, camera, goana, kegga built-in</td>
+                <td>✅ Same (limma-based)</td>
+                <td>⚠️ External packages needed</td>
+              </tr>
+              <tr>
+                <td><strong>R package</strong></td>
+                <td><code>edgeR</code> (Bioconductor)</td>
+                <td><code>limma</code> (Bioconductor)</td>
+                <td><code>DESeq2</code> (Bioconductor)</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <p><strong>Common misconception:</strong> Many beginners think you must pick one tool and stick with it. Professional bioinformaticians often run two or three tools and look at the <em>intersection</em> of their results. Genes that are significant in edgeR, limma-voom, AND DESeq2 are the most reliable hits. We cover this Venn diagram approach in Lesson 9.</p>
+          </div>
+        </section>
+
+        <!-- SECTION 6 -->
+        <section id="when-edger">
+          <h2><span class="n">06</span> When to reach for edgeR</h2>
+
+          <p>edgeR is particularly well-suited to:</p>
+
+          <ul class="bullets">
+            <li><strong>Very small sample sizes (n=2 per group).</strong> edgeR's conditional exact test was specifically designed for experiments with as few as two replicates — rare for any statistical method. With the GLM approach (<code>glmQLFTest</code>), even n=2 gives reasonable results.</li>
+            <li><strong>Experiments with no replicates.</strong> edgeR offers a dispersion estimation mode where you specify the biological coefficient of variation (BCV) manually. This is a last resort, but it exists — DESeq2 does not offer this.</li>
+            <li><strong>Multi-factor designs needing full GLM control.</strong> edgeR's <code>glmQLFTest</code> handles complex interaction terms, covariates (batch, sex, treatment × time), and contrasts between any combination of groups.</li>
+            <li><strong>When you also need gene set testing.</strong> The <code>camera</code>, <code>fry</code>, <code>goana</code>, and <code>kegga</code> functions in edgeR/limma are among the best-implemented gene set tests in Bioconductor.</li>
+          </ul>
+
+          <div class="explain-box">
+            <div class="eb-label">🌾 Sorghum Application</div>
+            <p>In your BPV genomic selection work, you may have RNA-seq data from drought-stressed vs well-watered sorghum lines, possibly with multiple time points (seedling, tillering, anthesis). This is a <strong>multi-factor design</strong> — genotype × treatment × time. edgeR's GLM framework handles this naturally, letting you test: "Which genes respond to drought specifically at anthesis, after accounting for genotype effects?"</p>
+          </div>
+        </section>
+
+        <!-- SECTION 7 -->
+        <section id="when-limma">
+          <h2><span class="n">07</span> When to reach for limma-voom</h2>
+
+          <p>limma-voom is often the preferred choice for:</p>
+
+          <ul class="bullets">
+            <li><strong>Larger datasets (n ≥ 10 per group).</strong> With more replicates, the normal approximation used by limma-voom becomes very accurate, and limma's speed advantage over edgeR becomes noticeable.</li>
+            <li><strong>Arrays + RNA-seq in the same study.</strong> limma was originally written for microarrays. If you are comparing or combining microarray and RNA-seq data, limma provides a unified framework.</li>
+            <li><strong>Experiments with many covariates.</strong> limma's <code>lmFit</code> approach is extremely efficient for designs with many covariates (batch effects, continuous variables like flowering time, random effects modelled with <code>duplicateCorrelation</code>).</li>
+            <li><strong>When you need quality weights per sample.</strong> <code>voomWithQualityWeights</code> detects outlier samples and automatically down-weights them — very useful when one replicate has a degraded library.</li>
+            <li><strong>Proteomics or other omics data.</strong> limma is not limited to RNA-seq. The same pipeline works for proteomics, methylation arrays, and metabolomics after appropriate normalisation.</li>
+          </ul>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <p><strong>The voom insight (Law et al., 2014):</strong> The genius of limma-voom is that it converts the heteroscedastic count problem into a problem limma already knows how to solve. By computing precision weights from the mean–variance trend and passing them to <code>lmFit</code>, it lets you use 20 years of linear model theory for RNA-seq. This makes it extremely flexible for unusual designs.</p>
+          </div>
+
+          <p>In this module, you will learn both edgeR and limma-voom thoroughly. By Lesson 9, you will be able to run both on the same dataset, compare their results, and explain to a collaborator which genes you trust the most and why.</p>
+        </section>
+
+        <!-- SECTION 8 — EXERCISES -->
+        <section id="exercises">
+          <h2><span class="n">08</span> Exercises</h2>
+
+          <p>These conceptual exercises test your understanding before writing any code. Think through each one carefully — the answers reinforce the statistical foundations that every subsequent lesson builds on.</p>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">1</div>
+              <div class="ex-title">Identify the distribution</div>
+            </div>
+            <p>You have a gene with mean count μ = 200 in the control group. You observe counts across 4 replicates: 185, 212, 193, 220. Calculate the observed variance. Is this consistent with a Poisson distribution (where variance = mean = 200), or does it suggest overdispersion?</p>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="ans-body">
+                <p><strong>Mean:</strong> (185 + 212 + 193 + 220) / 4 = 202.5 (close to 200, good)</p>
+                <p><strong>Variance:</strong> [(185−202.5)² + (212−202.5)² + (193−202.5)² + (220−202.5)²] / 3 = [306.25 + 90.25 + 90.25 + 306.25] / 3 = 264.3</p>
+                <p>The Poisson distribution predicts variance = mean = 200. The observed variance is 264.3 — <strong>larger than the mean</strong>. This is overdispersion, consistent with the negative binomial model. With biological replicates, overdispersion is virtually always present in real RNA-seq data.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">2</div>
+              <div class="ex-title">t-test failure mode</div>
+            </div>
+            <p>A colleague runs a t-test on raw counts to find DE genes in a sorghum drought experiment. They find 8,000 significant genes at FDR < 0.05. List three reasons why this result is likely unreliable.</p>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="ans-body">
+                <p>1. <strong>Normality assumption violated:</strong> RNA-seq counts are discrete, right-skewed, and zero-inflated — far from normal. The t-test's p-values assume normality; violations inflate false positives especially for low-count genes.</p>
+                <p>2. <strong>Heteroscedasticity ignored:</strong> The t-test assumes equal (or at least constant) variance. RNA-seq variance grows with the mean. Highly expressed genes will have their variance underestimated relative to lowly expressed genes, producing biased results in both directions.</p>
+                <p>3. <strong>No library size normalisation:</strong> Raw counts are not normalised for sequencing depth. A gene with 100 counts in a 10M-read library and 100 counts in a 50M-read library has very different expression levels. Without TMM or median-of-ratios normalisation, the t-test cannot distinguish real expression differences from depth differences. 8,000 "significant" genes almost certainly includes thousands of false positives from library size effects alone.</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">3</div>
+              <div class="ex-title">Choose your tool</div>
+            </div>
+            <p>For each scenario below, which tool would you use first — edgeR, limma-voom, or DESeq2? Justify your choice.</p>
+            <p><strong>A)</strong> Sorghum experiment, n=2 per group (drought vs control), no budget for more sequencing.</p>
+            <p><strong>B)</strong> Human clinical trial, n=40 per group, with continuous covariates (age, BMI, batch date).</p>
+            <p><strong>C)</strong> A standard sorghum experiment, n=4 per group, and you want fold change shrinkage for a publication-quality MA plot.</p>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="ans-body">
+                <p><strong>A)</strong> <strong>edgeR</strong> — specifically the classic exact test or <code>glmQLFTest</code>. edgeR was designed for very small n and can even be used with n=2. DESeq2 and limma-voom can also work, but edgeR has the best-established track record with n=2.</p>
+                <p><strong>B)</strong> <strong>limma-voom</strong> — with n=40, the normal approximation is excellent. limma's linear model framework handles many continuous covariates naturally via <code>lmFit</code>, and <code>voomWithQualityWeights</code> can flag outlier samples in a large clinical cohort.</p>
+                <p><strong>C)</strong> <strong>DESeq2</strong> — DESeq2's <code>lfcShrink()</code> with the apeglm method is specifically designed for shrinking log fold changes toward zero for lowly expressed or variable genes. This produces cleaner MA plots and more conservative, reproducible results for publication. (You might also run edgeR or limma-voom and compare the intersection.)</p>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">4</div>
+              <div class="ex-title">Dispersion intuition</div>
+            </div>
+            <p>Gene A has dispersion φ = 0.01. Gene B has dispersion φ = 0.5. Both have mean expression μ = 100. Which gene requires stronger evidence (larger fold change, more replicates, or lower p-value threshold) to be called differentially expressed? Why?</p>
+            <details class="answer">
+              <summary>▶ Show answer</summary>
+              <div class="ans-body">
+                <p><strong>Gene B</strong> (φ = 0.5) requires stronger evidence.</p>
+                <p>Var(Gene A) = 100 + 0.01 × 100² = 100 + 100 = 200. SD ≈ 14.1</p>
+                <p>Var(Gene B) = 100 + 0.5 × 100² = 100 + 5000 = 5100. SD ≈ 71.4</p>
+                <p>Gene B is five times noisier. A fold change of 2× in Gene B could easily be explained by biological noise between replicates. The same fold change in Gene A, which has low dispersion, is much more likely to represent a true biological difference. edgeR and DESeq2 automatically penalise high-dispersion genes, producing wider confidence intervals and higher p-values for noisy genes — even when the observed fold change is the same.</p>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <!-- MARK COMPLETE -->
+        <div class="mark-complete-wrap">
+          <button class="mark-complete" id="mark-btn" onclick="markComplete()">
+            ✓ Mark Lesson 1 Complete
+          </button>
+        </div>
+
+        <!-- LESSON NAV -->
+        <div class="lesson-nav-footer">
+          <span style="color:var(--muted);font-size:13px;">← Module 20, Lesson 1</span>
+          <span style="opacity:.55;">Lesson 2: Installing &amp; Loading edgeR / limma — coming soon</span>
+        </div>
+
+      </div><!-- end .prose -->
+    </div><!-- end .article-grid -->
+  </div><!-- end .wrap -->
+</div><!-- end .article -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     AD SLOT — BOTTOM RECTANGLE
+════════════════════════════════════════════════════════════ -->
+<div style="text-align:center;padding:24px 0 48px;">
+  <div class="ad-slot rectangle" style="display:inline-block;width:100%;max-width:340px;">
+    <strong>Advertisement</strong>
+    <small>AdSense rectangle slot reserved</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>FREE BIOINFORMATICS TRAINING</small>
+          </div>
+        </a>
+        <p class="foot-about">A free, research-grade bioinformatics curriculum built for scientists who want to analyse genomes, transcriptomes, and beyond.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" aria-label="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" aria-label="ORCID">OI</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Curriculum</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../../courses.html#phase1">Phase 1 — Foundations</a></li>
+          <li><a href="../../courses.html#phase2">Phase 2 — Core Bioinfo</a></li>
+          <li><a href="../../courses.html#phase3">Phase 3 — Advanced</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>This Module</h4>
+        <ul>
+          <li><a href="lesson-1.html">Lesson 1 — Why edgeR &amp; limma?</a></li>
+          <li><span style="opacity:.5;">Lesson 2 — Installing &amp; Loading (soon)</span></li>
+          <li><span style="opacity:.5;">Lesson 3 — Filtering &amp; Normalisation (soon)</span></li>
+          <li><span style="opacity:.5;">Lesson 4 — Model Matrices (soon)</span></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://bioconductor.org/packages/edgeR/" target="_blank">edgeR on Bioconductor</a></li>
+          <li><a href="https://bioconductor.org/packages/limma/" target="_blank">limma on Bioconductor</a></li>
+          <li><a href="https://github.com/shajedurhossain" target="_blank">GitHub Portfolio</a></li>
+          <li><a href="../../about.html">About the Instructor</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+          <li><a href="../../terms.html">Terms of Use</a></li>
+          <li><a href="../../advertise.html">Advertise</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 Shopnil Academy · shopnilacademy.com · All content free forever.</span>
+      <span>Made with ♥ in Gießen, Germany</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Mobile nav ─────────────────────────────────────────── */
+  function toggleNav() {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  /* ── Module accordion ───────────────────────────────────── */
+  function toggleMod(el) {
+    el.classList.toggle('open');
+    const lessons = el.nextElementSibling;
+    lessons.classList.toggle('open');
+  }
+
+  /* ── Copy code ───────────────────────────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  /* ── Progress bar ────────────────────────────────────────── */
+  const TOTAL = 10;
+  const LS_KEY = 'sa_edger_done';
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const pct = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = done.length + ' / ' + TOTAL;
+
+    // Highlight done lessons in sidebar
+    for (let i = 1; i <= TOTAL; i++) {
+      const link = document.getElementById('link-l' + i);
+      if (!link) continue;
+      if (done.includes('l' + i)) {
+        link.classList.add('done');
+        link.querySelector('.l-icon').textContent = '✓';
+      }
+    }
+
+    // Update mark-complete button
+    const btn = document.getElementById('mark-btn');
+    if (done.includes('l1')) {
+      btn.textContent = '✓ Lesson 1 Complete';
+      btn.classList.add('done');
+    }
+  }
+
+  function markComplete() {
+    const done = getDone();
+    if (!done.includes('l1')) {
+      done.push('l1');
+      localStorage.setItem(LS_KEY, JSON.stringify(done));
+    }
+    updateProgress();
+  }
+
+  updateProgress();
+
+  /* ── Active TOC via IntersectionObserver ─────────────────── */
+  const sections = document.querySelectorAll('.prose section[id]');
+  const tocLinks = document.querySelectorAll('.toc-link');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('toc-active'));
+        const active = document.querySelector('.toc-link[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('toc-active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
