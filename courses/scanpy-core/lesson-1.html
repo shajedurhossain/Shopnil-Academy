@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Introduction to Scanpy & AnnData | Shopnil Academy</title>
+  <meta name="description" content="Learn what Scanpy is, how the AnnData object works, how to install Scanpy, and how to load 10x PBMC single-cell RNA-seq data in Python." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    .sidebar-course-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:4px}
+    .sidebar-course-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--ink);line-height:1.3;margin-bottom:18px}
+    .prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
+    .prog-track{height:6px;background:var(--green-soft);border-radius:999px;margin-bottom:20px;overflow:hidden}
+    .prog-fill{height:100%;background:var(--green);border-radius:999px;transition:width .4s ease}
+    .mod-group{margin-bottom:8px}
+    .mod-group-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 12px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border-radius:10px;user-select:none;transition:background .15s}
+    .mod-group-label:hover{background:var(--green-soft)}
+    .mod-group-label .chevron{font-size:10px;transition:transform .25s}
+    .mod-group-label.open .chevron{transform:rotate(90deg)}
+    .mod-lessons{display:none;padding-left:6px}
+    .mod-lessons.open{display:block}
+    .lesson-link{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;font-size:13px;color:var(--muted);transition:background .15s,color .15s;text-decoration:none;margin-bottom:2px}
+    .lesson-link:hover{background:var(--green-soft);color:var(--ink)}
+    .lesson-link.active{background:var(--green-soft);color:var(--green);font-weight:600}
+    .l-icon{width:22px;height:22px;border-radius:6px;flex-shrink:0;display:grid;place-items:center;font-size:11px;font-weight:700;background:var(--cream);color:var(--muted)}
+    .lesson-link.active .l-icon{background:var(--green);color:#fff}
+    .lesson-link.done .l-icon{background:var(--green-mint);color:var(--green-deep)}
+    .lesson-meta-strip{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:28px}
+    .lm-pill{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:1px solid var(--line);padding:5px 12px;border-radius:999px;font-size:12px;font-weight:500;color:var(--muted)}
+    .lm-num{color:var(--green);font-weight:700}
+    .code-wrap{margin:20px 0;border-radius:14px;overflow:hidden;box-shadow:var(--shadow-sm)}
+    .code-header{display:flex;align-items:center;justify-content:space-between;background:#1a2e22;padding:10px 16px}
+    .code-lang{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7fbb9a}
+    .copy-btn{font-size:12px;font-weight:600;color:#7fbb9a;background:rgba(127,187,154,.12);border:1px solid rgba(127,187,154,.25);padding:4px 12px;border-radius:999px;cursor:pointer;transition:background .2s}
+    .copy-btn:hover{background:rgba(127,187,154,.25)}
+    pre{margin:0;padding:20px;background:#0f1f17;font-family:'DM Mono',monospace;font-size:13.5px;line-height:1.75;overflow-x:auto;color:#c8d8c0}
+    .c-cmd{color:#7fbb9a;font-weight:500}
+    .c-flag{color:#e8b72a}
+    .c-path{color:#79c0ff}
+    .c-out{color:#8b9e8f}
+    .c-comment{color:#4d6b56;font-style:italic}
+    .c-kw{color:#f97583}
+    .c-str{color:#9ecbff}
+    .c-num{color:#f8c555}
+    .c-fn{color:#b392f0}
+    .c-cls{color:#79c0ff;font-weight:600}
+    .explain-box{background:var(--green-soft);border-left:4px solid var(--green);border-radius:0 12px 12px 0;padding:16px 20px;margin:18px 0}
+    .explain-box p{font-size:14.5px;color:var(--green-deep);line-height:1.65;margin:0}
+    .explain-box strong{color:var(--green-dark)}
+    .folder-note{display:inline-flex;align-items:center;gap:8px;background:var(--gold-soft);border:1px solid rgba(232,183,42,.3);padding:7px 14px;border-radius:999px;font-size:12.5px;font-weight:600;color:#7a5c00;margin:12px 0;font-family:'DM Mono',monospace}
+    .tip,.warn{display:flex;gap:12px;padding:14px 18px;border-radius:12px;margin:18px 0;font-size:14px;line-height:1.6}
+    .tip{background:#e6f4ef;border:1px solid rgba(0,106,78,.2)}
+    .warn{background:#fff4e5;border:1px solid rgba(232,140,42,.3)}
+    .tip-icon,.warn-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+    .tip p,.warn p{margin:0;color:var(--ink);font-size:14px}
+    .exercise{border:1px solid var(--line);border-radius:16px;background:#fff;padding:22px;margin:16px 0}
+    .ex-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+    .ex-num{width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700;flex-shrink:0}
+    .ex-title{font-family:var(--font-display);font-size:15px;font-weight:600}
+    details.answer{margin-top:12px}
+    details.answer summary{font-size:13px;font-weight:600;color:var(--green);cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:6px}
+    details.answer summary::-webkit-details-marker{display:none}
+    details.answer summary::before{content:'▶';font-size:10px;transition:transform .2s}
+    details.answer[open] summary::before{transform:rotate(90deg)}
+    details.answer .answer-body{margin-top:12px;padding:14px 16px;background:var(--cream);border-radius:10px;font-size:14px;color:var(--ink)}
+    .cmd-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+    .cmd-table th{background:var(--cream);padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid var(--line)}
+    .cmd-table td{padding:10px 14px;border-bottom:1px solid var(--line);color:#33433b;vertical-align:top}
+    .cmd-table tr:last-child td{border-bottom:0}
+    .cmd-table code{font-family:'DM Mono',monospace;font-size:12.5px;background:var(--cream);padding:2px 6px;border-radius:4px}
+    .mark-complete-wrap{text-align:center;margin:40px 0 10px}
+    .mark-complete{padding:14px 32px;border-radius:999px;font-size:15px;font-weight:700;background:var(--green);color:#fff;border:none;cursor:pointer;transition:background .2s,transform .15s}
+    .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
+    .mark-complete.done{background:var(--green-mint);color:var(--green-deep)}
+    .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:24px 0;border-top:1px solid var(--line);margin-top:40px}
+    .lesson-nav-footer a{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--green)}
+    .lesson-nav-footer a:hover{color:var(--green-deep)}
+    .toc a.active{color:var(--green);border-left-color:var(--green);background:var(--green-soft)}
+    .anndata-diagram{background:#0f1f17;border-radius:14px;padding:24px 28px;margin:20px 0;font-family:'DM Mono',monospace;font-size:13px;line-height:1.9;overflow-x:auto}
+    .ad-key{color:#7fbb9a;font-weight:600}
+    .ad-val{color:#9ecbff}
+    .ad-dim{color:#f8c555}
+    .ad-desc{color:#4d6b56;font-style:italic}
+
+    /* wide full-bleed lesson shell */
+    .article > .wrap{max-width:none;width:100%;padding:0;margin:0}
+    .article-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;align-items:start;max-width:none;margin:0}
+    aside.toc{position:sticky;top:0;height:100vh;overflow-y:auto;width:auto;max-width:none;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px;margin:0;border-radius:0}
+    aside.toc::-webkit-scrollbar{width:4px}
+    aside.toc::-webkit-scrollbar-thumb{background:var(--green-mint);border-radius:4px}
+    main.prose{padding:38px 52px 20px;max-width:1040px;margin:0}
+    @media(max-width:980px){.article-grid{grid-template-columns:1fr}aside.toc{display:none}main.prose{padding:26px 20px}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS EDUCATION</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enrol Free</a>
+    </div>
+    <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+  </nav>
+</div>
+
+<!-- INNER HEADER -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="lesson-1.html">Scanpy — Core Workflow</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <div class="free-pill" style="margin-bottom:14px;">✓ 100% Free · No login required</div>
+    <h1>Introduction to Scanpy &amp; AnnData</h1>
+    <p class="lead">Understand what Scanpy is, how AnnData stores single-cell data, install the stack, and load your first 10x PBMC dataset.</p>
+    <div class="lesson-meta-strip" style="margin-top:20px;">
+      <span class="lm-pill"><span class="lm-num">Module 27</span></span>
+      <span class="lm-pill">⏱ 45 min</span>
+      <span class="lm-pill">🐍 Python</span>
+      <span class="lm-pill">📄 Lesson 1 of 10</span>
+    </div>
+  </div>
+</div>
+
+<!-- AD TOP -->
+<div class="wrap" style="padding-top:28px;padding-bottom:4px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Support free education — ads keep this site running</small>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="article">
+  <div class="wrap">
+    <div class="article-grid">
+
+      <!-- SIDEBAR -->
+      <aside class="toc" id="sidebar">
+        <div class="sidebar-course-label">Phase 4 · Module 27</div>
+        <div class="sidebar-course-title">Scanpy — Core Workflow</div>
+        <div class="prog-label">
+          <span>Progress</span>
+          <span id="prog-text">0 / 10</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+        <div class="mod-group">
+          <div class="mod-group-label open" onclick="toggleMod(this)">
+            <span>Module 27 — Scanpy Core</span>
+            <span class="chevron">›</span>
+          </div>
+          <div class="mod-lessons open">
+            <a class="lesson-link active" href="lesson-1.html"><span class="l-icon">1</span>Intro to Scanpy &amp; AnnData</a>
+            <a class="lesson-link" href="lesson-2.html"><span class="l-icon">2</span>Quality Control</a>
+            <a class="lesson-link" href="lesson-3.html"><span class="l-icon">3</span>Normalisation &amp; Log-transform</a>
+            <a class="lesson-link" href="lesson-4.html"><span class="l-icon">4</span>Highly Variable Genes</a>
+            <a class="lesson-link" href="lesson-5.html"><span class="l-icon">5</span>Scaling &amp; PCA</a>
+            <a class="lesson-link" href="lesson-6.html"><span class="l-icon">6</span>Neighbourhood Graph &amp; UMAP</a>
+            <a class="lesson-link" href="lesson-7.html"><span class="l-icon">7</span>Clustering with Leiden</a>
+            <a class="lesson-link" href="lesson-8.html"><span class="l-icon">8</span>Marker Gene Detection</a>
+            <a class="lesson-link" href="lesson-9.html"><span class="l-icon">9</span>Cell Type Annotation</a>
+            <a class="lesson-link" href="lesson-10.html"><span class="l-icon">10</span>Saving &amp; Reproducibility</a>
+          </div>
+        </div>
+        <div style="margin-top:24px;">
+          <h5 style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">On this page</h5>
+          <ul>
+            <li><a href="#overview" class="toc-link">What is Scanpy?</a></li>
+            <li><a href="#anndata" class="toc-link">The AnnData Object</a></li>
+            <li><a href="#install" class="toc-link">Installing Scanpy</a></li>
+            <li><a href="#first-import" class="toc-link">First Import &amp; Settings</a></li>
+            <li><a href="#load-data" class="toc-link">Loading PBMC Data</a></li>
+            <li><a href="#inspect" class="toc-link">Inspecting the Object</a></li>
+            <li><a href="#reference" class="toc-link">Quick Reference</a></li>
+            <li><a href="#exercises" class="toc-link">Exercises</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- PROSE -->
+      <main class="prose">
+
+        <section id="overview">
+          <h2>What is Scanpy?</h2>
+          <p>Scanpy (<strong>Single-Cell ANalysis in Python</strong>) is the primary Python toolkit for analysing single-cell RNA-sequencing (scRNA-seq) data. It was developed at the Helmholtz Centre Munich and published in 2018 by Wolf et al. in <em>Genome Biology</em>. Today it is the most-used scRNA-seq framework in the Python ecosystem, with a vibrant extension package landscape including scvi-tools, squidpy, cellrank, and more.</p>
+
+          <div class="explain-box">
+            <p><strong>Why Scanpy instead of Seurat?</strong><br>
+            Seurat (R) is the dominant framework in R-centric labs. Scanpy is its Python equivalent. Both implement the same biological workflow: QC → normalise → HVGs → PCA → UMAP → cluster → annotate. Choosing Scanpy means you stay inside the Python data-science ecosystem (NumPy, Pandas, scikit-learn, matplotlib), making integration with machine-learning pipelines effortless. For a plant genomics researcher, Scanpy is also straightforward to combine with GWAS summary statistics and custom Python scripts.</p>
+          </div>
+
+          <p>The Scanpy workflow follows eight canonical steps identical to Seurat's — only the syntax changes:</p>
+
+          <table class="cmd-table">
+            <thead>
+              <tr><th>Step</th><th>Seurat function</th><th>Scanpy equivalent</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Load data</td><td><code>Read10X()</code></td><td><code>sc.read_10x_mtx()</code></td></tr>
+              <tr><td>QC filtering</td><td><code>subset()</code></td><td><code>sc.pp.filter_cells()</code></td></tr>
+              <tr><td>Normalise</td><td><code>NormalizeData()</code></td><td><code>sc.pp.normalize_total()</code></td></tr>
+              <tr><td>HVGs</td><td><code>FindVariableFeatures()</code></td><td><code>sc.pp.highly_variable_genes()</code></td></tr>
+              <tr><td>Scale</td><td><code>ScaleData()</code></td><td><code>sc.pp.scale()</code></td></tr>
+              <tr><td>PCA</td><td><code>RunPCA()</code></td><td><code>sc.tl.pca()</code></td></tr>
+              <tr><td>UMAP</td><td><code>RunUMAP()</code></td><td><code>sc.tl.umap()</code></td></tr>
+              <tr><td>Cluster</td><td><code>FindClusters()</code></td><td><code>sc.tl.leiden()</code></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="anndata">
+          <h2>The AnnData Object</h2>
+          <p>The heart of Scanpy is the <strong>AnnData</strong> (Annotated Data) object. It is a single Python object that holds <em>everything</em> about your experiment: raw counts, QC metrics, dimensionality reductions, cluster labels, and metadata — all linked together.</p>
+
+          <div class="explain-box">
+            <p><strong>Why one object for everything?</strong><br>
+            In classical bulk RNA-seq (DESeq2), you typically keep a counts matrix, a colData table, and results tables as separate R objects. With single-cell data — where you may have 10,000–50,000 cells — managing separate objects becomes error-prone. AnnData enforces a linked structure: the row (cell) axis of every annotation is guaranteed to match the row axis of the count matrix. You cannot accidentally apply a cluster label from sample A to the cells of sample B.</p>
+          </div>
+
+          <div class="anndata-diagram">
+<span class="ad-key">AnnData</span> object with <span class="ad-dim">n_obs × n_vars</span> = <span class="ad-dim">2700 × 32738</span>
+
+<span class="ad-key">  adata.X</span>       <span class="ad-val">— count matrix</span>    <span class="ad-dim">(2700 cells × 32738 genes)</span>  <span class="ad-desc"># sparse CSR matrix</span>
+<span class="ad-key">  adata.obs</span>     <span class="ad-val">— cell metadata</span>   <span class="ad-dim">(DataFrame, 1 row per cell)</span>  <span class="ad-desc"># n_genes, pct_mt …</span>
+<span class="ad-key">  adata.var</span>     <span class="ad-val">— gene metadata</span>   <span class="ad-dim">(DataFrame, 1 row per gene)</span>  <span class="ad-desc"># n_cells, highly_variable …</span>
+<span class="ad-key">  adata.obsm</span>    <span class="ad-val">— cell embeddings</span> <span class="ad-dim">(dict of arrays)</span>             <span class="ad-desc"># PCA, UMAP coords</span>
+<span class="ad-key">  adata.obsp</span>    <span class="ad-val">— cell graphs</span>     <span class="ad-dim">(sparse matrix)</span>              <span class="ad-desc"># kNN adjacency</span>
+<span class="ad-key">  adata.varm</span>    <span class="ad-val">— gene embeddings</span> <span class="ad-dim">(dict of arrays)</span>             <span class="ad-desc"># PCA loadings</span>
+<span class="ad-key">  adata.uns</span>     <span class="ad-val">— unstructured</span>    <span class="ad-dim">(dict)</span>                        <span class="ad-desc"># colours, params</span>
+<span class="ad-key">  adata.layers</span>  <span class="ad-val">— extra matrices</span>  <span class="ad-dim">(dict of matrices)</span>           <span class="ad-desc"># raw counts backup</span>
+          </div>
+
+          <p>Think of AnnData like a spreadsheet where rows are cells and columns are genes, but with extra filing cabinets attached for dimensionality reductions (<code>obsm</code>), graphs (<code>obsp</code>), and free-form notes (<code>uns</code>).</p>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <p><strong>obs vs var:</strong> <code>obs</code> = observations = cells. <code>var</code> = variables = genes. This follows the statistics convention where "observations" are samples and "variables" are features. In scRNA-seq, each cell is one observation and each gene is one variable.</p>
+          </div>
+        </section>
+
+        <section id="install">
+          <h2>Installing Scanpy</h2>
+
+          <div class="explain-box">
+            <p><strong>Why a dedicated conda environment?</strong><br>
+            Scanpy depends on specific versions of NumPy, anndata, leidenalg, igraph, and umap-learn. Mixing these with your existing system Python or other conda environments can cause version conflicts that are very hard to debug. Creating a clean <code>scanpy-env</code> is the professional standard — it matches exactly what you would do on an HPC cluster or in a Docker container for a published analysis.</p>
+          </div>
+
+          <div class="folder-note">📁 Run from: any terminal (home directory is fine)</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">Bash — Create environment</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># Create a dedicated conda environment for Scanpy</span>
+<span class="c-cmd">conda</span> <span class="c-flag">create</span> <span class="c-flag">-n</span> scanpy-env <span class="c-flag">python=3.11</span> <span class="c-flag">-y</span>
+
+<span class="c-comment"># Activate it</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> scanpy-env
+
+<span class="c-comment"># Install Scanpy and core dependencies</span>
+<span class="c-cmd">pip</span> <span class="c-flag">install</span> scanpy
+
+<span class="c-comment"># Install Leiden algorithm for clustering (required for sc.tl.leiden)</span>
+<span class="c-cmd">pip</span> <span class="c-flag">install</span> leidenalg igraph
+
+<span class="c-comment"># Install Jupyter for interactive analysis</span>
+<span class="c-cmd">pip</span> <span class="c-flag">install</span> jupyter notebook
+
+<span class="c-comment"># Verify installation</span>
+<span class="c-cmd">python</span> <span class="c-flag">-c</span> <span class="c-str">"import scanpy as sc; print(sc.__version__)"</span>
+<span class="c-out"># Expected: 1.10.x (or similar)</span></pre>
+          </div>
+
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <p><strong>leidenalg is not installed automatically by Scanpy.</strong> If you run <code>sc.tl.leiden()</code> without it, you get an <code>ImportError</code>. Always install <code>leidenalg</code> and <code>igraph</code> alongside Scanpy. Alternatively use <code>sc.tl.louvain()</code> (fewer dependencies), but Leiden is the modern standard.</p>
+          </div>
+
+          <p>Prefer a single conda command? Use this all-in-one approach:</p>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">Bash — All-in-one conda install</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-cmd">conda</span> <span class="c-flag">create</span> <span class="c-flag">-n</span> scanpy-env <span class="c-flag">-c</span> conda-forge <span class="c-flag">-c</span> bioconda \
+    scanpy leidenalg python-igraph jupyter <span class="c-flag">-y</span></pre>
+          </div>
+        </section>
+
+        <section id="first-import">
+          <h2>First Import &amp; Settings</h2>
+
+          <div class="explain-box">
+            <p><strong>Why set global settings at the top?</strong><br>
+            <code>sc.settings</code> controls how Scanpy saves figures, how verbose it is, and what figure format it uses. Setting these at the very top of your script means every plot generated later automatically goes to the right folder with the right resolution. This is essential for reproducibility — when you re-run the script six months later, you get identical output files in the same location.</p>
+          </div>
+
+          <div class="folder-note">📁 Run from: ~/scrna-scanpy-pbmc/</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">Python</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># ── Standard Scanpy imports ─────────────────────────────────</span>
+<span class="c-kw">import</span> <span class="c-cls">scanpy</span> <span class="c-kw">as</span> sc
+<span class="c-kw">import</span> <span class="c-cls">anndata</span> <span class="c-kw">as</span> ad
+<span class="c-kw">import</span> <span class="c-cls">numpy</span> <span class="c-kw">as</span> np
+<span class="c-kw">import</span> <span class="c-cls">pandas</span> <span class="c-kw">as</span> pd
+<span class="c-kw">import</span> <span class="c-cls">matplotlib.pyplot</span> <span class="c-kw">as</span> plt
+
+<span class="c-comment"># ── Global settings ─────────────────────────────────────────</span>
+sc.settings.verbosity = <span class="c-num">3</span>             <span class="c-comment"># 0=errors only, 3=hints (recommended)</span>
+sc.settings.set_figure_params(
+    dpi=<span class="c-num">100</span>,                             <span class="c-comment"># screen resolution</span>
+    dpi_save=<span class="c-num">300</span>,                        <span class="c-comment"># publication resolution</span>
+    figsize=(<span class="c-num">6</span>, <span class="c-num">5</span>),
+    facecolor=<span class="c-str">'white'</span>
+)
+sc.settings.figdir = <span class="c-str">'./figures/'</span>     <span class="c-comment"># all sc.pl plots saved here</span>
+
+<span class="c-comment"># ── Reproducibility: fix the random seed ────────────────────</span>
+np.random.seed(<span class="c-num">42</span>)
+
+<span class="c-comment"># ── Print version info ──────────────────────────────────────</span>
+sc.logging.print_header()
+<span class="c-out"># scanpy==1.10.x  anndata==0.10.x  umap==0.5.x  numpy==1.26.x ...</span></pre>
+          </div>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <p><strong><code>sc.logging.print_header()</code></strong> prints the exact version of every key dependency. Always include this at the top of published analysis scripts — reviewers can reproduce your environment precisely by reading these version numbers.</p>
+          </div>
+        </section>
+
+        <section id="load-data">
+          <h2>Loading PBMC Data</h2>
+
+          <p>We use the <strong>PBMC 3k dataset</strong> — 2,700 peripheral blood mononuclear cells from a healthy donor, sequenced with 10x Genomics Chromium. This is the "Hello, World" of scRNA-seq: small enough to process in minutes on a laptop, well-documented, with known cell types (T cells, B cells, NK cells, monocytes).</p>
+
+          <div class="explain-box">
+            <p><strong>What is the 10x MTX format?</strong><br>
+            The 10x Chromium pipeline (Cell Ranger) outputs three files into <code>filtered_feature_bc_matrix/</code>:<br>
+            • <code>matrix.mtx.gz</code> — the sparse count matrix in Market Exchange Format<br>
+            • <code>barcodes.tsv.gz</code> — one cell barcode per row (these become row names = cell IDs)<br>
+            • <code>features.tsv.gz</code> — one gene per row with Ensembl ID and gene name<br>
+            <code>sc.read_10x_mtx()</code> reads all three files and assembles them into an AnnData object automatically.</p>
+          </div>
+
+          <div class="folder-note">📁 Run from: ~/scrna-scanpy-pbmc/</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">Python — Load PBMC 3k (built-in)</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># ── Option A: Scanpy's built-in PBMC 3k loader ──────────────</span>
+<span class="c-comment"># Downloads ~22 MB to ~/.cache/scanpy/ on first run</span>
+adata = sc.datasets.pbmc3k()
+
+<span class="c-out"># AnnData object with n_obs x n_vars = 2700 x 32738</span></pre>
+          </div>
+
+          <p>To load your own Cell Ranger output (what you would do in a real project):</p>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">Python — Load from Cell Ranger folder</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># ── Option B: Read from Cell Ranger output folder ───────────</span>
+adata = sc.read_10x_mtx(
+    <span class="c-str">'./data/raw/pbmc3k/filtered_feature_bc_matrix/'</span>,
+    var_names=<span class="c-str">'gene_symbols'</span>,   <span class="c-comment"># use gene names, not Ensembl IDs</span>
+    cache=<span class="c-kw">True</span>                <span class="c-comment"># cache to disk for faster re-loading</span>
+)
+
+<span class="c-comment"># Make gene names unique (some symbols appear at two loci)</span>
+adata.var_names_make_unique()</pre>
+          </div>
+
+          <div class="tip">
+            <span class="tip-icon">💡</span>
+            <p><strong><code>var_names='gene_symbols'</code></strong> uses human-readable gene names (<em>CD3D</em>, <em>MS4A1</em>) instead of Ensembl IDs (<em>ENSG00000167286</em>). For sorghum data, gene names follow the <em>Sorghum bicolor</em> annotation convention (e.g. <em>Sobic.001G000100</em>) but the parameter works identically.</p>
+          </div>
+        </section>
+
+        <section id="inspect">
+          <h2>Inspecting the Object</h2>
+
+          <div class="explain-box">
+            <p><strong>Why inspect before analysing?</strong><br>
+            Your first action after loading any dataset should always be to examine its shape and structure. In bulk RNA-seq you would run <code>dim(dds)</code> or <code>head(colData)</code>. In Scanpy the equivalent is printing the AnnData object and exploring its slots. This confirms the data loaded correctly, tells you how many cells and genes you have, and reveals whether metadata is already present.</p>
+          </div>
+
+          <div class="folder-note">📁 Run from: ~/scrna-scanpy-pbmc/</div>
+
+          <div class="code-wrap">
+            <div class="code-header">
+              <span class="code-lang">Python — Inspect AnnData</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><span class="c-comment"># ── Basic summary ────────────────────────────────────────────</span>
+<span class="c-fn">print</span>(adata)
+<span class="c-out"># AnnData object with n_obs x n_vars = 2700 x 32738</span>
+
+<span class="c-comment"># ── Shape: (cells, genes) ────────────────────────────────────</span>
+<span class="c-fn">print</span>(<span class="c-str">f"Cells: {adata.n_obs}, Genes: {adata.n_vars}"</span>)
+<span class="c-out"># Cells: 2700, Genes: 32738</span>
+
+<span class="c-comment"># ── Cell metadata (obs) — empty at this stage ────────────────</span>
+<span class="c-fn">print</span>(adata.obs.head())
+<span class="c-out"># Empty DataFrame (QC metrics added in Lesson 2)</span>
+
+<span class="c-comment"># ── Gene metadata (var) ──────────────────────────────────────</span>
+<span class="c-fn">print</span>(adata.var.head())
+<span class="c-out">#                  gene_ids        feature_types</span>
+<span class="c-out"># MIR1302-2HG    ENSG00000243485   Gene Expression</span>
+<span class="c-out"># FAM138A        ENSG00000237613   Gene Expression</span>
+
+<span class="c-comment"># ── First few cell barcodes ──────────────────────────────────</span>
+<span class="c-fn">print</span>(adata.obs_names[:<span class="c-num">5</span>])
+<span class="c-out"># Index(['AAACATACAACCAC-1', 'AAACATTGAGCTAC-1', ...])</span>
+
+<span class="c-comment"># ── Count matrix type ────────────────────────────────────────</span>
+<span class="c-fn">print</span>(<span class="c-fn">type</span>(adata.X))
+<span class="c-out"># &lt;class 'scipy.sparse.csr_matrix'&gt;</span>
+
+<span class="c-comment"># ── Sparsity ─────────────────────────────────────────────────</span>
+sparsity = <span class="c-num">1.0</span> - adata.X.nnz / (adata.n_obs * adata.n_vars)
+<span class="c-fn">print</span>(<span class="c-str">f"Sparsity: {sparsity:.1%}"</span>)
+<span class="c-out"># Sparsity: ~94.4%</span>
+
+<span class="c-comment"># ── Memory comparison ────────────────────────────────────────</span>
+dense_mb = (adata.n_obs * adata.n_vars * <span class="c-num">4</span>) / <span class="c-num">1e6</span>
+<span class="c-fn">print</span>(<span class="c-str">f"Dense would use: {dense_mb:.0f} MB — sparse uses ~8 MB"</span>)</pre>
+          </div>
+
+          <p>The ~94 % sparsity is normal and expected for scRNA-seq data. Each cell only expresses a fraction of all genes. This is why Scanpy stores <code>adata.X</code> as a <strong>sparse matrix</strong> (scipy CSR format) — a dense float32 matrix would use ~354 MB; the sparse version uses ~8 MB.</p>
+
+          <div class="warn">
+            <span class="warn-icon">⚠️</span>
+            <p><strong>Always call <code>adata.var_names_make_unique()</code></strong> right after loading. Some genomes have duplicate gene symbols (two loci annotated as <em>TBCE</em>, for example). Scanpy will raise cryptic errors later in the pipeline if gene names are not unique.</p>
+          </div>
+        </section>
+
+        <section id="reference">
+          <h2>Quick Reference</h2>
+          <table class="cmd-table">
+            <thead>
+              <tr><th>Slot</th><th>What it stores</th><th>Example access</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>adata.X</code></td><td>Count matrix (cells × genes), sparse</td><td><code>adata.X.toarray()</code></td></tr>
+              <tr><td><code>adata.obs</code></td><td>Cell metadata DataFrame</td><td><code>adata.obs['n_genes']</code></td></tr>
+              <tr><td><code>adata.var</code></td><td>Gene metadata DataFrame</td><td><code>adata.var['highly_variable']</code></td></tr>
+              <tr><td><code>adata.obsm</code></td><td>Cell embeddings (PCA, UMAP)</td><td><code>adata.obsm['X_pca']</code></td></tr>
+              <tr><td><code>adata.obsp</code></td><td>Cell-cell adjacency (kNN graph)</td><td><code>adata.obsp['connectivities']</code></td></tr>
+              <tr><td><code>adata.uns</code></td><td>Unstructured metadata dict</td><td><code>adata.uns['leiden_colors']</code></td></tr>
+              <tr><td><code>adata.layers</code></td><td>Extra count matrices</td><td><code>adata.layers['raw_counts']</code></td></tr>
+              <tr><td><code>adata.n_obs</code></td><td>Number of cells (int)</td><td><code>print(adata.n_obs)</code></td></tr>
+              <tr><td><code>adata.n_vars</code></td><td>Number of genes (int)</td><td><code>print(adata.n_vars)</code></td></tr>
+              <tr><td><code>adata.obs_names</code></td><td>Cell barcode index</td><td><code>adata.obs_names[:5]</code></td></tr>
+              <tr><td><code>adata.var_names</code></td><td>Gene name index</td><td><code>adata.var_names[:5]</code></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <!-- AD MID -->
+        <div class="ad-slot in-feed" style="margin:32px 0;">
+          <strong>Advertisement</strong>
+          <small>Support free bioinformatics education</small>
+        </div>
+
+        <section id="exercises">
+          <h2>Exercises</h2>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">1</div>
+              <div class="ex-title">Print the AnnData summary</div>
+            </div>
+            <p style="color:#33433b;font-size:15px;">After loading the PBMC 3k dataset with <code>sc.datasets.pbmc3k()</code>, print the full AnnData summary. How many cells and genes does it contain? Which slots are populated at this stage?</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <div class="code-wrap" style="margin:0;">
+                  <div class="code-header"><span class="code-lang">Python</span></div>
+                  <pre>adata = sc.datasets.pbmc3k()
+<span class="c-fn">print</span>(adata)
+<span class="c-comment"># n_obs x n_vars = 2700 x 32738
+# Only adata.X and adata.var (gene_ids, feature_types) are populated.
+# adata.obs is empty — QC metrics are added in Lesson 2.</span></pre>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">2</div>
+              <div class="ex-title">Explore sparsity and memory</div>
+            </div>
+            <p style="color:#33433b;font-size:15px;">Calculate the sparsity of the PBMC count matrix. Then compare the hypothetical dense size (float32) against the actual sparse memory usage.</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <div class="code-wrap" style="margin:0;">
+                  <div class="code-header"><span class="code-lang">Python</span></div>
+                  <pre>sparsity = <span class="c-num">1.0</span> - adata.X.nnz / (adata.n_obs * adata.n_vars)
+<span class="c-fn">print</span>(<span class="c-str">f"Sparsity: {sparsity:.1%}"</span>)  <span class="c-comment"># ~94.4%</span>
+
+dense_mb = (adata.n_obs * adata.n_vars * <span class="c-num">4</span>) / <span class="c-num">1e6</span>
+<span class="c-fn">print</span>(<span class="c-str">f"Dense: {dense_mb:.0f} MB"</span>)    <span class="c-comment"># ~354 MB</span>
+
+sparse_mb = (adata.X.data.nbytes + adata.X.indices.nbytes + adata.X.indptr.nbytes) / <span class="c-num">1e6</span>
+<span class="c-fn">print</span>(<span class="c-str">f"Sparse: {sparse_mb:.1f} MB"</span>)  <span class="c-comment"># ~8-12 MB</span></pre>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">3</div>
+              <div class="ex-title">Access a single gene's counts</div>
+            </div>
+            <p style="color:#33433b;font-size:15px;">Extract the counts for <em>CD3D</em> (T-cell marker) across all 2,700 cells. Print the first 10 values and the mean expression.</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <div class="code-wrap" style="margin:0;">
+                  <div class="code-header"><span class="code-lang">Python</span></div>
+                  <pre>cd3d_counts = adata[:, <span class="c-str">'CD3D'</span>].X.toarray().flatten()
+<span class="c-fn">print</span>(cd3d_counts[:<span class="c-num">10</span>])
+<span class="c-fn">print</span>(<span class="c-str">f"Mean CD3D: {cd3d_counts.mean():.4f}"</span>)
+<span class="c-comment"># Low (~0.3) because most cells are not T cells</span></pre>
+                </div>
+              </div>
+            </details>
+          </div>
+
+          <div class="exercise">
+            <div class="ex-head">
+              <div class="ex-num">4</div>
+              <div class="ex-title">Set up your project folder</div>
+            </div>
+            <p style="color:#33433b;font-size:15px;">Create the standard directory structure for this Scanpy module, then verify your installation produces the expected version header.</p>
+            <details class="answer">
+              <summary>Show answer</summary>
+              <div class="answer-body">
+                <div class="code-wrap" style="margin:0;">
+                  <div class="code-header"><span class="code-lang">Bash</span></div>
+                  <pre><span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/scrna-scanpy-pbmc/{data/raw,figures,results,scripts}</span>
+<span class="c-cmd">conda</span> <span class="c-flag">activate</span> scanpy-env
+<span class="c-cmd">python</span> <span class="c-flag">-c</span> <span class="c-str">"import scanpy as sc; sc.logging.print_header()"</span></pre>
+                </div>
+              </div>
+            </details>
+          </div>
+
+        </section>
+
+        <!-- MARK COMPLETE -->
+        <div class="mark-complete-wrap">
+          <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+            ✓ Mark Lesson 1 Complete
+          </button>
+        </div>
+
+        <!-- LESSON NAV -->
+        <div class="lesson-nav-footer">
+          <span style="color:var(--muted);font-size:14px;">← Start of module</span>
+          <a href="lesson-2.html">Lesson 2: Quality Control →</a>
+        </div>
+
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- AD BOTTOM -->
+<div class="wrap" style="padding-bottom:48px;">
+  <div class="ad-slot rectangle" style="max-width:340px;margin:0 auto;">
+    <strong>Advertisement</strong>
+    <small>Support free education</small>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>FREE BIOINFORMATICS EDUCATION</small>
+          </div>
+        </div>
+        <p class="foot-about">A free 42-week bioinformatics curriculum — from Bash basics to single-cell RNA-seq — built for plant scientists and bioinformaticians worldwide.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" title="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" target="_blank" rel="noopener" title="ORCID">ID</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Curriculum</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../../courses.html#phase1">Phase 1 — Foundations</a></li>
+          <li><a href="../../courses.html#phase2">Phase 2 — Core Bioinfo</a></li>
+          <li><a href="../../courses.html#phase4">Phase 4 — Single Cell</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Module 27</h4>
+        <ul>
+          <li><a href="lesson-1.html">Lesson 1 — Intro &amp; AnnData</a></li>
+          <li><a href="lesson-2.html">Lesson 2 — QC</a></li>
+          <li><a href="lesson-3.html">Lesson 3 — Normalisation</a></li>
+          <li><a href="lesson-4.html">Lesson 4 — HVGs</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>About</h4>
+        <ul>
+          <li><a href="../../about.html">About Shajedur</a></li>
+          <li><a href="https://github.com/shajedurhossain" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://orcid.org/0000-0003-4845-3802" target="_blank" rel="noopener">ORCID</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 Shopnil Academy · Shajedur Rahman Hossain · Gießen, Germany</span>
+      <span>Content is free forever — <a href="../../about.html" style="color:var(--green);">learn why</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelector('.nav-toggle').addEventListener('click', function () {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+
+function toggleMod(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(function () {
+    btn.textContent = 'Copied!';
+    setTimeout(function () { btn.textContent = 'Copy'; }, 2000);
+  });
+}
+
+var STORE_KEY = 'sa_scanpy_done';
+var TOTAL     = 10;
+var LESSON_ID = 'lesson-1';
+
+function getDone() {
+  try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; }
+  catch (e) { return []; }
+}
+
+function updateProgress() {
+  var done = getDone();
+  var pct  = Math.round((done.length / TOTAL) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = done.length + ' / ' + TOTAL;
+  document.querySelectorAll('.lesson-link').forEach(function (link) {
+    var href = link.getAttribute('href');
+    var num  = href.replace('lesson-', '').replace('.html', '');
+    if (done.includes('lesson-' + num)) link.classList.add('done');
+  });
+}
+
+function markComplete() {
+  var done = getDone();
+  if (!done.includes(LESSON_ID)) {
+    done.push(LESSON_ID);
+    localStorage.setItem(STORE_KEY, JSON.stringify(done));
+  }
+  var btn = document.getElementById('mc-btn');
+  btn.textContent = '✓ Lesson 1 Complete!';
+  btn.classList.add('done');
+  updateProgress();
+}
+
+(function () {
+  updateProgress();
+  if (getDone().includes(LESSON_ID)) {
+    var btn = document.getElementById('mc-btn');
+    btn.textContent = '✓ Lesson 1 Complete!';
+    btn.classList.add('done');
+  }
+})();
+
+(function () {
+  var sections = document.querySelectorAll('.prose section[id]');
+  var links    = document.querySelectorAll('.toc-link');
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        links.forEach(function (l) { l.classList.remove('active'); });
+        var a = document.querySelector('.toc-link[href="#' + entry.target.id + '"]');
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(function (s) { obs.observe(s); });
+})();
+</script>
+</body>
+</html>

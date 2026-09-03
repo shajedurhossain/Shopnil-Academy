@@ -1113,7 +1113,16 @@ listenqData['c1l1l']=[{audio:'অ',options:['ঈ','অ','এ'],correct:1},{audio
 qzData['c1l1q']=[{qAr:'أي حرف من الحروف التالية يُنطق مثل الألف الممدودة (a)؟',options:['অ','আ','ই'],a:1,fAr:'আ يُنطق كصوت a الممدود، كما في father.'},{qAr:'كم عدد حروف العلة المستقلة (স্বরবর্ণ) في البنغالية؟',options:['٩','١١','١٣'],a:1,fAr:'يوجد ١١ حرف علة مستقل في الأبجدية البنغالية.'},{qAr:'أي زوج من الحروف يُنطق بنفس الصوت تمامًا في البنغالية المعاصرة؟',options:['অ و আ','ই و ঈ','এ و ও'],a:1,fAr:'ই و ঈ ينطقان اليوم بنفس الصوت؛ الفرق إملائي تاريخي فقط.'},{qAr:'ما الحرف الذي يُستخدم في بداية كلمة \'ঈদ\' (عيد)؟',options:['ই','ঈ','এ'],a:1,fAr:'ঈদ تبدأ بالحرف ঈ.'},{qAr:'أي حرف يُنطق كمزيج \'oi\' كما في الإنجليزية boy؟',options:['ঐ','ঔ','ও'],a:0,fAr:'ঐ يُنطق \'oi\'، كما في ঐতিহ্য (تراث).'},{qAr:'الحرف ঋ يقابله أي نطق تقريبي؟',options:['أو','ري','آ'],a:1,fAr:'ঋ يُنطق تقريبًا \'ri\'، كما في ঋতু (فصل).'},{qAr:'أي حرف يبدأ به اسم الفاكهة \'আম\' (مانجو)؟',options:['অ','আ','ও'],a:1,fAr:'আম تبدأ بالحرف আ (الألف الممدودة).'}];
 
 
-// ===== TTS (Bangla, tl=bn) — supports distinct voices per speaker =====
+// ===== TTS: pre-generated static audio files, platform-wide standard =====
+// Files live at /audio/[lang]/[fnv1a-hash].mp3 on the server root, shared across
+// every course that teaches the same target language. Absolute paths only —
+// relative paths break when chapter files sit at different nesting depths.
+// Live TTS hotlinking (Google Translate endpoint) is never used: it 403s on
+// real hosted websites. Web Speech API is a silent last-resort fallback only —
+// students see nothing (audio or silence), missing files are logged to console
+// for the site owner, not shown to students.
+var _AUDIO_LANG='bn';
+var _SPEECH_LANG='bn-BD';
 var curAud=null;
 var bnVoices=null;
 function loadBnVoices(){
@@ -1126,18 +1135,38 @@ if(window.speechSynthesis){
   window.speechSynthesis.onvoiceschanged=loadBnVoices;
   loadBnVoices();
 }
-// speaker: 0 = speaker A (normal), 1 = speaker B (distinct pitch/rate for audible contrast)
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+// speaker: 0 = speaker A (normal), 1 = speaker B (distinct pitch, used only in the
+// Web Speech fallback for dialogue lines — pre-generated files are the primary source)
 function tts(t,speaker){
   if(typeof speaker==='undefined')speaker=0;
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=bn&client=tw-ob';
-  var a=new Audio(u);curAud=a;
-  a.playbackRate=(speaker===1)?0.92:1.0;
-  a.play().catch(function(){bTTS(t,speaker);});
+  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);
+  curAud=a;
+  a.addEventListener('error',function(){
+    console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+    bTTS(t,speaker);
+  });
+  a.play().catch(function(){
+    console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+    bTTS(t,speaker);
+  });
 }
 function bTTS(t,speaker){
   if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang='bn-BD';u.rate=0.85;
+  var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
   if(bnVoices&&bnVoices.length){
     var idx=(speaker===1&&bnVoices.length>1)?1:0;
     u.voice=bnVoices[idx];

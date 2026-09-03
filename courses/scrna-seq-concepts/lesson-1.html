@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: What is Single-Cell RNA-seq? — Shopnil Academy</title>
+  <meta name="description" content="Understand what single-cell RNA sequencing is, why it was invented, how it differs from bulk RNA-seq, and what biological questions it can answer." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar layout ───────────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 0;
+      min-height: 100vh;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 88px;
+      height: calc(100vh - 88px);
+      overflow-y: auto;
+      border-right: 1px solid var(--line);
+      padding: 28px 20px 40px;
+      background: var(--bg);
+      scrollbar-width: thin;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+
+    .sidebar-course-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px; font-weight: 700; color: var(--ink);
+      line-height: 1.2; margin-bottom: 20px;
+    }
+
+    /* Progress */
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 6px; background: var(--line);
+      border-radius: 999px; overflow: hidden; margin-bottom: 24px;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green);
+      border-radius: 999px; transition: width .4s ease;
+    }
+
+    /* Module accordion */
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 10px 4px;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      border-radius: 8px;
+      transition: background .15s;
+      user-select: none;
+    }
+    .mod-group-label:hover { background: var(--green-soft); color: var(--green); }
+    .mod-group-label .arrow { transition: transform .2s; font-size: 10px; }
+    .mod-group.open .mod-group-label .arrow { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding: 2px 0 6px; }
+    .mod-group.open .mod-lessons { display: block; }
+
+    .lesson-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px; border-radius: 10px;
+      font-size: 13px; color: var(--muted);
+      text-decoration: none;
+      transition: background .15s, color .15s;
+      line-height: 1.3;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .l-icon {
+      width: 22px; height: 22px; border-radius: 6px;
+      display: grid; place-items: center; font-size: 11px;
+      flex-shrink: 0; background: var(--cream); color: var(--muted);
+    }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-soft); color: var(--green); }
+
+    /* Sidebar TOC divider */
+    .sidebar-toc-divider {
+      margin: 20px 0 12px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .sidebar-toc a {
+      display: block; font-size: 12.5px; color: var(--muted);
+      padding: 5px 10px; border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: all .15s;
+    }
+    .sidebar-toc a:hover { color: var(--ink); background: var(--cream); }
+    .sidebar-toc a.active { color: var(--green); border-left-color: var(--green); background: var(--green-soft); }
+
+    /* ── Main content ─────────────────────────────────────────── */
+    .lesson-main { min-width: 0; padding: 0 0 80px; }
+
+    /* Meta strip */
+    .lesson-meta-strip {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+      padding: 14px 40px;
+      border-bottom: 1px solid var(--line);
+      background: var(--cream);
+      font-size: 13px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: #fff; border: 1px solid var(--line);
+      padding: 4px 11px; border-radius: 999px;
+      font-size: 12px; color: var(--muted); font-weight: 500;
+    }
+    .lm-num { color: var(--green); font-weight: 700; font-family: var(--font-display); font-size: 13px; }
+    .lm-sep { color: var(--line); }
+    .lm-time { margin-left: auto; color: var(--muted); font-size: 12px; }
+
+    /* Prose area */
+    .lesson-prose {
+      padding: 44px 40px 0;
+      max-width: 820px;
+    }
+    .lesson-prose h1 {
+      font-size: clamp(28px, 3.5vw, 40px);
+      margin-bottom: 10px; line-height: 1.15;
+    }
+    .lesson-prose .lead {
+      font-size: 17px; color: var(--muted);
+      line-height: 1.65; margin-bottom: 36px;
+    }
+
+    /* Section headings inside lesson */
+    .lesson-prose h2 {
+      font-size: 22px; margin: 48px 0 14px;
+      padding-top: 8px;
+      scroll-margin-top: 100px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .lesson-prose h2 .sec-num {
+      font-size: 12px; font-weight: 700; color: var(--green);
+      background: var(--green-soft); padding: 3px 9px;
+      border-radius: 999px; flex-shrink: 0;
+    }
+    .lesson-prose h3 {
+      font-size: 17px; margin: 28px 0 10px;
+      scroll-margin-top: 100px;
+    }
+    .lesson-prose p {
+      color: #33433b; font-size: 16px; line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .lesson-prose ul, .lesson-prose ol {
+      padding-left: 0; list-style: none;
+      display: flex; flex-direction: column; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .lesson-prose ul li, .lesson-prose ol li {
+      position: relative; padding-left: 28px;
+      color: #33433b; font-size: 16px; line-height: 1.65;
+    }
+    .lesson-prose ul li::before {
+      content: ''; position: absolute; left: 6px; top: 10px;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+    }
+    .lesson-prose ol { counter-reset: ol-cnt; }
+    .lesson-prose ol li { counter-increment: ol-cnt; }
+    .lesson-prose ol li::before {
+      content: counter(ol-cnt);
+      position: absolute; left: 0; top: 2px;
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      font-size: 11px; font-weight: 700;
+      display: grid; place-items: center;
+      font-family: var(--font-display);
+    }
+    .lesson-prose strong { color: var(--ink); font-weight: 600; }
+
+    /* Explain box */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0f8f4 100%);
+      border: 1px solid rgba(0,106,78,.18);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 22px 0;
+    }
+    .explain-box .eb-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 8px;
+    }
+    .explain-box p {
+      margin: 0; font-size: 15px; color: var(--green-deep); line-height: 1.65;
+    }
+
+    /* Folder note */
+    .folder-note {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--gold-soft); border: 1px solid rgba(232,183,42,.35);
+      border-radius: 10px; padding: 12px 16px;
+      font-size: 13.5px; color: #7a5c00;
+      font-family: var(--font-body); margin: 16px 0;
+    }
+    .folder-note code {
+      font-family: 'DM Mono', monospace;
+      background: rgba(232,183,42,.18); padding: 2px 7px; border-radius: 5px;
+    }
+
+    /* Code blocks */
+    .code-wrap { margin: 20px 0 28px; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #1a2820; padding: 10px 16px;
+    }
+    .code-lang {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: rgba(255,255,255,.5);
+    }
+    .copy-btn {
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      padding: 5px 12px; border-radius: 6px; cursor: pointer;
+      transition: all .2s; font-family: inherit;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+    pre {
+      margin: 0; background: #0f1f17;
+      padding: 22px 22px; overflow-x: auto;
+      font-family: 'DM Mono', monospace; font-size: 13.5px; line-height: 1.75;
+    }
+    .c-cmd   { color: #7ee8a2; }
+    .c-flag  { color: #f9c74f; }
+    .c-path  { color: #90e0ef; }
+    .c-out   { color: #a8b8b0; }
+    .c-comment { color: #4a7a5a; font-style: italic; }
+    .c-key   { color: #c084fc; }
+    .c-val   { color: #fb923c; }
+    .c-str   { color: #f9c74f; }
+
+    /* Comparison table */
+    .cmd-table {
+      width: 100%; border-collapse: collapse;
+      margin: 20px 0; border-radius: 12px; overflow: hidden;
+      border: 1px solid var(--line); font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--green); color: #fff;
+      padding: 12px 16px; text-align: left;
+      font-family: var(--font-display); font-weight: 600; font-size: 13px;
+    }
+    .cmd-table td {
+      padding: 12px 16px; border-bottom: 1px solid var(--line);
+      vertical-align: top; color: #33433b; line-height: 1.5;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table tr:nth-child(even) td { background: var(--cream); }
+    .cmd-table td:first-child { font-weight: 600; color: var(--ink); }
+
+    /* Tip / Warn */
+    .tip, .warn {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 16px 20px; border-radius: 12px; margin: 20px 0;
+    }
+    .tip { background: var(--green-soft); border: 1px solid rgba(0,106,78,.16); }
+    .warn { background: var(--red-soft); border: 1px solid rgba(244,42,65,.18); }
+    .tip-icon, .warn-icon {
+      font-size: 18px; flex-shrink: 0; margin-top: 1px;
+    }
+    .tip p, .warn p { margin: 0; font-size: 15px; line-height: 1.6; }
+    .tip p { color: var(--green-deep); }
+    .warn p { color: #8b1a28; }
+
+    /* Callout / concept box */
+    .concept-box {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--green);
+      border-radius: 14px;
+      padding: 22px 26px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .concept-box h4 {
+      font-size: 15px; margin-bottom: 10px; color: var(--green);
+    }
+    .concept-box p { margin: 0; font-size: 15px; line-height: 1.65; color: #33433b; }
+
+    /* Analogy highlight */
+    .analogy {
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.3);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 20px 0;
+      font-size: 15px; color: #5a4200; line-height: 1.65;
+    }
+    .analogy strong { color: #3d2d00; }
+
+    /* Exercises */
+    .exercise {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 16px; padding: 28px; margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+    }
+    .ex-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
+    .exercise p { font-size: 15px; color: #33433b; margin-bottom: 12px; }
+    details.answer { margin-top: 14px; }
+    details.answer summary {
+      cursor: pointer; font-weight: 600; font-size: 14px;
+      color: var(--green); list-style: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer summary::before { content: '▶'; font-size: 10px; transition: transform .2s; }
+    details.answer[open] summary::before { transform: rotate(90deg); }
+    details.answer .answer-body {
+      margin-top: 14px; padding: 16px 20px;
+      background: var(--green-soft); border-radius: 10px;
+      font-size: 15px; color: var(--green-deep); line-height: 1.65;
+    }
+
+    /* Mark complete */
+    .mark-complete-wrap {
+      margin: 48px 0 24px;
+      display: flex; justify-content: center;
+    }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px; border-radius: 999px;
+      background: var(--green); color: #fff;
+      font-weight: 700; font-size: 15px; border: none;
+      cursor: pointer; font-family: inherit;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 16px rgba(0,106,78,.25);
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--muted); }
+
+    /* Lesson nav footer */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 28px 40px;
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+      flex-wrap: wrap; gap: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 860px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .lesson-prose { padding: 32px 20px 0; }
+      .lesson-meta-strip { padding: 12px 20px; }
+      .lesson-nav-footer { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="/" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS TRAINING</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/courses/" class="active">Courses</a>
+      <a href="/about/">About</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/courses/" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="/courses/scrna-seq-concepts/lesson-1.html" class="btn btn-primary btn-sm">Start Learning</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INNER HEADER
+════════════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="/">Home</a><span class="sep">/</span>
+      <a href="/courses/">Courses</a><span class="sep">/</span>
+      <a href="/courses/scrna-seq-concepts/">scRNA-seq Concepts &amp; Data Formats</a><span class="sep">/</span>
+      <span>Lesson 1</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px;">
+      <span class="free-pill">Phase 4 · Module 24</span>
+      <span class="free-pill">Week 31</span>
+      <span class="free-pill">⏱ 45 min</span>
+    </div>
+    <h1>What is Single-Cell RNA-seq?</h1>
+    <p class="lead">Understand why scRNA-seq was invented, how it differs from bulk RNA-seq, and what fundamental biological questions it can answer that no other method could.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     AD — TOP BANNER
+════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:24px;padding-bottom:8px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here — AdSense slot reserved</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LESSON SHELL (sidebar + main)
+════════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:0;padding-bottom:0;max-width:100%;padding-left:0;padding-right:0;">
+<div class="lesson-shell">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Module 24 · Phase 4</div>
+    <div class="sidebar-course-title">scRNA-seq Concepts &amp; Data Formats</div>
+
+    <div class="prog-label">
+      <span>Progress</span>
+      <span id="prog-text">0 / 10</span>
+    </div>
+    <div class="prog-track">
+      <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+
+    <!-- Module accordion -->
+    <div class="mod-group open" id="mod-main">
+      <div class="mod-group-label" onclick="toggleMod('mod-main')">
+        Lessons <span class="arrow">▶</span>
+      </div>
+      <div class="mod-lessons">
+        <a href="lesson-1.html" class="lesson-link active" id="link-l1">
+          <span class="l-icon">1</span>What is Single-Cell RNA-seq?
+        </a>
+        <a href="lesson-2.html" class="lesson-link" id="link-l2">
+          <span class="l-icon">2</span>How scRNA-seq Works: The Wet Lab
+        </a>
+        <a href="lesson-3.html" class="lesson-link" id="link-l3">
+          <span class="l-icon">3</span>The Count Matrix
+        </a>
+        <a href="lesson-4.html" class="lesson-link" id="link-l4">
+          <span class="l-icon">4</span>Raw Data Formats: FASTQ &amp; BAM
+        </a>
+        <a href="lesson-5.html" class="lesson-link" id="link-l5">
+          <span class="l-icon">5</span>Cell Ranger &amp; Alevin: Quantification
+        </a>
+        <a href="lesson-6.html" class="lesson-link" id="link-l6">
+          <span class="l-icon">6</span>The MEX Format
+        </a>
+        <a href="lesson-7.html" class="lesson-link" id="link-l7">
+          <span class="l-icon">7</span>The H5AD Format (AnnData)
+        </a>
+        <a href="lesson-8.html" class="lesson-link" id="link-l8">
+          <span class="l-icon">8</span>The RDS / SingleCellExperiment Format
+        </a>
+        <a href="lesson-9.html" class="lesson-link" id="link-l9">
+          <span class="l-icon">9</span>Quality Metrics &amp; Ambient RNA
+        </a>
+        <a href="lesson-10.html" class="lesson-link" id="link-l10">
+          <span class="l-icon">10</span>Capstone: Inspect a Real Dataset
+        </a>
+      </div>
+    </div>
+
+    <!-- On this page TOC -->
+    <div class="sidebar-toc-divider">On this page</div>
+    <nav class="sidebar-toc" id="sidebar-toc">
+      <a href="#sec-problem">The problem with bulk RNA-seq</a>
+      <a href="#sec-what">What is scRNA-seq?</a>
+      <a href="#sec-compare">Bulk vs single-cell</a>
+      <a href="#sec-questions">Biological questions</a>
+      <a href="#sec-plant">scRNA-seq in plant biology</a>
+      <a href="#sec-workflow">High-level workflow</a>
+      <a href="#sec-exercises">Exercises</a>
+    </nav>
+  </aside>
+
+  <!-- ── MAIN CONTENT ─────────────────────────────────────── -->
+  <main class="lesson-main">
+
+    <!-- Meta strip -->
+    <div class="lesson-meta-strip">
+      <span class="lm-num">Lesson 1</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill">📘 Conceptual</span>
+      <span class="lm-pill">🧬 scRNA-seq</span>
+      <span class="lm-pill">🌱 Beginner</span>
+      <span class="lm-time">⏱ ~45 minutes</span>
+    </div>
+
+    <div class="lesson-prose">
+      <h1>What is Single-Cell RNA-seq?</h1>
+      <p class="lead">
+        Every cell in your body carries the same DNA — yet a root hair cell and a leaf mesophyll cell look and behave completely differently. The answer lies in which genes each cell actually expresses. Single-cell RNA sequencing (scRNA-seq) lets us measure gene expression in thousands of individual cells at once, revealing diversity that was invisible to earlier methods.
+      </p>
+
+      <!-- ─── SECTION 1 ─────────────────────────────────── -->
+      <h2 id="sec-problem"><span class="sec-num">01</span> The Problem with Bulk RNA-seq</h2>
+
+      <p>
+        Before scRNA-seq, the standard approach to measuring gene expression was <strong>bulk RNA-seq</strong>. You take a tissue sample — say, a piece of sorghum root — grind it up, extract all the RNA, and sequence it. The resulting expression values are an <strong>average</strong> across every cell in that sample.
+      </p>
+
+      <div class="analogy">
+        <strong>Analogy:</strong> Imagine you want to know how much each person in a crowd is talking. Bulk RNA-seq is like pointing a single microphone at the whole crowd and recording the total noise level. You get a number — but you have no idea if one person is shouting while everyone else is silent, or if everyone is speaking softly at the same volume. Single-cell RNA-seq gives every person their own microphone.
+      </div>
+
+      <p>
+        This averaging problem becomes critical in biology because tissues are not uniform. A plant root contains epidermal cells, cortex cells, endodermis cells, pericycle cells, and root hair cells — each with distinct gene expression programmes. If a disease or stress response only affects 5% of cells, bulk RNA-seq may show almost no signal for the responsive genes because they are drowned out by the 95% of unaffected cells.
+      </p>
+
+      <div class="explain-box">
+        <div class="eb-label">Why this matters for your research</div>
+        <p>
+          In genomic selection for <em>Sorghum bicolor</em>, traits like drought tolerance involve responses in specific cell types — guard cells closing stomata, root cortex cells adjusting osmotic pressure. Bulk RNA-seq cannot tell you which cell population is driving the expression signal. scRNA-seq can assign expression to individual cell types, dramatically improving the biological interpretation of QTL or GWAS hits.
+        </p>
+      </div>
+
+      <!-- ─── SECTION 2 ─────────────────────────────────── -->
+      <h2 id="sec-what"><span class="sec-num">02</span> What is Single-Cell RNA-seq?</h2>
+
+      <p>
+        Single-cell RNA sequencing is a family of techniques that measures the transcriptome — the complete set of RNA molecules — of <strong>individual cells</strong>. The key word is <em>individual</em>: instead of averaging thousands of cells together, you get a separate gene expression profile for each one.
+      </p>
+
+      <div class="concept-box">
+        <h4>Core concept: the transcriptome</h4>
+        <p>
+          The <strong>transcriptome</strong> is the set of all RNA molecules present in a cell at a given moment. It reflects which genes are currently active — turned "on" and being used to make proteins. Unlike the genome (which is fixed), the transcriptome changes depending on cell type, developmental stage, environment, and disease state. Measuring it tells you what a cell is <em>doing</em>, not just what it <em>could</em> do.
+        </p>
+      </div>
+
+      <p>
+        In a typical scRNA-seq experiment, you might start with a tissue sample containing 50,000 cells. After dissociation (separating them into a suspension) and processing through a microfluidics device, you end up with gene expression measurements for 5,000–20,000 individual cells. Each cell has a count of how many RNA molecules were detected for each of the ~30,000 genes in the genome.
+      </p>
+
+      <p>
+        The result is a large matrix: <strong>cells as rows, genes as columns</strong> (or sometimes transposed). This matrix, called the <strong>count matrix</strong>, is the starting point for all downstream analysis — we will explore it in depth in Lesson 3.
+      </p>
+
+      <!-- ─── SECTION 3 ─────────────────────────────────── -->
+      <h2 id="sec-compare"><span class="sec-num">03</span> Bulk RNA-seq vs Single-Cell RNA-seq</h2>
+
+      <p>
+        These two methods answer different questions. Knowing when to use each one is as important as knowing how to run them.
+      </p>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Bulk RNA-seq</th>
+            <th>Single-Cell RNA-seq</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Unit of measurement</td>
+            <td>Tissue / cell population average</td>
+            <td>Individual cell</td>
+          </tr>
+          <tr>
+            <td>Cell-type resolution</td>
+            <td>None — all cells mixed</td>
+            <td>Full — each cell type separated</td>
+          </tr>
+          <tr>
+            <td>Input material</td>
+            <td>100 ng – 1 µg total RNA</td>
+            <td>Single cells or nuclei</td>
+          </tr>
+          <tr>
+            <td>Sensitivity</td>
+            <td>High — detects low-abundance genes</td>
+            <td>Lower — dropout events common</td>
+          </tr>
+          <tr>
+            <td>Cost per sample</td>
+            <td>Lower (~€100–300)</td>
+            <td>Higher (~€1,000–3,000)</td>
+          </tr>
+          <tr>
+            <td>Data size</td>
+            <td>Moderate (GB range)</td>
+            <td>Large (10s of GB per experiment)</td>
+          </tr>
+          <tr>
+            <td>Typical use case</td>
+            <td>Differential expression between conditions</td>
+            <td>Cell-type identification, trajectories, rare cells</td>
+          </tr>
+          <tr>
+            <td>Statistical power</td>
+            <td>High with biological replicates</td>
+            <td>Complex — pseudoreplication is a real risk</td>
+          </tr>
+          <tr>
+            <td>Key tools</td>
+            <td>DESeq2, edgeR, STAR</td>
+            <td>Seurat, Scanpy, Cell Ranger, STAR solo</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <p><strong>Rule of thumb:</strong> Use bulk RNA-seq when you have a clearly defined tissue or condition comparison. Use scRNA-seq when you want to discover cell types, study cell-to-cell variability, or trace developmental trajectories. Many studies now do both — bulk for statistical power and scRNA-seq for resolution.</p>
+      </div>
+
+      <!-- ─── SECTION 4 ─────────────────────────────────── -->
+      <h2 id="sec-questions"><span class="sec-num">04</span> Biological Questions scRNA-seq Can Answer</h2>
+
+      <p>
+        scRNA-seq has transformed biology precisely because it enables questions that were previously unanswerable. Here are the major categories:
+      </p>
+
+      <h3>1. Cell-type identification and atlas building</h3>
+      <p>
+        Which cell types exist in this tissue? What genes define each type? This led to whole-organism cell atlases — the Human Cell Atlas, the Mouse Cell Atlas, and more recently plant atlases for <em>Arabidopsis</em> roots and leaves. For a new organism or tissue, scRNA-seq lets you discover cell types without any prior knowledge.
+      </p>
+
+      <h3>2. Developmental trajectories</h3>
+      <p>
+        How does a stem cell become a specialised cell? scRNA-seq captures cells at intermediate stages, allowing computational methods to reconstruct the order of gene expression changes during differentiation — a concept called <strong>pseudotime</strong> (covered in Module 28).
+      </p>
+
+      <h3>3. Rare cell populations</h3>
+      <p>
+        Rare cells that make up less than 1% of a tissue — stem cells, tumour-initiating cells, early stress-response cells — are invisible in bulk RNA-seq. A single-cell experiment with 10,000 cells can detect a population of 50 rare cells (0.5%) and profile their transcriptome fully.
+      </p>
+
+      <h3>4. Cell-to-cell variability</h3>
+      <p>
+        Even genetically identical cells in the same tissue show different expression patterns due to stochastic gene regulation. scRNA-seq reveals this variability, which has implications for disease resistance, drug response, and phenotypic plasticity.
+      </p>
+
+      <h3>5. Cell communication</h3>
+      <p>
+        By knowing which receptor genes are expressed in which cell types, and which ligand genes in adjacent cells, you can infer which cells are "talking" to each other — a field called ligand-receptor analysis or cell–cell communication.
+      </p>
+
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <p><strong>scRNA-seq is not a magic fix.</strong> It introduces its own problems: dropout (genes with zero counts because the RNA wasn't captured), batch effects (technical differences between runs), and the challenge that you don't know the true cell type without prior knowledge or marker genes. Every lesson in this module will help you understand these challenges and how to handle them.</p>
+      </div>
+
+      <!-- ─── SECTION 5 ─────────────────────────────────── -->
+      <h2 id="sec-plant"><span class="sec-num">05</span> scRNA-seq in Plant Biology</h2>
+
+      <p>
+        Plant scRNA-seq is a young but fast-growing field. The main challenge is the <strong>cell wall</strong> — plant cells are embedded in a rigid polysaccharide wall, which makes mechanical dissociation into single cells much harder than for animal cells. Two approaches have emerged:
+      </p>
+
+      <ol>
+        <li><strong>Protoplasting:</strong> Enzymatic digestion of the cell wall (cellulase + macerozyme) releases intact protoplasts. This works well but can induce stress responses that alter gene expression.</li>
+        <li><strong>Single-nucleus RNA-seq (snRNA-seq):</strong> Instead of whole cells, isolate nuclei only. The cell wall is bypassed entirely. Nuclei contain pre-mRNA and are more stable. Most plant scRNA-seq papers after 2021 use this approach.</li>
+      </ol>
+
+      <div class="concept-box">
+        <h4>Key plant scRNA-seq papers to know</h4>
+        <p>
+          <strong>Shulse et al. (2019)</strong> — first single-cell atlas of the <em>Arabidopsis</em> root using 10x Genomics, identifying 12 distinct cell-type clusters. <strong>Liu et al. (2021)</strong> — single-nucleus RNA-seq of maize endosperm, tracing starch biosynthesis cell types. <strong>Xu et al. (2021)</strong> — single-cell atlas of rice shoot apex during vegetative-to-reproductive transition. These are the benchmarks for sorghum work.
+        </p>
+      </div>
+
+      <p>
+        For sorghum specifically, scRNA-seq data is still limited as of 2025, which makes this an active research opportunity. The computational skills you build in this module are directly applicable to any plant dataset.
+      </p>
+
+      <!-- ─── SECTION 6 ─────────────────────────────────── -->
+      <h2 id="sec-workflow"><span class="sec-num">06</span> The High-Level scRNA-seq Workflow</h2>
+
+      <p>
+        Before diving into code, it helps to see the full pipeline you will build across this module and the next three:
+      </p>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">WORKFLOW OVERVIEW</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment"># ── WET LAB (Module 24, Lesson 2) ───────────────────────────</span>
+<span class="c-out">Tissue → Dissociation → Single cells/nuclei</span>
+<span class="c-out">        → Droplet encapsulation (10x Genomics)</span>
+<span class="c-out">        → Barcoding + UMI tagging</span>
+<span class="c-out">        → cDNA library → Illumina sequencing</span>
+
+<span class="c-comment"># ── RAW DATA PROCESSING (Module 24, Lessons 4–5) ─────────────</span>
+<span class="c-out">FASTQ files (R1=barcode+UMI, R2=cDNA read)</span>
+<span class="c-out">        → Cell Ranger / STARsolo / Alevin</span>
+<span class="c-out">        → Count matrix (MEX or H5 format)</span>
+
+<span class="c-comment"># ── DATA FORMATS (Module 24, Lessons 6–8) ────────────────────</span>
+<span class="c-out">MEX (matrix.mtx + barcodes.tsv + features.tsv)</span>
+<span class="c-out">        → AnnData (.h5ad)   ← Python / Scanpy</span>
+<span class="c-out">        → SCE (.rds)        ← R / Seurat</span>
+
+<span class="c-comment"># ── QUALITY CONTROL (Module 24, Lessons 9–10) ────────────────</span>
+<span class="c-out">Filter low-quality cells (low genes, high MT%)</span>
+<span class="c-out">Remove doublets → Normalise → Save clean object</span>
+
+<span class="c-comment"># ── DOWNSTREAM (Modules 25–29) ───────────────────────────────</span>
+<span class="c-out">Clustering → Cell-type annotation</span>
+<span class="c-out">        → Differential expression</span>
+<span class="c-out">        → Trajectory analysis</span></pre>
+      </div>
+
+      <div class="folder-note">
+        📁 No terminal work yet — this lesson is conceptual. Your first hands-on commands arrive in Lesson 5 (Cell Ranger) and Lesson 6 (reading the MEX format in Python/R).
+      </div>
+
+      <p>
+        Every step in this workflow produces a specific file format or data structure. One of the biggest sources of confusion for newcomers is not understanding <em>which file format is expected at each stage</em>. That is exactly what Lessons 4–8 cover in detail.
+      </p>
+
+      <!-- ─── AD SLOT (in-feed) ────────────────────────── -->
+      <div class="ad-slot in-feed" style="margin:36px 0;">
+        <strong>Advertisement</strong>
+        <small>AdSense in-feed slot — reserved</small>
+      </div>
+
+      <!-- ─── SECTION 7 — EXERCISES ──────────────────────── -->
+      <h2 id="sec-exercises"><span class="sec-num">07</span> Exercises</h2>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">1</div>
+          <div class="ex-title">Bulk vs Single-Cell Thinking</div>
+        </div>
+        <p>
+          A researcher wants to study how <em>Sorghum bicolor</em> responds to drought stress. They harvest root tissue 6 hours after withholding water and prepare RNA-seq libraries. They find that 200 genes are significantly differentially expressed (FDR &lt; 0.05) compared to well-watered controls.
+        </p>
+        <p>
+          <strong>Question:</strong> They notice that several of the top up-regulated genes are known guard cell markers. Can they conclude that guard cells are the primary responders? What would scRNA-seq add to this analysis?
+        </p>
+        <details class="answer">
+          <summary>Show answer</summary>
+          <div class="answer-body">
+            <p><strong>No, they cannot conclude this from bulk RNA-seq alone.</strong> The bulk data shows that guard-cell marker genes have higher total RNA abundance in the drought-stressed root sample — but since the signal is averaged across all cell types, there is no way to know whether (a) guard cells are dramatically upregulating these genes, (b) multiple cell types are slightly upregulating them, or (c) the proportion of guard cells increased due to drought.</p>
+            <p>scRNA-seq would allow them to: (1) identify each cell cluster by type, (2) test whether the differentially expressed genes are specifically upregulated in the guard cell cluster, and (3) discover whether other cell types also show drought responses that were masked by averaging. This would give a cell-type-resolved picture of the stress response.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">2</div>
+          <div class="ex-title">Choose the Right Method</div>
+        </div>
+        <p>
+          For each scenario below, decide whether bulk RNA-seq, scRNA-seq, or both would be most appropriate. Justify your answer.
+        </p>
+        <ol>
+          <li>Comparing gene expression between two sorghum genotypes (drought-tolerant vs sensitive) grown in the same field conditions — 10 biological replicates each.</li>
+          <li>Discovering what cell types exist in the sorghum inflorescence meristem during flower initiation.</li>
+          <li>Identifying a rare population of stem-like cells in the sorghum root that might be responsible for regeneration after damage.</li>
+          <li>Validating that a candidate gene from a GWAS study is specifically expressed in vascular bundle cells.</li>
+        </ol>
+        <details class="answer">
+          <summary>Show answer</summary>
+          <div class="answer-body">
+            <ol>
+              <li><strong>Bulk RNA-seq.</strong> You have a clear two-condition comparison with biological replicates. Bulk gives you far higher statistical power for detecting differential expression between conditions. scRNA-seq would be expensive and add unnecessary complexity.</li>
+              <li><strong>scRNA-seq.</strong> Discovering unknown cell types requires single-cell resolution. Bulk would average across whatever mixture of cells is present and you would have no way to identify individual cell populations.</li>
+              <li><strong>scRNA-seq.</strong> Rare cells (less than 1% of the tissue) are invisible to bulk RNA-seq. scRNA-seq lets you detect and profile small populations based on their gene expression fingerprint.</li>
+              <li><strong>Both, or scRNA-seq specifically.</strong> Bulk can tell you the gene is expressed in the tissue, but only scRNA-seq can show you which cell type within that tissue expresses it. This is critical for mechanistic interpretation of GWAS results.</li>
+            </ol>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">3</div>
+          <div class="ex-title">Key Vocabulary Check</div>
+        </div>
+        <p>
+          Without looking at the lesson, write a one-sentence definition for each of the following terms. Then check your answers against the lesson content.
+        </p>
+        <ul>
+          <li>Transcriptome</li>
+          <li>Count matrix</li>
+          <li>Dropout</li>
+          <li>Protoplasting</li>
+          <li>snRNA-seq</li>
+          <li>Pseudotime</li>
+        </ul>
+        <details class="answer">
+          <summary>Show model answers</summary>
+          <div class="answer-body">
+            <ul>
+              <li><strong>Transcriptome:</strong> The complete set of RNA molecules present in a cell at a given moment, reflecting which genes are currently active.</li>
+              <li><strong>Count matrix:</strong> A table with cells as rows and genes as columns (or vice versa) where each value is the number of RNA molecules detected for that gene in that cell.</li>
+              <li><strong>Dropout:</strong> A gene that has a count of zero in a cell not because it isn't expressed, but because the RNA molecule was not captured or sequenced during the experiment — a technical limitation of scRNA-seq.</li>
+              <li><strong>Protoplasting:</strong> The enzymatic digestion of plant cell walls using cellulase and macerozyme to release intact single cells for scRNA-seq.</li>
+              <li><strong>snRNA-seq:</strong> Single-nucleus RNA sequencing — a variant of scRNA-seq that isolates nuclei instead of whole cells, bypassing the plant cell wall problem.</li>
+              <li><strong>Pseudotime:</strong> A computational ordering of cells along a developmental trajectory based on their transcriptional similarity, representing the progression from one cell state to another.</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <!-- Mark complete -->
+      <div class="mark-complete-wrap">
+        <button class="mark-complete" id="mark-btn" onclick="markDone()">
+          ✓ Mark Lesson Complete
+        </button>
+      </div>
+
+      <!-- Lesson nav footer -->
+      <div class="lesson-nav-footer">
+        <span style="color:var(--muted);font-size:14px;">← Module 24 Start</span>
+        <a href="lesson-2.html" class="btn btn-primary">
+          Next: How scRNA-seq Works →
+        </a>
+      </div>
+
+    </div><!-- /lesson-prose -->
+  </main><!-- /lesson-main -->
+</div><!-- /lesson-shell -->
+</div><!-- /wrap -->
+
+<!-- ═══════════════════════════════════════════════════════════
+     AD — BOTTOM RECTANGLE
+════════════════════════════════════════════════════════════ -->
+<div style="display:flex;justify-content:center;padding:40px 20px 20px;">
+  <div class="ad-slot rectangle" style="max-width:340px;width:100%;">
+    <strong>Advertisement</strong>
+    <small>AdSense rectangle slot — reserved</small>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>FREE BIOINFORMATICS TRAINING</small>
+          </div>
+        </div>
+        <p class="foot-about">
+          A free 42-week bioinformatics curriculum built by a plant genomics researcher, for the next generation of computational biologists.
+        </p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" aria-label="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" target="_blank" rel="noopener" aria-label="ORCID">ORC</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Phase 4 — scRNA-seq</h4>
+        <ul>
+          <li><a href="/courses/scrna-seq-concepts/">Module 24: Concepts &amp; Formats</a></li>
+          <li><a href="/courses/scrna-seurat-pbmc/">Module 25: Seurat Core</a></li>
+          <li><a href="/courses/scrna-scanpy-pbmc/">Module 27: Scanpy Core</a></li>
+          <li><a href="/courses/scrna-trajectory-analysis/">Module 28: Trajectories</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Other Phases</h4>
+        <ul>
+          <li><a href="/courses/bash-linux/">Phase 1: Foundations</a></li>
+          <li><a href="/courses/rnaseq-qc-pipeline/">Phase 2: Core Bioinfo</a></li>
+          <li><a href="/courses/genomic-selection-bpv/">Phase 3: Advanced</a></li>
+          <li><a href="/courses/scientific-writing/">Phase 5: Career</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/about/">About Shajedur</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="https://github.com/shajedurhossain" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 Shopnil Academy · shopnilacademy.com</span>
+      <span>Built with ❤️ for open bioinformatics education</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Module accordion ───────────────────────────────────── */
+  function toggleMod(id) {
+    const g = document.getElementById(id);
+    if (g) g.classList.toggle('open');
+  }
+
+  /* ── Copy code button ───────────────────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  /* ── Progress tracking via localStorage ─────────────────── */
+  const STORAGE_KEY = 'sa_scrna_done';
+  const TOTAL = 10;
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+  function setDone(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const pct = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-text').textContent = done.length + ' / ' + TOTAL;
+
+    /* Mark done links in sidebar */
+    for (let i = 1; i <= TOTAL; i++) {
+      const link = document.getElementById('link-l' + i);
+      if (link && done.includes('l' + i)) {
+        link.classList.add('done');
+        link.querySelector('.l-icon').textContent = '✓';
+      }
+    }
+
+    /* Update mark-complete button */
+    const btn = document.getElementById('mark-btn');
+    if (done.includes('l1')) {
+      btn.textContent = '✓ Lesson Complete';
+      btn.classList.add('done');
+    }
+  }
+
+  function markDone() {
+    const done = getDone();
+    if (!done.includes('l1')) {
+      done.push('l1');
+      setDone(done);
+    }
+    updateProgress();
+  }
+
+  updateProgress();
+
+  /* ── Active sidebar TOC via IntersectionObserver ─────────── */
+  const tocLinks = document.querySelectorAll('.sidebar-toc a');
+  const sections = document.querySelectorAll('.lesson-prose h2[id], .lesson-prose h3[id]');
+
+  if (sections.length && 'IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tocLinks.forEach(a => a.classList.remove('active'));
+          const active = document.querySelector('.sidebar-toc a[href="#' + e.target.id + '"]');
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+    sections.forEach(s => obs.observe(s));
+  }
+
+  /* ── Mobile nav toggle ───────────────────────────────────── */
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks  = document.querySelector('.nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Introduction to scRNA-seq &amp; Seurat | Shopnil Academy</title>
+  <meta name="description" content="Learn what single-cell RNA-seq is, why Seurat is the standard toolkit, understand 10x Genomics data formats, and install Seurat in R." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar layout ─────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 272px 1fr;
+      gap: 0;
+      min-height: 100vh;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 96px);
+      overflow-y: auto;
+      border-right: 1px solid var(--line);
+      padding: 28px 20px 40px;
+      background: var(--cream);
+      scrollbar-width: thin;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--green-mint); border-radius: 4px; }
+
+    .sidebar-course-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 4px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 15px; color: var(--ink); line-height: 1.25;
+      margin-bottom: 18px;
+    }
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--muted); margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 5px; background: var(--green-mint); border-radius: 99px;
+      margin-bottom: 22px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green); border-radius: 99px;
+      transition: width .4s ease;
+    }
+
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; font-weight: 700; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 8px 10px; border-radius: 8px; cursor: pointer;
+      transition: background .15s;
+    }
+    .mod-group-label:hover { background: var(--green-soft); }
+    .mod-group-label .chevron { font-size: 10px; transition: transform .2s; }
+    .mod-group-label.open .chevron { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-left: 4px; margin-top: 2px; }
+    .mod-lessons.open { display: flex; flex-direction: column; gap: 1px; }
+
+    .lesson-link {
+      display: flex; align-items: center; gap: 9px;
+      padding: 8px 10px; border-radius: 8px;
+      font-size: 13px; color: var(--muted);
+      transition: background .15s, color .15s;
+      line-height: 1.35;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active { background: var(--green); color: #fff; font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .lesson-link.done .l-icon { background: var(--green); color: #fff; }
+    .l-icon {
+      flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px;
+      background: var(--green-mint); color: var(--green-deep);
+      display: grid; place-items: center;
+      font-size: 10px; font-weight: 700; font-family: var(--font-display);
+    }
+    .lesson-link.active .l-icon { background: rgba(255,255,255,.25); color: #fff; }
+
+    .toc-divider {
+      margin: 20px 0 12px;
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .toc-links { display: flex; flex-direction: column; gap: 2px; }
+    .toc-links a {
+      font-size: 12.5px; color: var(--muted);
+      padding: 5px 10px; border-radius: 7px;
+      border-left: 2px solid transparent;
+      transition: all .15s;
+    }
+    .toc-links a:hover { background: var(--cream); color: var(--ink); }
+    .toc-links a.active { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+
+    /* ── Main content ───────────────────────────────────── */
+    .lesson-main { min-width: 0; padding: 0 0 80px; }
+
+    .lesson-meta-strip {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      padding: 14px 40px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      font-size: 13px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--green-soft); color: var(--green);
+      padding: 4px 11px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+    }
+    .lm-num { color: var(--muted); }
+    .lm-time { color: var(--muted); }
+    .lm-sep { color: var(--line); }
+
+    .prose-wrap { padding: 40px 40px 0; max-width: 820px; }
+
+    /* ── Explain box ────────────────────────────────────── */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0f8f4 100%);
+      border: 1px solid rgba(0,106,78,.18);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 22px 0;
+    }
+    .explain-box .eb-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 7px;
+    }
+    .explain-box p { font-size: 15px; color: #234a36; line-height: 1.65; margin: 0; }
+
+    /* ── Folder note ────────────────────────────────────── */
+    .folder-note {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(232,183,42,.35);
+      border-radius: 9px;
+      padding: 10px 16px;
+      font-size: 13px; color: #6b4f0a;
+      margin-bottom: 10px;
+      font-family: var(--font-display); font-weight: 600;
+    }
+
+    /* ── Code blocks ────────────────────────────────────── */
+    .code-wrap { border-radius: 14px; overflow: hidden; margin: 16px 0 24px; box-shadow: var(--shadow-sm); }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #1a2e22; padding: 10px 16px;
+    }
+    .code-lang {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--green-mint);
+      font-family: var(--font-display);
+    }
+    .copy-btn {
+      font-size: 12px; font-weight: 600; color: var(--green-mint);
+      background: rgba(198,226,214,.12); border: 1px solid rgba(198,226,214,.25);
+      border-radius: 6px; padding: 4px 11px;
+      cursor: pointer; transition: background .15s;
+    }
+    .copy-btn:hover { background: rgba(198,226,214,.22); }
+    pre {
+      margin: 0; padding: 20px 22px;
+      background: #0f1e15;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px; line-height: 1.7;
+    }
+    pre code { background: none; padding: 0; color: #c6e2d6; }
+
+    /* Syntax colours */
+    .c-cmd    { color: #7ee8a2; font-weight: 500; }
+    .c-flag   { color: #f9d56e; }
+    .c-path   { color: #89cff0; }
+    .c-str    { color: #f4a261; }
+    .c-out    { color: #9eb8a8; }
+    .c-comment{ color: #4d7a5e; font-style: italic; }
+    .c-func   { color: #c084fc; font-weight: 500; }
+    .c-num    { color: #fb923c; }
+    .c-kw     { color: #f472b6; }
+
+    /* ── Tip / Warn ─────────────────────────────────────── */
+    .tip, .warn {
+      display: flex; gap: 13px; align-items: flex-start;
+      border-radius: 11px; padding: 15px 18px; margin: 18px 0;
+    }
+    .tip  { background: #e8f5ef; border: 1px solid rgba(0,106,78,.18); }
+    .warn { background: #fff4e5; border: 1px solid rgba(232,183,42,.35); }
+    .tip-icon  { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .tip p, .warn p { font-size: 14px; line-height: 1.6; margin: 0; color: #234a36; }
+    .warn p { color: #6b4f0a; }
+
+    /* ── Exercises ──────────────────────────────────────── */
+    .exercise {
+      background: #fff; border: 1px solid var(--line);
+      border-radius: 14px; padding: 22px 24px; margin: 16px 0;
+    }
+    .ex-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .ex-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-weight: 700; font-size: 14px;
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-weight: 700; font-size: 16px; }
+    .exercise p { font-size: 15px; line-height: 1.65; color: #33433b; margin-bottom: 10px; }
+    .exercise p:last-child { margin-bottom: 0; }
+
+    details.answer {
+      margin-top: 14px;
+      border: 1px solid var(--green-mint);
+      border-radius: 10px; overflow: hidden;
+    }
+    details.answer summary {
+      padding: 11px 16px; cursor: pointer;
+      font-size: 13px; font-weight: 600; color: var(--green);
+      list-style: none; background: var(--green-soft);
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer .ans-body { padding: 16px; background: #fff; }
+    details.answer .ans-body p { font-size: 14px; color: #33433b; margin: 0 0 8px; line-height: 1.6; }
+    details.answer .ans-body p:last-child { margin-bottom: 0; }
+
+    /* ── Comparison table ───────────────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse; margin: 18px 0;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      font-size: 14px;
+    }
+    .cmd-table th {
+      background: var(--green-soft); color: var(--green-deep);
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 12px; letter-spacing: .04em;
+      padding: 11px 16px; text-align: left;
+    }
+    .cmd-table td { padding: 11px 16px; border-top: 1px solid var(--line); vertical-align: top; }
+    .cmd-table tr:nth-child(even) td { background: #fafcfb; }
+    .cmd-table code {
+      font-family: 'DM Mono', monospace; font-size: 12.5px;
+      background: var(--green-soft); color: var(--green-deep);
+      padding: 2px 7px; border-radius: 5px;
+    }
+
+    /* ── Mark complete ──────────────────────────────────── */
+    .mark-complete-wrap { padding: 32px 40px 8px; }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--green); color: #fff;
+      border: none; border-radius: 999px;
+      padding: 13px 24px; font-size: 14px; font-weight: 700;
+      cursor: pointer; transition: background .2s, transform .15s;
+      font-family: inherit;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: #4d7a5e; }
+
+    /* ── Lesson nav footer ──────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 40px;
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+      padding: 10px 20px; border-radius: 999px;
+      border: 1.5px solid rgba(0,106,78,.3);
+      transition: background .15s, border-color .15s;
+    }
+    .lesson-nav-footer a:hover { background: var(--green-soft); border-color: var(--green); }
+    .lesson-nav-footer .next-btn { background: var(--green); color: #fff; border-color: var(--green); }
+    .lesson-nav-footer .next-btn:hover { background: var(--green-deep); }
+
+    /* ── Prose text ─────────────────────────────────────── */
+    .prose-wrap h2 {
+      font-size: 22px; margin: 40px 0 12px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--line);
+      scroll-margin-top: 96px;
+    }
+    .prose-wrap h3 { font-size: 17px; margin: 28px 0 10px; color: var(--green-deep); }
+    .prose-wrap p { font-size: 15.5px; line-height: 1.75; color: #33433b; margin-bottom: 14px; }
+    .prose-wrap ul { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 18px; }
+    .prose-wrap ul li {
+      position: relative; padding-left: 24px;
+      font-size: 15px; line-height: 1.65; color: #33433b;
+    }
+    .prose-wrap ul li::before {
+      content: ''; position: absolute; left: 4px; top: 9px;
+      width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+    }
+    .prose-wrap strong { color: var(--ink); font-weight: 600; }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+      .prose-wrap, .lesson-meta-strip, .mark-complete-wrap, .lesson-nav-footer { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ────────────────────────────────────────────────── -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS EDUCATION</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <span class="free-pill">100 % Free</span>
+      <a href="../../courses.html" class="btn btn-primary btn-sm">All Courses</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+  </nav>
+</div>
+
+<!-- ── LESSON SHELL ───────────────────────────────────────── -->
+<div class="lesson-shell">
+
+  <!-- ── SIDEBAR ──────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Phase 4 · Module 25</div>
+    <div class="sidebar-course-title">Seurat — Core Workflow</div>
+
+    <div class="prog-label">
+      <span>Progress</span>
+      <span id="prog-text">0 / 10</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+    <!-- Module accordion -->
+    <div class="mod-group">
+      <div class="mod-group-label open" onclick="toggleMod(this)">
+        <span>Lessons</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="mod-lessons open">
+        <a class="lesson-link active" href="lesson-1.html"><span class="l-icon">1</span>Intro to scRNA-seq &amp; Seurat</a>
+        <a class="lesson-link" href="lesson-2.html"><span class="l-icon">2</span>Loading &amp; Inspecting Data</a>
+        <a class="lesson-link" href="lesson-3.html"><span class="l-icon">3</span>Quality Control</a>
+        <a class="lesson-link" href="lesson-4.html"><span class="l-icon">4</span>Normalisation</a>
+        <a class="lesson-link" href="lesson-5.html"><span class="l-icon">5</span>Feature Selection</a>
+        <a class="lesson-link" href="lesson-6.html"><span class="l-icon">6</span>Scaling &amp; PCA</a>
+        <a class="lesson-link" href="lesson-7.html"><span class="l-icon">7</span>Clustering</a>
+        <a class="lesson-link" href="lesson-8.html"><span class="l-icon">8</span>UMAP &amp; Visualisation</a>
+        <a class="lesson-link" href="lesson-9.html"><span class="l-icon">9</span>Marker Gene Identification</a>
+        <a class="lesson-link" href="lesson-10.html"><span class="l-icon">10</span>Cell Type Annotation &amp; Saving</a>
+      </div>
+    </div>
+
+    <!-- On this page -->
+    <div class="toc-divider">On this page</div>
+    <div class="toc-links">
+      <a href="#what-is-scrna">What is scRNA-seq?</a>
+      <a href="#bulk-vs-single">Bulk vs Single-cell</a>
+      <a href="#why-seurat">Why Seurat?</a>
+      <a href="#data-formats">Data Formats</a>
+      <a href="#install-seurat">Installing Seurat</a>
+      <a href="#first-look">First Look in R</a>
+      <a href="#exercises">Exercises</a>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ─────────────────────────────────────────────── -->
+  <main class="lesson-main">
+
+    <!-- Meta strip -->
+    <div class="lesson-meta-strip">
+      <span class="lm-pill">Module 25</span>
+      <span class="lm-num">Lesson 1 of 10</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-time">⏱ ~55 min</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill">R · Seurat · scRNA-seq</span>
+    </div>
+
+    <!-- Top ad -->
+    <div style="padding: 24px 40px 0;">
+      <div class="ad-slot banner-728">
+        <strong>Advertisement</strong>
+        <small>Your ad here — shopnilacademy.com</small>
+      </div>
+    </div>
+
+    <!-- Lesson content -->
+    <div class="prose-wrap">
+
+      <!-- Inner header -->
+      <div style="margin-bottom: 8px;">
+        <div class="breadcrumb" style="display:flex;gap:6px;font-size:13px;color:var(--muted);margin-bottom:14px;">
+          <a href="../../index.html">Home</a><span class="sep">›</span>
+          <a href="../../courses.html">Courses</a><span class="sep">›</span>
+          <a href="lesson-1.html">Seurat Core Workflow</a><span class="sep">›</span>
+          <span>Lesson 1</span>
+        </div>
+        <h1 style="font-size:clamp(26px,3.5vw,36px);line-height:1.15;margin-bottom:12px;">
+          Introduction to scRNA-seq &amp; Seurat
+        </h1>
+        <p style="font-size:17px;color:var(--muted);line-height:1.6;max-width:680px;">
+          Understand what single-cell RNA sequencing measures, why it revolutionised cell biology, and how to install and configure Seurat — the most widely used R package for scRNA-seq analysis.
+        </p>
+      </div>
+
+      <!-- ── SECTION 1 ─────────────────────────────────────── -->
+      <h2 id="what-is-scrna">What is single-cell RNA sequencing?</h2>
+
+      <p>Every cell in your body carries the same genome — the same DNA sequence. But cells are wildly different: a root cell in <em>Sorghum bicolor</em> behaves nothing like a leaf mesophyll cell, even though they share identical DNA. The reason is <strong>gene expression</strong>: different cells switch different genes on and off.</p>
+
+      <p>Traditional bulk RNA sequencing (RNA-seq) measures the <em>average</em> gene expression across millions of cells in a tissue sample. That average destroys the identity of individual cells. Rare cell types — a stress-activated immune cell, a newly differentiating stem cell — are completely masked by the majority.</p>
+
+      <p><strong>Single-cell RNA sequencing (scRNA-seq)</strong> solves this by measuring gene expression in each cell individually. You end up with a matrix where each row is a cell and each column is a gene — giving you a transcriptomic fingerprint for thousands of cells at once.</p>
+
+      <div class="explain-box">
+        <div class="eb-label">🔬 Why this matters in plant genomics</div>
+        <p>In sorghum research, bulk RNA-seq would tell you that drought stress changes expression across the whole root. scRNA-seq tells you <em>which specific root cell types</em> respond — epidermis, endodermis, stele, quiescent centre — and by how much. This resolution is essential for understanding where and how tolerance mechanisms activate.</p>
+      </div>
+
+      <h3>What scRNA-seq actually measures</h3>
+      <p>In a typical scRNA-seq experiment:</p>
+      <ul>
+        <li>Cells are dissociated from tissue into a single-cell suspension</li>
+        <li>Each cell is captured in a tiny droplet (e.g. 10x Genomics Chromium) containing a bead with a unique <strong>cell barcode</strong></li>
+        <li>RNA from the cell is reverse-transcribed and labelled with the barcode plus a <strong>Unique Molecular Identifier (UMI)</strong> per transcript</li>
+        <li>Libraries are sequenced; reads are demultiplexed by barcode → each barcode = one cell</li>
+        <li>UMI counts per gene per cell form the raw count matrix</li>
+      </ul>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <p><strong>UMIs are critical.</strong> Without UMIs, PCR amplification bias would make highly-amplified transcripts look more abundant than they are. UMIs mark each original mRNA molecule uniquely, so duplicates can be collapsed before counting. Seurat always works with UMI counts, never raw read counts.</p>
+      </div>
+
+      <!-- ── SECTION 2 ─────────────────────────────────────── -->
+      <h2 id="bulk-vs-single">Bulk RNA-seq vs Single-cell RNA-seq</h2>
+
+      <p>Understanding the differences shapes every decision you make in a Seurat workflow.</p>
+
+      <table class="cmd-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Bulk RNA-seq</th>
+            <th>scRNA-seq</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Resolution</td>
+            <td>Tissue average (millions of cells)</td>
+            <td>Per-cell (thousands of individual cells)</td>
+          </tr>
+          <tr>
+            <td>Input</td>
+            <td>~1 µg total RNA</td>
+            <td>Single-cell suspension</td>
+          </tr>
+          <tr>
+            <td>Sparsity</td>
+            <td>Most genes detected</td>
+            <td>Very sparse — most entries are zero</td>
+          </tr>
+          <tr>
+            <td>Cost</td>
+            <td>Lower per sample</td>
+            <td>Higher (£300–£1000+ per sample)</td>
+          </tr>
+          <tr>
+            <td>Cell type discovery</td>
+            <td>Requires prior marker knowledge</td>
+            <td>Unbiased clustering reveals new types</td>
+          </tr>
+          <tr>
+            <td>Rare cells</td>
+            <td>Signal drowned out</td>
+            <td>Detected if sampled</td>
+          </tr>
+          <tr>
+            <td>Analysis tool</td>
+            <td>DESeq2, edgeR, limma</td>
+            <td>Seurat, Scanpy, Monocle</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <p><strong>Sparsity is the defining challenge.</strong> A typical scRNA-seq matrix is 80–95 % zeros. Not because those genes are absent — but because mRNA capture is inefficient and not every transcript is sequenced. This is called <em>dropout</em>. Every step in the Seurat workflow is designed to handle or mitigate this sparsity.</p>
+      </div>
+
+      <!-- ── SECTION 3 ─────────────────────────────────────── -->
+      <h2 id="why-seurat">Why Seurat?</h2>
+
+      <div class="explain-box">
+        <div class="eb-label">🧰 What Seurat actually is</div>
+        <p>Seurat is an R package developed at the Satija Lab (New York Genome Center). It provides a complete end-to-end workflow for scRNA-seq analysis: from raw count matrices all the way to annotated cell type clusters and publication-quality figures. It is the most cited scRNA-seq tool in the world, with over 20,000 citations as of 2025.</p>
+      </div>
+
+      <p>Seurat is not just a collection of functions — it introduces a dedicated data structure called the <strong>Seurat Object</strong> that stores everything in one place:</p>
+      <ul>
+        <li>The raw count matrix (stored as a sparse matrix to save memory)</li>
+        <li>Normalised and scaled data</li>
+        <li>Dimensionality reduction results (PCA, UMAP)</li>
+        <li>Cluster identities (called "idents")</li>
+        <li>Cell-level metadata (QC metrics, sample origin, annotations)</li>
+        <li>Gene-level metadata</li>
+      </ul>
+
+      <p>By keeping everything in one object, you never lose track of which cells belong to which analysis state. This is fundamentally different from the DESeq2 workflow, where you manage separate data frames for counts, metadata, and results.</p>
+
+      <h3>Seurat versions</h3>
+      <table class="cmd-table">
+        <thead>
+          <tr><th>Version</th><th>Key addition</th><th>Current?</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Seurat v2</td><td>Initial Canonical Correlation Analysis (CCA) integration</td><td>Legacy</td></tr>
+          <tr><td>Seurat v3</td><td>Anchor-based integration, SCTransform normalisation</td><td>Widely used</td></tr>
+          <tr><td>Seurat v4</td><td>Weighted nearest neighbour (WNN) multimodal analysis</td><td>Stable</td></tr>
+          <tr><td>Seurat v5</td><td>Sketch-based analysis, split layers, improved scalability</td><td>✅ Latest (2024+)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <p>This module uses <strong>Seurat v5</strong>. If you find older tutorials online (2019–2022), some function names and argument names differ. Always check the version with <code>packageVersion("Seurat")</code> before following any tutorial.</p>
+      </div>
+
+      <!-- ── SECTION 4 ─────────────────────────────────────── -->
+      <h2 id="data-formats">Understanding 10x Genomics data formats</h2>
+
+      <p>The most common scRNA-seq platform is the <strong>10x Genomics Chromium</strong> system. After sequencing and alignment (using Cell Ranger), 10x produces a standard output folder containing three files:</p>
+
+      <table class="cmd-table">
+        <thead>
+          <tr><th>File</th><th>Contents</th><th>Size</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>matrix.mtx.gz</code></td>
+            <td>Sparse count matrix in Matrix Market Exchange format — row/col indices + non-zero values</td>
+            <td>Typically 10–500 MB</td>
+          </tr>
+          <tr>
+            <td><code>barcodes.tsv.gz</code></td>
+            <td>Cell barcodes — one per line; the row labels of the matrix</td>
+            <td>Kilobytes</td>
+          </tr>
+          <tr>
+            <td><code>features.tsv.gz</code></td>
+            <td>Gene identifiers and names — the column labels of the matrix</td>
+            <td>Kilobytes</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="explain-box">
+        <div class="eb-label">📦 Why the MEX (Matrix Market Exchange) format?</div>
+        <p>A full 10x count matrix might have 30,000 genes × 10,000 cells = 300 million entries. Storing all of these as a regular dense matrix would require ~2.4 GB just for integers. Since 90 % of entries are zero, the MEX format stores only the non-zero values along with their row and column positions — typically reducing the file to a few megabytes. R loads this into a <code>dgCMatrix</code> (dense-generic-compressed sparse matrix), which Seurat uses internally throughout.</p>
+      </div>
+
+      <p>The three files together are called the <strong>filtered feature-barcode matrix</strong> and are typically located at:</p>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">Directory structure</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-path">sample_output/</span>
+<span class="c-path">└── outs/</span>
+<span class="c-path">    └── filtered_feature_bc_matrix/</span>
+<span class="c-path">        ├── matrix.mtx.gz</span>
+<span class="c-path">        ├── barcodes.tsv.gz</span>
+<span class="c-path">        └── features.tsv.gz</span></code></pre>
+      </div>
+
+      <p>Seurat's <code>Read10X()</code> function reads all three files at once and combines them into a single sparse matrix — you just point it at the folder and it does the rest.</p>
+
+      <!-- ── SECTION 5 ─────────────────────────────────────── -->
+      <h2 id="install-seurat">Installing Seurat</h2>
+
+      <div class="explain-box">
+        <div class="eb-label">🔧 Before you install</div>
+        <p>Seurat v5 requires R ≥ 4.1.0 and depends on several Bioconductor packages. The cleanest approach is to install from CRAN (which handles most dependencies automatically) and then install Bioconductor packages separately. On Ubuntu, you may also need system libraries.</p>
+      </div>
+
+      <h3>Step 1 — Check your R version</h3>
+
+      <div class="folder-note">📁 Run from: R console (any working directory)</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">R</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-comment"># Check current R version — must be ≥ 4.1.0</span>
+<span class="c-func">R.version.string</span>
+
+<span class="c-comment"># Check if Seurat is already installed</span>
+<span class="c-func">packageVersion</span>(<span class="c-str">"Seurat"</span>)</code></pre>
+      </div>
+
+      <h3>Step 2 — Install system libraries (Ubuntu)</h3>
+
+      <div class="folder-note">📁 Run from: Ubuntu terminal</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">Bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-comment"># Required C libraries for R packages that Seurat depends on</span>
+<span class="c-cmd">sudo apt-get install</span> <span class="c-flag">-y</span> \
+  libhdf5-dev \
+  libcurl4-openssl-dev \
+  libssl-dev \
+  libxml2-dev \
+  libgeos-dev \
+  libgdal-dev \
+  libproj-dev
+
+<span class="c-comment"># libhdf5-dev → needed for reading HDF5 (.h5) 10x files</span>
+<span class="c-comment"># libcurl4-openssl-dev → needed for internet downloads inside R</span></code></pre>
+      </div>
+
+      <h3>Step 3 — Install Seurat from CRAN</h3>
+
+      <div class="folder-note">📁 Run from: R console</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">R</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-comment"># Install Seurat v5 from CRAN</span>
+<span class="c-func">install.packages</span>(<span class="c-str">"Seurat"</span>)
+
+<span class="c-comment"># Install SeuratObject (data structure package — sometimes installed automatically)</span>
+<span class="c-func">install.packages</span>(<span class="c-str">"SeuratObject"</span>)
+
+<span class="c-comment"># Install supporting packages</span>
+<span class="c-func">install.packages</span>(<span class="c-func">c</span>(
+  <span class="c-str">"dplyr"</span>,       <span class="c-comment"># data manipulation</span>
+  <span class="c-str">"ggplot2"</span>,     <span class="c-comment"># plotting (Seurat uses ggplot2 internally)</span>
+  <span class="c-str">"patchwork"</span>,   <span class="c-comment"># arrange multiple plots</span>
+  <span class="c-str">"Matrix"</span>,      <span class="c-comment"># sparse matrix support</span>
+  <span class="c-str">"scales"</span>       <span class="c-comment"># colour scales for plots</span>
+))</code></pre>
+      </div>
+
+      <h3>Step 4 — Install Bioconductor dependencies</h3>
+
+      <div class="folder-note">📁 Run from: R console</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">R</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-comment"># Install BiocManager if not already present</span>
+<span class="c-kw">if</span> (!<span class="c-func">requireNamespace</span>(<span class="c-str">"BiocManager"</span>, quietly = <span class="c-kw">TRUE</span>))
+  <span class="c-func">install.packages</span>(<span class="c-str">"BiocManager"</span>)
+
+<span class="c-comment"># Install Bioconductor packages used by Seurat</span>
+<span class="c-func">BiocManager::install</span>(<span class="c-func">c</span>(
+  <span class="c-str">"limma"</span>,       <span class="c-comment"># differential expression testing backend</span>
+  <span class="c-str">"glmGamPoi"</span>,   <span class="c-comment"># fast GLM fitting for SCTransform</span>
+  <span class="c-str">"DESeq2"</span>       <span class="c-comment"># used for pseudobulk DE in later lessons</span>
+))</code></pre>
+      </div>
+
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <p><strong>Installation takes 10–20 minutes</strong> on first run because Seurat has ~100 dependencies. If any package fails with a compilation error, the missing system library is usually the cause — re-read Step 2 and check the error message for which C header is missing.</p>
+      </div>
+
+      <!-- ── SECTION 6 ─────────────────────────────────────── -->
+      <h2 id="first-look">First look in R — verifying your installation</h2>
+
+      <p>Once installed, let's verify everything works and take a first look at the PBMC dataset we will use throughout this module. PBMC stands for <strong>Peripheral Blood Mononuclear Cells</strong> — a mixture of immune cells (T cells, B cells, NK cells, monocytes) that is the standard benchmark dataset for Seurat tutorials.</p>
+
+      <div class="explain-box">
+        <div class="eb-label">🩸 Why PBMC?</div>
+        <p>The 10x Genomics PBMC 3k dataset (2,700 cells from a healthy donor) has well-characterised cell types with known markers. This makes it ideal for learning — you can immediately verify that your clustering is biologically correct. Every major scRNA-seq tool publishes a tutorial using this dataset. We will use it across all 10 lessons of this module.</p>
+      </div>
+
+      <h3>Load Seurat and check version</h3>
+
+      <div class="folder-note">📁 Run from: R console or RStudio</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">R</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-comment"># Load Seurat</span>
+<span class="c-func">library</span>(Seurat)
+<span class="c-func">library</span>(SeuratObject)
+<span class="c-func">library</span>(dplyr)
+<span class="c-func">library</span>(ggplot2)
+
+<span class="c-comment"># Confirm version — should be ≥ 5.0.0</span>
+<span class="c-func">packageVersion</span>(<span class="c-str">"Seurat"</span>)
+<span class="c-out"># [1] '5.1.0'</span>
+
+<span class="c-comment"># See all exported functions (over 300!)</span>
+<span class="c-func">ls</span>(<span class="c-str">"package:Seurat"</span>) |&gt; <span class="c-func">head</span>(<span class="c-num">20</span>)</code></pre>
+      </div>
+
+      <h3>Download the PBMC 3k dataset</h3>
+
+      <div class="folder-note">📁 Run from: Ubuntu terminal</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">Bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-comment"># Create a working directory for this module</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/scrna-seurat-pbmc/data/raw</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/scrna-seurat-pbmc/data/raw</span>
+
+<span class="c-comment"># Download the PBMC 3k filtered feature-barcode matrix (22 MB)</span>
+<span class="c-cmd">wget</span> <span class="c-flag">-q</span> \
+  https://cf.10xgenomics.com/samples/cell/pbmc3k/pbmc3k_filtered_gene_bc_matrices.tar.gz
+
+<span class="c-comment"># Extract — creates pbmc3k_filtered_gene_bc_matrices/hg19/</span>
+<span class="c-cmd">tar</span> <span class="c-flag">-xzf</span> pbmc3k_filtered_gene_bc_matrices.tar.gz
+
+<span class="c-comment"># Inspect the three files Seurat will read</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">pbmc3k_filtered_gene_bc_matrices/filtered_gene_bc_matrices/hg19/</span>
+<span class="c-out"># -rw-r--r--  barcodes.tsv   70K</span>
+<span class="c-out"># -rw-r--r--  genes.tsv      502K</span>
+<span class="c-out"># -rw-r--r--  matrix.mtx     17M</span></code></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <p>The PBMC 3k data uses the older <code>genes.tsv</code> filename (not <code>features.tsv.gz</code>). This is fine — <code>Read10X()</code> handles both naming conventions automatically.</p>
+      </div>
+
+      <h3>Peek at the raw files in R</h3>
+
+      <div class="folder-note">📁 Run from: R console (working directory: ~/scrna-seurat-pbmc)</div>
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">R</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code><span class="c-comment"># Point to the data directory</span>
+data_dir &lt;- <span class="c-str">"data/raw/pbmc3k_filtered_gene_bc_matrices/filtered_gene_bc_matrices/hg19"</span>
+
+<span class="c-comment"># Read the sparse count matrix — returns a dgCMatrix</span>
+counts &lt;- <span class="c-func">Read10X</span>(data.dir = data_dir)
+
+<span class="c-comment"># What class is this?</span>
+<span class="c-func">class</span>(counts)
+<span class="c-out"># [1] "dgCMatrix"</span>
+<span class="c-func">attr</span>(<span class="c-func">class</span>(counts), <span class="c-str">"package"</span>)
+<span class="c-out"># [1] "Matrix"</span>
+
+<span class="c-comment"># Dimensions: genes × cells</span>
+<span class="c-func">dim</span>(counts)
+<span class="c-out"># [1] 32738  2700</span>
+<span class="c-comment"># 32,738 genes measured in 2,700 cells</span>
+
+<span class="c-comment"># First 5 genes, first 4 cells — most values are zero</span>
+counts[<span class="c-num">1</span>:<span class="c-num">5</span>, <span class="c-num">1</span>:<span class="c-num">4</span>]
+<span class="c-out"># 4 x 4 sparse Matrix of class "dgCMatrix"</span>
+<span class="c-out">#           AAACATACAACCAC AAACATTGAGCTAC AAACATTGATCAGC AAACCGTGCTTCCG</span>
+<span class="c-out"># AL627309.1             .              .              .              .</span>
+<span class="c-out"># AP006222.2             .              .              .              .</span>
+<span class="c-out"># RP11-206L10.2          .              .              .              .</span>
+<span class="c-out"># RP11-206L10.9          .              .              .              .</span>
+<span class="c-out"># LINC00115              .              .              .              .</span>
+
+<span class="c-comment"># Dots (.) represent zero — the matrix is very sparse</span>
+<span class="c-comment"># Calculate sparsity: % of entries that are zero</span>
+sparsity &lt;- <span class="c-num">1</span> - <span class="c-func">nnzero</span>(counts) / <span class="c-func">prod</span>(<span class="c-func">dim</span>(counts))
+<span class="c-func">cat</span>(<span class="c-func">sprintf</span>(<span class="c-str">"Sparsity: %.1f%%\n"</span>, sparsity * <span class="c-num">100</span>))
+<span class="c-out"># Sparsity: 94.3%</span></code></pre>
+      </div>
+
+      <p>94.3 % of all entries in this matrix are zero. That single number explains why every decision in the Seurat workflow — normalisation method, feature selection, dimensionality reduction — is specifically designed for sparse count data.</p>
+
+      <!-- Middle ad -->
+      <div class="ad-slot in-feed" style="margin: 32px 0;">
+        <strong>Advertisement</strong>
+        <small>Support free bioinformatics education</small>
+      </div>
+
+      <!-- ── EXERCISES ─────────────────────────────────────── -->
+      <h2 id="exercises">Exercises</h2>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">1</div>
+          <div class="ex-title">Verify your Seurat installation</div>
+        </div>
+        <p>Load Seurat in R and run <code>packageVersion("Seurat")</code>. If your version is below 5.0.0, update it using <code>install.packages("Seurat")</code>. Then run <code>?CreateSeuratObject</code> to open the help page and read what the <code>min.cells</code> and <code>min.features</code> arguments do. We will use these in Lesson 2.</p>
+        <details class="answer">
+          <summary>▶ Show answer</summary>
+          <div class="ans-body">
+            <p><code>min.cells</code> — include a gene only if it is detected in at least this many cells. Setting <code>min.cells = 3</code> removes genes detected in fewer than 3 cells, which are unlikely to be informative.</p>
+            <p><code>min.features</code> — include a cell only if it has at least this many genes detected. Setting <code>min.features = 200</code> removes empty droplets and debris that have very few transcripts.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">2</div>
+          <div class="ex-title">Explore the raw count matrix</div>
+        </div>
+        <p>After reading the PBMC data with <code>Read10X()</code>, answer these questions using R commands:</p>
+        <ul>
+          <li>How many genes are in the dataset?</li>
+          <li>How many cells are in the dataset?</li>
+          <li>What is the maximum UMI count for any single gene in any single cell? (Hint: <code>max(counts)</code>)</li>
+          <li>What are the first 5 cell barcodes? (Hint: <code>colnames(counts)[1:5]</code>)</li>
+        </ul>
+        <details class="answer">
+          <summary>▶ Show answer</summary>
+          <div class="ans-body">
+            <p><code>dim(counts)</code> → 32,738 genes × 2,700 cells</p>
+            <p><code>max(counts)</code> → approximately 1,000+ (varies; one highly expressed gene in one cell)</p>
+            <p><code>colnames(counts)[1:5]</code> → the first 5 are cell barcodes like <code>AAACATACAACCAC-1</code></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">3</div>
+          <div class="ex-title">Understand sparsity</div>
+        </div>
+        <p>Calculate the sparsity of the PBMC count matrix using the formula shown in the lesson. Then look up one gene you know — for example <code>PTPRC</code> (encodes CD45, a pan-leukocyte marker) — and find how many cells it is detected in:</p>
+        <p><code>sum(counts["PTPRC", ] > 0)</code></p>
+        <p>Is it detected in most cells or only a minority? Does this match your expectation for a marker gene expressed in all blood cells?</p>
+        <details class="answer">
+          <summary>▶ Show answer</summary>
+          <div class="ans-body">
+            <p>Sparsity ≈ 94.3 % — nearly 19 out of every 20 values is zero.</p>
+            <p>PTPRC is a pan-leukocyte marker, so it should be detected in most cells. Running <code>sum(counts["PTPRC", ] > 0)</code> shows it in roughly 1,900–2,200 cells (out of 2,700). That is about 70–80 % — high for a single gene, which confirms it is a good pan-marker. Most genes are detected in far fewer cells (often &lt; 10 %).</p>
+          </div>
+        </details>
+      </div>
+
+    </div><!-- /.prose-wrap -->
+
+    <!-- Mark complete -->
+    <div class="mark-complete-wrap">
+      <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+        ✓ Mark lesson complete
+      </button>
+    </div>
+
+    <!-- Bottom ad -->
+    <div style="padding: 16px 40px; display:flex; justify-content:center;">
+      <div class="ad-slot rectangle" style="max-width:340px;width:100%;">
+        <strong>Advertisement</strong>
+        <small>Your ad here</small>
+      </div>
+    </div>
+
+    <!-- Lesson nav -->
+    <div class="lesson-nav-footer">
+      <span></span>
+      <a href="lesson-2.html" class="next-btn">Lesson 2: Loading &amp; Inspecting Data →</a>
+    </div>
+
+  </main><!-- /.lesson-main -->
+</div><!-- /.lesson-shell -->
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>FREE BIOINFORMATICS EDUCATION</small>
+          </div>
+        </a>
+        <p class="foot-about">A free, open bioinformatics curriculum built by a plant genomics researcher — for students, breeders, and scientists worldwide.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Course</h4>
+        <ul>
+          <li><a href="lesson-1.html">Lesson 1</a></li>
+          <li><a href="lesson-2.html">Lesson 2</a></li>
+          <li><a href="lesson-3.html">Lesson 3</a></li>
+          <li><a href="lesson-4.html">Lesson 4</a></li>
+          <li><a href="lesson-5.html">Lesson 5</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>More Courses</h4>
+        <ul>
+          <li><a href="../../courses/bash-linux/lesson-1.html">Bash &amp; Linux</a></li>
+          <li><a href="../../courses/rnaseq-qc/lesson-1.html">RNA-seq QC</a></li>
+          <li><a href="../../courses/deseq2/lesson-1.html">DESeq2</a></li>
+          <li><a href="../../courses/snakemake/lesson-1.html">Snakemake</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Shopnil Academy</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../blog.html">Blog</a></li>
+          <li><a href="../../courses.html">All Courses</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 Shopnil Academy · Gießen, Germany</span>
+      <span>Built by Shajedur Rahman Hossain</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ── JAVASCRIPT ─────────────────────────────────────────── -->
+<script>
+  /* ── Mobile nav ─────────────────────── */
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks  = document.querySelector('.nav-links');
+  if (navToggle) navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  /* ── Module accordion ───────────────── */
+  function toggleMod(label) {
+    label.classList.toggle('open');
+    const list = label.nextElementSibling;
+    list.classList.toggle('open');
+  }
+
+  /* ── Copy code ──────────────────────── */
+  function copyCode(btn) {
+    const pre  = btn.closest('.code-wrap').querySelector('pre');
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1800);
+    });
+  }
+
+  /* ── Progress bar ───────────────────── */
+  const LS_KEY = 'sa_seurat_done';
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+    catch { return []; }
+  }
+  function updateProgress() {
+    const done  = getDone();
+    const total = 10;
+    const count = done.length;
+    document.getElementById('prog-fill').style.width = (count / total * 100) + '%';
+    document.getElementById('prog-text').textContent  = count + ' / ' + total;
+
+    /* Mark done lessons in sidebar */
+    document.querySelectorAll('.lesson-link').forEach(link => {
+      const href = link.getAttribute('href');
+      const n = href ? href.match(/lesson-(\d+)/)?.[1] : null;
+      if (n && done.includes('lesson-' + n)) link.classList.add('done');
+    });
+
+    /* Mark-complete button state */
+    const btn = document.getElementById('mc-btn');
+    if (btn && done.includes('lesson-1')) {
+      btn.textContent = '✓ Completed';
+      btn.classList.add('done');
+    }
+  }
+
+  function markComplete() {
+    const done = getDone();
+    if (!done.includes('lesson-1')) done.push('lesson-1');
+    localStorage.setItem(LS_KEY, JSON.stringify(done));
+    updateProgress();
+  }
+
+  updateProgress();
+
+  /* ── Active TOC via IntersectionObserver ── */
+  const tocLinks = document.querySelectorAll('.toc-links a');
+  const headings = document.querySelectorAll('.prose-wrap h2[id]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector('.toc-links a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+
+  headings.forEach(h => observer.observe(h));
+</script>
+
+</body>
+</html>

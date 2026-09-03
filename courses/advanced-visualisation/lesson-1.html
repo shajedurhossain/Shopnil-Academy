@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1: Why Visualisation Matters in Bioinformatics — Shopnil Academy</title>
+  <meta name="description" content="Learn why data visualisation is essential in bioinformatics, understand the grammar of graphics, and make your first publication-quality plot with ggplot2." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar layout ───────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 268px 1fr;
+      gap: 0;
+      min-height: 100vh;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 28px 20px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--green-mint); border-radius: 99px; }
+
+    .sidebar-course-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 4px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display); font-size: 15px; font-weight: 700;
+      color: var(--ink); line-height: 1.25; margin-bottom: 18px;
+    }
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--muted); margin-bottom: 5px;
+    }
+    .prog-track {
+      height: 5px; background: var(--green-mint); border-radius: 99px;
+      margin-bottom: 22px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green); border-radius: 99px;
+      transition: width .4s ease;
+    }
+
+    .mod-group { margin-bottom: 4px; }
+    .mod-group-label {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 10px; border-radius: 10px; cursor: pointer;
+      font-size: 12px; font-weight: 700; color: var(--ink);
+      background: transparent;
+      user-select: none;
+      letter-spacing: .01em;
+    }
+    .mod-group-label:hover { background: var(--green-soft); }
+    .mod-group-label .chevron {
+      font-size: 10px; color: var(--muted);
+      transition: transform .2s ease;
+    }
+    .mod-group-label.open .chevron { transform: rotate(90deg); }
+
+    .mod-lessons {
+      display: none; flex-direction: column; gap: 1px;
+      padding: 2px 0 6px 10px;
+    }
+    .mod-lessons.open { display: flex; }
+
+    .lesson-link {
+      display: flex; align-items: center; gap: 9px;
+      padding: 7px 10px; border-radius: 8px;
+      font-size: 12.5px; color: var(--muted);
+      transition: background .15s, color .15s;
+      line-height: 1.3;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active { background: var(--green-soft); color: var(--green); font-weight: 600; }
+    .lesson-link.done { color: var(--green-deep); }
+    .l-icon {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+      display: grid; place-items: center; font-size: 9px; font-weight: 700;
+      background: var(--cream); color: var(--muted);
+      border: 1.5px solid var(--line);
+    }
+    .lesson-link.active .l-icon { background: var(--green); color: #fff; border-color: var(--green); }
+    .lesson-link.done .l-icon { background: var(--green-mint); color: var(--green-deep); border-color: var(--green-mint); }
+
+    .sidebar-toc-head {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 22px 0 8px 2px;
+    }
+    .sidebar-toc { display: flex; flex-direction: column; gap: 1px; }
+    .sidebar-toc a {
+      font-size: 12px; color: var(--muted); padding: 5px 10px;
+      border-radius: 7px; border-left: 2px solid transparent;
+      transition: all .15s;
+    }
+    .sidebar-toc a:hover { color: var(--ink); background: var(--cream); }
+    .sidebar-toc a.active { color: var(--green); border-left-color: var(--green); background: var(--green-soft); font-weight: 600; }
+
+    /* ── Main content ─────────────────────────────────────── */
+    .main-col { min-width: 0; }
+
+    /* ── Lesson meta strip ───────────────────────────────── */
+    .lesson-meta-strip {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+      padding: 14px 0 0;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--cream); border: 1px solid var(--line);
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 12px; color: var(--muted); font-weight: 500;
+    }
+    .lm-pill strong { color: var(--ink); }
+    .lm-num {
+      background: var(--green); color: #fff;
+      padding: 5px 13px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em;
+    }
+    .lm-time { color: var(--muted); font-size: 13px; }
+    .lm-sep { color: var(--line); }
+
+    /* ── Code blocks ─────────────────────────────────────── */
+    .code-wrap {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      margin: 18px 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,.18);
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      background: #1a2e23; padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .code-lang {
+      font-size: 11px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: #7fcba8;
+    }
+    .copy-btn {
+      font-size: 11px; font-weight: 600; color: #7fcba8;
+      background: rgba(127,203,168,.12); border: 1px solid rgba(127,203,168,.25);
+      border-radius: 6px; padding: 4px 10px; cursor: pointer;
+      transition: background .15s;
+    }
+    .copy-btn:hover { background: rgba(127,203,168,.25); }
+    pre {
+      margin: 0; padding: 20px;
+      background: #0f1e16;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px; line-height: 1.75;
+      overflow-x: auto; color: #c8d8cd;
+    }
+    .c-cmd   { color: #7fcba8; font-weight: 500; }
+    .c-flag  { color: #f0c96b; }
+    .c-path  { color: #82c4e8; }
+    .c-out   { color: #9db8a8; }
+    .c-comment { color: #4d7060; font-style: italic; }
+    .c-str   { color: #e8a87c; }
+    .c-fn    { color: #c792ea; }
+    .c-num   { color: #f78c6c; }
+    .c-kw    { color: #89ddff; }
+
+    /* ── Explain box ──────────────────────────────────────── */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0f7f4 100%);
+      border: 1px solid rgba(0,106,78,.15);
+      border-left: 4px solid var(--green);
+      border-radius: 12px; padding: 18px 20px; margin: 18px 0;
+    }
+    .explain-box h4 {
+      font-size: 12px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 7px;
+    }
+    .explain-box p { font-size: 14.5px; color: #2a4035; line-height: 1.65; margin: 0; }
+
+    /* ── Folder note ──────────────────────────────────────── */
+    .folder-note {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--gold-soft); border: 1px solid rgba(232,183,42,.3);
+      border-radius: 10px; padding: 11px 16px; margin: 14px 0;
+      font-size: 13px; color: #6b4f00; font-family: 'DM Mono', monospace;
+    }
+    .folder-note::before { content: '📁'; font-style: normal; flex-shrink: 0; }
+
+    /* ── Tip / Warn ───────────────────────────────────────── */
+    .tip, .warn {
+      display: flex; gap: 13px; border-radius: 12px;
+      padding: 16px 18px; margin: 18px 0; font-size: 14px; line-height: 1.6;
+    }
+    .tip { background: #e8f5ee; border: 1px solid rgba(0,106,78,.18); color: #1a3d2b; }
+    .warn { background: #fff3cd; border: 1px solid rgba(232,183,42,.4); color: #5a3e00; }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* ── Command table ────────────────────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse; margin: 18px 0;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      font-size: 13.5px;
+    }
+    .cmd-table th {
+      background: var(--cream); text-align: left;
+      padding: 11px 14px; font-family: var(--font-display);
+      font-weight: 600; font-size: 12px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .05em;
+      border-bottom: 1px solid var(--line);
+    }
+    .cmd-table td {
+      padding: 11px 14px; border-bottom: 1px solid var(--line);
+      vertical-align: top; color: #2a4035; line-height: 1.5;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+    .cmd-table td:first-child {
+      font-family: 'DM Mono', monospace; font-size: 12.5px;
+      color: var(--green-deep); white-space: nowrap;
+    }
+
+    /* ── Exercises ────────────────────────────────────────── */
+    .exercise {
+      border: 1px solid var(--line); border-radius: 14px;
+      background: #fff; margin: 14px 0; overflow: hidden;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 18px; border-bottom: 1px solid var(--line);
+      background: var(--cream);
+    }
+    .ex-num {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-size: 13px; font-weight: 700; font-family: var(--font-display);
+      flex-shrink: 0;
+    }
+    .ex-title { font-weight: 600; font-size: 15px; color: var(--ink); }
+    .exercise > p { padding: 14px 18px 0; font-size: 14.5px; color: #2a4035; line-height: 1.6; }
+    details.answer { margin: 12px 18px 16px; }
+    details.answer summary {
+      cursor: pointer; font-size: 13px; font-weight: 600;
+      color: var(--green); list-style: none; padding: 8px 0;
+    }
+    details.answer summary::-webkit-details-marker { display: none; }
+    details.answer summary::before { content: '▶ '; font-size: 10px; }
+    details.answer[open] summary::before { content: '▼ '; }
+    details.answer .answer-body {
+      background: var(--green-soft); border-radius: 10px;
+      padding: 14px 16px; margin-top: 6px;
+      font-size: 13.5px; color: #1a3d2b; line-height: 1.65;
+    }
+
+    /* ── Mark complete / lesson nav ───────────────────────── */
+    .mark-complete-wrap {
+      text-align: center; padding: 32px 0 8px;
+    }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 14px 28px; border-radius: 999px;
+      background: var(--green); color: #fff;
+      font-size: 15px; font-weight: 700; border: 0;
+      cursor: pointer; font-family: var(--font-display);
+      transition: background .2s, transform .15s;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: var(--green-mint); color: var(--green-deep); }
+
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 0 64px; gap: 16px; flex-wrap: wrap;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 14px; font-weight: 600; color: var(--green);
+      padding: 11px 20px; border-radius: 999px;
+      border: 1.5px solid rgba(0,106,78,.25);
+      transition: background .15s, border-color .15s;
+    }
+    .lesson-nav-footer a:hover { background: var(--green-soft); border-color: var(--green); }
+    .lesson-nav-footer .nav-next { background: var(--green); color: #fff; border-color: var(--green); }
+    .lesson-nav-footer .nav-next:hover { background: var(--green-deep); }
+
+    /* ── Responsive ───────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy logo" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS EDUCATION</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <span class="free-pill">100 % Free</span>
+      <a href="../../courses.html" class="btn btn-primary btn-sm">All Courses</a>
+    </div>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     TWO-COLUMN SHELL
+════════════════════════════════════════════════════════ -->
+<div class="lesson-shell">
+
+  <!-- ── SIDEBAR ────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Module 22 · Phase 3</div>
+    <div class="sidebar-course-title">Advanced Visualisation in Bioinformatics</div>
+
+    <div class="prog-label">
+      <span>Progress</span>
+      <span id="prog-pct">0 / 11</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+    <!-- Module accordion -->
+    <div class="mod-group">
+      <div class="mod-group-label open" onclick="toggleMod(this)">
+        <span>All Lessons</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="mod-lessons open">
+        <a class="lesson-link active" href="lesson-1.html">
+          <span class="l-icon">1</span>Why Visualisation Matters
+        </a>
+        <a class="lesson-link" href="lesson-2.html">
+          <span class="l-icon">2</span>Publication Plots with ggplot2
+        </a>
+        <a class="lesson-link" href="lesson-3.html">
+          <span class="l-icon">3</span>Heatmaps for Genomic Data
+        </a>
+        <a class="lesson-link" href="lesson-4.html">
+          <span class="l-icon">4</span>Volcano &amp; MA Plots
+        </a>
+        <a class="lesson-link" href="lesson-5.html">
+          <span class="l-icon">5</span>Manhattan &amp; QQ Plots
+        </a>
+        <a class="lesson-link" href="lesson-6.html">
+          <span class="l-icon">6</span>Boxplots &amp; Violin Plots
+        </a>
+        <a class="lesson-link" href="lesson-7.html">
+          <span class="l-icon">7</span>Genomic Track Plots
+        </a>
+        <a class="lesson-link" href="lesson-8.html">
+          <span class="l-icon">8</span>Interactive Plots with Plotly
+        </a>
+        <a class="lesson-link" href="lesson-9.html">
+          <span class="l-icon">9</span>Network &amp; Pathway Visualisation
+        </a>
+        <a class="lesson-link" href="lesson-10.html">
+          <span class="l-icon">10</span>Colour, Layout &amp; Design
+        </a>
+        <a class="lesson-link" href="lesson-11.html">
+          <span class="l-icon">11</span>Capstone: Publication Figure
+        </a>
+      </div>
+    </div>
+
+    <!-- On this page TOC -->
+    <div class="sidebar-toc-head">On this page</div>
+    <nav class="sidebar-toc">
+      <a href="#why-matters">Why it matters</a>
+      <a href="#plot-types">Plot types in bioinfo</a>
+      <a href="#grammar">Grammar of graphics</a>
+      <a href="#ggplot2-layers">ggplot2 layers</a>
+      <a href="#first-plot">Your first plot</a>
+      <a href="#aesthetics">Mapping aesthetics</a>
+      <a href="#geoms">Choosing geoms</a>
+      <a href="#exercises">Exercises</a>
+    </nav>
+  </aside>
+
+  <!-- ── MAIN ───────────────────────────────────────────── -->
+  <div class="main-col">
+
+    <!-- Inner header -->
+    <div class="inner-header">
+      <div class="wrap">
+        <div class="breadcrumb">
+          <a href="../../index.html">Home</a>
+          <span class="sep">›</span>
+          <a href="../../courses.html">Courses</a>
+          <span class="sep">›</span>
+          <a href="lesson-1.html">Advanced Visualisation</a>
+          <span class="sep">›</span>
+          <span>Lesson 1</span>
+        </div>
+        <div class="lesson-meta-strip">
+          <span class="lm-num">LESSON 1</span>
+          <span class="lm-pill">Module 22</span>
+          <span class="lm-pill"><strong>Phase 3</strong> — Advanced &amp; Specialised</span>
+          <span class="lm-pill">⏱ ~50 min</span>
+          <span class="lm-pill">🔵 Intermediate</span>
+        </div>
+        <h1 style="margin-top:14px;">Why Visualisation Matters<br>in Bioinformatics</h1>
+        <p class="lead">Understand why plots are not optional in genomics, learn the grammar of graphics, and build your first publication-ready chart with ggplot2.</p>
+      </div>
+    </div>
+
+    <!-- Ad slot — top banner -->
+    <div class="wrap" style="padding-top:24px;">
+      <div class="ad-slot banner-728">
+        <strong>Advertisement</strong>
+        <small>Your ad could appear here — AdSense slot reserved</small>
+      </div>
+    </div>
+
+    <!-- ── ARTICLE ─────────────────────────────────────── -->
+    <div class="article">
+      <div class="wrap">
+        <div class="prose" style="max-width:100%;">
+
+          <!-- ════════════════════════════════════════════
+               SECTION 1 — WHY IT MATTERS
+          ════════════════════════════════════════════ -->
+          <section id="why-matters" style="scroll-margin-top:100px;">
+            <h2>1 · Why Visualisation Matters</h2>
+
+            <div class="explain-box">
+              <h4>🔬 The core idea</h4>
+              <p>Bioinformatics produces enormous tables of numbers — thousands of gene expression values, millions of variant calls, billions of aligned reads. The human brain cannot process raw tables at that scale. A well-chosen plot can reveal a pattern in seconds that would take hours to find in a spreadsheet. Visualisation is not decoration — it is <strong>the primary tool for biological discovery</strong> and the main way reviewers and readers judge your results.</p>
+            </div>
+
+            <p class="pretty">Consider a typical RNA-seq experiment on sorghum under drought stress. DESeq2 outputs a table of 30,000 genes with log₂ fold-change values and adjusted p-values. Without a volcano plot, you cannot see at a glance which genes are both statistically significant and biologically meaningful. Without a heatmap, you cannot see whether the top 50 DE genes cluster samples correctly. Without a PCA plot, you cannot check whether your replicates group together as expected.</p>
+
+            <p class="pretty" style="margin-top:12px;">Every stage of a bioinformatics workflow has a characteristic plot type that serves as a quality check:</p>
+
+            <table class="cmd-table" style="margin-top:16px;">
+              <thead>
+                <tr>
+                  <th>Workflow stage</th>
+                  <th>Key plot</th>
+                  <th>What it checks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Raw reads QC</td><td>Per-base quality score plot</td><td>Sequencing quality, adapter contamination</td></tr>
+                <tr><td>Alignment</td><td>Coverage track (genome browser)</td><td>Read depth distribution, mapping artefacts</td></tr>
+                <tr><td>Exploratory DE</td><td>PCA / sample distance heatmap</td><td>Batch effects, outliers, replicate consistency</td></tr>
+                <tr><td>Differential expression</td><td>Volcano plot, MA plot</td><td>Fold-change vs significance landscape</td></tr>
+                <tr><td>Gene sets</td><td>Heatmap with clustering</td><td>Expression patterns across conditions</td></tr>
+                <tr><td>GWAS</td><td>Manhattan plot, QQ plot</td><td>Genomic inflation, significant loci</td></tr>
+                <tr><td>scRNA-seq</td><td>UMAP / t-SNE</td><td>Cell type clustering, trajectory</td></tr>
+              </tbody>
+            </table>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <span>A good plot does three things at once: it <strong>communicates</strong> your finding, <strong>validates</strong> that your analysis ran correctly, and <strong>generates</strong> new hypotheses. A bad plot does none of those — it just fills space in a paper.</span>
+            </div>
+          </section>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 2 — PLOT TYPES
+          ════════════════════════════════════════════ -->
+          <section id="plot-types" style="scroll-margin-top:100px; margin-top:44px;">
+            <h2>2 · Plot Types in Bioinformatics</h2>
+
+            <p class="pretty">Before writing any code, you should be able to look at a biological question and immediately know which plot type answers it. This is a skill most people never learn explicitly — they just imitate what they have seen in papers. This module will make it deliberate.</p>
+
+            <table class="cmd-table" style="margin-top:16px;">
+              <thead>
+                <tr>
+                  <th>Plot type</th>
+                  <th>Best for</th>
+                  <th>Primary R tool</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Scatter plot</td><td>Two continuous variables, correlation</td><td>ggplot2 + geom_point()</td></tr>
+                <tr><td>Line plot</td><td>Time series, ordered sequences</td><td>ggplot2 + geom_line()</td></tr>
+                <tr><td>Bar / column chart</td><td>Comparing counts or means across groups</td><td>ggplot2 + geom_col()</td></tr>
+                <tr><td>Boxplot</td><td>Distribution summary, outlier detection</td><td>ggplot2 + geom_boxplot()</td></tr>
+                <tr><td>Violin plot</td><td>Full distribution shape by group</td><td>ggplot2 + geom_violin()</td></tr>
+                <tr><td>Heatmap</td><td>Matrix data — expression, correlation</td><td>pheatmap, ComplexHeatmap</td></tr>
+                <tr><td>Volcano plot</td><td>DE results: significance vs fold-change</td><td>EnhancedVolcano, ggplot2</td></tr>
+                <tr><td>MA plot</td><td>DE results: mean vs fold-change (bias check)</td><td>DESeq2::plotMA()</td></tr>
+                <tr><td>Manhattan plot</td><td>GWAS: chromosomal position vs –log₁₀(p)</td><td>qqman, CMplot</td></tr>
+                <tr><td>QQ plot</td><td>GWAS: expected vs observed p-values</td><td>qqman</td></tr>
+                <tr><td>PCA plot</td><td>Sample clustering, batch effects</td><td>ggplot2 + prcomp()</td></tr>
+                <tr><td>UMAP / t-SNE</td><td>scRNA-seq cell embedding</td><td>Seurat, Scanpy</td></tr>
+                <tr><td>Genome track</td><td>Read coverage, gene models, variants</td><td>Gviz, ggbio</td></tr>
+                <tr><td>Network plot</td><td>Protein interactions, pathway connections</td><td>igraph, ggraph</td></tr>
+              </tbody>
+            </table>
+
+            <div class="warn">
+              <span class="warn-icon">⚠️</span>
+              <span>Choosing the wrong plot type is one of the most common mistakes in bioinformatics papers. Using a bar chart when you should use a boxplot hides the distribution. Using a pie chart for any comparison (almost always wrong) makes magnitudes hard to judge. This module covers when and why to use each type.</span>
+            </div>
+          </section>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 3 — GRAMMAR OF GRAPHICS
+          ════════════════════════════════════════════ -->
+          <section id="grammar" style="scroll-margin-top:100px; margin-top:44px;">
+            <h2>3 · The Grammar of Graphics</h2>
+
+            <div class="explain-box">
+              <h4>🧠 Why this concept matters</h4>
+              <p>In the 1990s, statistician Leland Wilkinson wrote a book called <em>The Grammar of Graphics</em>. It argued that every statistical chart — no matter how complex — is built from the same small set of components, combined in different ways. Hadley Wickham implemented this idea as <strong>ggplot2</strong> in 2005, and it became the most widely used scientific plotting library in the world. Once you understand the grammar, you stop memorising individual plot recipes and start <em>composing</em> any plot you can imagine.</p>
+            </div>
+
+            <p class="pretty">The grammar has seven layers. Every ggplot2 call is just a combination of these:</p>
+
+            <table class="cmd-table" style="margin-top:16px;">
+              <thead>
+                <tr>
+                  <th>Layer</th>
+                  <th>ggplot2 component</th>
+                  <th>Example</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1. Data</td><td><code>ggplot(data = ...)</code></td><td>Your data frame</td></tr>
+                <tr><td>2. Aesthetics</td><td><code>aes(x = , y = , colour = )</code></td><td>Which columns map to which visual properties</td></tr>
+                <tr><td>3. Geometry</td><td><code>geom_point()</code>, <code>geom_line()</code></td><td>The shape used to draw the data</td></tr>
+                <tr><td>4. Statistics</td><td><code>stat_smooth()</code>, <code>stat_summary()</code></td><td>Transformations applied before drawing</td></tr>
+                <tr><td>5. Scales</td><td><code>scale_colour_manual()</code></td><td>How data values map to visual values</td></tr>
+                <tr><td>6. Coordinates</td><td><code>coord_flip()</code>, <code>coord_polar()</code></td><td>The coordinate system</td></tr>
+                <tr><td>7. Facets</td><td><code>facet_wrap()</code>, <code>facet_grid()</code></td><td>Split into multiple panels by a variable</td></tr>
+              </tbody>
+            </table>
+
+            <p class="pretty" style="margin-top:14px;">You do not need all seven layers in every plot. The minimum is Data + Aesthetics + Geometry. Every other layer is optional and added with <code>+</code>. This is why ggplot2 code looks like stacking building blocks:</p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — ggplot2 structure</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># The minimum viable ggplot2 call</span>
+<span class="c-fn">ggplot</span>(data = my_data,                <span class="c-comment"># Layer 1: data</span>
+       <span class="c-fn">aes</span>(x = gene_expression,           <span class="c-comment"># Layer 2: aesthetics</span>
+           y = fold_change,
+           colour = condition)) +
+  <span class="c-fn">geom_point</span>()                          <span class="c-comment"># Layer 3: geometry</span>
+
+<span class="c-comment"># Add more layers with +</span>
+<span class="c-fn">ggplot</span>(data = my_data,
+       <span class="c-fn">aes</span>(x = gene_expression, y = fold_change, colour = condition)) +
+  <span class="c-fn">geom_point</span>(size = <span class="c-num">2</span>, alpha = <span class="c-num">0.7</span>) +  <span class="c-comment"># geometry</span>
+  <span class="c-fn">geom_smooth</span>(method = <span class="c-str">"lm"</span>) +           <span class="c-comment"># statistics</span>
+  <span class="c-fn">scale_colour_manual</span>(                   <span class="c-comment"># scale</span>
+    values = <span class="c-fn">c</span>(<span class="c-str">"drought"</span> = <span class="c-str">"#c0392b"</span>,
+               <span class="c-str">"control"</span> = <span class="c-str">"#2980b9"</span>)) +
+  <span class="c-fn">facet_wrap</span>(~chromosome) +              <span class="c-comment"># facet</span>
+  <span class="c-fn">theme_classic</span>()                        <span class="c-comment"># theme (bonus layer)</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <span>The <code>+</code> operator in ggplot2 works like the pipe (<code>|&gt;</code>) in data wrangling — it passes the plot object to the next layer. The difference is that <code>+</code> <em>adds</em> a layer rather than transforming data. Always put the <code>+</code> at the <strong>end of a line</strong>, never at the start of the next line, or R will throw an error.</span>
+            </div>
+          </section>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 4 — GGPLOT2 LAYERS IN DEPTH
+          ════════════════════════════════════════════ -->
+          <section id="ggplot2-layers" style="scroll-margin-top:100px; margin-top:44px;">
+            <h2>4 · ggplot2 Layers in Depth</h2>
+
+            <p class="pretty">Let's go through each layer with bioinformatics examples so you know what each one does before you start combining them.</p>
+
+            <h3 style="margin-top:22px;">Layer 1 — Data</h3>
+            <p class="pretty">ggplot2 expects a <strong>tidy data frame</strong>: one row per observation, one column per variable. If your RNA-seq results are in a matrix (genes as rows, samples as columns), you need to convert them to tidy format first using <code>pivot_longer()</code> from the tidyr package.</p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — tidy data for ggplot2</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Wide format (NOT what ggplot2 wants)</span>
+<span class="c-comment">#   gene     sample1  sample2  sample3</span>
+<span class="c-comment">#   Sobic1   12.4     14.1     11.8</span>
+<span class="c-comment">#   Sobic2   3.2       2.8      4.1</span>
+
+<span class="c-comment"># Tidy format (what ggplot2 wants)</span>
+<span class="c-comment">#   gene     sample    count</span>
+<span class="c-comment">#   Sobic1   sample1   12.4</span>
+<span class="c-comment">#   Sobic1   sample2   14.1</span>
+<span class="c-comment">#   Sobic1   sample3   11.8</span>
+
+<span class="c-kw">library</span>(tidyr)
+
+tidy_counts &lt;- wide_matrix |&gt;
+  <span class="c-fn">as.data.frame</span>() |&gt;
+  <span class="c-fn">tibble</span>::<span class="c-fn">rownames_to_column</span>(<span class="c-str">"gene"</span>) |&gt;
+  <span class="c-fn">pivot_longer</span>(
+    cols      = <span class="c-fn">starts_with</span>(<span class="c-str">"sample"</span>),
+    names_to  = <span class="c-str">"sample"</span>,
+    values_to = <span class="c-str">"count"</span>
+  )</pre>
+            </div>
+
+            <h3 style="margin-top:22px;">Layer 2 — Aesthetics (aes)</h3>
+            <p class="pretty">Aesthetics are the <strong>mappings</strong> between columns in your data frame and visual properties of the plot. The most common aesthetics are:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Aesthetic</th><th>Controls</th><th>Bioinformatics use</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>x, y</td><td>Position on axes</td><td>log₂FC vs –log₁₀(padj) in volcano plot</td></tr>
+                <tr><td>colour</td><td>Outline / line colour</td><td>Up-regulated vs down-regulated genes</td></tr>
+                <tr><td>fill</td><td>Interior fill colour</td><td>Sample groups in boxplot</td></tr>
+                <tr><td>size</td><td>Point or line size</td><td>Expression level as bubble size</td></tr>
+                <tr><td>alpha</td><td>Transparency (0–1)</td><td>Reducing overplotting in large datasets</td></tr>
+                <tr><td>shape</td><td>Point shape (1–25)</td><td>Different tissues or conditions</td></tr>
+                <tr><td>label</td><td>Text label</td><td>Gene names on significant points</td></tr>
+              </tbody>
+            </table>
+
+            <div class="explain-box">
+              <h4>🔑 aes() vs direct argument</h4>
+              <p>Put a property inside <code>aes()</code> when it <strong>maps to a data column</strong> — it will vary per point. Put it <strong>outside</strong> <code>aes()</code> when you want a fixed value for all points. For example: <code>geom_point(aes(colour = condition))</code> colours by the condition column, but <code>geom_point(colour = "red")</code> makes everything red. This is the single most common source of confusion for ggplot2 beginners.</p>
+            </div>
+
+            <h3 style="margin-top:22px;">Layer 3 — Geometry (geom_*)</h3>
+            <p class="pretty">The geometry determines the visual shape drawn for each observation. Here are the most important geoms for bioinformatics:</p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — essential geoms</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Points — scatter, volcano, PCA</span>
+<span class="c-fn">geom_point</span>(size = <span class="c-num">2</span>, alpha = <span class="c-num">0.6</span>)
+
+<span class="c-comment"># Lines — time series, expression trends</span>
+<span class="c-fn">geom_line</span>(linewidth = <span class="c-num">1</span>)
+
+<span class="c-comment"># Horizontal/vertical reference lines</span>
+<span class="c-fn">geom_hline</span>(yintercept = <span class="c-num">0</span>, linetype = <span class="c-str">"dashed"</span>, colour = <span class="c-str">"grey50"</span>)
+<span class="c-fn">geom_vline</span>(xintercept = <span class="c-fn">c</span>(<span class="c-num">-1</span>, <span class="c-num">1</span>), linetype = <span class="c-str">"dashed"</span>, colour = <span class="c-str">"grey50"</span>)
+
+<span class="c-comment"># Boxplot — distribution by group</span>
+<span class="c-fn">geom_boxplot</span>(outlier.size = <span class="c-num">1</span>, fill = <span class="c-str">"white"</span>)
+
+<span class="c-comment"># Violin — full distribution shape</span>
+<span class="c-fn">geom_violin</span>(trim = <span class="c-kw">FALSE</span>)
+
+<span class="c-comment"># Bars — counts, means</span>
+<span class="c-fn">geom_col</span>()      <span class="c-comment"># uses actual y values</span>
+<span class="c-fn">geom_bar</span>()      <span class="c-comment"># counts rows (stat = "count")</span>
+
+<span class="c-comment"># Text labels — gene names</span>
+<span class="c-fn">geom_text</span>(<span class="c-fn">aes</span>(label = gene_name), size = <span class="c-num">3</span>, vjust = <span class="c-num">-1</span>)
+<span class="c-fn">geom_label</span>(<span class="c-fn">aes</span>(label = gene_name))   <span class="c-comment"># boxed label</span>
+
+<span class="c-comment"># Smooth regression line</span>
+<span class="c-fn">geom_smooth</span>(method = <span class="c-str">"lm"</span>, se = <span class="c-kw">FALSE</span>)</pre>
+            </div>
+          </section>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 5 — FIRST PLOT
+          ════════════════════════════════════════════ -->
+          <section id="first-plot" style="scroll-margin-top:100px; margin-top:44px;">
+            <h2>5 · Your First Plot: Sorghum Gene Expression</h2>
+
+            <div class="explain-box">
+              <h4>📋 What we will build</h4>
+              <p>We will create a simulated sorghum RNA-seq dataset with gene expression values under two conditions (drought stress vs control), then build a scatter plot that shows the relationship between the two conditions. This is a common first sanity check — genes with similar expression in both conditions should cluster around the diagonal.</p>
+            </div>
+
+            <h3>Step 1 — Install and load packages</h3>
+
+            <div class="folder-note">Run from: RStudio or any R session</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — setup</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Install once (skip if already installed)</span>
+<span class="c-fn">install.packages</span>(<span class="c-fn">c</span>(<span class="c-str">"ggplot2"</span>, <span class="c-str">"dplyr"</span>, <span class="c-str">"tidyr"</span>, <span class="c-str">"patchwork"</span>))
+
+<span class="c-comment"># Load every session</span>
+<span class="c-kw">library</span>(ggplot2)
+<span class="c-kw">library</span>(dplyr)
+<span class="c-kw">library</span>(tidyr)</pre>
+            </div>
+
+            <h3>Step 2 — Create simulated sorghum expression data</h3>
+
+            <div class="folder-note">Run from: ~/bioinformatics-visualisation/</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — simulate data</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-fn">set.seed</span>(<span class="c-num">42</span>)                         <span class="c-comment"># reproducible random numbers</span>
+
+n_genes &lt;- <span class="c-num">500</span>
+
+sorghum_expr &lt;- <span class="c-fn">data.frame</span>(
+  gene_id  = <span class="c-fn">paste0</span>(<span class="c-str">"Sobic."</span>, <span class="c-fn">sprintf</span>(<span class="c-str">"%04d"</span>, <span class="c-num">1</span>:n_genes)),
+  control  = <span class="c-fn">rnorm</span>(n_genes, mean = <span class="c-num">8</span>, sd = <span class="c-num">2</span>),  <span class="c-comment"># log2 CPM values</span>
+  drought  = <span class="c-fn">rnorm</span>(n_genes, mean = <span class="c-num">8</span>, sd = <span class="c-num">2</span>)
+)
+
+<span class="c-comment"># Add a fold-change column (drought vs control)</span>
+sorghum_expr &lt;- sorghum_expr |&gt;
+  <span class="c-fn">mutate</span>(
+    log2FC     = drought - control,
+    is_de      = <span class="c-fn">abs</span>(log2FC) &gt; <span class="c-num">1</span>,     <span class="c-comment"># simple DE flag</span>
+    direction  = <span class="c-fn">case_when</span>(
+      log2FC &gt;  <span class="c-num">1</span>  ~ <span class="c-str">"Up in drought"</span>,
+      log2FC &lt; <span class="c-num">-1</span>  ~ <span class="c-str">"Down in drought"</span>,
+      <span class="c-kw">TRUE</span>         ~ <span class="c-str">"Not DE"</span>
+    )
+  )
+
+<span class="c-fn">head</span>(sorghum_expr)</pre>
+            </div>
+
+            <h3 style="margin-top:22px;">Step 3 — Build the scatter plot</h3>
+
+            <div class="folder-note">Run from: ~/bioinformatics-visualisation/</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — first ggplot2 scatter</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Build the plot layer by layer</span>
+p1 &lt;- <span class="c-fn">ggplot</span>(
+    data = sorghum_expr,
+    <span class="c-fn">aes</span>(x     = control,       <span class="c-comment"># x axis: control expression</span>
+        y     = drought,        <span class="c-comment"># y axis: drought expression</span>
+        colour = direction)     <span class="c-comment"># colour by DE status</span>
+  ) +
+  <span class="c-fn">geom_point</span>(size = <span class="c-num">1.8</span>, alpha = <span class="c-num">0.7</span>) +            <span class="c-comment"># draw points</span>
+  <span class="c-fn">geom_abline</span>(slope = <span class="c-num">1</span>, intercept = <span class="c-num">0</span>,             <span class="c-comment"># diagonal = no change</span>
+              linetype = <span class="c-str">"dashed"</span>, colour = <span class="c-str">"grey40"</span>,
+              linewidth = <span class="c-num">0.7</span>) +
+  <span class="c-fn">scale_colour_manual</span>(                              <span class="c-comment"># custom colours</span>
+    values = <span class="c-fn">c</span>(
+      <span class="c-str">"Up in drought"</span>   = <span class="c-str">"#c0392b"</span>,
+      <span class="c-str">"Down in drought"</span> = <span class="c-str">"#2980b9"</span>,
+      <span class="c-str">"Not DE"</span>          = <span class="c-str">"#bdc3c7"</span>
+    )
+  ) +
+  <span class="c-fn">labs</span>(
+    title    = <span class="c-str">"Sorghum gene expression: drought vs control"</span>,
+    subtitle = <span class="c-str">"500 simulated genes · values in log2 CPM"</span>,
+    x        = <span class="c-str">"Control (log2 CPM)"</span>,
+    y        = <span class="c-str">"Drought (log2 CPM)"</span>,
+    colour   = <span class="c-str">"Expression change"</span>,
+    caption  = <span class="c-str">"Points above diagonal: higher in drought"</span>
+  ) +
+  <span class="c-fn">theme_classic</span>(base_size = <span class="c-num">13</span>) +                  <span class="c-comment"># clean theme</span>
+  <span class="c-fn">theme</span>(
+    plot.title    = <span class="c-fn">element_text</span>(face = <span class="c-str">"bold"</span>),
+    legend.position = <span class="c-str">"top"</span>
+  )
+
+<span class="c-comment"># Display the plot</span>
+p1
+
+<span class="c-comment"># Save to file (publication quality)</span>
+<span class="c-fn">ggsave</span>(<span class="c-str">"plots/sorghum_scatter.png"</span>,
+       plot   = p1,
+       width  = <span class="c-num">7</span>,
+       height = <span class="c-num">6</span>,
+       dpi    = <span class="c-num">300</span>)</pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <span>Always save with <code>dpi = 300</code> for print-quality output. Journals typically require 300–600 DPI for raster figures. For vector output (scalable to any size), use <code>ggsave("plot.pdf")</code> — PDF is always vector by default in ggplot2.</span>
+            </div>
+          </section>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 6 — AESTHETICS DEEP DIVE
+          ════════════════════════════════════════════ -->
+          <section id="aesthetics" style="scroll-margin-top:100px; margin-top:44px;">
+            <h2>6 · Mapping Aesthetics to Data</h2>
+
+            <p class="pretty">Let's extend the plot to encode a third variable (gene length) as point size and a fourth variable (chromosome) as facets. This demonstrates how ggplot2 allows you to visualise four dimensions in a single 2D plot.</p>
+
+            <div class="folder-note">Run from: ~/bioinformatics-visualisation/</div>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — multi-aesthetic plot</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-comment"># Add chromosome and gene length to simulated data</span>
+sorghum_expr &lt;- sorghum_expr |&gt;
+  <span class="c-fn">mutate</span>(
+    chromosome  = <span class="c-fn">paste0</span>(<span class="c-str">"Chr"</span>, <span class="c-fn">sample</span>(<span class="c-num">1</span>:<span class="c-num">10</span>, n_genes, replace = <span class="c-kw">TRUE</span>)),
+    gene_length = <span class="c-fn">runif</span>(n_genes, <span class="c-num">500</span>, <span class="c-num">5000</span>)    <span class="c-comment"># bp</span>
+  )
+
+<span class="c-comment"># Select just chr 1-4 for a cleaner faceted plot</span>
+sub_data &lt;- sorghum_expr |&gt;
+  <span class="c-fn">filter</span>(chromosome <span class="c-kw">%in%</span> <span class="c-fn">paste0</span>(<span class="c-str">"Chr"</span>, <span class="c-num">1</span>:<span class="c-num">4</span>))
+
+p2 &lt;- <span class="c-fn">ggplot</span>(sub_data,
+       <span class="c-fn">aes</span>(x      = control,
+           y      = drought,
+           colour = direction,
+           size   = gene_length)) +    <span class="c-comment"># 4th aesthetic</span>
+  <span class="c-fn">geom_point</span>(alpha = <span class="c-num">0.6</span>) +
+  <span class="c-fn">geom_abline</span>(slope = <span class="c-num">1</span>, intercept = <span class="c-num">0</span>,
+              linetype = <span class="c-str">"dashed"</span>, colour = <span class="c-str">"grey50"</span>, linewidth = <span class="c-num">0.5</span>) +
+  <span class="c-fn">facet_wrap</span>(~chromosome, nrow = <span class="c-num">2</span>) +               <span class="c-comment"># split by chromosome</span>
+  <span class="c-fn">scale_colour_manual</span>(
+    values = <span class="c-fn">c</span>(<span class="c-str">"Up in drought"</span>   = <span class="c-str">"#c0392b"</span>,
+               <span class="c-str">"Down in drought"</span> = <span class="c-str">"#2980b9"</span>,
+               <span class="c-str">"Not DE"</span>          = <span class="c-str">"#bdc3c7"</span>)) +
+  <span class="c-fn">scale_size_continuous</span>(range = <span class="c-fn">c</span>(<span class="c-num">0.5</span>, <span class="c-num">4</span>),
+                        name  = <span class="c-str">"Gene length (bp)"</span>) +
+  <span class="c-fn">labs</span>(title  = <span class="c-str">"Expression by chromosome — Sorghum drought vs control"</span>,
+       x      = <span class="c-str">"Control (log2 CPM)"</span>,
+       y      = <span class="c-str">"Drought (log2 CPM)"</span>,
+       colour = <span class="c-str">"DE status"</span>) +
+  <span class="c-fn">theme_classic</span>(base_size = <span class="c-num">12</span>) +
+  <span class="c-fn">theme</span>(strip.background = <span class="c-fn">element_rect</span>(fill = <span class="c-str">"#e8f5ee"</span>),
+        strip.text        = <span class="c-fn">element_text</span>(face = <span class="c-str">"bold"</span>),
+        legend.position   = <span class="c-str">"bottom"</span>)
+
+p2
+<span class="c-fn">ggsave</span>(<span class="c-str">"plots/sorghum_facet_scatter.png"</span>, p2,
+       width = <span class="c-num">10</span>, height = <span class="c-num">7</span>, dpi = <span class="c-num">300</span>)</pre>
+            </div>
+          </section>
+
+          <!-- ════════════════════════════════════════════
+               SECTION 7 — CHOOSING GEOMS
+          ════════════════════════════════════════════ -->
+          <section id="geoms" style="scroll-margin-top:100px; margin-top:44px;">
+            <h2>7 · Choosing Geoms: The Decision Framework</h2>
+
+            <p class="pretty">When you face a new plotting task, ask these three questions in order:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>Question</th>
+                  <th>Answer → geom</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>How many variables am I visualising?</td>
+                  <td>1 continuous → histogram/density; 1 categorical → bar; 2 continuous → scatter; 1 continuous + 1 categorical → boxplot/violin</td>
+                </tr>
+                <tr>
+                  <td>What is my message?</td>
+                  <td>Comparison → bar/boxplot; Relationship → scatter; Distribution → histogram/violin; Change over time → line; Part of whole → bar (NOT pie)</td>
+                </tr>
+                <tr>
+                  <td>How many data points?</td>
+                  <td>&lt; 100: show all points; 100–10,000: semi-transparent points + summary; &gt; 10,000: density plot or hexbin</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="explain-box">
+              <h4>🌱 Sorghum example</h4>
+              <p>In a sorghum drought experiment with 3 replicates per condition (6 samples total), you want to compare library sizes. With only 6 points, a bar chart works fine — show each bar as one sample. If you had 60 samples across 10 conditions, switch to a boxplot per condition. If you had 600 samples from a meta-analysis, use a violin plot to show the full distribution.</p>
+            </div>
+
+            <p class="pretty" style="margin-top:14px;">Here is a practical comparison of the three distribution geoms:</p>
+
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">R — distribution geom comparison</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="c-kw">library</span>(patchwork)   <span class="c-comment"># for combining multiple plots</span>
+
+<span class="c-comment"># Simulate library sizes for sorghum samples</span>
+lib_data &lt;- <span class="c-fn">data.frame</span>(
+  sample    = <span class="c-fn">paste0</span>(<span class="c-str">"S"</span>, <span class="c-num">1</span>:<span class="c-num">30</span>),
+  condition = <span class="c-fn">rep</span>(<span class="c-fn">c</span>(<span class="c-str">"Control"</span>, <span class="c-str">"Drought"</span>), each = <span class="c-num">15</span>),
+  lib_size  = <span class="c-fn">c</span>(<span class="c-fn">rnorm</span>(<span class="c-num">15</span>, <span class="c-num">20e6</span>, <span class="c-num">3e6</span>),
+                <span class="c-fn">rnorm</span>(<span class="c-num">15</span>, <span class="c-num">18e6</span>, <span class="c-num">4e6</span>))
+)
+
+<span class="c-comment"># Plot A: boxplot</span>
+pA &lt;- <span class="c-fn">ggplot</span>(lib_data, <span class="c-fn">aes</span>(x = condition, y = lib_size / <span class="c-num">1e6</span>,
+                               fill = condition)) +
+  <span class="c-fn">geom_boxplot</span>(alpha = <span class="c-num">0.7</span>) +
+  <span class="c-fn">labs</span>(title = <span class="c-str">"A: Boxplot"</span>, y = <span class="c-str">"Library size (M reads)"</span>, x = <span class="c-kw">NULL</span>) +
+  <span class="c-fn">scale_fill_manual</span>(values = <span class="c-fn">c</span>(<span class="c-str">"#2980b9"</span>, <span class="c-str">"#c0392b"</span>)) +
+  <span class="c-fn">theme_classic</span>() + <span class="c-fn">theme</span>(legend.position = <span class="c-str">"none"</span>)
+
+<span class="c-comment"># Plot B: violin</span>
+pB &lt;- <span class="c-fn">ggplot</span>(lib_data, <span class="c-fn">aes</span>(x = condition, y = lib_size / <span class="c-num">1e6</span>,
+                               fill = condition)) +
+  <span class="c-fn">geom_violin</span>(trim = <span class="c-kw">FALSE</span>, alpha = <span class="c-num">0.7</span>) +
+  <span class="c-fn">geom_boxplot</span>(width = <span class="c-num">0.1</span>, fill = <span class="c-str">"white"</span>) +   <span class="c-comment"># inner boxplot</span>
+  <span class="c-fn">labs</span>(title = <span class="c-str">"B: Violin + boxplot"</span>, y = <span class="c-kw">NULL</span>, x = <span class="c-kw">NULL</span>) +
+  <span class="c-fn">scale_fill_manual</span>(values = <span class="c-fn">c</span>(<span class="c-str">"#2980b9"</span>, <span class="c-str">"#c0392b"</span>)) +
+  <span class="c-fn">theme_classic</span>() + <span class="c-fn">theme</span>(legend.position = <span class="c-str">"none"</span>)
+
+<span class="c-comment"># Plot C: jitter (best for small n)</span>
+pC &lt;- <span class="c-fn">ggplot</span>(lib_data, <span class="c-fn">aes</span>(x = condition, y = lib_size / <span class="c-num">1e6</span>,
+                               colour = condition)) +
+  <span class="c-fn">geom_jitter</span>(width = <span class="c-num">0.15</span>, size = <span class="c-num">3</span>, alpha = <span class="c-num">0.8</span>) +
+  <span class="c-fn">stat_summary</span>(fun = mean, geom = <span class="c-str">"crossbar"</span>,
+               width = <span class="c-num">0.4</span>, colour = <span class="c-str">"black"</span>) +
+  <span class="c-fn">labs</span>(title = <span class="c-str">"C: Jitter + mean bar"</span>, y = <span class="c-kw">NULL</span>, x = <span class="c-kw">NULL</span>) +
+  <span class="c-fn">scale_colour_manual</span>(values = <span class="c-fn">c</span>(<span class="c-str">"#2980b9"</span>, <span class="c-str">"#c0392b"</span>)) +
+  <span class="c-fn">theme_classic</span>() + <span class="c-fn">theme</span>(legend.position = <span class="c-str">"none"</span>)
+
+<span class="c-comment"># Combine with patchwork</span>
+pA + pB + pC + <span class="c-fn">plot_layout</span>(ncol = <span class="c-num">3</span>)
+<span class="c-fn">ggsave</span>(<span class="c-str">"plots/distribution_comparison.png"</span>,
+       width = <span class="c-num">12</span>, height = <span class="c-num">5</span>, dpi = <span class="c-num">300</span>)</pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <span><strong>patchwork</strong> is the easiest way to combine multiple ggplot2 plots into a multi-panel figure for publication. Use <code>+</code> to place plots side by side, <code>/</code> to stack them vertically, and <code>plot_annotation(tag_levels = "A")</code> to add A, B, C panel labels automatically.</span>
+            </div>
+          </section>
+
+          <!-- Ad slot — mid -->
+          <div class="ad-slot in-feed" style="margin: 40px 0;">
+            <strong>Advertisement</strong>
+            <small>AdSense in-feed slot reserved</small>
+          </div>
+
+          <!-- ════════════════════════════════════════════
+               EXERCISES
+          ════════════════════════════════════════════ -->
+          <section id="exercises" style="scroll-margin-top:100px; margin-top:44px;">
+            <h2>8 · Exercises</h2>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">1</div>
+                <div class="ex-title">Identify the correct geom</div>
+              </div>
+              <p>You have RNA-seq data from 4 sorghum tissues (root, leaf, seed, stem) with 20 samples per tissue. You want to compare the distribution of total read counts per sample across tissues. Which geom is most appropriate — bar chart, boxplot, violin, or scatter? Why?</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <strong>Boxplot or violin plot</strong> is most appropriate here. A bar chart would only show one value per tissue (e.g. the mean), hiding the spread. With 20 samples per group, a boxplot shows median, IQR, and outliers clearly. A violin plot would also work and shows the full distribution shape — useful if you suspect bimodality. A scatter/jitter plot would work for 20 points but gets cluttered. The violin + inner boxplot combination (Option B from the lesson code) is often the best choice for n = 20.
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">2</div>
+                <div class="ex-title">Fix the aes() mistake</div>
+              </div>
+              <p>This code is supposed to colour all points red, but instead it creates a legend with one category called "red". Find and fix the bug:</p>
+              <div class="code-wrap" style="margin: 12px 18px;">
+                <div class="code-header">
+                  <span class="code-lang">R — buggy code</span>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><span class="c-fn">ggplot</span>(sorghum_expr, <span class="c-fn">aes</span>(x = control, y = drought,
+                              colour = <span class="c-str">"red"</span>)) +
+  <span class="c-fn">geom_point</span>()</pre>
+              </div>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  The fix is to move <code>colour = "red"</code> <strong>outside</strong> of <code>aes()</code> and into <code>geom_point()</code> directly. Inside <code>aes()</code>, R treats the string "red" as a column name / data value — it maps the constant "red" to all points and assigns a colour from the default palette. The corrected code:<br><br>
+                  <code>ggplot(sorghum_expr, aes(x = control, y = drought)) +<br>
+                  geom_point(colour = "red")</code>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">3</div>
+                <div class="ex-title">Add a layer to the scatter plot</div>
+              </div>
+              <p>Take the <code>p1</code> scatter plot from Section 5 and add a linear regression line for each DE direction group (Up, Down, Not DE) separately. The line should be drawn without a confidence interval ribbon.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <code>p1 + geom_smooth(method = "lm", se = FALSE, linewidth = 0.8)</code><br><br>
+                  Because <code>colour = direction</code> is set in the global <code>aes()</code>, <code>geom_smooth()</code> automatically fits a separate line per group (colour group). Setting <code>se = FALSE</code> removes the confidence interval ribbon. <code>linewidth = 0.8</code> makes the line visible without dominating the points.
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">4</div>
+                <div class="ex-title">Create your own project folder</div>
+              </div>
+              <p>Create the directory structure for the <code>bioinformatics-visualisation</code> repo, then run the simulated data code and save both plots to a <code>plots/</code> subfolder. Verify the files were created.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  In the terminal:
+                  <pre style="background:#1a2e23;padding:12px;border-radius:8px;font-family:'DM Mono',monospace;font-size:12.5px;color:#c8d8cd;margin-top:8px;">mkdir -p ~/bioinformatics-visualisation/plots
+cd ~/bioinformatics-visualisation
+Rscript lesson-01-visualisation-intro.R
+ls -lh plots/</pre>
+                  You should see <code>sorghum_scatter.png</code>, <code>sorghum_facet_scatter.png</code>, and <code>distribution_comparison.png</code> in the <code>plots/</code> directory.
+                </div>
+              </details>
+            </div>
+          </section>
+
+          <!-- Mark complete -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+              ✓ Mark lesson complete
+            </button>
+          </div>
+
+          <!-- Lesson nav footer -->
+          <div class="lesson-nav-footer">
+            <span></span>
+            <a href="lesson-2.html" class="nav-next">Lesson 2: Publication Plots with ggplot2 →</a>
+          </div>
+
+        </div><!-- .prose -->
+      </div><!-- .wrap -->
+    </div><!-- .article -->
+
+    <!-- Ad slot — bottom -->
+    <div class="wrap" style="padding-bottom: 64px; display:flex; justify-content:center;">
+      <div class="ad-slot rectangle" style="max-width:340px; width:100%;">
+        <strong>Advertisement</strong>
+        <small>AdSense rectangle slot reserved</small>
+      </div>
+    </div>
+
+    <!-- ════ FOOTER ════════════════════════════════════════ -->
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <a href="../../index.html" class="logo" style="margin-bottom:0;">
+              <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:48px;height:48px;" />
+              <div class="logo-text">
+                <strong>Shopnil Academy</strong>
+                <small>FREE BIOINFORMATICS EDUCATION</small>
+              </div>
+            </a>
+            <p class="foot-about">A free 42-week bioinformatics curriculum — from Bash basics to single-cell RNA-seq — built for plant genomics researchers.</p>
+            <div class="foot-social">
+              <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" aria-label="GitHub">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
+              </a>
+            </div>
+          </div>
+          <div class="foot-col">
+            <h4>Course</h4>
+            <ul>
+              <li><a href="lesson-1.html">Lesson 1 — Why Visualisation</a></li>
+              <li><a href="lesson-2.html">Lesson 2 — ggplot2 Plots</a></li>
+              <li><a href="lesson-3.html">Lesson 3 — Heatmaps</a></li>
+              <li><a href="lesson-4.html">Lesson 4 — Volcano &amp; MA</a></li>
+              <li><a href="lesson-5.html">Lesson 5 — Manhattan &amp; QQ</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>More Lessons</h4>
+            <ul>
+              <li><a href="lesson-6.html">Lesson 6 — Boxplots &amp; Violin</a></li>
+              <li><a href="lesson-7.html">Lesson 7 — Genome Tracks</a></li>
+              <li><a href="lesson-8.html">Lesson 8 — Interactive Plots</a></li>
+              <li><a href="lesson-9.html">Lesson 9 — Network Plots</a></li>
+              <li><a href="lesson-10.html">Lesson 10 — Colour &amp; Design</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>Platform</h4>
+            <ul>
+              <li><a href="../../courses.html">All Courses</a></li>
+              <li><a href="../../about.html">About</a></li>
+              <li><a href="../../blog.html">Blog</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>Legal</h4>
+            <ul>
+              <li><a href="../../privacy.html">Privacy Policy</a></li>
+              <li><a href="../../terms.html">Terms of Use</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot-bot">
+          <span>© 2025 Shopnil Academy · All content is free forever.</span>
+          <span>Built with ❤️ for bioinformatics learners worldwide.</span>
+        </div>
+      </div>
+    </footer>
+
+  </div><!-- .main-col -->
+</div><!-- .lesson-shell -->
+
+<!-- ════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════ -->
+<script>
+  /* ── Mobile nav ─────────────────────────────────────── */
+  function toggleNav() {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  /* ── Sidebar accordion ───────────────────────────────── */
+  function toggleMod(el) {
+    const lessons = el.nextElementSibling;
+    el.classList.toggle('open');
+    lessons.classList.toggle('open');
+  }
+
+  /* ── Copy code ───────────────────────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  /* ── Progress tracking ───────────────────────────────── */
+  const MODULE_KEY  = 'sa_adviz_done';
+  const TOTAL       = 11;
+  const LESSON_ID   = 'lesson-1';
+
+  function loadProgress() {
+    return JSON.parse(localStorage.getItem(MODULE_KEY) || '[]');
+  }
+  function saveProgress(done) {
+    localStorage.setItem(MODULE_KEY, JSON.stringify(done));
+  }
+  function updateBar() {
+    const done  = loadProgress();
+    const count = done.length;
+    const pct   = Math.round(count / TOTAL * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent  = count + ' / ' + TOTAL;
+    document.querySelectorAll('.lesson-link').forEach(a => {
+      const id = a.getAttribute('href').replace('.html','');
+      if (done.includes(id)) a.classList.add('done');
+    });
+  }
+  function markComplete() {
+    const done = loadProgress();
+    if (!done.includes(LESSON_ID)) {
+      done.push(LESSON_ID);
+      saveProgress(done);
+    }
+    const btn = document.getElementById('mc-btn');
+    btn.textContent = '✓ Completed!';
+    btn.classList.add('done');
+    updateBar();
+  }
+
+  /* ── Active TOC via IntersectionObserver ─────────────── */
+  const tocLinks = document.querySelectorAll('.sidebar-toc a');
+  const sections = document.querySelectorAll('section[id]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.sidebar-toc a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  /* ── Init ────────────────────────────────────────────── */
+  (function init() {
+    updateBar();
+    const done = loadProgress();
+    if (done.includes(LESSON_ID)) {
+      const btn = document.getElementById('mc-btn');
+      btn.textContent = '✓ Completed!';
+      btn.classList.add('done');
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Capstone Overview & Project Design | Plant Genomics Pipeline | Shopnil Academy</title>
+  <meta name="description" content="Design your end-to-end plant genomics pipeline. Learn project structure, tool selection, and data strategy for Sorghum bicolor analysis." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Sidebar ─────────────────────────────────────────── */
+    .lesson-layout {
+      display: grid;
+      grid-template-columns: 272px minmax(0, 1fr);
+      gap: 0;
+      align-items: start;
+    }
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--cream);
+      border-right: 1px solid var(--line);
+      padding: 28px 24px 40px;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--line); border-radius: 99px; }
+    .sidebar-course-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+    .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .prog-track {
+      background: var(--line);
+      border-radius: 999px;
+      height: 6px;
+      margin-bottom: 24px;
+    }
+    .prog-fill {
+      background: var(--green);
+      height: 6px;
+      border-radius: 999px;
+      transition: width .4s ease;
+    }
+    .mod-group { margin-bottom: 6px; }
+    .mod-group-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      transition: background .15s;
+    }
+    .mod-group-label:hover { background: var(--green-soft); color: var(--green); }
+    .mod-group-label .chevron { transition: transform .25s; font-size: 10px; }
+    .mod-group-label.open .chevron { transform: rotate(90deg); }
+    .mod-lessons { display: none; padding-left: 4px; }
+    .mod-lessons.open { display: block; }
+    .lesson-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      transition: background .15s, color .15s;
+      text-decoration: none;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--green); }
+    .lesson-link.active { background: var(--green); color: #fff; font-weight: 600; }
+    .l-icon {
+      width: 22px; height: 22px;
+      border-radius: 6px;
+      background: var(--cream);
+      display: grid; place-items: center;
+      font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+      color: var(--muted);
+    }
+    .lesson-link.active .l-icon { background: rgba(255,255,255,.25); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green-soft); color: var(--green); }
+
+    /* On this page TOC in sidebar */
+    .sidebar-toc { margin-top: 28px; border-top: 1px solid var(--line); padding-top: 20px; }
+    .sidebar-toc h6 {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+    }
+    .sidebar-toc a {
+      display: block; font-size: 12.5px; color: var(--muted);
+      padding: 5px 10px; border-radius: 6px;
+      border-left: 2px solid transparent;
+      transition: all .15s;
+    }
+    .sidebar-toc a:hover { color: var(--green); background: var(--green-soft); }
+    .sidebar-toc a.active { color: var(--green); border-left-color: var(--green); background: var(--green-soft); }
+
+    /* ── Lesson content ──────────────────────────────────── */
+    .lesson-content {
+      padding: 36px 48px 80px;
+      max-width: 1000px;
+    }
+
+    .lesson-meta-strip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center;
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      background: var(--green-soft); color: var(--green);
+      border: 1px solid rgba(0,106,78,.15);
+    }
+    .lm-num { background: var(--ink); color: #fff; }
+    .lm-time { background: var(--gold-soft); color: #7a5c00; border-color: rgba(184,136,21,.2); }
+    .lm-sep { color: var(--muted); font-size: 12px; }
+
+    /* Code blocks */
+    .code-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+      margin: 20px 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,.18);
+    }
+    .code-header {
+      background: #1a2330;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .code-lang {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: #8899aa;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .copy-btn {
+      font-size: 11px; font-weight: 600;
+      color: #8899aa; background: transparent;
+      border: 1px solid rgba(255,255,255,.1);
+      padding: 4px 10px; border-radius: 6px;
+      cursor: pointer; transition: all .15s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.08); color: #fff; }
+    pre {
+      background: #111922;
+      margin: 0; padding: 22px 24px;
+      overflow-x: auto;
+      font-family: 'DM Mono', monospace;
+      font-size: 13.5px;
+      line-height: 1.75;
+      color: #cdd6e0;
+    }
+    .c-cmd   { color: #79d4a5; }
+    .c-flag  { color: #89b4fa; }
+    .c-path  { color: #f9c97c; }
+    .c-out   { color: #a6e3a1; }
+    .c-comment { color: #535f6e; font-style: italic; }
+    .c-str   { color: #f38ba8; }
+    .c-var   { color: #cba6f7; }
+
+    /* Explain box */
+    .explain-box {
+      background: linear-gradient(135deg, var(--green-soft) 0%, #f0f8f4 100%);
+      border: 1px solid rgba(0,106,78,.18);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .explain-box .eb-label {
+      font-size: 10px; font-weight: 800; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 8px;
+    }
+    .explain-box p {
+      font-size: 15px; color: var(--green-dark);
+      line-height: 1.65; margin: 0;
+    }
+
+    /* Folder note */
+    .folder-note {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold-soft);
+      border: 1px solid rgba(184,136,21,.25);
+      border-radius: 10px;
+      padding: 11px 16px;
+      margin: 16px 0 6px;
+      font-size: 13px;
+      font-family: 'DM Mono', monospace;
+      color: #5a4100;
+    }
+
+    /* Tip / warn */
+    .tip, .warn {
+      display: flex; gap: 14px;
+      padding: 16px 20px; border-radius: 12px; margin: 20px 0;
+    }
+    .tip { background: #e8f5ee; border: 1px solid rgba(0,106,78,.2); }
+    .warn { background: #fff4e5; border: 1px solid rgba(232,183,42,.35); }
+    .tip-icon, .warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .tip p, .warn p { font-size: 14.5px; line-height: 1.6; color: var(--ink); margin: 0; }
+    .tip strong, .warn strong { font-weight: 700; display: block; margin-bottom: 3px; }
+
+    /* Exercise */
+    .exercise {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin: 28px 0;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .ex-num {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--ink); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-size: 14px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-weight: 600; font-size: 16px; }
+    .exercise p { font-size: 14.5px; color: #33433b; line-height: 1.65; margin-bottom: 10px; }
+    details.answer { margin-top: 14px; }
+    details.answer summary {
+      cursor: pointer; font-size: 13px; font-weight: 700;
+      color: var(--green); user-select: none;
+      list-style: none; display: flex; align-items: center; gap: 6px;
+    }
+    details.answer summary::before { content: '▶'; font-size: 10px; transition: transform .2s; }
+    details.answer[open] summary::before { transform: rotate(90deg); }
+    details.answer .ans-body {
+      margin-top: 12px; padding: 16px 18px;
+      background: var(--cream); border-radius: 10px;
+      font-size: 14px; color: #33433b; line-height: 1.65;
+    }
+
+    /* Pipeline overview diagram boxes */
+    .pipeline-overview {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin: 24px 0;
+    }
+    .pipe-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px 20px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      position: relative;
+    }
+    .pipe-step:first-child { border-radius: 14px 14px 0 0; }
+    .pipe-step:last-child  { border-radius: 0 0 14px 14px; border-bottom: 1px solid var(--line); }
+    .pipe-step + .pipe-step { border-top: 0; }
+    .pipe-num {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pipe-info strong { font-size: 15px; font-weight: 700; display: block; margin-bottom: 3px; }
+    .pipe-info span { font-size: 13px; color: var(--muted); }
+    .pipe-tools {
+      margin-left: auto;
+      display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end;
+    }
+    .tool-tag {
+      font-size: 11px; font-weight: 600;
+      background: var(--cream); color: var(--ink);
+      padding: 3px 9px; border-radius: 999px;
+      border: 1px solid var(--line);
+    }
+    .pipe-arrow {
+      text-align: center;
+      color: var(--green);
+      font-size: 18px;
+      line-height: 1;
+      margin: 0;
+      background: var(--green-soft);
+      padding: 4px 0;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+    }
+
+    /* Directory tree */
+    .dir-tree {
+      background: #111922;
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 13px;
+      line-height: 1.9;
+      color: #cdd6e0;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+    .dir-tree .dt-dir  { color: #f9c97c; }
+    .dir-tree .dt-file { color: #cdd6e0; }
+    .dir-tree .dt-note { color: #535f6e; font-style: italic; }
+
+    /* Mark complete */
+    .mark-complete-wrap {
+      margin: 48px 0 24px;
+      padding: 28px;
+      background: var(--green-soft);
+      border: 1px solid rgba(0,106,78,.18);
+      border-radius: 16px;
+      text-align: center;
+    }
+    .mark-complete {
+      background: var(--green); color: #fff;
+      border: none; padding: 14px 32px;
+      border-radius: 999px; font-size: 15px; font-weight: 700;
+      cursor: pointer; transition: background .2s, transform .15s;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .mark-complete.done { background: #2d7a5c; }
+
+    /* Lesson nav footer */
+    .lesson-nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 0;
+      border-top: 1px solid var(--line);
+      margin-top: 12px;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: 14px; color: var(--ink);
+      padding: 10px 18px; border-radius: 999px;
+      border: 1.5px solid var(--line);
+      transition: all .15s;
+    }
+    .lesson-nav-footer a:hover { border-color: var(--green); color: var(--green); }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .lesson-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .lesson-content { padding: 24px 20px 60px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAV
+════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS EDUCATION</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <a href="../../courses.html" class="btn btn-outline btn-sm">All Courses</a>
+      <a href="../../index.html#enroll" class="btn btn-primary btn-sm">Enroll Free</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Menu">☰</button>
+  </nav>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     INNER HEADER
+════════════════════════════════════════════════════════ -->
+<div class="inner-header">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="../../index.html">Home</a>
+      <span class="sep">›</span>
+      <a href="../../courses.html">Courses</a>
+      <span class="sep">›</span>
+      <a href="index.html">Capstone Pipeline</a>
+      <span class="sep">›</span>
+      <span>Lesson 1</span>
+    </div>
+    <h1>Capstone Overview &amp; Project Design</h1>
+    <p class="lead">Map out your complete end-to-end plant genomics pipeline before writing a single line of code — the most important step any bioinformatician takes.</p>
+    <span class="free-pill">✓ Free Lesson</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     AD — TOP BANNER
+════════════════════════════════════════════════════════ -->
+<div class="wrap" style="padding-top:28px;">
+  <div class="ad-slot banner-728">
+    <strong>Advertisement</strong>
+    <small>Your ad could appear here — space reserved for Google AdSense</small>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     MAIN LAYOUT
+════════════════════════════════════════════════════════ -->
+<div class="lesson-layout">
+
+  <!-- ── SIDEBAR ─────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-course-label">Module 23 · Phase 3</div>
+    <div class="sidebar-course-title">Capstone Pipeline: Plant Genomics</div>
+
+    <div class="prog-label">
+      <span>Progress</span>
+      <span id="prog-text">0 / 10</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+    <!-- Module accordion -->
+    <div class="mod-group">
+      <div class="mod-group-label open" onclick="toggleMod(this)">
+        <span>Module 23 — Capstone Pipeline</span>
+        <span class="chevron">›</span>
+      </div>
+      <div class="mod-lessons open">
+        <a class="lesson-link active" href="lesson-1.html"><span class="l-icon">1</span>Overview &amp; Project Design</a>
+        <a class="lesson-link" href="lesson-2.html"><span class="l-icon">2</span>Data Acquisition &amp; QC</a>
+        <a class="lesson-link" href="lesson-3.html"><span class="l-icon">3</span>Read Trimming &amp; Pre-alignment</a>
+        <a class="lesson-link" href="lesson-4.html"><span class="l-icon">4</span>Reference Genome Setup</a>
+        <a class="lesson-link" href="lesson-5.html"><span class="l-icon">5</span>Alignment &amp; BAM Processing</a>
+        <a class="lesson-link" href="lesson-6.html"><span class="l-icon">6</span>Variant Calling with GATK</a>
+        <a class="lesson-link" href="lesson-7.html"><span class="l-icon">7</span>Variant Filtering &amp; Annotation</a>
+        <a class="lesson-link" href="lesson-8.html"><span class="l-icon">8</span>Differential Expression</a>
+        <a class="lesson-link" href="lesson-9.html"><span class="l-icon">9</span>Integrating Results &amp; Visualisation</a>
+        <a class="lesson-link" href="lesson-10.html"><span class="l-icon">10</span>Snakemake Automation</a>
+      </div>
+    </div>
+
+    <!-- On this page -->
+    <div class="sidebar-toc">
+      <h6>On this page</h6>
+      <a href="#why-plan">Why Plan First?</a>
+      <a href="#pipeline-overview">Pipeline Overview</a>
+      <a href="#dataset">Choosing Your Dataset</a>
+      <a href="#directory">Directory Structure</a>
+      <a href="#tools">Tool Inventory</a>
+      <a href="#environment">Environment Setup</a>
+      <a href="#exercises">Exercises</a>
+    </div>
+  </aside>
+
+  <!-- ── LESSON CONTENT ──────────────────────────────── -->
+  <main class="lesson-content">
+
+    <!-- Meta strip -->
+    <div class="lesson-meta-strip">
+      <span class="lm-pill lm-num">Lesson 1 of 10</span>
+      <span class="lm-pill lm-time">⏱ 50 min</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill">Phase 3 · Week 29</span>
+      <span class="lm-sep">·</span>
+      <span class="lm-pill">🌱 Sorghum bicolor</span>
+    </div>
+
+    <!-- ───────────────────────────────────────────────
+         SECTION 1 — Why Plan First?
+    ──────────────────────────────────────────────── -->
+    <section id="why-plan" style="scroll-margin-top:96px;">
+      <h2>Why Plan Before You Code</h2>
+
+      <div class="explain-box">
+        <div class="eb-label">🧠 The Big Idea</div>
+        <p>
+          Every professional genomics pipeline starts on paper, not on the terminal. Before you run a single command,
+          you need to know: <em>Where does my data come from? Where does it go? What question am I answering?</em>
+          Bioinformatics pipelines can run for hours or days — a planning mistake discovered at step 8 means re-running
+          steps 1 through 7. Good design saves hundreds of compute hours.
+        </p>
+      </div>
+
+      <p class="prose" style="font-size:16px;line-height:1.75;color:#33433b;">
+        In this capstone module you will build a <strong>real, reproducible plant genomics pipeline</strong> for
+        <em>Sorghum bicolor</em> — the same species used in Shajedur's own thesis research. The pipeline integrates
+        every skill you have built across the previous 22 modules: Bash, Git, Conda, R, Python, QC, alignment,
+        variant calling, differential expression, and Snakemake automation.
+      </p>
+
+      <p class="prose" style="font-size:16px;line-height:1.75;color:#33433b;margin-top:14px;">
+        This first lesson is a <strong>design lesson</strong>. You will produce three deliverables before Lesson 2:
+      </p>
+
+      <ul style="margin:16px 0 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:10px;">
+        <li style="padding-left:28px;position:relative;font-size:15.5px;color:#33433b;line-height:1.6;">
+          <span style="position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+          A written pipeline overview (what each step does and why)
+        </li>
+        <li style="padding-left:28px;position:relative;font-size:15.5px;color:#33433b;line-height:1.6;">
+          <span style="position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+          A directory structure created on your Ubuntu system
+        </li>
+        <li style="padding-left:28px;position:relative;font-size:15.5px;color:#33433b;line-height:1.6;">
+          <span style="position:absolute;left:0;top:6px;width:14px;height:14px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+          A Conda environment with all required tools installed and verified
+        </li>
+      </ul>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────
+         SECTION 2 — Pipeline Overview
+    ──────────────────────────────────────────────── -->
+    <section id="pipeline-overview" style="scroll-margin-top:96px;margin-top:48px;">
+      <h2>The 10-Step Pipeline Overview</h2>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-bottom:20px;">
+        Here is the full pipeline you will build across this module. Each lesson corresponds to one stage.
+        Read every step carefully — understanding <em>why</em> each stage exists is as important as knowing
+        <em>how</em> to run it.
+      </p>
+
+      <div class="pipeline-overview">
+        <div class="pipe-step">
+          <div class="pipe-num">1</div>
+          <div class="pipe-info">
+            <strong>Project Design &amp; Environment</strong>
+            <span>Define goals, directory layout, tool versions — this lesson</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">Conda</span><span class="tool-tag">Bash</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">2</div>
+          <div class="pipe-info">
+            <strong>Data Acquisition &amp; QC</strong>
+            <span>Download Sorghum RNA-seq FASTQ from SRA; run FastQC + MultiQC</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">SRA-tools</span><span class="tool-tag">FastQC</span><span class="tool-tag">MultiQC</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">3</div>
+          <div class="pipe-info">
+            <strong>Read Trimming &amp; Pre-alignment QC</strong>
+            <span>Remove low-quality bases and adapters; re-run QC to confirm improvement</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">Fastp</span><span class="tool-tag">FastQC</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">4</div>
+          <div class="pipe-info">
+            <strong>Reference Genome Setup</strong>
+            <span>Download <em>S. bicolor</em> v3.1 genome; build STAR and HISAT2 indexes</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">STAR</span><span class="tool-tag">HISAT2</span><span class="tool-tag">samtools</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">5</div>
+          <div class="pipe-info">
+            <strong>Read Alignment &amp; BAM Processing</strong>
+            <span>Align reads to the genome; sort, index, and assess BAM files</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">STAR</span><span class="tool-tag">samtools</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">6</div>
+          <div class="pipe-info">
+            <strong>Variant Calling with GATK</strong>
+            <span>HaplotypeCaller in GVCF mode; joint genotyping across samples</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">GATK4</span><span class="tool-tag">Picard</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">7</div>
+          <div class="pipe-info">
+            <strong>Variant Filtering &amp; Annotation</strong>
+            <span>Hard-filter SNPs and indels; annotate with SnpEff</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">GATK4</span><span class="tool-tag">SnpEff</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">8</div>
+          <div class="pipe-info">
+            <strong>Differential Expression Analysis</strong>
+            <span>featureCounts → DESeq2 full workflow; DE gene lists</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">Subread</span><span class="tool-tag">DESeq2</span><span class="tool-tag">R</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">9</div>
+          <div class="pipe-info">
+            <strong>Integrating Results &amp; Visualisation</strong>
+            <span>Volcano plots, Manhattan plots, combining DE + variant outputs</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">ggplot2</span><span class="tool-tag">R</span><span class="tool-tag">Python</span>
+          </div>
+        </div>
+        <div class="pipe-arrow">↓</div>
+        <div class="pipe-step">
+          <div class="pipe-num">10</div>
+          <div class="pipe-info">
+            <strong>Snakemake Automation &amp; Final Report</strong>
+            <span>Wrap everything in Snakemake; generate HTML report; GitHub release</span>
+          </div>
+          <div class="pipe-tools">
+            <span class="tool-tag">Snakemake</span><span class="tool-tag">MultiQC</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div>
+          <p><strong>Why Sorghum bicolor?</strong> Sorghum is a C4 cereal crop of global importance, especially for drought-prone regions. Its reference genome (BTx623 v3.1) is well-annotated and freely available from Phytozome and NCBI. It is also the species used in Shajedur's own thesis — making this pipeline directly applicable to real research.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────
+         SECTION 3 — Choosing Your Dataset
+    ──────────────────────────────────────────────── -->
+    <section id="dataset" style="scroll-margin-top:96px;margin-top:48px;">
+      <h2>Choosing Your Dataset</h2>
+
+      <div class="explain-box">
+        <div class="eb-label">🔬 Why Dataset Choice Matters</div>
+        <p>
+          A capstone pipeline needs real data, not toy files. But downloading 100 GB of raw sequencing data
+          overnight is not practical. The strategy here is to use a <strong>small, well-characterised public
+          RNA-seq dataset</strong> from SRA that has biological replicates (required for DESeq2) and an
+          interesting biological question — drought stress or nitrogen response in Sorghum — so your results
+          are scientifically meaningful, not random numbers.
+        </p>
+      </div>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-bottom:16px;">
+        We will use publicly available <em>Sorghum bicolor</em> RNA-seq data from NCBI SRA. A good candidate
+        dataset is <strong>PRJNA396116</strong> — drought stress in Sorghum, with 6 samples (3 control, 3
+        drought), paired-end 150 bp reads, approximately 3–5 GB per sample. You will download these in
+        Lesson 2 using <code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:13px;">prefetch</code> and
+        <code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:13px;">fasterq-dump</code> from SRA-tools.
+      </p>
+
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <div>
+          <p><strong>Storage requirement:</strong> Plan for at least 50–80 GB of free disk space on your Ubuntu drive. Raw FASTQ files are large. We will delete intermediates as we go to keep disk usage manageable. If space is limited, use only 2 samples per group (2 control + 2 drought) — DESeq2 requires a minimum of 2 replicates per condition.</p>
+        </div>
+      </div>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-top:16px;">
+        The reference genome for this pipeline is <strong><em>Sorghum bicolor</em> BTx623 v3.1</strong>,
+        available from Phytozome (JGI). It is approximately 730 Mb as a compressed FASTA. The GTF annotation
+        file (needed for alignment and featureCounts) is included with the genome download. In Lesson 4 you
+        will download both and build the alignment indexes.
+      </p>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────
+         SECTION 4 — Directory Structure
+    ──────────────────────────────────────────────── -->
+    <section id="directory" style="scroll-margin-top:96px;margin-top:48px;">
+      <h2>Setting Up the Directory Structure</h2>
+
+      <div class="explain-box">
+        <div class="eb-label">📁 Why Structure Matters</div>
+        <p>
+          Professional bioinformatics pipelines always use a predictable, hierarchical directory layout. This
+          is not just tidiness — it is what allows Snakemake (and your future self) to find every file by
+          rule. If you start with a messy folder, your pipeline will become unmaintainable. Set up the
+          structure once, correctly, on day one.
+        </p>
+      </div>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-bottom:16px;">
+        Here is the full directory layout for the capstone project. Create it now using the <code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:13px;">mkdir -p</code> command below.
+      </p>
+
+      <div class="dir-tree">
+<span class="dt-dir">plant-genomics-pipeline/</span>
+├── <span class="dt-dir">data/</span>
+│   ├── <span class="dt-dir">raw/</span>           <span class="dt-note"># original FASTQ files (never modified)</span>
+│   ├── <span class="dt-dir">trimmed/</span>       <span class="dt-note"># fastp output</span>
+│   └── <span class="dt-dir">reference/</span>     <span class="dt-note"># genome FASTA + GTF</span>
+├── <span class="dt-dir">indexes/</span>
+│   ├── <span class="dt-dir">star/</span>           <span class="dt-note"># STAR genome index</span>
+│   └── <span class="dt-dir">hisat2/</span>        <span class="dt-note"># HISAT2 genome index</span>
+├── <span class="dt-dir">results/</span>
+│   ├── <span class="dt-dir">qc/</span>             <span class="dt-note"># FastQC + MultiQC reports</span>
+│   ├── <span class="dt-dir">alignment/</span>     <span class="dt-note"># BAM files</span>
+│   ├── <span class="dt-dir">variants/</span>      <span class="dt-note"># VCF files</span>
+│   ├── <span class="dt-dir">counts/</span>        <span class="dt-note"># featureCounts output</span>
+│   ├── <span class="dt-dir">de_analysis/</span>   <span class="dt-note"># DESeq2 results</span>
+│   └── <span class="dt-dir">plots/</span>         <span class="dt-note"># all figures</span>
+├── <span class="dt-dir">scripts/</span>
+│   ├── <span class="dt-dir">bash/</span>          <span class="dt-note"># shell scripts</span>
+│   ├── <span class="dt-dir">r/</span>             <span class="dt-note"># R scripts</span>
+│   └── <span class="dt-dir">python/</span>        <span class="dt-note"># Python scripts</span>
+├── <span class="dt-dir">workflow/</span>          <span class="dt-note"># Snakemake Snakefile + rules</span>
+├── <span class="dt-dir">envs/</span>              <span class="dt-note"># Conda environment YAML files</span>
+├── <span class="dt-dir">logs/</span>              <span class="dt-note"># all log files</span>
+├── <span class="dt-file">README.md</span>
+└── <span class="dt-file">config.yaml</span>        <span class="dt-note"># Snakemake config (samples, paths)</span>
+      </div>
+
+      <div class="folder-note">📁 Run from: ~ (your home directory)</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment"># Create the full project directory tree in one command</span>
+<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/plant-genomics-pipeline</span>/{data/{raw,trimmed,reference},indexes/{star,hisat2},results/{qc,alignment,variants,counts,de_analysis,plots},scripts/{bash,r,python},workflow,envs,logs}
+
+<span class="c-comment"># Move into the project root</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/plant-genomics-pipeline</span>
+
+<span class="c-comment"># Verify the structure was created correctly</span>
+<span class="c-cmd">find</span> . <span class="c-flag">-type d</span> | <span class="c-cmd">sort</span>
+<span class="c-out">./data
+./data/raw
+./data/trimmed
+./data/reference
+./indexes
+./indexes/star
+./indexes/hisat2
+./results
+./results/qc
+./results/alignment
+./results/variants
+./results/counts
+./results/de_analysis
+./results/plots
+./scripts
+./scripts/bash
+./scripts/r
+./scripts/python
+./workflow
+./envs
+./logs</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div>
+          <p><strong>The raw/ directory is sacred.</strong> Never modify or delete any file in <code style="font-family:'DM Mono',monospace;background:var(--cream);padding:1px 5px;border-radius:4px;">data/raw/</code>. Always work on copies or outputs. This ensures you can re-run any step from scratch without re-downloading data, which saves hours.</p>
+        </div>
+      </div>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-top:20px;">
+        Next, create a <code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:13px;">README.md</code> that documents the project from day one.
+      </p>
+
+      <div class="folder-note">📁 Run from: ~/plant-genomics-pipeline</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-cmd">cat</span> <span class="c-flag">&gt;</span> <span class="c-path">README.md</span> <span class="c-str">&lt;&lt; 'EOF'
+# Plant Genomics Pipeline — Sorghum bicolor
+
+A complete end-to-end plant genomics analysis pipeline for Sorghum bicolor
+RNA-seq and variant calling data.
+
+## Biological Question
+How does drought stress alter gene expression and genomic variation in
+Sorghum bicolor (BTx623)?
+
+## Dataset
+- **Source:** NCBI SRA — BioProject PRJNA396116
+- **Species:** Sorghum bicolor BTx623
+- **Reference:** v3.1 genome from Phytozome
+- **Design:** 3 control vs 3 drought-stressed samples (PE 150 bp)
+
+## Pipeline Steps
+1. Data acquisition and QC
+2. Read trimming (fastp)
+3. Reference genome indexing (STAR)
+4. Alignment (STAR)
+5. Variant calling (GATK4 HaplotypeCaller)
+6. Variant filtering and annotation (SnpEff)
+7. Differential expression (DESeq2)
+8. Visualisation (ggplot2 + Python)
+9. Full Snakemake automation
+
+## Author
+Shajedur Rahman Hossain
+MSc Agrobiotechnology — JLU Gießen, Germany
+GitHub: https://github.com/shajedurhossain
+EOF</span>
+
+<span class="c-comment"># Confirm it was written</span>
+<span class="c-cmd">cat</span> <span class="c-path">README.md</span></pre>
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────
+         SECTION 5 — Tool Inventory
+    ──────────────────────────────────────────────── -->
+    <section id="tools" style="scroll-margin-top:96px;margin-top:48px;">
+      <h2>Tool Inventory</h2>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-bottom:20px;">
+        Before installing anything, document exactly which tools you need and why. This table is your
+        pipeline's dependency manifest — the same information Snakemake will use in Lesson 10.
+      </p>
+
+      <table style="width:100%;border-collapse:collapse;border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:16px 0;">
+        <thead>
+          <tr style="background:var(--cream);">
+            <th style="text-align:left;padding:13px 16px;font-size:13px;font-family:var(--font-display);font-weight:600;border-bottom:1px solid var(--line);">Tool</th>
+            <th style="text-align:left;padding:13px 16px;font-size:13px;font-family:var(--font-display);font-weight:600;border-bottom:1px solid var(--line);">Version</th>
+            <th style="text-align:left;padding:13px 16px;font-size:13px;font-family:var(--font-display);font-weight:600;border-bottom:1px solid var(--line);">Pipeline Step</th>
+            <th style="text-align:left;padding:13px 16px;font-size:13px;font-family:var(--font-display);font-weight:600;border-bottom:1px solid var(--line);">Conda channel</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">sra-tools</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">3.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">Data download</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr style="background:var(--cream);"><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">fastqc</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">0.12.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">QC</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">multiqc</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">1.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">QC aggregation</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr style="background:var(--cream);"><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">fastp</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">0.23.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">Trimming</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">star</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">2.7.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">Alignment</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr style="background:var(--cream);"><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">hisat2</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">2.2.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">Alignment (alt)</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">samtools</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">1.17+</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">BAM processing</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr style="background:var(--cream);"><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">gatk4</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">4.4.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">Variant calling</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">snpeff</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">5.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">Variant annotation</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr style="background:var(--cream);"><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">subread</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">2.0.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">featureCounts</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);font-weight:600;">snakemake</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">7.x / 8.x</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">Workflow automation</td><td style="padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--muted);">bioconda</td></tr>
+          <tr style="background:var(--cream);"><td style="padding:11px 16px;font-size:13.5px;font-weight:600;">r-base + bioc pkgs</td><td style="padding:11px 16px;font-size:13.5px;color:var(--muted);">4.3+</td><td style="padding:11px 16px;font-size:13.5px;color:var(--muted);">DESeq2, ggplot2</td><td style="padding:11px 16px;font-size:13.5px;color:var(--muted);">conda-forge / bioconda</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════
+         AD — IN-FEED (middle)
+    ══════════════════════════════════════════════════════ -->
+    <div class="ad-slot in-feed" style="margin:36px 0;">
+      <strong>Advertisement</strong>
+      <small>Space reserved for Google AdSense in-feed ad</small>
+    </div>
+
+
+    <!-- ───────────────────────────────────────────────
+         SECTION 6 — Environment Setup
+    ──────────────────────────────────────────────── -->
+    <section id="environment" style="scroll-margin-top:96px;margin-top:8px;">
+      <h2>Creating the Conda Environment</h2>
+
+      <div class="explain-box">
+        <div class="eb-label">🐍 Why a Dedicated Environment?</div>
+        <p>
+          All 12 tools in this pipeline must work <em>together</em>. Conda environments isolate tool
+          versions so that, for example, GATK's Java requirements do not conflict with SnpEff's. Creating
+          the environment from a YAML file also means anyone on any Ubuntu machine can reproduce your exact
+          pipeline with a single command — this is what makes bioinformatics reproducible science.
+        </p>
+      </div>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-bottom:16px;">
+        First, write the environment YAML file. This file declares every tool and its channel, so Conda
+        can resolve all version conflicts automatically.
+      </p>
+
+      <div class="folder-note">📁 Run from: ~/plant-genomics-pipeline</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment"># Write the Conda environment specification</span>
+<span class="c-cmd">cat</span> <span class="c-flag">&gt;</span> <span class="c-path">envs/plant-genomics.yaml</span> <span class="c-str">&lt;&lt; 'EOF'
+name: plant-genomics
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - sra-tools=3.0
+  - fastqc=0.12
+  - multiqc=1.19
+  - fastp=0.23
+  - star=2.7
+  - hisat2=2.2
+  - samtools=1.19
+  - gatk4=4.4
+  - snpeff=5.1
+  - subread=2.0
+  - snakemake-minimal=7.32
+  - r-base=4.3
+  - bioconductor-deseq2
+  - bioconductor-edger
+  - r-ggplot2
+  - r-pheatmap
+  - r-ggrepel
+  - pip
+  - pip:
+    - multiqc
+EOF</span>
+
+<span class="c-out">envs/plant-genomics.yaml written</span></pre>
+      </div>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin:20px 0 16px;">
+        Now create the environment. This step will take 10–20 minutes the first time as Conda downloads
+        and resolves all packages.
+      </p>
+
+      <div class="folder-note">📁 Run from: ~/plant-genomics-pipeline</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment"># Create the environment from the YAML file</span>
+<span class="c-cmd">conda</span> env create <span class="c-flag">-f</span> <span class="c-path">envs/plant-genomics.yaml</span>
+
+<span class="c-comment"># Activate it</span>
+<span class="c-cmd">conda</span> activate plant-genomics
+
+<span class="c-comment"># Verify key tools are installed and accessible</span>
+<span class="c-cmd">echo</span> <span class="c-str">"=== Checking tool versions ==="</span>
+<span class="c-cmd">fastqc</span> <span class="c-flag">--version</span>
+<span class="c-cmd">fastp</span> <span class="c-flag">--version</span>
+<span class="c-cmd">STAR</span> <span class="c-flag">--version</span>
+<span class="c-cmd">samtools</span> <span class="c-flag">--version</span> | <span class="c-cmd">head</span> <span class="c-flag">-1</span>
+<span class="c-cmd">gatk</span> <span class="c-flag">--version</span>
+<span class="c-cmd">snakemake</span> <span class="c-flag">--version</span>
+
+<span class="c-out">=== Checking tool versions ===
+FastQC v0.12.1
+fastp 0.23.4
+2.7.10a
+samtools 1.19
+4.4.0.0
+7.32.4</span></pre>
+      </div>
+
+      <div class="warn">
+        <span class="warn-icon">⚠️</span>
+        <div>
+          <p><strong>GATK4 alternative:</strong> If <code style="font-family:'DM Mono',monospace;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:4px;">gatk4</code> fails to install via Conda (it sometimes conflicts with Java versions), install it manually: download the GATK4 JAR from <code style="font-family:'DM Mono',monospace;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:4px;">github.com/broadinstitute/gatk/releases</code> and call it with <code style="font-family:'DM Mono',monospace;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:4px;">java -jar gatk.jar</code>. Lesson 6 will cover this.</p>
+        </div>
+      </div>
+
+      <p style="font-size:16px;line-height:1.75;color:#33433b;margin-top:20px;">
+        Finally, initialise the Git repository so every change is tracked from lesson one.
+      </p>
+
+      <div class="folder-note">📁 Run from: ~/plant-genomics-pipeline</div>
+
+      <div class="code-wrap">
+        <div class="code-header">
+          <span class="code-lang">bash</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><span class="c-comment"># Initialise Git and make the first commit</span>
+<span class="c-cmd">git</span> init
+
+<span class="c-comment"># Create a .gitignore to exclude large data files</span>
+<span class="c-cmd">cat</span> <span class="c-flag">&gt;</span> <span class="c-path">.gitignore</span> <span class="c-str">&lt;&lt; 'EOF'
+# Large data files — do not commit to GitHub
+data/raw/
+data/trimmed/
+data/reference/
+indexes/
+results/alignment/*.bam
+results/alignment/*.bai
+results/variants/*.vcf.gz
+logs/
+
+# Keep directory structure
+!data/raw/.gitkeep
+!data/trimmed/.gitkeep
+!data/reference/.gitkeep
+!indexes/.gitkeep
+EOF</span>
+
+<span class="c-comment"># Add .gitkeep files so empty directories are tracked</span>
+<span class="c-cmd">touch</span> <span class="c-path">data/raw/.gitkeep</span> <span class="c-path">data/trimmed/.gitkeep</span> <span class="c-path">data/reference/.gitkeep</span> <span class="c-path">indexes/.gitkeep</span>
+
+<span class="c-comment"># Stage and commit</span>
+<span class="c-cmd">git</span> add .
+<span class="c-cmd">git</span> commit <span class="c-flag">-m</span> <span class="c-str">"lesson 1: project design — directory structure and conda env"</span>
+
+<span class="c-out">[main (root-commit) a1b2c3d] lesson 1: project design — directory structure and conda env
+ 8 files changed, 74 insertions(+)</span></pre>
+      </div>
+
+      <div class="tip">
+        <span class="tip-icon">💡</span>
+        <div>
+          <p><strong>Never commit BAM or FASTQ files to GitHub.</strong> They are too large (often gigabytes each) and GitHub has a 100 MB file limit. The <code style="font-family:'DM Mono',monospace;background:var(--cream);padding:1px 5px;border-radius:4px;">.gitignore</code> above handles this automatically. Only scripts, YAML configs, and results (tables, plots) should be committed.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ───────────────────────────────────────────────
+         SECTION 7 — Exercises
+    ──────────────────────────────────────────────── -->
+    <section id="exercises" style="scroll-margin-top:96px;margin-top:48px;">
+      <h2>Exercises</h2>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">1</div>
+          <div class="ex-title">Describe the biological question</div>
+        </div>
+        <p>In your own words (2–3 sentences), write down the biological question this pipeline will answer. Include: the organism, the experimental condition, and what type of genomic data you are analysing. Write this into a file called <code style="font-family:'DM Mono',monospace;background:var(--cream);padding:2px 5px;border-radius:4px;">QUESTION.md</code> in the project root.</p>
+        <details class="answer">
+          <summary>Show answer</summary>
+          <div class="ans-body">
+            Example answer: <em>"This pipeline investigates how drought stress changes gene expression and introduces genomic variants in Sorghum bicolor (BTx623). We are analysing paired-end RNA-seq data from 3 control and 3 drought-treated plants to identify differentially expressed genes and drought-associated SNPs using a combination of STAR alignment, GATK variant calling, and DESeq2 differential expression analysis."</em>
+            <br><br>
+            To write it:<br>
+            <code style="font-family:'DM Mono',monospace;font-size:12px;background:rgba(0,0,0,.05);padding:4px 8px;border-radius:6px;display:inline-block;margin-top:6px;">nano ~/plant-genomics-pipeline/QUESTION.md</code>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">2</div>
+          <div class="ex-title">Check disk space</div>
+        </div>
+        <p>Before Lesson 2 you will download several gigabytes of FASTQ data. Check how much free space is available on your Ubuntu partition and confirm you have at least 50 GB free. Use the <code style="font-family:'DM Mono',monospace;background:var(--cream);padding:2px 5px;border-radius:4px;">df</code> command.</p>
+        <details class="answer">
+          <summary>Show answer</summary>
+          <div class="ans-body">
+            <code style="font-family:'DM Mono',monospace;font-size:13px;background:rgba(0,0,0,.05);padding:8px 12px;border-radius:8px;display:block;line-height:1.8;">df -h ~<br># Look for the "Avail" column on the row for your home partition<br># You need at least 50G available</code>
+          </div>
+        </details>
+      </div>
+
+      <div class="exercise">
+        <div class="ex-head">
+          <div class="ex-num">3</div>
+          <div class="ex-title">Connect the repo to GitHub</div>
+        </div>
+        <p>Create a new GitHub repository called <code style="font-family:'DM Mono',monospace;background:var(--cream);padding:2px 5px;border-radius:4px;">plant-genomics-pipeline</code> on github.com/shajedurhossain and connect your local repository to it. Push the initial commit you made in Section 6.</p>
+        <details class="answer">
+          <summary>Show answer</summary>
+          <div class="ans-body">
+            <code style="font-family:'DM Mono',monospace;font-size:12.5px;background:rgba(0,0,0,.05);padding:8px 12px;border-radius:8px;display:block;line-height:2;">cd ~/plant-genomics-pipeline<br>git remote add origin https://shajedurhossain:TOKEN@github.com/shajedurhossain/plant-genomics-pipeline.git<br>git branch -M main<br>git push -u origin main</code>
+            <br>Replace <code style="font-family:'DM Mono',monospace;background:rgba(0,0,0,.05);padding:1px 5px;border-radius:4px;">TOKEN</code> with your Personal Access Token (classic, repo scope).
+          </div>
+        </details>
+      </div>
+    </section>
+
+
+    <!-- Mark complete -->
+    <div class="mark-complete-wrap">
+      <p style="font-size:15px;color:var(--green-dark);font-weight:600;margin-bottom:16px;">🎯 You have designed your complete plant genomics pipeline.</p>
+      <button class="mark-complete" id="mc-btn" onclick="markComplete()">Mark Lesson 1 Complete ✓</button>
+    </div>
+
+    <!-- Lesson nav footer -->
+    <div class="lesson-nav-footer">
+      <span style="font-size:14px;color:var(--muted);">← No previous lesson</span>
+      <a href="lesson-2.html">Lesson 2: Data Acquisition &amp; QC →</a>
+    </div>
+
+  </main>
+</div><!-- /lesson-layout -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     AD — BOTTOM RECTANGLE
+════════════════════════════════════════════════════════ -->
+<div style="text-align:center;padding:40px 32px 0;">
+  <div class="ad-slot rectangle" style="max-width:340px;margin:0 auto;min-height:280px;">
+    <strong>Advertisement</strong>
+    <small>Space reserved for Google AdSense rectangle ad</small>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>FREE BIOINFORMATICS EDUCATION</small>
+          </div>
+        </div>
+        <p class="foot-about">A free, 42-week bioinformatics curriculum built for plant scientists and computational biology learners worldwide.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" title="GitHub">GH</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" target="_blank" rel="noopener" title="ORCID">OR</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Curriculum</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../../courses.html#phase1">Phase 1 — Foundations</a></li>
+          <li><a href="../../courses.html#phase2">Phase 2 — Core Bioinformatics</a></li>
+          <li><a href="../../courses.html#phase3">Phase 3 — Advanced</a></li>
+          <li><a href="../../courses.html#phase4">Phase 4 — Single-cell</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>This Module</h4>
+        <ul>
+          <li><a href="lesson-1.html">Lesson 1 — Overview</a></li>
+          <li><a href="lesson-2.html">Lesson 2 — Data &amp; QC</a></li>
+          <li><a href="lesson-3.html">Lesson 3 — Trimming</a></li>
+          <li><a href="lesson-4.html">Lesson 4 — Reference</a></li>
+          <li><a href="lesson-5.html">Lesson 5 — Alignment</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../blog.html">Blog</a></li>
+          <li><a href="https://github.com/shajedurhossain/plant-genomics-pipeline" target="_blank" rel="noopener">GitHub Repo</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+          <li><a href="../../terms.html">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 Shopnil Academy · Shajedur Rahman Hossain · Gießen, Germany</span>
+      <span>All lessons free forever</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════ -->
+<script>
+  /* -- Mobile nav ---------------------------------------- */
+  document.querySelector('.nav-toggle').addEventListener('click', function () {
+    const links = document.querySelector('.nav-links');
+    links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  /* -- Module accordion ---------------------------------- */
+  function toggleMod(el) {
+    el.classList.toggle('open');
+    const lessons = el.nextElementSibling;
+    lessons.classList.toggle('open');
+  }
+
+  /* -- Copy code button ---------------------------------- */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  /* -- Progress tracking --------------------------------- */
+  const LS_KEY = 'sa_capstone_done';
+  const TOTAL  = 10;
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done  = getDone();
+    const count = done.length;
+    const pct   = Math.round((count / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-text').textContent  = count + ' / ' + TOTAL;
+
+    /* Mark completed lessons in sidebar */
+    done.forEach(id => {
+      const link = document.querySelector('.lesson-link[href="lesson-' + id + '.html"]');
+      if (link) { link.classList.add('done'); link.querySelector('.l-icon').textContent = '✓'; }
+    });
+  }
+
+  function markComplete() {
+    const done = getDone();
+    if (!done.includes(1)) {
+      done.push(1);
+      localStorage.setItem(LS_KEY, JSON.stringify(done));
+    }
+    const btn = document.getElementById('mc-btn');
+    btn.textContent = '✓ Lesson 1 Complete';
+    btn.classList.add('done');
+    updateProgress();
+  }
+
+  /* Check if already marked done */
+  (function init() {
+    updateProgress();
+    if (getDone().includes(1)) {
+      const btn = document.getElementById('mc-btn');
+      if (btn) { btn.textContent = '✓ Lesson 1 Complete'; btn.classList.add('done'); }
+    }
+  })();
+
+  /* -- Active TOC via IntersectionObserver --------------- */
+  const sections  = document.querySelectorAll('section[id]');
+  const tocLinks  = document.querySelectorAll('.sidebar-toc a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector('.sidebar-toc a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

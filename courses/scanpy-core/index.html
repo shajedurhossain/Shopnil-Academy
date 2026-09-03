@@ -95,6 +95,21 @@
   .coming-weeks .big { font-family: var(--font-display); font-size: 56px; font-weight: 700; color: var(--gold); line-height: 1; }
   .coming-weeks .sub { font-size: 13px; color: rgba(255,255,255,.55); margin-top: 6px; }
 
+  /* Lessons */
+  .lessons-section { padding: 60px 0; }
+  .les-list { display: flex; flex-direction: column; gap: 8px; margin-top: 28px; }
+  .les-row { display: grid; grid-template-columns: 44px 1fr auto; gap: 16px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; }
+  a.les-row:hover { border-color: var(--green); transform: translateX(3px); }
+  .les-num { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--green); background: var(--green-soft); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .les-body { display: flex; flex-direction: column; gap: 3px; }
+  .les-body .les-title { display: block; font-weight: 600; font-size: 15.5px; line-height: 1.35; }
+  .les-focus { font-size: 12.5px; color: var(--muted); line-height: 1.45; }
+  .les-tag { font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+  .les-tag.live { background: var(--green); color: #fff; }
+  .les-tag.soon { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
+  .les-row.locked { opacity: .72; }
+  @media(max-width:600px){ .les-row { grid-template-columns: 36px 1fr; } .les-tag { display: none; } }
+
   /* Curriculum CTA */
   .curriculum-cta-bar {
     background: var(--green-soft); border-top: 1px solid rgba(0,106,78,.12); border-bottom: 1px solid rgba(0,106,78,.12);
@@ -156,6 +171,7 @@
       <div class="mod-stat"><span class="val">FREE</span><span class="lbl">Always</span></div>
     </div>
     <div class="hero-cta">
+      <a href="lesson-1.html" class="btn-gold">Start Lesson 1 →</a>
       <a href="../bioinformatics-curriculum.html#phase4" class="btn-ghost-white">View in curriculum →</a>
     </div>
   </div>
@@ -177,6 +193,26 @@
   </div>
 </section>
 
+<!-- Lessons -->
+<section class="lessons-section">
+  <div class="wrap">
+    <span class="eyebrow">Curriculum</span>
+    <h2 style="margin-top: 10px; font-size: clamp(24px, 3vw, 34px);">10 lessons in this module</h2>
+    <div class="les-list">
+      <a class="les-row" href="lesson-1.html"><span class="les-num">1</span><span class="les-body"><span class="les-title">Introduction to Scanpy &amp; AnnData</span><span class="les-focus">What is Scanpy, AnnData object structure, installing Scanpy, loading 10x PBMC data</span></span><span class="les-tag live">Live</span></a>
+      <div class="les-row locked"><span class="les-num">2</span><span class="les-body"><span class="les-title">Quality Control in Scanpy</span><span class="les-focus">sc.pp.calculate_qc_metrics, filtering cells &amp; genes, mitochondrial %, violin plots</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">3</span><span class="les-body"><span class="les-title">Normalisation &amp; Log-transformation</span><span class="les-focus">sc.pp.normalize_total, sc.pp.log1p, why normalise, counts per cell</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">4</span><span class="les-body"><span class="les-title">Highly Variable Genes</span><span class="les-focus">sc.pp.highly_variable_genes, HVG plot, subsetting to HVGs</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">5</span><span class="les-body"><span class="les-title">Scaling &amp; PCA</span><span class="les-focus">sc.pp.scale, sc.tl.pca, elbow plot, variance explained</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">6</span><span class="les-body"><span class="les-title">Neighbourhood Graph &amp; UMAP</span><span class="les-focus">sc.pp.neighbors, sc.tl.umap, interpreting UMAP</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">7</span><span class="les-body"><span class="les-title">Clustering with Leiden</span><span class="les-focus">sc.tl.leiden, resolution parameter, cluster UMAP overlay</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">8</span><span class="les-body"><span class="les-title">Marker Gene Detection</span><span class="les-focus">sc.tl.rank_genes_groups, dotplots, violin plots per cluster</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">9</span><span class="les-body"><span class="les-title">Cell Type Annotation</span><span class="les-focus">Manual annotation, adata.obs['cell_type'], annotated UMAP</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">10</span><span class="les-body"><span class="les-title">Saving, Exporting &amp; Reproducibility</span><span class="les-focus">adata.write_h5ad, figures, scripts, session info</span></span><span class="les-tag soon">Soon</span></div>
+    </div>
+  </div>
+</section>
+
 <!-- Curriculum CTA bar -->
 <div class="curriculum-cta-bar">
   <div class="wrap">
@@ -192,7 +228,7 @@
   <div class="wrap">
     <div class="coming-card">
       <div>
-        <h2>Lessons are on their way.</h2>
+        <h2>Lesson 1 is live. The rest are on their way.</h2>
         <p>We're building this module carefully — every lesson comes with exercises, datasets, and a GitHub repository you push as proof of skill. Sign up to be notified the moment it goes live.</p>
         <form class="notify-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ You're on the list';">
           <input type="email" placeholder="your@email.com" required />

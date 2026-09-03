@@ -92,13 +92,17 @@
     .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
     .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
     .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
-    .lesson-shell{display:grid;grid-template-columns:290px minmax(0,1fr);align-items:start}
-    .lesson-shell>.toc{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px 56px;scrollbar-width:thin}
-    .lesson-main{min-width:0}
-    .lesson-main .wrap{max-width:1180px;padding:0 48px}
-    .lesson-main .article-grid{grid-template-columns:minmax(0,1fr);gap:0}
-    .lesson-main .prose{max-width:900px}
-    @media(max-width:980px){.lesson-shell{grid-template-columns:1fr}.lesson-shell>.toc{display:none}.lesson-main .wrap{padding:0 24px}}
+    @media(max-width:860px){.toc{display:none}}
+
+    /* wide full-bleed lesson shell */
+    .article{padding:0 0 96px}
+    .article > .wrap{max-width:none;width:100%;padding:0;margin:0}
+    .article-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;align-items:start;max-width:none;margin:0}
+    aside.toc{position:sticky;top:0;height:100vh;overflow-y:auto;width:auto;max-width:none;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px;margin:0;border-radius:0}
+    aside.toc::-webkit-scrollbar{width:4px}
+    aside.toc::-webkit-scrollbar-thumb{background:var(--green-mint);border-radius:4px}
+    .prose{padding:38px 52px 20px;max-width:1040px;margin:0}
+    @media(max-width:980px){.article-grid{grid-template-columns:1fr}aside.toc{display:none}.prose{padding:26px 20px}}
   </style>
 </head>
 <body>
@@ -112,6 +116,7 @@
       <div class="nav-links">
         <a href="https://shopnilacademy.com/index.html">Home</a>
         <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <a href="https://shopnilacademy.com/courses/bioinformatics-curriculum.html">Curriculum</a>
         <a href="index.html" class="active">Bash &amp; Linux</a>
         <a href="https://shopnilacademy.com/about.html">About</a>
       </div>
@@ -123,8 +128,38 @@
     </nav>
   </header>
 
-  <div class="lesson-shell">
-  <aside class="toc" aria-label="Course navigation">
+  <div class="inner-header">
+    <div class="wrap">
+      <div class="breadcrumb">
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <span class="sep">&rsaquo;</span>
+        <a href="index.html">Bash &amp; Linux</a>
+        <span class="sep">&rsaquo;</span>
+        <span>Lesson 3</span>
+      </div>
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 3 of 13</span>
+        <span class="lm-sep">&middot;</span>
+        <span class="lm-pill lm-time">&#9201; 45 min</span>
+        <span class="lm-sep">&middot;</span>
+        <span class="free-pill">&#10003; Free</span>
+      </div>
+      <h1>Pipes &amp; Redirection</h1>
+      <p class="lead">Pipes are what make Linux truly powerful. Instead of writing one command at a time, you chain commands together so the output of one flows directly into the next &mdash; building complex analyses from simple building blocks. This is how real bioinformatics pipelines work.</p>
+    </div>
+  </div>
+
+  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
+    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+      <strong>Advertisement</strong><small>728 &times; 90 leaderboard &middot; AdSense unit goes here</small>
+    </div>
+  </div>
+
+  <div class="article">
+    <div class="wrap">
+      <div class="article-grid">
+
+        <aside class="toc" aria-label="Course navigation">
           <span class="sidebar-course-label">Tech &amp; Coding</span>
           <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
           <div class="prog-label"><span>Your progress</span><span id="progPct">0%</span></div>
@@ -176,39 +211,6 @@
             <li><a href="#exercises">Exercises</a></li>
           </ul>
         </aside>
-  <div class="lesson-main">
-  <div class="inner-header">
-    <div class="wrap">
-      <div class="breadcrumb">
-        <a href="https://shopnilacademy.com/courses.html">Courses</a>
-        <span class="sep">&rsaquo;</span>
-        <a href="index.html">Bash &amp; Linux</a>
-        <span class="sep">&rsaquo;</span>
-        <span>Lesson 3</span>
-      </div>
-      <div class="lesson-meta-strip">
-        <span class="lm-pill lm-num">Lesson 3 of 13</span>
-        <span class="lm-sep">&middot;</span>
-        <span class="lm-pill lm-time">&#9201; 45 min</span>
-        <span class="lm-sep">&middot;</span>
-        <span class="free-pill">&#10003; Free</span>
-      </div>
-      <h1>Pipes &amp; Redirection</h1>
-      <p class="lead">Pipes are what make Linux truly powerful. Instead of writing one command at a time, you chain commands together so the output of one flows directly into the next &mdash; building complex analyses from simple building blocks. This is how real bioinformatics pipelines work.</p>
-    </div>
-  </div>
-
-  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
-    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
-      <strong>Advertisement</strong><small>728 &times; 90 leaderboard &middot; AdSense unit goes here</small>
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="wrap">
-      <div class="article-grid">
-
-        
 
         <div class="prose">
 
@@ -440,7 +442,7 @@
 <span class="c-cmd">sort</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span> <span class="c-flag">|</span> <span class="c-cmd">sort</span> <span class="c-flag">-rn</span> <span class="c-flag">|</span> <span class="c-cmd">head</span> <span class="c-flag">-n 10</span>
 
 <span class="c-comment"># Filter results and save to a specific location</span>
-<span class="c-cmd">grep</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">sort</span> <span class="c-flag">&gt;</span> <span class="c-path">~/bash-linux-bioinformatics/results/sorghum_only.txt</span>
+<span class="c-cmd">grep</span> <span class="c-path">"Sorghum"</span> <span class="c-path">species.txt</span> <span class="c-flag">|</span> <span class="c-cmd">sort</span> <span class="c-flag">&gt;</span> <span class="c-path">~/bash-linux-bioinformatics/results/sorghum_matches.txt</span>
 
 <span class="c-comment"># Count how many files are in a folder</span>
 <span class="c-cmd">ls</span> <span class="c-path">~/bash-linux-bioinformatics/</span> <span class="c-flag">|</span> <span class="c-cmd">wc</span> <span class="c-flag">-l</span></pre>
@@ -529,22 +531,22 @@
 
             <div class="exercise">
               <div class="ex-head"><span class="ex-num">Exercise 4</span><span class="ex-title">sort and uniq &mdash; count duplicates</span></div>
-              <p>Navigate to <code>~/bash-linux-bioinformatics/module-1-foundations/</code>. Create <code>duplicates.txt</code> with these seven lines: <code>maize</code>, <code>rice</code>, <code>sorghum</code>, <code>rice</code>, <code>maize</code>, <code>wheat</code>, <code>maize</code>. Then use a piped command to count how many times each species appears, sorted highest to lowest.</p>
+              <p>Navigate to <code>~/bash-linux-bioinformatics/module-1-foundations/</code>. Create <code>duplicates.txt</code> with these seven lines: <code>human</code>, <code>mouse</code>, <code>sorghum</code>, <code>mouse</code>, <code>human</code>, <code>ecoli</code>, <code>human</code>. Then use a piped command to count how many times each species appears, sorted highest to lowest.</p>
               <p class="ex-hint">&#128172; Hint: <code>sort | uniq -c | sort -rn</code>. Sort before uniq or duplicates will be missed.</p>
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
-<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-flag">&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"rice"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"human"</span> <span class="c-flag">&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"mouse"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
 <span class="c-cmd">echo</span> <span class="c-path">"sorghum"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"rice"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"wheat"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
-<span class="c-cmd">echo</span> <span class="c-path">"maize"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"mouse"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"human"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"ecoli"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
+<span class="c-cmd">echo</span> <span class="c-path">"human"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">duplicates.txt</span>
 <span class="c-cmd">sort</span> <span class="c-path">duplicates.txt</span> <span class="c-flag">|</span> <span class="c-cmd">uniq</span> <span class="c-flag">-c</span> <span class="c-flag">|</span> <span class="c-cmd">sort</span> <span class="c-flag">-rn</span>
-<span class="c-out">      3 maize</span>
-<span class="c-out">      2 rice</span>
-<span class="c-out">      1 sorghum</span>
-<span class="c-out">      1 wheat</span></pre>
+<span class="c-out">      3 human</span>
+<span class="c-out">      2 mouse</span>
+<span class="c-out">      1 ecoli</span>
+<span class="c-out">      1 sorghum</span></pre>
                 </div>
               </details>
             </div>
@@ -582,9 +584,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  </div>
   </div>
 
   <div style="padding:0 0 56px;">

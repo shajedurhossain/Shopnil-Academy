@@ -87,13 +87,17 @@
     .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
     .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
     .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
-    .lesson-shell{display:grid;grid-template-columns:290px minmax(0,1fr);align-items:start}
-    .lesson-shell>.toc{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px 56px;scrollbar-width:thin}
-    .lesson-main{min-width:0}
-    .lesson-main .wrap{max-width:1180px;padding:0 48px}
-    .lesson-main .article-grid{grid-template-columns:minmax(0,1fr);gap:0}
-    .lesson-main .prose{max-width:900px}
-    @media(max-width:980px){.lesson-shell{grid-template-columns:1fr}.lesson-shell>.toc{display:none}.lesson-main .wrap{padding:0 24px}}
+    @media(max-width:860px){.toc{display:none}}
+
+    /* wide full-bleed lesson shell */
+    .article{padding:0 0 96px}
+    .article > .wrap{max-width:none;width:100%;padding:0;margin:0}
+    .article-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;align-items:start;max-width:none;margin:0}
+    aside.toc{position:sticky;top:0;height:100vh;overflow-y:auto;width:auto;max-width:none;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px;margin:0;border-radius:0}
+    aside.toc::-webkit-scrollbar{width:4px}
+    aside.toc::-webkit-scrollbar-thumb{background:var(--green-mint);border-radius:4px}
+    .prose{padding:38px 52px 20px;max-width:1040px;margin:0}
+    @media(max-width:980px){.article-grid{grid-template-columns:1fr}aside.toc{display:none}.prose{padding:26px 20px}}
   </style>
 </head>
 <body>
@@ -108,6 +112,7 @@
       <div class="nav-links">
         <a href="https://shopnilacademy.com/index.html">Home</a>
         <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <a href="https://shopnilacademy.com/courses/bioinformatics-curriculum.html">Curriculum</a>
         <a href="index.html" class="active">Bash &amp; Linux</a>
         <a href="https://shopnilacademy.com/about.html">About</a>
       </div>
@@ -120,8 +125,46 @@
   </header>
 
   <!-- INNER HEADER -->
-  <div class="lesson-shell">
-  <aside class="toc" aria-label="Course navigation">
+  <div class="inner-header">
+    <div class="wrap">
+      <div class="breadcrumb">
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <span class="sep">›</span>
+        <a href="index.html">Bash &amp; Linux</a>
+        <span class="sep">›</span>
+        <span>Lesson 4</span>
+      </div>
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 4 of 13</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill lm-time">⏱ 50 min</span>
+        <span class="lm-sep">·</span>
+        <span class="free-pill">✓ Free</span>
+      </div>
+      <h1>Variables &amp; Loops</h1>
+      <p class="lead">
+        So far every command you have run processes one thing at a time. Variables and loops change that entirely.
+        With a single loop you can process 100 FASTQ files, rename an entire folder of samples, or run the same
+        quality check on every chromosome — in the same time it takes to type one command.
+        This is where Bash starts to feel like real programming.
+      </p>
+    </div>
+  </div>
+
+  <!-- AD — Leaderboard -->
+  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
+    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+      <strong>Advertisement</strong><small>728 × 90 leaderboard · AdSense unit goes here</small>
+    </div>
+  </div>
+
+  <!-- ARTICLE -->
+  <div class="article">
+    <div class="wrap">
+      <div class="article-grid">
+
+        <!-- SIDEBAR -->
+        <aside class="toc" aria-label="Course navigation">
           <span class="sidebar-course-label">Tech &amp; Coding</span>
           <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
           <div class="prog-label"><span>Your progress</span><span id="progPct">0%</span></div>
@@ -174,47 +217,6 @@
             <li><a href="#exercises">Exercises</a></li>
           </ul>
         </aside>
-  <div class="lesson-main">
-  <div class="inner-header">
-    <div class="wrap">
-      <div class="breadcrumb">
-        <a href="https://shopnilacademy.com/courses.html">Courses</a>
-        <span class="sep">›</span>
-        <a href="index.html">Bash &amp; Linux</a>
-        <span class="sep">›</span>
-        <span>Lesson 4</span>
-      </div>
-      <div class="lesson-meta-strip">
-        <span class="lm-pill lm-num">Lesson 4 of 13</span>
-        <span class="lm-sep">·</span>
-        <span class="lm-pill lm-time">⏱ 50 min</span>
-        <span class="lm-sep">·</span>
-        <span class="free-pill">✓ Free</span>
-      </div>
-      <h1>Variables &amp; Loops</h1>
-      <p class="lead">
-        So far every command you have run processes one thing at a time. Variables and loops change that entirely.
-        With a single loop you can process 100 FASTQ files, rename an entire folder of samples, or run the same
-        quality check on every chromosome — in the same time it takes to type one command.
-        This is where Bash starts to feel like real programming.
-      </p>
-    </div>
-  </div>
-
-  <!-- AD — Leaderboard -->
-  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
-    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
-      <strong>Advertisement</strong><small>728 × 90 leaderboard · AdSense unit goes here</small>
-    </div>
-  </div>
-
-  <!-- ARTICLE -->
-  <div class="article">
-    <div class="wrap">
-      <div class="article-grid">
-
-        <!-- SIDEBAR -->
-        
 
         <!-- PROSE -->
         <div class="prose">
@@ -439,13 +441,13 @@
             <div class="code-wrap">
               <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment"># Basic for loop — iterate over a list of values</span>
-<span class="c-cmd">for</span> <span class="c-var">SPECIES</span> <span class="c-flag">in</span> <span class="c-path">maize rice sorghum wheat</span><span class="c-flag">;</span> <span class="c-cmd">do</span>
+<span class="c-cmd">for</span> <span class="c-var">SPECIES</span> <span class="c-flag">in</span> <span class="c-path">human mouse sorghum ecoli</span><span class="c-flag">;</span> <span class="c-cmd">do</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Processing: $SPECIES"</span>
 <span class="c-cmd">done</span>
-<span class="c-out">Processing: maize</span>
-<span class="c-out">Processing: rice</span>
+<span class="c-out">Processing: human</span>
+<span class="c-out">Processing: mouse</span>
 <span class="c-out">Processing: sorghum</span>
-<span class="c-out">Processing: wheat</span>
+<span class="c-out">Processing: ecoli</span>
 
 <span class="c-comment"># Loop over an array of sample names</span>
 <span class="c-var">SAMPLES</span><span class="c-flag">=</span><span class="c-flag">(</span><span class="c-str">"SRR001"</span> <span class="c-str">"SRR002"</span> <span class="c-str">"SRR003"</span><span class="c-flag">)</span>
@@ -507,9 +509,9 @@
 <span class="c-cmd">while</span> <span class="c-cmd">read</span> <span class="c-var">LINE</span><span class="c-flag">;</span> <span class="c-cmd">do</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Processing sample: $LINE"</span>
 <span class="c-cmd">done</span> <span class="c-flag">&lt;</span> <span class="c-path">species.txt</span>
+<span class="c-out">Processing sample: Homo sapiens</span>
+<span class="c-out">Processing sample: Escherichia coli</span>
 <span class="c-out">Processing sample: Sorghum bicolor</span>
-<span class="c-out">Processing sample: Arabidopsis thaliana</span>
-<span class="c-out">Processing sample: Oryza sativa</span>
 
 <span class="c-comment"># Read multiple columns from a tab-separated file</span>
 <span class="c-comment"># Imagine sample_sheet.txt has: SAMPLE_ID  FASTQ_PATH  CONDITION</span>
@@ -677,17 +679,17 @@
 
             <div class="exercise">
               <div class="ex-head"><span class="ex-num">Exercise 3</span><span class="ex-title">for loop — process a list of species</span></div>
-              <p>From <code>~/bash-linux-bioinformatics/module-1-foundations</code>, write a <code>for</code> loop that iterates over the array <code>("Sorghum" "Arabidopsis" "Rice" "Maize")</code>. For each species, create an empty file called <code>SPECIES_data.txt</code> (e.g. <code>Sorghum_data.txt</code>) in the <code>results/</code> folder. After the loop, list the results folder to confirm all four files were created.</p>
+              <p>From <code>~/bash-linux-bioinformatics/module-1-foundations</code>, write a <code>for</code> loop that iterates over the array <code>("Human" "Mouse" "Yeast" "Sorghum")</code>. For each species, create an empty file called <code>SPECIES_data.txt</code> (e.g. <code>Human_data.txt</code>) in the <code>results/</code> folder. After the loop, list the results folder to confirm all four files were created.</p>
               <p class="ex-hint">💬 Hint: define the array first, then loop with <code>for SPECIES in "${ARRAY[@]}"</code>. Use <code>touch</code> to create each file.</p>
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
-<span class="c-var">SPECIES_LIST</span><span class="c-flag">=</span><span class="c-flag">(</span><span class="c-str">"Sorghum"</span> <span class="c-str">"Arabidopsis"</span> <span class="c-str">"Rice"</span> <span class="c-str">"Maize"</span><span class="c-flag">)</span>
+<span class="c-var">SPECIES_LIST</span><span class="c-flag">=</span><span class="c-flag">(</span><span class="c-str">"Human"</span> <span class="c-str">"Mouse"</span> <span class="c-str">"Yeast"</span> <span class="c-str">"Sorghum"</span><span class="c-flag">)</span>
 <span class="c-cmd">for</span> <span class="c-var">SPECIES</span> <span class="c-flag">in</span> <span class="c-str">"${SPECIES_LIST[@]}"</span><span class="c-flag">;</span> <span class="c-cmd">do</span>
     <span class="c-cmd">touch</span> <span class="c-path">"../results/${SPECIES}_data.txt"</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Created: ${SPECIES}_data.txt"</span>
 <span class="c-cmd">done</span>
 <span class="c-cmd">ls</span> <span class="c-path">../results/</span>
-<span class="c-out">Arabidopsis_data.txt  Maize_data.txt  Rice_data.txt  Sorghum_data.txt</span></pre>
+<span class="c-out">Human_data.txt  Mouse_data.txt  Sorghum_data.txt  Yeast_data.txt</span></pre>
                 </div>
               </details>
             </div>
@@ -701,9 +703,9 @@
 <span class="c-cmd">while</span> <span class="c-cmd">read</span> <span class="c-var">LINE</span><span class="c-flag">;</span> <span class="c-cmd">do</span>
     <span class="c-cmd">echo</span> <span class="c-str">"Analysing genome of: $LINE"</span>
 <span class="c-cmd">done</span> <span class="c-flag">&lt;</span> <span class="c-path">species.txt</span>
-<span class="c-out">Analysing genome of: Sorghum bicolor</span>
-<span class="c-out">Analysing genome of: Arabidopsis thaliana</span>
-<span class="c-out">Analysing genome of: Oryza sativa</span></pre>
+<span class="c-out">Analysing genome of: Homo sapiens</span>
+<span class="c-out">Analysing genome of: Escherichia coli</span>
+<span class="c-out">Analysing genome of: Sorghum bicolor</span></pre>
                 </div>
               </details>
             </div>
@@ -749,9 +751,6 @@
   </div><!-- /article -->
 
   <!-- AD — Rectangle -->
-  </div>
-  </div>
-
   <div style="padding:0 0 56px;">
     <div class="wrap" style="display:flex;justify-content:center;">
       <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px;width:100%;">

@@ -104,6 +104,21 @@
   .cta-bar-inner p { font-size: 15px; color: var(--ink); flex: 1; min-width: 260px; }
   .cta-bar-inner p strong { color: var(--green); }
 
+  /* Lessons */
+  .lessons-section { padding: 60px 0; }
+  .les-list { display: flex; flex-direction: column; gap: 8px; margin-top: 28px; }
+  .les-row { display: grid; grid-template-columns: 44px 1fr auto; gap: 16px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; }
+  a.les-row:hover { border-color: var(--green); transform: translateX(3px); }
+  .les-num { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--green); background: var(--green-soft); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .les-body { display: flex; flex-direction: column; gap: 3px; }
+  .les-body .les-title { display: block; font-weight: 600; font-size: 15.5px; line-height: 1.35; }
+  .les-body .les-focus { display: block; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .les-tag { font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+  .les-tag.live { background: var(--green); color: #fff; }
+  .les-tag.soon { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
+  .les-row.locked { opacity: .72; }
+  @media(max-width:600px){ .les-row { grid-template-columns: 36px 1fr; } .les-tag { display: none; } }
+
   @media(max-width:760px){
     .coming-card { grid-template-columns: 1fr; }
     .coming-weeks { display: none; }
@@ -156,6 +171,7 @@
       <div class="mod-stat"><span class="val">FREE</span><span class="lbl">Always</span></div>
     </div>
     <div class="hero-cta">
+      <a href="lesson-1.html" class="btn-gold">Start Lesson 1 →</a>
       <a href="../bioinformatics-curriculum.html#phase3" class="btn-ghost-white">View in curriculum →</a>
     </div>
   </div>
@@ -172,6 +188,30 @@
       <div class="topic-chip">Manhattan plots · CMplot</div>
       <div class="topic-chip">seaborn · plotly</div>
       <div class="topic-chip">Quarto reports</div>
+      <div class="topic-chip">Gviz · ggbio tracks</div>
+      <div class="topic-chip">igraph · ggraph networks</div>
+      <div class="topic-chip">viridis · colour-blind safe</div>
+    </div>
+  </div>
+</section>
+
+<!-- Lessons -->
+<section class="lessons-section">
+  <div class="wrap">
+    <span class="eyebrow">Curriculum</span>
+    <h2 style="margin-top: 10px; font-size: clamp(24px, 3vw, 34px);">11 lessons in this module</h2>
+    <div class="les-list">
+      <a class="les-row" href="lesson-1.html"><span class="les-num">1</span><span class="les-body"><span class="les-title">Why Visualisation Matters in Bioinformatics</span><span class="les-focus">Philosophy, plot types, ggplot2 grammar of graphics</span></span><span class="les-tag live">Live</span></a>
+      <div class="les-row locked"><span class="les-num">2</span><span class="les-body"><span class="les-title">Publication-Quality Plots with ggplot2</span><span class="les-focus">Themes, scales, multi-panel with patchwork</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">3</span><span class="les-body"><span class="les-title">Heatmaps for Genomic Data</span><span class="les-focus">pheatmap, ComplexHeatmap, clustering, annotations</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">4</span><span class="les-body"><span class="les-title">Volcano &amp; MA Plots for DE Results</span><span class="les-focus">EnhancedVolcano, custom ggplot2 versions</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">5</span><span class="les-body"><span class="les-title">Manhattan &amp; QQ Plots for GWAS</span><span class="les-focus">qqman, CMplot, genomic significance lines</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">6</span><span class="les-body"><span class="les-title">Gene Expression Boxplots &amp; Violin Plots</span><span class="les-focus">ggplot2 + ggbeeswarm, statistical overlays</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">7</span><span class="les-body"><span class="les-title">Genomic Track Plots</span><span class="les-focus">Gviz, ggbio — visualising alignments, genes, variants</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">8</span><span class="les-body"><span class="les-title">Interactive Plots with Plotly &amp; ggplotly</span><span class="les-focus">Converting static plots, hover tooltips, HTML export</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">9</span><span class="les-body"><span class="les-title">Network &amp; Pathway Visualisation</span><span class="les-focus">igraph, ggraph, STRING network plots</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">10</span><span class="les-body"><span class="les-title">Colour, Layout &amp; Design Principles</span><span class="les-focus">Colour blindness, RColorBrewer, viridis, figure assembly</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">11</span><span class="les-body"><span class="les-title">Capstone: Full Figure Panel for a Paper</span><span class="les-focus">Combining all skills into one publication-ready figure</span></span><span class="les-tag soon">Soon</span></div>
     </div>
   </div>
 </section>
@@ -191,7 +231,7 @@
   <div class="wrap">
     <div class="coming-card">
       <div>
-        <h2>Lessons are on their way.</h2>
+        <h2>Lesson 1 is live. The rest are on their way.</h2>
         <p>We're building this module carefully — every lesson comes with exercises, datasets, and a GitHub repository you push as proof of skill. Sign up to be notified the moment it goes live.</p>
         <form class="notify-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ You're on the list';">
           <input type="email" placeholder="your@email.com" required />

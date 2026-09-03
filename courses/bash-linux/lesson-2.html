@@ -86,13 +86,17 @@
     .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
     .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
     .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
-    .lesson-shell{display:grid;grid-template-columns:290px minmax(0,1fr);align-items:start}
-    .lesson-shell>.toc{position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px 56px;scrollbar-width:thin}
-    .lesson-main{min-width:0}
-    .lesson-main .wrap{max-width:1180px;padding:0 48px}
-    .lesson-main .article-grid{grid-template-columns:minmax(0,1fr);gap:0}
-    .lesson-main .prose{max-width:900px}
-    @media(max-width:980px){.lesson-shell{grid-template-columns:1fr}.lesson-shell>.toc{display:none}.lesson-main .wrap{padding:0 24px}}
+    @media(max-width:860px){.toc{display:none}}
+
+    /* wide full-bleed lesson shell */
+    .article{padding:0 0 96px}
+    .article > .wrap{max-width:none;width:100%;padding:0;margin:0}
+    .article-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;align-items:start;max-width:none;margin:0}
+    aside.toc{position:sticky;top:0;height:100vh;overflow-y:auto;width:auto;max-width:none;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px;margin:0;border-radius:0}
+    aside.toc::-webkit-scrollbar{width:4px}
+    aside.toc::-webkit-scrollbar-thumb{background:var(--green-mint);border-radius:4px}
+    .prose{padding:38px 52px 20px;max-width:1040px;margin:0}
+    @media(max-width:980px){.article-grid{grid-template-columns:1fr}aside.toc{display:none}.prose{padding:26px 20px}}
   </style>
 </head>
 <body>
@@ -106,6 +110,7 @@
       <div class="nav-links">
         <a href="https://shopnilacademy.com/index.html">Home</a>
         <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <a href="https://shopnilacademy.com/courses/bioinformatics-curriculum.html">Curriculum</a>
         <a href="index.html" class="active">Bash &amp; Linux</a>
         <a href="https://shopnilacademy.com/about.html">About</a>
       </div>
@@ -117,8 +122,38 @@
     </nav>
   </header>
 
-  <div class="lesson-shell">
-  <aside class="toc" aria-label="Course navigation">
+  <div class="inner-header">
+    <div class="wrap">
+      <div class="breadcrumb">
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <span class="sep">›</span>
+        <a href="index.html">Bash &amp; Linux</a>
+        <span class="sep">›</span>
+        <span>Lesson 2</span>
+      </div>
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 2 of 13</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill lm-time">⏱ 45 min</span>
+        <span class="lm-sep">·</span>
+        <span class="free-pill">✓ Free</span>
+      </div>
+      <h1>File Operations</h1>
+      <p class="lead">Navigating the filesystem gets you to the right place — but files are what you actually work with. In bioinformatics you will copy FASTQ files, move results to new folders, delete intermediate files to save disk space, and inspect large files without opening them. This lesson teaches you all of that.</p>
+    </div>
+  </div>
+
+  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
+    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+      <strong>Advertisement</strong><small>728 × 90 leaderboard · AdSense unit goes here</small>
+    </div>
+  </div>
+
+  <div class="article">
+    <div class="wrap">
+      <div class="article-grid">
+
+        <aside class="toc" aria-label="Course navigation">
           <span class="sidebar-course-label">Tech &amp; Coding</span>
           <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
           <div class="prog-label"><span>Your progress</span><span id="progPct">0%</span></div>
@@ -167,39 +202,6 @@
             <li><a href="#exercises">Exercises</a></li>
           </ul>
         </aside>
-  <div class="lesson-main">
-  <div class="inner-header">
-    <div class="wrap">
-      <div class="breadcrumb">
-        <a href="https://shopnilacademy.com/courses.html">Courses</a>
-        <span class="sep">›</span>
-        <a href="index.html">Bash &amp; Linux</a>
-        <span class="sep">›</span>
-        <span>Lesson 2</span>
-      </div>
-      <div class="lesson-meta-strip">
-        <span class="lm-pill lm-num">Lesson 2 of 13</span>
-        <span class="lm-sep">·</span>
-        <span class="lm-pill lm-time">⏱ 45 min</span>
-        <span class="lm-sep">·</span>
-        <span class="free-pill">✓ Free</span>
-      </div>
-      <h1>File Operations</h1>
-      <p class="lead">Navigating the filesystem gets you to the right place — but files are what you actually work with. In bioinformatics you will copy FASTQ files, move results to new folders, delete intermediate files to save disk space, and inspect large files without opening them. This lesson teaches you all of that.</p>
-    </div>
-  </div>
-
-  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
-    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
-      <strong>Advertisement</strong><small>728 × 90 leaderboard · AdSense unit goes here</small>
-    </div>
-  </div>
-
-  <div class="article">
-    <div class="wrap">
-      <div class="article-grid">
-
-        
 
         <div class="prose">
 
@@ -448,34 +450,34 @@
 
             <div class="exercise">
               <div class="ex-head"><span class="ex-num">Exercise 1</span><span class="ex-title">Create and inspect a file</span></div>
-              <p>Navigate to your <code>~/bash-linux-bioinformatics/module-1-foundations/</code> folder. Create a file called <code>species.txt</code> and write three lines into it one by one: <code>Sorghum bicolor</code>, <code>Arabidopsis thaliana</code>, and <code>Oryza sativa</code>. Then print the complete file to the screen to verify all three lines are there.</p>
+              <p>Navigate to your <code>~/bash-linux-bioinformatics/module-1-foundations/</code> folder. Create a file called <code>species.txt</code> and write three lines into it one by one: <code>Homo sapiens</code>, <code>Escherichia coli</code>, and <code>Sorghum bicolor</code>. Then print the complete file to the screen to verify all three lines are there.</p>
               <p class="ex-hint">💬 Hint: use <code>&gt;</code> for the first line only, then <code>&gt;&gt;</code> for the second and third — otherwise you will overwrite and only have one line.</p>
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
-<span class="c-cmd">echo</span> <span class="c-path">"Sorghum bicolor"</span> <span class="c-flag">&gt;</span> <span class="c-path">species.txt</span>          <span class="c-comment"># creates the file with line 1</span>
-<span class="c-cmd">echo</span> <span class="c-path">"Arabidopsis thaliana"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">species.txt</span>    <span class="c-comment"># appends line 2</span>
-<span class="c-cmd">echo</span> <span class="c-path">"Oryza sativa"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">species.txt</span>           <span class="c-comment"># appends line 3</span>
+<span class="c-cmd">echo</span> <span class="c-path">"Homo sapiens"</span> <span class="c-flag">&gt;</span> <span class="c-path">species.txt</span>           <span class="c-comment"># creates the file with line 1</span>
+<span class="c-cmd">echo</span> <span class="c-path">"Escherichia coli"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">species.txt</span>      <span class="c-comment"># appends line 2</span>
+<span class="c-cmd">echo</span> <span class="c-path">"Sorghum bicolor"</span> <span class="c-flag">&gt;&gt;</span> <span class="c-path">species.txt</span>       <span class="c-comment"># appends line 3</span>
 <span class="c-cmd">cat</span> <span class="c-path">species.txt</span>
-<span class="c-out">Sorghum bicolor</span>
-<span class="c-out">Arabidopsis thaliana</span>
-<span class="c-out">Oryza sativa</span></pre>
+<span class="c-out">Homo sapiens</span>
+<span class="c-out">Escherichia coli</span>
+<span class="c-out">Sorghum bicolor</span></pre>
                 </div>
               </details>
             </div>
 
             <div class="exercise">
               <div class="ex-head"><span class="ex-num">Exercise 2</span><span class="ex-title">Copy and move</span></div>
-              <p>Copy <code>species.txt</code> to <code>~/bash-linux-bioinformatics/data/raw/</code>. Then rename the copy from <code>species.txt</code> to <code>plant_species.txt</code> using a single <code>mv</code> command. Finally, confirm the original still exists in <code>module-1-foundations/</code> and the renamed copy exists in <code>data/raw/</code>.</p>
+              <p>Copy <code>species.txt</code> to <code>~/bash-linux-bioinformatics/data/raw/</code>. Then rename the copy from <code>species.txt</code> to <code>reference_species.txt</code> using a single <code>mv</code> command. Finally, confirm the original still exists in <code>module-1-foundations/</code> and the renamed copy exists in <code>data/raw/</code>.</p>
               <details class="answer"><summary>Show answer</summary>
                 <div class="answer-body"><pre><span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations</span>
 <span class="c-cmd">cp</span> <span class="c-path">species.txt</span> <span class="c-path">~/bash-linux-bioinformatics/data/raw/</span>
-<span class="c-cmd">mv</span> <span class="c-path">~/bash-linux-bioinformatics/data/raw/species.txt</span> <span class="c-path">~/bash-linux-bioinformatics/data/raw/plant_species.txt</span>
+<span class="c-cmd">mv</span> <span class="c-path">~/bash-linux-bioinformatics/data/raw/species.txt</span> <span class="c-path">~/bash-linux-bioinformatics/data/raw/reference_species.txt</span>
 <span class="c-comment"># Confirm original exists</span>
 <span class="c-cmd">ls</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations/</span>
 <span class="c-out">species.txt</span>    <span class="c-comment"># still here</span>
 <span class="c-comment"># Confirm renamed copy exists</span>
 <span class="c-cmd">ls</span> <span class="c-path">~/bash-linux-bioinformatics/data/raw/</span>
-<span class="c-out">plant_species.txt</span></pre>
+<span class="c-out">reference_species.txt</span></pre>
                 </div>
               </details>
             </div>
@@ -557,9 +559,6 @@
         </div>
       </div>
     </div>
-  </div>
-
-  </div>
   </div>
 
   <div style="padding:0 0 56px;">

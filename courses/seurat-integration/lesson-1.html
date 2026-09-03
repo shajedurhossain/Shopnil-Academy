@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 1 — Why Batch Effects Exist & How Integration Works | Seurat Integration | Shopnil Academy</title>
+  <meta name="description" content="Understand what batch effects are in single-cell RNA-seq, why they arise, and how Seurat's anchor-based integration framework corrects them." />
+  <link rel="stylesheet" href="../../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── LESSON LAYOUT ────────────────────────────────────────── */
+    .lesson-shell {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      min-height: 100vh;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR ──────────────────────────────────────────────── */
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--line);
+      background: var(--cream);
+      padding: 28px 0 40px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--green-mint) transparent;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--green-mint); border-radius: 4px; }
+
+    .sidebar-inner { padding: 0 20px; }
+
+    .sidebar-course-label {
+      font-size: 10px; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 4px;
+    }
+    .sidebar-course-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 15px; color: var(--ink); line-height: 1.3;
+      margin-bottom: 20px;
+    }
+
+    /* Progress */
+    .prog-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    }
+    .prog-track {
+      height: 5px; background: var(--green-mint);
+      border-radius: 999px; margin-bottom: 24px; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; background: var(--green);
+      border-radius: 999px; transition: width .4s ease;
+    }
+
+    /* Module accordion */
+    .mod-group { margin-bottom: 4px; }
+    .mod-group-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--muted);
+      padding: 10px 0 6px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between;
+      user-select: none;
+      border-bottom: 1px solid var(--line);
+    }
+    .mod-group-label .chevron { font-size: 10px; transition: transform .25s ease; }
+    .mod-group.open .chevron { transform: rotate(180deg); }
+    .mod-lessons { display: none; padding: 4px 0 8px; }
+    .mod-group.open .mod-lessons { display: flex; flex-direction: column; gap: 2px; }
+
+    .lesson-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 10px; border-radius: 10px;
+      font-size: 13px; color: var(--muted);
+      transition: background .15s ease, color .15s ease;
+      text-decoration: none;
+    }
+    .lesson-link:hover { background: var(--green-soft); color: var(--ink); }
+    .lesson-link.active { background: var(--green); color: #fff; font-weight: 600; }
+    .lesson-link.done { color: var(--green); }
+    .l-icon {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: var(--green-soft); color: var(--green);
+      display: grid; place-items: center; font-size: 11px; font-weight: 700;
+      flex-shrink: 0;
+    }
+    .lesson-link.active .l-icon { background: rgba(255,255,255,.25); color: #fff; }
+    .lesson-link.done .l-icon { background: var(--green); color: #fff; }
+
+    /* On this page */
+    .on-this-page-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .07em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 24px 0 10px; padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .page-toc { display: flex; flex-direction: column; gap: 2px; }
+    .page-toc a {
+      font-size: 12.5px; color: var(--muted);
+      padding: 6px 10px; border-radius: 8px;
+      border-left: 2px solid transparent;
+      transition: all .15s ease;
+    }
+    .page-toc a:hover { background: var(--green-soft); color: var(--ink); }
+    .page-toc a.active { border-left-color: var(--green); color: var(--green); background: var(--green-soft); font-weight: 600; }
+
+    /* ── MAIN CONTENT ─────────────────────────────────────────── */
+    .lesson-main { min-width: 0; }
+
+    /* Meta strip */
+    .lesson-meta-strip {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 14px 32px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .lm-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 12px; border-radius: 999px;
+      background: var(--cream); border: 1px solid var(--line);
+      font-size: 12px; font-weight: 500; color: var(--muted);
+    }
+    .lm-pill.green { background: var(--green-soft); color: var(--green); border-color: rgba(0,106,78,.18); }
+    .lm-num { font-family: var(--font-display); font-weight: 700; font-size: 13px; color: var(--ink); }
+    .lm-sep { color: var(--line); font-size: 18px; }
+
+    /* ── CODE BLOCKS ──────────────────────────────────────────── */
+    .code-wrap {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      margin: 20px 0;
+      box-shadow: var(--shadow-md);
+    }
+    .code-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px;
+      background: #1a2b23;
+    }
+    .code-lang {
+      font-family: var(--font-display); font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--green-mint);
+    }
+    .copy-btn {
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.7); border-radius: 6px;
+      padding: 4px 12px; font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: all .15s ease;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+    pre {
+      margin: 0; padding: 22px 24px;
+      background: #0f1e17;
+      overflow-x: auto; font-family: 'DM Mono', monospace;
+      font-size: 13.5px; line-height: 1.75;
+      color: #c8d8d0;
+    }
+    /* Syntax colours */
+    .c-cmd   { color: #7dd3a8; font-weight: 500; }  /* commands / functions */
+    .c-flag  { color: #f0c070; }                      /* flags / params */
+    .c-path  { color: #80c8ff; }                      /* paths / filenames */
+    .c-out   { color: #a0b8aa; font-style: italic; }  /* output */
+    .c-comment { color: #5a7a65; font-style: italic; }/* comments */
+    .c-str   { color: #f4a261; }                      /* strings */
+    .c-num   { color: #c084fc; }                      /* numbers */
+    .c-kw    { color: #f472b6; font-weight: 500; }    /* keywords */
+
+    /* ── EXPLAIN BOX ──────────────────────────────────────────── */
+    .explain-box {
+      background: var(--green-soft);
+      border: 1px solid rgba(0,106,78,.18);
+      border-left: 4px solid var(--green);
+      border-radius: 12px; padding: 18px 22px; margin: 20px 0;
+    }
+    .explain-box .eb-title {
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      color: var(--green); letter-spacing: .04em; text-transform: uppercase;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+    }
+    .explain-box p { font-size: 15px; color: var(--green-deep); line-height: 1.7; margin-bottom: 8px; }
+    .explain-box p:last-child { margin-bottom: 0; }
+
+    /* ── FOLDER NOTE ──────────────────────────────────────────── */
+    .folder-note {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-soft); border: 1px solid rgba(232,183,42,.35);
+      border-radius: 8px; padding: 8px 14px; margin: 12px 0;
+      font-family: 'DM Mono', monospace; font-size: 12.5px;
+      color: #7a5a00;
+    }
+
+    /* ── TIP / WARN ───────────────────────────────────────────── */
+    .tip, .warn {
+      display: flex; gap: 14px; align-items: flex-start;
+      border-radius: 12px; padding: 16px 20px; margin: 20px 0;
+    }
+    .tip { background: #e6f4ef; border: 1px solid rgba(0,106,78,.18); }
+    .warn { background: #fff4e6; border: 1px solid rgba(232,140,42,.28); }
+    .tip-icon, .warn-icon {
+      font-size: 18px; flex-shrink: 0; margin-top: 1px;
+    }
+    .tip p, .warn p { font-size: 14.5px; line-height: 1.65; color: var(--ink); }
+
+    /* ── CMD TABLE ────────────────────────────────────────────── */
+    .cmd-table {
+      width: 100%; border-collapse: collapse;
+      margin: 20px 0; font-size: 14px;
+    }
+    .cmd-table th, .cmd-table td {
+      text-align: left; padding: 12px 14px;
+      border-bottom: 1px solid var(--line); vertical-align: top;
+    }
+    .cmd-table th {
+      background: var(--cream);
+      font-family: var(--font-display); font-weight: 600;
+      font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+    }
+    .cmd-table td:first-child {
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      color: var(--green-deep); font-weight: 500; white-space: nowrap;
+    }
+    .cmd-table tr:last-child td { border-bottom: 0; }
+
+    /* ── EXERCISES ────────────────────────────────────────────── */
+    .exercise {
+      border: 1px solid var(--line); border-radius: 16px;
+      padding: 24px; margin: 20px 0; background: #fff;
+    }
+    .ex-head {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+    }
+    .ex-num {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--green); color: #fff;
+      display: grid; place-items: center;
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      flex-shrink: 0;
+    }
+    .ex-title { font-family: var(--font-display); font-weight: 700; font-size: 17px; }
+    details.answer { margin-top: 14px; }
+    details.answer summary {
+      cursor: pointer; font-size: 13px; font-weight: 600;
+      color: var(--green); list-style: none;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    details.answer summary::before { content: '▶'; font-size: 10px; }
+    details.answer[open] summary::before { content: '▼'; }
+    details.answer .answer-body {
+      margin-top: 14px; padding: 16px 20px;
+      background: var(--cream); border-radius: 10px;
+      font-size: 14.5px; line-height: 1.7;
+    }
+
+    /* ── MARK COMPLETE ────────────────────────────────────────── */
+    .mark-complete-wrap {
+      text-align: center; padding: 40px 0 20px;
+    }
+    .mark-complete {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px; border-radius: 999px;
+      background: var(--green); color: #fff;
+      font-family: var(--font-display); font-weight: 700; font-size: 16px;
+      border: none; cursor: pointer;
+      transition: background .2s ease, transform .15s ease;
+    }
+    .mark-complete:hover { background: var(--green-deep); transform: translateY(-2px); }
+    .mark-complete.done { background: #2d8c5f; }
+
+    /* ── LESSON NAV FOOTER ────────────────────────────────────── */
+    .lesson-nav-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 32px;
+      border-top: 1px solid var(--line);
+      margin-top: 48px;
+      background: var(--cream);
+      flex-wrap: wrap; gap: 16px;
+    }
+    .lesson-nav-footer a {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 600; font-size: 14px; color: var(--green);
+    }
+    .lesson-nav-footer a:hover { color: var(--green-deep); }
+
+    /* ── CONCEPT DIAGRAM ──────────────────────────────────────── */
+    .concept-diagram {
+      background: var(--ink); border-radius: 16px;
+      padding: 32px; margin: 24px 0;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .diagram-title {
+      font-family: var(--font-display); font-size: 13px; font-weight: 700;
+      color: var(--green-mint); letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .diagram-row {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .diagram-box {
+      border-radius: 10px; padding: 12px 18px;
+      font-family: 'DM Mono', monospace; font-size: 13px;
+      font-weight: 500; text-align: center; line-height: 1.4;
+    }
+    .d-batch1 { background: rgba(59,130,246,.25); color: #93c5fd; border: 1px solid rgba(59,130,246,.4); }
+    .d-batch2 { background: rgba(239,68,68,.22); color: #fca5a5; border: 1px solid rgba(239,68,68,.4); }
+    .d-batch3 { background: rgba(234,179,8,.2); color: #fde68a; border: 1px solid rgba(234,179,8,.4); }
+    .d-arrow { color: var(--muted); font-size: 20px; }
+    .d-anchor { background: rgba(0,106,78,.35); color: var(--green-mint); border: 1px solid rgba(0,106,78,.5); }
+    .d-integrated { background: rgba(0,106,78,.5); color: #a7f3d0; border: 1px solid var(--green); font-weight: 700; }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────── */
+    @media (max-width: 860px) {
+      .lesson-shell { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+      .lesson-meta-strip, .lesson-nav-footer { padding: 14px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NAV
+═══════════════════════════════════════════════════════════════ -->
+<div class="nav-shell">
+  <nav class="nav">
+    <a href="../../index.html" class="logo">
+      <img src="../../assets/logo.png" alt="Shopnil Academy" />
+      <div class="logo-text">
+        <strong>Shopnil Academy</strong>
+        <small>FREE BIOINFORMATICS EDUCATION</small>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="../../index.html">Home</a>
+      <a href="../../courses.html" class="active">Courses</a>
+      <a href="../../about.html">About</a>
+      <a href="../../blog.html">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <span class="free-pill">100% Free</span>
+      <a href="../../courses.html" class="btn btn-primary btn-sm">All Courses</a>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">☰</button>
+  </nav>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LESSON SHELL
+═══════════════════════════════════════════════════════════════ -->
+<div class="lesson-shell">
+
+  <!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-course-label">Phase 4 · Module 26</div>
+      <div class="sidebar-course-title">Seurat — Integration &amp; Batch Correction</div>
+
+      <div class="prog-label">
+        <span>Progress</span>
+        <span id="prog-pct">0 / 10</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+
+      <!-- Module lessons -->
+      <div class="mod-group open" id="mod-main">
+        <div class="mod-group-label" onclick="toggleMod('mod-main')">
+          Module 26 — Integration <span class="chevron">▼</span>
+        </div>
+        <div class="mod-lessons">
+          <a href="lesson-1.html" class="lesson-link active" data-id="l1">
+            <span class="l-icon">1</span>Why Batch Effects Exist
+          </a>
+          <a href="lesson-2.html" class="lesson-link" data-id="l2">
+            <span class="l-icon">2</span>Multi-Sample Seurat Objects
+          </a>
+          <a href="lesson-3.html" class="lesson-link" data-id="l3">
+            <span class="l-icon">3</span>FindIntegrationAnchors
+          </a>
+          <a href="lesson-4.html" class="lesson-link" data-id="l4">
+            <span class="l-icon">4</span>IntegrateData &amp; Workflow
+          </a>
+          <a href="lesson-5.html" class="lesson-link" data-id="l5">
+            <span class="l-icon">5</span>Harmony Integration
+          </a>
+          <a href="lesson-6.html" class="lesson-link" data-id="l6">
+            <span class="l-icon">6</span>Evaluating Integration Quality
+          </a>
+          <a href="lesson-7.html" class="lesson-link" data-id="l7">
+            <span class="l-icon">7</span>Label Transfer
+          </a>
+          <a href="lesson-8.html" class="lesson-link" data-id="l8">
+            <span class="l-icon">8</span>Reference Mapping with Azimuth
+          </a>
+          <a href="lesson-9.html" class="lesson-link" data-id="l9">
+            <span class="l-icon">9</span>Plant scRNA-seq Integration
+          </a>
+          <a href="lesson-10.html" class="lesson-link" data-id="l10">
+            <span class="l-icon">10</span>Capstone Pipeline
+          </a>
+        </div>
+      </div>
+
+      <!-- On this page TOC -->
+      <div class="on-this-page-label">On this page</div>
+      <nav class="page-toc" id="page-toc">
+        <a href="#what-is-batch">What Is a Batch Effect?</a>
+        <a href="#why-dangerous">Why Batch Effects Are Dangerous</a>
+        <a href="#sources">Common Sources in scRNA-seq</a>
+        <a href="#strategies">Integration Strategies</a>
+        <a href="#seurat-framework">Seurat's CCA Framework</a>
+        <a href="#anchors-explained">Mutual Nearest Neighbours &amp; Anchors</a>
+        <a href="#correction-math">What Correction Actually Does</a>
+        <a href="#when-not">When NOT to Integrate</a>
+        <a href="#reference-table">Quick Reference</a>
+        <a href="#exercises">Exercises</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ────────────────────────────────────────────────── -->
+  <main class="lesson-main">
+
+    <!-- Inner header -->
+    <div class="inner-header">
+      <div class="wrap">
+        <div class="breadcrumb">
+          <a href="../../index.html">Home</a><span class="sep">›</span>
+          <a href="../../courses.html">Courses</a><span class="sep">›</span>
+          <a href="index.html">Seurat Integration</a><span class="sep">›</span>
+          <span>Lesson 1</span>
+        </div>
+        <h1>Why Batch Effects Exist &amp; How Integration Works</h1>
+        <p class="lead">Before you can combine data from two experiments, you need to understand why they disagree — and what Seurat's anchor-based framework does to fix it.</p>
+        <span class="updated">📅 Module 26 · Lesson 1 of 10</span>
+      </div>
+    </div>
+
+    <!-- Meta strip -->
+    <div class="lesson-meta-strip">
+      <span class="lm-num">Lesson 1</span>
+      <span class="lm-sep">|</span>
+      <span class="lm-pill green">⏱ 45 min</span>
+      <span class="lm-pill">📊 Conceptual</span>
+      <span class="lm-pill">🧬 scRNA-seq</span>
+      <span class="lm-pill">🌿 Sorghum context</span>
+    </div>
+
+    <!-- Top ad slot -->
+    <div class="wrap" style="padding-top:28px;">
+      <div class="ad-slot banner-728">
+        <strong>Advertisement</strong>
+        <small>Your ad could appear here · shopnilacademy.com</small>
+      </div>
+    </div>
+
+    <!-- ── ARTICLE ────────────────────────────────────────────── -->
+    <div class="article">
+      <div class="wrap">
+        <div class="prose" style="max-width:800px;">
+
+          <!-- ─── SECTION 1 ─────────────────────────────────── -->
+          <section id="what-is-batch">
+            <h2>What Is a Batch Effect?</h2>
+
+            <div class="explain-box">
+              <div class="eb-title">🔬 Why this matters</div>
+              <p>Imagine you run a single-cell RNA-seq experiment on sorghum root cells in January, then repeat it six months later to add more samples. Both runs measure the same cell types — but the two datasets will look different, not because biology changed, but because of technical variation. This is a <strong>batch effect</strong>.</p>
+              <p>A batch is any group of samples processed together under the same conditions. When you compare batches, you are comparing biology <em>mixed with</em> technical noise. Integration is the process of separating them.</p>
+            </div>
+
+            <p>In single-cell RNA-seq, a <strong>batch effect</strong> is systematic non-biological variation introduced by the experimental process itself. Two cells of the same type, captured in different batches, will show measurable gene expression differences — even though biologically they should look the same.</p>
+
+            <p>The effect is so powerful that if you naively merge two datasets and run PCA, the major axes of variation will often reflect batch, not cell type. Clusters will separate by sample of origin rather than by biological identity.</p>
+
+            <!-- Concept diagram -->
+            <div class="concept-diagram">
+              <div class="diagram-title">Batch Effect — Before Integration</div>
+              <div class="diagram-row">
+                <div class="diagram-box d-batch1">Batch 1<br/><small>Lab A, Jan 2024</small></div>
+                <div class="diagram-box d-batch2">Batch 2<br/><small>Lab B, Jun 2024</small></div>
+                <div class="diagram-box d-batch3">Batch 3<br/><small>Lab A, 10x v3.1</small></div>
+              </div>
+              <div style="color:#5a7a65; font-size:13px; font-family:'DM Mono',monospace; margin-top:8px;">
+                → Naive merge: clusters by batch, not cell type ✗
+              </div>
+              <div class="diagram-title" style="margin-top:20px;">After Seurat Integration</div>
+              <div class="diagram-row">
+                <div class="diagram-box d-anchor">MNN Anchors<br/><small>cross-batch</small></div>
+                <div class="d-arrow">→</div>
+                <div class="diagram-box d-integrated">Integrated Embedding<br/><small>clusters by biology ✓</small></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 2 ─────────────────────────────────── -->
+          <section id="why-dangerous">
+            <h2>Why Batch Effects Are Dangerous</h2>
+
+            <p>Batch effects are not just noise — they can generate completely false biological conclusions. Consider what happens without correction:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr>
+                  <th>What you see</th>
+                  <th>What it actually is</th>
+                  <th>Consequence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>A cluster unique to Batch 1</td>
+                  <td>All batches have this cell type, but at different positions</td>
+                  <td>False novel cell type discovery</td>
+                </tr>
+                <tr>
+                  <td>Gene X upregulated in "cluster A"</td>
+                  <td>Gene X is higher in Batch 2 overall (technical)</td>
+                  <td>False differential expression</td>
+                </tr>
+                <tr>
+                  <td>Condition-specific cluster</td>
+                  <td>Condition and batch are confounded</td>
+                  <td>Cannot disentangle treatment from protocol</td>
+                </tr>
+                <tr>
+                  <td>Trajectory from state A → B</td>
+                  <td>Trajectory is from batch 1 → batch 2</td>
+                  <td>Entirely fabricated pseudotime biology</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="warn">
+              <span class="warn-icon">⚠️</span>
+              <p>The 2022 <em>Nature Methods</em> benchmarking study (Luecken et al.) showed that uncorrected batch effects inflate the apparent number of cell types by 20–40% in typical multi-sample studies. Every major scRNA-seq paper now includes an integration step.</p>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 3 ─────────────────────────────────── -->
+          <section id="sources">
+            <h2>Common Sources in scRNA-seq</h2>
+
+            <div class="explain-box">
+              <div class="eb-title">🌱 Sorghum field context</div>
+              <p>For sorghum root scRNA-seq, you would encounter batch effects from: different tissue dissociation protocols across growth chambers, 10x Chromium kit version upgrades between time points, varying cell capture efficiencies in drought vs. well-watered samples, and different RNA extraction timing across biological replicates. All of these create technical differences that need correction before you can compare cell type proportions between conditions.</p>
+            </div>
+
+            <p>Batch effects originate from nearly every step in the scRNA-seq workflow:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Source</th><th>What varies</th><th>Impact magnitude</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Library prep kit version</td><td>10x v2 vs v3 vs v3.1 — different capture chemistry</td><td>🔴 Very high</td></tr>
+                <tr><td>Sequencing depth</td><td>5,000 vs 20,000 reads per cell</td><td>🟡 High</td></tr>
+                <tr><td>Sample handling time</td><td>30 min vs 3 h from harvest to capture</td><td>🟡 High</td></tr>
+                <tr><td>Operator / lab</td><td>Different people, pipettes, reagent lots</td><td>🟠 Medium-High</td></tr>
+                <tr><td>Sequencing run</td><td>NovaSeq lane, date, machine</td><td>🟠 Medium</td></tr>
+                <tr><td>Cell doublet rate</td><td>Different loading densities</td><td>🟡 Medium</td></tr>
+                <tr><td>Alignment reference version</td><td>STAR with genome v3 vs v4</td><td>🟢 Low-Medium</td></tr>
+                <tr><td>Biological replicate</td><td>True biological variation — should NOT be removed</td><td>⬜ Keep it!</td></tr>
+              </tbody>
+            </table>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>The last row is critical. Integration removes technical batch effects — it should <strong>not</strong> remove true biological variation between conditions or replicates. This is why you integrate samples within a condition before comparing across conditions, not across them.</p>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 4 ─────────────────────────────────── -->
+          <section id="strategies">
+            <h2>Integration Strategies</h2>
+
+            <p>The field has developed many integration methods. Here is a comparison of the major approaches you will encounter:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Method</th><th>Approach</th><th>Strengths</th><th>Weaknesses</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Seurat CCA<br/>(Modules 26–4)</td>
+                  <td>CCA projection + MNN anchors + weighted correction</td>
+                  <td>Excellent for same tissue, different labs; interpretable</td>
+                  <td>Slow for &gt;200k cells; can over-correct</td>
+                </tr>
+                <tr>
+                  <td>Harmony<br/>(Lesson 5)</td>
+                  <td>Iterative linear correction in PCA space</td>
+                  <td>Very fast; scales to millions of cells</td>
+                  <td>Less powerful for large batch effects</td>
+                </tr>
+                <tr>
+                  <td>scVI / scANVI</td>
+                  <td>Variational autoencoder (deep learning)</td>
+                  <td>Handles complex non-linear batch structures</td>
+                  <td>GPU recommended; harder to interpret</td>
+                </tr>
+                <tr>
+                  <td>BBKNN</td>
+                  <td>Batch-balanced k-nearest neighbours graph</td>
+                  <td>Simple; works directly on kNN graph</td>
+                  <td>No corrected expression values</td>
+                </tr>
+                <tr>
+                  <td>ComBat</td>
+                  <td>Linear model correction (from bulk RNA-seq)</td>
+                  <td>Familiar; good for known batch variables</td>
+                  <td>Assumes linear batch structure; outdated for scRNA-seq</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>In this module you will learn <strong>Seurat CCA integration</strong> (Lessons 2–4) and <strong>Harmony</strong> (Lesson 5) — the two most commonly used methods in the published plant single-cell literature.</p>
+          </section>
+
+          <!-- ─── SECTION 5 ─────────────────────────────────── -->
+          <section id="seurat-framework">
+            <h2>Seurat's CCA Framework</h2>
+
+            <div class="explain-box">
+              <div class="eb-title">📐 What is CCA?</div>
+              <p><strong>Canonical Correlation Analysis (CCA)</strong> finds linear combinations of genes in two datasets that are maximally correlated. Think of it as PCA, but instead of finding directions of maximum variance within one dataset, CCA finds directions that are maximally shared between two datasets. This shared space filters out what is unique to each batch and retains what is common — the biology.</p>
+              <p>Seurat projects all datasets into this shared CCA space before looking for matching cells. This is why CCA is the foundation of the integration — it creates a dataset-agnostic space where comparison is meaningful.</p>
+            </div>
+
+            <p>Seurat's integration method, introduced by Stuart et al. (2019, <em>Cell</em>), works in three conceptual steps:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Step</th><th>What happens</th><th>R function</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1. CCA projection</td>
+                  <td>All datasets projected into shared low-dimensional space (CC dimensions)</td>
+                  <td><code>FindIntegrationAnchors()</code></td>
+                </tr>
+                <tr>
+                  <td>2. Anchor identification</td>
+                  <td>Mutual nearest neighbour (MNN) pairs found across datasets — these are biologically equivalent cells</td>
+                  <td><code>FindIntegrationAnchors()</code></td>
+                </tr>
+                <tr>
+                  <td>3. Weighted correction</td>
+                  <td>Each cell corrected using a weighted combination of its anchors; batch effect estimated and subtracted</td>
+                  <td><code>IntegrateData()</code></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>The output is a new gene expression matrix in the Seurat object (<code>assay = "integrated"</code>) where batch-driven differences have been removed and biological structure is preserved.</p>
+          </section>
+
+          <!-- ─── SECTION 6 ─────────────────────────────────── -->
+          <section id="anchors-explained">
+            <h2>Mutual Nearest Neighbours &amp; Anchors</h2>
+
+            <p>The concept of <strong>Mutual Nearest Neighbours (MNN)</strong> is the intellectual core of Seurat integration. Understanding it deeply will help you interpret the results of every integration you run.</p>
+
+            <div class="explain-box">
+              <div class="eb-title">🔗 What is an MNN anchor?</div>
+              <p>Cell A (from Batch 1) and Cell B (from Batch 2) form a <strong>mutual nearest neighbour pair</strong> if: Cell A is among the k nearest neighbours of Cell B in the CCA space, AND Cell B is among the k nearest neighbours of Cell A. The "mutual" requirement is critical — it means both cells independently nominated each other as close, making the pairing highly confident.</p>
+              <p>These pairs are called <strong>anchors</strong> because they anchor the two datasets together. The vector from A to B in CCA space is an estimate of the batch effect. Seurat uses a weighted average of all anchors near a given cell to estimate and subtract its batch effect.</p>
+            </div>
+
+            <p>Why does this work? Because biologically equivalent cells (say, a meristematic cell from sorghum root in Batch 1 and the same cell type in Batch 2) will be close to each other in CCA space even though they differ in PCA space due to batch. The CCA projection strips out the batch-specific axes, making biological similarity the dominant signal.</p>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>The quality of your integration depends heavily on anchor quality. Seurat scores each anchor (0–1) and weights corrections accordingly. You will learn how to visualise and filter anchor scores in Lesson 3. A poor anchor set — caused by insufficient shared biology between datasets — is the most common reason integration fails.</p>
+            </div>
+
+            <p>The weighting step is also important. Instead of using a single correction vector for every cell, Seurat computes a weighted average of nearby anchors, where "nearby" is defined in the CCA space. Cells that are far from any anchor get less correction — a conservative approach that prevents over-integration in regions without confident anchors.</p>
+          </section>
+
+          <!-- ─── SECTION 7 ─────────────────────────────────── -->
+          <section id="correction-math">
+            <h2>What Correction Actually Does (and Does Not Do)</h2>
+
+            <p>A very common misconception is that integration "merges" the datasets. It does not. Here is exactly what changes and what stays the same:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Aspect</th><th>Before integration</th><th>After integration</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Raw counts</td>
+                  <td>Unchanged</td>
+                  <td>Unchanged — always preserved in <code>RNA</code> assay</td>
+                </tr>
+                <tr>
+                  <td>Normalised expression</td>
+                  <td>In <code>RNA</code> assay slot</td>
+                  <td>Still in <code>RNA</code> assay; NOT overwritten</td>
+                </tr>
+                <tr>
+                  <td>Integrated expression</td>
+                  <td>Does not exist</td>
+                  <td>Created in new <code>integrated</code> assay</td>
+                </tr>
+                <tr>
+                  <td>PCA / UMAP</td>
+                  <td>Dominated by batch</td>
+                  <td>Computed on <code>integrated</code> assay; dominated by biology</td>
+                </tr>
+                <tr>
+                  <td>Clustering</td>
+                  <td>Clusters by batch</td>
+                  <td>Clusters by cell type across batches</td>
+                </tr>
+                <tr>
+                  <td>Differential expression</td>
+                  <td>Use <code>RNA</code> assay</td>
+                  <td>ALWAYS switch back to <code>RNA</code> assay for DE — never use integrated values for DE</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="warn">
+              <span class="warn-icon">⚠️</span>
+              <p>The most common mistake after integration: running <code>FindMarkers()</code> on the <code>integrated</code> assay. The integrated values are corrected for batch but are no longer on a biologically meaningful scale. Always set <code>DefaultAssay(seurat_obj) &lt;- "RNA"</code> before differential expression analysis.</p>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 8 ─────────────────────────────────── -->
+          <section id="when-not">
+            <h2>When NOT to Integrate</h2>
+
+            <p>Integration is powerful but it is not always appropriate. You should <strong>not</strong> integrate when:</p>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Situation</th><th>Why integration is wrong</th><th>Better approach</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>You want to find genes differentially expressed between conditions</td>
+                  <td>Integration removes the condition signal you want to detect</td>
+                  <td>Use batch as a covariate in the DE model (<code>~batch + condition</code>)</td>
+                </tr>
+                <tr>
+                  <td>All samples were processed identically in one run</td>
+                  <td>No batch effect exists to correct</td>
+                  <td>Merge directly and analyse</td>
+                </tr>
+                <tr>
+                  <td>Datasets come from different tissues or species</td>
+                  <td>Too few shared cell types for reliable anchors</td>
+                  <td>Analyse separately; use label transfer cautiously</td>
+                </tr>
+                <tr>
+                  <td>One batch has very low quality</td>
+                  <td>Anchors will be noisy; integration will degrade good data</td>
+                  <td>Filter or exclude the low-quality batch</td>
+                </tr>
+                <tr>
+                  <td>You are building a trajectory</td>
+                  <td>Integration can distort pseudotime ordering</td>
+                  <td>Validate trajectory with and without integration</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- ─── SECTION 9 — Reference table ─────────────────── -->
+          <section id="reference-table">
+            <h2>Quick Reference — Integration Vocabulary</h2>
+
+            <table class="cmd-table">
+              <thead>
+                <tr><th>Term</th><th>Definition</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Batch</td><td>Group of samples processed together under the same conditions</td></tr>
+                <tr><td>Batch effect</td><td>Systematic non-biological variation between batches</td></tr>
+                <tr><td>CCA</td><td>Canonical Correlation Analysis — finds shared low-dimensional space across datasets</td></tr>
+                <tr><td>MNN</td><td>Mutual Nearest Neighbour — a cell pair where each is among the other's k nearest neighbours</td></tr>
+                <tr><td>Anchor</td><td>An MNN pair used to estimate and correct the batch effect vector</td></tr>
+                <tr><td>Anchor score</td><td>Confidence score (0–1) of an anchor pair; higher = more reliable</td></tr>
+                <tr><td>Integrated assay</td><td>New assay in Seurat object containing batch-corrected expression values</td></tr>
+                <tr><td>RNA assay</td><td>Original assay with raw and normalised counts; always kept; used for DE</td></tr>
+                <tr><td>Over-integration</td><td>Removing true biological signal along with batch — a risk with too many anchors or strong correction</td></tr>
+                <tr><td>LISI score</td><td>Local Inverse Simpson's Index — metric for batch mixing quality (Lesson 6)</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- Middle ad slot -->
+          <div class="ad-slot in-feed" style="margin:32px 0;">
+            <strong>Advertisement</strong>
+            <small>Support free bioinformatics education</small>
+          </div>
+
+          <!-- ─── EXERCISES ─────────────────────────────────── -->
+          <section id="exercises">
+            <h2>Exercises</h2>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">1</div>
+                <div class="ex-title">Identify the batch variable</div>
+              </div>
+              <p>You receive a Seurat object containing sorghum root cells from three conditions: control, drought, and heat stress. Each condition was sequenced on a different day using the same 10x kit version. A UMAP shows three large clusters that correspond perfectly to the three days. Is this a batch effect? Should you integrate? Explain your reasoning.</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <p><strong>Yes, this is a batch effect.</strong> The clusters align with sequencing day, not with the biological conditions you want to study. The 10x kit version is the same, so the variation is likely from day-to-day technical variation (reagent lots, operator, ambient temperature, etc.).</p>
+                  <p><strong>Should you integrate?</strong> This is a difficult case because condition and batch are confounded — each condition was run on its own day. Integration would try to align the three datasets, but it would risk removing the condition-specific biological signal you want to detect. The better approach is to include <code>batch</code> (day) as a covariate in downstream DE models, and to validate that the batch and condition effects are separable using metrics like LISI scores and marker gene expression.</p>
+                  <p>This illustrates why experimental design matters: ideally each batch would contain cells from all conditions (using cell hashing / multiplexing), so batch and condition are not confounded.</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">2</div>
+                <div class="ex-title">MNN anchor intuition</div>
+              </div>
+              <p>Cell A from Batch 1 has its 5 nearest neighbours in CCA space as: B1, B2, B3 (all Batch 2), and A2, A3 (Batch 1). Cell B1 has its 5 nearest neighbours as: A (Batch 1), B4, B5, B6, B7 (all Batch 2). Does A–B1 form an MNN anchor? What about A–B2?</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <p><strong>A–B1 forms an MNN anchor.</strong> Cell A lists B1 among its nearest neighbours, AND Cell B1 lists Cell A among its nearest neighbours. The mutual requirement is satisfied.</p>
+                  <p><strong>A–B2 does NOT form an MNN anchor.</strong> Cell A lists B2 as a neighbour, but for A–B2 to be mutual, B2 would also need to list A among its k nearest neighbours. We are not told that B2 lists A, so we cannot confirm mutuality. The "mutual" requirement is the key filter that makes MNN anchors reliable — it eliminates one-sided proximity that could arise from outlier cells or noisy dimensions.</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">3</div>
+                <div class="ex-title">Correct assay for DE</div>
+              </div>
+              <p>After running Seurat integration on your sorghum datasets, a colleague uses the following code to find marker genes for Cluster 3. What is wrong with it? Write the corrected version.</p>
+              <div class="code-wrap">
+                <div class="code-header">
+                  <span class="code-lang">R</span>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><span class="c-comment"># Colleague's code — find markers for Cluster 3</span>
+DefaultAssay(seurat_integrated) <span class="c-kw">&lt;-</span> <span class="c-str">"integrated"</span>
+markers_c3 <span class="c-kw">&lt;-</span> <span class="c-cmd">FindMarkers</span>(
+  seurat_integrated,
+  <span class="c-flag">ident.1 =</span> <span class="c-num">3</span>,
+  <span class="c-flag">min.pct =</span> <span class="c-num">0.25</span>,
+  <span class="c-flag">logfc.threshold =</span> <span class="c-num">0.25</span>
+)</pre>
+              </div>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <p><strong>The problem:</strong> <code>DefaultAssay</code> is set to <code>"integrated"</code>. Integrated expression values are batch-corrected but no longer on a meaningful count scale — they have been transformed during correction and should not be used for differential expression. Using them will produce unreliable fold-change estimates and inflated significance values.</p>
+                  <p><strong>Corrected code:</strong></p>
+                  <div class="code-wrap">
+                    <div class="code-header">
+                      <span class="code-lang">R</span>
+                      <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                    </div>
+                    <pre><span class="c-comment"># Correct: switch to RNA assay before FindMarkers</span>
+DefaultAssay(seurat_integrated) <span class="c-kw">&lt;-</span> <span class="c-str">"RNA"</span>
+markers_c3 <span class="c-kw">&lt;-</span> <span class="c-cmd">FindMarkers</span>(
+  seurat_integrated,
+  <span class="c-flag">ident.1 =</span> <span class="c-num">3</span>,
+  <span class="c-flag">min.pct =</span> <span class="c-num">0.25</span>,
+  <span class="c-flag">logfc.threshold =</span> <span class="c-num">0.25</span>
+)</pre>
+                  </div>
+                  <p>Always use the <code>RNA</code> assay (which contains normalised log-counts) for any quantitative gene expression analysis. Use <code>integrated</code> only for dimensionality reduction (PCA → UMAP) and clustering.</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head">
+                <div class="ex-num">4</div>
+                <div class="ex-title">Choose the right integration strategy</div>
+              </div>
+              <p>You have 800,000 sorghum leaf cells across 12 samples from three growth conditions, sequenced in four batches of three samples each. Your laptop has 16 GB RAM and no GPU. Which integration method would you choose, and why?</p>
+              <details class="answer">
+                <summary>Show answer</summary>
+                <div class="answer-body">
+                  <p><strong>Choose Harmony.</strong> With 800,000 cells and limited RAM, Seurat CCA integration would be extremely slow and memory-intensive (it builds pairwise anchor sets). Harmony operates on a pre-computed PCA embedding, making it dramatically faster and more memory-efficient. It scales to millions of cells on a standard laptop.</p>
+                  <p>Since you have four batches with three samples each (a relatively balanced and well-distributed batch structure), Harmony's linear correction in PCA space is likely sufficient — the batch effect is unlikely to require the more complex non-linear correction that scVI provides.</p>
+                  <p>If you needed deeper integration (e.g., combining tissues or species) or had GPU access, scVI would be the next consideration. For this practical scenario: <strong>Harmony is the right tool.</strong></p>
+                </div>
+              </details>
+            </div>
+
+          </section>
+
+          <!-- Mark complete -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="mc-btn" onclick="markComplete()">
+              ✓ Mark Lesson 1 Complete
+            </button>
+          </div>
+
+        </div><!-- /.prose -->
+      </div><!-- /.wrap -->
+    </div><!-- /.article -->
+
+    <!-- Bottom ad slot -->
+    <div class="wrap" style="padding:8px 32px 40px; display:flex; justify-content:center;">
+      <div class="ad-slot rectangle" style="max-width:340px; width:100%;">
+        <strong>Advertisement</strong>
+        <small>shopnilacademy.com</small>
+      </div>
+    </div>
+
+    <!-- Lesson nav footer -->
+    <div class="lesson-nav-footer">
+      <span style="color:var(--muted); font-size:14px;">← Start of module</span>
+      <a href="lesson-2.html">Next: Multi-Sample Seurat Objects →</a>
+    </div>
+
+  </main><!-- /.lesson-main -->
+</div><!-- /.lesson-shell -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="../../index.html" class="logo" style="margin-bottom:0;">
+          <img src="../../assets/logo.png" alt="Shopnil Academy" style="width:44px;height:44px;" />
+          <div class="logo-text">
+            <strong>Shopnil Academy</strong>
+            <small>FREE BIOINFORMATICS EDUCATION</small>
+          </div>
+        </a>
+        <p class="foot-about">A free, open bioinformatics curriculum built by a plant genomics researcher, for the next generation of computational biologists.</p>
+        <div class="foot-social">
+          <a href="https://github.com/shajedurhossain" target="_blank" rel="noopener" aria-label="GitHub">⌥</a>
+          <a href="https://orcid.org/0000-0003-4845-3802" target="_blank" rel="noopener" aria-label="ORCID">ID</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Curriculum</h4>
+        <ul>
+          <li><a href="../../courses.html">All Courses</a></li>
+          <li><a href="../../courses.html#phase1">Phase 1 — Foundations</a></li>
+          <li><a href="../../courses.html#phase2">Phase 2 — Core Tools</a></li>
+          <li><a href="../../courses.html#phase3">Phase 3 — Advanced</a></li>
+          <li><a href="../../courses.html#phase4">Phase 4 — Single Cell</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>This Module</h4>
+        <ul>
+          <li><a href="lesson-1.html">Lesson 1 — Batch Effects</a></li>
+          <li><a href="lesson-2.html">Lesson 2 — Multi-Sample Objects</a></li>
+          <li><a href="lesson-3.html">Lesson 3 — FindIntegrationAnchors</a></li>
+          <li><a href="lesson-4.html">Lesson 4 — IntegrateData</a></li>
+          <li><a href="lesson-5.html">Lesson 5 — Harmony</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://satijalab.org/seurat/" target="_blank" rel="noopener">Seurat Documentation</a></li>
+          <li><a href="https://github.com/immunogenomics/harmony" target="_blank" rel="noopener">Harmony on GitHub</a></li>
+          <li><a href="https://github.com/shajedurhossain" target="_blank" rel="noopener">GitHub: shajedurhossain</a></li>
+          <li><a href="../../about.html">About Shajedur</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="../../index.html">Home</a></li>
+          <li><a href="../../about.html">About</a></li>
+          <li><a href="../../blog.html">Blog</a></li>
+          <li><a href="../../privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2024 Shopnil Academy · shopnilacademy.com</span>
+      <span>Built with ❤️ for open science</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════════════════════ -->
+<script>
+  /* ── NAV TOGGLE ───────────────────────────────────────────── */
+  const navLinks = document.querySelector('.nav-links');
+
+  /* ── MODULE ACCORDION ─────────────────────────────────────── */
+  function toggleMod(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  /* ── COPY CODE ────────────────────────────────────────────── */
+  function copyCode(btn) {
+    const pre = btn.closest('.code-wrap').querySelector('pre');
+    navigator.clipboard.writeText(pre.innerText).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    });
+  }
+
+  /* ── PROGRESS BAR ─────────────────────────────────────────── */
+  const STORAGE_KEY = 'sa_seurat_integ_done';
+  const TOTAL = 10;
+
+  function getDone() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function updateProgress() {
+    const done = getDone();
+    const pct = Math.round((done.length / TOTAL) * 100);
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = done.length + ' / ' + TOTAL;
+
+    // Mark completed lesson links
+    document.querySelectorAll('.lesson-link').forEach(link => {
+      const id = link.dataset.id;
+      if (done.includes(id)) {
+        link.classList.add('done');
+        link.querySelector('.l-icon').textContent = '✓';
+      }
+    });
+
+    // Mark complete button state
+    const btn = document.getElementById('mc-btn');
+    if (done.includes('l1')) {
+      btn.textContent = '✓ Lesson 1 Complete';
+      btn.classList.add('done');
+    }
+  }
+
+  function markComplete() {
+    const done = getDone();
+    if (!done.includes('l1')) {
+      done.push('l1');
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(done));
+    }
+    updateProgress();
+  }
+
+  /* ── ACTIVE TOC ───────────────────────────────────────────── */
+  const tocLinks = document.querySelectorAll('.page-toc a');
+  const sections = document.querySelectorAll('.prose section[id]');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector('.page-toc a[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  /* ── INIT ─────────────────────────────────────────────────── */
+  updateProgress();
+</script>
+
+</body>
+</html>

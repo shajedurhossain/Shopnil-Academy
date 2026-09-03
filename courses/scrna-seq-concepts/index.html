@@ -104,6 +104,21 @@
   .cta-bar-inner p { font-size: 15px; color: var(--ink); flex: 1; min-width: 260px; }
   .cta-bar-inner p strong { color: var(--green); }
 
+  /* Lessons */
+  .lessons-section { padding: 60px 0; }
+  .les-list { display: flex; flex-direction: column; gap: 8px; margin-top: 28px; }
+  .les-row { display: grid; grid-template-columns: 44px 1fr auto; gap: 16px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; }
+  a.les-row:hover { border-color: var(--green); transform: translateX(3px); }
+  .les-num { font-family: var(--font-display); font-weight: 700; font-size: 15px; color: var(--green); background: var(--green-soft); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+  .les-body { display: flex; flex-direction: column; gap: 3px; }
+  .les-body .les-title { display: block; font-weight: 600; font-size: 15.5px; line-height: 1.35; }
+  .les-body .les-focus { display: block; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .les-tag { font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+  .les-tag.live { background: var(--green); color: #fff; }
+  .les-tag.soon { background: var(--cream); color: var(--muted); border: 1px solid var(--line); }
+  .les-row.locked { opacity: .72; }
+  @media(max-width:600px){ .les-row { grid-template-columns: 36px 1fr; } .les-tag { display: none; } }
+
   @media(max-width:760px){
     .coming-card { grid-template-columns: 1fr; }
     .coming-weeks { display: none; }
@@ -156,6 +171,7 @@
       <div class="mod-stat"><span class="val">FREE</span><span class="lbl">Always</span></div>
     </div>
     <div class="hero-cta">
+      <a href="lesson-1.html" class="btn-gold">Start Lesson 1 →</a>
       <a href="../bioinformatics-curriculum.html#phase4" class="btn-ghost-white">View in curriculum →</a>
     </div>
   </div>
@@ -172,6 +188,29 @@
       <div class="topic-chip">Sparse matrices</div>
       <div class="topic-chip">AnnData structure</div>
       <div class="topic-chip">Seurat object</div>
+      <div class="topic-chip">UMIs &amp; barcoding</div>
+      <div class="topic-chip">MEX · H5AD · RDS</div>
+      <div class="topic-chip">Doublets &amp; ambient RNA</div>
+    </div>
+  </div>
+</section>
+
+<!-- Lessons -->
+<section class="lessons-section">
+  <div class="wrap">
+    <span class="eyebrow">Curriculum</span>
+    <h2 style="margin-top: 10px; font-size: clamp(24px, 3vw, 34px);">10 lessons in this module</h2>
+    <div class="les-list">
+      <a class="les-row" href="lesson-1.html"><span class="les-num">1</span><span class="les-body"><span class="les-title">What is Single-Cell RNA-seq?</span><span class="les-focus">Bulk vs single-cell, why scRNA-seq, biological questions it answers, cell heterogeneity</span></span><span class="les-tag live">Live</span></a>
+      <div class="les-row locked"><span class="les-num">2</span><span class="les-body"><span class="les-title">How scRNA-seq Works: The Wet Lab</span><span class="les-focus">Dissociation, droplet/microfluidics, barcoding, UMIs, library prep overview</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">3</span><span class="les-body"><span class="les-title">The Count Matrix</span><span class="les-focus">Cells × genes matrix, what counts mean, sparsity, why zeros dominate</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">4</span><span class="les-body"><span class="les-title">Raw Data Formats: FASTQ &amp; BAM</span><span class="les-focus">scRNA-seq FASTQ structure, barcode+UMI reads, CB/UB BAM tags</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">5</span><span class="les-body"><span class="les-title">Cell Ranger &amp; Alevin: Quantification</span><span class="les-focus">Running Cell Ranger count, STARsolo basics, output folder structure</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">6</span><span class="les-body"><span class="les-title">The MEX Format (matrix.mtx, barcodes, features)</span><span class="les-focus">Market Exchange Format, reading with Python/R, sparse matrices</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">7</span><span class="les-body"><span class="les-title">The H5AD Format (AnnData)</span><span class="les-focus">AnnData object anatomy, .obs, .var, .X, .obsm, reading/writing h5ad</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">8</span><span class="les-body"><span class="les-title">The RDS / SingleCellExperiment Format</span><span class="les-focus">SCE object in R, colData, rowData, assays, converting to Seurat</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">9</span><span class="les-body"><span class="les-title">Quality Metrics &amp; Ambient RNA</span><span class="les-focus">nFeature, nCount, % mitochondrial, doublets, EmptyDrops concept</span></span><span class="les-tag soon">Soon</span></div>
+      <div class="les-row locked"><span class="les-num">10</span><span class="les-body"><span class="les-title">Capstone: Inspect a Real Dataset</span><span class="les-focus">Download 10x PBMC 3k, load MEX → AnnData, basic QC plot, save h5ad</span></span><span class="les-tag soon">Soon</span></div>
     </div>
   </div>
 </section>
@@ -191,7 +230,7 @@
   <div class="wrap">
     <div class="coming-card">
       <div>
-        <h2>Lessons are on their way.</h2>
+        <h2>Lesson 1 is live. The rest are on their way.</h2>
         <p>We're building this module carefully — every lesson comes with exercises, datasets, and a GitHub repository you push as proof of skill. Sign up to be notified the moment it goes live.</p>
         <form class="notify-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; this.querySelector('button').textContent='✓ You're on the list';">
           <input type="email" placeholder="your@email.com" required />
