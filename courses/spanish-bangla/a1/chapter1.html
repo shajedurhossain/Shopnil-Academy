@@ -2552,6 +2552,7 @@ var SK={prog:'es_prog',streak:'es_streak',xp:'es_xp',srs:'es_srs',lastDay:'es_la
 
 // ===== TTS =====
 var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='es';
 var _SPEECH_LANG='es-ES';
 function fnv1a(s){
@@ -2565,7 +2566,7 @@ function fnv1a(s){
 }
 function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
   var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
