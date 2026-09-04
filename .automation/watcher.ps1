@@ -5,24 +5,16 @@
 $WatchFolder    = "E:\SA"
 $RepoFolder     = "G:\My Drive\Shopnil-Academy"
 $LogFile        = Join-Path $PSScriptRoot "watcher.log"
-$PidFile        = Join-Path $PSScriptRoot "watcher.pid"
 $RepoIgnoreDirs = @('.git', '.automation')
 
-# --- Single-instance guard ----------------------------------------------------
-# If another instance is already running, exit immediately.
+# --- Single-instance guard (named mutex — atomic, no race condition) ----------
 
-if (Test-Path $PidFile) {
-    $oldPid = Get-Content $PidFile -ErrorAction SilentlyContinue
-    if ($oldPid -and (Get-Process -Id $oldPid -ErrorAction SilentlyContinue)) {
-        Write-Host "Watcher already running (PID $oldPid). Exiting." -ForegroundColor Yellow
-        exit 0
-    }
-}
-$PID | Set-Content $PidFile
-
-# Clean up PID file on exit
-$null = Register-EngineEvent -SourceIdentifier PowerShell.Exiting -Action {
-    Remove-Item $PidFile -Force -ErrorAction SilentlyContinue
+$mutex = New-Object System.Threading.Mutex($false, "Global\ShopnilAcademyWatcher")
+$acquired = $mutex.WaitOne(0)
+if (-not $acquired) {
+    Write-Host "Watcher is already running. Close the other window first." -ForegroundColor Yellow
+    Start-Sleep -Seconds 3
+    exit 0
 }
 
 # --- Logging ------------------------------------------------------------------
