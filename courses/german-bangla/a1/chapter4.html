@@ -2311,6 +2311,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='de';
 var _SPEECH_LANG='de-DE';
 
@@ -2318,22 +2320,18 @@ function fnv1a(s){
   var enc=new TextEncoder();
   var bytes=enc.encode(s);
   var h=2166136261;
-  for(var i=0;i<bytes.length;i++){
-    h=h^bytes[i];
-    h=Math.imul(h,16777619)>>>0;
-  }
-  var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
-  return hex;
+  for(var i=0;i<bytes.length;i++){h=h^bytes[i];h=Math.imul(h,16777619)>>>0;}
+  var hex=h.toString(16);while(hex.length<8){hex='0'+hex;}return hex;
 }
 
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     }else{
       console.warn('Audio not found: '+src);
@@ -2999,14 +2997,14 @@ var _maleNames = [
 ];
 
 function _isFemale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
   for (var i = 0; i < _femaleNames.length; i++) {
     if (n.indexOf(_femaleNames[i]) >= 0) return true;
   }
   return false;
 }
 function _isMale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
   for (var i = 0; i < _maleNames.length; i++) {
     if (n.indexOf(_maleNames[i]) >= 0) return true;
   }
@@ -3054,24 +3052,22 @@ function _getVoice(female) {
   }
 }
 function _speakLine(text, female, onEnd) {
-  var done = false;
-  function fin(){ if (done) return; done = true; (onEnd || function(){})(); }
-  var src = '/audio/' + _AUDIO_LANG + '/' + fnv1a(text) + '.mp3';
-  var a = new Audio(src);
-  a.onended = fin;
-  a.play().catch(function(){
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      var utt = new SpeechSynthesisUtterance(text);
-      utt.lang = _SPEECH_LANG;
-      utt.pitch = female ? 1.2 : 0.6;
-      utt.rate = female ? 0.88 : 0.82;
-      var v = _getVoice(female);
-      if (v) utt.voice = v;
-      utt.onend = fin;
-      window.speechSynthesis.speak(utt);
-    } else { console.warn('Audio missing: ' + src); fin(); }
-  });
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.pitch = female ? 1.2 : 0.6;
+    utt.rate = female ? 0.88 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+    var a=new Audio(src);
+    a.onended=onEnd||function(){};
+    a.play();
+  }
 }
 
 function _playLines(lines, idx) {
@@ -3300,24 +3296,24 @@ function _getVoice(female) {
 }
 
 function _speakLine(text, female, onEnd) {
-  var done = false;
-  function fin(){ if (done) return; done = true; (onEnd || function(){})(); }
-  var src = '/audio/' + _AUDIO_LANG + '/' + fnv1a(text) + '.mp3';
-  var a = new Audio(src);
-  a.onended = fin;
-  a.play().catch(function(){
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      var utt = new SpeechSynthesisUtterance(text);
-      utt.lang = _SPEECH_LANG;
-      utt.pitch = female ? 1.2 : 0.6;
-      utt.rate = female ? 0.88 : 0.82;
-      var v = _getVoice(female);
-      if (v) utt.voice = v;
-      utt.onend = fin;
-      window.speechSynthesis.speak(utt);
-    } else { console.warn('Audio missing: ' + src); fin(); }
-  });
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.rate = 0.9;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    // pitch: female slightly higher
+    utt.pitch = female ? 1.2 : 0.8;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    // fallback Google TTS
+    var url='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+    var a = new Audio(url);
+    a.onended = onEnd || function(){};
+    a.play();
+  }
 }
 
 function _playLines(lines, idx) {

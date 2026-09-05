@@ -3111,6 +3111,8 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 </div><!-- end app-body -->
 
 <script>
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='de';
 var _SPEECH_LANG='de-DE';
 
@@ -3118,22 +3120,18 @@ function fnv1a(s){
   var enc=new TextEncoder();
   var bytes=enc.encode(s);
   var h=2166136261;
-  for(var i=0;i<bytes.length;i++){
-    h=h^bytes[i];
-    h=Math.imul(h,16777619)>>>0;
-  }
-  var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
-  return hex;
+  for(var i=0;i<bytes.length;i++){h=h^bytes[i];h=Math.imul(h,16777619)>>>0;}
+  var hex=h.toString(16);while(hex.length<8){hex='0'+hex;}return hex;
 }
 
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     }else{
       console.warn('Audio not found: '+src);
@@ -3250,30 +3248,30 @@ function makeListenPlayer(id,script){
   };
 }
 var playL1listen=makeGenderedPlayer('l1l',[
-    {speaker:'Lena',text:'Was trägst du heute?',female:true},
+    {speaker:'Lena',text:'Was tr&#xe4;gst du heute?',female:true},
     {speaker:'Ali',text:'Ich trage ein blaues Hemd und eine schwarze Hose.',female:false},
     {speaker:'Lena',text:'Das sieht toll aus! Und deine Jacke?',female:true},
     {speaker:'Ali',text:'Die Jacke ist neu. Ich habe sie gestern gekauft.',female:false},
     {speaker:'Lena',text:'Wo hast du sie gekauft?',female:true},
-    {speaker:'Ali',text:'Im Kaufhaus in der Stadtmitte. Sie hat fünfzig Euro gekostet.',female:false}
+    {speaker:'Ali',text:'Im Kaufhaus in der Stadtmitte. Sie hat f&#xfc;nfzig Euro gekostet.',female:false}
   ]);
 var playL2listen=makeGenderedPlayer('l2l',[
-    {speaker:'Verkäuferin',text:'Kann ich Ihnen helfen?',female:true},
-    {speaker:'Kundin',text:'Ja, ich suche eine Jacke in Blau oder Grün.',female:true},
-    {speaker:'Verkäuferin',text:'Welche Größe haben Sie?',female:true},
-    {speaker:'Kundin',text:'Größe M, bitte. Manchmal auch L.',female:true},
-    {speaker:'Verkäuferin',text:'Diese blaue Jacke hier ist sehr schön. Und sie ist im Angebot — nur vierzig Euro.',female:true},
-    {speaker:'Kundin',text:'Oh, die gefällt mir! Kann ich sie anprobieren?',female:true},
-    {speaker:'Verkäuferin',text:'Natürlich! Die Umkleidekabinen sind dort drüben.',female:true}
+    {speaker:'Verk&#xe4;uferin',text:'Kann ich Ihnen helfen?',female:true},
+    {speaker:'Kundin',text:'Ja, ich suche eine Jacke in Blau oder Gr&#xfc;n.',female:true},
+    {speaker:'Verk&#xe4;uferin',text:'Welche Gr&#xf6;&#xdf;e haben Sie?',female:true},
+    {speaker:'Kundin',text:'Gr&#xf6;&#xdf;e M, bitte. Manchmal auch L.',female:true},
+    {speaker:'Verk&#xe4;uferin',text:'Diese blaue Jacke hier ist sehr sch&#xf6;n. Und sie ist im Angebot — nur vierzig Euro.',female:true},
+    {speaker:'Kundin',text:'Oh, die gef&#xe4;llt mir! Kann ich sie anprobieren?',female:true},
+    {speaker:'Verk&#xe4;uferin',text:'Nat&#xfc;rlich! Die Umkleidekabinen sind dort dr&#xfc;ben.',female:true}
   ]);
 var playL3listen=makeGenderedPlayer('l3l',[
-    {speaker:'Verkäufer',text:'Guten Tag! Kann ich Ihnen helfen?',female:false},
-    {speaker:'Kunde',text:'Ja, ich möchte diese Hose anprobieren. Haben Sie sie in Größe L?',female:false},
-    {speaker:'Verkäufer',text:'Einen Moment bitte... Ja, hier ist die Hose in Größe L. Die Umkleidekabinen sind rechts.',female:false},
+    {speaker:'Verk&#xe4;ufer',text:'Guten Tag! Kann ich Ihnen helfen?',female:false},
+    {speaker:'Kunde',text:'Ja, ich m&#xf6;chte diese Hose anprobieren. Haben Sie sie in Gr&#xf6;&#xdf;e L?',female:false},
+    {speaker:'Verk&#xe4;ufer',text:'Einen Moment bitte... Ja, hier ist die Hose in Gr&#xf6;&#xdf;e L. Die Umkleidekabinen sind rechts.',female:false},
     {speaker:'Kunde',text:'Danke. — Die Hose passt gut, aber sie ist ein bisschen zu lang.',female:false},
-    {speaker:'Verkäufer',text:'Kein Problem. Wir können sie kürzen. Das kostet fünf Euro extra.',female:false},
+    {speaker:'Verk&#xe4;ufer',text:'Kein Problem. Wir k&#xf6;nnen sie k&#xfc;rzen. Das kostet f&#xfc;nf Euro extra.',female:false},
     {speaker:'Kunde',text:'Gut. Ich nehme sie. Wo kann ich bezahlen?',female:false},
-    {speaker:'Verkäufer',text:'Die Kasse ist dort drüben, links neben dem Ausgang.',female:false}
+    {speaker:'Verk&#xe4;ufer',text:'Die Kasse ist dort dr&#xfc;ben, links neben dem Ausgang.',female:false}
   ]);
 var playL4listen=makeGenderedPlayer('l4l',[
     {speaker:'Mia',text:'Schau mal, ich habe heute zwei neue Sachen gekauft!',female:true},
@@ -3282,36 +3280,36 @@ var playL4listen=makeGenderedPlayer('l4l',[
     {speaker:'Tom',text:'Wie viel hat der rote Pullover gekostet?',female:false},
     {speaker:'Mia',text:'Er hat dreißig Euro gekostet. Nicht teuer, oder? Und die schwarze Hose war auch billig — nur zwanzig Euro.',female:true},
     {speaker:'Tom',text:'Toll! Ich brauche auch einen neuen Pullover. Meiner ist zu eng geworden.',female:false},
-    {speaker:'Mia',text:'Dann komm morgen mit mir shoppen! Das Geschäft hat viele schöne Sachen.',female:true}
+    {speaker:'Mia',text:'Dann komm morgen mit mir shoppen! Das Gesch&#xe4;ft hat viele sch&#xf6;ne Sachen.',female:true}
   ]);
 var playL5listen=makeGenderedPlayer('l5l',[
-    {speaker:'Sara',text:'Schau, ich habe zwei Kleider gefunden. Welches gefällt dir besser?',female:true},
-    {speaker:'Lena',text:'Das rote ist schöner als das blaue, finde ich. Aber das blaue ist billiger.',female:true},
+    {speaker:'Sara',text:'Schau, ich habe zwei Kleider gefunden. Welches gef&#xe4;llt dir besser?',female:true},
+    {speaker:'Lena',text:'Das rote ist sch&#xf6;ner als das blaue, finde ich. Aber das blaue ist billiger.',female:true},
     {speaker:'Sara',text:'Wie viel kostet das rote?',female:true},
-    {speaker:'Lena',text:'Fünfundsechzig Euro. Das blaue kostet nur vierzig Euro.',female:true},
-    {speaker:'Sara',text:'Hmm. Das rote ist wirklich schöner, aber auch viel teurer. Ich glaube, ich nehme das blaue.',female:true},
+    {speaker:'Lena',text:'F&#xfc;nfundsechzig Euro. Das blaue kostet nur vierzig Euro.',female:true},
+    {speaker:'Sara',text:'Hmm. Das rote ist wirklich sch&#xf6;ner, aber auch viel teurer. Ich glaube, ich nehme das blaue.',female:true},
     {speaker:'Lena',text:'Gute Entscheidung! Das blaue steht dir auch sehr gut.',female:true}
   ]);
 var playL6listen=makeGenderedPlayer('l6l',[
     {speaker:'Felix',text:'Kaufst du oft neue Kleidung?',female:false},
     {speaker:'Aisha',text:'Nein, nicht so oft. Ich kaufe lieber Second-Hand, weil es nachhaltiger ist.',female:true},
     {speaker:'Felix',text:'Interessant! Wo kaufst du Second-Hand?',female:false},
-    {speaker:'Aisha',text:'Meistens auf dem Flohmarkt oder in Second-Hand-Läden. In Berlin gibt es viele davon.',female:true},
+    {speaker:'Aisha',text:'Meistens auf dem Flohmarkt oder in Second-Hand-L&#xe4;den. In Berlin gibt es viele davon.',female:true},
     {speaker:'Felix',text:'Und findest du immer gute Sachen?',female:false},
-    {speaker:'Aisha',text:'Ja, manchmal! Letzte Woche habe ich eine tolle Lederjacke für nur fünfzehn Euro gefunden. Neu hätte sie bestimmt hundert Euro gekostet!',female:true},
-    {speaker:'Felix',text:'Wow, das ist wirklich günstig. Ich sollte auch mal einen Flohmarkt besuchen.',female:false}
+    {speaker:'Aisha',text:'Ja, manchmal! Letzte Woche habe ich eine tolle Lederjacke f&#xfc;r nur f&#xfc;nfzehn Euro gefunden. Neu h&#xe4;tte sie bestimmt hundert Euro gekostet!',female:true},
+    {speaker:'Felix',text:'Wow, das ist wirklich g&#xfc;nstig. Ich sollte auch mal einen Flohmarkt besuchen.',female:false}
   ]);
 var playL7listen=makeGenderedPlayer('l7l',[
-    {speaker:'Kunde',text:'Guten Tag. Ich möchte diese Jacke zurückgeben.',female:false},
-    {speaker:'Verkäuferin',text:'Was ist das Problem?',female:true},
-    {speaker:'Kunde',text:'Sie passt leider nicht. Ich habe Größe M gekauft, aber sie ist zu klein für mich. Ich brauche Größe L.',female:false},
-    {speaker:'Verkäuferin',text:'Haben Sie den Kassenbon dabei?',female:true},
+    {speaker:'Kunde',text:'Guten Tag. Ich m&#xf6;chte diese Jacke zur&#xfc;ckgeben.',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Was ist das Problem?',female:true},
+    {speaker:'Kunde',text:'Sie passt leider nicht. Ich habe Gr&#xf6;&#xdf;e M gekauft, aber sie ist zu klein f&#xfc;r mich. Ich brauche Gr&#xf6;&#xdf;e L.',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Haben Sie den Kassenbon dabei?',female:true},
     {speaker:'Kunde',text:'Ja, hier bitte. Ich habe die Jacke vor drei Tagen gekauft.',female:false},
-    {speaker:'Verkäuferin',text:'Kein Problem. Wir können sie in Größe L umtauschen. Einen Moment bitte... Leider haben wir Größe L gerade nicht auf Lager.',female:true},
-    {speaker:'Kunde',text:'Oh. Kann ich dann das Geld zurückbekommen?',female:false},
-    {speaker:'Verkäuferin',text:'Natürlich. Wie haben Sie bezahlt — mit Karte oder bar?',female:true},
+    {speaker:'Verk&#xe4;uferin',text:'Kein Problem. Wir k&#xf6;nnen sie in Gr&#xf6;&#xdf;e L umtauschen. Einen Moment bitte... Leider haben wir Gr&#xf6;&#xdf;e L gerade nicht auf Lager.',female:true},
+    {speaker:'Kunde',text:'Oh. Kann ich dann das Geld zur&#xfc;ckbekommen?',female:false},
+    {speaker:'Verk&#xe4;uferin',text:'Nat&#xfc;rlich. Wie haben Sie bezahlt — mit Karte oder bar?',female:true},
     {speaker:'Kunde',text:'Mit Karte.',female:false},
-    {speaker:'Verkäuferin',text:'Gut. Wir erstatten den Betrag direkt auf Ihre Karte.',female:true}
+    {speaker:'Verk&#xe4;uferin',text:'Gut. Wir erstatten den Betrag direkt auf Ihre Karte.',female:true}
   ]);
 
 // ===== LISTENING MCQ =====
@@ -3966,14 +3964,14 @@ var _maleNames = [
 ];
 
 function _isFemale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
   for (var i = 0; i < _femaleNames.length; i++) {
     if (n.indexOf(_femaleNames[i]) >= 0) return true;
   }
   return false;
 }
 function _isMale(name) {
-  var n = (name || '').toLowerCase().replace(':','').replace('ä','ä').replace('ü','ü').trim();
+  var n = (name || '').toLowerCase().replace(':','').replace('&#xe4;','ä').replace('&#xfc;','ü').trim();
   for (var i = 0; i < _maleNames.length; i++) {
     if (n.indexOf(_maleNames[i]) >= 0) return true;
   }
@@ -4021,24 +4019,22 @@ function _getVoice(female) {
   }
 }
 function _speakLine(text, female, onEnd) {
-  var done = false;
-  function fin(){ if (done) return; done = true; (onEnd || function(){})(); }
-  var src = '/audio/' + _AUDIO_LANG + '/' + fnv1a(text) + '.mp3';
-  var a = new Audio(src);
-  a.onended = fin;
-  a.play().catch(function(){
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      var utt = new SpeechSynthesisUtterance(text);
-      utt.lang = _SPEECH_LANG;
-      utt.pitch = female ? 1.2 : 0.6;
-      utt.rate = female ? 0.88 : 0.82;
-      var v = _getVoice(female);
-      if (v) utt.voice = v;
-      utt.onend = fin;
-      window.speechSynthesis.speak(utt);
-    } else { console.warn('Audio missing: ' + src); fin(); }
-  });
+  if (window.speechSynthesis) {
+    window.speechSynthesis.cancel();
+    var utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'de-DE';
+    utt.pitch = female ? 1.2 : 0.6;
+    utt.rate = female ? 0.88 : 0.82;
+    var v = _getVoice(female);
+    if (v) utt.voice = v;
+    utt.onend = onEnd || function(){};
+    window.speechSynthesis.speak(utt);
+  } else {
+    var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+    var a=new Audio(src);
+    a.onended=onEnd||function(){};
+    a.play();
+  }
 }
 
 function _playLines(lines, idx) {
