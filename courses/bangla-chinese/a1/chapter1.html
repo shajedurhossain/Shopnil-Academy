@@ -267,6 +267,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 <script>
 var SK={prog:'bn_zh_prog',streak:'bn_zh_streak',xp:'bn_zh_xp',srs:'bn_zh_srs',lastDay:'bn_zh_lastDay'};
 
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='bn';       /* target language subfolder under /audio/ */
 var _SPEECH_LANG='bn-BD';   /* Web Speech API fallback locale */
 
@@ -283,16 +284,15 @@ function fnv1a(s){
   return hex;
 }
 var curAud=null;
-function tts(text,voiceSlot){
+function tts(t,voiceSlot){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
-  curAud=a;
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      bTTS(text,voiceSlot||0);
+      bTTS(t,voiceSlot||0);
     } else {
-      console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
