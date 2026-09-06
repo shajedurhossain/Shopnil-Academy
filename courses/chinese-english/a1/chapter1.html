@@ -1043,7 +1043,25 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 // ===== STORAGE KEYS =====
 var SK={prog:'zh_en_prog',streak:'zh_en_streak',xp:'zh_en_xp',srs:'zh_en_srs',lastDay:'zh_en_lastDay'};
 
-// ===== TTS (single voice - vocab/isolated items) =====
+// ===== TTS (Shopnil Academy platform-wide audio standard) =====
+// Audio is generated once (Google Cloud TTS Chirp 3: HD) and served from
+// Cloudflare R2 via media.shopnilacademy.com, keyed by target language and
+// FNV-1a hash: https://media.shopnilacademy.com/audio/[lang]/[hash].mp3.
+// This is NOT course-specific — every course teaching the same target
+// language shares this pool, so a word generated once is reused
+// automatically. URLs are always absolute. Live TTS hotlinking (Google
+// Translate's endpoint) is never used: it 403s on real hosted sites and
+// cannot be made reliable. The Web Speech API is a last-resort fallback
+// only, and per platform policy it fails silently to the student (audio
+// or silence, never a visible error) — problems are surfaced to
+// developers via console.warn only.
+// NOTE: the actual audio files for this chapter have NOT been generated
+// or uploaded yet — that step runs generate_audio.py against Google Cloud
+// TTS and Cloudflare R2, neither of which this environment can reach.
+// This code is ready for those files as soon as they exist on R2.
+var _MEDIA_BASE='https://media.shopnilacademy.com';
+var _AUDIO_LANG='zh';
+var _SPEECH_LANG='zh-CN';
 var curAud=null;
 var zhVoices=[];
 function loadZhVoices(){
@@ -1055,33 +1073,63 @@ if(window.speechSynthesis){
   loadZhVoices();
   window.speechSynthesis.onvoiceschanged=loadZhVoices;
 }
+
+// FNV-1a 32-bit hash, verified byte-identical to the Python generator
+// used to name files on R2. Do not change this function without
+// regenerating every audio file to match.
+function fnv1a(s){
+  var enc=new TextEncoder();
+  var bytes=enc.encode(s);
+  var h=2166136261;
+  for(var i=0;i<bytes.length;i++){
+    h=h^bytes[i];
+    h=Math.imul(h,16777619)>>>0;
+  }
+  var hex=h.toString(16);
+  while(hex.length<8)hex='0'+hex;
+  return hex;
+}
+
+// Played synchronously inside the click handler that calls it, so the
+// browser's autoplay/user-gesture requirement is satisfied.
 function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var u='https://translate.google.com/translate_tts?ie=UTF-8&q='+encodeURIComponent(t)+'&tl=zh-CN&client=tw-ob';
-  var a=new Audio(u);curAud=a;
-  a.play().catch(function(){bTTS(t,0);});
-}
-function bTTS(t,speakerIdx){
-  if(!window.speechSynthesis)return;
-  window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);
-  u.lang='zh-CN';
-  var idx=speakerIdx||0;
-  if(zhVoices.length>0){
-    u.voice=zhVoices[idx%zhVoices.length];
-  }
-  if(idx%2===0){u.rate=0.85;u.pitch=1;}
-  else{u.rate=0.92;u.pitch=1.25;}
-  window.speechSynthesis.speak(u);
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
+      window.speechSynthesis.speak(u);
+    }else{
+      console.warn('Audio not found: '+src);
+    }
+  });
 }
 
 // ===== MULTI-SPEAKER DIALOGUE TTS =====
-// speakerIdx: 0,1,2... each gets a distinct voice (from zhVoices) plus a
-// distinct pitch/rate fallback so speakers stay distinguishable even when
-// the system only exposes one zh-CN voice.
+// speakerIdx 0 plays the same shared-pool file as tts(). Speaker 1+ looks
+// for a speaker-specific file hashed from text+'|spk'+idx (generated
+// with a different voice profile once a dialogue lesson needs it), so
+// speakers in a dialogue are audibly distinct. Falls back to the
+// speaker-0 file, then to a pitch/rate-offset browser voice, silently.
 function ttsSpeaker(t,speakerIdx){
+  var idx=speakerIdx||0;
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  bTTS(t,speakerIdx);
+  if(idx===0){tts(t);return;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t+'|spk'+idx)+'.mp3';
+  var a=new Audio(src);curAud=a;
+  a.onerror=function(){bSpeaker(t,idx);};
+  a.play().catch(function(){bSpeaker(t,idx);});
+}
+function bSpeaker(t,idx){
+  if(!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(t);
+  u.lang=_SPEECH_LANG;
+  if(zhVoices.length>0)u.voice=zhVoices[idx%zhVoices.length];
+  if(idx%2===0){u.rate=0.85;u.pitch=1;}else{u.rate=0.92;u.pitch=1.25;}
+  window.speechSynthesis.speak(u);
 }
 
 // ===== STREAK & XP =====
