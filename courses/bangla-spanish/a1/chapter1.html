@@ -3178,57 +3178,30 @@ function showToast(msg){
   clearTimeout(t._hideT);
   t._hideT=setTimeout(function(){t.style.opacity='0';},3200);
 }
-// ===== LOCAL PRE-GENERATED AUDIO (no live TTS dependency) =====
-// Every sound in this chapter is pre-generated and stored as a static file in audio/,
-// named by a hash of its text (matches the same hash computed in Python at build time).
-// This avoids any dependency on Google's TTS endpoint, which is not a public API and
-// frequently blocks/rejects requests from real websites -- see build notes.
-// ===== AUDIO SYSTEM (platform standard: pre-generated static files, shared by target language) =====
+// ===== AUDIO SYSTEM (platform standard: pre-generated Chirp 3 HD audio via Cloudflare R2) =====
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='bn';
 var _SPEECH_LANG='bn-BD';
 function fnv1a(s){
   var enc=new TextEncoder();
   var bytes=enc.encode(s);
   var h=2166136261;
-  for(var i=0;i<bytes.length;i++){
-    h=h^bytes[i];
-    h=Math.imul(h,16777619)>>>0;
-  }
-  var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
-  return hex;
+  for(var i=0;i<bytes.length;i++){h=h^bytes[i];h=Math.imul(h,16777619)>>>0;}
+  var hex=h.toString(16);while(hex.length<8){hex='0'+hex;}return hex;
 }
 function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var a=new Audio();
-  curAud=a;
-  var fell=false;
-  function fallback(){
-    if(fell)return;
-    fell=true;
-    clearTimeout(timeoutId);
-    console.warn('Audio file not found: '+a.src+' -- check /audio/'+_AUDIO_LANG+'/ was uploaded at the site root.');
-    bTTS(t);
-  }
-  var timeoutId=setTimeout(fallback,800);
-  a.onerror=fallback;
-  a.onplaying=function(){fell=true;clearTimeout(timeoutId);};
-  a.src='/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
-  var p=a.play();
-  if(p&&typeof p.catch==='function'){p.catch(fallback);}
-}
-function bTTS(t){
-  if(!window.speechSynthesis){
-    console.warn('No speechSynthesis available as fallback for: '+t);
-    return;
-  }
-  window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
-  var v=window.speechSynthesis.getVoices();
-  var g=null;
-  for(var i=0;i<v.length;i++){if(v[i].lang&&v[i].lang.indexOf(_AUDIO_LANG)===0){g=v[i];break;}}
-  if(g){u.voice=g;}
-  window.speechSynthesis.speak(u);
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
+  a.play().catch(function(){
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
+      window.speechSynthesis.speak(u);
+    } else {
+      console.warn('Audio not found: '+src);
+    }
+  });
 }
 if(window.speechSynthesis){
   window.speechSynthesis.getVoices();
