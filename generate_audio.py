@@ -92,7 +92,15 @@ def save_manifest(r2, rows):
     print('  Manifest updated ({0} rows)'.format(len(rows)))
 
 # ── Extract all unique TTS strings from a chapter HTML file ───────────────
-def extract_strings(fname):
+# FIX (Bug 1): now takes `lang` and matches ONLY that language's field in
+#   spData (e.g. 'ar:'), instead of matching any of the 8 language codes
+#   regardless of which one was requested. Previously this pulled in bn:/tr:
+#   fields alongside ar: on every run, no matter what --lang was passed.
+# FIX (Bug 2): now also reads the `letterAudio` map, which this course (and
+#   any course using the same single-word/letter audio pattern) stores its
+#   vocabulary/letter audio in. Previously only spData was scanned, so any
+#   course using letterAudio silently lost most of its strings.
+def extract_strings(fname, lang):
     with open(fname, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -106,11 +114,28 @@ def extract_strings(fname):
     script_m = re.search(r'<script>(.*?)</script>', content, re.S)
     if script_m:
         js = script_m.group(1)
-        # es:/de:/bn:/fr: etc fields in spData
-        for m in re.finditer(r"""(?:es|de|bn|fr|ar|zh|ru|en)\s*:\s*'((?:[^'\\]|\\.)*)'""", js):
+
+        # only the field matching the language actually requested via --lang
+        # (was: (?:es|de|bn|fr|ar|zh|ru|en) — matched every course's language
+        # fields regardless of --lang, which is what pulled in bn: alongside
+        # ar: for this course)
+        lang_field_pattern = re.escape(lang) + r"""\s*:\s*'((?:[^'\\]|\\.)*)'"""
+        for m in re.finditer(lang_field_pattern, js):
             val = m.group(1).replace("\\'", "'")
             if val.strip():
                 strings.add(val)
+
+        # letterAudio map — single words/letters, keyed by name not language
+        # code (e.g. 'w_yadhhab':'يَذْهَبُ'). Not covered by the spData
+        # pattern above at all, which is why 229 of this course's 286 real
+        # strings were previously invisible to the generator.
+        la_m = re.search(r'var letterAudio\s*=\s*\{(.*?)\n\};', js, re.S)
+        if la_m:
+            for m in re.finditer(r"""'[a-zA-Z0-9_]+'\s*:\s*'((?:[^'\\]|\\.)*)'""", la_m.group(1)):
+                val = m.group(1).replace("\\'", "'")
+                if val.strip():
+                    strings.add(val)
+
         # makeListenPlayer dialogue strings
         for m in re.finditer(
                 r"""makeListenPlayer\s*\(\s*'[^']+'\s*,\s*'((?:[^'\\]|\\.)*)'\s*\)""", js):
@@ -208,7 +233,7 @@ def main():
     print('=== Step 2: Extract TTS strings ===')
     all_strings = set()
     for fname in chapter_files:
-        s = extract_strings(fname)
+        s = extract_strings(fname, args.lang)
         print('  {0}: {1} strings'.format(os.path.basename(fname), len(s)))
         all_strings |= s
     print('  Total unique strings:', len(all_strings))
