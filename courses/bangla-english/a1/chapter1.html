@@ -1613,13 +1613,19 @@ var SK={prog:'bn_en_prog',streak:'bn_en_streak',xp:'bn_en_xp',srs:'bn_en_srs',la
 // ('m'|'f') so each speaker in a conversation is heard with a different
 // browser voice when Google TTS audio is unavailable and it falls back
 // to speechSynthesis.
+// Per-speaker voice differentiation for dialogue chapters (Ch.3+) is handled
+// server-side at generation time -- each speaker's lines are pre-generated
+// with a distinct Chirp 3: HD voice and get their own hash/file. The
+// speechSynthesis fallback below is only a last-resort for a missing file,
+// so it doesn't need its own multi-voice logic.
 var curAud=null;
-var _AUDIO_LANG='bn';      /* target-language audio subfolder */
+var _MEDIA_BASE='https://media.shopnilacademy.com';
+var _AUDIO_LANG='bn';      /* target-language audio folder on R2 */
 var _SPEECH_LANG='bn-BD';  /* Web Speech API fallback locale */
 
 // FNV-1a 32-bit hash of the UTF-8 bytes of a string, hex-encoded.
-// Must stay byte-identical to the Python generator's fnv1a() -- if you ever
-// change one, change both and regenerate the /audio/bn/ files to match.
+// Must stay byte-identical to generate_audio.py's fnv1a() -- a mismatch
+// here means silent 404s against R2.
 function fnv1a(s){
   var enc=new TextEncoder();
   var bytes=enc.encode(s);
@@ -1633,39 +1639,22 @@ function fnv1a(s){
   return hex;
 }
 
-// Plays a pre-generated static audio file (audio/<fnv1a-hash>.mp3).
+// Plays a pre-generated Chirp 3: HD audio file from Cloudflare R2.
 // Called synchronously inside the click handler so the browser allows
-// playback -- do NOT wrap this call in a timeout or async chain, or
-// browsers will silently block it since it no longer looks like it
-// originated from the user's tap.
-function tts(t,voiceHint){
+// playback -- do NOT wrap this call in a timeout or async chain.
+function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var h=fnv1a(t);
-  var src='/audio/'+_AUDIO_LANG+'/'+h+'.mp3';
-  var a=new Audio(src);
-  curAud=a;
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
-    console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
-    bTTS(t,voiceHint);
+    if(window.speechSynthesis){
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
+      window.speechSynthesis.speak(u);
+    } else {
+      console.warn('Audio not found: '+src);
+    }
   });
-}
-
-// Last-resort fallback only, used when a static audio file is missing.
-function bTTS(t,voiceHint){
-  if(!window.speechSynthesis)return;window.speechSynthesis.cancel();
-  var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.82;
-  var v=window.speechSynthesis.getVoices();
-  var g=null,i;
-  var bdVoices=[];
-  for(i=0;i<v.length;i++){if(v[i].lang&&(v[i].lang.indexOf('bn')===0)){bdVoices.push(v[i]);}}
-  if(bdVoices.length>1&&voiceHint){
-    if(voiceHint==='f'){g=bdVoices[0];}else{g=bdVoices[1];}
-  }else if(bdVoices.length>0){
-    g=bdVoices[0];
-  }
-  if(g)u.voice=g;
-  if(voiceHint==='f'){u.pitch=1.15;}else if(voiceHint==='m'){u.pitch=0.9;}
-  window.speechSynthesis.speak(u);
 }
 window.speechSynthesis&&window.speechSynthesis.getVoices&&window.speechSynthesis.getVoices();
 
