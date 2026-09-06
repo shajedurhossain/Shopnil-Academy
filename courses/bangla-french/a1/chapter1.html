@@ -1485,7 +1485,8 @@ var SK={prog:'bn_fr_prog',streak:'bn_fr_streak',xp:'bn_fr_xp',srs:'bn_fr_srs',la
 var PAGE_ORDER=['c1l1v','c1l1w','c1l1s','c1l1gr','c1l1l','c1l1rd','c1l1fw','c1l1ss','c1l1q','c1l2v','c1l2w','c1l2s','c1l2gr','c1l2l','c1l2rd','c1l2fw','c1l2ss','c1l2q','c1l3v','c1l3w','c1l3s','c1l3gr','c1l3l','c1l3rd','c1l3fw','c1l3ss','c1l3q','c1l4v','c1l4w','c1l4s','c1l4gr','c1l4l','c1l4rd','c1l4fw','c1l4ss','c1l4q','c1l5v','c1l5w','c1l5s','c1l5gr','c1l5l','c1l5rd','c1l5fw','c1l5ss','c1l5q','c1rv','c1rs','c1rq'];
 
 // ===== PLATFORM AUDIO CONFIG (per Shopnil Academy audio architecture) =====
-var _AUDIO_LANG='bn';      /* target-language code — audio lives at /audio/bn/ */
+var _MEDIA_BASE='https://media.shopnilacademy.com';
+var _AUDIO_LANG='bn';      /* target-language code — audio lives at /audio/bn/ on the CDN */
 var _SPEECH_LANG='bn-BD';  /* Web Speech API fallback locale */
 
 // ===== FNV-1a 32-bit hash (must stay byte-identical to the Python generator script) =====
@@ -1502,26 +1503,23 @@ function fnv1a(s){
   return hex;
 }
 
-// ===== TTS (pre-generated static mp3 files — no live TTS hotlinking) =====
-// Voice note: audio is generated offline with espeak-ng (Bangla), which sounds
-// noticeably robotic compared to a natural voice. This trades voice quality for
-// reliability — a live Google Translate TTS hotlink is blocked (403) on real
-// hosted websites, so it cannot be used in production. Files can be swapped for
-// higher-quality audio later under the same filenames with no code changes.
-// Fallback to Web Speech API is silent (console.warn only) per platform policy —
-// students should hear audio or silence, never an error message.
+// ===== TTS (static mp3 served from Cloudflare R2 via media.shopnilacademy.com) =====
+// Files are generated once with Google Cloud TTS Chirp 3: HD (natural voice) and
+// never regenerated if already present on R2. Fallback to Web Speech API is silent
+// (console.warn only) per platform policy — students should hear audio or silence,
+// never an error message.
 var curAud=null;
-function tts(text){
+function tts(t){
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
   var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     }else{
-      console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
@@ -1538,24 +1536,25 @@ var SPEAKER_PROFILES={
   B:{rate:1.12},
   C:{rate:0.9}
 };
-function ttsSpeaker(text,speaker,onEnded){
+function ttsSpeaker(t,speaker,onEnded){
   var prof=SPEAKER_PROFILES[speaker]||SPEAKER_PROFILES.A;
   if(curAud){curAud.pause();curAud.currentTime=0;}
   if(window.speechSynthesis)window.speechSynthesis.cancel();
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
   var a=new Audio(src);curAud=a;
   a.playbackRate=prof.rate;
-  var safetyTimer=setTimeout(function(){if(onEnded)onEnded();},Math.max(1500,text.length*220));
+  var safetyTimer=setTimeout(function(){if(onEnded)onEnded();},Math.max(1500,t.length*220));
   a.onended=function(){clearTimeout(safetyTimer);if(onEnded)onEnded();};
   a.play().catch(function(){
     clearTimeout(safetyTimer);
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);
       u.lang=_SPEECH_LANG;u.rate=0.85;u.pitch=prof.rate;
       if(onEnded){u.onend=onEnded;u.onerror=onEnded;}
       window.speechSynthesis.speak(u);
     }else{
-      console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
       if(onEnded)onEnded();
     }
   });
