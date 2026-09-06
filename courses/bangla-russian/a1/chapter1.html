@@ -2034,11 +2034,13 @@ body{height:100%;display:flex;flex-direction:column;font-family:'DM Sans','Noto 
 // ===== STORAGE KEYS =====
 var SK={prog:'bn_ru_prog',streak:'bn_ru_streak',xp:'bn_ru_xp',srs:'bn_ru_srs',lastDay:'bn_ru_lastDay'};
 
-// ===== TTS: Shopnil Academy platform-standard audio system =====
-// Per-language shared static files at /audio/[lang]/[hash].mp3 (never
-// live TTS hotlinking, never relative paths, never per-course folders).
+// ===== TTS: Shopnil Academy platform audio (R2 + Cloud TTS Chirp 3: HD) =====
+// Natural-voice audio served from Cloudflare R2 via media.shopnilacademy.com.
+// Never live TTS hotlinking, never relative/local paths.
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='bn';
 var _SPEECH_LANG='bn-BD';
+var curAud=null;
 
 function fnv1a(s){
   var enc=new TextEncoder();
@@ -2049,20 +2051,21 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
 
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     } else {
-      console.warn('Audio file not found: '+src+' \u2014 check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
@@ -2134,7 +2137,7 @@ function buildQuiz(day){
     c.appendChild(d);
   });
   var sc=document.createElement('div');
-  sc.innerHTML='<button class="btn" onclick="submitQuiz(\''+day+'\')">\u041f\u0440\u043e\u0432\u0435\u0440\u0438\u0442\u044c \U0001F3AF</button><div class="score" id="sc-'+day+'"><div class="sc-big" id="scn-'+day+'">0/'+qzData[day].length+'</div><div class="sc-lbl">\u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0445 \u043e\u0442\u0432\u0435\u0442\u043e\u0432</div><div class="sc-msg" id="scm-'+day+'"></div></div><div class="mistakes-box" id="mb-'+day+'"><div class="mistakes-hdr">\u274c \u0412\u0430\u0448\u0438 \u043e\u0448\u0438\u0431\u043a\u0438 \u2014 \u0440\u0430\u0437\u0431\u0435\u0440\u0451\u043c!</div><div id="mlist-'+day+'"></div></div>';
+  sc.innerHTML='<button class="btn" onclick="submitQuiz(\''+day+'\')">\u041f\u0440\u043e\u0432\u0435\u0440\u0438\u0442\u044c 🎯</button><div class="score" id="sc-'+day+'"><div class="sc-big" id="scn-'+day+'">0/'+qzData[day].length+'</div><div class="sc-lbl">\u043f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u044b\u0445 \u043e\u0442\u0432\u0435\u0442\u043e\u0432</div><div class="sc-msg" id="scm-'+day+'"></div></div><div class="mistakes-box" id="mb-'+day+'"><div class="mistakes-hdr">\u274c \u0412\u0430\u0448\u0438 \u043e\u0448\u0438\u0431\u043a\u0438 \u2014 \u0440\u0430\u0437\u0431\u0435\u0440\u0451\u043c!</div><div id="mlist-'+day+'"></div></div>';
   c.appendChild(sc);
 }
 function ansQ(day,qi,oi,btn){
@@ -2168,14 +2171,14 @@ function submitQuiz(day){
   var passed=pct>=60;
   if(scm){
     scm.innerHTML='';
-    if(pct>=90)scm.textContent='\U0001F3C6 \u041e\u0442\u043b\u0438\u0447\u043d\u043e! +'+correct*5+' XP';
+    if(pct>=90)scm.textContent='🏆 \u041e\u0442\u043b\u0438\u0447\u043d\u043e! +'+correct*5+' XP';
     else if(pct>=80)scm.textContent='\u2B50 \u041e\u0447\u0435\u043d\u044c \u0445\u043e\u0440\u043e\u0448\u043e! +'+correct*5+' XP';
     else if(pct>=60)scm.textContent='\u2705 \u0425\u043e\u0440\u043e\u0448\u043e! +'+correct*5+' XP';
     else{
       scm.textContent='\u274c \u041f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u0435 \u0435\u0449\u0451 \u0440\u0430\u0437! \u041d\u0443\u0436\u043d\u043e \u043c\u0438\u043d\u0438\u043c\u0443\u043c 60%, \u0443 \u0432\u0430\u0441 '+pct+'%.';
       var rb=document.createElement('button');
       rb.className='btn';rb.style.marginTop='10px';rb.style.background='#e74c3c';
-      rb.textContent='\U0001F501 \u041f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u044c';
+      rb.textContent='🔁 \u041f\u043e\u0432\u0442\u043e\u0440\u0438\u0442\u044c';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(day);
       scm.appendChild(rb);
     }
@@ -2188,7 +2191,7 @@ function submitQuiz(day){
     if(mb)mb.classList.add('show');
     if(ml){
       var htm='';
-      mistakes.forEach(function(mi){htm+='<div class="mistake-item"><div class="mi-q">'+mi.q+'</div><div class="mi-wrong">\u274c \u0412\u0430\u0448 \u043e\u0442\u0432\u0435\u0442: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e: '+mi.correct+'</div><div class="mi-tip">\U0001F4A1 '+mi.f+'</div></div>';});
+      mistakes.forEach(function(mi){htm+='<div class="mistake-item"><div class="mi-q">'+mi.q+'</div><div class="mi-wrong">\u274c \u0412\u0430\u0448 \u043e\u0442\u0432\u0435\u0442: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u041f\u0440\u0430\u0432\u0438\u043b\u044c\u043d\u043e: '+mi.correct+'</div><div class="mi-tip">💡 '+mi.f+'</div></div>';});
       ml.innerHTML=htm;
     }
   }
