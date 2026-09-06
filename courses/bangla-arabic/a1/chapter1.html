@@ -18,14 +18,6 @@ body{height:100%;display:flex;flex-direction:column;font-family:'Tajawal','Noto 
   --sb:250px;--bn:'Hind Siliguri',sans-serif;--ar:'Tajawal','Noto Naskh Arabic',sans-serif;
 }
 .site-nav{background:rgba(255,253,248,.96);height:58px;display:flex;align-items:center;gap:14px;padding:0 22px;flex-shrink:0;z-index:120;border-bottom:1px solid var(--border)}
-.sn-logo{display:flex;align-items:center;gap:11px;text-decoration:none}
-.sn-logo img{width:38px;height:38px;border-radius:8px;flex-shrink:0}
-.sn-links{display:flex;gap:4px;margin-inline-start:18px}
-.sn-links a{font-size:14px;font-weight:500;color:#0F2418;padding:8px 14px;border-radius:999px;text-decoration:none;font-family:var(--ar)}
-.sn-links a:hover{background:rgba(0,106,78,.1);color:var(--green)}
-.sn-cta{margin-inline-start:auto;font-size:14px;font-weight:600;background:var(--green);color:#fff;padding:9px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;font-family:var(--ar)}
-.sn-cta:hover{background:#00543d}
-@media(max-width:760px){.sn-links{display:none}}
 .sn-name{display:flex;flex-direction:column;line-height:1.15}
 .sn-name strong{font-size:16px;font-weight:700;color:#0F2418;font-family:var(--ar)}
 .sn-name small{font-size:11px;color:#7C8A82;font-weight:500}
@@ -174,16 +166,7 @@ body{height:100%;display:flex;flex-direction:column;font-family:'Tajawal','Noto 
 <body>
 
 <nav class="site-nav">
-  <a href="../../../index.html" class="sn-logo">
-    <img src="../../../assets/logo.png" alt="Shopnil Academy">
-    <div class="sn-name"><strong>أكاديمية شبنيل</strong><small>Shopnil Academy — বাংলা A1</small></div>
-  </a>
-  <div class="sn-links">
-    <a href="../../../index.html">الرئيسية</a>
-    <a href="../../../courses.html">الدورات</a>
-    <a href="../index.html">صفحة الدورة</a>
-  </div>
-  <a href="index.html" class="sn-cta">كل الفصول &rarr;</a>
+  <div class="sn-name"><strong>أكاديمية شبنيل</strong><small>Shopnil Academy — বাংলা A1</small></div>
 </nav>
 
 <div class="topbar">
@@ -1121,6 +1104,7 @@ qzData['c1l1q']=[{qAr:'أي حرف من الحروف التالية يُنطق �
 // real hosted websites. Web Speech API is a silent last-resort fallback only —
 // students see nothing (audio or silence), missing files are logged to console
 // for the site owner, not shown to students.
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='bn';
 var _SPEECH_LANG='bn-BD';
 var curAud=null;
@@ -1144,23 +1128,23 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
-// speaker: 0 = speaker A (normal), 1 = speaker B (distinct pitch, used only in the
-// Web Speech fallback for dialogue lines — pre-generated files are the primary source)
+// speaker: 0 = speaker A (normal), 1 = speaker B (distinct pitch, Web Speech fallback only —
+// pre-generated Chirp 3 HD files on R2 are the primary source for all lines)
 function tts(t,speaker){
   if(typeof speaker==='undefined')speaker=0;
   if(curAud){curAud.pause();curAud.currentTime=0;}
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
   var a=new Audio(src);
   curAud=a;
   a.addEventListener('error',function(){
-    console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+    console.warn('Audio not found: '+src);
     bTTS(t,speaker);
   });
   a.play().catch(function(){
-    console.warn('Audio file not found: '+src+' — check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+    console.warn('Audio not found: '+src);
     bTTS(t,speaker);
   });
 }
