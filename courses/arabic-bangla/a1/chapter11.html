@@ -707,7 +707,8 @@ function toggleDay(n){
 }
 
 
-// ===== TTS (static pre-generated audio files) =====
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='ar';
 var _SPEECH_LANG='ar-SA';
 function fnv1a(s){
@@ -719,31 +720,32 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     } else {
-      console.warn('Audio file not found: '+src+' \u2014 check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
 
 // ===== WORD AUDIO MAP =====
 var letterAudio={
-  'w_taaira':'\u0637\u064e\u0627\u0626\u0650\u0631\u064e\u0629',
-  'w_qitar':'\u0642\u0650\u0637\u064e\u0627\u0631',
-  'w_haafila':'\u062d\u064e\u0627\u0641\u0650\u0644\u064e\u0629',
-  'w_mataar':'\u0645\u064e\u0637\u064e\u0627\u0631',
-  'w_mahatta':'\u0645\u064e\u062d\u064e\u0637\u0651\u064e\u0629',
-  'w_funduq':'\u0641\u064f\u0646\u0652\u062f\u064f\u0642'
+  'w_taaira':'طَائِرَة',
+  'w_qitar':'قِطَار',
+  'w_haafila':'حَافِلَة',
+  'w_mataar':'مَطَار',
+  'w_mahatta':'مَحَطَّة',
+  'w_funduq':'فُنْدُق'
 };
 function playLetter(key){
   var text=letterAudio[key];
@@ -767,50 +769,50 @@ function revealAnswer(id){
 // ===== QUIZ DATA (data-object braces only, never appended after) =====
 var qzData={
   'c11l1q':[
-    {q:'\u0637\u064e\u0627\u0626\u0650\u0631\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09bf\u09ae\u09be\u09a8','\u099f\u09cd\u09b0\u09c7\u09a8','\u09ac\u09be\u09b8','\u0997\u09be\u09dc\u09bf'],a:0,f:'\u0637\u064e\u0627\u0626\u0650\u0631\u064e\u0629 (\u1e6d\u0101\u2019ira) \u09ae\u09be\u09a8\u09c7 \u09ac\u09bf\u09ae\u09be\u09a8\u0964'},
-    {q:'\u0642\u0650\u0637\u064e\u0627\u0631 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u099f\u09cd\u09b0\u09c7\u09a8','\u09ac\u09bf\u09ae\u09be\u09a8','\u09ac\u09be\u09b8','\u0997\u09be\u09dc\u09bf'],a:0,f:'\u0642\u0650\u0637\u064e\u0627\u0631 (qi\u1e6d\u0101r) \u09ae\u09be\u09a8\u09c7 \u099f\u09cd\u09b0\u09c7\u09a8\u0964'},
-    {q:'\u062d\u064e\u0627\u0641\u0650\u0644\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09be\u09b8','\u099f\u09cd\u09b0\u09c7\u09a8','\u09ac\u09bf\u09ae\u09be\u09a8','\u0997\u09be\u09dc\u09bf'],a:0,f:'\u062d\u064e\u0627\u0641\u0650\u0644\u064e\u0629 (\u1e25\u0101fila) \u09ae\u09be\u09a8\u09c7 \u09ac\u09be\u09b8\u0964'},
-    {q:'"\u0997\u09be\u09dc\u09bf" \u09b6\u09ac\u09cd\u09a6\u099f\u09be \u09a4\u09c1\u09ae\u09bf \u0995\u09cb\u09a8 \u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc\u09c7 \u0986\u0997\u09c7 \u09b6\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09c7?',o:['\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09ec','\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09e9','\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09ee','\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09ef'],a:0,f:'\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09ec-\u098f \u09b0\u0982\u098f\u09b0 \u09b2\u09bf\u0999\u09cd\u0997\u09c7\u09b0 \u0989\u09a6\u09be\u09b9\u09b0\u09a3\u09c7 \u09b6\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09c7\u0964'}
+    {q:'طَائِرَة এর অর্থ কী?',o:['বিমান','ট্রেন','বাস','গাড়ি'],a:0,f:'طَائِرَة (ṭā’ira) মানে বিমান।'},
+    {q:'قِطَار এর অর্থ কী?',o:['ট্রেন','বিমান','বাস','গাড়ি'],a:0,f:'قِطَار (qiṭār) মানে ট্রেন।'},
+    {q:'حَافِلَة এর অর্থ কী?',o:['বাস','ট্রেন','বিমান','গাড়ি'],a:0,f:'حَافِلَة (ḥāfila) মানে বাস।'},
+    {q:'"গাড়ি" শব্দটা তুমি কোন অধ্যায়ে আগে শিখেছিলে?',o:['অধ্যায় ৬','অধ্যায় ৩','অধ্যায় ৮','অধ্যায় ৯'],a:0,f:'অধ্যায় ৬-এ রংএর লিঙ্গের উদাহরণে শিখেছিলে।'}
   ],
   'c11l2q':[
-    {q:'\u0645\u064e\u0637\u064e\u0627\u0631 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09bf\u09ae\u09be\u09a8\u09ac\u09a8\u09cd\u09a6\u09b0','\u09b8\u09cd\u099f\u09c7\u09b6\u09a8','\u09b9\u09cb\u099f\u09c7\u09b2','\u09b6\u09b9\u09b0'],a:0,f:'\u0645\u064e\u0637\u064e\u0627\u0631 (ma\u1e6d\u0101r) \u09ae\u09be\u09a8\u09c7 \u09ac\u09bf\u09ae\u09be\u09a8\u09ac\u09a8\u09cd\u09a6\u09b0\u0964'},
-    {q:'\u0645\u064e\u062d\u064e\u0637\u0651\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b8\u09cd\u099f\u09c7\u09b6\u09a8','\u09ac\u09bf\u09ae\u09be\u09a8\u09ac\u09a8\u09cd\u09a6\u09b0','\u09b9\u09cb\u099f\u09c7\u09b2','\u09b6\u09b9\u09b0'],a:0,f:'\u0645\u064e\u062d\u064e\u0637\u0651\u064e\u0629 (ma\u1e25a\u1e6d\u1e6da) \u09ae\u09be\u09a8\u09c7 \u09b8\u09cd\u099f\u09c7\u09b6\u09a8\u0964'},
-    {q:'\u0641\u064f\u0646\u0652\u062f\u064f\u0642 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b9\u09cb\u099f\u09c7\u09b2','\u09ac\u09bf\u09ae\u09be\u09a8\u09ac\u09a8\u09cd\u09a6\u09b0','\u09b8\u09cd\u099f\u09c7\u09b6\u09a8','\u09b6\u09b9\u09b0'],a:0,f:'\u0641\u064f\u0646\u0652\u062f\u064f\u0642 (funduq) \u09ae\u09be\u09a8\u09c7 \u09b9\u09cb\u099f\u09c7\u09b2\u0964'},
-    {q:'\u0645\u064e\u062f\u0650\u064a\u0646\u064e\u0629 \u09b6\u09ac\u09cd\u09a6\u099f\u09be \u09a4\u09c1\u09ae\u09bf \u0995\u09cb\u09a8 \u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc\u09c7 \u0986\u0997\u09c7 \u09b6\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09c7?',o:['\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09eb','\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09e8','\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09ed','\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09ef'],a:0,f:'\u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09eb-\u098f \u09aa\u09b0\u09bf\u09ac\u09be\u09b0\u09c7\u09b0 \u0989\u09a6\u09be\u09b9\u09b0\u09a3\u09c7 \u09b6\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09c7\u0964'}
+    {q:'مَطَار এর অর্থ কী?',o:['বিমানবন্দর','স্টেশন','হোটেল','শহর'],a:0,f:'مَطَار (maṭār) মানে বিমানবন্দর।'},
+    {q:'مَحَطَّة এর অর্থ কী?',o:['স্টেশন','বিমানবন্দর','হোটেল','শহর'],a:0,f:'مَحَطَّة (maḥaṭṭa) মানে স্টেশন।'},
+    {q:'فُنْدُق এর অর্থ কী?',o:['হোটেল','বিমানবন্দর','স্টেশন','শহর'],a:0,f:'فُنْدُق (funduq) মানে হোটেল।'},
+    {q:'مَدِينَة শব্দটা তুমি কোন অধ্যায়ে আগে শিখেছিলে?',o:['অধ্যায় ৫','অধ্যায় ২','অধ্যায় ৭','অধ্যায় ৯'],a:0,f:'অধ্যায় ৫-এ পরিবারের উদাহরণে শিখেছিলে।'}
   ],
   'c11l3q':[
-    {q:'\u0985\u09a4\u09c0\u09a4 \u0995\u09be\u09b2\u09c7\u09b0 \u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be\u09af\u09bc \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u0995\u09cb\u09a5\u09be\u09df \u09ac\u09b8\u09c7?',o:['\u09b6\u09c7\u09b7\u09c7','\u09b6\u09c1\u09b0\u09c1\u09a4\u09c7','\u09ae\u09be\u099d\u09c7','\u0995\u09cb\u09a5\u09be\u0993 \u09ac\u09b8\u09c7 \u09a8\u09be'],a:0,f:'\u0985\u09a4\u09c0\u09a4 \u0995\u09be\u09b2\u09c7 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09b6\u09c7\u09b7\u09c7 \u09ac\u09b8\u09c7\u0964'},
-    {q:'"\u0986\u09ae\u09bf \u09b2\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09be\u09ae" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u0995\u09c0?',o:['\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u064f','\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u064e','\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u0650','\u0643\u064e\u062a\u064e\u0628\u064e'],a:0,f:'\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u064f (katabtu) \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09bf \u09b2\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09be\u09ae\u0964'},
-    {q:'\u0647\u064f\u0648\u064e (\u09b8\u09c7, \u09aa\u09c1\u09b0\u09c1\u09b7) \u09b0\u09c2\u09aa\u09c7 \u0985\u09a4\u09c0\u09a4 \u0995\u09be\u09b2\u09c7 \u0995\u09c0 \u09b9\u09af\u09bc?',o:['\u0995\u09cb\u09a8\u09cb \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09af\u09cb\u0997 \u09b9\u09af\u09bc \u09a8\u09be','\u098f\u0995\u099f\u09be \u09ac\u09bf\u09b6\u09c7\u09b7 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09af\u09cb\u0997 \u09b9\u09af\u09bc','\u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u09ac\u09a6\u09b2\u09c7 \u09af\u09be\u09af\u09bc','\u09a8\u09bf\u09b0\u09cd\u09ad\u09b0 \u0995\u09b0\u09c7 \u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be\u09b0 \u0989\u09aa\u09b0'],a:0,f:'\u0647\u064f\u0648\u064e \u09b0\u09c2\u09aa\u09c7 \u0995\u09cb\u09a8\u09cb \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09af\u09cb\u0997 \u09b9\u09af\u09bc \u09a8\u09be, \u098f\u099f\u09be\u0987 \u09ae\u09c2\u09b2 \u09b0\u09c2\u09aa\u0964'},
-    {q:'\u0643\u064e\u062a\u064e\u0628\u064e\u062a\u0652 \u0995\u09be\u09b0 \u099c\u09a8\u09cd\u09af \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc?',o:['\u09b8\u09c7 (\u09a8\u09be\u09b0\u09c0)','\u09b8\u09c7 (\u09aa\u09c1\u09b0\u09c1\u09b7)','\u09a4\u09c1\u09ae\u09bf (\u09a8\u09be\u09b0\u09c0)','\u0986\u09ae\u09bf'],a:0,f:'\u0643\u064e\u062a\u064e\u0628\u064e\u062a\u0652 \u09ae\u09be\u09a8\u09c7 \u09b8\u09c7 (\u09a8\u09be\u09b0\u09c0) \u09b2\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09cb\u0964'}
+    {q:'অতীত কালের ক্রিয়ায় প্রত্যয় কোথায় বসে?',o:['শেষে','শুরুতে','মাঝে','কোথাও বসে না'],a:0,f:'অতীত কালে প্রত্যয় শেষে বসে।'},
+    {q:'"আমি লিখেছিলাম" আরবিতে কী?',o:['كَتَبْتُ','كَتَبْتَ','كَتَبْتِ','كَتَبَ'],a:0,f:'كَتَبْتُ (katabtu) মানে আমি লিখেছিলাম।'},
+    {q:'هُوَ (সে, পুরুষ) রূপে অতীত কালে কী হয়?',o:['কোনো প্রত্যয় যোগ হয় না','একটা বিশেষ প্রত্যয় যোগ হয়','ক্রিয়া সম্পূর্ণ বদলে যায়','নির্ভর করে ক্রিয়ার উপর'],a:0,f:'هُوَ রূপে কোনো প্রত্যয় যোগ হয় না, এটাই মূল রূপ।'},
+    {q:'كَتَبَتْ কার জন্য ব্যবহৃত হয়?',o:['সে (নারী)','সে (পুরুষ)','তুমি (নারী)','আমি'],a:0,f:'كَتَبَتْ মানে সে (নারী) লিখেছিলো।'}
   ],
   'c11l4q':[
-    {q:'"\u0986\u09ae\u09b0\u09be \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09c7\u099b\u09bf\u09b2\u09be\u09ae" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u0995\u09c0?',o:['\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u0646\u064e\u0627','\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u062a\u064f\u0645','\u0633\u064e\u0627\u0641\u064e\u0631\u064f\u0648\u0627','\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u062a\u064f'],a:0,f:'\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u0646\u064e\u0627 (s\u0101farn\u0101) \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09b0\u09be \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09c7\u099b\u09bf\u09b2\u09be\u09ae\u0964'},
-    {q:'\u0633\u064e\u0627\u0641\u064e\u0631\u064f\u0648\u0627 \u0995\u09be\u09b0 \u099c\u09a8\u09cd\u09af \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc?',o:['\u09a4\u09be\u09b0\u09be','\u09a4\u09cb\u09ae\u09b0\u09be','\u0986\u09ae\u09b0\u09be','\u09b8\u09c7'],a:0,f:'\u0633\u064e\u0627\u0641\u064e\u0631\u064f\u0648\u0627 \u09ae\u09be\u09a8\u09c7 \u09a4\u09be\u09b0\u09be \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09c7\u099b\u09bf\u09b2\u09cb\u0964'},
-    {q:'\u09b8\u09be\u09ab\u09be\u09b0 (\u0633\u064e\u0627\u0641\u064e\u0631\u064e) \u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09b2\u09cb','\u09b2\u09bf\u0996\u09b2\u09cb','\u0996\u09c7\u09b2\u09cb','\u0997\u09c7\u09b2\u09cb'],a:0,f:'\u0633\u064e\u0627\u0641\u064e\u0631\u064e (s\u0101fara) \u09ae\u09be\u09a8\u09c7 \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09b2\u09cb\u0964'},
-    {q:'\u0985\u09a4\u09c0\u09a4 \u0995\u09be\u09b2\u09c7 "\u09a4\u09cb\u09ae\u09b0\u09be" \u098f\u09b0 \u099c\u09a8\u09cd\u09af \u0995\u09cb\u09a8 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc?',o:['\u062a\u064f\u0645','\u0646\u064e\u0627','\u064f\u0648\u0627','\u062a\u0650'],a:0,f:'\u062a\u064f\u0645 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc\u0964'}
+    {q:'"আমরা ভ্রমণ করেছিলাম" আরবিতে কী?',o:['سَافَرْنَا','سَافَرْتُم','سَافَرُوا','سَافَرْتُ'],a:0,f:'سَافَرْنَا (sāfarnā) মানে আমরা ভ্রমণ করেছিলাম।'},
+    {q:'سَافَرُوا কার জন্য ব্যবহৃত হয়?',o:['তারা','তোমরা','আমরা','সে'],a:0,f:'سَافَرُوا মানে তারা ভ্রমণ করেছিলো।'},
+    {q:'সাফার (سَافَرَ) ক্রিয়ার অর্থ কী?',o:['ভ্রমণ করলো','লিখলো','খেলো','গেলো'],a:0,f:'سَافَرَ (sāfara) মানে ভ্রমণ করলো।'},
+    {q:'অতীত কালে "তোমরা" এর জন্য কোন প্রত্যয়?',o:['تُم','نَا','ُوا','تِ'],a:0,f:'تُم প্রত্যয়।'}
   ],
   'c11l5q':[
-    {q:'\u0625\u0650\u0644\u064e\u0649 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09bf\u0995\u09c7','\u09a5\u09c7\u0995\u09c7','\u0985\u09ad\u09bf\u09ae\u09c1\u0996\u09c7','\u09ad\u09c7\u09a4\u09b0\u09c7'],a:0,f:'\u0625\u0650\u0644\u064e\u0649 \u09ae\u09be\u09a8\u09c7 \u09a6\u09bf\u0995\u09c7 (to)\u0964'},
-    {q:'\u0645\u0650\u0646\u0652 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a5\u09c7\u0995\u09c7','\u09a6\u09bf\u0995\u09c7','\u0985\u09ad\u09bf\u09ae\u09c1\u0996\u09c7','\u0989\u09aa\u09b0\u09c7'],a:0,f:'\u0645\u0650\u0646\u0652 \u09ae\u09be\u09a8\u09c7 \u09a5\u09c7\u0995\u09c7 (from)\u0964'},
-    {q:'\u0646\u064e\u062d\u0652\u0648\u064e \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0985\u09ad\u09bf\u09ae\u09c1\u0996\u09c7','\u09a6\u09bf\u0995\u09c7','\u09a5\u09c7\u0995\u09c7','\u09a8\u09bf\u099a\u09c7'],a:0,f:'\u0646\u064e\u062d\u0652\u0648\u064e \u09ae\u09be\u09a8\u09c7 \u0985\u09ad\u09bf\u09ae\u09c1\u0996\u09c7 (towards)\u0964'},
-    {q:'\u0645\u0650\u0646\u064e \u0627\u0644\u0645\u064e\u062f\u0650\u064a\u0646\u064e\u0629\u0650 \u0625\u0650\u0644\u064e\u0649 \u0627\u0644\u0642\u064e\u0631\u0652\u064a\u064e\u0629\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b6\u09b9\u09b0 \u09a5\u09c7\u0995\u09c7 \u0997\u09cd\u09b0\u09be\u09ae\u09c7','\u0997\u09cd\u09b0\u09be\u09ae \u09a5\u09c7\u0995\u09c7 \u09b6\u09b9\u09b0\u09c7','\u09b6\u09b9\u09b0\u09c7\u09b0 \u09ad\u09c7\u09a4\u09b0\u09c7','\u0997\u09cd\u09b0\u09be\u09ae\u09c7\u09b0 \u09ac\u09be\u0987\u09b0\u09c7'],a:0,f:'\u09b6\u09b9\u09b0 \u09a5\u09c7\u0995\u09c7 \u0997\u09cd\u09b0\u09be\u09ae\u09c7\u0964'}
+    {q:'إِلَى এর অর্থ কী?',o:['দিকে','থেকে','অভিমুখে','ভেতরে'],a:0,f:'إِلَى মানে দিকে (to)।'},
+    {q:'مِنْ এর অর্থ কী?',o:['থেকে','দিকে','অভিমুখে','উপরে'],a:0,f:'مِنْ মানে থেকে (from)।'},
+    {q:'نَحْوَ এর অর্থ কী?',o:['অভিমুখে','দিকে','থেকে','নিচে'],a:0,f:'نَحْوَ মানে অভিমুখে (towards)।'},
+    {q:'مِنَ المَدِينَةِ إِلَى القَرْيَةِ এর অর্থ কী?',o:['শহর থেকে গ্রামে','গ্রাম থেকে শহরে','শহরের ভেতরে','গ্রামের বাইরে'],a:0,f:'শহর থেকে গ্রামে।'}
   ],
   'c11l6q':[
-    {q:'\u064a\u064e\u0645\u0650\u064a\u0646 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a1\u09be\u09a8 \u09a6\u09bf\u0995','\u09ac\u09be\u09ae \u09a6\u09bf\u0995','\u09b8\u09cb\u099c\u09be','\u09b8\u09be\u09ae\u09a8\u09c7'],a:0,f:'\u064a\u064e\u0645\u0650\u064a\u0646 \u09ae\u09be\u09a8\u09c7 \u09a1\u09be\u09a8 \u09a6\u09bf\u0995\u0964'},
-    {q:'\u064a\u064e\u0633\u064e\u0627\u0631 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09be\u09ae \u09a6\u09bf\u0995','\u09a1\u09be\u09a8 \u09a6\u09bf\u0995','\u09b8\u09cb\u099c\u09be','\u09aa\u09c7\u099b\u09a8\u09c7'],a:0,f:'\u064a\u064e\u0633\u064e\u0627\u0631 \u09ae\u09be\u09a8\u09c7 \u09ac\u09be\u09ae \u09a6\u09bf\u0995\u0964'},
-    {q:'\u0645\u064f\u0628\u064e\u0627\u0634\u064e\u0631\u064e\u0629\u064b \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b8\u09cb\u099c\u09be/\u09b8\u09b0\u09be\u09b8\u09b0\u09bf','\u09a1\u09be\u09a8\u09c7','\u09ac\u09be\u09ae\u09c7','\u09aa\u09c7\u099b\u09a8\u09c7'],a:0,f:'\u0645\u064f\u0628\u064e\u0627\u0634\u064e\u0631\u064e\u0629\u064b \u09ae\u09be\u09a8\u09c7 \u09b8\u09cb\u099c\u09be/\u09b8\u09b0\u09be\u09b8\u09b0\u09bf\u0964'},
-    {q:'\u062b\u064f\u0645\u0651\u064e \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a4\u09be\u09b0\u09aa\u09b0','\u09aa\u09cd\u09b0\u09a5\u09ae\u09c7','\u09b6\u09c7\u09b7\u09c7','\u098f\u0996\u09a8'],a:0,f:'\u062b\u064f\u0645\u0651\u064e \u09ae\u09be\u09a8\u09c7 \u09a4\u09be\u09b0\u09aa\u09b0\u0964'}
+    {q:'يَمِين এর অর্থ কী?',o:['ডান দিক','বাম দিক','সোজা','সামনে'],a:0,f:'يَمِين মানে ডান দিক।'},
+    {q:'يَسَار এর অর্থ কী?',o:['বাম দিক','ডান দিক','সোজা','পেছনে'],a:0,f:'يَسَار মানে বাম দিক।'},
+    {q:'مُبَاشَرَةً এর অর্থ কী?',o:['সোজা/সরাসরি','ডানে','বামে','পেছনে'],a:0,f:'مُبَاشَرَةً মানে সোজা/সরাসরি।'},
+    {q:'ثُمَّ এর অর্থ কী?',o:['তারপর','প্রথমে','শেষে','এখন'],a:0,f:'ثُمَّ মানে তারপর।'}
   ],
   'c11rq':[
-    {q:'\u0637\u064e\u0627\u0626\u0650\u0631\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09bf\u09ae\u09be\u09a8','\u099f\u09cd\u09b0\u09c7\u09a8','\u09ac\u09be\u09b8','\u0997\u09be\u09dc\u09bf'],a:0,f:'\u0637\u064e\u0627\u0626\u0650\u0631\u064e\u0629 \u09ae\u09be\u09a8\u09c7 \u09ac\u09bf\u09ae\u09be\u09a8\u0964'},
-    {q:'\u0645\u064e\u0637\u064e\u0627\u0631 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09bf\u09ae\u09be\u09a8\u09ac\u09a8\u09cd\u09a6\u09b0','\u09b8\u09cd\u099f\u09c7\u09b6\u09a8','\u09b9\u09cb\u099f\u09c7\u09b2','\u09b6\u09b9\u09b0'],a:0,f:'\u0645\u064e\u0637\u064e\u0627\u0631 \u09ae\u09be\u09a8\u09c7 \u09ac\u09bf\u09ae\u09be\u09a8\u09ac\u09a8\u09cd\u09a6\u09b0\u0964'},
-    {q:'\u0985\u09a4\u09c0\u09a4 \u0995\u09be\u09b2\u09c7\u09b0 \u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be\u09df \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u0995\u09cb\u09a5\u09be\u09df \u09ac\u09b8\u09c7?',o:['\u09b6\u09c7\u09b7\u09c7','\u09b6\u09c1\u09b0\u09c1\u09a4\u09c7','\u09ae\u09be\u099d\u09c7','\u0995\u09cb\u09a5\u09be\u0993 \u09ac\u09b8\u09c7 \u09a8\u09be'],a:0,f:'\u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09b6\u09c7\u09b7\u09c7 \u09ac\u09b8\u09c7\u0964'},
-    {q:'"\u0986\u09ae\u09bf \u09b2\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09be\u09ae" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u0995\u09c0?',o:['\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u064f','\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u064e','\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u0650','\u0643\u064e\u062a\u064e\u0628\u064e'],a:0,f:'\u0643\u064e\u062a\u064e\u0628\u0652\u062a\u064f \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09bf \u09b2\u09bf\u0996\u09c7\u099b\u09bf\u09b2\u09be\u09ae\u0964'},
-    {q:'"\u0986\u09ae\u09b0\u09be \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09c7\u099b\u09bf\u09b2\u09be\u09ae" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u0995\u09c0?',o:['\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u0646\u064e\u0627','\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u062a\u064f\u0645','\u0633\u064e\u0627\u0641\u064e\u0631\u064f\u0648\u0627','\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u062a\u064f'],a:0,f:'\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u0646\u064e\u0627 \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09b0\u09be \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09c7\u099b\u09bf\u09b2\u09be\u09ae\u0964'},
-    {q:'\u0625\u0650\u0644\u064e\u0649 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09bf\u0995\u09c7','\u09a5\u09c7\u0995\u09c7','\u0985\u09ad\u09bf\u09ae\u09c1\u0996\u09c7','\u09ad\u09c7\u09a4\u09b0\u09c7'],a:0,f:'\u0625\u0650\u0644\u064e\u0649 \u09ae\u09be\u09a8\u09c7 \u09a6\u09bf\u0995\u09c7\u0964'},
-    {q:'\u064a\u064e\u0645\u0650\u064a\u0646 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a1\u09be\u09a8 \u09a6\u09bf\u0995','\u09ac\u09be\u09ae \u09a6\u09bf\u0995','\u09b8\u09cb\u099c\u09be','\u09b8\u09be\u09ae\u09a8\u09c7'],a:0,f:'\u064a\u064e\u0645\u0650\u064a\u0646 \u09ae\u09be\u09a8\u09c7 \u09a1\u09be\u09a8 \u09a6\u09bf\u0995\u0964'},
-    {q:'\u0645\u064f\u0628\u064e\u0627\u0634\u064e\u0631\u064e\u0629\u064b \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b8\u09cb\u099c\u09be/\u09b8\u09b0\u09be\u09b8\u09b0\u09bf','\u09a1\u09be\u09a8\u09c7','\u09ac\u09be\u09ae\u09c7','\u09aa\u09c7\u099b\u09a8\u09c7'],a:0,f:'\u0645\u064f\u0628\u064e\u0627\u0634\u064e\u0631\u064e\u0629\u064b \u09ae\u09be\u09a8\u09c7 \u09b8\u09cb\u099c\u09be/\u09b8\u09b0\u09be\u09b8\u09b0\u09bf\u0964'}
+    {q:'طَائِرَة এর অর্থ কী?',o:['বিমান','ট্রেন','বাস','গাড়ি'],a:0,f:'طَائِرَة মানে বিমান।'},
+    {q:'مَطَار এর অর্থ কী?',o:['বিমানবন্দর','স্টেশন','হোটেল','শহর'],a:0,f:'مَطَار মানে বিমানবন্দর।'},
+    {q:'অতীত কালের ক্রিয়ায় প্রত্যয় কোথায় বসে?',o:['শেষে','শুরুতে','মাঝে','কোথাও বসে না'],a:0,f:'প্রত্যয় শেষে বসে।'},
+    {q:'"আমি লিখেছিলাম" আরবিতে কী?',o:['كَتَبْتُ','كَتَبْتَ','كَتَبْتِ','كَتَبَ'],a:0,f:'كَتَبْتُ মানে আমি লিখেছিলাম।'},
+    {q:'"আমরা ভ্রমণ করেছিলাম" আরবিতে কী?',o:['سَافَرْنَا','سَافَرْتُم','سَافَرُوا','سَافَرْتُ'],a:0,f:'سَافَرْنَا মানে আমরা ভ্রমণ করেছিলাম।'},
+    {q:'إِلَى এর অর্থ কী?',o:['দিকে','থেকে','অভিমুখে','ভেতরে'],a:0,f:'إِلَى মানে দিকে।'},
+    {q:'يَمِين এর অর্থ কী?',o:['ডান দিক','বাম দিক','সোজা','সামনে'],a:0,f:'يَمِين মানে ডান দিক।'},
+    {q:'مُبَاشَرَةً এর অর্থ কী?',o:['সোজা/সরাসরি','ডানে','বামে','পেছনে'],a:0,f:'مُبَاشَرَةً মানে সোজা/সরাসরি।'}
   ]
 };
 var qzAns={};
@@ -825,15 +827,15 @@ function buildQuiz(id){
   var html='';
   for(var i=0;i<qs.length;i++){
     var q=qs[i];
-    html+='<div class="qc"><div class="q-n">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8 '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
+    html+='<div class="qc"><div class="q-n">প্রশ্ন '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
     for(var j=0;j<q.o.length;j++){
       html+='<button type="button" class="qo" onclick="selectAnswer(\''+id+'\','+i+','+j+')">'+q.o[j]+'</button>';
     }
     html+='</div><div class="q-fb" id="qfb-'+id+'-'+i+'"></div></div>';
   }
-  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">\u09b8\u09ac\u09ae\u09bf\u09a4 \u0995\u09b0\u09cb</button>';
-  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">\u09a4\u09cb\u09ae\u09be\u09b0 \u09b8\u09cd\u0995\u09cb\u09b0</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
-  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">\u09ad\u09c1\u09b2 \u0989\u09a4\u09cd\u09a4\u09b0\u0997\u09c1\u09b2\u09cb \u09aa\u09b0\u09cd\u09af\u09be\u09b2\u09cb\u099a\u09a8\u09be \u0995\u09b0\u09cb</div><div id="mlist-'+id+'"></div></div>';
+  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">সবমিত করো</button>';
+  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">তোমার স্কোর</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
+  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">ভুল উত্তরগুলো পর্যালোচনা করো</div><div id="mlist-'+id+'"></div></div>';
   c.innerHTML=html;
   c.setAttribute('data-built','1');
 }
@@ -856,7 +858,7 @@ function selectAnswer(id,qi,oi){
   if(fb){
     fb.classList.add('show');
     fb.classList.add(ok?'ok':'no');
-    fb.innerHTML=ok?'\u2705 \u09b8\u09a0\u09bf\u0995!':('\u274c '+q.f);
+    fb.innerHTML=ok?'✅ সঠিক!':('❌ '+q.f);
   }
   if(!ok){
     if(!qzMistakes[id])qzMistakes[id]=[];
@@ -869,7 +871,7 @@ function submitQuiz(id){
   if(!qs)return;
   var ans=qzAns[id]||{};
   var answered=Object.keys(ans).length;
-  if(answered<qs.length){alert('\u09b8\u09ac \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u09c7\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0 \u09a6\u09bf\u09a8! \u09ac\u09be\u0995\u09bf \u0986\u099b\u09c7: '+(qs.length-answered)+'\u099f\u09bf');return;}
+  if(answered<qs.length){alert('সব প্রশ্নের উত্তর দিন! বাকি আছে: '+(qs.length-answered)+'টি');return;}
   var correct=0;
   for(var i=0;i<qs.length;i++){if(ans[i]===qs[i].a)correct++;}
   var pct=Math.round(correct/qs.length*100);
@@ -879,14 +881,14 @@ function submitQuiz(id){
   if(scn)scn.textContent=correct+'/'+qs.length+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.innerHTML='\ud83c\udfc6 \u0985\u09b8\u09be\u09a7\u09be\u09b0\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=80)scm.innerHTML='\u2b50 \u09a6\u09be\u09b0\u09c1\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=60)scm.innerHTML='\u2705 \u09ad\u09be\u09b2\u09cb \u09b9\u09af\u09bc\u09c7\u099b\u09c7! +'+(correct*5)+' XP';
+    if(pct>=90)scm.innerHTML='🏆 অসাধারণ! +'+(correct*5)+' XP';
+    else if(pct>=80)scm.innerHTML='⭐ দারুণ! +'+(correct*5)+' XP';
+    else if(pct>=60)scm.innerHTML='✅ ভালো হয়েছে! +'+(correct*5)+' XP';
     else{
-      scm.innerHTML='\u274c \u0986\u09b0\u0993 \u099a\u09b0\u09cd\u099a\u09be \u09a6\u09b0\u0995\u09be\u09b0! \u0985\u09a8\u09a4\u09a4 \u09ec\u09e6% \u09a6\u09b0\u0995\u09be\u09b0\u0964 \u09a4\u09c1\u09ae\u09bf \u09aa\u09c7\u09af\u09bc\u09c7\u099b '+pct+'%\u0964';
+      scm.innerHTML='❌ আরও চর্চা দরকার! অনতত ৬০% দরকার। তুমি পেয়েছ '+pct+'%।';
       var rb=document.createElement('button');
       rb.className='speak-btn';rb.style.marginTop='10px';rb.style.background='var(--red)';
-      rb.textContent='\ud83d\udd01 \u0986\u09ac\u09be\u09b0 \u099a\u09c7\u09b7\u09cd\u099f\u09be \u0995\u09b0\u09cb';
+      rb.textContent='🔁 আবার চেষ্টা করো';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(id);
       scm.appendChild(rb);
     }
@@ -902,7 +904,7 @@ function submitQuiz(id){
       var html='';
       for(var m=0;m<mistakes.length;m++){
         var mi=mistakes[m];
-        html+='<div class="mistake-item"><div class="mi-q">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8: '+mi.q+'</div><div class="mi-wrong">\u274c \u09a4\u09cb\u09ae\u09be\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u09b8\u09a0\u09bf\u0995: '+mi.correct+'</div><div class="mi-tip">\ud83d\udca1 '+mi.f+'</div></div>';
+        html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+mi.q+'</div><div class="mi-wrong">❌ তোমার উত্তর: '+mi.wrong+'</div><div class="mi-correct">✅ সঠিক: '+mi.correct+'</div><div class="mi-tip">💡 '+mi.f+'</div></div>';
       }
       ml.innerHTML=html;
     }
@@ -927,11 +929,11 @@ function idToDay(id){
 // ===== SPEAKING TEST (travel review) =====
 var spData={
   'c11rs':[
-    {ar:'\u0633\u064e\u0627\u0641\u064e\u0631\u0652\u062a\u064f \u0625\u0650\u0644\u064e\u0649 \u0627\u0644\u0645\u064e\u062f\u0650\u064a\u0646\u064e\u0629\u0650',tr:'s\u0101fartu il\u0101 l-mad\u012bnati',bn:'\u0986\u09ae\u09bf \u09b6\u09b9\u09b0\u09c7 \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09c7\u099b\u09bf\u09b2\u09be\u09ae'},
-    {ar:'\u0623\u064e\u064a\u0652\u0646\u064e \u0627\u0644\u0641\u064f\u0646\u0652\u062f\u064f\u0642\u064f\u061f',tr:'ayna l-funduqu?',bn:'\u09b9\u09cb\u099f\u09c7\u09b2\u099f\u09be \u0995\u09cb\u09a5\u09be\u09df?'},
-    {ar:'\u0627\u0630\u0652\u0647\u064e\u0628\u0652 \u0645\u064f\u0628\u064e\u0627\u0634\u064e\u0631\u064e\u0629\u064b \u062b\u064f\u0645\u0651\u064e \u064a\u064e\u0645\u0650\u064a\u0646\u064b\u0627',tr:'idhhab mub\u0101sharatan thumma yam\u012bnan',bn:'\u09b8\u09cb\u099c\u09be \u09af\u09be\u0993, \u09a4\u09be\u09b0\u09aa\u09b0 \u09a1\u09be\u09a8\u09c7'},
-    {ar:'\u0627\u0644\u0645\u064e\u062d\u064e\u0637\u0651\u064e\u0629\u064f \u0639\u064e\u0644\u064e\u0649 \u0627\u0644\u064a\u064e\u0633\u064e\u0627\u0631\u0650',tr:'al-ma\u1e25a\u1e6d\u1e6datu \u2018al\u0101 l-yas\u0101ri',bn:'\u09b8\u09cd\u099f\u09c7\u09b6\u09a8\u099f\u09be \u09ac\u09be\u09ae \u09a6\u09bf\u0995\u09c7 \u0986\u099b\u09c7'},
-    {ar:'\u0647\u064f\u0645\u0652 \u0633\u064e\u0627\u0641\u064e\u0631\u064f\u0648\u0627 \u0628\u0650\u0627\u0644\u0637\u0651\u064e\u0627\u0626\u0650\u0631\u064e\u0629\u0650',tr:'hum s\u0101far\u016b bi-\u1e6d-\u1e6d\u0101\u2019irati',bn:'\u09a4\u09be\u09b0\u09be \u09ac\u09bf\u09ae\u09be\u09a8\u09c7 \u09ad\u09cd\u09b0\u09ae\u09a3 \u0995\u09b0\u09c7\u099b\u09bf\u09b2\u09cb'}
+    {ar:'سَافَرْتُ إِلَى المَدِينَةِ',tr:'sāfartu ilā l-madīnati',bn:'আমি শহরে ভ্রমণ করেছিলাম'},
+    {ar:'أَيْنَ الفُنْدُقُ؟',tr:'ayna l-funduqu?',bn:'হোটেলটা কোথায়?'},
+    {ar:'اذْهَبْ مُبَاشَرَةً ثُمَّ يَمِينًا',tr:'idhhab mubāsharatan thumma yamīnan',bn:'সোজা যাও, তারপর ডানে'},
+    {ar:'المَحَطَّةُ عَلَى اليَسَارِ',tr:'al-maḥaṭṭatu ‘alā l-yasāri',bn:'স্টেশনটা বাম দিকে আছে'},
+    {ar:'هُمْ سَافَرُوا بِالطَّائِرَةِ',tr:'hum sāfarū bi-ṭ-ṭā’irati',bn:'তারা বিমানে ভ্রমণ করেছিলো'}
   ]
 };
 
@@ -945,8 +947,8 @@ function buildSp(id){
   for(var i=0;i<items.length;i++){
     var it=items[i];
     html+='<div class="speak-prompt"><div class="speak-prompt-ar ar">'+it.ar+'</div><div class="speak-prompt-bn">'+it.tr+' &mdash; '+it.bn+'</div>';
-    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">\ud83d\udd0a \u09b6\u09c1\u09a8\u09c1\u09a8</button>';
-    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8</button>';
+    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">🔊 শুনুন</button>';
+    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">🎤 বলুন</button>';
     html+='<div class="speak-res" id="fsr-'+id+'-'+i+'"></div></div>';
   }
   c.innerHTML=html;
@@ -968,32 +970,32 @@ function toggleFreeSpeak(id,i){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';
+    btn.textContent='🎤 বলুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='\u26a0\ufe0f Chrome browser \u09a6\u09b0\u0995\u09be\u09b0!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();
   rec.lang='ar-SA';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='\u23f9 \u09a5\u09be\u09ae\u09be\u09a4\u09c7 \u099a\u09be\u09aa\u09cb';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপো';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
-      res.innerHTML='\ud83c\udfa4 \u09b6\u09cb\u09a8\u09be \u0997\u09c7\u099b\u09c7: "'+t+'" &mdash; \u099a\u09c7\u09b7\u09cd\u099f\u09be \u099a\u09be\u09b2\u09bf\u09af\u09bc\u09c7 \u09af\u09be\u0993! +5 XP';
+      res.innerHTML='🎤 শোনা গেছে: "'+t+'" &mdash; চেষ্টা চালিয়ে যাও! +5 XP';
       res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
       addXP(5);
     }
   };
   rec.onerror=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }

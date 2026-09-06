@@ -702,7 +702,8 @@ function toggleDay(n){
 }
 
 
-// ===== TTS (static pre-generated audio files) =====
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='ar';
 var _SPEECH_LANG='ar-SA';
 function fnv1a(s){
@@ -714,34 +715,35 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     } else {
-      console.warn('Audio file not found: '+src+' \u2014 check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
 
 // ===== WORD AUDIO MAP =====
 var letterAudio={
-  'w_aaila':'\u0639\u064e\u0627\u0626\u0650\u0644\u064e\u0629',
-  'w_ab':'\u0623\u064e\u0628',
-  'w_umm':'\u0623\u064f\u0645',
-  'w_akh':'\u0623\u064e\u062e',
-  'w_ukht':'\u0623\u064f\u062e\u0652\u062a',
-  'w_ibn':'\u0627\u0650\u0628\u0652\u0646',
-  'w_bint':'\u0628\u0650\u0646\u0652\u062a',
-  'w_jadd':'\u062c\u064e\u062f\u0651',
-  'w_jadda':'\u062c\u064e\u062f\u0651\u064e\u0629'
+  'w_aaila':'عَائِلَة',
+  'w_ab':'أَب',
+  'w_umm':'أُم',
+  'w_akh':'أَخ',
+  'w_ukht':'أُخْت',
+  'w_ibn':'اِبْن',
+  'w_bint':'بِنْت',
+  'w_jadd':'جَدّ',
+  'w_jadda':'جَدَّة'
 };
 function playLetter(key){
   var text=letterAudio[key];
@@ -765,50 +767,50 @@ function revealAnswer(id){
 // ===== QUIZ DATA (data-object braces only, never appended after) =====
 var qzData={
   'c5l1q':[
-    {q:'\u0639\u064e\u0627\u0626\u0650\u0644\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09aa\u09b0\u09bf\u09ac\u09be\u09b0','\u09ac\u09be\u09a1\u09bc\u09bf','\u09a8\u09be\u09ae','\u09a6\u09c7\u09b6'],a:0,f:'\u0639\u064e\u0627\u0626\u0650\u0644\u064e\u0629 (\u2018\u0101\u2019ila) \u09ae\u09be\u09a8\u09c7 \u09aa\u09b0\u09bf\u09ac\u09be\u09b0\u0964'},
-    {q:'\u0623\u064e\u0628 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09be\u09ac\u09be','\u09ae\u09be','\u09ad\u09be\u0987','\u09ac\u09cb\u09a8'],a:0,f:'\u0623\u064e\u0628 (ab) \u09ae\u09be\u09a8\u09c7 \u09ac\u09be\u09ac\u09be\u0964'},
-    {q:'\u0623\u064f\u0645 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ae\u09be','\u09ac\u09be\u09ac\u09be','\u09ad\u09be\u0987','\u09ac\u09cb\u09a8'],a:0,f:'\u0623\u064f\u0645 (umm) \u09ae\u09be\u09a8\u09c7 \u09ae\u09be\u0964'},
-    {q:'\u0623\u064f\u062e\u0652\u062a \u09b6\u09ac\u09cd\u09a6\u099f\u09be \u0995\u09cb\u09a8 \u09b2\u09bf\u0999\u09cd\u0997, \u09af\u09a6\u09bf\u0993 \u098f\u09a4\u09c7 \u0629 \u09a8\u09c7\u0987?',o:['\u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997','\u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997','\u0989\u09ad\u09af\u09bc\u0987','\u09a8\u09bf\u09b0\u09cd\u09a3\u09af\u09bc \u0995\u09b0\u09be \u09af\u09be\u09af\u09bc \u09a8\u09be'],a:0,f:'\u0623\u064f\u062e\u0652\u062a \u09b8\u09cd\u09ac\u09ad\u09be\u09ac\u09a4\u0987 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997, \u0629 \u099b\u09be\u09dc\u09be\u0987\u0964'}
+    {q:'عَائِلَة এর অর্থ কী?',o:['পরিবার','বাড়ি','নাম','দেশ'],a:0,f:'عَائِلَة (‘ā’ila) মানে পরিবার।'},
+    {q:'أَب এর অর্থ কী?',o:['বাবা','মা','ভাই','বোন'],a:0,f:'أَب (ab) মানে বাবা।'},
+    {q:'أُم এর অর্থ কী?',o:['মা','বাবা','ভাই','বোন'],a:0,f:'أُم (umm) মানে মা।'},
+    {q:'أُخْت শব্দটা কোন লিঙ্গ, যদিও এতে ة নেই?',o:['স্ত্রীলিঙ্গ','পুংলিঙ্গ','উভয়ই','নির্ণয় করা যায় না'],a:0,f:'أُخْت স্বভাবতই স্ত্রীলিঙ্গ, ة ছাড়াই।'}
   ],
   'c5l2q':[
-    {q:'\u0627\u0650\u0628\u0652\u0646 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u099b\u09c7\u09b2\u09c7/\u09aa\u09c1\u09a4\u09cd\u09b0','\u09ae\u09c7\u09af\u09bc\u09c7/\u0995\u09a8\u09cd\u09af\u09be','\u09a6\u09be\u09a6\u09be','\u09a6\u09be\u09a6\u09bf'],a:0,f:'\u0627\u0650\u0628\u0652\u0646 (ibn) \u09ae\u09be\u09a8\u09c7 \u099b\u09c7\u09b2\u09c7/\u09aa\u09c1\u09a4\u09cd\u09b0\u0964'},
-    {q:'\u0628\u0650\u0646\u0652\u062a \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ae\u09c7\u09af\u09bc\u09c7/\u0995\u09a8\u09cd\u09af\u09be','\u099b\u09c7\u09b2\u09c7/\u09aa\u09c1\u09a4\u09cd\u09b0','\u09ad\u09be\u0987','\u09ac\u09cb\u09a8'],a:0,f:'\u0628\u0650\u0646\u0652\u062a (bint) \u09ae\u09be\u09a8\u09c7 \u09ae\u09c7\u09af\u09bc\u09c7/\u0995\u09a8\u09cd\u09af\u09be\u0964'},
-    {q:'\u062c\u064e\u062f\u0651 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09be\u09a6\u09be/\u09a8\u09be\u09a8\u09be','\u09a6\u09be\u09a6\u09bf/\u09a8\u09be\u09a8\u09bf','\u09ac\u09be\u09ac\u09be','\u09ae\u09be'],a:0,f:'\u062c\u064e\u062f\u0651 (jadd) \u09ae\u09be\u09a8\u09c7 \u09a6\u09be\u09a6\u09be/\u09a8\u09be\u09a8\u09be\u0964'},
-    {q:'\u0623\u064e\u0628\u0650\u064a \u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645 \u09ac\u09be\u0995\u09cd\u09af\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be \u098f\u0995\u099c\u09a8 \u09b6\u09bf\u0995\u09cd\u09b7\u0995','\u0986\u09ae\u09be\u09b0 \u09ae\u09be \u098f\u0995\u099c\u09a8 \u09b6\u09bf\u0995\u09cd\u09b7\u09bf\u0995\u09be','\u0986\u09ae\u09be\u09b0 \u09ad\u09be\u0987 \u098f\u0995\u099c\u09a8 \u099b\u09be\u09a4\u09cd\u09b0','\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be \u098f\u0995\u099c\u09a8 \u09a1\u09be\u0995\u09cd\u09a4\u09be\u09b0'],a:0,f:'\u0623\u064e\u0628\u0650\u064a \u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645 \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be \u098f\u0995\u099c\u09a8 \u09b6\u09bf\u0995\u09cd\u09b7\u0995\u0964'}
+    {q:'اِبْن এর অর্থ কী?',o:['ছেলে/পুত্র','মেয়ে/কন্যা','দাদা','দাদি'],a:0,f:'اِبْن (ibn) মানে ছেলে/পুত্র।'},
+    {q:'بِنْت এর অর্থ কী?',o:['মেয়ে/কন্যা','ছেলে/পুত্র','ভাই','বোন'],a:0,f:'بِنْت (bint) মানে মেয়ে/কন্যা।'},
+    {q:'جَدّ এর অর্থ কী?',o:['দাদা/নানা','দাদি/নানি','বাবা','মা'],a:0,f:'جَدّ (jadd) মানে দাদা/নানা।'},
+    {q:'أَبِي مُعَلِّم বাক্যের অর্থ কী?',o:['আমার বাবা একজন শিক্ষক','আমার মা একজন শিক্ষিকা','আমার ভাই একজন ছাত্র','আমার বাবা একজন ডাক্তার'],a:0,f:'أَبِي مُعَلِّم মানে আমার বাবা একজন শিক্ষক।'}
   ],
   'c5l3q':[
-    {q:'"\u0986\u09ae\u09be\u09b0" \u09ac\u09cb\u099d\u09be\u09a4\u09c7 \u0995\u09cb\u09a8 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u09b9\u09af\u09bc?',o:['\u064a','\u0643\u064e','\u0647\u064f','\u0647\u064e\u0627'],a:0,f:'\u064a (\u09ac\u09be \u0650\u064a) \u09ae\u09be\u09a8\u09c7 "\u0986\u09ae\u09be\u09b0"\u0964'},
-    {q:'\u0628\u064e\u064a\u0652\u062a\u064f\u0643\u064e \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a4\u09cb\u09ae\u09be\u09b0 \u09ac\u09be\u09dc\u09bf (\u09aa\u09c1\u09b0\u09c1\u09b7)','\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09dc\u09bf','\u09a4\u09be\u09b0 \u09ac\u09be\u09dc\u09bf','\u09a4\u09cb\u09ae\u09be\u09b0 \u09ac\u09be\u09dc\u09bf (\u09a8\u09be\u09b0\u09c0)'],a:0,f:'\u0643\u064e \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09ae\u09be\u09a8\u09c7 "\u09a4\u09cb\u09ae\u09be\u09b0" (\u09aa\u09c1\u09b0\u09c1\u09b7\u0995\u09c7 \u09ac\u09b2\u09be)\u0964'},
-    {q:'"\u09a4\u09be\u09b0" (she) \u09ac\u09cb\u099d\u09be\u09a4\u09c7 \u0995\u09cb\u09a8 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc?',o:['\u0647\u064e\u0627','\u0647\u064f','\u0643\u064e','\u064a'],a:0,f:'\u0647\u064e\u0627 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09ae\u09be\u09a8\u09c7 "\u09a4\u09be\u09b0" (\u09a8\u09be\u09b0\u09c0)\u0964'},
-    {q:'\u0986\u09b0\u09ac\u09bf\u09a4\u09c7 "\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09dc\u09bf" \u09ac\u09b2\u09a4\u09c7 \u0995\u09c0\u09ad\u09be\u09ac\u09c7 \u09ac\u09b2\u09be \u09b9\u09af\u09bc?',o:['\u098f\u0995\u099f\u09be \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09b8\u09b0\u09be\u09b8\u09b0\u09bf \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b8\u09be\u09a5\u09c7 \u099c\u09c1\u09dc\u09c7','\u098f\u0995\u099f\u09be \u0986\u09b2\u09be\u09a6\u09be \u09b6\u09ac\u09cd\u09a6 \u09a6\u09bf\u09af\u09bc\u09c7','\u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be \u09ac\u09a6\u09b2\u09c7','\u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u0986\u0997\u09c7 \u09b6\u09ac\u09cd\u09a6 \u09ac\u09b8\u09bf\u09af\u09bc\u09c7'],a:0,f:'\u098f\u0995\u099f\u09be \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09b8\u09b0\u09be\u09b8\u09b0\u09bf \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b8\u09be\u09a5\u09c7 \u099c\u09c1\u09dc\u09c7 \u09af\u09be\u09af\u09bc\u0964'}
+    {q:'"আমার" বোঝাতে কোন প্রত্যয় ব্যবহার হয়?',o:['ي','كَ','هُ','هَا'],a:0,f:'ي (বা ِي) মানে "আমার"।'},
+    {q:'بَيْتُكَ এর অর্থ কী?',o:['তোমার বাড়ি (পুরুষ)','আমার বাড়ি','তার বাড়ি','তোমার বাড়ি (নারী)'],a:0,f:'كَ প্রত্যয় মানে "তোমার" (পুরুষকে বলা)।'},
+    {q:'"তার" (she) বোঝাতে কোন প্রত্যয়?',o:['هَا','هُ','كَ','ي'],a:0,f:'هَا প্রত্যয় মানে "তার" (নারী)।'},
+    {q:'আরবিতে "আমার বাড়ি" বলতে কীভাবে বলা হয়?',o:['একটা প্রত্যয় সরাসরি বিশেষ্যের সাথে জুড়ে','একটা আলাদা শব্দ দিয়ে','ক্রিয়া বদলে','বিশেষ্যের আগে শব্দ বসিয়ে'],a:0,f:'একটা প্রত্যয় সরাসরি বিশেষ্যের সাথে জুড়ে যায়।'}
   ],
   'c5l4q':[
-    {q:'\u0623\u064e\u0628\u0650\u064a \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be','\u09a4\u09cb\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be','\u09a4\u09be\u09b0 \u09ac\u09be\u09ac\u09be','\u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u09ac\u09be\u09ac\u09be'],a:0,f:'\u0623\u064e\u0628\u0650\u064a \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be\u0964'},
-    {q:'\u0623\u064e\u0628 \u0993 \u0623\u064e\u062e \u09b6\u09ac\u09cd\u09a6 \u09a6\u09c1\u099f\u09cb\u09b0 \u09ac\u09bf\u09b6\u09c7\u09b7\u09a4\u09cd\u09ac \u0995\u09c0?',o:['\u098f\u0997\u09c1\u09b2\u09cb "\u09aa\u09be\u0981\u099a\u099f\u09be \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af"-\u098f\u09b0 \u0985\u0982\u09b6, \u0985\u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4 \u09b0\u09c2\u09aa \u09a8\u09bf\u09a4\u09c7 \u09aa\u09be\u09b0\u09c7','\u098f\u0997\u09c1\u09b2\u09cb \u09b8\u09ac\u09b8\u09ae\u09af\u09bc \u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4','\u098f\u0997\u09c1\u09b2\u09cb\u09b0 \u0995\u09cb\u09a8\u09cb \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09b2\u09be\u0997\u09c7 \u09a8\u09be','\u098f\u0997\u09c1\u09b2\u09cb \u09b6\u09c1\u09a7\u09c1 \u09ac\u09b9\u09c1\u09ac\u099a\u09a8\u09c7 \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4'],a:0,f:'\u0623\u064e\u0628 \u0993 \u0623\u064e\u062e \u09b9\u09b2\u09cb "\u09aa\u09be\u0981\u099a\u099f\u09be \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af"-\u098f\u09b0 \u0985\u0982\u09b6, \u0995\u09bf\u099b\u09c1 \u0985\u09ac\u09b8\u09cd\u09a5\u09be\u09a8\u09c7 \u0985\u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4 \u09b0\u09c2\u09aa \u09a8\u09c7\u09af\u09bc\u0964'},
-    {q:'\u0623\u064f\u0645\u0651\u0650\u064a \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09be\u09b0 \u09ae\u09be','\u09a4\u09cb\u09ae\u09be\u09b0 \u09ae\u09be','\u09a4\u09be\u09b0 \u09ae\u09be','\u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u09ae\u09be'],a:0,f:'\u0623\u064f\u0645\u0651\u0650\u064a \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09be\u09b0 \u09ae\u09be\u0964'},
-    {q:'"\u09a4\u09cb\u09ae\u09be\u09b0 \u09ac\u09cb\u09a8" (\u09a8\u09be\u09b0\u09c0\u0995\u09c7 \u09ac\u09b2\u09be) \u0995\u09c0\u09ad\u09be\u09ac\u09c7 \u09ac\u09b2\u09ac\u09c7?',o:['\u0623\u064f\u062e\u0652\u062a\u064f\u0643\u0650','\u0623\u064f\u062e\u0652\u062a\u064f\u0643\u064e','\u0623\u064f\u062e\u0652\u062a\u0650\u064a','\u0623\u064f\u062e\u0652\u062a\u064f\u0647\u064e\u0627'],a:0,f:'\u09a8\u09be\u09b0\u09c0\u0995\u09c7 \u09ac\u09b2\u09be \u09b9\u09b2\u09c7 \u0623\u064f\u062e\u0652\u062a\u064f\u0643\u0650 (\u0643\u0650 \u09b8\u09b9)\u0964'}
+    {q:'أَبِي এর অর্থ কী?',o:['আমার বাবা','তোমার বাবা','তার বাবা','আমাদের বাবা'],a:0,f:'أَبِي মানে আমার বাবা।'},
+    {q:'أَب ও أَخ শব্দ দুটোর বিশেষত্ব কী?',o:['এগুলো "পাঁচটা বিশেষ্য"-এর অংশ, অনিয়মিত রূপ নিতে পারে','এগুলো সবসময় নিয়মিত','এগুলোর কোনো প্রত্যয় লাগে না','এগুলো শুধু বহুবচনে ব্যবহৃত'],a:0,f:'أَب ও أَخ হলো "পাঁচটা বিশেষ্য"-এর অংশ, কিছু অবস্থানে অনিয়মিত রূপ নেয়।'},
+    {q:'أُمِّي এর অর্থ কী?',o:['আমার মা','তোমার মা','তার মা','আমাদের মা'],a:0,f:'أُمِّي মানে আমার মা।'},
+    {q:'"তোমার বোন" (নারীকে বলা) কীভাবে বলবে?',o:['أُخْتُكِ','أُخْتُكَ','أُخْتِي','أُخْتُهَا'],a:0,f:'নারীকে বলা হলে أُخْتُكِ (كِ সহ)।'}
   ],
   'c5l5q':[
-    {q:'\u0987\u09a6\u09be\u09ab\u09be \u0997\u09a0\u09a8\u09c7 "\u098f\u09b0/of" \u09ac\u09cb\u099d\u09be\u09a4\u09c7 \u0995\u09c0 \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc?',o:['\u0995\u09cb\u09a8\u09cb \u0986\u09b2\u09be\u09a6\u09be \u09b6\u09ac\u09cd\u09a6 \u09b2\u09be\u0997\u09c7 \u09a8\u09be','\u098f\u0995\u099f\u09be \u09ac\u09bf\u09b6\u09c7\u09b7 \u09b6\u09ac\u09cd\u09a6 \u09af\u09cb\u0997 \u09b9\u09af\u09bc','\u098f\u0995\u099f\u09be \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09b2\u09be\u0997\u09c7','\u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be \u09ac\u09a6\u09b2\u09c7 \u09af\u09be\u09af\u09bc'],a:0,f:'\u0987\u09a6\u09be\u09ab\u09be\u09af\u09bc \u0995\u09cb\u09a8\u09cb \u0986\u09b2\u09be\u09a6\u09be \u09b6\u09ac\u09cd\u09a6 \u09b2\u09be\u0997\u09c7 \u09a8\u09be, \u09b6\u09c1\u09a7\u09c1 \u09a6\u09c1\u099f\u09cb \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af \u09aa\u09b0\u09aa\u09b0 \u09ac\u09b8\u09c7\u0964'},
-    {q:'\u0987\u09a6\u09be\u09ab\u09be\u09b0 \u09aa\u09cd\u09b0\u09a5\u09ae \u09b6\u09ac\u09cd\u09a6\u09c7 \u0995\u09c0 \u09ac\u09b8\u09c7 \u09a8\u09be?',o:['\u0627\u0644 \u0985\u09a5\u09ac\u09be \u09a4\u09be\u09a8\u09ac\u09c0\u09a8','\u09b9\u09be\u09b0\u09be\u0995\u09be\u09a4','\u09a6\u09c0\u09b0\u09cd\u0998 \u09b8\u09cd\u09ac\u09b0','\u09b6\u09be\u09a6\u09cd\u09a6\u09be'],a:0,f:'\u0987\u09a6\u09be\u09ab\u09be\u09b0 \u09aa\u09cd\u09b0\u09a5\u09ae \u09b6\u09ac\u09cd\u09a6\u09c7 \u0627\u0644 \u09ac\u09be \u09a4\u09be\u09a8\u09ac\u09c0\u09a8 \u0995\u0996\u09a8\u09cb \u09ac\u09b8\u09c7 \u09a8\u09be\u0964'},
-    {q:'\u0628\u064e\u064a\u0652\u062a\u064f \u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09ac\u09be\u09dc\u09bf','\u09b2\u09cb\u0995\u099f\u09be \u09ac\u09be\u09dc\u09bf\u09a4\u09c7 \u0986\u099b\u09c7','\u09ac\u09be\u09dc\u09bf\u099f\u09be \u09ac\u09dc','\u09b2\u09cb\u0995\u099f\u09be \u09ac\u09be\u09dc\u09bf \u099a\u09be\u09af\u09bc'],a:0,f:'\u0628\u064e\u064a\u0652\u062a\u064f \u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644\u0650 \u09ae\u09be\u09a8\u09c7 \u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09ac\u09be\u09dc\u09bf\u0964'},
-    {q:'\u0987\u09a6\u09be\u09ab\u09be \u09b6\u09ac\u09cd\u09a6\u099f\u09be\u09b0 \u0986\u0995\u09cd\u09b7\u09b0\u09bf\u0995 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09af\u09cb\u0997 \u0995\u09b0\u09be','\u09ad\u09be\u0999\u09be','\u0986\u09b2\u09be\u09a6\u09be \u0995\u09b0\u09be','\u09aa\u09b0\u09bf\u09ac\u09b0\u09cd\u09a4\u09a8 \u0995\u09b0\u09be'],a:0,f:'\u0987\u09a6\u09be\u09ab\u09be (i\u1e0d\u0101fa) \u09ae\u09be\u09a8\u09c7 \u09af\u09cb\u0997 \u0995\u09b0\u09be\u0964'}
+    {q:'ইদাফা গঠনে "এর/of" বোঝাতে কী ব্যবহৃত হয়?',o:['কোনো আলাদা শব্দ লাগে না','একটা বিশেষ শব্দ যোগ হয়','একটা প্রত্যয় লাগে','ক্রিয়া বদলে যায়'],a:0,f:'ইদাফায় কোনো আলাদা শব্দ লাগে না, শুধু দুটো বিশেষ্য পরপর বসে।'},
+    {q:'ইদাফার প্রথম শব্দে কী বসে না?',o:['ال অথবা তানবীন','হারাকাত','দীর্ঘ স্বর','শাদ্দা'],a:0,f:'ইদাফার প্রথম শব্দে ال বা তানবীন কখনো বসে না।'},
+    {q:'بَيْتُ الرَّجُلِ এর অর্থ কী?',o:['লোকটার বাড়ি','লোকটা বাড়িতে আছে','বাড়িটা বড়','লোকটা বাড়ি চায়'],a:0,f:'بَيْتُ الرَّجُلِ মানে লোকটার বাড়ি।'},
+    {q:'ইদাফা শব্দটার আক্ষরিক অর্থ কী?',o:['যোগ করা','ভাঙা','আলাদা করা','পরিবর্তন করা'],a:0,f:'ইদাফা (iḍāfa) মানে যোগ করা।'}
   ],
   'c5l6q':[
-    {q:'\u0627\u0650\u0628\u0652\u0646\u064f \u0627\u0644\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b6\u09bf\u0995\u09cd\u09b7\u0995\u09c7\u09b0 \u099b\u09c7\u09b2\u09c7','\u09b6\u09bf\u0995\u09cd\u09b7\u0995\u09c7\u09b0 \u09ae\u09c7\u09af\u09bc\u09c7','\u09b6\u09bf\u0995\u09cd\u09b7\u0995\u09c7\u09b0 \u09ac\u09be\u09dc\u09bf','\u09b6\u09bf\u0995\u09cd\u09b7\u0995\u09c7\u09b0 \u09ac\u0987'],a:0,f:'\u0627\u0650\u0628\u0652\u0646\u064f \u0627\u0644\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645\u0650 \u09ae\u09be\u09a8\u09c7 \u09b6\u09bf\u0995\u09cd\u09b7\u0995\u09c7\u09b0 \u099b\u09c7\u09b2\u09c7\u0964'},
-    {q:'\u0628\u064e\u064a\u0652\u062a\u064f\u0647\u064f \u098f\u09ac\u0982 \u0628\u064e\u064a\u0652\u062a\u064f \u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644\u0650 \u2014 \u098f\u0987 \u09a6\u09c1\u099f\u09cb\u09b0 \u09ae\u09a7\u09cd\u09af\u09c7 \u09aa\u09be\u09b0\u09cd\u09a5\u0995\u09cd\u09af \u0995\u09c0?',o:['\u09aa\u09cd\u09b0\u09a5\u09ae\u099f\u09be \u09b8\u09b0\u09cd\u09ac\u09a8\u09be\u09ae \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc, \u09a6\u09cd\u09ac\u09bf\u09a4\u09c0\u09af\u09bc\u099f\u09be \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af','\u0995\u09cb\u09a8\u09cb \u09aa\u09be\u09b0\u09cd\u09a5\u0995\u09cd\u09af \u09a8\u09c7\u0987','\u09a6\u09c1\u099f\u09cb\u0987 \u098f\u0995\u0987 \u099c\u09bf\u09a8\u09bf\u09b8 \u09ad\u09bf\u09a8\u09cd\u09a8\u09ad\u09be\u09ac\u09c7 \u09b2\u09c7\u0996\u09be','\u09aa\u09cd\u09b0\u09a5\u09ae\u099f\u09be \u09ad\u09c1\u09b2 \u09ac\u09be\u09a8\u09be\u09a8'],a:0,f:'\u09aa\u09cd\u09b0\u09a5\u09ae\u099f\u09be \u09b8\u09b0\u09cd\u09ac\u09a8\u09be\u09ae \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc, \u09a6\u09cd\u09ac\u09bf\u09a4\u09c0\u09af\u09bc\u099f\u09be \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u0964'},
-    {q:'\u0628\u0650\u0646\u0652\u062a\u064f \u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09ae\u09c7\u09af\u09bc\u09c7','\u09b2\u09cb\u0995\u099f\u09be\u09b0 \u099b\u09c7\u09b2\u09c7','\u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09ac\u09be\u09dc\u09bf','\u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09a8\u09be\u09ae'],a:0,f:'\u0628\u0650\u0646\u0652\u062a\u064f \u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644\u0650 \u09ae\u09be\u09a8\u09c7 \u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09ae\u09c7\u09af\u09bc\u09c7\u0964'},
-    {q:'\u0623\u064e\u062e\u064f\u0648\u0647\u064e\u0627 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc\u099f\u09be \u0995\u09c0 \u09ac\u09cb\u099d\u09be\u09af\u09bc?',o:['\u09a4\u09be\u09b0 (\u09a8\u09be\u09b0\u09c0) \u09ad\u09be\u0987','\u09a4\u09be\u09b0 (\u09aa\u09c1\u09b0\u09c1\u09b7) \u09ad\u09be\u0987','\u0986\u09ae\u09be\u09b0 \u09ad\u09be\u0987','\u09a4\u09cb\u09ae\u09be\u09b0 \u09ad\u09be\u0987'],a:0,f:'\u0647\u064e\u0627 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09ae\u09be\u09a8\u09c7 \u09a4\u09be\u09b0 (\u09a8\u09be\u09b0\u09c0)\u0964'}
+    {q:'اِبْنُ المُعَلِّمِ এর অর্থ কী?',o:['শিক্ষকের ছেলে','শিক্ষকের মেয়ে','শিক্ষকের বাড়ি','শিক্ষকের বই'],a:0,f:'اِبْنُ المُعَلِّمِ মানে শিক্ষকের ছেলে।'},
+    {q:'بَيْتُهُ এবং بَيْتُ الرَّجُلِ — এই দুটোর মধ্যে পার্থক্য কী?',o:['প্রথমটা সর্বনাম প্রত্যয়, দ্বিতীয়টা সম্পূর্ণ বিশেষ্য','কোনো পার্থক্য নেই','দুটোই একই জিনিস ভিন্নভাবে লেখা','প্রথমটা ভুল বানান'],a:0,f:'প্রথমটা সর্বনাম প্রত্যয়, দ্বিতীয়টা সম্পূর্ণ বিশেষ্য।'},
+    {q:'بِنْتُ الرَّجُلِ এর অর্থ কী?',o:['লোকটার মেয়ে','লোকটার ছেলে','লোকটার বাড়ি','লোকটার নাম'],a:0,f:'بِنْتُ الرَّجُلِ মানে লোকটার মেয়ে।'},
+    {q:'أَخُوهَا প্রত্যয়টা কী বোঝায়?',o:['তার (নারী) ভাই','তার (পুরুষ) ভাই','আমার ভাই','তোমার ভাই'],a:0,f:'هَا প্রত্যয় মানে তার (নারী)।'}
   ],
   'c5rq':[
-    {q:'\u0639\u064e\u0627\u0626\u0650\u0644\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09aa\u09b0\u09bf\u09ac\u09be\u09b0','\u09ac\u09be\u09a1\u09bc\u09bf','\u09b6\u09b9\u09b0','\u09a6\u09c7\u09b6'],a:0,f:'\u0639\u064e\u0627\u0626\u0650\u0644\u064e\u0629 \u09ae\u09be\u09a8\u09c7 \u09aa\u09b0\u09bf\u09ac\u09be\u09b0\u0964'},
-    {q:'\u0627\u0650\u0628\u0652\u0646 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u099b\u09c7\u09b2\u09c7/\u09aa\u09c1\u09a4\u09cd\u09b0','\u09ae\u09c7\u09af\u09bc\u09c7','\u09ac\u09be\u09ac\u09be','\u09ae\u09be'],a:0,f:'\u0627\u0650\u0628\u0652\u0646 \u09ae\u09be\u09a8\u09c7 \u099b\u09c7\u09b2\u09c7/\u09aa\u09c1\u09a4\u09cd\u09b0\u0964'},
-    {q:'"\u0986\u09ae\u09be\u09b0" \u09ac\u09cb\u099d\u09be\u09a4\u09c7 \u0995\u09cb\u09a8 \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc?',o:['\u064a','\u0643\u064e','\u0647\u064f','\u0647\u064e\u0627'],a:0,f:'\u064a \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09ae\u09be\u09a8\u09c7 "\u0986\u09ae\u09be\u09b0"\u0964'},
-    {q:'\u0623\u064e\u0628\u0650\u064a \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be','\u09a4\u09cb\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be','\u09a4\u09be\u09b0 \u09ac\u09be\u09ac\u09be','\u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u09ac\u09be\u09ac\u09be'],a:0,f:'\u0623\u064e\u0628\u0650\u064a \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be\u0964'},
-    {q:'\u0987\u09a6\u09be\u09ab\u09be \u0997\u09a0\u09a8\u09c7 "\u098f\u09b0" \u09ac\u09cb\u099d\u09be\u09a4\u09c7 \u0995\u09c0 \u09b2\u09be\u0997\u09c7?',o:['\u0995\u09cb\u09a8\u09cb \u0986\u09b2\u09be\u09a6\u09be \u09b6\u09ac\u09cd\u09a6 \u09b2\u09be\u0997\u09c7 \u09a8\u09be','\u098f\u0995\u099f\u09be \u09b6\u09ac\u09cd\u09a6 \u09af\u09cb\u0997 \u09b9\u09af\u09bc','\u098f\u0995\u099f\u09be \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09b2\u09be\u0997\u09c7','\u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be \u09ac\u09a6\u09b2\u09c7 \u09af\u09be\u09af\u09bc'],a:0,f:'\u0987\u09a6\u09be\u09ab\u09be\u09af\u09bc \u0995\u09cb\u09a8\u09cb \u0986\u09b2\u09be\u09a6\u09be \u09b6\u09ac\u09cd\u09a6 \u09b2\u09be\u0997\u09c7 \u09a8\u09be\u0964'},
-    {q:'\u0628\u064e\u064a\u0652\u062a\u064f \u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09ac\u09be\u09dc\u09bf','\u09b2\u09cb\u0995\u099f\u09be \u09ac\u09be\u09dc\u09bf\u09a4\u09c7','\u09ac\u09be\u09dc\u09bf\u099f\u09be \u09ac\u09dc','\u09b2\u09cb\u0995\u099f\u09be \u09ac\u09be\u09dc\u09bf \u099a\u09be\u09af\u09bc'],a:0,f:'\u0628\u064e\u064a\u0652\u062a\u064f \u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644\u0650 \u09ae\u09be\u09a8\u09c7 \u09b2\u09cb\u0995\u099f\u09be\u09b0 \u09ac\u09be\u09dc\u09bf\u0964'},
-    {q:'\u0987\u09a6\u09be\u09ab\u09be\u09b0 \u09aa\u09cd\u09b0\u09a5\u09ae \u09b6\u09ac\u09cd\u09a6\u09c7 \u0995\u09c0 \u09ac\u09b8\u09c7 \u09a8\u09be?',o:['\u0627\u0644 \u0985\u09a5\u09ac\u09be \u09a4\u09be\u09a8\u09ac\u09c0\u09a8','\u09b9\u09be\u09b0\u09be\u0995\u09be\u09a4','\u09a6\u09c0\u09b0\u09cd\u0998 \u09b8\u09cd\u09ac\u09b0','\u09b6\u09be\u09a6\u09cd\u09a6\u09be'],a:0,f:'\u0987\u09a6\u09be\u09ab\u09be\u09b0 \u09aa\u09cd\u09b0\u09a5\u09ae \u09b6\u09ac\u09cd\u09a6\u09c7 \u0627\u0644 \u09ac\u09be \u09a4\u09be\u09a8\u09ac\u09c0\u09a8 \u0995\u0996\u09a8\u09cb \u09ac\u09b8\u09c7 \u09a8\u09be\u0964'},
-    {q:'\u0623\u064e\u0628 \u0993 \u0623\u064e\u062e \u09b6\u09ac\u09cd\u09a6 \u09a6\u09c1\u099f\u09cb \u0995\u09c7\u09ae\u09a8?',o:['\u0995\u09bf\u099b\u09c1\u099f\u09be \u0985\u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4 ("\u09aa\u09be\u0981\u099a\u099f\u09be \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af"-\u098f\u09b0 \u0985\u0982\u09b6)','\u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4','\u09ac\u09b9\u09c1\u09ac\u099a\u09a8\u09c7\u0987 \u09b6\u09c1\u09a7\u09c1 \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4','\u09b8\u09ac\u09b8\u09ae\u09af\u09bc \u0987\u09a6\u09be\u09ab\u09be\u09af\u09bc \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc'],a:0,f:'\u0623\u064e\u0628 \u0993 \u0623\u064e\u062e \u0995\u09bf\u099b\u09c1\u099f\u09be \u0985\u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4, "\u09aa\u09be\u0981\u099a\u099f\u09be \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af"-\u098f\u09b0 \u0985\u0982\u09b6\u0964'}
+    {q:'عَائِلَة এর অর্থ কী?',o:['পরিবার','বাড়ি','শহর','দেশ'],a:0,f:'عَائِلَة মানে পরিবার।'},
+    {q:'اِبْن এর অর্থ কী?',o:['ছেলে/পুত্র','মেয়ে','বাবা','মা'],a:0,f:'اِبْن মানে ছেলে/পুত্র।'},
+    {q:'"আমার" বোঝাতে কোন প্রত্যয়?',o:['ي','كَ','هُ','هَا'],a:0,f:'ي প্রত্যয় মানে "আমার"।'},
+    {q:'أَبِي এর অর্থ কী?',o:['আমার বাবা','তোমার বাবা','তার বাবা','আমাদের বাবা'],a:0,f:'أَبِي মানে আমার বাবা।'},
+    {q:'ইদাফা গঠনে "এর" বোঝাতে কী লাগে?',o:['কোনো আলাদা শব্দ লাগে না','একটা শব্দ যোগ হয়','একটা প্রত্যয় লাগে','ক্রিয়া বদলে যায়'],a:0,f:'ইদাফায় কোনো আলাদা শব্দ লাগে না।'},
+    {q:'بَيْتُ الرَّجُلِ এর অর্থ কী?',o:['লোকটার বাড়ি','লোকটা বাড়িতে','বাড়িটা বড়','লোকটা বাড়ি চায়'],a:0,f:'بَيْتُ الرَّجُلِ মানে লোকটার বাড়ি।'},
+    {q:'ইদাফার প্রথম শব্দে কী বসে না?',o:['ال অথবা তানবীন','হারাকাত','দীর্ঘ স্বর','শাদ্দা'],a:0,f:'ইদাফার প্রথম শব্দে ال বা তানবীন কখনো বসে না।'},
+    {q:'أَب ও أَخ শব্দ দুটো কেমন?',o:['কিছুটা অনিয়মিত ("পাঁচটা বিশেষ্য"-এর অংশ)','সম্পূর্ণ নিয়মিত','বহুবচনেই শুধু ব্যবহৃত','সবসময় ইদাফায় ব্যবহৃত হয়'],a:0,f:'أَب ও أَخ কিছুটা অনিয়মিত, "পাঁচটা বিশেষ্য"-এর অংশ।'}
   ]
 };
 var qzAns={};
@@ -823,15 +825,15 @@ function buildQuiz(id){
   var html='';
   for(var i=0;i<qs.length;i++){
     var q=qs[i];
-    html+='<div class="qc"><div class="q-n">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8 '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
+    html+='<div class="qc"><div class="q-n">প্রশ্ন '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
     for(var j=0;j<q.o.length;j++){
       html+='<button type="button" class="qo" onclick="selectAnswer(\''+id+'\','+i+','+j+')">'+q.o[j]+'</button>';
     }
     html+='</div><div class="q-fb" id="qfb-'+id+'-'+i+'"></div></div>';
   }
-  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">\u09b8\u09ac\u09ae\u09bf\u09a4 \u0995\u09b0\u09cb</button>';
-  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">\u09a4\u09cb\u09ae\u09be\u09b0 \u09b8\u09cd\u0995\u09cb\u09b0</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
-  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">\u09ad\u09c1\u09b2 \u0989\u09a4\u09cd\u09a4\u09b0\u0997\u09c1\u09b2\u09cb \u09aa\u09b0\u09cd\u09af\u09be\u09b2\u09cb\u099a\u09a8\u09be \u0995\u09b0\u09cb</div><div id="mlist-'+id+'"></div></div>';
+  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">সবমিত করো</button>';
+  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">তোমার স্কোর</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
+  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">ভুল উত্তরগুলো পর্যালোচনা করো</div><div id="mlist-'+id+'"></div></div>';
   c.innerHTML=html;
   c.setAttribute('data-built','1');
 }
@@ -854,7 +856,7 @@ function selectAnswer(id,qi,oi){
   if(fb){
     fb.classList.add('show');
     fb.classList.add(ok?'ok':'no');
-    fb.innerHTML=ok?'\u2705 \u09b8\u09a0\u09bf\u0995!':('\u274c '+q.f);
+    fb.innerHTML=ok?'✅ সঠিক!':('❌ '+q.f);
   }
   if(!ok){
     if(!qzMistakes[id])qzMistakes[id]=[];
@@ -867,7 +869,7 @@ function submitQuiz(id){
   if(!qs)return;
   var ans=qzAns[id]||{};
   var answered=Object.keys(ans).length;
-  if(answered<qs.length){alert('\u09b8\u09ac \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u09c7\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0 \u09a6\u09bf\u09a8! \u09ac\u09be\u0995\u09bf \u0986\u099b\u09c7: '+(qs.length-answered)+'\u099f\u09bf');return;}
+  if(answered<qs.length){alert('সব প্রশ্নের উত্তর দিন! বাকি আছে: '+(qs.length-answered)+'টি');return;}
   var correct=0;
   for(var i=0;i<qs.length;i++){if(ans[i]===qs[i].a)correct++;}
   var pct=Math.round(correct/qs.length*100);
@@ -877,14 +879,14 @@ function submitQuiz(id){
   if(scn)scn.textContent=correct+'/'+qs.length+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.innerHTML='\ud83c\udfc6 \u0985\u09b8\u09be\u09a7\u09be\u09b0\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=80)scm.innerHTML='\u2b50 \u09a6\u09be\u09b0\u09c1\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=60)scm.innerHTML='\u2705 \u09ad\u09be\u09b2\u09cb \u09b9\u09af\u09bc\u09c7\u099b\u09c7! +'+(correct*5)+' XP';
+    if(pct>=90)scm.innerHTML='🏆 অসাধারণ! +'+(correct*5)+' XP';
+    else if(pct>=80)scm.innerHTML='⭐ দারুণ! +'+(correct*5)+' XP';
+    else if(pct>=60)scm.innerHTML='✅ ভালো হয়েছে! +'+(correct*5)+' XP';
     else{
-      scm.innerHTML='\u274c \u0986\u09b0\u0993 \u099a\u09b0\u09cd\u099a\u09be \u09a6\u09b0\u0995\u09be\u09b0! \u0985\u09a8\u09a4\u09a4 \u09ec\u09e6% \u09a6\u09b0\u0995\u09be\u09b0\u0964 \u09a4\u09c1\u09ae\u09bf \u09aa\u09c7\u09af\u09bc\u09c7\u099b '+pct+'%\u0964';
+      scm.innerHTML='❌ আরও চর্চা দরকার! অনতত ৬০% দরকার। তুমি পেয়েছ '+pct+'%।';
       var rb=document.createElement('button');
       rb.className='speak-btn';rb.style.marginTop='10px';rb.style.background='var(--red)';
-      rb.textContent='\ud83d\udd01 \u0986\u09ac\u09be\u09b0 \u099a\u09c7\u09b7\u09cd\u099f\u09be \u0995\u09b0\u09cb';
+      rb.textContent='🔁 আবার চেষ্টা করো';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(id);
       scm.appendChild(rb);
     }
@@ -900,7 +902,7 @@ function submitQuiz(id){
       var html='';
       for(var m=0;m<mistakes.length;m++){
         var mi=mistakes[m];
-        html+='<div class="mistake-item"><div class="mi-q">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8: '+mi.q+'</div><div class="mi-wrong">\u274c \u09a4\u09cb\u09ae\u09be\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u09b8\u09a0\u09bf\u0995: '+mi.correct+'</div><div class="mi-tip">\ud83d\udca1 '+mi.f+'</div></div>';
+        html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+mi.q+'</div><div class="mi-wrong">❌ তোমার উত্তর: '+mi.wrong+'</div><div class="mi-correct">✅ সঠিক: '+mi.correct+'</div><div class="mi-tip">💡 '+mi.f+'</div></div>';
       }
       ml.innerHTML=html;
     }
@@ -926,11 +928,11 @@ function idToDay(id){
 // ===== SPEAKING TEST (family review) =====
 var spData={
   'c5rs':[
-    {ar:'\u0647\u064e\u0630\u0650\u0647\u0650 \u0639\u064e\u0627\u0626\u0650\u0644\u064e\u062a\u0650\u064a',tr:'h\u0101dhihi \u2018\u0101\u2019ilat\u012b',bn:'\u098f\u099f\u09be \u0986\u09ae\u09be\u09b0 \u09aa\u09b0\u09bf\u09ac\u09be\u09b0'},
-    {ar:'\u0623\u064e\u0628\u0650\u064a \u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645',tr:'ab\u012b mu\u2018allim',bn:'\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09ac\u09be \u098f\u0995\u099c\u09a8 \u09b6\u09bf\u0995\u09cd\u09b7\u0995'},
-    {ar:'\u0623\u064f\u0645\u0651\u0650\u064a \u0637\u064e\u0628\u0650\u064a\u0628\u064e\u0629',tr:'umm\u012b \u1e6dab\u012bba',bn:'\u0986\u09ae\u09be\u09b0 \u09ae\u09be \u098f\u0995\u099c\u09a8 \u09a1\u09be\u0995\u09cd\u09a4\u09be\u09b0'},
-    {ar:'\u0644\u0650\u064a \u0623\u064e\u062e\u064c \u0648\u064e\u0623\u064f\u062e\u0652\u062a\u064c',tr:'l\u012b akhun wa ukhtun',bn:'\u0986\u09ae\u09be\u09b0 \u098f\u0995\u099f\u09be \u09ad\u09be\u0987 \u0993 \u098f\u0995\u099f\u09be \u09ac\u09cb\u09a8 \u0986\u099b\u09c7'},
-    {ar:'\u0628\u064e\u064a\u0652\u062a\u064f \u0639\u064e\u0627\u0626\u0650\u0644\u064e\u062a\u0650\u064a \u0643\u064e\u0628\u0650\u064a\u0631\u064c',tr:'baytu \u2018\u0101\u2019ilat\u012b kab\u012br',bn:'\u0986\u09ae\u09be\u09b0 \u09aa\u09b0\u09bf\u09ac\u09be\u09b0\u09c7\u09b0 \u09ac\u09be\u09dc\u09bf\u099f\u09be \u09ac\u09dc'}
+    {ar:'هَذِهِ عَائِلَتِي',tr:'hādhihi ‘ā’ilatī',bn:'এটা আমার পরিবার'},
+    {ar:'أَبِي مُعَلِّم',tr:'abī mu‘allim',bn:'আমার বাবা একজন শিক্ষক'},
+    {ar:'أُمِّي طَبِيبَة',tr:'ummī ṭabība',bn:'আমার মা একজন ডাক্তার'},
+    {ar:'لِي أَخٌ وَأُخْتٌ',tr:'lī akhun wa ukhtun',bn:'আমার একটা ভাই ও একটা বোন আছে'},
+    {ar:'بَيْتُ عَائِلَتِي كَبِيرٌ',tr:'baytu ‘ā’ilatī kabīr',bn:'আমার পরিবারের বাড়িটা বড়'}
   ]
 };
 
@@ -944,8 +946,8 @@ function buildSp(id){
   for(var i=0;i<items.length;i++){
     var it=items[i];
     html+='<div class="speak-prompt"><div class="speak-prompt-ar ar">'+it.ar+'</div><div class="speak-prompt-bn">'+it.tr+' &mdash; '+it.bn+'</div>';
-    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">\ud83d\udd0a \u09b6\u09c1\u09a8\u09c1\u09a8</button>';
-    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8</button>';
+    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">🔊 শুনুন</button>';
+    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">🎤 বলুন</button>';
     html+='<div class="speak-res" id="fsr-'+id+'-'+i+'"></div></div>';
   }
   c.innerHTML=html;
@@ -967,32 +969,32 @@ function toggleFreeSpeak(id,i){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';
+    btn.textContent='🎤 বলুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='\u26a0\ufe0f Chrome browser \u09a6\u09b0\u0995\u09be\u09b0!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();
   rec.lang='ar-SA';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='\u23f9 \u09a5\u09be\u09ae\u09be\u09a4\u09c7 \u099a\u09be\u09aa\u09cb';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপো';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
-      res.innerHTML='\ud83c\udfa4 \u09b6\u09cb\u09a8\u09be \u0997\u09c7\u099b\u09c7: "'+t+'" &mdash; \u099a\u09c7\u09b7\u09cd\u099f\u09be \u099a\u09be\u09b2\u09bf\u09af\u09bc\u09c7 \u09af\u09be\u0993! +5 XP';
+      res.innerHTML='🎤 শোনা গেছে: "'+t+'" &mdash; চেষ্টা চালিয়ে যাও! +5 XP';
       res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
       addXP(5);
     }
   };
   rec.onerror=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }

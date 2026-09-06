@@ -694,7 +694,8 @@ function toggleDay(n){
 }
 
 
-// ===== TTS (static pre-generated audio files) =====
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='ar';
 var _SPEECH_LANG='ar-SA';
 function fnv1a(s){
@@ -706,45 +707,46 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     } else {
-      console.warn('Audio file not found: '+src+' \u2014 check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
 
 // ===== LETTER / WORD AUDIO MAP =====
 var letterAudio={
-  'word_kitabun':'\u0643\u0650\u062a\u064e\u0627\u0628\u064c',
-  'word_baytan':'\u0628\u064e\u064a\u0652\u062a\u064b\u0627',
-  'word_qalamin':'\u0642\u064e\u0644\u064e\u0645\u064d',
-  'word_muallim':'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645',
-  'word_mudarris':'\u0645\u064f\u062f\u064e\u0631\u0651\u0650\u0633',
-  'word_assalam':'\u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645',
-  'word_albayt':'\u0627\u0644\u0628\u064e\u064a\u0652\u062a',
-  'word_alkitab':'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628',
-  'word_alrajul':'\u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644',
-  'word_alnoor':'\u0627\u0644\u0646\u064f\u0651\u0648\u0631',
-  'word_alwalad':'\u0627\u0644\u0648\u064e\u0644\u064e\u062f',
-  'word_alqalam':'\u0627\u0644\u0642\u064e\u0644\u064e\u0645',
-  'word_alnahar':'\u0627\u0644\u0646\u064e\u0651\u0647\u064e\u0631',
-  'word_aldars':'\u0627\u0644\u062f\u064e\u0651\u0631\u0652\u0633',
-  'word_alsamak':'\u0627\u0644\u0633\u064e\u0651\u0645\u064e\u0643',
-  'word_alshams':'\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633',
-  'word_alqamar':'\u0627\u0644\u0642\u064e\u0645\u064e\u0631',
-  'phrase_kitab_qalam':'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628\u064f \u0648\u064e\u0627\u0644\u0642\u064e\u0644\u064e\u0645\u064f',
-  'phrase_bayt_bahr':'\u0627\u0644\u0628\u064e\u064a\u0652\u062a\u064f \u0648\u064e\u0627\u0644\u0628\u064e\u062d\u0652\u0631\u064f',
-  'phrase_shams_qamar':'\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633\u064f \u0648\u064e\u0627\u0644\u0642\u064e\u0645\u064e\u0631\u064f'
+  'word_kitabun':'كِتَابٌ',
+  'word_baytan':'بَيْتًا',
+  'word_qalamin':'قَلَمٍ',
+  'word_muallim':'مُعَلِّم',
+  'word_mudarris':'مُدَرِّس',
+  'word_assalam':'السَّلَام',
+  'word_albayt':'البَيْت',
+  'word_alkitab':'الكِتَاب',
+  'word_alrajul':'الرَّجُل',
+  'word_alnoor':'النُّور',
+  'word_alwalad':'الوَلَد',
+  'word_alqalam':'القَلَم',
+  'word_alnahar':'النَّهَر',
+  'word_aldars':'الدَّرْس',
+  'word_alsamak':'السَّمَك',
+  'word_alshams':'الشَّمْس',
+  'word_alqamar':'القَمَر',
+  'phrase_kitab_qalam':'الكِتَابُ وَالقَلَمُ',
+  'phrase_bayt_bahr':'البَيْتُ وَالبَحْرُ',
+  'phrase_shams_qamar':'الشَّمْسُ وَالقَمَرُ'
 };
 function playLetter(key){
   var text=letterAudio[key];
@@ -768,34 +770,34 @@ function revealAnswer(id){
 // ===== QUIZ DATA (data-object braces only, never appended after) =====
 var qzData={
   'c3l1q':[
-    {q:'\u09a4\u09be\u09a8\u09ac\u09c0\u09a8 \u0995\u09c0 \u09a8\u09bf\u09b0\u09cd\u09a6\u09c7\u09b6 \u0995\u09b0\u09c7?',o:['\u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u09b6\u09c7\u09b7\u09c7 \u098f\u0995\u099f\u09be "n" \u09a7\u09cd\u09ac\u09a8\u09bf (\u0985\u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af)','\u09b8\u09cd\u09ac\u09b0\u09a7\u09cd\u09ac\u09a8\u09bf \u09b2\u09ae\u09cd\u09ac\u09be \u09b9\u099a\u09cd\u099b\u09c7','\u09b9\u09b0\u09ab \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac \u09b9\u099a\u09cd\u099b\u09c7','\u09b9\u09b0\u09ab\u099f\u09be \u09a8\u09c0\u09b0\u09ac'],a:0,f:'\u09a4\u09be\u09a8\u09ac\u09c0\u09a8 \u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u09b6\u09c7\u09b7\u09c7 "n" \u09a7\u09cd\u09ac\u09a8\u09bf \u09af\u09cb\u0997 \u0995\u09b0\u09c7 \u098f\u09ac\u0982 \u0985\u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af \u09ac\u09cb\u099d\u09be\u09af\u09bc\u0964'},
-    {q:'\u09ab\u09be\u09a4\u09b9\u09be\u09a4\u09be\u0987\u09a8 (\u064b) \u09b8\u09be\u09a7\u09be\u09b0\u09a3\u09a4 \u0995\u09cb\u09a8 \u09b9\u09b0\u09ab\u09c7\u09b0 \u0989\u09aa\u09b0 \u09ac\u09b8\u09c7?',o:['\u0986\u09b2\u09bf\u09ab (carrier \u09b9\u09bf\u09b8\u09c7\u09ac\u09c7)','\u09af\u09c7\u0995\u09cb\u09a8\u09cb \u09b9\u09b0\u09ab\u09c7\u09b0 \u0989\u09aa\u09b0 \u09b8\u09b0\u09be\u09b8\u09b0\u09bf','\u09b6\u09c1\u09a7\u09c1 \u064a \u098f\u09b0 \u0989\u09aa\u09b0','\u09b6\u09c1\u09a7\u09c1 \u0648 \u098f\u09b0 \u0989\u09aa\u09b0'],a:0,f:'\u09ab\u09be\u09a4\u09b9\u09be\u09a4\u09be\u0987\u09a8 \u09b8\u09be\u09a7\u09be\u09b0\u09a3\u09a4 \u098f\u0995\u099f\u09be \u0622-\u098f\u09b0 \u0989\u09aa\u09b0 \u09ac\u09b8\u09c7\u0964'},
-    {q:'\u0643\u0650\u062a\u064e\u0627\u0628\u064c \u0995\u09c0\u09ad\u09be\u09ac\u09c7 \u0989\u099a\u09cd\u099a\u09be\u09b0\u09bf\u09a4 \u09b9\u09ac\u09c7?',o:['kit\u0101bun','kit\u0101ban','kit\u0101bin','kit\u0101b'],a:0,f:'\u09a6\u09be\u09ae\u09cd\u09ae\u09be\u09a4\u09be\u0987\u09a8 \u09a5\u09be\u0995\u09b2\u09c7 \u09b6\u09c7\u09b7\u09c7 "-un" \u09af\u09cb\u0997 \u09b9\u09af\u09bc\u0964'},
-    {q:'\u09a6\u09be\u09ae\u09cd\u09ae\u09be\u09a4\u09be\u0987\u09a8 (\u064c) \u098f\u09b0 \u09b6\u09ac\u09cd\u09a6 \u0995\u09c0?',o:['"-un" \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc','"-an" \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc','"-in" \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc','\u0995\u09cb\u09a8\u09cb \u09aa\u09cd\u09b0\u09a4\u09cd\u09af\u09af\u09bc \u09a8\u09c7\u0987'],a:0,f:'\u09a6\u09be\u09ae\u09cd\u09ae\u09be\u09a4\u09be\u0987\u09a8 \u09ae\u09be\u09a8\u09c7 "-un"\u0964'}
+    {q:'তানবীন কী নির্দেশ করে?',o:['শব্দের শেষে একটা "n" ধ্বনি (অনির্দিষ্ট বিশেষ্য)','স্বরধ্বনি লম্বা হচ্ছে','হরফ দ্বিত্ব হচ্ছে','হরফটা নীরব'],a:0,f:'তানবীন শব্দের শেষে "n" ধ্বনি যোগ করে এবং অনির্দিষ্ট বিশেষ্য বোঝায়।'},
+    {q:'ফাতহাতাইন (ً) সাধারণত কোন হরফের উপর বসে?',o:['আলিফ (carrier হিসেবে)','যেকোনো হরফের উপর সরাসরি','শুধু ي এর উপর','শুধু و এর উপর'],a:0,f:'ফাতহাতাইন সাধারণত একটা آ-এর উপর বসে।'},
+    {q:'كِتَابٌ কীভাবে উচ্চারিত হবে?',o:['kitābun','kitāban','kitābin','kitāb'],a:0,f:'দাম্মাতাইন থাকলে শেষে "-un" যোগ হয়।'},
+    {q:'দাম্মাতাইন (ٌ) এর শব্দ কী?',o:['"-un" প্রত্যয়','"-an" প্রত্যয়','"-in" প্রত্যয়','কোনো প্রত্যয় নেই'],a:0,f:'দাম্মাতাইন মানে "-un"।'}
   ],
   'c3l2q':[
-    {q:'\u09b6\u09be\u09a6\u09cd\u09a6\u09be (\u0651) \u0995\u09c0 \u09a8\u09bf\u09b0\u09cd\u09a6\u09c7\u09b6 \u0995\u09b0\u09c7?',o:['\u09b9\u09b0\u09ab\u099f\u09be \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac/\u09a6\u09c0\u09b0\u09cd\u0998 \u0989\u099a\u09cd\u099a\u09be\u09b0\u09a3 (gemination)','\u09b9\u09b0\u09ab\u099f\u09be \u09a8\u09c0\u09b0\u09ac','\u0995\u09cb\u09a8\u09cb \u09b8\u09cd\u09ac\u09b0 \u09a8\u09c7\u0987','\u098f\u0995\u099f\u09be \u09a8\u09a4\u09c1\u09a8 \u09b9\u09b0\u09ab'],a:0,f:'\u09b6\u09be\u09a6\u09cd\u09a6\u09be \u09ac\u09cb\u099d\u09be\u09af\u09bc \u09b9\u09b0\u09ab\u099f\u09be \u09a6\u09c1\u09ac\u09be\u09b0 \u09ac\u09b2\u09be\u09b0 \u09ae\u09a4\u09cb \u099c\u09cb\u09b0 \u09a6\u09bf\u09af\u09bc\u09c7 \u0989\u099a\u09cd\u099a\u09be\u09b0\u09a3\u0964'},
-    {q:'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645 \u09b6\u09ac\u09cd\u09a6\u09c7 \u0995\u09cb\u09a8 \u09b9\u09b0\u09ab\u09c7 \u09b6\u09be\u09a6\u09cd\u09a6\u09be \u0986\u099b\u09c7?',o:['\u0645','\u0639','\u0644','\u09b8\u09ac\u0997\u09c1\u09b2\u09cb\u09a4\u09c7'],a:2,f:'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645-\u098f \u0644 \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac\u0964'},
-    {q:'\u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645 \u09b6\u09ac\u09cd\u09a6\u09c7 \u09b6\u09be\u09a6\u09cd\u09a6\u09be \u0995\u09c7\u09a8 \u098f\u09b8\u09c7\u099b\u09c7?',o:['\u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab\u09c7\u09b0 \u0995\u09be\u09b0\u09a3\u09c7','\u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab\u09c7\u09b0 \u0995\u09be\u09b0\u09a3\u09c7 \u0627\u0644-\u098f\u09b0 \u0644 \u0986\u09a4\u09cd\u09ae\u09c0\u09ad\u09c2\u09a4 \u09b9\u09af\u09bc\u09c7','\u098f\u09b2\u09cb\u09ae\u09c7\u09b2\u09cb\u09ad\u09be\u09ac\u09c7','\u09b8\u09cd\u09ac\u09b0\u099a\u09bf\u09b9\u09cd\u09a8\u09c7\u09b0 \u0995\u09be\u09b0\u09a3\u09c7'],a:1,f:'\u0633 \u098f\u0995\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab, \u09a4\u09be\u0987 \u0644 \u0986\u09a4\u09cd\u09ae\u09c0\u09ad\u09c2\u09a4 \u09b9\u09af\u09bc\u09c7 \u09b6\u09be\u09a6\u09cd\u09a6\u09be \u09ac\u09b8\u09c7\u0964'},
-    {q:'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645 \u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b6\u09bf\u0995\u09cd\u09b7\u0995 (teacher)','\u099b\u09be\u09a4\u09cd\u09b0','\u09ac\u0987','\u09b8\u09cd\u0995\u09c1\u09b2'],a:0,f:'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645 (mu\u2018allim) \u09ae\u09be\u09a8\u09c7 \u09b6\u09bf\u0995\u09cd\u09b7\u0995\u0964'}
+    {q:'শাদ্দা (ّ) কী নির্দেশ করে?',o:['হরফটা দ্বিত্ব/দীর্ঘ উচ্চারণ (gemination)','হরফটা নীরব','কোনো স্বর নেই','একটা নতুন হরফ'],a:0,f:'শাদ্দা বোঝায় হরফটা দুবার বলার মতো জোর দিয়ে উচ্চারণ।'},
+    {q:'مُعَلِّم শব্দে কোন হরফে শাদ্দা আছে?',o:['م','ع','ل','সবগুলোতে'],a:2,f:'مُعَلِّم-এ ل দ্বিত্ব।'},
+    {q:'السَّلَام শব্দে শাদ্দা কেন এসেছে?',o:['চন্দ্র হরফের কারণে','সূর্য হরফের কারণে ال-এর ل আত্মীভূত হয়ে','এলোমেলোভাবে','স্বরচিহ্নের কারণে'],a:1,f:'س একটা সূর্য হরফ, তাই ل আত্মীভূত হয়ে শাদ্দা বসে।'},
+    {q:'مُعَلِّم শব্দের অর্থ কী?',o:['শিক্ষক (teacher)','ছাত্র','বই','স্কুল'],a:0,f:'مُعَلِّم (mu‘allim) মানে শিক্ষক।'}
   ],
   'c3l3q':[
-    {q:'\u09ae\u09cb\u099f \u0995\u09a4\u0997\u09c1\u09b2\u09cb "\u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab" (moon letters) \u0986\u099b\u09c7?',o:['\u09ed','\u09e7\u09ea','\u09e8\u09e7','\u09e8\u09ee'],a:1,f:'\u09e7\u09ea\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab \u0986\u099b\u09c7, \u09ac\u09be\u0995\u09bf \u09e7\u09ea\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab\u0964'},
-    {q:'\u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab\u09c7\u09b0 \u0986\u0997\u09c7 \u0627\u0644-\u098f\u09b0 \u0644 \u0995\u09c0 \u09b9\u09af\u09bc?',o:['\u09b8\u09cd\u09aa\u09b7\u09cd\u099f \u0989\u099a\u09cd\u099a\u09be\u09b0\u09bf\u09a4 \u09b9\u09af\u09bc','\u09a8\u09c0\u09b0\u09ac \u09b9\u09af\u09bc\u09c7 \u09af\u09be\u09af\u09bc \u098f\u09ac\u0982 \u09aa\u09b0\u09c7\u09b0 \u09b9\u09b0\u09ab \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac \u09b9\u09af\u09bc','\u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u09ac\u09be\u09a6 \u09aa\u09dc\u09c7','\u09a6\u09c0\u09b0\u09cd\u0998 \u09b9\u09af\u09bc'],a:1,f:'\u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab\u09c7\u09b0 \u0986\u0997\u09c7 \u0644 \u09a8\u09c0\u09b0\u09ac \u09b9\u09af\u09bc\u09c7 \u09af\u09be\u09af\u09bc \u098f\u09ac\u0982 \u09aa\u09b0\u09c7\u09b0 \u09b9\u09b0\u09ab \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac \u09b9\u09af\u09bc (\u09b6\u09be\u09a6\u09cd\u09a6\u09be)\u0964'},
-    {q:'\u0627\u0644\u0642\u064e\u0645\u064e\u0631 (\u099a\u09be\u0981\u09a6) \u0995\u09c7\u09a8 "al-qamar" (\u09b8\u09cd\u09aa\u09b7\u09cd\u099f \u0644 \u09b8\u09b9) \u0989\u099a\u09cd\u099a\u09be\u09b0\u09bf\u09a4 \u09b9\u09af\u09bc?',o:['\u0642 \u098f\u0995\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab','\u0642 \u098f\u0995\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab','\u098f\u099f\u09be \u098f\u0995\u099f\u09be \u09ac\u09cd\u09af\u09a4\u09bf\u0995\u09cd\u09b0\u09ae','\u0995\u09cb\u09a8\u09cb \u09a8\u09bf\u09af\u09bc\u09ae \u09a8\u09c7\u0987'],a:0,f:'\u0642 \u098f\u0995\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab, \u09a4\u09be\u0987 \u0644 \u09b8\u09cd\u09aa\u09b7\u09cd\u099f \u09a5\u09be\u0995\u09c7\u0964'},
-    {q:'\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633 (\u09b8\u09c2\u09b0\u09cd\u09af) \u0995\u09c7\u09a8 "ash-shams" (\u0644 \u09a8\u09c0\u09b0\u09ac) \u0989\u099a\u09cd\u099a\u09be\u09b0\u09bf\u09a4 \u09b9\u09af\u09bc?',o:['\u0634 \u098f\u0995\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab','\u0634 \u098f\u0995\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab','\u098f\u099f\u09be \u098f\u0995\u099f\u09be \u09ac\u09cd\u09af\u09a4\u09bf\u0995\u09cd\u09b0\u09ae','\u09a4\u09be\u09a8\u09ac\u09c0\u09a8\u09c7\u09b0 \u0995\u09be\u09b0\u09a3\u09c7'],a:1,f:'\u0634 \u098f\u0995\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab, \u09a4\u09be\u0987 \u0644 \u09a8\u09c0\u09b0\u09ac \u09b9\u09af\u09bc\u09c7 \u09af\u09be\u09af\u09bc\u0964'}
+    {q:'মোট কতগুলো "চন্দ্র হরফ" (moon letters) আছে?',o:['৭','১৪','২১','২৮'],a:1,f:'১৪টা চন্দ্র হরফ আছে, বাকি ১৪টা সূর্য হরফ।'},
+    {q:'সূর্য হরফের আগে ال-এর ل কী হয়?',o:['স্পষ্ট উচ্চারিত হয়','নীরব হয়ে যায় এবং পরের হরফ দ্বিত্ব হয়','সম্পূর্ণ বাদ পড়ে','দীর্ঘ হয়'],a:1,f:'সূর্য হরফের আগে ل নীরব হয়ে যায় এবং পরের হরফ দ্বিত্ব হয় (শাদ্দা)।'},
+    {q:'القَمَر (চাঁদ) কেন "al-qamar" (স্পষ্ট ل সহ) উচ্চারিত হয়?',o:['ق একটা চন্দ্র হরফ','ق একটা সূর্য হরফ','এটা একটা ব্যতিক্রম','কোনো নিয়ম নেই'],a:0,f:'ق একটা চন্দ্র হরফ, তাই ل স্পষ্ট থাকে।'},
+    {q:'الشَّمْس (সূর্য) কেন "ash-shams" (ل নীরব) উচ্চারিত হয়?',o:['ش একটা চন্দ্র হরফ','ش একটা সূর্য হরফ','এটা একটা ব্যতিক্রম','তানবীনের কারণে'],a:1,f:'ش একটা সূর্য হরফ, তাই ل নীরব হয়ে যায়।'}
   ],
   'c3l4q':[
-    {q:'\u0627\u0644\u0628\u064e\u064a\u0652\u062a \u0995\u09c0\u09ad\u09be\u09ac\u09c7 \u0989\u099a\u09cd\u099a\u09be\u09b0\u09bf\u09a4 \u09b9\u09ac\u09c7?',o:['al-bayt (\u09ac \u099a\u09a8\u09cd\u09a6\u09cd\u09b0)','al-bbayt','ab-bayt','a-bayt'],a:0,f:'\u09ac \u098f\u0995\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab, \u09a4\u09be\u0987 \u0644 \u09b8\u09cd\u09aa\u09b7\u09cd\u099f\u0964'},
-    {q:'\u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644 \u0995\u09c0\u09ad\u09be\u09ac\u09c7 \u0989\u099a\u09cd\u099a\u09be\u09b0\u09bf\u09a4 \u09b9\u09ac\u09c7?',o:['al-rajul','ar-rajul (\u09b0 \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac)','al-ajul','a-rajul'],a:1,f:'\u09b0 \u098f\u0995\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab, \u09a4\u09be\u0987 \u0644 \u09a8\u09c0\u09b0\u09ac \u09b9\u09af\u09bc\u09c7 \u09b0 \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac \u09b9\u09af\u09bc\u0964'},
-    {q:'\u0627\u0644\u0646\u064f\u0651\u0648\u0631 \u0995\u09c0\u09ad\u09be\u09ac\u09c7 \u0989\u099a\u09cd\u099a\u09be\u09b0\u09bf\u09a4 \u09b9\u09ac\u09c7?',o:['al-noor','an-noor (\u09a8 \u09a6\u09cd\u09ac\u09bf\u09a4\u09cd\u09ac)','a-noor','al-nnoor'],a:1,f:'\u09a8 \u098f\u0995\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab\u0964'},
-    {q:'\u09a8\u09bf\u099a\u09c7\u09b0 \u0995\u09cb\u09a8\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab?',o:['\u062a','\u0646','\u0642','\u0633'],a:2,f:'\u0642 \u098f\u0995\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab; \u0628\u09be\u0995\u09bf \u09aa\u09c1\u09b0\u09cb\u09a6\u09b8\u09cd\u09a4\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab\u0964'}
+    {q:'البَيْت কীভাবে উচ্চারিত হবে?',o:['al-bayt (ব চন্দ্র)','al-bbayt','ab-bayt','a-bayt'],a:0,f:'ব একটা চন্দ্র হরফ, তাই ل স্পষ্ট।'},
+    {q:'الرَّجُل কীভাবে উচ্চারিত হবে?',o:['al-rajul','ar-rajul (র দ্বিত্ব)','al-ajul','a-rajul'],a:1,f:'র একটা সূর্য হরফ, তাই ل নীরব হয়ে র দ্বিত্ব হয়।'},
+    {q:'النُّور কীভাবে উচ্চারিত হবে?',o:['al-noor','an-noor (ন দ্বিত্ব)','a-noor','al-nnoor'],a:1,f:'ন একটা সূর্য হরফ।'},
+    {q:'নিচের কোনটা চন্দ্র হরফ?',o:['ت','ن','ق','س'],a:2,f:'ق একটা চন্দ্র হরফ; بাকি পুরোদস্তা সূর্য হরফ।'}
   ],
   'c3l5q':[
-    {q:'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628\u064f \u0648\u064e\u0627\u0644\u0642\u064e\u0644\u064e\u0645\u064f \u09b6\u09ac\u09cd\u09a6\u0997\u09c1\u099a\u09cd\u099b\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u0987 \u098f\u09ac\u0982 \u0995\u09b2\u09ae','\u09ac\u0987 \u09ac\u09be \u0995\u09b2\u09ae','\u09ac\u0987\u09af\u09bc\u09c7\u09b0 \u0995\u09b2\u09ae','\u09ac\u0987 \u099b\u09be\u09dc\u09be \u0995\u09b2\u09ae'],a:0,f:'\u0648\u064e (wa) \u09ae\u09be\u09a8\u09c7 "\u098f\u09ac\u0982", \u09a4\u09be\u0987 \u09b6\u09ac\u09cd\u09a6\u0997\u09c1\u099a\u09cd\u099b\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 "\u09ac\u0987 \u098f\u09ac\u0982 \u0995\u09b2\u09ae"\u0964'},
-    {q:'\u0648\u064e \u09b6\u09ac\u09cd\u09a6\u099f\u09be\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u098f\u09ac\u0982 (and)','\u0985\u09a5\u09ac\u09be (or)','\u0995\u09bf\u09a8\u09cd\u09a4\u09c1 (but)','\u09a8\u09be (not)'],a:0,f:'\u0648\u064e \u0986\u09b0\u09ac\u09bf\u09b0 \u09b8\u09ac\u099a\u09c7\u09af\u09bc\u09c7 \u09b8\u09be\u09a7\u09be\u09b0\u09a3 \u09b8\u0982\u09af\u09cb\u099c\u0995\u0997\u09c1\u09b2\u09cb\u09b0 \u098f\u0995\u099f\u09be\u0964'},
-    {q:'\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633\u064f \u0648\u064e\u0627\u0644\u0642\u064e\u0645\u064e\u0631\u064f \u098f\u0987 \u09b6\u09ac\u09cd\u09a6\u0997\u09c1\u099a\u09cd\u099b\u09c7 \u0995\u09a4\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af \u0993 \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab \u0986\u099b\u09c7?',o:['\u09e8\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af','\u09e8\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0','\u09e7\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af (\u0634) + \u09e7\u099f\u09be \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 (\u0642)','\u09ea\u099f\u09be \u09b8\u09c2\u09b0\u09cd\u09af'],a:2,f:'\u0634 \u09b8\u09c2\u09b0\u09cd\u09af \u09b9\u09b0\u09ab, \u0642 \u099a\u09a8\u09cd\u09a6\u09cd\u09b0 \u09b9\u09b0\u09ab \u2014 \u09a6\u09c1\u099f\u09cb \u098f\u0995\u09b8\u09be\u09a5\u09c7!'},
-    {q:'\u0627\u0644\u0628\u064e\u064a\u0652\u062a\u064f \u0648\u064e\u0627\u0644\u0628\u064e\u062d\u0652\u0631\u064f \u09b6\u09ac\u09cd\u09a6\u0997\u09c1\u099a\u09cd\u099b\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u09be\u09dc\u09bf \u098f\u09ac\u0982 \u09b8\u09ae\u09c1\u09a6\u09cd\u09b0','\u09ac\u09be\u09dc\u09bf \u098f\u09ac\u0982 \u09a8\u09a6\u09c0','\u09ac\u09be\u09dc\u09bf \u09ac\u09be \u09b8\u09ae\u09c1\u09a6\u09cd\u09b0','\u09b8\u09ae\u09c1\u09a6\u09cd\u09b0\u09c7\u09b0 \u09ac\u09be\u09dc\u09bf'],a:0,f:'\u0628\u064e\u062d\u0652\u0631 \u09ae\u09be\u09a8\u09c7 \u09b8\u09ae\u09c1\u09a6\u09cd\u09b0 (sea), \u0985\u09a7\u09cd\u09af\u09be\u09af\u09bc \u09e7 \u098f \u09b6\u09c7\u0996\u09be\u0964'}
+    {q:'الكِتَابُ وَالقَلَمُ শব্দগুচ্ছের অর্থ কী?',o:['বই এবং কলম','বই বা কলম','বইয়ের কলম','বই ছাড়া কলম'],a:0,f:'وَ (wa) মানে "এবং", তাই শব্দগুচ্ছের অর্থ "বই এবং কলম"।'},
+    {q:'وَ শব্দটার অর্থ কী?',o:['এবং (and)','অথবা (or)','কিন্তু (but)','না (not)'],a:0,f:'وَ আরবির সবচেয়ে সাধারণ সংযোজকগুলোর একটা।'},
+    {q:'الشَّمْسُ وَالقَمَرُ এই শব্দগুচ্ছে কতটা সূর্য ও চন্দ্র হরফ আছে?',o:['২টা সূর্য','২টা চন্দ্র','১টা সূর্য (ش) + ১টা চন্দ্র (ق)','৪টা সূর্য'],a:2,f:'ش সূর্য হরফ, ق চন্দ্র হরফ — দুটো একসাথে!'},
+    {q:'البَيْتُ وَالبَحْرُ শব্দগুচ্ছের অর্থ কী?',o:['বাড়ি এবং সমুদ্র','বাড়ি এবং নদী','বাড়ি বা সমুদ্র','সমুদ্রের বাড়ি'],a:0,f:'بَحْر মানে সমুদ্র (sea), অধ্যায় ১ এ শেখা।'}
   ]
 };
 var qzAns={};
@@ -810,15 +812,15 @@ function buildQuiz(id){
   var html='';
   for(var i=0;i<qs.length;i++){
     var q=qs[i];
-    html+='<div class="qc"><div class="q-n">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8 '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
+    html+='<div class="qc"><div class="q-n">প্রশ্ন '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
     for(var j=0;j<q.o.length;j++){
       html+='<button type="button" class="qo" onclick="selectAnswer(\''+id+'\','+i+','+j+')">'+q.o[j]+'</button>';
     }
     html+='</div><div class="q-fb" id="qfb-'+id+'-'+i+'"></div></div>';
   }
-  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">\u09b8\u09ac\u09ae\u09bf\u09a4 \u0995\u09b0\u09cb</button>';
-  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">\u09a4\u09cb\u09ae\u09be\u09b0 \u09b8\u09cd\u0995\u09cb\u09b0</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
-  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">\u09ad\u09c1\u09b2 \u0989\u09a4\u09cd\u09a4\u09b0\u0997\u09c1\u09b2\u09cb \u09aa\u09b0\u09cd\u09af\u09be\u09b2\u09cb\u099a\u09a8\u09be \u0995\u09b0\u09cb</div><div id="mlist-'+id+'"></div></div>';
+  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">সবমিত করো</button>';
+  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">তোমার স্কোর</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
+  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">ভুল উত্তরগুলো পর্যালোচনা করো</div><div id="mlist-'+id+'"></div></div>';
   c.innerHTML=html;
   c.setAttribute('data-built','1');
 }
@@ -841,7 +843,7 @@ function selectAnswer(id,qi,oi){
   if(fb){
     fb.classList.add('show');
     fb.classList.add(ok?'ok':'no');
-    fb.innerHTML=ok?'\u2705 \u09b8\u09a0\u09bf\u0995!':('\u274c '+q.f);
+    fb.innerHTML=ok?'✅ সঠিক!':('❌ '+q.f);
   }
   if(!ok){
     if(!qzMistakes[id])qzMistakes[id]=[];
@@ -854,7 +856,7 @@ function submitQuiz(id){
   if(!qs)return;
   var ans=qzAns[id]||{};
   var answered=Object.keys(ans).length;
-  if(answered<qs.length){alert('\u09b8\u09ac \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u09c7\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0 \u09a6\u09bf\u09a8! \u09ac\u09be\u0995\u09bf \u0986\u099b\u09c7: '+(qs.length-answered)+'\u099f\u09bf');return;}
+  if(answered<qs.length){alert('সব প্রশ্নের উত্তর দিন! বাকি আছে: '+(qs.length-answered)+'টি');return;}
   var correct=0;
   for(var i=0;i<qs.length;i++){if(ans[i]===qs[i].a)correct++;}
   var pct=Math.round(correct/qs.length*100);
@@ -864,14 +866,14 @@ function submitQuiz(id){
   if(scn)scn.textContent=correct+'/'+qs.length+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.innerHTML='\ud83c\udfc6 \u0985\u09b8\u09be\u09a7\u09be\u09b0\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=80)scm.innerHTML='\u2b50 \u09a6\u09be\u09b0\u09c1\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=60)scm.innerHTML='\u2705 \u09ad\u09be\u09b2\u09cb \u09b9\u09af\u09bc\u09c7\u099b\u09c7! +'+(correct*5)+' XP';
+    if(pct>=90)scm.innerHTML='🏆 অসাধারণ! +'+(correct*5)+' XP';
+    else if(pct>=80)scm.innerHTML='⭐ দারুণ! +'+(correct*5)+' XP';
+    else if(pct>=60)scm.innerHTML='✅ ভালো হয়েছে! +'+(correct*5)+' XP';
     else{
-      scm.innerHTML='\u274c \u0986\u09b0\u0993 \u099a\u09b0\u09cd\u099a\u09be \u09a6\u09b0\u0995\u09be\u09b0! \u0985\u09a8\u09a4\u09a4 \u09ec\u09e6% \u09a6\u09b0\u0995\u09be\u09b0\u0964 \u09a4\u09c1\u09ae\u09bf \u09aa\u09c7\u09af\u09bc\u09c7\u099b '+pct+'%\u0964';
+      scm.innerHTML='❌ আরও চর্চা দরকার! অনতত ৬০% দরকার। তুমি পেয়েছ '+pct+'%।';
       var rb=document.createElement('button');
       rb.className='speak-btn';rb.style.marginTop='10px';rb.style.background='var(--red)';
-      rb.textContent='\ud83d\udd01 \u0986\u09ac\u09be\u09b0 \u099a\u09c7\u09b7\u09cd\u099f\u09be \u0995\u09b0\u09cb';
+      rb.textContent='🔁 আবার চেষ্টা করো';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(id);
       scm.appendChild(rb);
     }
@@ -887,7 +889,7 @@ function submitQuiz(id){
       var html='';
       for(var m=0;m<mistakes.length;m++){
         var mi=mistakes[m];
-        html+='<div class="mistake-item"><div class="mi-q">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8: '+mi.q+'</div><div class="mi-wrong">\u274c \u09a4\u09cb\u09ae\u09be\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u09b8\u09a0\u09bf\u0995: '+mi.correct+'</div><div class="mi-tip">\ud83d\udca1 '+mi.f+'</div></div>';
+        html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+mi.q+'</div><div class="mi-wrong">❌ তোমার উত্তর: '+mi.wrong+'</div><div class="mi-correct">✅ সঠিক: '+mi.correct+'</div><div class="mi-tip">💡 '+mi.f+'</div></div>';
       }
       ml.innerHTML=html;
     }
@@ -912,19 +914,19 @@ function idToDay(id){
 // ===== SPEAKING TEST (chapter review) =====
 var spData={
   'c3rs':[
-    {ar:'\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633',tr:'ash-shams',bn:'\u09b8\u09c2\u09b0\u09cd\u09af (the sun)'},
-    {ar:'\u0627\u0644\u0642\u064e\u0645\u064e\u0631',tr:'al-qamar',bn:'\u099a\u09be\u0981\u09a6 (the moon)'},
-    {ar:'\u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645',tr:'as-sal\u0101m',bn:'\u09b6\u09be\u09a8\u09cd\u09a4\u09bf (peace)'},
-    {ar:'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645',tr:'mu\u2018allim',bn:'\u09b6\u09bf\u0995\u09cd\u09b7\u0995 (teacher)'},
-    {ar:'\u0645\u064f\u062f\u064e\u0631\u0651\u0650\u0633',tr:'mudarris',bn:'\u09b6\u09bf\u0995\u09cd\u09b7\u0995 (instructor)'},
-    {ar:'\u0627\u0644\u0628\u064e\u064a\u0652\u062a',tr:'al-bayt',bn:'\u09ac\u09be\u09a1\u09bc\u09bf (the house)'},
-    {ar:'\u0627\u0644\u0631\u0651\u064e\u062c\u064f\u0644',tr:'ar-rajul',bn:'\u09b2\u09cb\u0995\u099f\u09be (the man)'},
-    {ar:'\u0627\u0644\u0646\u064f\u0651\u0648\u0631',tr:'an-n\u016br',bn:'\u0986\u09b2\u09cb (the light)'},
-    {ar:'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628',tr:'al-kit\u0101b',bn:'\u09ac\u0987 (the book)'},
-    {ar:'\u0627\u0644\u0642\u064e\u0644\u064e\u0645',tr:'al-qalam',bn:'\u0995\u09b2\u09ae (the pen)'},
-    {ar:'\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633\u064f \u0648\u064e\u0627\u0644\u0642\u064e\u0645\u064e\u0631\u064f',tr:'ash-shamsu wa-l-qamaru',bn:'\u09b8\u09c2\u09b0\u09cd\u09af \u098f\u09ac\u0982 \u099a\u09be\u0981\u09a6'},
-    {ar:'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628\u064f \u0648\u064e\u0627\u0644\u0642\u064e\u0644\u064e\u0645\u064f',tr:'al-kit\u0101bu wa-l-qalamu',bn:'\u09ac\u0987 \u098f\u09ac\u0982 \u0995\u09b2\u09ae'},
-    {ar:'\u0627\u0644\u0628\u064e\u064a\u0652\u062a\u064f \u0648\u064e\u0627\u0644\u0628\u064e\u062d\u0652\u0631\u064f',tr:'al-baytu wa-l-ba\u1e25ru',bn:'\u09ac\u09be\u09a1\u09bc\u09bf \u098f\u09ac\u0982 \u09b8\u09ae\u09c1\u09a6\u09cd\u09b0'}
+    {ar:'الشَّمْس',tr:'ash-shams',bn:'সূর্য (the sun)'},
+    {ar:'القَمَر',tr:'al-qamar',bn:'চাঁদ (the moon)'},
+    {ar:'السَّلَام',tr:'as-salām',bn:'শান্তি (peace)'},
+    {ar:'مُعَلِّم',tr:'mu‘allim',bn:'শিক্ষক (teacher)'},
+    {ar:'مُدَرِّس',tr:'mudarris',bn:'শিক্ষক (instructor)'},
+    {ar:'البَيْت',tr:'al-bayt',bn:'বাড়ি (the house)'},
+    {ar:'الرَّجُل',tr:'ar-rajul',bn:'লোকটা (the man)'},
+    {ar:'النُّور',tr:'an-nūr',bn:'আলো (the light)'},
+    {ar:'الكِتَاب',tr:'al-kitāb',bn:'বই (the book)'},
+    {ar:'القَلَم',tr:'al-qalam',bn:'কলম (the pen)'},
+    {ar:'الشَّمْسُ وَالقَمَرُ',tr:'ash-shamsu wa-l-qamaru',bn:'সূর্য এবং চাঁদ'},
+    {ar:'الكِتَابُ وَالقَلَمُ',tr:'al-kitābu wa-l-qalamu',bn:'বই এবং কলম'},
+    {ar:'البَيْتُ وَالبَحْرُ',tr:'al-baytu wa-l-baḥru',bn:'বাড়ি এবং সমুদ্র'}
   ]
 };
 
@@ -938,8 +940,8 @@ function buildSp(id){
   for(var i=0;i<items.length;i++){
     var it=items[i];
     html+='<div class="speak-prompt"><div class="speak-prompt-ar ar">'+it.ar+'</div><div class="speak-prompt-bn">'+it.tr+' &mdash; '+it.bn+'</div>';
-    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">\ud83d\udd0a \u09b6\u09c1\u09a8\u09c1\u09a8</button>';
-    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8</button>';
+    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">🔊 শুনুন</button>';
+    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">🎤 বলুন</button>';
     html+='<div class="speak-res" id="fsr-'+id+'-'+i+'"></div></div>';
   }
   c.innerHTML=html;
@@ -961,32 +963,32 @@ function toggleFreeSpeak(id,i){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';
+    btn.textContent='🎤 বলুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='\u26a0\ufe0f Chrome browser \u09a6\u09b0\u0995\u09be\u09b0!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();
   rec.lang='ar-SA';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='\u23f9 \u09a5\u09be\u09ae\u09be\u09a4\u09c7 \u099a\u09be\u09aa\u09cb';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপো';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
-      res.innerHTML='\ud83c\udfa4 \u09b6\u09cb\u09a8\u09be \u0997\u09c7\u099b\u09c7: "'+t+'" &mdash; \u099a\u09c7\u09b7\u09cd\u099f\u09be \u099a\u09be\u09b2\u09bf\u09af\u09bc\u09c7 \u09af\u09be\u0993! +5 XP';
+      res.innerHTML='🎤 শোনা গেছে: "'+t+'" &mdash; চেষ্টা চালিয়ে যাও! +5 XP';
       res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
       addXP(5);
     }
   };
   rec.onerror=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }

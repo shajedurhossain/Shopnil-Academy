@@ -773,7 +773,8 @@ function toggleDay(n){
   if(!isOpen){dl.classList.add('open');dh.classList.add('open');}
 }
 
-// ===== TTS (static pre-generated audio files) =====
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='ar';
 var _SPEECH_LANG='ar-SA';
 function fnv1a(s){
@@ -785,19 +786,20 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     } else {
-      console.warn('Audio file not found: '+src+' \u2014 check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
@@ -833,7 +835,7 @@ var qzData={
     {q:'হারাকাত (vowel marks) প্রাপ্তবয়স্কদের সাধারণ লেখায় সাধারণত কেমন থাকে?',o:['সবসময় লেখা হয়','প্রায়ই বাদ দেওয়া হয়','কখনোই ব্যবহার হয় না','শুধু গানে থাকে'],a:1,f:'শেখার পর্যায়ে আমরা সবসময় হারাকাত লিখব, কিন্তু সাধারণ প্রাপ্তবয়স্ক লেখায় এগুলো প্রায়ই বাদ যায়।'}
   ],
   'c1l2q':[
-    {q:'ب হরফটার নাম কী?',o:['আলিফ','বা','তা','সা'],a:1,f:'ب-এর নাম "বা" (bā\u2019), শব্দ ইংরেজি "b"-এর মতো।'},
+    {q:'ب হরফটার নাম কী?',o:['আলিফ','বা','তা','সা'],a:1,f:'ب-এর নাম "বা" (bā’), শব্দ ইংরেজি "b"-এর মতো।'},
     {q:'ث এর শব্দ ইংরেজি কোন শব্দের "th"-এর কাছাকাছি?',o:['think','this','top','bat'],a:0,f:'ث এর শব্দ ইংরেজি "think"-এর মতো (জিভ দাঁতের ফাঁকে রেখে)।'},
     {q:'بَ তে কোন স্বর যুক্ত হয়েছে?',o:['আ (ফাতহা)','ই (কাসরা)','উ (দাম্মা)','কোনো স্বর নেই'],a:0,f:'উপরের তির্যক দাগ মানে ফাতহা, অর্থাৎ "আ" স্বর।'},
     {q:'بَاب শব্দের অর্থ কী?',o:['দরজা','বই','রাস্তা','পানি'],a:0,f:'بَاب (bāb) মানে দরজা (door)।'}
@@ -885,9 +887,9 @@ function buildQuiz(id){
     }
     html+='</div><div class="q-fb" id="qfb-'+id+'-'+i+'"></div></div>';
   }
-  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">\u09b8\u09ac\u09ae\u09bf\u09a4 \u0995\u09b0\u09cb</button>';
-  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">\u09a4\u09cb\u09ae\u09be\u09b0 \u09b8\u09cd\u0995\u09cb\u09b0</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
-  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">\u09ad\u09c1\u09b2 \u0989\u09a4\u09cd\u09a4\u09b0\u0997\u09c1\u09b2\u09cb \u09aa\u09b0\u09cd\u09af\u09be\u09b2\u09cb\u099a\u09a8\u09be \u0995\u09b0\u09cb</div><div id="mlist-'+id+'"></div></div>';
+  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">সবমিত করো</button>';
+  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">তোমার স্কোর</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
+  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">ভুল উত্তরগুলো পর্যালোচনা করো</div><div id="mlist-'+id+'"></div></div>';
   c.innerHTML=html;
   c.setAttribute('data-built','1');
 }
@@ -910,7 +912,7 @@ function selectAnswer(id,qi,oi){
   if(fb){
     fb.classList.add('show');
     fb.classList.add(ok?'ok':'no');
-    fb.innerHTML=ok?'\u2705 \u09b8\u09a0\u09bf\u0995!':('\u274c '+q.f);
+    fb.innerHTML=ok?'✅ সঠিক!':('❌ '+q.f);
   }
   if(!ok){
     if(!qzMistakes[id])qzMistakes[id]=[];
@@ -923,7 +925,7 @@ function submitQuiz(id){
   if(!qs)return;
   var ans=qzAns[id]||{};
   var answered=Object.keys(ans).length;
-  if(answered<qs.length){alert('\u09b8\u09ac \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u09c7\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0 \u09a6\u09bf\u09a8! \u09ac\u09be\u0995\u09bf \u0986\u099b\u09c7: '+(qs.length-answered)+'\u099f\u09bf');return;}
+  if(answered<qs.length){alert('সব প্রশ্নের উত্তর দিন! বাকি আছে: '+(qs.length-answered)+'টি');return;}
   var correct=0;
   for(var i=0;i<qs.length;i++){if(ans[i]===qs[i].a)correct++;}
   var pct=Math.round(correct/qs.length*100);
@@ -933,14 +935,14 @@ function submitQuiz(id){
   if(scn)scn.textContent=correct+'/'+qs.length+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.innerHTML='\ud83c\udfc6 \u0985\u09b8\u09be\u09a7\u09be\u09b0\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=80)scm.innerHTML='\u2b50 \u09a6\u09be\u09b0\u09c1\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=60)scm.innerHTML='\u2705 \u09ad\u09be\u09b2\u09cb \u09b9\u09af\u09bc\u09c7\u099b\u09c7! +'+(correct*5)+' XP';
+    if(pct>=90)scm.innerHTML='🏆 অসাধারণ! +'+(correct*5)+' XP';
+    else if(pct>=80)scm.innerHTML='⭐ দারুণ! +'+(correct*5)+' XP';
+    else if(pct>=60)scm.innerHTML='✅ ভালো হয়েছে! +'+(correct*5)+' XP';
     else{
-      scm.innerHTML='\u274c \u0986\u09b0\u0993 \u099a\u09b0\u09cd\u099a\u09be \u09a6\u09b0\u0995\u09be\u09b0! \u0985\u09a8\u09a4\u09a4 \u09ec\u09e6% \u09a6\u09b0\u0995\u09be\u09b0\u0964 \u09a4\u09c1\u09ae\u09bf \u09aa\u09c7\u09af\u09bc\u09c7\u099b \u09e9'+pct+'%\u0964';
+      scm.innerHTML='❌ আরও চর্চা দরকার! অনতত ৬০% দরকার। তুমি পেয়েছ ৩'+pct+'%।';
       var rb=document.createElement('button');
       rb.className='speak-btn';rb.style.marginTop='10px';rb.style.background='var(--red)';
-      rb.textContent='\ud83d\udd01 \u0986\u09ac\u09be\u09b0 \u099a\u09c7\u09b7\u09cd\u099f\u09be \u0995\u09b0\u09cb';
+      rb.textContent='🔁 আবার চেষ্টা করো';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(id);
       scm.appendChild(rb);
     }
@@ -956,7 +958,7 @@ function submitQuiz(id){
       var html='';
       for(var m=0;m<mistakes.length;m++){
         var mi=mistakes[m];
-        html+='<div class="mistake-item"><div class="mi-q">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8: '+mi.q+'</div><div class="mi-wrong">\u274c \u09a4\u09cb\u09ae\u09be\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u09b8\u09a0\u09bf\u0995: '+mi.correct+'</div><div class="mi-tip">\ud83d\udca1 '+mi.f+'</div></div>';
+        html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+mi.q+'</div><div class="mi-wrong">❌ তোমার উত্তর: '+mi.wrong+'</div><div class="mi-correct">✅ সঠিক: '+mi.correct+'</div><div class="mi-tip">💡 '+mi.f+'</div></div>';
       }
       ml.innerHTML=html;
     }
@@ -982,26 +984,26 @@ function idToDay(id){
 // ===== SPEAKING TEST (chapter review) =====
 var spData={
   'c1rs':[
-    {ar:'ا',tr:'alif',bn:'\u0986\u09b2\u09bf\u09ab'},
-    {ar:'\u0628',tr:'b\u0101\u2019',bn:'\u09ac\u09be'},
-    {ar:'\u062a',tr:'t\u0101\u2019',bn:'\u09a4\u09be'},
-    {ar:'\u062b',tr:'th\u0101\u2019',bn:'\u09b8\u09be'},
-    {ar:'\u062c',tr:'j\u012bm',bn:'\u099c\u09bf\u09ae'},
-    {ar:'\u062d',tr:'\u1e25\u0101\u2019',bn:'\u09b9\u09be'},
-    {ar:'\u062e',tr:'kh\u0101\u2019',bn:'\u0996\u09be'},
-    {ar:'\u062f',tr:'d\u0101l',bn:'\u09a6\u09be\u09b2'},
-    {ar:'\u0630',tr:'dh\u0101l',bn:'\u09af\u09be\u09b2'},
-    {ar:'\u0631',tr:'r\u0101\u2019',bn:'\u09b0\u09be'},
-    {ar:'\u0632',tr:'z\u0101y',bn:'\u09af\u09be\u0987'},
-    {ar:'\u0633',tr:'s\u012bn',bn:'\u09b8\u09bf\u09a8'},
-    {ar:'\u0634',tr:'sh\u012bn',bn:'\u09b6\u09bf\u09a8'},
-    {ar:'\u0635',tr:'\u1e63\u0101d',bn:'\u09b8\u09be\u09a6'},
-    {ar:'\u0636',tr:'\u1e0d\u0101d',bn:'\u09a6\u09be\u09a6'},
-    {ar:'\u0637',tr:'\u1e6d\u0101\u2019',bn:'\u09a4\u09be (\u09ad\u09be\u09b0\u09c0)'},
-    {ar:'\u0638',tr:'\u1e93\u0101\u2019',bn:'\u09af\u09be (\u09ad\u09be\u09b0\u09c0)'},
-    {ar:'\u062f\u064e\u0631\u0652\u0633',tr:'dars',bn:'\u09aa\u09be\u09a0 (lesson)'},
-    {ar:'\u0628\u064e\u062d\u0652\u0631',tr:'ba\u1e25r',bn:'\u09b8\u09ae\u09c1\u09a6\u09cd\u09b0 (sea)'},
-    {ar:'\u0628\u064e\u0627\u0628',tr:'b\u0101b',bn:'\u09a6\u09b0\u099c\u09be (door)'}
+    {ar:'ا',tr:'alif',bn:'আলিফ'},
+    {ar:'ب',tr:'bā’',bn:'বা'},
+    {ar:'ت',tr:'tā’',bn:'তা'},
+    {ar:'ث',tr:'thā’',bn:'সা'},
+    {ar:'ج',tr:'jīm',bn:'জিম'},
+    {ar:'ح',tr:'ḥā’',bn:'হা'},
+    {ar:'خ',tr:'khā’',bn:'খা'},
+    {ar:'د',tr:'dāl',bn:'দাল'},
+    {ar:'ذ',tr:'dhāl',bn:'যাল'},
+    {ar:'ر',tr:'rā’',bn:'রা'},
+    {ar:'ز',tr:'zāy',bn:'যাই'},
+    {ar:'س',tr:'sīn',bn:'সিন'},
+    {ar:'ش',tr:'shīn',bn:'শিন'},
+    {ar:'ص',tr:'ṣād',bn:'সাদ'},
+    {ar:'ض',tr:'ḍād',bn:'দাদ'},
+    {ar:'ط',tr:'ṭā’',bn:'তা (ভারী)'},
+    {ar:'ظ',tr:'ẓā’',bn:'যা (ভারী)'},
+    {ar:'دَرْس',tr:'dars',bn:'পাঠ (lesson)'},
+    {ar:'بَحْر',tr:'baḥr',bn:'সমুদ্র (sea)'},
+    {ar:'بَاب',tr:'bāb',bn:'দরজা (door)'}
   ]
 };
 
@@ -1015,8 +1017,8 @@ function buildSp(id){
   for(var i=0;i<items.length;i++){
     var it=items[i];
     html+='<div class="speak-prompt"><div class="speak-prompt-ar ar">'+it.ar+'</div><div class="speak-prompt-bn">'+it.tr+' &mdash; '+it.bn+'</div>';
-    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">\ud83d\udd0a \u09b6\u09c1\u09a8\u09c1\u09a8</button>';
-    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8</button>';
+    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">🔊 শুনুন</button>';
+    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">🎤 বলুন</button>';
     html+='<div class="speak-res" id="fsr-'+id+'-'+i+'"></div></div>';
   }
   c.innerHTML=html;
@@ -1038,32 +1040,32 @@ function toggleFreeSpeak(id,i){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';
+    btn.textContent='🎤 বলুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='\u26a0\ufe0f Chrome browser \u09a6\u09b0\u0995\u09be\u09b0!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();
   rec.lang='ar-SA';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='\u23f9 \u09a5\u09be\u09ae\u09be\u09a4\u09c7 \u099a\u09be\u09aa\u09cb';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপো';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
-      res.innerHTML='\ud83c\udfa4 \u09b6\u09cb\u09a8\u09be \u0997\u09c7\u099b\u09c7: "'+t+'" &mdash; \u099a\u09c7\u09b7\u09cd\u099f\u09be \u099a\u09be\u09b2\u09bf\u09af\u09bc\u09c7 \u09af\u09be\u0993! +5 XP';
+      res.innerHTML='🎤 শোনা গেছে: "'+t+'" &mdash; চেষ্টা চালিয়ে যাও! +5 XP';
       res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
       addXP(5);
     }
   };
   rec.onerror=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }

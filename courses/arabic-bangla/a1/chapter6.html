@@ -698,7 +698,8 @@ function toggleDay(n){
 }
 
 
-// ===== TTS (static pre-generated audio files) =====
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='ar';
 var _SPEECH_LANG='ar-SA';
 function fnv1a(s){
@@ -710,36 +711,37 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     } else {
-      console.warn('Audio file not found: '+src+' \u2014 check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
 
 // ===== WORD AUDIO MAP =====
 var letterAudio={
-  'w_1':'\u0648\u064e\u0627\u062d\u0650\u062f',
-  'w_2':'\u0627\u0650\u062b\u0652\u0646\u064e\u0627\u0646',
-  'w_3':'\u062b\u064e\u0644\u064e\u0627\u062b\u064e\u0629',
-  'w_4':'\u0623\u064e\u0631\u0652\u0628\u064e\u0639\u064e\u0629',
-  'w_5':'\u062e\u064e\u0645\u0652\u0633\u064e\u0629',
-  'w_6':'\u0633\u0650\u062a\u0651\u064e\u0629',
-  'w_7':'\u0633\u064e\u0628\u0652\u0639\u064e\u0629',
-  'w_8':'\u062b\u064e\u0645\u064e\u0627\u0646\u0650\u064a\u064e\u0629',
-  'w_9':'\u062a\u0650\u0633\u0652\u0639\u064e\u0629',
-  'w_10':'\u0639\u064e\u0634\u064e\u0631\u064e\u0629',
-  'w_sayyara':'\u0633\u064e\u064a\u0651\u064e\u0627\u0631\u064e\u0629'
+  'w_1':'وَاحِد',
+  'w_2':'اِثْنَان',
+  'w_3':'ثَلَاثَة',
+  'w_4':'أَرْبَعَة',
+  'w_5':'خَمْسَة',
+  'w_6':'سِتَّة',
+  'w_7':'سَبْعَة',
+  'w_8':'ثَمَانِيَة',
+  'w_9':'تِسْعَة',
+  'w_10':'عَشَرَة',
+  'w_sayyara':'سَيَّارَة'
 };
 function playLetter(key){
   var text=letterAudio[key];
@@ -763,50 +765,50 @@ function revealAnswer(id){
 // ===== QUIZ DATA (data-object braces only, never appended after) =====
 var qzData={
   'c6l1q':[
-    {q:'\u0648\u064e\u0627\u062d\u0650\u062f \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u098f\u0995','\u09a6\u09c1\u0987','\u09a4\u09bf\u09a8','\u099a\u09be\u09b0'],a:0,f:'\u0648\u064e\u0627\u062d\u0650\u062f (w\u0101\u1e25id) \u09ae\u09be\u09a8\u09c7 \u098f\u0995 (1)\u0964'},
-    {q:'\u062e\u064e\u0645\u0652\u0633\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09aa\u09be\u0981\u099a','\u099a\u09be\u09b0','\u09a4\u09bf\u09a8','\u099b\u09af\u09bc'],a:0,f:'\u062e\u064e\u0645\u0652\u0633\u064e\u0629 (khamsa) \u09ae\u09be\u09a8\u09c7 \u09aa\u09be\u0981\u099a (5)\u0964'},
-    {q:'"\u09a4\u09bf\u09a8" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u0995\u09c0?',o:['\u062b\u064e\u0644\u064e\u0627\u062b\u064e\u0629','\u0627\u0650\u062b\u0652\u0646\u064e\u0627\u0646','\u0623\u064e\u0631\u0652\u0628\u064e\u0639\u064e\u0629','\u062e\u064e\u0645\u0652\u0633\u064e\u0629'],a:0,f:'"\u09a4\u09bf\u09a8" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u062b\u064e\u0644\u064e\u0627\u062b\u064e\u0629 (thal\u0101tha)\u0964'},
-    {q:'\u0627\u0650\u062b\u0652\u0646\u064e\u0627\u0646 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09c1\u0987','\u098f\u0995','\u09a4\u09bf\u09a8','\u09aa\u09be\u0981\u099a'],a:0,f:'\u0627\u0650\u062b\u0652\u0646\u064e\u0627\u0646 (ithn\u0101n) \u09ae\u09be\u09a8\u09c7 \u09a6\u09c1\u0987 (2)\u0964'}
+    {q:'وَاحِد এর অর্থ কী?',o:['এক','দুই','তিন','চার'],a:0,f:'وَاحِد (wāḥid) মানে এক (1)।'},
+    {q:'خَمْسَة এর অর্থ কী?',o:['পাঁচ','চার','তিন','ছয়'],a:0,f:'خَمْسَة (khamsa) মানে পাঁচ (5)।'},
+    {q:'"তিন" আরবিতে কী?',o:['ثَلَاثَة','اِثْنَان','أَرْبَعَة','خَمْسَة'],a:0,f:'"তিন" আরবিতে ثَلَاثَة (thalātha)।'},
+    {q:'اِثْنَان এর অর্থ কী?',o:['দুই','এক','তিন','পাঁচ'],a:0,f:'اِثْنَان (ithnān) মানে দুই (2)।'}
   ],
   'c6l2q':[
-    {q:'\u0639\u064e\u0634\u064e\u0631\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09b6','\u09a8\u09af\u09bc','\u0986\u099f','\u09b8\u09be\u09a4'],a:0,f:'\u0639\u064e\u0634\u064e\u0631\u064e\u0629 (\u2018ashara) \u09ae\u09be\u09a8\u09c7 \u09a6\u09b6 (10)\u0964'},
-    {q:'"\u09b8\u09be\u09a4" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u0995\u09c0?',o:['\u0633\u064e\u0628\u0652\u0639\u064e\u0629','\u0633\u0650\u062a\u0651\u064e\u0629','\u062b\u064e\u0645\u064e\u0627\u0646\u0650\u064a\u064e\u0629','\u062a\u0650\u0633\u0652\u0639\u064e\u0629'],a:0,f:'"\u09b8\u09be\u09a4" \u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u0633\u064e\u0628\u0652\u0639\u064e\u0629 (sab\u2018a)\u0964'},
-    {q:'\u062a\u0650\u0633\u0652\u0639\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a8\u09af\u09bc','\u0986\u099f','\u09a6\u09b6','\u09b8\u09be\u09a4'],a:0,f:'\u062a\u0650\u0633\u0652\u0639\u064e\u0629 (tis\u2018a) \u09ae\u09be\u09a8\u09c7 \u09a8\u09af\u09bc (9)\u0964'},
-    {q:'\u0633\u0650\u062a\u0651\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u099b\u09af\u09bc','\u09aa\u09be\u0981\u099a','\u09b8\u09be\u09a4','\u0986\u099f'],a:0,f:'\u0633\u0650\u062a\u0651\u064e\u0629 (sitta) \u09ae\u09be\u09a8\u09c7 \u099b\u09af\u09bc (6)\u0964'}
+    {q:'عَشَرَة এর অর্থ কী?',o:['দশ','নয়','আট','সাত'],a:0,f:'عَشَرَة (‘ashara) মানে দশ (10)।'},
+    {q:'"সাত" আরবিতে কী?',o:['سَبْعَة','سِتَّة','ثَمَانِيَة','تِسْعَة'],a:0,f:'"সাত" আরবিতে سَبْعَة (sab‘a)।'},
+    {q:'تِسْعَة এর অর্থ কী?',o:['নয়','আট','দশ','সাত'],a:0,f:'تِسْعَة (tis‘a) মানে নয় (9)।'},
+    {q:'سِتَّة এর অর্থ কী?',o:['ছয়','পাঁচ','সাত','আট'],a:0,f:'سِتَّة (sitta) মানে ছয় (6)।'}
   ],
   'c6l3q':[
-    {q:'\u0623\u064e\u062d\u0652\u0645\u064e\u0631 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b2\u09be\u09b2','\u09a8\u09c0\u09b2','\u09b8\u09ac\u09c1\u099c','\u09b9\u09b2\u09c1\u09a6'],a:0,f:'\u0623\u064e\u062d\u0652\u0645\u064e\u0631 (a\u1e25mar) \u09ae\u09be\u09a8\u09c7 \u09b2\u09be\u09b2\u0964'},
-    {q:'"\u09a8\u09c0\u09b2"-\u098f\u09b0 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa \u0995\u09cb\u09a8\u099f\u09be?',o:['\u0632\u064e\u0631\u0652\u0642\u064e\u0627\u0621','\u0623\u064e\u0632\u0652\u0631\u064e\u0642','\u062d\u064e\u0645\u0652\u0631\u064e\u0627\u0621','\u062e\u064e\u0636\u0652\u0631\u064e\u0627\u0621'],a:0,f:'\u09a8\u09c0\u09b2\u09c7\u09b0 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa \u0632\u064e\u0631\u0652\u0642\u064e\u0627\u0621 (zarq\u0101\u2019)\u0964'},
-    {q:'\u09b0\u0982-\u098f\u09b0 \u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997 \u09a5\u09c7\u0995\u09c7 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b9\u0993\u09af\u09bc\u09be\u09b0 \u09aa\u09cd\u09b0\u09cd\u09af\u09be\u099f\u09be\u09b0\u09cd\u09a8 \u0995\u09c0?',o:['\u0623\u064e...\u09a6\u09bf\u09af\u09bc\u09c7 \u09b6\u09c1\u09b0\u09c1, \u0627\u0621 \u09a6\u09bf\u09af\u09bc\u09c7 \u09b6\u09c7\u09b7','\u0629 \u09af\u09cb\u0997 \u09b9\u09af\u09bc','\u0995\u09cb\u09a8\u09cb \u09aa\u09b0\u09bf\u09ac\u09b0\u09cd\u09a4\u09a8 \u09b9\u09af\u09bc \u09a8\u09be','\u09b6\u09ac\u09cd\u09a6 \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u09ac\u09a6\u09b2\u09c7 \u09af\u09be\u09af\u09bc'],a:0,f:'\u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u0982 \u0623\u064e \u09a6\u09bf\u09af\u09bc\u09c7 \u09b6\u09c1\u09b0\u09c1, \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa \u0627\u0621 \u09a6\u09bf\u09af\u09bc\u09c7 \u09b6\u09c7\u09b7\u0964'},
-    {q:'\u0633\u064e\u064a\u0651\u064e\u0627\u0631\u064e\u0629 \u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0997\u09be\u09dc\u09bf','\u09ac\u09be\u09dc\u09bf','\u0995\u09b2\u09ae','\u09ac\u0987'],a:0,f:'\u0633\u064e\u064a\u0651\u064e\u0627\u0631\u064e\u0629 (sayy\u0101ra) \u09ae\u09be\u09a8\u09c7 \u0997\u09be\u09dc\u09bf\u0964'}
+    {q:'أَحْمَر এর অর্থ কী?',o:['লাল','নীল','সবুজ','হলুদ'],a:0,f:'أَحْمَر (aḥmar) মানে লাল।'},
+    {q:'"নীল"-এর স্ত্রীলিঙ্গ রূপ কোনটা?',o:['زَرْقَاء','أَزْرَق','حَمْرَاء','خَضْرَاء'],a:0,f:'নীলের স্ত্রীলিঙ্গ রূপ زَرْقَاء (zarqā’)।'},
+    {q:'রং-এর বিশেষণ পুংলিঙ্গ থেকে স্ত্রীলিঙ্গ হওয়ার প্র্যাটার্ন কী?',o:['أَ...দিয়ে শুরু, اء দিয়ে শেষ','ة যোগ হয়','কোনো পরিবর্তন হয় না','শব্দ সম্পূর্ণ বদলে যায়'],a:0,f:'পুংলিঙ্গ রং أَ দিয়ে শুরু, স্ত্রীলিঙ্গ রূপ اء দিয়ে শেষ।'},
+    {q:'سَيَّارَة শব্দের অর্থ কী?',o:['গাড়ি','বাড়ি','কলম','বই'],a:0,f:'سَيَّارَة (sayyāra) মানে গাড়ি।'}
   ],
   'c6l4q':[
-    {q:'"\u0628\u064e\u064a\u0652\u062a\u064c \u0643\u064e\u0628\u0650\u064a\u0631\u064c" \u098f \u0995\u09c7\u09a8 \u0643\u064e\u0628\u0650\u064a\u0631 (\u0629 \u099b\u09be\u09dc\u09be) \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc\u09c7\u099b\u09c7?',o:['\u0628\u064e\u064a\u0652\u062a \u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997','\u0628\u064e\u064a\u0652\u062a \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997','\u098f\u09b2\u09cb\u09ae\u09c7\u09b2\u09cb\u09ad\u09be\u09ac\u09c7','\u09ac\u09be\u0995\u09cd\u09af\u09c7\u09b0 \u09b6\u09c1\u09b0\u09c1\u09a4\u09c7 \u09a5\u09be\u0995\u09be\u09af\u09bc'],a:0,f:'\u0628\u064e\u064a\u0652\u062a \u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997, \u09a4\u09be\u0987 \u09ac\u09bf\u09b6\u09c7\u09b7\u09a3\u0993 \u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa\u0964'},
-    {q:'"\u0633\u064e\u064a\u0651\u064e\u0627\u0631\u064e\u0629\u064c \u062d\u064e\u0645\u0652\u0631\u064e\u0627\u0621\u064f" \u098f\u09b0 \u09ae\u09a4\u09cb \u09ac\u09be\u0995\u09cd\u09af\u09c7 \u0995\u09c7\u09a8 \u0631\u0982 \u098f\u0987 \u09b0\u09c2\u09aa\u09c7 \u0986\u099b\u09c7?',o:['\u0633\u064e\u064a\u0651\u064e\u0627\u0631\u064e\u0629 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997, \u09a4\u09be\u0987 \u09b0\u0982-\u0993 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa \u09a8\u09bf\u09af\u09bc\u09c7\u099b\u09c7','\u09ad\u09c1\u09b2 \u09ac\u09be\u0995\u09cd\u09af','\u098f\u09b2\u09cb\u09ae\u09c7\u09b2\u09cb','\u09b8\u09ac\u09b8\u09ae\u09af\u09bc \u098f\u0987 \u09b0\u09c2\u09aa\u09c7 \u09a5\u09be\u0995\u09c7'],a:0,f:'\u0633\u064e\u064a\u0651\u064e\u0627\u0631\u064e\u0629 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997, \u09a4\u09be\u0987 \u09b0\u0982 \u0985\u09ac\u09b6\u09cd\u09af\u0987 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa \u09a8\u09bf\u09af\u09bc\u09c7\u099b\u09c7\u0964'},
-    {q:'\u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u0995\u09be\u09b0 \u09b2\u09bf\u0999\u09cd\u0997 \u0985\u09a8\u09c1\u09b8\u09b0\u09a3 \u0995\u09b0\u09c7?',o:['\u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0','\u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be\u09b0','\u09ac\u0995\u09cd\u09a4\u09be\u09b0','\u09b6\u09cd\u09b0\u09cb\u09a4\u09be\u09b0'],a:0,f:'\u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u09b8\u09ac\u09b8\u09ae\u09af\u09bc \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b2\u09bf\u0999\u09cd\u0997 \u0985\u09a8\u09c1\u09b8\u09b0\u09a3 \u0995\u09b0\u09c7\u0964'},
-    {q:'\u09b0\u0982-\u098f\u09b0 \u09ac\u09bf\u09b6\u09c7\u09b7\u09a3\u09c7\u09b0 \u09aa\u09cd\u09af\u09be\u099f\u09be\u09b0\u09cd\u09a8 \u0995\u09bf \u0629-\u09a8\u09bf\u09af\u09bc\u09ae\u09c7\u09b0 \u09ae\u09a4\u09cb\u0987?',o:['\u09a8\u09be, \u098f\u099f\u09be \u0986\u09b2\u09be\u09a6\u09be \u0985\u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4 \u09aa\u09cd\u09af\u09be\u099f\u09be\u09b0\u09cd\u09a8','\u09b9\u09cd\u09af\u09be\u0981 \u09b8\u09ae\u09cd\u09aa\u09c2\u09b0\u09cd\u09a3 \u098f\u0995\u0987','\u09b0\u0982-\u098f\u09b0 \u0995\u09cb\u09a8\u09cb \u09b2\u09bf\u0999\u09cd\u0997 \u09a8\u09c7\u0987','\u09b6\u09c1\u09a7\u09c1 \u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u0982 \u0986\u099b\u09c7'],a:0,f:'\u09b0\u0982-\u098f\u09b0 \u09aa\u09cd\u09af\u09be\u099f\u09be\u09b0\u09cd\u09a8 (\u0623\u064e.../...\u0627\u0621) \u098f\u0995\u099f\u09be \u0986\u09b2\u09be\u09a6\u09be \u0985\u09a8\u09bf\u09af\u09bc\u09ae\u09bf\u09a4 \u09aa\u09cd\u09af\u09be\u099f\u09be\u09b0\u09cd\u09a8\u0964'}
+    {q:'"بَيْتٌ كَبِيرٌ" এ কেন كَبِير (ة ছাড়া) ব্যবহৃত হয়েছে?',o:['بَيْت পুংলিঙ্গ','بَيْت স্ত্রীলিঙ্গ','এলোমেলোভাবে','বাক্যের শুরুতে থাকায়'],a:0,f:'بَيْت পুংলিঙ্গ, তাই বিশেষণও পুংলিঙ্গ রূপ।'},
+    {q:'"سَيَّارَةٌ حَمْرَاءُ" এর মতো বাক্যে কেন رং এই রূপে আছে?',o:['سَيَّارَة স্ত্রীলিঙ্গ, তাই রং-ও স্ত্রীলিঙ্গ রূপ নিয়েছে','ভুল বাক্য','এলোমেলো','সবসময় এই রূপে থাকে'],a:0,f:'سَيَّارَة স্ত্রীলিঙ্গ, তাই রং অবশ্যই স্ত্রীলিঙ্গ রূপ নিয়েছে।'},
+    {q:'বিশেষণ কার লিঙ্গ অনুসরণ করে?',o:['বিশেষ্যের','ক্রিয়ার','বক্তার','শ্রোতার'],a:0,f:'বিশেষণ সবসময় বিশেষ্যের লিঙ্গ অনুসরণ করে।'},
+    {q:'রং-এর বিশেষণের প্যাটার্ন কি ة-নিয়মের মতোই?',o:['না, এটা আলাদা অনিয়মিত প্যাটার্ন','হ্যাঁ সম্পূর্ণ একই','রং-এর কোনো লিঙ্গ নেই','শুধু পুংলিঙ্গ রং আছে'],a:0,f:'রং-এর প্যাটার্ন (أَ.../...اء) একটা আলাদা অনিয়মিত প্যাটার্ন।'}
   ],
   'c6l5q':[
-    {q:'\u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u09ae\u09cb\u099f \u0995\u09af\u09bc\u099f\u09be \u09ac\u09cd\u09af\u09be\u0995\u09b0\u09a3\u0997\u09a4 \u09b8\u0982\u0996\u09cd\u09af\u09be \u0986\u099b\u09c7?',o:['\u09a4\u09bf\u09a8\u099f\u09be (\u098f\u0995\u09ac\u099a\u09a8/\u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8/\u09ac\u09b9\u09c1\u09ac\u099a\u09a8)','\u09a6\u09c1\u0987\u099f\u09be','\u099a\u09be\u09b0\u099f\u09be','\u098f\u0995\u099f\u09be'],a:0,f:'\u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u09a4\u09bf\u09a8\u099f\u09be \u09ac\u09cd\u09af\u09be\u0995\u09b0\u09a3\u0997\u09a4 \u09b8\u0982\u0996\u09cd\u09af\u09be \u0986\u099b\u09c7\u0964'},
-    {q:'\u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8 \u09b0\u09c2\u09aa \u09a4\u09c8\u09b0\u09bf \u0995\u09b0\u09a4\u09c7 \u0995\u09c0 \u09af\u09cb\u0997 \u09b9\u09af\u09bc?',o:['\u0640\u064e\u0627\u0646\u0650','\u0629','\u0627\u0644','\u064a\u0646 \u09b6\u09c1\u09a7\u09c1'],a:0,f:'\u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8 \u09a4\u09c8\u09b0\u09bf \u0995\u09b0\u09a4\u09c7 \u0640\u064e\u0627\u0646\u0650 \u09af\u09cb\u0997 \u09b9\u09af\u09bc\u0964'},
-    {q:'\u0643\u0650\u062a\u064e\u0627\u0628\u064e\u0627\u0646\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09c1\u0987\u099f\u09be \u09ac\u0987','\u098f\u0995\u099f\u09be \u09ac\u0987','\u09ac\u0987\u0997\u09c1\u09b2\u09cb','\u09ac\u0987\u09af\u09bc\u09c7\u09b0'],a:0,f:'\u0643\u0650\u062a\u064e\u0627\u0628\u064e\u0627\u0646\u0650 \u09ae\u09be\u09a8\u09c7 \u09a6\u09c1\u0987\u099f\u09be \u09ac\u0987\u0964'},
-    {q:'\u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8 \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09b2\u09c7 \u0986\u09b2\u09be\u09a6\u09be "\u09a6\u09c1\u0987" \u09b6\u09ac\u09cd\u09a6 \u0995\u09bf \u09b2\u09be\u0997\u09c7?',o:['\u09a8\u09be, \u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8 \u09b0\u09c2\u09aa\u0987 "\u09a6\u09c1\u0987\u099f\u09be" \u09ac\u09cb\u099d\u09be\u09af\u09bc','\u09b9\u09cd\u09af\u09be\u0981 \u09b8\u09ac\u09b8\u09ae\u09af\u09bc \u09b2\u09be\u0997\u09c7','\u09b6\u09c1\u09a7\u09c1 \u0995\u0996\u09a8\u09cb \u0995\u0996\u09a8\u09cb \u09b2\u09be\u0997\u09c7','\u09a8\u09bf\u09b0\u09cd\u09ad\u09b0 \u0995\u09b0\u09c7 \u09ac\u09be\u0995\u09cd\u09af\u09c7\u09b0 \u0989\u09aa\u09b0'],a:0,f:'\u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8 \u09b0\u09c2\u09aa\u0987 "\u09a6\u09c1\u0987\u099f\u09be" \u09ac\u09cb\u099d\u09be\u09af\u09bc, \u0986\u09b2\u09be\u09a6\u09be \u09b6\u09ac\u09cd\u09a6 \u09b2\u09be\u0997\u09c7 \u09a8\u09be\u0964'}
+    {q:'আরবিতে মোট কয়টা ব্যাকরণগত সংখ্যা আছে?',o:['তিনটা (একবচন/দ্বিবচন/বহুবচন)','দুইটা','চারটা','একটা'],a:0,f:'আরবিতে তিনটা ব্যাকরণগত সংখ্যা আছে।'},
+    {q:'দ্বিবচন রূপ তৈরি করতে কী যোগ হয়?',o:['ـَانِ','ة','ال','ين শুধু'],a:0,f:'দ্বিবচন তৈরি করতে ـَانِ যোগ হয়।'},
+    {q:'كِتَابَانِ এর অর্থ কী?',o:['দুইটা বই','একটা বই','বইগুলো','বইয়ের'],a:0,f:'كِتَابَانِ মানে দুইটা বই।'},
+    {q:'দ্বিবচন ব্যবহার করলে আলাদা "দুই" শব্দ কি লাগে?',o:['না, দ্বিবচন রূপই "দুইটা" বোঝায়','হ্যাঁ সবসময় লাগে','শুধু কখনো কখনো লাগে','নির্ভর করে বাক্যের উপর'],a:0,f:'দ্বিবচন রূপই "দুইটা" বোঝায়, আলাদা শব্দ লাগে না।'}
   ],
   'c6l6q':[
-    {q:'\u0639\u064e\u064a\u0652\u0646\u064e\u0627\u0646\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09c1\u0987 \u099a\u09cb\u0996','\u098f\u0995 \u099a\u09cb\u0996','\u09a6\u09c1\u0987 \u0995\u09be\u09a8','\u09a6\u09c1\u0987 \u09b9\u09be\u09a4'],a:0,f:'\u0639\u064e\u064a\u0652\u0646\u064e\u0627\u0646\u0650 (\u2018ayn\u0101ni) \u09ae\u09be\u09a8\u09c7 \u09a6\u09c1\u0987 \u099a\u09cb\u0996\u0964'},
-    {q:'\u0623\u064f\u0630\u064f\u0646\u064e\u0627\u0646\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09c1\u0987 \u0995\u09be\u09a8','\u09a6\u09c1\u0987 \u099a\u09cb\u0996','\u09a6\u09c1\u0987 \u09b9\u09be\u09a4','\u098f\u0995 \u0995\u09be\u09a8'],a:0,f:'\u0623\u064f\u0630\u064f\u0646\u064e\u0627\u0646\u0650 \u09ae\u09be\u09a8\u09c7 \u09a6\u09c1\u0987 \u0995\u09be\u09a8\u0964'},
-    {q:'\u0639\u064e\u064a\u0652\u0646\u064e\u0627\u0646\u0650 \u062c\u064e\u0645\u0650\u064a\u0644\u064e\u062a\u064e\u0627\u0646\u0650 \u098f \u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u062c\u064e\u0645\u0650\u064a\u0644\u064e\u062a\u064e\u0627\u0646\u0650 \u0995\u09c7\u09a8 \u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8 \u09b0\u09c2\u09aa\u09c7 \u0986\u099b\u09c7?',o:['\u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u0993 \u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8, \u0995\u09be\u09b0\u09a3 \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u0993 \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b8\u0982\u0996\u09cd\u09af\u09be \u0985\u09a8\u09c1\u09b8\u09b0\u09a3 \u0995\u09b0\u09c7','\u09ad\u09c1\u09b2 \u09ac\u09be\u0995\u09cd\u09af','\u098f\u09b2\u09cb\u09ae\u09c7\u09b2\u09cb','\u09b0\u0982 \u09b6\u09ac\u09cd\u09a6 \u09ac\u09b2\u09c7'],a:0,f:'\u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u09b8\u09ac\u09b8\u09ae\u09af\u09bc \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b8\u0982\u0996\u09cd\u09af\u09be (\u098f\u0995\u09ac\u099a\u09a8/\u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8/\u09ac\u09b9\u09c1\u09ac\u099a\u09a8) \u0985\u09a8\u09c1\u09b8\u09b0\u09a3 \u0995\u09b0\u09c7\u0964'},
-    {q:'\u064a\u064e\u062f\u064e\u0627\u0646\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09c1\u0987 \u09b9\u09be\u09a4','\u09a6\u09c1\u0987 \u09aa\u09be','\u09a6\u09c1\u0987 \u099a\u09cb\u0996','\u09a6\u09c1\u0987 \u0995\u09be\u09a8'],a:0,f:'\u064a\u064e\u062f\u064e\u0627\u0646\u0650 (yad\u0101ni) \u09ae\u09be\u09a8\u09c7 \u09a6\u09c1\u0987 \u09b9\u09be\u09a4\u0964'}
+    {q:'عَيْنَانِ এর অর্থ কী?',o:['দুই চোখ','এক চোখ','দুই কান','দুই হাত'],a:0,f:'عَيْنَانِ (‘aynāni) মানে দুই চোখ।'},
+    {q:'أُذُنَانِ এর অর্থ কী?',o:['দুই কান','দুই চোখ','দুই হাত','এক কান'],a:0,f:'أُذُنَانِ মানে দুই কান।'},
+    {q:'عَيْنَانِ جَمِيلَتَانِ এ বিশেষণ جَمِيلَتَانِ কেন দ্বিবচন রূপে আছে?',o:['বিশেষ্যও দ্বিবচন, কারণ বিশেষ্যও বিশেষ্যের সংখ্যা অনুসরণ করে','ভুল বাক্য','এলোমেলো','রং শব্দ বলে'],a:0,f:'বিশেষণ সবসময় বিশেষ্যের সংখ্যা (একবচন/দ্বিবচন/বহুবচন) অনুসরণ করে।'},
+    {q:'يَدَانِ এর অর্থ কী?',o:['দুই হাত','দুই পা','দুই চোখ','দুই কান'],a:0,f:'يَدَانِ (yadāni) মানে দুই হাত।'}
   ],
   'c6rq':[
-    {q:'\u062e\u064e\u0645\u0652\u0633\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09aa\u09be\u0981\u099a','\u099a\u09be\u09b0','\u099b\u09af\u09bc','\u09b8\u09be\u09a4'],a:0,f:'\u062e\u064e\u0645\u0652\u0633\u064e\u0629 \u09ae\u09be\u09a8\u09c7 \u09aa\u09be\u0981\u099a\u0964'},
-    {q:'\u0639\u064e\u0634\u064e\u0631\u064e\u0629 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09b6','\u09a8\u09af\u09bc','\u0986\u099f','\u09b8\u09be\u09a4'],a:0,f:'\u0639\u064e\u0634\u064e\u0631\u064e\u0629 \u09ae\u09be\u09a8\u09c7 \u09a6\u09b6\u0964'},
-    {q:'\u0623\u064e\u062d\u0652\u0645\u064e\u0631 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b2\u09be\u09b2','\u09a8\u09c0\u09b2','\u09b8\u09ac\u09c1\u099c','\u09b9\u09b2\u09c1\u09a6'],a:0,f:'\u0623\u064e\u062d\u0652\u0645\u064e\u0631 \u09ae\u09be\u09a8\u09c7 \u09b2\u09be\u09b2\u0964'},
-    {q:'"\u09a8\u09c0\u09b2"-\u098f\u09b0 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa \u0995\u09cb\u09a8\u099f\u09be?',o:['\u0632\u064e\u0631\u0652\u0642\u064e\u0627\u0621','\u0623\u064e\u0632\u0652\u0631\u064e\u0642','\u062d\u064e\u0645\u0652\u0631\u064e\u0627\u0621','\u0635\u064e\u0641\u0652\u0631\u064e\u0627\u0621'],a:0,f:'\u09a8\u09c0\u09b2\u09c7\u09b0 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09b0\u09c2\u09aa \u0632\u064e\u0631\u0652\u0642\u064e\u0627\u0621\u0964'},
-    {q:'\u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u0995\u09be\u09b0 \u09b2\u09bf\u0999\u09cd\u0997 \u0985\u09a8\u09c1\u09b8\u09b0\u09a3 \u0995\u09b0\u09c7?',o:['\u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0','\u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09be\u09b0','\u09ac\u0995\u09cd\u09a4\u09be\u09b0','\u09b6\u09cd\u09b0\u09cb\u09a4\u09be\u09b0'],a:0,f:'\u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b2\u09bf\u0999\u09cd\u0997 \u0985\u09a8\u09c1\u09b8\u09b0\u09a3 \u0995\u09b0\u09c7\u0964'},
-    {q:'\u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u09ae\u09cb\u099f \u0995\u09af\u09bc\u099f\u09be \u09ac\u09cd\u09af\u09be\u0995\u09b0\u09a3\u0997\u09a4 \u09b8\u0982\u0996\u09cd\u09af\u09be \u0986\u099b\u09c7?',o:['\u09a4\u09bf\u09a8\u099f\u09be','\u09a6\u09c1\u0987\u099f\u09be','\u099a\u09be\u09b0\u099f\u09be','\u098f\u0995\u099f\u09be'],a:0,f:'\u09a4\u09bf\u09a8\u099f\u09be: \u098f\u0995\u09ac\u099a\u09a8/\u09a6\u09cd\u09ac\u09bf\u09ac\u099a\u09a8/\u09ac\u09b9\u09c1\u09ac\u099a\u09a8\u0964'},
-    {q:'\u0643\u0650\u062a\u064e\u0627\u0628\u064e\u0627\u0646\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09c1\u0987\u099f\u09be \u09ac\u0987','\u098f\u0995\u099f\u09be \u09ac\u0987','\u09ac\u0987\u0997\u09c1\u09b2\u09cb','\u09ac\u0987\u09af\u09bc\u09c7\u09b0'],a:0,f:'\u0643\u0650\u062a\u064e\u0627\u0628\u064e\u0627\u0646\u0650 \u09ae\u09be\u09a8\u09c7 \u09a6\u09c1\u0987\u099f\u09be \u09ac\u0987\u0964'},
-    {q:'\u0639\u064e\u064a\u0652\u0646\u064e\u0627\u0646\u0650 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a6\u09c1\u0987 \u099a\u09cb\u0996','\u098f\u0995 \u099a\u09cb\u0996','\u09a6\u09c1\u0987 \u0995\u09be\u09a8','\u09a6\u09c1\u0987 \u09b9\u09be\u09a4'],a:0,f:'\u0639\u064e\u064a\u0652\u0646\u064e\u0627\u0646\u0650 \u09ae\u09be\u09a8\u09c7 \u09a6\u09c1\u0987 \u099a\u09cb\u0996\u0964'}
+    {q:'خَمْسَة এর অর্থ কী?',o:['পাঁচ','চার','ছয়','সাত'],a:0,f:'خَمْسَة মানে পাঁচ।'},
+    {q:'عَشَرَة এর অর্থ কী?',o:['দশ','নয়','আট','সাত'],a:0,f:'عَشَرَة মানে দশ।'},
+    {q:'أَحْمَر এর অর্থ কী?',o:['লাল','নীল','সবুজ','হলুদ'],a:0,f:'أَحْمَر মানে লাল।'},
+    {q:'"নীল"-এর স্ত্রীলিঙ্গ রূপ কোনটা?',o:['زَرْقَاء','أَزْرَق','حَمْرَاء','صَفْرَاء'],a:0,f:'নীলের স্ত্রীলিঙ্গ রূপ زَرْقَاء।'},
+    {q:'বিশেষণ কার লিঙ্গ অনুসরণ করে?',o:['বিশেষ্যের','ক্রিয়ার','বক্তার','শ্রোতার'],a:0,f:'বিশেষণ বিশেষ্যের লিঙ্গ অনুসরণ করে।'},
+    {q:'আরবিতে মোট কয়টা ব্যাকরণগত সংখ্যা আছে?',o:['তিনটা','দুইটা','চারটা','একটা'],a:0,f:'তিনটা: একবচন/দ্বিবচন/বহুবচন।'},
+    {q:'كِتَابَانِ এর অর্থ কী?',o:['দুইটা বই','একটা বই','বইগুলো','বইয়ের'],a:0,f:'كِتَابَانِ মানে দুইটা বই।'},
+    {q:'عَيْنَانِ এর অর্থ কী?',o:['দুই চোখ','এক চোখ','দুই কান','দুই হাত'],a:0,f:'عَيْنَانِ মানে দুই চোখ।'}
   ]
 };
 var qzAns={};
@@ -821,15 +823,15 @@ function buildQuiz(id){
   var html='';
   for(var i=0;i<qs.length;i++){
     var q=qs[i];
-    html+='<div class="qc"><div class="q-n">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8 '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
+    html+='<div class="qc"><div class="q-n">প্রশ্ন '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
     for(var j=0;j<q.o.length;j++){
       html+='<button type="button" class="qo" onclick="selectAnswer(\''+id+'\','+i+','+j+')">'+q.o[j]+'</button>';
     }
     html+='</div><div class="q-fb" id="qfb-'+id+'-'+i+'"></div></div>';
   }
-  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">\u09b8\u09ac\u09ae\u09bf\u09a4 \u0995\u09b0\u09cb</button>';
-  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">\u09a4\u09cb\u09ae\u09be\u09b0 \u09b8\u09cd\u0995\u09cb\u09b0</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
-  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">\u09ad\u09c1\u09b2 \u0989\u09a4\u09cd\u09a4\u09b0\u0997\u09c1\u09b2\u09cb \u09aa\u09b0\u09cd\u09af\u09be\u09b2\u09cb\u099a\u09a8\u09be \u0995\u09b0\u09cb</div><div id="mlist-'+id+'"></div></div>';
+  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">সবমিত করো</button>';
+  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">তোমার স্কোর</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
+  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">ভুল উত্তরগুলো পর্যালোচনা করো</div><div id="mlist-'+id+'"></div></div>';
   c.innerHTML=html;
   c.setAttribute('data-built','1');
 }
@@ -852,7 +854,7 @@ function selectAnswer(id,qi,oi){
   if(fb){
     fb.classList.add('show');
     fb.classList.add(ok?'ok':'no');
-    fb.innerHTML=ok?'\u2705 \u09b8\u09a0\u09bf\u0995!':('\u274c '+q.f);
+    fb.innerHTML=ok?'✅ সঠিক!':('❌ '+q.f);
   }
   if(!ok){
     if(!qzMistakes[id])qzMistakes[id]=[];
@@ -865,7 +867,7 @@ function submitQuiz(id){
   if(!qs)return;
   var ans=qzAns[id]||{};
   var answered=Object.keys(ans).length;
-  if(answered<qs.length){alert('\u09b8\u09ac \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u09c7\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0 \u09a6\u09bf\u09a8! \u09ac\u09be\u0995\u09bf \u0986\u099b\u09c7: '+(qs.length-answered)+'\u099f\u09bf');return;}
+  if(answered<qs.length){alert('সব প্রশ্নের উত্তর দিন! বাকি আছে: '+(qs.length-answered)+'টি');return;}
   var correct=0;
   for(var i=0;i<qs.length;i++){if(ans[i]===qs[i].a)correct++;}
   var pct=Math.round(correct/qs.length*100);
@@ -875,14 +877,14 @@ function submitQuiz(id){
   if(scn)scn.textContent=correct+'/'+qs.length+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.innerHTML='\ud83c\udfc6 \u0985\u09b8\u09be\u09a7\u09be\u09b0\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=80)scm.innerHTML='\u2b50 \u09a6\u09be\u09b0\u09c1\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=60)scm.innerHTML='\u2705 \u09ad\u09be\u09b2\u09cb \u09b9\u09af\u09bc\u09c7\u099b\u09c7! +'+(correct*5)+' XP';
+    if(pct>=90)scm.innerHTML='🏆 অসাধারণ! +'+(correct*5)+' XP';
+    else if(pct>=80)scm.innerHTML='⭐ দারুণ! +'+(correct*5)+' XP';
+    else if(pct>=60)scm.innerHTML='✅ ভালো হয়েছে! +'+(correct*5)+' XP';
     else{
-      scm.innerHTML='\u274c \u0986\u09b0\u0993 \u099a\u09b0\u09cd\u099a\u09be \u09a6\u09b0\u0995\u09be\u09b0! \u0985\u09a8\u09a4\u09a4 \u09ec\u09e6% \u09a6\u09b0\u0995\u09be\u09b0\u0964 \u09a4\u09c1\u09ae\u09bf \u09aa\u09c7\u09af\u09bc\u09c7\u099b '+pct+'%\u0964';
+      scm.innerHTML='❌ আরও চর্চা দরকার! অনতত ৬০% দরকার। তুমি পেয়েছ '+pct+'%।';
       var rb=document.createElement('button');
       rb.className='speak-btn';rb.style.marginTop='10px';rb.style.background='var(--red)';
-      rb.textContent='\ud83d\udd01 \u0986\u09ac\u09be\u09b0 \u099a\u09c7\u09b7\u09cd\u099f\u09be \u0995\u09b0\u09cb';
+      rb.textContent='🔁 আবার চেষ্টা করো';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(id);
       scm.appendChild(rb);
     }
@@ -898,7 +900,7 @@ function submitQuiz(id){
       var html='';
       for(var m=0;m<mistakes.length;m++){
         var mi=mistakes[m];
-        html+='<div class="mistake-item"><div class="mi-q">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8: '+mi.q+'</div><div class="mi-wrong">\u274c \u09a4\u09cb\u09ae\u09be\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u09b8\u09a0\u09bf\u0995: '+mi.correct+'</div><div class="mi-tip">\ud83d\udca1 '+mi.f+'</div></div>';
+        html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+mi.q+'</div><div class="mi-wrong">❌ তোমার উত্তর: '+mi.wrong+'</div><div class="mi-correct">✅ সঠিক: '+mi.correct+'</div><div class="mi-tip">💡 '+mi.f+'</div></div>';
       }
       ml.innerHTML=html;
     }
@@ -924,11 +926,11 @@ function idToDay(id){
 // ===== SPEAKING TEST (numbers, colors, dual review) =====
 var spData={
   'c6rs':[
-    {ar:'\u0627\u0644\u0642\u064e\u0644\u064e\u0645\u064f \u0623\u064e\u062d\u0652\u0645\u064e\u0631\u064f',tr:'al-qalamu a\u1e25maru',bn:'\u0995\u09b2\u09ae\u099f\u09be \u09b2\u09be\u09b2'},
-    {ar:'\u0627\u0644\u0633\u0651\u064e\u064a\u0651\u064e\u0627\u0631\u064e\u0629\u064f \u0632\u064e\u0631\u0652\u0642\u064e\u0627\u0621\u064f',tr:'as-sayy\u0101ratu zarq\u0101\u2019u',bn:'\u0997\u09be\u09dc\u09bf\u099f\u09be \u09a8\u09c0\u09b2'},
-    {ar:'\u0639\u064e\u064a\u0652\u0646\u064e\u0627\u0646\u0650 \u062c\u064e\u0645\u0650\u064a\u0644\u064e\u062a\u064e\u0627\u0646\u0650',tr:'\u2018ayn\u0101ni jam\u012blat\u0101ni',bn:'\u09a6\u09c1\u0987\u099f\u09be \u09b8\u09c1\u09a8\u09cd\u09a6\u09b0 \u099a\u09cb\u0996'},
-    {ar:'\u0628\u064e\u064a\u0652\u062a\u064e\u0627\u0646\u0650 \u0643\u064e\u0628\u0650\u064a\u0631\u064e\u0627\u0646\u0650',tr:'bayt\u0101ni kab\u012br\u0101ni',bn:'\u09a6\u09c1\u0987\u099f\u09be \u09ac\u09dc \u09ac\u09be\u09a1\u09bc\u09bf'},
-    {ar:'\u0648\u064e\u0627\u062d\u0650\u062f\u060c \u0627\u0650\u062b\u0652\u0646\u064e\u0627\u0646\u060c \u062b\u064e\u0644\u064e\u0627\u062b\u064e\u0629',tr:'w\u0101\u1e25id, ithn\u0101n, thal\u0101tha',bn:'\u098f\u0995, \u09a6\u09c1\u0987, \u09a4\u09bf\u09a8'}
+    {ar:'القَلَمُ أَحْمَرُ',tr:'al-qalamu aḥmaru',bn:'কলমটা লাল'},
+    {ar:'السَّيَّارَةُ زَرْقَاءُ',tr:'as-sayyāratu zarqā’u',bn:'গাড়িটা নীল'},
+    {ar:'عَيْنَانِ جَمِيلَتَانِ',tr:'‘aynāni jamīlatāni',bn:'দুইটা সুন্দর চোখ'},
+    {ar:'بَيْتَانِ كَبِيرَانِ',tr:'baytāni kabīrāni',bn:'দুইটা বড় বাড়ি'},
+    {ar:'وَاحِد، اِثْنَان، ثَلَاثَة',tr:'wāḥid, ithnān, thalātha',bn:'এক, দুই, তিন'}
   ]
 };
 
@@ -942,8 +944,8 @@ function buildSp(id){
   for(var i=0;i<items.length;i++){
     var it=items[i];
     html+='<div class="speak-prompt"><div class="speak-prompt-ar ar">'+it.ar+'</div><div class="speak-prompt-bn">'+it.tr+' &mdash; '+it.bn+'</div>';
-    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">\ud83d\udd0a \u09b6\u09c1\u09a8\u09c1\u09a8</button>';
-    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8</button>';
+    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">🔊 শুনুন</button>';
+    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">🎤 বলুন</button>';
     html+='<div class="speak-res" id="fsr-'+id+'-'+i+'"></div></div>';
   }
   c.innerHTML=html;
@@ -965,32 +967,32 @@ function toggleFreeSpeak(id,i){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';
+    btn.textContent='🎤 বলুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='\u26a0\ufe0f Chrome browser \u09a6\u09b0\u0995\u09be\u09b0!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();
   rec.lang='ar-SA';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='\u23f9 \u09a5\u09be\u09ae\u09be\u09a4\u09c7 \u099a\u09be\u09aa\u09cb';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপো';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
-      res.innerHTML='\ud83c\udfa4 \u09b6\u09cb\u09a8\u09be \u0997\u09c7\u099b\u09c7: "'+t+'" &mdash; \u099a\u09c7\u09b7\u09cd\u099f\u09be \u099a\u09be\u09b2\u09bf\u09af\u09bc\u09c7 \u09af\u09be\u0993! +5 XP';
+      res.innerHTML='🎤 শোনা গেছে: "'+t+'" &mdash; চেষ্টা চালিয়ে যাও! +5 XP';
       res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
       addXP(5);
     }
   };
   rec.onerror=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }

@@ -754,7 +754,8 @@ function toggleDay(n){
 }
 
 
-// ===== TTS (static pre-generated audio files) =====
+var curAud=null;
+var _MEDIA_BASE='https://media.shopnilacademy.com';
 var _AUDIO_LANG='ar';
 var _SPEECH_LANG='ar-SA';
 function fnv1a(s){
@@ -766,48 +767,49 @@ function fnv1a(s){
     h=Math.imul(h,16777619)>>>0;
   }
   var hex=h.toString(16);
-  while(hex.length<8)hex='0'+hex;
+  while(hex.length<8){hex='0'+hex;}
   return hex;
 }
-function tts(text){
-  var src='/audio/'+_AUDIO_LANG+'/'+fnv1a(text)+'.mp3';
-  var a=new Audio(src);
+function tts(t){
+  if(curAud){curAud.pause();curAud.currentTime=0;}
+  var src=_MEDIA_BASE+'/audio/'+_AUDIO_LANG+'/'+fnv1a(t)+'.mp3';
+  var a=new Audio(src);curAud=a;
   a.play().catch(function(){
     if(window.speechSynthesis){
-      var u=new SpeechSynthesisUtterance(text);
-      u.lang=_SPEECH_LANG;
+      window.speechSynthesis.cancel();
+      var u=new SpeechSynthesisUtterance(t);u.lang=_SPEECH_LANG;u.rate=0.85;
       window.speechSynthesis.speak(u);
     } else {
-      console.warn('Audio file not found: '+src+' \u2014 check /audio/'+_AUDIO_LANG+'/ folder was uploaded');
+      console.warn('Audio not found: '+src);
     }
   });
 }
 
 // ===== WORD AUDIO MAP =====
 var letterAudio={
-  'w_marhaban':'\u0645\u064e\u0631\u0652\u062d\u064e\u0628\u064b\u0627',
-  'w_sabahalkhayr':'\u0635\u064e\u0628\u064e\u0627\u062d\u064f \u0627\u0644\u062e\u064e\u064a\u0652\u0631',
-  'w_masaalkhayr':'\u0645\u064e\u0633\u064e\u0627\u0621\u064f \u0627\u0644\u062e\u064e\u064a\u0652\u0631',
-  'w_maasalama':'\u0645\u064e\u0639\u064e \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u0629',
-  'w_ilalliqaa':'\u0625\u0650\u0644\u064e\u0649 \u0627\u0644\u0644\u0651\u0650\u0642\u064e\u0627\u0621',
-  'w_shukran':'\u0634\u064f\u0643\u0652\u0631\u064b\u0627',
-  'w_afwan':'\u0639\u064e\u0641\u0652\u0648\u064b\u0627',
-  'w_assalamualaykum':'\u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u064f \u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645',
-  'w_waalaykumassalam':'\u0648\u064e\u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645 \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645',
-  'w_kayfahalukam':'\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u064e',
-  'w_kayfahalukf':'\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u0650',
-  'w_anabikhayr':'\u0623\u064e\u0646\u064e\u0627 \u0628\u0650\u062e\u064e\u064a\u0652\u0631',
-  'w_alhamdulillah':'\u0627\u0644\u062d\u064e\u0645\u0652\u062f\u064f \u0644\u0644\u0651\u0647',
-  'w_waanta':'\u0648\u064e\u0623\u064e\u0646\u0652\u062a\u064e',
-  'w_waanti':'\u0648\u064e\u0623\u064e\u0646\u0652\u062a\u0650',
-  'w_labas':'\u0644\u064e\u0627 \u0628\u064e\u0623\u0652\u0633',
-  'w_ismi':'\u0627\u0633\u0652\u0645\u0650\u064a',
-  'w_maismukam':'\u0645\u064e\u0627 \u0627\u0633\u0652\u0645\u064f\u0643\u064e',
-  'w_maismukf':'\u0645\u064e\u0627 \u0627\u0633\u0652\u0645\u064f\u0643\u0650',
-  'w_anamin':'\u0623\u064e\u0646\u064e\u0627 \u0645\u0650\u0646\u0652',
-  'w_minaynaanta':'\u0645\u0650\u0646\u0652 \u0623\u064e\u064a\u0652\u0646\u064e \u0623\u064e\u0646\u0652\u062a\u064e',
-  'w_bangladesh':'\u0628\u064e\u0646\u0652\u063a\u0652\u0644\u064e\u0627\u062f\u0650\u064a\u0634',
-  'w_tasharrafna':'\u062a\u064e\u0634\u064e\u0631\u0651\u064e\u0641\u0652\u0646\u064e\u0627'
+  'w_marhaban':'مَرْحَبًا',
+  'w_sabahalkhayr':'صَبَاحُ الخَيْر',
+  'w_masaalkhayr':'مَسَاءُ الخَيْر',
+  'w_maasalama':'مَعَ السَّلَامة',
+  'w_ilalliqaa':'إِلَى اللِّقَاء',
+  'w_shukran':'شُكْرًا',
+  'w_afwan':'عَفْوًا',
+  'w_assalamualaykum':'السَّلَامُ عَلَيْكُم',
+  'w_waalaykumassalam':'وَعَلَيْكُم السَّلَام',
+  'w_kayfahalukam':'كَيْفَ حَالُكَ',
+  'w_kayfahalukf':'كَيْفَ حَالُكِ',
+  'w_anabikhayr':'أَنَا بِخَيْر',
+  'w_alhamdulillah':'الحَمْدُ للّه',
+  'w_waanta':'وَأَنْتَ',
+  'w_waanti':'وَأَنْتِ',
+  'w_labas':'لَا بَأْس',
+  'w_ismi':'اسْمِي',
+  'w_maismukam':'مَا اسْمُكَ',
+  'w_maismukf':'مَا اسْمُكِ',
+  'w_anamin':'أَنَا مِنْ',
+  'w_minaynaanta':'مِنْ أَيْنَ أَنْتَ',
+  'w_bangladesh':'بَنْغْلَادِيش',
+  'w_tasharrafna':'تَشَرَّفْنَا'
 };
 function playLetter(key){
   var text=letterAudio[key];
@@ -831,50 +833,50 @@ function revealAnswer(id){
 // ===== QUIZ DATA (data-object braces only, never appended after) =====
 var qzData={
   'c4l1q':[
-    {q:'\u0645\u064e\u0631\u0652\u062d\u064e\u0628\u064b\u0627 \u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b9\u09cd\u09af\u09be\u09b2\u09cb','\u09ac\u09bf\u09a6\u09be\u09af\u09bc','\u09a7\u09a8\u09cd\u09af\u09ac\u09be\u09a6','\u0995\u09cd\u09b7\u09ae\u09be \u0995\u09b0\u09ac\u09c7\u09a8'],a:0,f:'\u0645\u064e\u0631\u0652\u062d\u064e\u0628\u064b\u0627 (mar\u1e25aban) \u09ae\u09be\u09a8\u09c7 \u09b9\u09cd\u09af\u09be\u09b2\u09cb\u0964'},
-    {q:'\u0634\u064f\u0643\u0652\u0631\u064b\u0627 \u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a7\u09a8\u09cd\u09af\u09ac\u09be\u09a6','\u09b8\u09cd\u09ac\u09be\u0997\u09a4\u09ae','\u09b9\u09cd\u09af\u09be\u09b2\u09cb','\u09ac\u09bf\u09a6\u09be\u09af\u09bc'],a:0,f:'\u0634\u064f\u0643\u0652\u0631\u064b\u0627 (shukran) \u09ae\u09be\u09a8\u09c7 \u09a7\u09a8\u09cd\u09af\u09ac\u09be\u09a6\u0964'},
-    {q:'\u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u064f \u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645 \u098f\u09b0 \u09b8\u0983\u09a0\u09bf\u0995 \u0989\u09a4\u09cd\u09a4\u09b0 \u0995\u09cb\u09a8\u099f\u09be?',o:['\u0648\u064e\u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645 \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645','\u0645\u064e\u0631\u0652\u062d\u064e\u0628\u064b\u0627','\u0634\u064f\u0643\u0652\u0631\u064b\u0627','\u0645\u064e\u0639\u064e \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u0629'],a:0,f:'\u098f\u0987 \u09b6\u09c1\u09ad\u09c7\u099a\u09cd\u099b\u09be\u09b0 \u09b8\u0983\u09a0\u09bf\u0995 \u0989\u09a4\u09cd\u09a4\u09b0 \u0648\u064e\u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645 \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u0964'},
-    {q:'"\u09ac\u09bf\u09a6\u09be\u09af\u09bc" \u099c\u09be\u09a8\u09be\u09a4\u09c7 \u0995\u09cb\u09a8\u099f\u09be \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09ac\u09c7?',o:['\u0645\u064e\u0639\u064e \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u0629','\u0635\u064e\u0628\u064e\u0627\u062d\u064f \u0627\u0644\u062e\u064e\u064a\u0652\u0631','\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u064e','\u0627\u0633\u0652\u0645\u0650\u064a'],a:0,f:'\u0645\u064e\u0639\u064e \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u0629 (ma\u2018a s-sal\u0101ma) \u09ae\u09be\u09a8\u09c7 \u09ac\u09bf\u09a6\u09be\u09af\u09bc\u0964'}
+    {q:'مَرْحَبًا শব্দের অর্থ কী?',o:['হ্যালো','বিদায়','ধন্যবাদ','ক্ষমা করবেন'],a:0,f:'مَرْحَبًا (marḥaban) মানে হ্যালো।'},
+    {q:'شُكْرًا শব্দের অর্থ কী?',o:['ধন্যবাদ','স্বাগতম','হ্যালো','বিদায়'],a:0,f:'شُكْرًا (shukran) মানে ধন্যবাদ।'},
+    {q:'السَّلَامُ عَلَيْكُم এর সঃঠিক উত্তর কোনটা?',o:['وَعَلَيْكُم السَّلَام','مَرْحَبًا','شُكْرًا','مَعَ السَّلَامة'],a:0,f:'এই শুভেচ্ছার সঃঠিক উত্তর وَعَلَيْكُم السَّلَام।'},
+    {q:'"বিদায়" জানাতে কোনটা ব্যবহার করবে?',o:['مَعَ السَّلَامة','صَبَاحُ الخَيْر','كَيْفَ حَالُكَ','اسْمِي'],a:0,f:'مَعَ السَّلَامة (ma‘a s-salāma) মানে বিদায়।'}
   ],
   'c4l2q':[
-    {q:'\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u064e\u061f \u0995\u09be\u0995\u09c7 \u099c\u09bf\u099c\u09cd\u099e\u09be\u09b8\u09be \u0995\u09b0\u09be \u09b9\u09af\u09bc?',o:['\u098f\u0995\u099c\u09a8 \u09aa\u09c1\u09b0\u09c1\u09b7\u0995\u09c7','\u098f\u0995\u099c\u09a8 \u09a8\u09be\u09b0\u09c0\u0995\u09c7','\u09a6\u09c1\u099c\u09a8\u0995\u09c7','\u0995\u09be\u0989\u0995\u09c7 \u09a8\u09be'],a:0,f:'\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u064e-\u098f\u09b0 \u0634\u09c7\u09b7\u09c7 \u09ab\u09be\u09a4\u09b9\u09be (\u0643\u064e) \u09aa\u09c1\u09b0\u09c1\u09b7\u09ac\u09be\u099a\u0995\u0964'},
-    {q:'\u0623\u064e\u0646\u064e\u0627 \u0628\u0650\u062e\u064e\u064a\u0652\u0631 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09bf \u09ad\u09be\u09b2\u09cb \u0986\u099b\u09bf','\u0986\u09ae\u09bf \u0985\u09b8\u09c1\u09b8\u09cd\u09a5','\u0986\u09ae\u09bf \u09ac\u09cd\u09af\u09b8\u09cd\u09a4','\u0986\u09ae\u09bf \u0995\u09cd\u09b2\u09be\u09a8\u09cd\u09a4'],a:0,f:'\u0623\u064e\u0646\u064e\u0627 \u0628\u0650\u062e\u064e\u064a\u0652\u0631 (an\u0101 bikhayr) \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09bf \u09ad\u09be\u09b2\u09cb \u0986\u099b\u09bf\u0964'},
-    {q:'\u0627\u0644\u062d\u064e\u0645\u0652\u062f\u064f \u0644\u0644\u0651\u0647 \u0995\u0996\u09a8 \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc?',o:['\u0995\u09c7\u09ae\u09a8 \u0986\u099b\u09bf \u09a4\u09be \u09ac\u09b2\u09be\u09b0 \u09b8\u09ae\u09af\u09bc \u0995\u09c3\u09a4\u099c\u09cd\u099e\u09a4\u09be \u09aa\u09cd\u09b0\u0995\u09be\u09b6\u09c7','\u09ac\u09bf\u09a6\u09be\u09af\u09bc \u099c\u09be\u09a8\u09be\u09a4\u09c7','\u09a8\u09be\u09ae \u099c\u09bf\u099c\u09cd\u099e\u09c7\u09b8 \u0995\u09b0\u09a4\u09c7','\u0995\u09cd\u09b7\u09ae\u09be \u099a\u09be\u0987\u09a4\u09c7'],a:0,f:'\u0627\u0644\u062d\u064e\u0645\u0652\u062f\u064f \u0644\u0644\u0651\u0647 \u09b8\u09ac\u0995\u09bf\u099b\u09c1 \u09ad\u09be\u09b2\u09cb \u09ac\u09cb\u099d\u09be\u09a4\u09c7 \u098f\u0995\u099f\u09be \u0985\u09a4\u09bf \u09b8\u09be\u09a7\u09be\u09b0\u09a3 \u0989\u09a4\u09cd\u09a4\u09b0\u0964'},
-    {q:'"\u09a8\u09be\u09b0\u09c0\u0995\u09c7" "\u0986\u09b0 \u09a4\u09c1\u09ae\u09bf?" \u099c\u09bf\u099c\u09cd\u099e\u09c7\u09b8 \u0995\u09b0\u09a4\u09c7 \u0995\u09c0 \u09ac\u09b2\u09ac\u09c7?',o:['\u0648\u064e\u0623\u064e\u0646\u0652\u062a\u0650\u061f','\u0648\u064e\u0623\u064e\u0646\u0652\u062a\u064e\u061f','\u0623\u064e\u0646\u064e\u0627 \u0628\u0650\u062e\u064e\u064a\u0652\u0631','\u0644\u064e\u0627 \u0628\u064e\u0623\u0652\u0633'],a:0,f:'\u09a8\u09be\u09b0\u09c0\u0995\u09c7 \u09ac\u09b2\u09a4\u09c7 \u0648\u064e\u0623\u064e\u0646\u0652\u062a\u0650 (\u0643\u0650 \u09b8\u09b9)\u0964'}
+    {q:'كَيْفَ حَالُكَ؟ কাকে জিজ্ঞাসা করা হয়?',o:['একজন পুরুষকে','একজন নারীকে','দুজনকে','কাউকে না'],a:0,f:'كَيْفَ حَالُكَ-এর شেষে ফাতহা (كَ) পুরুষবাচক।'},
+    {q:'أَنَا بِخَيْر এর অর্থ কী?',o:['আমি ভালো আছি','আমি অসুস্থ','আমি ব্যস্ত','আমি ক্লান্ত'],a:0,f:'أَنَا بِخَيْر (anā bikhayr) মানে আমি ভালো আছি।'},
+    {q:'الحَمْدُ للّه কখন ব্যবহৃত হয়?',o:['কেমন আছি তা বলার সময় কৃতজ্ঞতা প্রকাশে','বিদায় জানাতে','নাম জিজ্ঞেস করতে','ক্ষমা চাইতে'],a:0,f:'الحَمْدُ للّه সবকিছু ভালো বোঝাতে একটা অতি সাধারণ উত্তর।'},
+    {q:'"নারীকে" "আর তুমি?" জিজ্ঞেস করতে কী বলবে?',o:['وَأَنْتِ؟','وَأَنْتَ؟','أَنَا بِخَيْر','لَا بَأْس'],a:0,f:'নারীকে বলতে وَأَنْتِ (كِ সহ)।'}
   ],
   'c4l3q':[
-    {q:'\u0627\u0633\u0652\u0645\u0650\u064a \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09be\u09b0 \u09a8\u09be\u09ae','\u09a4\u09cb\u09ae\u09be\u09b0 \u09a8\u09be\u09ae','\u09a4\u09be\u09b0 \u09a8\u09be\u09ae','\u0986\u09ae\u09be\u09a6\u09c7\u09b0 \u09a8\u09be\u09ae'],a:0,f:'\u0627\u0633\u0652\u0645\u0650\u064a (ism\u012b) \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09be\u09b0 \u09a8\u09be\u09ae\u0964'},
-    {q:'\u0623\u064e\u0646\u064e\u0627 \u0645\u0650\u0646\u0652... \u0995\u09c0 \u09ac\u09cb\u099d\u09be\u09a4\u09c7 \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc?',o:['\u0986\u09ae\u09bf...\u09a5\u09c7\u0995\u09c7 \u098f\u09b8\u09c7\u099b\u09bf','\u0986\u09ae\u09be\u09b0 \u09a8\u09be\u09ae...','\u0986\u09ae\u09bf...\u099a\u09be\u0987','\u0986\u09ae\u09bf...\u09ad\u09be\u09b2\u09cb\u09ac\u09be\u09b8\u09bf'],a:0,f:'\u0623\u064e\u0646\u064e\u0627 \u0645\u0650\u0646\u0652 (an\u0101 min) \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09bf...\u09a5\u09c7\u0995\u09c7 \u098f\u09b8\u09c7\u099b\u09bf\u0964'},
-    {q:'\u0645\u0650\u0646\u0652 \u0623\u064e\u064a\u0652\u0646\u064e \u0623\u064e\u0646\u0652\u062a\u064e\u061f \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u09c7\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09a4\u09c1\u09ae\u09bf \u0995\u09cb\u09a5\u09be \u09a5\u09c7\u0995\u09c7 \u098f\u09b8\u09c7\u099b\u09cb?','\u09a4\u09cb\u09ae\u09be\u09b0 \u09a8\u09be\u09ae \u0995\u09c0?','\u09a4\u09c1\u09ae\u09bf \u0995\u09c7\u09ae\u09a8 \u0986\u099b\u09cb?','\u09a4\u09c1\u09ae\u09bf \u0995\u09c7?'],a:0,f:'\u0645\u0650\u0646\u0652 \u0623\u064e\u064a\u0652\u0646\u064e \u0623\u064e\u0646\u0652\u062a\u064e (min ayna anta) \u09ae\u09be\u09a8\u09c7 \u09a4\u09c1\u09ae\u09bf \u0995\u09cb\u09a5\u09be \u09a5\u09c7\u0995\u09c7 \u098f\u09b8\u09c7\u099b\u09cb?'},
-    {q:'\u062a\u064e\u0634\u064e\u0631\u0651\u064e\u0641\u0652\u0646\u064e\u0627 \u0995\u0996\u09a8 \u09ac\u09b2\u09ac\u09c7?',o:['\u09aa\u09cd\u09b0\u09a5\u09ae \u09b8\u09be\u0995\u09cd\u09b7\u09be\u09a4\u09c7 \u0986\u09a8\u09a8\u09cd\u09a6 \u09aa\u09cd\u09b0\u0995\u09be\u09b6 \u0995\u09b0\u09a4\u09c7','\u09ac\u09bf\u09a6\u09be\u09af\u09bc \u099c\u09be\u09a8\u09be\u09a4\u09c7','\u09a7\u09a8\u09cd\u09af\u09ac\u09be\u09a6 \u099c\u09be\u09a8\u09be\u09a4\u09c7','\u0995\u09cd\u09b7\u09ae\u09be \u099a\u09be\u0987\u09a4\u09c7'],a:0,f:'\u062a\u064e\u0634\u064e\u0631\u0651\u064e\u0641\u0652\u0646\u064e\u0627 \u09ae\u09be\u09a8\u09c7 \u09b8\u09be\u0995\u09cd\u09b7\u09be\u09a4\u09c7 \u0986\u09a8\u09a8\u09cd\u09a6\u09bf\u09a4 \u09b9\u09b2\u09be\u09ae\u0964'}
+    {q:'اسْمِي এর অর্থ কী?',o:['আমার নাম','তোমার নাম','তার নাম','আমাদের নাম'],a:0,f:'اسْمِي (ismī) মানে আমার নাম।'},
+    {q:'أَنَا مِنْ... কী বোঝাতে ব্যবহৃত হয়?',o:['আমি...থেকে এসেছি','আমার নাম...','আমি...চাই','আমি...ভালোবাসি'],a:0,f:'أَنَا مِنْ (anā min) মানে আমি...থেকে এসেছি।'},
+    {q:'مِنْ أَيْنَ أَنْتَ؟ প্রশ্নের অর্থ কী?',o:['তুমি কোথা থেকে এসেছো?','তোমার নাম কী?','তুমি কেমন আছো?','তুমি কে?'],a:0,f:'مِنْ أَيْنَ أَنْتَ (min ayna anta) মানে তুমি কোথা থেকে এসেছো?'},
+    {q:'تَشَرَّفْنَا কখন বলবে?',o:['প্রথম সাক্ষাতে আনন্দ প্রকাশ করতে','বিদায় জানাতে','ধন্যবাদ জানাতে','ক্ষমা চাইতে'],a:0,f:'تَشَرَّفْنَا মানে সাক্ষাতে আনন্দিত হলাম।'}
   ],
   'c4l4q':[
-    {q:'\u0623\u064e\u0646\u064e\u0627 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09bf','\u09a4\u09c1\u09ae\u09bf','\u09b8\u09c7','\u0986\u09ae\u09b0\u09be'],a:0,f:'\u0623\u064e\u0646\u064e\u0627 (an\u0101) \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09bf\u0964'},
-    {q:'\u098f\u0995\u099c\u09a8 \u09a8\u09be\u09b0\u09c0\u0995\u09c7 "\u09a4\u09c1\u09ae\u09bf" \u09ac\u09b2\u09a4\u09c7 \u0995\u09cb\u09a8 \u09b8\u09b0\u09cd\u09ac\u09a8\u09be\u09ae \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u09b9\u09ac\u09c7?',o:['\u0623\u064e\u0646\u0652\u062a\u0650','\u0623\u064e\u0646\u0652\u062a\u064e','\u0647\u0650\u064a\u064e','\u0623\u064e\u0646\u064e\u0627'],a:0,f:'\u09a8\u09be\u09b0\u09c0\u09ac\u09be\u099a\u0995 \u09b8\u09b0\u09cd\u09ac\u09a8\u09be\u09ae \u0623\u064e\u0646\u0652\u062a\u0650 (anti)\u0964'},
-    {q:'\u0647\u064f\u0648\u064e \u0995\u09be\u09b0 \u099c\u09a8\u09cd\u09af \u09ac\u09cd\u09af\u09ac\u09b9\u09c3\u09a4 \u09b9\u09af\u09bc?',o:['\u09b8\u09c7 (\u09aa\u09c1\u09b0\u09c1\u09b7)','\u09b8\u09c7 (\u09a8\u09be\u09b0\u09c0)','\u09a4\u09c1\u09ae\u09bf (\u09aa\u09c1\u09b0\u09c1\u09b7)','\u0986\u09ae\u09bf'],a:0,f:'\u0647\u064f\u0648\u064e (huwa) \u09ae\u09be\u09a8\u09c7 \u09b8\u09c7 (\u09aa\u09c1\u09b0\u09c1\u09b7)\u0964'},
-    {q:'\u0646\u064e\u062d\u0652\u0646\u064f \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09b0\u09be','\u09a4\u09cb\u09ae\u09b0\u09be','\u09a4\u09be\u09b0\u09be','\u0986\u09ae\u09bf'],a:0,f:'\u0646\u064e\u062d\u0652\u0646\u064f (na\u1e25nu) \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09b0\u09be\u0964'}
+    {q:'أَنَا এর অর্থ কী?',o:['আমি','তুমি','সে','আমরা'],a:0,f:'أَنَا (anā) মানে আমি।'},
+    {q:'একজন নারীকে "তুমি" বলতে কোন সর্বনাম ব্যবহার হবে?',o:['أَنْتِ','أَنْتَ','هِيَ','أَنَا'],a:0,f:'নারীবাচক সর্বনাম أَنْتِ (anti)।'},
+    {q:'هُوَ কার জন্য ব্যবহৃত হয়?',o:['সে (পুরুষ)','সে (নারী)','তুমি (পুরুষ)','আমি'],a:0,f:'هُوَ (huwa) মানে সে (পুরুষ)।'},
+    {q:'نَحْنُ এর অর্থ কী?',o:['আমরা','তোমরা','তারা','আমি'],a:0,f:'نَحْنُ (naḥnu) মানে আমরা।'}
   ],
   'c4l5q':[
-    {q:'\u098f\u0995\u099f\u09be \u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u09b6\u09c7\u09b7\u09c7 \u0629 \u09a5\u09be\u0995\u09b2\u09c7 \u09b8\u09c7\u099f\u09be \u09b8\u09be\u09a7\u09be\u09b0\u09a3\u09a4 \u0995\u09cb\u09a8 \u09b2\u09bf\u0999\u09cd\u0997?',o:['\u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997','\u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997','\u0989\u09ad\u09af\u09bc\u0987','\u0995\u09cb\u09a8\u09cb \u09b2\u09bf\u0999\u09cd\u0997 \u09a8\u09c7\u0987'],a:0,f:'\u0629 (\u09a4\u09be \u09ae\u09be\u09b0\u09ac\u09c2\u09a4\u09be) \u09b8\u09be\u09a7\u09be\u09b0\u09a3\u09a4 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09a8\u09bf\u09b0\u09cd\u09a6\u09c7\u09b6 \u0995\u09b0\u09c7\u0964'},
-    {q:'\u0637\u064e\u0627\u0644\u0650\u0628\u064e\u0629 \u09b6\u09ac\u09cd\u09a6\u099f\u09be \u0995\u09cb\u09a8 \u09b2\u09bf\u0999\u09cd\u0997?',o:['\u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997','\u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997','\u0989\u09ad\u09af\u09bc\u0987','\u09a8\u09bf\u09b0\u09cd\u09a3\u09af\u09bc \u0995\u09b0\u09be \u09af\u09be\u09af\u09bc \u09a8\u09be'],a:0,f:'\u0637\u064e\u0627\u0644\u0650\u0628\u064e\u0629-\u098f \u0629 \u0986\u099b\u09c7, \u09a4\u09be\u0987 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997\u0964'},
-    {q:'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645 \u09b6\u09ac\u09cd\u09a6\u099f\u09be \u0995\u09cb\u09a8 \u09b2\u09bf\u0999\u09cd\u0997?',o:['\u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997 (\u0629 \u09a8\u09c7\u0987)','\u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997','\u0989\u09ad\u09af\u09bc\u0987','\u09a8\u09bf\u09b0\u09cd\u09a3\u09af\u09bc \u0995\u09b0\u09be \u09af\u09be\u09af\u09bc \u09a8\u09be'],a:0,f:'\u0645\u064f\u0639\u064e\u0644\u0651\u0650\u0645-\u098f \u0629 \u09a8\u09c7\u0987, \u09a4\u09be\u0987 \u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997\u0964'},
-    {q:'\u0986\u09b0\u09ac\u09bf\u09a4\u09c7 \u09ac\u09bf\u09b6\u09c7\u09b7\u09a3\u0993 \u0995\u09c0\u09b8\u09c7\u09b0 \u09b8\u09be\u09a5\u09c7 \u09ae\u09bf\u09b2 \u09b0\u09c7\u0996\u09c7 \u09ac\u09a6\u09b2\u09be\u09af\u09bc?',o:['\u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b2\u09bf\u0999\u09cd\u0997','\u09ac\u09be\u0995\u09cd\u09af\u09c7\u09b0 \u09a6\u09c8\u09b0\u09cd\u0998\u09cd\u09af','\u09ac\u0995\u09cd\u09a4\u09be\u09b0 \u09ac\u09af\u09bc\u09b8','\u09a6\u09bf\u09a8\u09c7\u09b0 \u09b8\u09ae\u09af\u09bc'],a:0,f:'\u09ac\u09bf\u09b6\u09c7\u09b7\u09a3 \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b2\u09bf\u0999\u09cd\u0997\u09c7\u09b0 \u09b8\u09be\u09a5\u09c7 \u09ae\u09bf\u09b2 \u09b0\u09c7\u0996\u09c7 \u09ac\u09a6\u09b2\u09be\u09af\u09bc\u0964'}
+    {q:'একটা শব্দের শেষে ة থাকলে সেটা সাধারণত কোন লিঙ্গ?',o:['স্ত্রীলিঙ্গ','পুংলিঙ্গ','উভয়ই','কোনো লিঙ্গ নেই'],a:0,f:'ة (তা মারবূতা) সাধারণত স্ত্রীলিঙ্গ নির্দেশ করে।'},
+    {q:'طَالِبَة শব্দটা কোন লিঙ্গ?',o:['স্ত্রীলিঙ্গ','পুংলিঙ্গ','উভয়ই','নির্ণয় করা যায় না'],a:0,f:'طَالِبَة-এ ة আছে, তাই স্ত্রীলিঙ্গ।'},
+    {q:'مُعَلِّم শব্দটা কোন লিঙ্গ?',o:['পুংলিঙ্গ (ة নেই)','স্ত্রীলিঙ্গ','উভয়ই','নির্ণয় করা যায় না'],a:0,f:'مُعَلِّم-এ ة নেই, তাই পুংলিঙ্গ।'},
+    {q:'আরবিতে বিশেষণও কীসের সাথে মিল রেখে বদলায়?',o:['বিশেষ্যের লিঙ্গ','বাক্যের দৈর্ঘ্য','বক্তার বয়স','দিনের সময়'],a:0,f:'বিশেষণ বিশেষ্যের লিঙ্গের সাথে মিল রেখে বদলায়।'}
   ],
   'c4l6q':[
-    {q:'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628\u064f \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09ac\u0987\u099f\u09be (the book)','\u098f\u0995\u099f\u09be \u09ac\u0987 (a book)','\u09ac\u0987\u0997\u09c1\u09b2\u09cb','\u09ac\u0987 \u099b\u09be\u09dc\u09be'],a:0,f:'\u0627\u0644 \u09b8\u09b9 \u09b6\u09ac\u09cd\u09a6 \u09ae\u09be\u09a8\u09c7 \u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f, \u0985\u09b0\u09cd\u09a5\u09be\u09ce "\u09ac\u0987\u099f\u09be"\u0964'},
-    {q:'\u0643\u0650\u062a\u064e\u0627\u0628\u064c (\u09a4\u09be\u09a8\u09ac\u09c0\u09a8 \u09b8\u09b9, \u0627\u0644 \u099b\u09be\u09dc\u09be) \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u098f\u0995\u099f\u09be \u09ac\u0987 (a book)','\u09ac\u0987\u099f\u09be (the book)','\u09ac\u0987\u09af\u09bc\u09c7\u09b0','\u09ac\u0987\u09a4\u09c7'],a:0,f:'\u09a4\u09be\u09a8\u09ac\u09c0\u09a8 \u09b8\u09b9 \u0985\u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f, \u0985\u09b0\u09cd\u09a5\u09be\u09ce "\u098f\u0995\u099f\u09be \u09ac\u0987"\u0964'},
-    {q:'\u0627\u0644 \u0995\u09bf \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u09c7\u09b0 \u09b2\u09bf\u0999\u09cd\u0997 \u0985\u09a8\u09c1\u09af\u09be\u09af\u09bc\u09c0 \u09ac\u09a6\u09b2\u09be\u09af\u09bc?',o:['\u09a8\u09be, \u09b8\u09ac\u09b8\u09ae\u09af\u09bc \u098f\u0995\u0987 \u09a5\u09be\u0995\u09c7','\u09b9\u09cd\u09af\u09be\u0981, \u09aa\u09c1\u0982/\u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09a4\u09c7 \u0986\u09b2\u09be\u09a6\u09be \u09b0\u09c2\u09aa','\u09b6\u09c1\u09a7\u09c1 \u09ac\u09b9\u09c1\u09ac\u099a\u09a8\u09c7 \u09ac\u09a6\u09b2\u09be\u09af\u09bc','\u09b6\u09c1\u09a7\u09c1 \u09a8\u09be\u09ae\u09c7\u09b0 \u0986\u0997\u09c7 \u09ac\u09a6\u09b2\u09be\u09af\u09bc'],a:0,f:'\u0627\u0644 \u0995\u0996\u09a8\u0993 \u09ac\u09a6\u09b2\u09be\u09af\u09bc \u09a8\u09be \u2014 \u09ac\u09bf\u09b6\u09c7\u09b7\u09cd\u09af\u099f\u09be\u0987 \u09a4\u09be\u09b0 \u09b2\u09bf\u0999\u09cd\u0997 \u09ac\u09b9\u09a8 \u0995\u09b0\u09c7\u0964'},
-    {q:'\u0627\u0644\u0637\u0651\u064e\u0627\u0644\u0650\u0628\u064e\u0629\u064f \u09b6\u09ac\u09cd\u09a6\u09c7 \u0995\u09c0\u09ad\u09be\u09ac\u09c7 \u09ac\u09cb\u099d\u09be \u09af\u09be\u09af\u09bc \u098f\u099f\u09be \u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f \u098f\u09ac\u0982 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997?',o:['\u0627\u0644 (\u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f) + \u0629 (\u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997) \u09a6\u09c1\u099f\u09cb\u0987 \u0986\u099b\u09c7','\u09b6\u09c1\u09a7\u09c1 \u0627\u0644 \u0986\u099b\u09c7','\u09b6\u09c1\u09a7\u09c1 \u0629 \u0986\u099b\u09c7','\u0995\u09cb\u09a8\u09cb\u099f\u09be\u0987 \u09a8\u09c7\u0987'],a:0,f:'\u0627\u0644 \u09a8\u09bf\u09b0\u09cd\u09a6\u09bf\u09b7\u09cd\u099f\u09a4\u09be \u098f\u09ac\u0982 \u0629 \u09b2\u09bf\u0999\u09cd\u0997 \u2014 \u09a6\u09c1\u099f\u09cb\u0987 \u098f\u0995\u09b8\u0999\u09cd\u0997\u09c7 \u0986\u099b\u09c7\u0964'}
+    {q:'الكِتَابُ এর অর্থ কী?',o:['বইটা (the book)','একটা বই (a book)','বইগুলো','বই ছাড়া'],a:0,f:'ال সহ শব্দ মানে নির্দিষ্ট, অর্থাৎ "বইটা"।'},
+    {q:'كِتَابٌ (তানবীন সহ, ال ছাড়া) এর অর্থ কী?',o:['একটা বই (a book)','বইটা (the book)','বইয়ের','বইতে'],a:0,f:'তানবীন সহ অনির্দিষ্ট, অর্থাৎ "একটা বই"।'},
+    {q:'ال কি বিশেষ্যের লিঙ্গ অনুযায়ী বদলায়?',o:['না, সবসময় একই থাকে','হ্যাঁ, পুং/স্ত্রীতে আলাদা রূপ','শুধু বহুবচনে বদলায়','শুধু নামের আগে বদলায়'],a:0,f:'ال কখনও বদলায় না — বিশেষ্যটাই তার লিঙ্গ বহন করে।'},
+    {q:'الطَّالِبَةُ শব্দে কীভাবে বোঝা যায় এটা নির্দিষ্ট এবং স্ত্রীলিঙ্গ?',o:['ال (নির্দিষ্ট) + ة (স্ত্রীলিঙ্গ) দুটোই আছে','শুধু ال আছে','শুধু ة আছে','কোনোটাই নেই'],a:0,f:'ال নির্দিষ্টতা এবং ة লিঙ্গ — দুটোই একসঙ্গে আছে।'}
   ],
   'c4rq':[
-    {q:'\u0645\u064e\u0631\u0652\u062d\u064e\u0628\u064b\u0627 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u09b9\u09cd\u09af\u09be\u09b2\u09cb','\u09ac\u09bf\u09a6\u09be\u09af\u09bc','\u09a7\u09a8\u09cd\u09af\u09ac\u09be\u09a6','\u09a6\u09c1\u0983\u0996\u09bf\u09a4'],a:0,f:'\u0645\u064e\u0631\u0652\u062d\u064e\u0628\u064b\u0627 \u09ae\u09be\u09a8\u09c7 \u09b9\u09cd\u09af\u09be\u09b2\u09cb\u0964'},
-    {q:'\u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u064f \u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645 \u098f\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0\u09c7 \u0995\u09c0 \u09ac\u09b2\u09be \u09b9\u09af\u09bc?',o:['\u0648\u064e\u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645 \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645','\u0645\u064e\u0631\u0652\u062d\u064e\u0628\u064b\u0627','\u0634\u064f\u0643\u0652\u0631\u064b\u0627','\u0644\u064e\u0627 \u0628\u064e\u0623\u0652\u0633'],a:0,f:'\u09b8\u0983\u09a0\u09bf\u0995 \u0989\u09a4\u09cd\u09a4\u09b0 \u0648\u064e\u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645 \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u0964'},
-    {q:'\u0627\u0633\u0652\u0645\u0650\u064a \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09be\u09b0 \u09a8\u09be\u09ae','\u09a4\u09cb\u09ae\u09be\u09b0 \u09a8\u09be\u09ae','\u0986\u09ae\u09be\u09b0 \u09ac\u09be\u09a1\u09bc\u09bf','\u0986\u09ae\u09be\u09b0 \u09a6\u09c7\u09b6'],a:0,f:'\u0627\u0633\u0652\u0645\u0650\u064a \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09be\u09b0 \u09a8\u09be\u09ae\u0964'},
-    {q:'\u09a8\u09be\u09b0\u09c0\u0995\u09c7 "\u09a4\u09c1\u09ae\u09bf" \u09ac\u09b2\u09a4\u09c7 \u0995\u09cb\u09a8 \u09b8\u09b0\u09cd\u09ac\u09a8\u09be\u09ae?',o:['\u0623\u064e\u0646\u0652\u062a\u0650','\u0623\u064e\u0646\u0652\u062a\u064e','\u0647\u0650\u064a\u064e','\u0623\u064e\u0646\u064e\u0627'],a:0,f:'\u09a8\u09be\u09b0\u09c0\u09ac\u09be\u099a\u0995 \u0623\u064e\u0646\u0652\u062a\u0650\u0964'},
-    {q:'\u098f\u0995\u099f\u09be \u09b6\u09ac\u09cd\u09a6\u09c7\u09b0 \u09b6\u09c7\u09b7\u09c7 \u0629 \u09a5\u09be\u0995\u09b2\u09c7 \u09b8\u09c7\u099f\u09be \u09b8\u09be\u09a7\u09be\u09b0\u09a3\u09a4 \u0995\u09cb\u09a8 \u09b2\u09bf\u0999\u09cd\u0997?',o:['\u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997','\u09aa\u09c1\u0982\u09b2\u09bf\u0999\u09cd\u0997','\u0989\u09ad\u09af\u09bc\u0987','\u0995\u09cb\u09a8\u09cb\u099f\u09bf\u0987 \u09a8\u09be'],a:0,f:'\u0629 \u09b8\u09be\u09a7\u09be\u09b0\u09a3\u09a4 \u09b8\u09cd\u09a4\u09cd\u09b0\u09c0\u09b2\u09bf\u0999\u09cd\u0997 \u09a8\u09bf\u09b0\u09cd\u09a6\u09c7\u09b6 \u0995\u09b0\u09c7\u0964'},
-    {q:'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628\u064f \u09ae\u09be\u09a8\u09c7 \u0995\u09c0?',o:['\u09ac\u0987\u099f\u09be','\u098f\u0995\u099f\u09be \u09ac\u0987','\u09ac\u0987\u0997\u09c1\u09b2\u09cb','\u09ac\u0987\u09af\u09bc\u09c7\u09b0'],a:0,f:'\u0627\u0644\u0643\u0650\u062a\u064e\u0627\u0628\u064f \u09ae\u09be\u09a8\u09c7 \u09ac\u0987\u099f\u09be\u0964'},
-    {q:'\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u064e \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u099f\u09be \u0995\u09be\u09b0 \u099c\u09a8\u09cd\u09af?',o:['\u098f\u0995\u099c\u09a8 \u09aa\u09c1\u09b0\u09c1\u09b7','\u098f\u0995\u099c\u09a8 \u09a8\u09be\u09b0\u09c0','\u09a6\u09c1\u099c\u09a8\u09c7\u09b0 \u099c\u09a8\u09cd\u09af','\u09ac\u09b9\u09c1\u09ac\u099a\u09a8'],a:0,f:'\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u064e \u098f\u0995\u099c\u09a8 \u09aa\u09c1\u09b0\u09c1\u09b7\u0995\u09c7 \u099c\u09bf\u099c\u09cd\u099e\u09be\u09b8\u09be\u0964'},
-    {q:'\u0623\u064e\u0646\u064e\u0627 \u0645\u0650\u0646\u0652 \u0628\u064e\u0646\u0652\u063a\u0652\u0644\u064e\u0627\u062f\u0650\u064a\u0634 \u098f\u09b0 \u0985\u09b0\u09cd\u09a5 \u0995\u09c0?',o:['\u0986\u09ae\u09bf \u09ac\u09be\u0982\u09b2\u09be\u09a6\u09c7\u09b6 \u09a5\u09c7\u0995\u09c7','\u0986\u09ae\u09bf \u09ac\u09be\u0982\u09b2\u09be\u09a6\u09c7\u09b6 \u09ad\u09be\u09b2\u09cb\u09ac\u09be\u09b8\u09bf','\u0986\u09ae\u09bf \u09ac\u09be\u0982\u09b2\u09be\u09a6\u09c7\u09b6 \u09af\u09be\u099a\u09cd\u099b\u09bf','\u0986\u09ae\u09bf \u09ac\u09be\u0982\u09b2\u09be\u09a6\u09c7\u09b6 \u099a\u09bf\u09a8\u09bf \u09a8\u09be'],a:0,f:'\u0623\u064e\u0646\u064e\u0627 \u0645\u0650\u0646\u0652 \u09ae\u09be\u09a8\u09c7 \u0986\u09ae\u09bf...\u09a5\u09c7\u0995\u09c7 \u098f\u09b8\u09c7\u099b\u09bf\u0964'}
+    {q:'مَرْحَبًا এর অর্থ কী?',o:['হ্যালো','বিদায়','ধন্যবাদ','দুঃখিত'],a:0,f:'مَرْحَبًا মানে হ্যালো।'},
+    {q:'السَّلَامُ عَلَيْكُم এর উত্তরে কী বলা হয়?',o:['وَعَلَيْكُم السَّلَام','مَرْحَبًا','شُكْرًا','لَا بَأْس'],a:0,f:'সঃঠিক উত্তর وَعَلَيْكُم السَّلَام।'},
+    {q:'اسْمِي এর অর্থ কী?',o:['আমার নাম','তোমার নাম','আমার বাড়ি','আমার দেশ'],a:0,f:'اسْمِي মানে আমার নাম।'},
+    {q:'নারীকে "তুমি" বলতে কোন সর্বনাম?',o:['أَنْتِ','أَنْتَ','هِيَ','أَنَا'],a:0,f:'নারীবাচক أَنْتِ।'},
+    {q:'একটা শব্দের শেষে ة থাকলে সেটা সাধারণত কোন লিঙ্গ?',o:['স্ত্রীলিঙ্গ','পুংলিঙ্গ','উভয়ই','কোনোটিই না'],a:0,f:'ة সাধারণত স্ত্রীলিঙ্গ নির্দেশ করে।'},
+    {q:'الكِتَابُ মানে কী?',o:['বইটা','একটা বই','বইগুলো','বইয়ের'],a:0,f:'الكِتَابُ মানে বইটা।'},
+    {q:'كَيْفَ حَالُكَ প্রশ্নটা কার জন্য?',o:['একজন পুরুষ','একজন নারী','দুজনের জন্য','বহুবচন'],a:0,f:'كَيْفَ حَالُكَ একজন পুরুষকে জিজ্ঞাসা।'},
+    {q:'أَنَا مِنْ بَنْغْلَادِيش এর অর্থ কী?',o:['আমি বাংলাদেশ থেকে','আমি বাংলাদেশ ভালোবাসি','আমি বাংলাদেশ যাচ্ছি','আমি বাংলাদেশ চিনি না'],a:0,f:'أَنَا مِنْ মানে আমি...থেকে এসেছি।'}
   ]
 };
 var qzAns={};
@@ -889,15 +891,15 @@ function buildQuiz(id){
   var html='';
   for(var i=0;i<qs.length;i++){
     var q=qs[i];
-    html+='<div class="qc"><div class="q-n">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8 '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
+    html+='<div class="qc"><div class="q-n">প্রশ্ন '+(i+1)+'</div><div class="q-t">'+q.q+'</div><div class="q-o">';
     for(var j=0;j<q.o.length;j++){
       html+='<button type="button" class="qo" onclick="selectAnswer(\''+id+'\','+i+','+j+')">'+q.o[j]+'</button>';
     }
     html+='</div><div class="q-fb" id="qfb-'+id+'-'+i+'"></div></div>';
   }
-  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">\u09b8\u09ac\u09ae\u09bf\u09a4 \u0995\u09b0\u09cb</button>';
-  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">\u09a4\u09cb\u09ae\u09be\u09b0 \u09b8\u09cd\u0995\u09cb\u09b0</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
-  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">\u09ad\u09c1\u09b2 \u0989\u09a4\u09cd\u09a4\u09b0\u0997\u09c1\u09b2\u09cb \u09aa\u09b0\u09cd\u09af\u09be\u09b2\u09cb\u099a\u09a8\u09be \u0995\u09b0\u09cb</div><div id="mlist-'+id+'"></div></div>';
+  html+='<button class="speak-btn" onclick="submitQuiz(\''+id+'\')">সবমিত করো</button>';
+  html+='<div class="score" id="sc-'+id+'"><div class="sc-big" id="scn-'+id+'"></div><div class="sc-lbl">তোমার স্কোর</div><div class="sc-msg" id="scm-'+id+'"></div></div>';
+  html+='<div class="mistakes-box" id="mb-'+id+'"><div class="mistakes-hdr">ভুল উত্তরগুলো পর্যালোচনা করো</div><div id="mlist-'+id+'"></div></div>';
   c.innerHTML=html;
   c.setAttribute('data-built','1');
 }
@@ -920,7 +922,7 @@ function selectAnswer(id,qi,oi){
   if(fb){
     fb.classList.add('show');
     fb.classList.add(ok?'ok':'no');
-    fb.innerHTML=ok?'\u2705 \u09b8\u09a0\u09bf\u0995!':('\u274c '+q.f);
+    fb.innerHTML=ok?'✅ সঠিক!':('❌ '+q.f);
   }
   if(!ok){
     if(!qzMistakes[id])qzMistakes[id]=[];
@@ -933,7 +935,7 @@ function submitQuiz(id){
   if(!qs)return;
   var ans=qzAns[id]||{};
   var answered=Object.keys(ans).length;
-  if(answered<qs.length){alert('\u09b8\u09ac \u09aa\u09cd\u09b0\u09b6\u09cd\u09a8\u09c7\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0 \u09a6\u09bf\u09a8! \u09ac\u09be\u0995\u09bf \u0986\u099b\u09c7: '+(qs.length-answered)+'\u099f\u09bf');return;}
+  if(answered<qs.length){alert('সব প্রশ্নের উত্তর দিন! বাকি আছে: '+(qs.length-answered)+'টি');return;}
   var correct=0;
   for(var i=0;i<qs.length;i++){if(ans[i]===qs[i].a)correct++;}
   var pct=Math.round(correct/qs.length*100);
@@ -943,14 +945,14 @@ function submitQuiz(id){
   if(scn)scn.textContent=correct+'/'+qs.length+' ('+pct+'%)';
   var passed=pct>=60;
   if(scm){
-    if(pct>=90)scm.innerHTML='\ud83c\udfc6 \u0985\u09b8\u09be\u09a7\u09be\u09b0\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=80)scm.innerHTML='\u2b50 \u09a6\u09be\u09b0\u09c1\u09a3! +'+(correct*5)+' XP';
-    else if(pct>=60)scm.innerHTML='\u2705 \u09ad\u09be\u09b2\u09cb \u09b9\u09af\u09bc\u09c7\u099b\u09c7! +'+(correct*5)+' XP';
+    if(pct>=90)scm.innerHTML='🏆 অসাধারণ! +'+(correct*5)+' XP';
+    else if(pct>=80)scm.innerHTML='⭐ দারুণ! +'+(correct*5)+' XP';
+    else if(pct>=60)scm.innerHTML='✅ ভালো হয়েছে! +'+(correct*5)+' XP';
     else{
-      scm.innerHTML='\u274c \u0986\u09b0\u0993 \u099a\u09b0\u09cd\u099a\u09be \u09a6\u09b0\u0995\u09be\u09b0! \u0985\u09a8\u09a4\u09a4 \u09ec\u09e6% \u09a6\u09b0\u0995\u09be\u09b0\u0964 \u09a4\u09c1\u09ae\u09bf \u09aa\u09c7\u09af\u09bc\u09c7\u099b '+pct+'%\u0964';
+      scm.innerHTML='❌ আরও চর্চা দরকার! অনতত ৬০% দরকার। তুমি পেয়েছ '+pct+'%।';
       var rb=document.createElement('button');
       rb.className='speak-btn';rb.style.marginTop='10px';rb.style.background='var(--red)';
-      rb.textContent='\ud83d\udd01 \u0986\u09ac\u09be\u09b0 \u099a\u09c7\u09b7\u09cd\u099f\u09be \u0995\u09b0\u09cb';
+      rb.textContent='🔁 আবার চেষ্টা করো';
       rb.onclick=(function(d){return function(){retryQuiz(d);};})(id);
       scm.appendChild(rb);
     }
@@ -966,7 +968,7 @@ function submitQuiz(id){
       var html='';
       for(var m=0;m<mistakes.length;m++){
         var mi=mistakes[m];
-        html+='<div class="mistake-item"><div class="mi-q">\u09aa\u09cd\u09b0\u09b6\u09cd\u09a8: '+mi.q+'</div><div class="mi-wrong">\u274c \u09a4\u09cb\u09ae\u09be\u09b0 \u0989\u09a4\u09cd\u09a4\u09b0: '+mi.wrong+'</div><div class="mi-correct">\u2705 \u09b8\u09a0\u09bf\u0995: '+mi.correct+'</div><div class="mi-tip">\ud83d\udca1 '+mi.f+'</div></div>';
+        html+='<div class="mistake-item"><div class="mi-q">প্রশ্ন: '+mi.q+'</div><div class="mi-wrong">❌ তোমার উত্তর: '+mi.wrong+'</div><div class="mi-correct">✅ সঠিক: '+mi.correct+'</div><div class="mi-tip">💡 '+mi.f+'</div></div>';
       }
       ml.innerHTML=html;
     }
@@ -992,17 +994,17 @@ function idToDay(id){
 // ===== SPEAKING TEST (self-intro + review) =====
 var spData={
   'c4l3s':[
-    {ar:'\u0627\u0633\u0652\u0645\u0650\u064a...',tr:'ism\u012b...',bn:'\u0986\u09ae\u09be\u09b0 \u09a8\u09be\u09ae... (fill in your name)'},
-    {ar:'\u0623\u064e\u0646\u064e\u0627 \u0645\u0650\u0646\u0652 \u0628\u064e\u0646\u0652\u063a\u0652\u0644\u064e\u0627\u062f\u0650\u064a\u0634',tr:'an\u0101 min banghl\u0101d\u012bsh',bn:'\u0986\u09ae\u09bf \u09ac\u09be\u0982\u09b2\u09be\u09a6\u09c7\u09b6 \u09a5\u09c7\u0995\u09c7'},
-    {ar:'\u062a\u064e\u0634\u064e\u0631\u0651\u064e\u0641\u0652\u0646\u064e\u0627',tr:'tashar-rafn\u0101',bn:'\u09b8\u09be\u0995\u09cd\u09b7\u09be\u09a4\u09c7 \u0986\u09a8\u09a8\u09cd\u09a6\u09bf\u09a4 \u09b9\u09b2\u09be\u09ae'}
+    {ar:'اسْمِي...',tr:'ismī...',bn:'আমার নাম... (fill in your name)'},
+    {ar:'أَنَا مِنْ بَنْغْلَادِيش',tr:'anā min banghlādīsh',bn:'আমি বাংলাদেশ থেকে'},
+    {ar:'تَشَرَّفْنَا',tr:'tashar-rafnā',bn:'সাক্ষাতে আনন্দিত হলাম'}
   ],
   'c4rs':[
-    {ar:'\u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u064f \u0639\u064e\u0644\u064e\u064a\u0652\u0643\u064f\u0645',tr:'as-sal\u0101mu \u2018alaykum',bn:'\u09b6\u09be\u09a8\u09cd\u09a4\u09bf \u09ac\u09b0\u09cd\u09b7\u09bf\u09a4 \u09b9\u09cb\u0995'},
-    {ar:'\u0627\u0633\u0652\u0645\u0650\u064a...',tr:'ism\u012b...',bn:'\u0986\u09ae\u09be\u09b0 \u09a8\u09be\u09ae...'},
-    {ar:'\u0623\u064e\u0646\u064e\u0627 \u0645\u0650\u0646\u0652 \u0628\u064e\u0646\u0652\u063a\u0652\u0644\u064e\u0627\u062f\u0650\u064a\u0634',tr:'an\u0101 min banghl\u0101d\u012bsh',bn:'\u0986\u09ae\u09bf \u09ac\u09be\u0982\u09b2\u09be\u09a6\u09c7\u09b6 \u09a5\u09c7\u0995\u09c7'},
-    {ar:'\u0643\u064e\u064a\u0652\u0641\u064e \u062d\u064e\u0627\u0644\u064f\u0643\u064e\u061f',tr:'kayfa \u1e25\u0101luka?',bn:'\u09a4\u09c1\u09ae\u09bf \u0995\u09c7\u09ae\u09a8 \u0986\u099b\u09cb?'},
-    {ar:'\u0623\u064e\u0646\u064e\u0627 \u0628\u0650\u062e\u064e\u064a\u0652\u0631\u060c \u0627\u0644\u062d\u064e\u0645\u0652\u062f\u064f \u0644\u0644\u0651\u0647',tr:'an\u0101 bikhayr, al-\u1e25amdu lill\u0101h',bn:'\u0986\u09ae\u09bf \u09ad\u09be\u09b2\u09cb \u0986\u099b\u09bf, \u0986\u09b2\u09b9\u09be\u09ae\u09a6\u09c1\u09b2\u09bf\u09b2\u09cd\u09b2\u09be\u09b9'},
-    {ar:'\u0645\u064e\u0639\u064e \u0627\u0644\u0633\u0651\u064e\u0644\u064e\u0627\u0645\u0629',tr:'ma\u2018a s-sal\u0101ma',bn:'\u09ac\u09bf\u09a6\u09be\u09af\u09bc'}
+    {ar:'السَّلَامُ عَلَيْكُم',tr:'as-salāmu ‘alaykum',bn:'শান্তি বর্ষিত হোক'},
+    {ar:'اسْمِي...',tr:'ismī...',bn:'আমার নাম...'},
+    {ar:'أَنَا مِنْ بَنْغْلَادِيش',tr:'anā min banghlādīsh',bn:'আমি বাংলাদেশ থেকে'},
+    {ar:'كَيْفَ حَالُكَ؟',tr:'kayfa ḥāluka?',bn:'তুমি কেমন আছো?'},
+    {ar:'أَنَا بِخَيْر، الحَمْدُ للّه',tr:'anā bikhayr, al-ḥamdu lillāh',bn:'আমি ভালো আছি, আলহামদুলিল্লাহ'},
+    {ar:'مَعَ السَّلَامة',tr:'ma‘a s-salāma',bn:'বিদায়'}
   ]
 };
 
@@ -1016,8 +1018,8 @@ function buildSp(id){
   for(var i=0;i<items.length;i++){
     var it=items[i];
     html+='<div class="speak-prompt"><div class="speak-prompt-ar ar">'+it.ar+'</div><div class="speak-prompt-bn">'+it.tr+' &mdash; '+it.bn+'</div>';
-    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">\ud83d\udd0a \u09b6\u09c1\u09a8\u09c1\u09a8</button>';
-    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8</button>';
+    html+='<button class="speak-btn" onclick="ttsPlay(\''+id+'\','+i+')">🔊 শুনুন</button>';
+    html+='<button class="speak-btn" id="fsbtn-'+id+'-'+i+'" style="background:var(--gold);color:var(--black)" onclick="toggleFreeSpeak(\''+id+'\','+i+')">🎤 বলুন</button>';
     html+='<div class="speak-res" id="fsr-'+id+'-'+i+'"></div></div>';
   }
   c.innerHTML=html;
@@ -1039,32 +1041,32 @@ function toggleFreeSpeak(id,i){
   if(freeSpeakRec){
     try{freeSpeakRec.stop();}catch(e){}
     freeSpeakRec=null;
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';
+    btn.textContent='🎤 বলুন';
     btn.classList.remove('on');
     return;
   }
   if(!window.SpeechRecognition&&!window.webkitSpeechRecognition){
-    if(res){res.innerHTML='\u26a0\ufe0f Chrome browser \u09a6\u09b0\u0995\u09be\u09b0!';res.style.display='block';}
+    if(res){res.innerHTML='⚠️ Chrome browser দরকার!';res.style.display='block';}
     return;
   }
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   var rec=new R();
   rec.lang='ar-SA';rec.interimResults=false;rec.maxAlternatives=1;
   freeSpeakRec=rec;
-  btn.textContent='\u23f9 \u09a5\u09be\u09ae\u09be\u09a4\u09c7 \u099a\u09be\u09aa\u09cb';btn.classList.add('on');
+  btn.textContent='⏹ থামাতে চাপো';btn.classList.add('on');
   rec.onresult=function(e){
     var t=e.results[0][0].transcript;
     if(res){
-      res.innerHTML='\ud83c\udfa4 \u09b6\u09cb\u09a8\u09be \u0997\u09c7\u099b\u09c7: "'+t+'" &mdash; \u099a\u09c7\u09b7\u09cd\u099f\u09be \u099a\u09be\u09b2\u09bf\u09af\u09bc\u09c7 \u09af\u09be\u0993! +5 XP';
+      res.innerHTML='🎤 শোনা গেছে: "'+t+'" &mdash; চেষ্টা চালিয়ে যাও! +5 XP';
       res.style.display='block';res.style.background='#f0fdf4';res.style.color='var(--green)';
       addXP(5);
     }
   };
   rec.onerror=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.onend=function(){
-    btn.textContent='\ud83c\udfa4 \u09ac\u09b2\u09c1\u09a8';btn.classList.remove('on');freeSpeakRec=null;
+    btn.textContent='🎤 বলুন';btn.classList.remove('on');freeSpeakRec=null;
   };
   rec.start();
 }
