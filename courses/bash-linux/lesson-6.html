@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lesson 6: Conditionals &amp; Functions — Bash &amp; Linux · Shopnil Academy</title>
+  <meta name="description" content="Learn if/elif/else, test operators, case statements, and Bash functions. Build reusable, decision-making pipeline scripts. Lesson 6 of the free Bash & Linux course at Shopnil Academy." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://shopnilacademy.com/courses/bash-linux/lesson-6.html" />
+  <meta property="og:title" content="Lesson 6: Conditionals &amp; Functions — Bash &amp; Linux · Shopnil Academy" />
+  <meta property="og:description" content="Learn if/elif/else, case statements, and Bash functions for real pipeline decision-making. Free lesson at Shopnil Academy." />
+  <meta property="og:url" content="https://shopnilacademy.com/courses/bash-linux/lesson-6.html" />
+  <meta property="og:site_name" content="Shopnil Academy" />
+  <meta property="og:image" content="https://shopnilacademy.com/assets/og-image.png" />
+  <meta property="og:type" content="article" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../styles.css" />
+  <style>
+    .sidebar-course-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;display:block}
+    .sidebar-course-title{font-size:15px;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+    .prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:7px}
+    .prog-track{height:5px;background:var(--green-soft);border-radius:99px;overflow:hidden;margin-bottom:20px}
+    .prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .4s ease}
+    .mod-group{margin-bottom:6px}
+    .mod-group-label{display:flex;align-items:center;justify-content:space-between;padding:8px 0 4px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;user-select:none}
+    .mod-group-label .chev{font-size:10px;transition:transform .2s ease}
+    .mod-group.open .chev{transform:rotate(180deg)}
+    .mod-lessons{display:none}
+    .mod-group.open .mod-lessons{display:block}
+    .lesson-link{display:flex;align-items:flex-start;gap:9px;padding:8px 10px 8px 0;font-size:13px;color:var(--muted);border-left:2px solid transparent;transition:color .15s ease,border-color .15s ease;line-height:1.35}
+    .lesson-link:hover{color:var(--ink)}
+    .lesson-link.active{color:var(--green);border-left-color:var(--green);font-weight:600;padding-left:10px}
+    .lesson-link.done{color:var(--green)}
+    .l-icon{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+    .l-icon.done{background:var(--green);color:#fff}
+    .l-icon.active{background:var(--green);color:#fff}
+    .l-icon.todo{background:var(--cream);border:1.5px solid var(--line);color:var(--muted)}
+    .lesson-meta-strip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+    .lm-pill{display:inline-flex;align-items:center;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.04em}
+    .lm-num{background:var(--green-soft);color:var(--green)}
+    .lm-time{background:var(--cream);color:var(--muted)}
+    .lm-sep{color:var(--muted);opacity:.4;font-size:13px}
+    .code-wrap{margin:18px 0}
+    .code-header{background:var(--ink);padding:10px 16px;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between}
+    .code-lang{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);letter-spacing:.06em;text-transform:uppercase}
+    .copy-btn{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);background:rgba(255,255,255,.1);border:none;padding:4px 10px;border-radius:6px;cursor:pointer;transition:background .15s ease}
+    .copy-btn:hover{background:rgba(255,255,255,.2);color:#fff}
+    pre{margin:0;background:#0F2418;border-radius:0 0 12px 12px;padding:18px 20px;overflow-x:auto;font-family:'DM Mono',monospace;font-size:13.5px;line-height:1.8}
+    .c-cmd{color:#5DCAA5}
+    .c-flag{color:#9FE1CB}
+    .c-path{color:#FAC775}
+    .c-out{color:rgba(255,255,255,.6)}
+    .c-comment{color:rgba(255,255,255,.32);font-style:italic}
+    .c-var{color:#CE93D8}
+    .c-str{color:#A5D6A7}
+    .c-kw{color:#80CBC4}
+    .cmd-table{width:100%;border-collapse:collapse;margin:20px 0;border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+    .cmd-table th{background:var(--cream);text-align:left;padding:12px 16px;font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid var(--line)}
+    .cmd-table td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--line);vertical-align:top;color:#33433b;line-height:1.5}
+    .cmd-table tr:last-child td{border-bottom:none}
+    .cmd-table .cmd-cell{font-family:'DM Mono',monospace;font-size:13px;color:var(--green-deep);font-weight:500;white-space:nowrap}
+    .exercise{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 16px 16px 0;padding:20px 22px;margin:20px 0;background:#fff}
+    .ex-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .ex-num{background:var(--gold);color:var(--ink);font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;text-transform:uppercase}
+    .ex-title{font-size:15px;font-weight:700;color:var(--ink)}
+    .exercise p{font-size:15px;color:#33433b;line-height:1.65;margin-bottom:10px}
+    .ex-hint{font-size:13px;color:var(--muted);margin-top:6px}
+    details.answer{margin-top:12px;border:1px solid rgba(0,106,78,.2);border-radius:12px;overflow:hidden}
+    details.answer summary{list-style:none;cursor:pointer;padding:11px 16px;font-size:13px;font-weight:600;color:var(--green);background:var(--green-soft);display:flex;align-items:center;gap:8px;user-select:none}
+    details.answer summary::-webkit-details-marker{display:none}
+    details.answer summary::before{content:'▶';font-size:9px;transition:transform .2s ease}
+    details.answer[open] summary::before{transform:rotate(90deg)}
+    details.answer .answer-body{background:#0F2418}
+    details.answer .answer-body pre{border-radius:0;margin:0}
+    .tip,.warn{border-radius:14px;padding:16px 20px;margin:18px 0;display:flex;align-items:flex-start;gap:12px}
+    .tip{background:var(--green-soft);border:1px solid rgba(0,106,78,.18)}
+    .warn{background:var(--gold-soft);border:1px solid rgba(232,183,42,.3)}
+    .tip-icon,.warn-icon{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;flex-shrink:0}
+    .tip-icon{background:var(--green);color:#fff}
+    .warn-icon{background:var(--gold);color:var(--ink)}
+    .tip p{font-size:14.5px;color:var(--green-deep);line-height:1.6;margin:0}
+    .warn p{font-size:14.5px;color:#7a5a00;line-height:1.6;margin:0}
+    .explain-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px;margin:20px 0}
+    .explain-box h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .explain-box p{font-size:14.5px;color:#33433b;line-height:1.75;margin-bottom:10px}
+    .explain-box p:last-child{margin-bottom:0}
+    .folder-note{display:inline-flex;align-items:center;gap:6px;background:var(--cream);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:8px}
+    .folder-note::before{content:'📁';font-size:13px}
+    .mark-complete-wrap{text-align:center;margin:32px 0 0}
+    .mark-complete{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:999px;font-size:14px;font-weight:700;background:var(--green);color:#fff;border:none;transition:background .15s ease,transform .15s ease}
+    .mark-complete:hover{background:var(--green-deep);transform:translateY(-1px)}
+    .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
+    .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
+    @media(max-width:860px){.toc{display:none}}
+  /* wide full-bleed lesson shell */
+    .article{padding:0 0 96px}
+    .article > .wrap{max-width:none;width:100%;padding:0;margin:0}
+    .article-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;align-items:start;max-width:none;margin:0}
+    aside.toc{position:sticky;top:0;height:100vh;overflow-y:auto;width:auto;max-width:none;background:var(--cream);border-right:1px solid var(--line);padding:30px 22px;margin:0;border-radius:0}
+    aside.toc::-webkit-scrollbar{width:4px}
+    aside.toc::-webkit-scrollbar-thumb{background:var(--green-mint);border-radius:4px}
+    .prose{padding:38px 52px 20px;max-width:1040px;margin:0}
+    @media(max-width:980px){.article-grid{grid-template-columns:1fr}aside.toc{display:none}.prose{padding:26px 20px}}
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav-shell">
+    <nav class="nav" aria-label="Main navigation">
+      <a href="https://shopnilacademy.com/index.html" class="logo">
+        <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy logo" width="52" height="52" />
+        <div class="logo-text"><strong>Shopnil Academy</strong><small>BASH &amp; LINUX · LESSON 6</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="https://shopnilacademy.com/index.html">Home</a>
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <a href="https://shopnilacademy.com/curriculum.html">Curriculum</a>
+        <a href="index.html" class="active">Bash &amp; Linux</a>
+        <a href="https://shopnilacademy.com/about.html">About</a>
+      </div>
+      <div class="nav-cta">
+        <a href="https://shopnilacademy.com/courses.html" class="btn btn-outline btn-sm">All courses</a>
+        <a href="index.html" class="btn btn-primary btn-sm">Back to course →</a>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle">☰</button>
+    </nav>
+  </header>
+
+  <!-- INNER HEADER -->
+  <div class="inner-header">
+    <div class="wrap">
+      <div class="breadcrumb">
+        <a href="https://shopnilacademy.com/courses.html">Courses</a>
+        <span class="sep">›</span>
+        <a href="index.html">Bash &amp; Linux</a>
+        <span class="sep">›</span>
+        <span>Lesson 6</span>
+      </div>
+      <div class="lesson-meta-strip">
+        <span class="lm-pill lm-num">Lesson 6 of 13</span>
+        <span class="lm-sep">·</span>
+        <span class="lm-pill lm-time">⏱ 55 min</span>
+        <span class="lm-sep">·</span>
+        <span class="free-pill">✓ Free</span>
+      </div>
+      <h1>Conditionals &amp; Functions</h1>
+      <p class="lead">
+        A script that always does the same thing regardless of input is only half a script.
+        Real pipelines make decisions — skip a sample if its FASTQ is empty, choose a different
+        aligner for paired-end vs single-end reads, retry a failed download. Conditionals give
+        your scripts judgment. Functions let you package that judgment once and reuse it everywhere.
+      </p>
+    </div>
+  </div>
+
+  <!-- AD — Leaderboard -->
+  <div style="max-width:970px;margin:16px auto;padding:0 32px;">
+    <div class="ad-slot banner-728" role="complementary" aria-label="Advertisement">
+      <strong>Advertisement</strong><small>728 × 90 leaderboard · AdSense unit goes here</small>
+    </div>
+  </div>
+
+  <!-- ARTICLE -->
+  <div class="article">
+    <div class="wrap">
+      <div class="article-grid">
+
+        <!-- SIDEBAR -->
+        <aside class="toc" aria-label="Course navigation">
+          <span class="sidebar-course-label">Tech &amp; Coding</span>
+          <div class="sidebar-course-title">Bash &amp; Linux for Bioinformatics</div>
+          <div class="prog-label"><span>Your progress</span><span id="progPct">0%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+
+          <div class="mod-group open" id="mg1">
+            <div class="mod-group-label" onclick="toggleMod('mg1')">Module 1 — Foundations <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-1.html" class="lesson-link done"><span class="l-icon done">✓</span>Navigation &amp; the Filesystem</a>
+              <a href="lesson-2.html" class="lesson-link done"><span class="l-icon done">✓</span>File Operations</a>
+              <a href="lesson-3.html" class="lesson-link done"><span class="l-icon done">✓</span>Pipes &amp; Redirection</a>
+              <a href="lesson-4.html" class="lesson-link done"><span class="l-icon done">✓</span>Variables &amp; Loops</a>
+            </div>
+          </div>
+          <div class="mod-group open" id="mg2">
+            <div class="mod-group-label" onclick="toggleMod('mg2')">Module 2 — Scripting <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-5.html" class="lesson-link done"><span class="l-icon done">✓</span>Writing Bash Scripts</a>
+              <a href="lesson-6.html" class="lesson-link active"><span class="l-icon active">6</span>Conditionals &amp; Functions</a>
+              <a href="lesson-7.html" class="lesson-link"><span class="l-icon todo">7</span>Permissions &amp; Users</a>
+            </div>
+          </div>
+          <div class="mod-group" id="mg3">
+            <div class="mod-group-label" onclick="toggleMod('mg3')">Module 3 — Processes <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-8.html" class="lesson-link"><span class="l-icon todo">8</span>Processes &amp; Jobs</a>
+              <a href="lesson-9.html" class="lesson-link"><span class="l-icon todo">9</span>Text Processing: grep, sed, awk</a>
+              <a href="lesson-10.html" class="lesson-link"><span class="l-icon todo">10</span>Working with Data Files</a>
+            </div>
+          </div>
+          <div class="mod-group" id="mg4">
+            <div class="mod-group-label" onclick="toggleMod('mg4')">Module 4 — Bioinformatics Bash <span class="chev">▾</span></div>
+            <div class="mod-lessons">
+              <a href="lesson-11.html" class="lesson-link"><span class="l-icon todo">11</span>FASTQ &amp; FASTA on the CLI</a>
+              <a href="lesson-12.html" class="lesson-link"><span class="l-icon todo">12</span>Automating Bioinformatics Tasks</a>
+              <a href="lesson-13.html" class="lesson-link"><span class="l-icon todo">13</span>Capstone: Pipeline Script</a>
+            </div>
+          </div>
+
+          <h5 style="margin-top:28px;">On this page</h5>
+          <ul>
+            <li><a href="#if-basics">if, elif, else</a></li>
+            <li><a href="#test-operators">Test operators</a></li>
+            <li><a href="#string-tests">String comparisons</a></li>
+            <li><a href="#logic">Combining conditions</a></li>
+            <li><a href="#case">case statements</a></li>
+            <li><a href="#functions">Functions</a></li>
+            <li><a href="#function-args">Function arguments &amp; return values</a></li>
+            <li><a href="#complete-script">A complete script</a></li>
+            <li><a href="#reference">Quick reference</a></li>
+            <li><a href="#exercises">Exercises</a></li>
+          </ul>
+        </aside>
+
+        <!-- PROSE -->
+        <div class="prose">
+
+          <!-- SECTION 1: if basics -->
+          <section id="if-basics">
+            <h2><span class="n">01</span> if, elif, else — making decisions</h2>
+
+            <div class="explain-box">
+              <h4>🔀 Why conditionals exist</h4>
+              <p>An <code>if</code> statement runs a block of commands only when a condition is true, and skips it otherwise. This is how a script adapts to different situations instead of blindly running the same steps regardless of what it finds.</p>
+              <p>In bioinformatics this is everywhere: skip a sample if its FASTQ file is empty, choose paired-end alignment settings if a second read file exists, warn the researcher if disk space is low before starting a job that needs 200GB. Without conditionals, a script cannot respond to reality — it can only repeat the same sequence blindly.</p>
+              <p>The structure is <code>if CONDITION; then COMMANDS; fi</code>. Note that Bash spells "end if" backwards as <code>fi</code> — the same pattern as <code>done</code> closing a loop. <code>elif</code> (short for "else if") checks another condition if the first was false. <code>else</code> catches everything that didn't match any condition above it.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-path">5</span> <span class="c-flag">-gt</span> <span class="c-path">3</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"5 is greater than 3"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">5 is greater than 3</span>
+
+<span class="c-comment"># if / else</span>
+<span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">150</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-var">$READS</span> <span class="c-flag">-ge</span> <span class="c-path">100</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Sufficient read depth"</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Warning: low read depth"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Sufficient read depth</span>
+
+<span class="c-comment"># if / elif / else — three-way decision</span>
+<span class="c-var">QUALITY</span><span class="c-flag">=</span><span class="c-str">28</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-var">$QUALITY</span> <span class="c-flag">-ge</span> <span class="c-path">30</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"High quality"</span>
+<span class="c-kw">elif</span> <span class="c-flag">[</span> <span class="c-var">$QUALITY</span> <span class="c-flag">-ge</span> <span class="c-path">20</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Acceptable quality"</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Low quality — consider re-trimming"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Acceptable quality</span></pre>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠</span>
+              <p>The spaces inside <code>[ ]</code> are mandatory. <code>[$READS -ge 100]</code> without spaces around the brackets fails with a confusing error. Always write it as <code>[ condition ]</code> with a space right after <code>[</code> and right before <code>]</code>.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 2: test operators -->
+          <section id="test-operators">
+            <h2><span class="n">02</span> Test operators — numbers and files</h2>
+
+            <div class="explain-box">
+              <h4>🧮 Why -eq instead of ==</h4>
+              <p>Inside <code>[ ]</code>, Bash uses word-based comparison operators for numbers rather than symbols like <code>&gt;</code> or <code>==</code> — because <code>&gt;</code> already means output redirection inside <code>[ ]</code> and would silently create a file instead of comparing anything. <code>-eq</code>, <code>-gt</code>, and friends avoid that collision entirely.</p>
+              <p>File test operators are just as important in bioinformatics as number comparisons. Before you run an aligner, you check the input actually exists with <code>-f</code>. Before you write output, you check the destination folder exists with <code>-d</code>. Before you trust a download finished, you check the file isn't empty with <code>-s</code>.</p>
+            </div>
+
+            <table class="cmd-table">
+              <thead><tr><th>Operator</th><th>True when</th></tr></thead>
+              <tbody>
+                <tr><td class="cmd-cell">-eq</td><td>Numbers are equal</td></tr>
+                <tr><td class="cmd-cell">-ne</td><td>Numbers are not equal</td></tr>
+                <tr><td class="cmd-cell">-gt</td><td>Left number is greater than right</td></tr>
+                <tr><td class="cmd-cell">-ge</td><td>Greater than or equal to</td></tr>
+                <tr><td class="cmd-cell">-lt</td><td>Less than</td></tr>
+                <tr><td class="cmd-cell">-le</td><td>Less than or equal to</td></tr>
+                <tr><td class="cmd-cell">-f FILE</td><td>FILE exists and is a regular file</td></tr>
+                <tr><td class="cmd-cell">-d DIR</td><td>DIR exists and is a directory</td></tr>
+                <tr><td class="cmd-cell">-s FILE</td><td>FILE exists and is NOT empty (size &gt; 0)</td></tr>
+                <tr><td class="cmd-cell">-r / -w / -x FILE</td><td>FILE is readable / writable / executable</td></tr>
+                <tr><td class="cmd-cell">! CONDITION</td><td>Negates any condition — true becomes false</td></tr>
+              </tbody>
+            </table>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># File existence check</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-f</span> <span class="c-path">species.txt</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"species.txt exists"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">species.txt exists</span>
+
+<span class="c-comment"># Directory existence check</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-d</span> <span class="c-path">../results</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"results folder exists"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">results folder exists</span>
+
+<span class="c-comment"># Empty-file check — catches failed downloads that create a 0-byte file</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-s</span> <span class="c-path">sample.fastq</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"sample.fastq has content"</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"sample.fastq is missing or empty — do not proceed"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">sample.fastq has content</span>
+
+<span class="c-comment"># Negation with !</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">!</span> <span class="c-flag">-f</span> <span class="c-path">missing_reference.fa</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Reference genome not found — cannot align"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Reference genome not found — cannot align</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 3: string tests -->
+          <section id="string-tests">
+            <h2><span class="n">03</span> String comparisons</h2>
+
+            <div class="explain-box">
+              <h4>🔤 Comparing text, not just numbers</h4>
+              <p>String comparisons use <code>=</code> and <code>!=</code> — the ones that would collide with arithmetic if used inside <code>[ ]</code> for numbers, which is exactly why numbers use <code>-eq</code> instead. For strings there is no such collision, so the ordinary symbols work.</p>
+              <p><code>-z</code> tests whether a string is empty (zero length) — extremely useful for checking whether an argument was actually supplied and isn't just an empty string. <code>-n</code> is the opposite: true when the string has content.</p>
+              <p>In bioinformatics, string comparisons decide which branch of a pipeline to run — is this sample "control" or "treated"? Is the file format "fastq" or "fasta"? Is the organism "human" or "sorghum"?</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-var">CONDITION</span><span class="c-flag">=</span><span class="c-str">"treated"</span>
+
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$CONDITION"</span> <span class="c-flag">=</span> <span class="c-str">"treated"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"This sample received treatment"</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"This is a control sample"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">This sample received treatment</span>
+
+<span class="c-comment"># Not equal</span>
+<span class="c-var">ORGANISM</span><span class="c-flag">=</span><span class="c-str">"sorghum"</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$ORGANISM"</span> <span class="c-flag">!=</span> <span class="c-str">"human"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Using non-human reference genome"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Using non-human reference genome</span>
+
+<span class="c-comment"># -z: is the string empty?</span>
+<span class="c-var">SAMPLE_NAME</span><span class="c-flag">=</span><span class="c-str">""</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-z</span> <span class="c-str">"$SAMPLE_NAME"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: sample name is empty"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Error: sample name is empty</span>
+
+<span class="c-comment"># -n: is the string NOT empty?</span>
+<span class="c-var">SAMPLE_NAME</span><span class="c-flag">=</span><span class="c-str">"SRR123456"</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-n</span> <span class="c-str">"$SAMPLE_NAME"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Sample name is set: $SAMPLE_NAME"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Sample name is set: SRR123456</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>Always wrap string variables in double quotes inside <code>[ ]</code> — <code>[ "$CONDITION" = "treated" ]</code> not <code>[ $CONDITION = "treated" ]</code>. If the variable is ever empty or unset, the unquoted version breaks with a syntax error. Quoted, it fails safely.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 4: combining conditions -->
+          <section id="logic">
+            <h2><span class="n">04</span> Combining conditions — AND, OR, NOT</h2>
+
+            <div class="explain-box">
+              <h4>🧩 Building compound checks</h4>
+              <p>Real pipeline checks are rarely a single condition. You often need "the file exists AND is not empty" or "the format is fastq OR fasta". Bash gives you <code>&amp;&amp;</code> (AND) and <code>||</code> (OR) to combine conditions inside a single <code>[ ]</code> test, or as separate bracket groups joined together.</p>
+              <p>The two styles below are equivalent — combining inside one <code>[ ]</code> with <code>&amp;&amp;</code>, or joining two separate <code>[ ]</code> tests. The separate-brackets style is generally considered clearer and safer, and is what most bioinformatics scripts use.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># AND — both conditions must be true</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-f</span> <span class="c-path">sample.fastq</span> <span class="c-flag">]</span> <span class="c-flag">&amp;&amp;</span> <span class="c-flag">[</span> <span class="c-flag">-s</span> <span class="c-path">sample.fastq</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"File exists AND has content — safe to proceed"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">File exists AND has content — safe to proceed</span>
+
+<span class="c-comment"># OR — either condition can be true</span>
+<span class="c-var">FORMAT</span><span class="c-flag">=</span><span class="c-str">"fasta"</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$FORMAT"</span> <span class="c-flag">=</span> <span class="c-str">"fastq"</span> <span class="c-flag">]</span> <span class="c-flag">||</span> <span class="c-flag">[</span> <span class="c-str">"$FORMAT"</span> <span class="c-flag">=</span> <span class="c-str">"fasta"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Recognised sequence format: $FORMAT"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Recognised sequence format: fasta</span>
+
+<span class="c-comment"># Combined AND inside a single test</span>
+<span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">85</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-var">$READS</span> <span class="c-flag">-ge</span> <span class="c-path">50</span> <span class="c-flag">-a</span> <span class="c-var">$READS</span> <span class="c-flag">-le</span> <span class="c-path">100</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Reads within expected range"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Reads within expected range</span></pre>
+            </div>
+
+            <div class="callout">
+              <p><strong>Short-circuit evaluation:</strong> with <code>&amp;&amp;</code>, if the first condition is false, Bash never even checks the second — it already knows the answer is false. This means you can safely write <code>[ -f "$FILE" ] &amp;&amp; [ -s "$FILE" ]</code> without worrying about the second check running on a file that doesn't exist.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 5: case -->
+          <section id="case">
+            <h2><span class="n">05</span> case statements — cleaner multi-way branching</h2>
+
+            <div class="explain-box">
+              <h4>🗂 Why case is better than a long elif chain</h4>
+              <p>When you are checking one variable against many possible values, a long chain of <code>elif</code> statements becomes hard to read. <code>case</code> is built exactly for this situation — matching one value against a list of patterns.</p>
+              <p>Each pattern ends with <code>)</code> and each branch ends with <code>;;</code> (double semicolon) — this tells Bash where one branch stops and the next begins. The <code>*)</code> pattern at the end matches anything not caught above, acting as the default/else case. <code>case</code> also supports wildcard patterns like <code>*.fastq)</code>, making it useful for branching on file extensions.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-var">ORGANISM</span><span class="c-flag">=</span><span class="c-str">"sorghum"</span>
+
+<span class="c-kw">case</span> <span class="c-str">"$ORGANISM"</span> <span class="c-kw">in</span>
+    <span class="c-str">human</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"Reference: GRCh38"</span>
+        <span class="c-flag">;;</span>
+    <span class="c-str">mouse</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"Reference: GRCm39"</span>
+        <span class="c-flag">;;</span>
+    <span class="c-str">sorghum</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"Reference: Sbicolor_v3.1"</span>
+        <span class="c-flag">;;</span>
+    <span class="c-flag">*</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"Unknown organism — no reference configured"</span>
+        <span class="c-flag">;;</span>
+<span class="c-kw">esac</span>
+<span class="c-out">Reference: Sbicolor_v3.1</span>
+
+<span class="c-comment"># case with wildcard patterns on file extensions</span>
+<span class="c-var">FILE</span><span class="c-flag">=</span><span class="c-str">"sample.fastq"</span>
+
+<span class="c-kw">case</span> <span class="c-str">"$FILE"</span> <span class="c-kw">in</span>
+    <span class="c-flag">*.fastq</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"FASTQ file — running QC"</span>
+        <span class="c-flag">;;</span>
+    <span class="c-flag">*.fasta</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"FASTA file — running BLAST"</span>
+        <span class="c-flag">;;</span>
+    <span class="c-flag">*.bam</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"BAM file — running samtools stats"</span>
+        <span class="c-flag">;;</span>
+    <span class="c-flag">*</span><span class="c-flag">)</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"Unrecognised file type"</span>
+        <span class="c-flag">;;</span>
+<span class="c-kw">esac</span>
+<span class="c-out">FASTQ file — running QC</span></pre>
+            </div>
+
+            <div class="tip">
+              <span class="tip-icon">💡</span>
+              <p>Notice <code>case</code> is spelled backwards as <code>esac</code> to close it — the same trick as <code>if</code>/<code>fi</code> and <code>do</code>/<code>done</code>. Once you notice the pattern it becomes easy to remember.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 6: functions -->
+          <section id="functions">
+            <h2><span class="n">06</span> Functions — package logic once, reuse everywhere</h2>
+
+            <div class="explain-box">
+              <h4>📦 Why functions exist</h4>
+              <p>A function is a named block of code you define once and call as many times as you like. If you find yourself writing the same three lines in five different places in a script, that is a function waiting to happen.</p>
+              <p>You already used a function without formally learning it — the <code>log()</code> function from Lesson 5. That is exactly what a function is: a reusable piece of logic with a name.</p>
+              <p>The syntax is <code>function_name() { commands; }</code>. Note there is no <code>function</code> keyword required in this style (though Bash accepts one) — the parentheses <code>()</code> are what mark it as a function definition. The function must be <strong>defined before it is called</strong> — Bash reads top to bottom, so a call above the definition fails.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Define a simple function with no arguments</span>
+<span class="c-cmd">greet</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Starting pipeline run"</span>
+<span class="c-flag">}</span>
+
+<span class="c-comment"># Call it — just use its name like any other command</span>
+<span class="c-cmd">greet</span>
+<span class="c-out">Starting pipeline run</span>
+
+<span class="c-comment"># Call it again — that's the whole point, reuse without retyping</span>
+<span class="c-cmd">greet</span>
+<span class="c-out">Starting pipeline run</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 7: function args -->
+          <section id="function-args">
+            <h2><span class="n">07</span> Function arguments and return values</h2>
+
+            <div class="explain-box">
+              <h4>🎯 Functions take arguments the same way scripts do</h4>
+              <p>Inside a function, <code>$1</code>, <code>$2</code>, and so on refer to whatever was passed to the <strong>function</strong> — not the script. This is a common point of confusion: once you are inside a function, <code>$1</code> means the function's first argument, even if the script itself was also called with arguments.</p>
+              <p>Bash functions do not "return" values the way functions in Python or R do. A function has an <strong>exit status</strong> (0–255) accessible via <code>$?</code>, which is meant to signal success or failure, not to carry data. To send data back, the standard approach is to <code>echo</code> the result and capture it with command substitution <code>$( )</code> from the caller — exactly the same mechanism you learned for capturing command output in Lesson 4.</p>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Function that takes an argument</span>
+<span class="c-cmd">greet_sample</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Processing sample: $1"</span>
+<span class="c-flag">}</span>
+
+<span class="c-cmd">greet_sample</span> <span class="c-str">"SRR123456"</span>
+<span class="c-out">Processing sample: SRR123456</span>
+
+<span class="c-comment"># Function that "returns" a value via echo + command substitution</span>
+<span class="c-cmd">count_reads</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-var">FILE</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
+    <span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l < "$FILE")</span>
+    <span class="c-cmd">echo</span> <span class="c-str">$(( LINES / 4 ))</span>
+<span class="c-flag">}</span>
+
+<span class="c-comment"># Capture the "return value" with $( )</span>
+<span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(count_reads "sample.fastq")</span>
+<span class="c-cmd">echo</span> <span class="c-str">"sample.fastq has $READS reads"</span>
+<span class="c-out">sample.fastq has 3 reads</span>
+
+<span class="c-comment"># Function using exit status to signal success/failure</span>
+<span class="c-cmd">file_is_valid</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-s</span> <span class="c-str">"$1"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-kw">return</span> <span class="c-path">0</span>   <span class="c-comment"># 0 = success</span>
+    <span class="c-kw">else</span>
+        <span class="c-kw">return</span> <span class="c-path">1</span>   <span class="c-comment"># non-zero = failure</span>
+    <span class="c-kw">fi</span>
+<span class="c-flag">}</span>
+
+<span class="c-kw">if</span> <span class="c-cmd">file_is_valid</span> <span class="c-str">"sample.fastq"</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"sample.fastq passed validation"</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"sample.fastq failed validation"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">sample.fastq passed validation</span></pre>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠</span>
+              <p><code>return</code> in a function only sets the exit status (0–255) — it cannot send back a string or a large number. If you <code>echo</code> a value from inside a function, do not also call <code>return</code> with data — they solve different problems. Use <code>echo</code> + <code>$( )</code> to pass data back; use <code>return</code> to signal success or failure.</p>
+            </div>
+          </section>
+
+          <!-- SECTION 8: complete script -->
+          <section id="complete-script">
+            <h2><span class="n">08</span> A complete script — conditionals and functions together</h2>
+
+            <p>Here is a script combining everything from this lesson: functions for reusable logic, conditionals for decision-making, and a <code>case</code> statement for organism-specific configuration.</p>
+
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">save as: sample_check.sh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># ============================================================</span>
+<span class="c-comment"># Script:      sample_check.sh</span>
+<span class="c-comment"># Description: Validate a FASTQ file and report its reference</span>
+<span class="c-comment">#              genome based on organism name.</span>
+<span class="c-comment"># Usage:       bash sample_check.sh FASTQ_FILE ORGANISM</span>
+<span class="c-comment"># ============================================================</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>
+
+<span class="c-comment"># --- Function: validate that a file exists and is not empty ---</span>
+<span class="c-cmd">file_is_valid</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-s</span> <span class="c-str">"$1"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-kw">return</span> <span class="c-path">0</span>
+    <span class="c-kw">else</span>
+        <span class="c-kw">return</span> <span class="c-path">1</span>
+    <span class="c-kw">fi</span>
+<span class="c-flag">}</span>
+
+<span class="c-comment"># --- Function: count reads in a FASTQ file ---</span>
+<span class="c-cmd">count_reads</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l < "$1")</span>
+    <span class="c-cmd">echo</span> <span class="c-str">$(( LINES / 4 ))</span>
+<span class="c-flag">}</span>
+
+<span class="c-comment"># --- Function: look up the reference genome for an organism ---</span>
+<span class="c-cmd">get_reference</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-kw">case</span> <span class="c-str">"$1"</span> <span class="c-kw">in</span>
+        <span class="c-str">human</span><span class="c-flag">)</span>   <span class="c-cmd">echo</span> <span class="c-str">"GRCh38"</span> <span class="c-flag">;;</span>
+        <span class="c-str">mouse</span><span class="c-flag">)</span>   <span class="c-cmd">echo</span> <span class="c-str">"GRCm39"</span> <span class="c-flag">;;</span>
+        <span class="c-str">sorghum</span><span class="c-flag">)</span> <span class="c-cmd">echo</span> <span class="c-str">"Sbicolor_v3.1"</span> <span class="c-flag">;;</span>
+        <span class="c-flag">*</span><span class="c-flag">)</span>       <span class="c-cmd">echo</span> <span class="c-str">"unknown"</span> <span class="c-flag">;;</span>
+    <span class="c-kw">esac</span>
+<span class="c-flag">}</span>
+
+<span class="c-comment"># --- Validate arguments ---</span>
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$#"</span> <span class="c-flag">-ne</span> <span class="c-path">2</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Usage: bash $0 FASTQ_FILE ORGANISM"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-var">FASTQ</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
+<span class="c-var">ORGANISM</span><span class="c-flag">=</span><span class="c-str">"$2"</span>
+
+<span class="c-comment"># --- Main logic using the functions above ---</span>
+<span class="c-kw">if</span> <span class="c-cmd">file_is_valid</span> <span class="c-str">"$FASTQ"</span><span class="c-kw">; then</span>
+    <span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(count_reads "$FASTQ")</span>
+    <span class="c-var">REF</span><span class="c-flag">=</span><span class="c-str">$(get_reference "$ORGANISM")</span>
+
+    <span class="c-cmd">echo</span> <span class="c-str">"File:      $FASTQ"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Reads:     $READS"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Organism:  $ORGANISM"</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Reference: $REF"</span>
+
+    <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$REF"</span> <span class="c-flag">=</span> <span class="c-str">"unknown"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"Warning: no reference configured for this organism"</span>
+    <span class="c-kw">fi</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: '$FASTQ' is missing or empty"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span></pre>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — save it, then run it</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">nano</span> <span class="c-path">sample_check.sh</span>
+<span class="c-comment"># type the script, then Ctrl+O, Enter, Ctrl+X</span>
+
+<span class="c-cmd">bash</span> <span class="c-path">sample_check.sh</span> <span class="c-str">sample.fastq</span> <span class="c-str">sorghum</span>
+<span class="c-out">File:      sample.fastq</span>
+<span class="c-out">Reads:     3</span>
+<span class="c-out">Organism:  sorghum</span>
+<span class="c-out">Reference: Sbicolor_v3.1</span>
+
+<span class="c-comment"># Try an organism with no configured reference</span>
+<span class="c-cmd">bash</span> <span class="c-path">sample_check.sh</span> <span class="c-str">sample.fastq</span> <span class="c-str">zebrafish</span>
+<span class="c-out">Reference: unknown</span>
+<span class="c-out">Warning: no reference configured for this organism</span></pre>
+            </div>
+          </section>
+
+          <!-- SECTION 9: reference -->
+          <section id="reference">
+            <h2><span class="n">09</span> Quick reference</h2>
+            <table class="cmd-table">
+              <thead><tr><th>Syntax</th><th>What it does</th><th>Notes</th></tr></thead>
+              <tbody>
+                <tr><td class="cmd-cell">if COND; then ... fi</td><td>Run commands only if COND is true</td><td>elif for more branches, else for default</td></tr>
+                <tr><td class="cmd-cell">[ -eq -ne -gt -ge -lt -le ]</td><td>Numeric comparisons</td><td>Not &gt; or == — those mean something else in [ ]</td></tr>
+                <tr><td class="cmd-cell">[ = != ]</td><td>String comparisons</td><td>Always quote variables: "$VAR"</td></tr>
+                <tr><td class="cmd-cell">[ -z / -n STRING ]</td><td>String is empty / not empty</td><td>Useful for checking arguments</td></tr>
+                <tr><td class="cmd-cell">[ -f / -d / -s PATH ]</td><td>File exists / directory exists / file not empty</td><td>Always check before using a file</td></tr>
+                <tr><td class="cmd-cell">&amp;&amp; / ||</td><td>AND / OR — combine conditions</td><td>Short-circuit: right side skipped if left decides it</td></tr>
+                <tr><td class="cmd-cell">case VAR in ... esac</td><td>Multi-way branch on one value</td><td>Each pattern ends with ) — each branch with ;;</td></tr>
+                <tr><td class="cmd-cell">name() { ... }</td><td>Define a function</td><td>Must be defined before it is called</td></tr>
+                <tr><td class="cmd-cell">$1 $2 inside a function</td><td>The function's own arguments</td><td>Not the script's arguments</td></tr>
+                <tr><td class="cmd-cell">return N</td><td>Set the function's exit status</td><td>0 = success · 1–255 = failure — no data</td></tr>
+                <tr><td class="cmd-cell">echo + $(func args)</td><td>Get data back from a function</td><td>The real way to "return" a value</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <!-- AD slot -->
+          <div class="ad-slot in-feed" role="complementary" aria-label="Advertisement" style="margin:32px 0;">
+            <strong>Advertisement</strong><small>In-article ad · AdSense unit goes here</small>
+          </div>
+
+          <!-- SECTION 10: exercises -->
+          <section id="exercises">
+            <h2><span class="n">10</span> Exercises</h2>
+            <p>Work through all five exercises in <code>~/bash-linux-bioinformatics/module-2-scripting/</code>. <strong>Write every script yourself — do not copy-paste.</strong></p>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 1</span><span class="ex-title">Read depth check</span></div>
+              <p>At the terminal (not in a script), set a variable <code>READS</code> to <code>45</code>. Write an <code>if/elif/else</code> that prints <code>"High depth"</code> if 100 or more, <code>"Moderate depth"</code> if between 30 and 99, and <code>"Low depth — flag for review"</code> otherwise.</p>
+              <p class="ex-hint">💬 Hint: check the highest threshold first with <code>-ge</code>, then the middle range, then <code>else</code> catches everything left.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">45</span>
+
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-var">$READS</span> <span class="c-flag">-ge</span> <span class="c-path">100</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"High depth"</span>
+<span class="c-kw">elif</span> <span class="c-flag">[</span> <span class="c-var">$READS</span> <span class="c-flag">-ge</span> <span class="c-path">30</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Moderate depth"</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Low depth — flag for review"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Moderate depth</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 2</span><span class="ex-title">Safe file check before reading</span></div>
+              <p>At the terminal, write a combined condition that checks <code>species.txt</code> both exists AND is not empty before running <code>cat</code> on it. If either check fails, print an error instead.</p>
+              <p class="ex-hint">💬 Hint: <code>[ -f species.txt ] &amp;&amp; [ -s species.txt ]</code>.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-f</span> <span class="c-path">species.txt</span> <span class="c-flag">]</span> <span class="c-flag">&amp;&amp;</span> <span class="c-flag">[</span> <span class="c-flag">-s</span> <span class="c-path">species.txt</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">cat</span> <span class="c-path">species.txt</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Error: species.txt missing or empty"</span>
+<span class="c-kw">fi</span>
+<span class="c-out">Homo sapiens</span>
+<span class="c-out">Escherichia coli</span>
+<span class="c-out">Sorghum bicolor</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 3</span><span class="ex-title">case statement for file extensions</span></div>
+              <p>Create <code>save as: file_router.sh</code> in your folder. It should accept one argument — a filename — and use <code>case</code> to print which analysis tool would handle it: <code>*.fastq</code> → FastQC, <code>*.bam</code> → samtools, <code>*.vcf</code> → GATK, anything else → "no tool configured". Test it with three different filenames.</p>
+              <p class="ex-hint">💬 Hint: match on <code>"$1"</code> in the case statement, with wildcard patterns like <code>*.fastq)</code>.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-kw">case</span> <span class="c-str">"$1"</span> <span class="c-kw">in</span>
+    <span class="c-flag">*.fastq</span><span class="c-flag">)</span> <span class="c-cmd">echo</span> <span class="c-str">"Tool: FastQC"</span> <span class="c-flag">;;</span>
+    <span class="c-flag">*.bam</span><span class="c-flag">)</span>   <span class="c-cmd">echo</span> <span class="c-str">"Tool: samtools"</span> <span class="c-flag">;;</span>
+    <span class="c-flag">*.vcf</span><span class="c-flag">)</span>   <span class="c-cmd">echo</span> <span class="c-str">"Tool: GATK"</span> <span class="c-flag">;;</span>
+    <span class="c-flag">*</span><span class="c-flag">)</span>       <span class="c-cmd">echo</span> <span class="c-str">"No tool configured"</span> <span class="c-flag">;;</span>
+<span class="c-kw">esac</span>
+
+<span class="c-comment"># Test:</span>
+<span class="c-comment"># bash file_router.sh sample.fastq  -> Tool: FastQC</span>
+<span class="c-comment"># bash file_router.sh aligned.bam   -> Tool: samtools</span>
+<span class="c-comment"># bash file_router.sh notes.txt     -> No tool configured</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 4</span><span class="ex-title">A function that returns data</span></div>
+              <p>At the terminal, define a function <code>gc_flag()</code> that takes one numeric argument (a GC percentage) and echoes <code>"high"</code> if 60 or above, <code>"low"</code> if below 40, and <code>"normal"</code> otherwise. Capture its output into a variable called <code>RESULT</code> for the input <code>65</code>, then print it.</p>
+              <p class="ex-hint">💬 Hint: <code>RESULT=$(gc_flag 65)</code> — the function must be defined first.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-cmd">gc_flag</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$1"</span> <span class="c-flag">-ge</span> <span class="c-path">60</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"high"</span>
+    <span class="c-kw">elif</span> <span class="c-flag">[</span> <span class="c-str">"$1"</span> <span class="c-flag">-lt</span> <span class="c-path">40</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"low"</span>
+    <span class="c-kw">else</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"normal"</span>
+    <span class="c-kw">fi</span>
+<span class="c-flag">}</span>
+
+<span class="c-var">RESULT</span><span class="c-flag">=</span><span class="c-str">$(gc_flag 65)</span>
+<span class="c-cmd">echo</span> <span class="c-str">"GC classification: $RESULT"</span>
+<span class="c-out">GC classification: high</span></pre>
+                </div>
+              </details>
+            </div>
+
+            <div class="exercise">
+              <div class="ex-head"><span class="ex-num">Exercise 5 · Challenge</span><span class="ex-title">Combine everything into one script</span></div>
+              <p>Create <code>save as: qc_gate.sh</code>. It should accept one argument — a FASTQ filename. Define a function <code>read_count()</code> that echoes the read count of a file. In the main script: validate exactly one argument was given, check the file exists and is not empty, then use the function to get the read count and print <code>"PASS"</code> if reads are 1 or more, otherwise <code>"FAIL"</code>.</p>
+              <p class="ex-hint">💬 Hint: combine the argument validation pattern from Lesson 5 with the function pattern from this lesson. Test against <code>sample.fastq</code>.</p>
+              <details class="answer"><summary>Show answer</summary>
+                <div class="answer-body"><pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-cmd">set</span> <span class="c-flag">-e</span>
+<span class="c-cmd">set</span> <span class="c-flag">-u</span>
+
+<span class="c-cmd">read_count</span><span class="c-flag">()</span> <span class="c-flag">{</span>
+    <span class="c-var">LINES</span><span class="c-flag">=</span><span class="c-str">$(wc -l < "$1")</span>
+    <span class="c-cmd">echo</span> <span class="c-str">$(( LINES / 4 ))</span>
+<span class="c-flag">}</span>
+
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$#"</span> <span class="c-flag">-ne</span> <span class="c-path">1</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"Usage: bash $0 FASTQ_FILE"</span>
+    <span class="c-cmd">exit</span> <span class="c-path">1</span>
+<span class="c-kw">fi</span>
+
+<span class="c-var">FASTQ</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
+
+<span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-flag">-f</span> <span class="c-str">"$FASTQ"</span> <span class="c-flag">]</span> <span class="c-flag">&amp;&amp;</span> <span class="c-flag">[</span> <span class="c-flag">-s</span> <span class="c-str">"$FASTQ"</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+    <span class="c-var">READS</span><span class="c-flag">=</span><span class="c-str">$(read_count "$FASTQ")</span>
+    <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-var">$READS</span> <span class="c-flag">-ge</span> <span class="c-path">1</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"PASS — $READS reads"</span>
+    <span class="c-kw">else</span>
+        <span class="c-cmd">echo</span> <span class="c-str">"FAIL — 0 reads"</span>
+    <span class="c-kw">fi</span>
+<span class="c-kw">else</span>
+    <span class="c-cmd">echo</span> <span class="c-str">"FAIL — file missing or empty"</span>
+<span class="c-kw">fi</span>
+
+<span class="c-comment"># Test: bash qc_gate.sh sample.fastq -> PASS — 3 reads</span></pre>
+                </div>
+              </details>
+            </div>
+          </section>
+
+          <!-- Mark complete -->
+          <div class="mark-complete-wrap">
+            <button class="mark-complete" id="markBtn" onclick="markComplete()">✓ Mark lesson complete</button>
+          </div>
+
+          <!-- Lesson nav -->
+          <div class="lesson-nav-footer">
+            <span style="font-size:13px;color:var(--muted);">Module 2 · Lesson 6 of 13</span>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="lesson-5.html" class="btn btn-outline btn-sm">← Lesson 5: Writing Bash Scripts</a>
+              <span class="btn btn-primary btn-sm" style="opacity:.5;cursor:default;">Lesson 7: Permissions &amp; Users — coming soon</span>
+            </div>
+          </div>
+
+        </div><!-- /prose -->
+      </div><!-- /article-grid -->
+    </div><!-- /wrap -->
+  </div><!-- /article -->
+
+  <!-- AD — Rectangle -->
+  <div style="padding:0 0 56px;">
+    <div class="wrap" style="display:flex;justify-content:center;">
+      <div class="ad-slot rectangle" role="complementary" aria-label="Advertisement" style="max-width:340px;width:100%;">
+        <strong>Advertisement</strong><small>300 × 250 medium rectangle · AdSense unit goes here</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <a href="https://shopnilacademy.com/index.html" class="logo" style="margin-bottom:14px;">
+            <img src="https://shopnilacademy.com/assets/logo.png" alt="Shopnil Academy" width="44" height="44" />
+            <div class="logo-text"><strong>Shopnil Academy</strong><small>LEARN WITHOUT LIMITS</small></div>
+          </a>
+          <p class="foot-about">100% free online courses in bioinformatics, programming, languages, math, and guitar.</p>
+          <div class="foot-social">
+            <a href="https://www.facebook.com/profile.php?id=100057403270810" aria-label="Facebook">f</a>
+            <a href="https://x.com/ShopnilAcademy" aria-label="X / Twitter">𝕏</a>
+            <a href="https://www.youtube.com/@ShopnilAcademy" aria-label="YouTube">▶</a>
+            <a href="https://www.linkedin.com/company/shopnilacademy/" aria-label="LinkedIn">in</a>
+            <a href="https://www.instagram.com/shopnil_academy/" aria-label="Instagram">◻</a>
+          </div>
+        </div>
+        <div class="foot-col"><h4>This course</h4><ul>
+          <li><a href="index.html">Course overview</a></li>
+          <li><a href="lesson-4.html">Lesson 4 — Variables &amp; Loops</a></li>
+          <li><a href="lesson-5.html">Lesson 5 — Bash Scripts</a></li>
+          <li><a href="lesson-6.html">Lesson 6 — Conditionals</a></li>
+          <li><span style="opacity:.55;">Lesson 7 — Permissions (soon)</span></li>
+        </ul></div>
+        <div class="foot-col"><h4>Learn</h4><ul>
+          <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=math">Science</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=music">Music</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Company</h4><ul>
+          <li><a href="https://shopnilacademy.com/about.html">About</a></li>
+          <li><a href="https://shopnilacademy.com/contact.html">Contact</a></li>
+          <li><a href="https://shopnilacademy.com/advertise.html">Advertise</a></li>
+          <li><a href="https://shopnilacademy.com/faq.html">FAQ</a></li>
+        </ul></div>
+        <div class="foot-col"><h4>Legal</h4><ul>
+          <li><a href="https://shopnilacademy.com/privacy.html">Privacy</a></li>
+          <li><a href="https://shopnilacademy.com/terms.html">Terms</a></li>
+          <li><a href="https://shopnilacademy.com/cookies.html">Cookies</a></li>
+        </ul></div>
+      </div>
+      <div class="foot-bot">
+        <span>© 2026 Shopnil Academy. All rights reserved. Made with care for learners worldwide. 🌍</span>
+        <span>Bash &amp; Linux · Lesson 6</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.getElementById('navToggle').addEventListener('click',function(){
+      const links=document.querySelector('.nav-links');
+      const expanded=this.getAttribute('aria-expanded')==='true';
+      this.setAttribute('aria-expanded',String(!expanded));
+      links.style.display=expanded?'':'flex';
+    });
+    function toggleMod(id){document.getElementById(id).classList.toggle('open');}
+    function copyCode(btn){
+      const pre=btn.closest('.code-wrap').querySelector('pre');
+      navigator.clipboard.writeText(pre.innerText).then(()=>{
+        btn.textContent='Copied!';setTimeout(()=>btn.textContent='Copy',2000);
+      });
+    }
+    function markComplete(){
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
+      if(!completed.includes('lesson-6')){completed.push('lesson-6');localStorage.setItem('sa_bash_done',JSON.stringify(completed));}
+      const btn=document.getElementById('markBtn');
+      btn.textContent='✓ Lesson completed!';btn.classList.add('done');updateProgress(completed.length);
+    }
+    function updateProgress(count){
+      const pct=Math.round((count/13)*100);
+      document.getElementById('progFill').style.width=pct+'%';
+      document.getElementById('progPct').textContent=pct+'%';
+    }
+    window.addEventListener('DOMContentLoaded',()=>{
+      const completed=JSON.parse(localStorage.getItem('sa_bash_done')||'[]');
+      updateProgress(completed.length);
+      if(completed.includes('lesson-6')){const btn=document.getElementById('markBtn');btn.textContent='✓ Lesson completed!';btn.classList.add('done');}
+      completed.forEach(id=>{
+        const link=document.querySelector(`.lesson-link[href="${id}.html"]`);
+        if(link){link.classList.add('done');const icon=link.querySelector('.l-icon');if(icon){icon.classList.remove('todo','active');icon.classList.add('done');icon.textContent='✓';}}
+      });
+    });
+    const sections=document.querySelectorAll('section[id]');
+    const tocLinks=document.querySelectorAll('.toc a[href^="#"]');
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          tocLinks.forEach(a=>a.style.removeProperty('color'));
+          const a=document.querySelector(`.toc a[href="#${entry.target.id}"]`);
+          if(a)a.style.color='var(--green)';
+        }
+      });
+    },{rootMargin:'-15% 0px -75% 0px'});
+    sections.forEach(s=>observer.observe(s));
+  </script>
+</body>
+</html>
