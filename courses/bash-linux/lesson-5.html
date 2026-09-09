@@ -94,8 +94,7 @@
     .mark-complete.done{background:var(--green-soft);color:var(--green);pointer-events:none}
     .lesson-nav-footer{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid var(--line);margin-top:44px;gap:16px;flex-wrap:wrap}
     @media(max-width:860px){.toc{display:none}}
-
-    /* wide full-bleed lesson shell */
+  /* wide full-bleed lesson shell */
     .article{padding:0 0 96px}
     .article > .wrap{max-width:none;width:100%;padding:0;margin:0}
     .article-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:0;align-items:start;max-width:none;margin:0}
@@ -118,7 +117,7 @@
       <div class="nav-links">
         <a href="https://shopnilacademy.com/index.html">Home</a>
         <a href="https://shopnilacademy.com/courses.html">Courses</a>
-        <a href="https://shopnilacademy.com/courses/bioinformatics-curriculum.html">Curriculum</a>
+        <a href="https://shopnilacademy.com/curriculum.html">Curriculum</a>
         <a href="index.html" class="active">Bash &amp; Linux</a>
         <a href="https://shopnilacademy.com/about.html">About</a>
       </div>
@@ -274,29 +273,101 @@
               <p>File naming convention: always use <code>.sh</code> as the extension and use underscores or hyphens between words — no spaces in file names ever.</p>
             </div>
 
+            <h3>Step 1 — Create the folder and go into it</h3>
+            <p>Module 2 scripts live in their own folder. Create it once, then navigate in.</p>
+
+            <div class="folder-note">Run from: anywhere</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting</span>
+<span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting</span>
+
+<span class="c-comment"># Confirm you are in the right place</span>
+<span class="c-cmd">pwd</span>
+<span class="c-out">/home/shajedur/bash-linux-bioinformatics/module-2-scripting</span></pre>
+            </div>
+
+            <h3>Step 2 — Open a new empty file in nano</h3>
+            <p>This command opens the nano text editor with an empty file called <code>my_first_script.sh</code>. Nothing is saved yet — the file only exists once you save it in Step 3.</p>
+
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
             <div class="code-wrap">
               <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
-              <pre><span class="c-comment"># Step 0 — create the module-2 folder first</span>
-<span class="c-cmd">mkdir</span> <span class="c-flag">-p</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting</span>
-<span class="c-cmd">cd</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting</span>
+              <pre><span class="c-cmd">nano</span> <span class="c-path">my_first_script.sh</span></pre>
+            </div>
 
-<span class="c-comment"># Step 1 — create the script with nano</span>
-<span class="c-cmd">nano</span> <span class="c-path">my_first_script.sh</span>
+            <h3>Step 3 — Type this into nano, then save</h3>
+            <p>Your terminal is now the nano editor. Type the six lines below exactly as shown. This is the actual content of your script.</p>
 
-<span class="c-comment"># Step 2 — make it executable</span>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">type this inside nano</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment">#!/bin/bash</span>
+<span class="c-comment"># My first Bash script</span>
+
+<span class="c-cmd">echo</span> <span class="c-str">"Hello from my first Bash script!"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"Today is: $(date +%Y-%m-%d)"</span>
+<span class="c-cmd">echo</span> <span class="c-str">"I am in folder: $(pwd)"</span></pre>
+            </div>
+
+            <div class="explain-box">
+              <h4>💾 How to save and exit nano</h4>
+              <p>Nano shows its shortcuts along the bottom of the screen, where <code>^</code> means the <strong>Ctrl</strong> key. Three keystrokes get you out:</p>
+              <p><strong>1. Press <code>Ctrl + O</code></strong> — this is "write out", meaning save. Nano asks you to confirm the filename at the bottom.</p>
+              <p><strong>2. Press <code>Enter</code></strong> — accepts the filename <code>my_first_script.sh</code> and writes the file to disk.</p>
+              <p><strong>3. Press <code>Ctrl + X</code></strong> — exits nano and returns you to the terminal prompt.</p>
+              <p>If you press <code>Ctrl + X</code> before saving, nano asks whether you want to save first. Press <code>Y</code>, then <code>Enter</code>.</p>
+            </div>
+
+            <h3>Step 4 — Make the script executable</h3>
+            <p>Your file now exists, but Linux will not let you run it directly yet. New files have no execute permission by default — <code>chmod +x</code> grants it.</p>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Check permissions BEFORE — note there is no x</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">my_first_script.sh</span>
+<span class="c-out">-rw-r--r-- 1 shajedur shajedur 142 Jun 18 10:00 my_first_script.sh</span>
+
+<span class="c-comment"># Grant execute permission</span>
 <span class="c-cmd">chmod</span> <span class="c-flag">+x</span> <span class="c-path">my_first_script.sh</span>
 
-<span class="c-comment"># Step 3a — run with bash explicitly</span>
-<span class="c-cmd">bash</span> <span class="c-path">my_first_script.sh</span>
-
-<span class="c-comment"># Step 3b — run with ./ (uses shebang line)</span>
-<span class="c-path">./my_first_script.sh</span>
-
-<span class="c-comment"># Check permissions after chmod +x</span>
+<span class="c-comment"># Check permissions AFTER — the x now appears three times</span>
 <span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">my_first_script.sh</span>
 <span class="c-out">-rwxr-xr-x 1 shajedur shajedur 142 Jun 18 10:00 my_first_script.sh</span>
-<span class="c-comment"># The x in rwxr-xr-x means executable</span></pre>
+<span class="c-comment">#  ^  ^  ^  the x in rwxr-xr-x means executable</span></pre>
+            </div>
+
+            <h3>Step 5 — Run it</h3>
+            <p>There are two ways to run the script. Both produce identical output — try each one.</p>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Way 1 — call bash explicitly (works even without chmod +x)</span>
+<span class="c-cmd">bash</span> <span class="c-path">my_first_script.sh</span>
+<span class="c-out">Hello from my first Bash script!</span>
+<span class="c-out">Today is: 2026-06-18</span>
+<span class="c-out">I am in folder: /home/shajedur/bash-linux-bioinformatics/module-2-scripting</span>
+
+<span class="c-comment"># Way 2 — run it directly (needs chmod +x, uses the shebang line)</span>
+<span class="c-path">./my_first_script.sh</span>
+<span class="c-out">Hello from my first Bash script!</span>
+<span class="c-out">Today is: 2026-06-18</span>
+<span class="c-out">I am in folder: /home/shajedur/bash-linux-bioinformatics/module-2-scripting</span></pre>
+            </div>
+
+            <div class="warn">
+              <span class="warn-icon">⚠</span>
+              <p>The <code>./</code> in front of the filename is required. Without it, Linux searches its <code>PATH</code> for a program called <code>my_first_script.sh</code>, does not find one, and reports <code>command not found</code>. The <code>./</code> means "the file in this folder".</p>
+            </div>
+
+            <div class="explain-box">
+              <h4>📌 How to read the code blocks in the rest of this lesson</h4>
+              <p>From here on, code blocks come in two kinds and the label at the top of each block tells you which:</p>
+              <p><strong>Labelled <code>save as: filename.sh</code></strong> — this is the contents of a script file. Open it with <code>nano filename.sh</code>, type the contents, save with <code>Ctrl + O</code> → <code>Enter</code> → <code>Ctrl + X</code>. Do not type these lines at the terminal prompt one by one.</p>
+              <p><strong>Labelled <code>bash</code></strong> — these are commands you type directly at the terminal prompt, one line at a time.</p>
+              <p>In <code>bash</code> blocks, greyed-out lines are the <strong>output you should expect</strong>, not something to type. In <code>save as</code> blocks there is never any output — only the lines that belong in the file.</p>
+              <p>Every script block below is followed by a <code>bash</code> block showing exactly how to run it and what output to expect.</p>
             </div>
 
             <div class="tip">
@@ -318,7 +389,7 @@
 
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
             <div class="code-wrap">
-              <div class="code-header"><span class="code-lang">bash — standard script header template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-header"><span class="code-lang">save as: header_template.sh (reference only)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment">#!/bin/bash</span>
 <span class="c-comment"># ============================================================</span>
 <span class="c-comment"># Script:      fastqc_pipeline.sh</span>
@@ -354,7 +425,7 @@
 
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
             <div class="code-wrap">
-              <div class="code-header"><span class="code-lang">bash — using arguments in a script</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-header"><span class="code-lang">save as: process_sample.sh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment">#!/bin/bash</span>
 <span class="c-comment"># Usage: bash process_sample.sh SAMPLE_NAME INPUT_FILE OUTPUT_DIR</span>
 
@@ -374,6 +445,31 @@
 <span class="c-cmd">echo</span> <span class="c-str">"Output folder: $OUTDIR"</span></pre>
             </div>
 
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — save it, then run it</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-comment"># Save the script above with nano, then run it WITH three arguments</span>
+<span class="c-cmd">nano</span> <span class="c-path">process_sample.sh</span>
+<span class="c-comment"># type the script, then Ctrl+O, Enter, Ctrl+X</span>
+
+<span class="c-cmd">bash</span> <span class="c-path">process_sample.sh</span> <span class="c-str">SRR123456</span> <span class="c-str">data/raw/SRR123456.fastq</span> <span class="c-str">results/</span>
+<span class="c-out">Script name:   process_sample.sh</span>
+<span class="c-out">Arguments:     3</span>
+<span class="c-out">Sample:        SRR123456</span>
+<span class="c-out">Input file:    data/raw/SRR123456.fastq</span>
+<span class="c-out">Output folder: results/</span>
+
+<span class="c-comment"># Run it again with different values — the script never changes, only the output</span>
+<span class="c-cmd">bash</span> <span class="c-path">process_sample.sh</span> <span class="c-str">ERR999</span> <span class="c-str">data/raw/ERR999.fastq</span> <span class="c-str">out/</span>
+<span class="c-out">Sample:        ERR999</span>
+
+<span class="c-comment"># Now run it with NO arguments — everything comes out empty</span>
+<span class="c-cmd">bash</span> <span class="c-path">process_sample.sh</span>
+<span class="c-out">Arguments:     0</span>
+<span class="c-out">Sample:        </span>
+<span class="c-comment"># That silent failure is exactly what validation (below) prevents</span></pre>
+            </div>
+
             <div class="explain-box">
               <h4>🛡 Validating arguments — check before you run</h4>
               <p>Always check that the right number of arguments was passed before the script does anything. The pattern below prints a usage message and exits with code <code>1</code> (failure) if the wrong number of arguments is given. The <code>exit 1</code> signals to the calling program that something went wrong.</p>
@@ -381,7 +477,7 @@
 
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
             <div class="code-wrap">
-              <div class="code-header"><span class="code-lang">bash — argument validation pattern</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-header"><span class="code-lang">save as: check_args.sh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment">#!/bin/bash</span>
 <span class="c-comment"># Validate that exactly 2 arguments were provided</span>
 <span class="c-kw">if</span> <span class="c-flag">[</span> <span class="c-str">"$#"</span> <span class="c-flag">-ne</span> <span class="c-path">2</span> <span class="c-flag">]</span><span class="c-kw">; then</span>
@@ -394,6 +490,27 @@
 <span class="c-var">INPUT</span><span class="c-flag">=</span><span class="c-str">"$1"</span>
 <span class="c-var">OUTDIR</span><span class="c-flag">=</span><span class="c-str">"$2"</span>
 <span class="c-cmd">echo</span> <span class="c-str">"Processing: $INPUT → $OUTDIR"</span></pre>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — save it, then run it</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">nano</span> <span class="c-path">check_args.sh</span>
+<span class="c-comment"># type the script, then Ctrl+O, Enter, Ctrl+X</span>
+
+<span class="c-comment"># Correct usage — two arguments</span>
+<span class="c-cmd">bash</span> <span class="c-path">check_args.sh</span> <span class="c-str">sample.fastq</span> <span class="c-str">results/</span>
+<span class="c-out">Processing: sample.fastq → results/</span>
+
+<span class="c-comment"># Wrong usage — no arguments. It stops cleanly instead of failing silently</span>
+<span class="c-cmd">bash</span> <span class="c-path">check_args.sh</span>
+<span class="c-out">Error: wrong number of arguments</span>
+<span class="c-out">Usage: bash check_args.sh INPUT_FASTQ OUTPUT_DIR</span>
+<span class="c-out">Example: bash check_args.sh data/sample1.fastq results/</span>
+
+<span class="c-comment"># Check the exit code — 1 means the script reported failure</span>
+<span class="c-cmd">echo</span> <span class="c-str">$?</span>
+<span class="c-out">1</span></pre>
             </div>
 
             <div class="tip">
@@ -415,7 +532,7 @@
 
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
             <div class="code-wrap">
-              <div class="code-header"><span class="code-lang">bash — error handling patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-header"><span class="code-lang">save as: error_demo.sh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment">#!/bin/bash</span>
 <span class="c-cmd">set</span> <span class="c-flag">-e</span>   <span class="c-comment"># stop on any error</span>
 <span class="c-cmd">set</span> <span class="c-flag">-u</span>   <span class="c-comment"># stop on undefined variable</span>
@@ -444,6 +561,33 @@
 <span class="c-comment"># ! negates the check</span></pre>
             </div>
 
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — save it, then run it</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">nano</span> <span class="c-path">error_demo.sh</span>
+<span class="c-comment"># type the script, then Ctrl+O, Enter, Ctrl+X</span>
+
+<span class="c-comment"># It needs species.txt and sample.fastq from Module 1 — copy them in first.</span>
+<span class="c-comment"># Note the destination folder at the END of each line. cp always needs</span>
+<span class="c-comment"># two things: what to copy, and where to put it.</span>
+<span class="c-cmd">cp</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations/species.txt</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting/</span>
+<span class="c-cmd">cp</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations/sample.fastq</span> <span class="c-path">~/bash-linux-bioinformatics/module-2-scripting/</span>
+
+<span class="c-comment"># Confirm both arrived</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">species.txt</span> <span class="c-path">sample.fastq</span>
+
+<span class="c-cmd">bash</span> <span class="c-path">error_demo.sh</span>
+<span class="c-out">species.txt</span>
+<span class="c-out">species.txt</span>
+<span class="c-out">Input file found: sample.fastq</span>
+
+<span class="c-comment"># Now delete sample.fastq and run again to see the error path</span>
+<span class="c-cmd">rm</span> <span class="c-path">sample.fastq</span>
+<span class="c-cmd">bash</span> <span class="c-path">error_demo.sh</span>
+<span class="c-out">Error: input file 'sample.fastq' does not exist</span>
+<span class="c-comment"># The script stopped instead of continuing with a missing file</span></pre>
+            </div>
+
             <div class="warn">
               <span class="warn-icon">⚠</span>
               <p><code>set -e</code> stops the script on the first failed command. This is almost always what you want. But be aware that some commands intentionally return non-zero exit codes — for example, <code>grep</code> returns <code>1</code> when it finds no matches. In those cases, add <code>|| true</code> after the command to tell Bash the failure is expected and acceptable.</p>
@@ -463,7 +607,7 @@
 
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
             <div class="code-wrap">
-              <div class="code-header"><span class="code-lang">bash — logging patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-header"><span class="code-lang">save as: logging_demo.sh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment">#!/bin/bash</span>
 
 <span class="c-comment"># Pattern 1 — timestamp function</span>
@@ -473,10 +617,7 @@
 <span class="c-flag">}</span>
 
 <span class="c-cmd">log</span> <span class="c-str">"Pipeline started"</span>
-<span class="c-out">[2026-06-18 10:32:15] Pipeline started</span>
-
 <span class="c-cmd">log</span> <span class="c-str">"Running FastQC..."</span>
-<span class="c-out">[2026-06-18 10:32:16] Running FastQC...</span>
 
 <span class="c-comment"># Pattern 2 — tee: show on screen AND save to log file</span>
 <span class="c-cmd">log</span> <span class="c-str">"Step 1 complete"</span> <span class="c-flag">|</span> <span class="c-cmd">tee</span> <span class="c-flag">-a</span> <span class="c-path">pipeline.log</span>
@@ -488,6 +629,23 @@
 <span class="c-cmd">exec</span> <span class="c-path">2</span><span class="c-flag">&gt;</span> <span class="c-flag">&gt;(</span><span class="c-cmd">tee</span> <span class="c-flag">-a</span> <span class="c-str">"$LOG_FILE"</span> <span class="c-flag">&gt;&amp;</span><span class="c-path">2</span><span class="c-flag">)</span>
 <span class="c-comment"># Everything printed after these two lines goes to screen AND to log file</span></pre>
             </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — save it, then run it</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">nano</span> <span class="c-path">logging_demo.sh</span>
+<span class="c-comment"># type the script, then Ctrl+O, Enter, Ctrl+X</span>
+
+<span class="c-cmd">bash</span> <span class="c-path">logging_demo.sh</span>
+<span class="c-out">[2026-06-18 10:32:15] Pipeline started</span>
+<span class="c-out">[2026-06-18 10:32:16] Running FastQC...</span>
+<span class="c-out">[2026-06-18 10:32:16] Step 1 complete</span>
+
+<span class="c-comment"># A log file was created — check it</span>
+<span class="c-cmd">ls</span> <span class="c-flag">-lh</span> <span class="c-path">*.log</span>
+<span class="c-cmd">cat</span> <span class="c-path">pipeline.log</span>
+<span class="c-out">[2026-06-18 10:32:16] Step 1 complete</span></pre>
+            </div>
           </section>
 
           <!-- SECTION 8: Complete script -->
@@ -498,7 +656,7 @@
 
             <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
             <div class="code-wrap">
-              <div class="code-header"><span class="code-lang">bash — complete script template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-header"><span class="code-lang">save as: count_reads.sh</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
               <pre><span class="c-comment">#!/bin/bash</span>
 <span class="c-comment"># ============================================================</span>
 <span class="c-comment"># Script:      count_reads.sh</span>
@@ -562,6 +720,31 @@
 <span class="c-kw">done</span>
 
 <span class="c-cmd">log</span> <span class="c-str">"Done. Processed $FILE_COUNT file(s). Summary: $SUMMARY"</span></pre>
+            </div>
+
+            <div class="folder-note">Run from: ~/bash-linux-bioinformatics/module-2-scripting</div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">bash — save it, then run it</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="c-cmd">nano</span> <span class="c-path">count_reads.sh</span>
+<span class="c-comment"># type the script, then Ctrl+O, Enter, Ctrl+X</span>
+
+<span class="c-comment"># Run it on your Module 1 folder, writing results to the results folder</span>
+<span class="c-cmd">bash</span> <span class="c-path">count_reads.sh</span> <span class="c-path">~/bash-linux-bioinformatics/module-1-foundations/</span> <span class="c-path">~/bash-linux-bioinformatics/results/</span>
+<span class="c-out">[2026-06-18 10:40:02] Starting read count pipeline</span>
+<span class="c-out">[2026-06-18 10:40:02] Input:  /home/shajedur/bash-linux-bioinformatics/module-1-foundations/</span>
+<span class="c-out">[2026-06-18 10:40:02] Output: /home/shajedur/bash-linux-bioinformatics/results/</span>
+<span class="c-out">[2026-06-18 10:40:02]   sample: 3 reads</span>
+<span class="c-out">[2026-06-18 10:40:02] Done. Processed 1 file(s). Summary: /home/shajedur/bash-linux-bioinformatics/results/read_counts.txt</span>
+
+<span class="c-comment"># Check the summary file it produced</span>
+<span class="c-cmd">cat</span> <span class="c-path">~/bash-linux-bioinformatics/results/read_counts.txt</span>
+<span class="c-out">sample	reads</span>
+<span class="c-out">sample	3</span>
+
+<span class="c-comment"># Try it with no arguments — validation stops it</span>
+<span class="c-cmd">bash</span> <span class="c-path">count_reads.sh</span>
+<span class="c-out">Error: wrong number of arguments</span>
+<span class="c-out">Usage:   bash count_reads.sh INPUT_FOLDER OUTPUT_FOLDER</span></pre>
             </div>
           </section>
 
@@ -775,9 +958,9 @@
         <div class="foot-col"><h4>Learn</h4><ul>
           <li><a href="https://shopnilacademy.com/courses.html">All courses</a></li>
           <li><a href="https://shopnilacademy.com/courses.html?track=tech">Tech &amp; Coding</a></li>
-          <li><a href="https://shopnilacademy.com/courses.html?track=math">Math &amp; Science</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=math">Science</a></li>
           <li><a href="https://shopnilacademy.com/courses.html?track=lang">Languages</a></li>
-          <li><a href="https://shopnilacademy.com/courses.html?track=guitar">Guitar</a></li>
+          <li><a href="https://shopnilacademy.com/courses.html?track=music">Music</a></li>
         </ul></div>
         <div class="foot-col"><h4>Company</h4><ul>
           <li><a href="https://shopnilacademy.com/about.html">About</a></li>
