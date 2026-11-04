@@ -277,6 +277,7 @@ table.fb td, table.fb th { padding: 0; }
 .leg-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
 
 /* ── EXERCISE GRID ── */
+.hide-exgrid .ex-grid{display:none;}
 .ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px,1fr)); gap: 7px; margin-bottom: 12px; }
 .ex-card {
   padding: 9px 11px; border-radius: var(--radius-sm);
@@ -371,9 +372,8 @@ input[type=range] { accent-color: var(--green); }
 .sb-backdrop { display: none; }
 @media (max-width: 860px) {
   .atb-links { display: none; }
-  .atb-cta { margin-left: auto; }
   .atb-toggle {
-    display: grid; place-items: center; margin-left: 0;
+    display: grid; place-items: center; margin-left: 8px;
     width: 44px; height: 44px; border-radius: 999px;
     background: transparent; border: 0; font-size: 22px; color: var(--ink); cursor: pointer;
   }
@@ -416,6 +416,12 @@ footer { margin-top: 0; }
   .sl  { width: 16px !important; min-width: 16px; font-size: 8px; padding-right: 1px; }
   .dot { width: 16px !important; height: 16px !important; font-size: 7px; }
 }
+
+/* open-string column: narrow, nut on its right edge so fret 1 starts right at the nut */
+.fn.n0, .fc.nut { width: 30px !important; border-left: none !important; }
+.fc.nut { border-right: 3px solid var(--ink); }
+@media (max-width: 600px) { .fn.n0, .fc.nut { width: 24px !important; } }
+@media (max-width: 400px) { .fn.n0, .fc.nut { width: 20px !important; } }
 
 
 
@@ -1094,17 +1100,21 @@ const ALL_EX=[
   {id:'cm_1s',name:'C major — 1 string',cat:'cmaj',level:'b',sub:'B string',desc:'C D E F G A B C on the B string. Say each note aloud.',steps:ud([{s:1,f:1,l:'C',r:1},{s:1,f:3,l:'D'},{s:1,f:5,l:'E'},{s:1,f:6,l:'F'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:12,l:'B'},{s:1,f:13,l:'C',r:1}])},
   {id:'cm_2s_gb',name:'C major — 2 strings',cat:'cmaj',level:'b',sub:'G + B strings',desc:'C major across G and B strings. Up then back down.',steps:ud([{s:2,f:5,l:'C',r:1},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:12,l:'B'},{s:1,f:13,l:'C',r:1}])},
   {id:'cm_2s_da',name:'C major — 2 strings',cat:'cmaj',level:'b',sub:'A + D strings',desc:'C major across A and D strings. Up then back down.',steps:ud([{s:4,f:3,l:'C',r:1},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:4,f:8,l:'F'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A'},{s:3,f:9,l:'B'},{s:3,f:10,l:'C',r:1}])},
-  {id:'cm_6s',name:'C major — 6 strings',cat:'cmaj',level:'i',sub:'Low E → high e',desc:'Full C major run: 3 notes per string across all 6 strings.',steps:[{s:5,f:8,l:'C',r:1},{s:5,f:10,l:'D'},{s:5,f:12,l:'E'},{s:4,f:8,l:'F'},{s:4,f:10,l:'G'},{s:4,f:12,l:'A'},{s:3,f:9,l:'B'},{s:3,f:10,l:'C',r:1},{s:3,f:12,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:2,f:12,l:'G'},{s:1,f:10,l:'A'},{s:1,f:12,l:'B'},{s:1,f:13,l:'C',r:1},{s:0,f:12,l:'D'},{s:0,f:13,l:'E'},{s:0,f:15,l:'F'},{s:0,f:15,l:'F'},{s:0,f:13,l:'E'},{s:0,f:12,l:'D'},{s:1,f:13,l:'C',r:1},{s:1,f:12,l:'B'},{s:1,f:10,l:'A'},{s:2,f:12,l:'G'},{s:2,f:10,l:'F'},{s:2,f:9,l:'E'},{s:3,f:12,l:'D'},{s:3,f:10,l:'C',r:1},{s:3,f:9,l:'B'},{s:4,f:12,l:'A'},{s:4,f:10,l:'G'},{s:4,f:8,l:'F'},{s:5,f:12,l:'E'},{s:5,f:10,l:'D'},{s:5,f:8,l:'C',r:1}]},
+  {id:'cm_3s',name:'C major — 3 strings',cat:'cmaj',level:'b',sub:'G + B + e · 4 fingers',desc:'C major across the G, B and high e strings in one hand position, frets 5–8. One finger per fret: Index=1 Middle=2 Ring=3 Pinky=4. Keep your hand still and let each finger reach for its fret.',steps:ud([{s:2,f:5,l:'C',fi:1,r:1},{s:2,f:7,l:'D',fi:3},{s:1,f:5,l:'E',fi:1},{s:1,f:6,l:'F',fi:2},{s:1,f:8,l:'G',fi:4},{s:0,f:5,l:'A',fi:1},{s:0,f:7,l:'B',fi:3},{s:0,f:8,l:'C',fi:4,r:1}])},
+  {id:'cm_6s',name:'C major — 6 strings',cat:'cmaj',level:'i',sub:'Low E → high e',desc:'Full C major run: 3 notes per string across all 6 strings.',steps:[{s:5,f:8,l:'C',r:1},{s:5,f:10,l:'D'},{s:5,f:12,l:'E'},{s:4,f:8,l:'F'},{s:4,f:10,l:'G'},{s:4,f:12,l:'A'},{s:3,f:9,l:'B'},{s:3,f:10,l:'C',r:1},{s:3,f:12,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:2,f:12,l:'G'},{s:1,f:10,l:'A'},{s:1,f:12,l:'B'},{s:1,f:13,l:'C',r:1},{s:0,f:10,l:'D'},{s:0,f:12,l:'E'},{s:0,f:13,l:'F'},{s:0,f:13,l:'F'},{s:0,f:12,l:'E'},{s:0,f:10,l:'D'},{s:1,f:13,l:'C',r:1},{s:1,f:12,l:'B'},{s:1,f:10,l:'A'},{s:2,f:12,l:'G'},{s:2,f:10,l:'F'},{s:2,f:9,l:'E'},{s:3,f:12,l:'D'},{s:3,f:10,l:'C',r:1},{s:3,f:9,l:'B'},{s:4,f:12,l:'A'},{s:4,f:10,l:'G'},{s:4,f:8,l:'F'},{s:5,f:12,l:'E'},{s:5,f:10,l:'D'},{s:5,f:8,l:'C',r:1}]},
   {id:'cp_1s',name:'C pent. — 1 string',cat:'cpent',level:'b',sub:'B string',desc:'C major pentatonic: C D E G A. Frets 1–3–5–8–10–13.',steps:ud([{s:1,f:1,l:'C',r:1},{s:1,f:3,l:'D'},{s:1,f:5,l:'E'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:13,l:'C',r:1}])},
   {id:'cp_2s',name:'C pent. — 2 strings',cat:'cpent',level:'b',sub:'G + B strings',desc:'C pentatonic across G and B. 2-notes-per-string pattern.',steps:ud([{s:2,f:5,l:'C',r:1},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:1,f:13,l:'C',r:1}])},
-  {id:'cp_6s',name:'C pent. — 6 strings',cat:'cpent',level:'i',sub:'Low E → high e',desc:'Full C pentatonic: 2 notes per string.',steps:[{s:5,f:8,l:'C',r:1},{s:5,f:10,l:'D'},{s:4,f:7,l:'E'},{s:4,f:10,l:'G'},{s:3,f:9,l:'A'},{s:3,f:12,l:'C',r:1},{s:2,f:10,l:'D'},{s:2,f:12,l:'E'},{s:1,f:10,l:'G'},{s:1,f:13,l:'A'},{s:0,f:12,l:'C',r:1},{s:0,f:15,l:'D'},{s:0,f:15,l:'D'},{s:0,f:12,l:'C',r:1},{s:1,f:13,l:'A'},{s:1,f:10,l:'G'},{s:2,f:12,l:'E'},{s:2,f:10,l:'D'},{s:3,f:12,l:'C',r:1},{s:3,f:9,l:'A'},{s:4,f:10,l:'G'},{s:4,f:7,l:'E'},{s:5,f:10,l:'D'},{s:5,f:8,l:'C',r:1}]},
-  {id:'am_1s',name:'A minor — 1 string',cat:'amin',level:'b',sub:'B string',desc:'A B C D E F G A. Sing La Ti Do Re Mi Fa Sol La.',steps:ud([{s:1,f:2,l:'A',r:1},{s:1,f:4,l:'B'},{s:1,f:5,l:'C'},{s:1,f:7,l:'D'},{s:1,f:9,l:'E'},{s:1,f:10,l:'F'},{s:1,f:12,l:'G'},{s:1,f:14,l:'A',r:1}])},
+  {id:'cp_3s',name:'C pent. — 3 strings',cat:'cpent',level:'b',sub:'G + B + e · 4 fingers',desc:'C pentatonic across the G, B and high e strings, frets 5–8. Two notes per string. Index=1 Middle=2 Ring=3 Pinky=4.',steps:ud([{s:2,f:5,l:'C',fi:1,r:1},{s:2,f:7,l:'D',fi:3},{s:1,f:5,l:'E',fi:1},{s:1,f:8,l:'G',fi:4},{s:0,f:5,l:'A',fi:1},{s:0,f:8,l:'C',fi:4,r:1}])},
+  {id:'cp_6s',name:'C pent. — 6 strings',cat:'cpent',level:'i',sub:'Low E → high e',desc:'Full C pentatonic: 2 notes per string.',steps:[{s:5,f:8,l:'C',r:1},{s:5,f:10,l:'D'},{s:4,f:7,l:'E'},{s:4,f:10,l:'G'},{s:3,f:7,l:'A'},{s:3,f:10,l:'C',r:1},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A'},{s:0,f:8,l:'C',r:1},{s:0,f:10,l:'D'},{s:0,f:10,l:'D'},{s:0,f:8,l:'C',r:1},{s:1,f:10,l:'A'},{s:1,f:8,l:'G'},{s:2,f:9,l:'E'},{s:2,f:7,l:'D'},{s:3,f:10,l:'C',r:1},{s:3,f:7,l:'A'},{s:4,f:10,l:'G'},{s:4,f:7,l:'E'},{s:5,f:10,l:'D'},{s:5,f:8,l:'C',r:1}]},
+  {id:'am_1s',name:'A minor — 1 string',cat:'amin',level:'b',sub:'G string',desc:'A B C D E F G A. Sing La Ti Do Re Mi Fa Sol La.',steps:ud([{s:2,f:2,l:'A',r:1},{s:2,f:4,l:'B'},{s:2,f:5,l:'C'},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:2,f:12,l:'G'},{s:2,f:14,l:'A',r:1}])},
   {id:'am_2s_dg',name:'A minor — 2 strings',cat:'amin',level:'b',sub:'D + G strings',desc:'A minor across D and G. Notice half-step gaps at B–C and E–F.',steps:ud([{s:3,f:7,l:'A',r:1},{s:3,f:9,l:'B'},{s:3,f:10,l:'C'},{s:3,f:12,l:'D'},{s:2,f:9,l:'E'},{s:2,f:10,l:'F'},{s:2,f:12,l:'G'},{s:2,f:14,l:'A',r:1}])},
   {id:'am_2s_ae',name:'A minor — 2 strings',cat:'amin',level:'b',sub:'E + A strings',desc:'A minor across low E and A. Deep tone on the thickest strings.',steps:ud([{s:5,f:5,l:'A',r:1},{s:5,f:7,l:'B'},{s:5,f:8,l:'C'},{s:5,f:10,l:'D'},{s:4,f:7,l:'E'},{s:4,f:8,l:'F'},{s:4,f:10,l:'G'},{s:4,f:12,l:'A',r:1}])},
-  {id:'am_6s',name:'A minor — 6 strings',cat:'amin',level:'i',sub:'Low E → high e',desc:'Full A minor run: 3 notes per string across all 6 strings.',steps:[{s:5,f:5,l:'A',r:1},{s:5,f:7,l:'B'},{s:5,f:8,l:'C'},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:4,f:8,l:'F'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A',r:1},{s:3,f:9,l:'B'},{s:2,f:7,l:'C'},{s:2,f:9,l:'D'},{s:2,f:10,l:'E'},{s:1,f:10,l:'F'},{s:1,f:12,l:'G'},{s:1,f:13,l:'A',r:1},{s:0,f:12,l:'B'},{s:0,f:13,l:'C'},{s:0,f:15,l:'D'},{s:0,f:15,l:'D'},{s:0,f:13,l:'C'},{s:0,f:12,l:'B'},{s:1,f:13,l:'A',r:1},{s:1,f:12,l:'G'},{s:1,f:10,l:'F'},{s:2,f:10,l:'E'},{s:2,f:9,l:'D'},{s:2,f:7,l:'C'},{s:3,f:9,l:'B'},{s:3,f:7,l:'A',r:1},{s:3,f:5,l:'G'},{s:4,f:8,l:'F'},{s:4,f:7,l:'E'},{s:4,f:5,l:'D'},{s:5,f:8,l:'C'},{s:5,f:7,l:'B'},{s:5,f:5,l:'A',r:1}]},
-  {id:'ap_1s',name:'Am pent. — 1 string',cat:'apent',level:'b',sub:'B string',desc:'Am pentatonic: A C D E G. Frets 2–5–7–9–12–14.',steps:ud([{s:1,f:2,l:'A',r:1},{s:1,f:5,l:'C'},{s:1,f:7,l:'D'},{s:1,f:9,l:'E'},{s:1,f:12,l:'G'},{s:1,f:14,l:'A',r:1}])},
+  {id:'am_3s',name:'A minor — 3 strings',cat:'amin',level:'b',sub:'D + G + B · 4 fingers',desc:'A minor across the D, G and B strings in one hand position, frets 7–10. One finger per fret: Index=1 Middle=2 Ring=3 Pinky=4. Notice the half-step gaps at B–C and E–F.',steps:ud([{s:3,f:7,l:'A',fi:1,r:1},{s:3,f:9,l:'B',fi:3},{s:3,f:10,l:'C',fi:4},{s:2,f:7,l:'D',fi:1},{s:2,f:9,l:'E',fi:3},{s:2,f:10,l:'F',fi:4},{s:1,f:8,l:'G',fi:2},{s:1,f:10,l:'A',fi:4,r:1}])},
+  {id:'am_6s',name:'A minor — 6 strings',cat:'amin',level:'i',sub:'Low E → high e',desc:'Full A minor run: 3 notes per string across all 6 strings.',steps:[{s:5,f:5,l:'A',r:1},{s:5,f:7,l:'B'},{s:5,f:8,l:'C'},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:4,f:8,l:'F'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A',r:1},{s:3,f:9,l:'B'},{s:2,f:5,l:'C'},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:1,f:6,l:'F'},{s:1,f:8,l:'G'},{s:1,f:10,l:'A',r:1},{s:0,f:7,l:'B'},{s:0,f:8,l:'C'},{s:0,f:10,l:'D'},{s:0,f:10,l:'D'},{s:0,f:8,l:'C'},{s:0,f:7,l:'B'},{s:1,f:10,l:'A',r:1},{s:1,f:8,l:'G'},{s:1,f:6,l:'F'},{s:2,f:9,l:'E'},{s:2,f:7,l:'D'},{s:2,f:5,l:'C'},{s:3,f:9,l:'B'},{s:3,f:7,l:'A',r:1},{s:3,f:5,l:'G'},{s:4,f:8,l:'F'},{s:4,f:7,l:'E'},{s:4,f:5,l:'D'},{s:5,f:8,l:'C'},{s:5,f:7,l:'B'},{s:5,f:5,l:'A',r:1}]},
+  {id:'ap_1s',name:'Am pent. — 1 string',cat:'apent',level:'b',sub:'G string',desc:'Am pentatonic: A C D E G. Frets 2–5–7–9–12–14.',steps:ud([{s:2,f:2,l:'A',r:1},{s:2,f:5,l:'C'},{s:2,f:7,l:'D'},{s:2,f:9,l:'E'},{s:2,f:12,l:'G'},{s:2,f:14,l:'A',r:1}])},
   {id:'ap_2s',name:'Am pent. — 2 strings',cat:'apent',level:'b',sub:'D + G strings',desc:'Am pentatonic across D and G. 2-notes-per-string.',steps:ud([{s:3,f:7,l:'A',r:1},{s:3,f:10,l:'C'},{s:3,f:12,l:'D'},{s:2,f:9,l:'E'},{s:2,f:12,l:'G'},{s:2,f:14,l:'A',r:1}])},
-  {id:'ap_6s',name:'Am pent. — 6 strings',cat:'apent',level:'i',sub:'Low E → high e',desc:'Full Am pentatonic across the whole neck.',steps:[{s:5,f:5,l:'A',r:1},{s:5,f:8,l:'C'},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A',r:1},{s:2,f:5,l:'C'},{s:2,f:8,l:'D'},{s:1,f:5,l:'E'},{s:1,f:8,l:'G'},{s:0,f:5,l:'A',r:1},{s:0,f:8,l:'C'},{s:0,f:8,l:'C'},{s:0,f:5,l:'A',r:1},{s:1,f:8,l:'G'},{s:1,f:5,l:'E'},{s:2,f:8,l:'D'},{s:2,f:5,l:'C'},{s:3,f:7,l:'A',r:1},{s:3,f:5,l:'G'},{s:4,f:7,l:'E'},{s:4,f:5,l:'D'},{s:5,f:8,l:'C'},{s:5,f:5,l:'A',r:1}]},
+  {id:'ap_3s',name:'Am pent. — 3 strings',cat:'apent',level:'b',sub:'D + G + B · 4 fingers',desc:'A minor pentatonic across the D, G and B strings, frets 7–10. Two notes per string. Index=1 Middle=2 Ring=3 Pinky=4.',steps:ud([{s:3,f:7,l:'A',fi:1,r:1},{s:3,f:10,l:'C',fi:4},{s:2,f:7,l:'D',fi:1},{s:2,f:9,l:'E',fi:3},{s:1,f:8,l:'G',fi:2},{s:1,f:10,l:'A',fi:4,r:1}])},
+  {id:'ap_6s',name:'Am pent. — 6 strings',cat:'apent',level:'i',sub:'Low E → high e',desc:'Full Am pentatonic across the whole neck.',steps:[{s:5,f:5,l:'A',r:1},{s:5,f:8,l:'C'},{s:4,f:5,l:'D'},{s:4,f:7,l:'E'},{s:3,f:5,l:'G'},{s:3,f:7,l:'A',r:1},{s:2,f:5,l:'C'},{s:2,f:7,l:'D'},{s:1,f:5,l:'E'},{s:1,f:8,l:'G'},{s:0,f:5,l:'A',r:1},{s:0,f:8,l:'C'},{s:0,f:8,l:'C'},{s:0,f:5,l:'A',r:1},{s:1,f:8,l:'G'},{s:1,f:5,l:'E'},{s:2,f:7,l:'D'},{s:2,f:5,l:'C'},{s:3,f:7,l:'A',r:1},{s:3,f:5,l:'G'},{s:4,f:7,l:'E'},{s:4,f:5,l:'D'},{s:5,f:8,l:'C'},{s:5,f:5,l:'A',r:1}]},
 ];
 const LVL={b:'beginner',i:'intermediate',a:'advanced'};
 
@@ -1194,7 +1204,7 @@ function buildFretboard(cid){
     const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
     for(let f=0;f<=12;f++){
       const th=document.createElement('th');
-      th.className='fn'+([3,5,7,9,12].includes(f)?' mk':'');
+      th.className='fn'+(f===0?' n0':'')+([3,5,7,9,12].includes(f)?' mk':'');
       th.textContent=f===0?'':f;
       hr.appendChild(th);
     }
@@ -1261,12 +1271,90 @@ function buildFretboard(cid){
 }
 
 
+// ── ALL-KEYS 2 & 3 STRING SCALES (generated, every octave position in frets 0-12) ──
+const KS_OPEN=[64,59,55,50,45,40];
+const KS_IV={major:[0,2,4,5,7,9,11,12],minor:[0,2,3,5,7,8,10,12],'major pentatonic':[0,2,4,7,9,12],'minor pentatonic':[0,3,5,7,10,12]};
+const KS_FAM={major:['major'],minor:['minor'],pent:['major pentatonic','minor pentatonic']};
+const KS_SETS={2:[[5,4],[4,3],[3,2],[2,1],[1,0]],3:[[5,4,3],[4,3,2],[3,2,1],[2,1,0]]};
+function ksAll(root,type,n){
+  const iv=KS_IV[type],out=[],seen={};
+  KS_SETS[n].forEach(function(set){
+    let bestSet=null;
+    for(let k0=0;k0<n;k0++)for(let f0=0;f0<=12;f0++){
+      if((KS_OPEN[set[k0]]+f0)%12!==root)continue;
+      const p0=KS_OPEN[set[k0]]+f0,pitches=iv.map(function(i){return p0+i;});
+      (function rec(i,k,acc){
+        if(i===pitches.length){
+          const cnt=[0,0,0];acc.forEach(function(a){cnt[a.k]++;});
+          for(let q=0;q<n;q++)if(cnt[q]<(n===2?3:2))return;
+          const fr=acc.map(function(a){return a.f;}),mn=Math.min.apply(null,fr),mx=Math.max.apply(null,fr),span=mx-mn+1;
+          if(n===3){
+            if(span>4)return;
+            const key=set.join('')+':'+acc.map(function(a){return a.k+'/'+a.f;}).join(',');
+            if(seen[key])return;seen[key]=1;
+            out.push({set:set,acc:acc.slice(),span:span,mn:mn,mx:mx});
+          }else{
+            let sh=0;for(let j=1;j<acc.length;j++)if(acc[j].k!==acc[j-1].k&&Math.abs(acc[j].f-acc[j-1].f)>3)sh++;
+            const c={set:set,acc:acc.slice(),span:span,mn:mn,mx:mx,sh:sh};
+            if(!bestSet||span<bestSet.span||(span===bestSet.span&&sh<bestSet.sh)||(span===bestSet.span&&sh===bestSet.sh&&mx<bestSet.mx))bestSet=c;
+          }
+          return;
+        }
+        for(let kk=k;kk<n;kk++){
+          const f=pitches[i]-KS_OPEN[set[kk]];
+          if(f<0||f>12)continue;
+          acc.push({k:kk,f:f});rec(i+1,kk,acc);acc.pop();
+        }
+      })(1,k0,[{k:k0,f:f0}]);
+    }
+    if(n===2&&bestSet)out.push(bestSet);
+  });
+  out.sort(function(a,b){return a.mn-b.mn||a.mx-b.mx;});
+  return out;
+}
+function ksEx(g,type,root,n,pi,tot,cat,id){
+  const fingered=g.span<=4,rn=NN[root];
+  const steps=g.acc.map(function(a){
+    const st={s:g.set[a.k],f:a.f};
+    if((KS_OPEN[st.s]+st.f)%12===root)st.r=1;
+    if(fingered&&a.f>0)st.fi=(g.mn===0?a.f:a.f-g.mn+1);
+    return st;
+  });
+  const strs=g.set.map(function(s){return SN[s];});
+  return {id:id,name:rn+' '+type+' — '+n+' strings',cat:cat,level:n===2?'i':'b',
+    sub:strs.join(' + ')+' · frets '+g.mn+'–'+g.mx+(fingered?' · 4 fingers':''),
+    desc:rn+' '+type+', '+n+' strings, position '+(pi+1)+' of '+tot+': '+strs.join(', ')+' strings, frets '+g.mn+'–'+g.mx+'. '+(fingered?'Fits a 4-fret box: one finger per fret, no hand shift. Open notes are played open.':'Your hand shifts up the neck when you cross strings, so no finger numbers are shown.')+' Green dots are the root '+rn+'.',
+    steps:ud(steps)};
+}
+(function(){
+  Object.keys(KS_FAM).forEach(function(fam){KS_FAM[fam].forEach(function(type){
+    for(let root=0;root<12;root++){
+      [2,3].forEach(function(n){
+        const list=ksAll(root,type,n);
+        list.forEach(function(g,pi){ALL_EX.push(ksEx(g,type,root,n,pi,list.length,'keys_'+fam,'k_'+type+'_'+NN[root]+'_'+n+'_'+(pi+1)));});
+      });
+    }
+  });});
+  // extra 3-string octave positions inside the lesson 3/4/5 exercise players
+  [['cm_3s','cmaj','major',0],['cp_3s','cpent','major pentatonic',0],['am_3s','amin','minor',9],['ap_3s','apent','minor pentatonic',9]].forEach(function(c){
+    const at=ALL_EX.findIndex(function(e){return e.id===c[0];});if(at<0)return;
+    const have=ALL_EX[at].steps.map(function(t){return t.s+':'+t.f;}).sort().join('|');
+    const list=ksAll(c[3],c[2],3),add=[];
+    list.forEach(function(g,pi){
+      const ex=ksEx(g,c[2],c[3],3,pi,list.length,c[1],c[0]+'_p'+(pi+1));
+      if(ex.steps.map(function(t){return t.s+':'+t.f;}).sort().join('|')===have)return;
+      ex.name=ALL_EX[at].name;add.push(ex);
+    });
+    ALL_EX.splice.apply(ALL_EX,[at+1,0].concat(add));
+  });
+})();
+
 // ── EXERCISE PLAYER ──────────────────────────────────────────────────
 function buildPlayer(cid,filterCats){
   const wrap=document.getElementById(cid);if(!wrap)return;
   const exs=ALL_EX.filter(e=>filterCats.includes(e.cat));
   let curEx=0,curStep=-1,isPlaying=false,timer=null,bpm=50,maxF=12;
-  const CAT_LABELS={technique:'Technique',cmaj:'C major',cpent:'C pentatonic',amin:'A minor',apent:'Am pentatonic'};
+  const CAT_LABELS={technique:'Technique',cmaj:'C major',cpent:'C pentatonic',amin:'A minor',apent:'Am pentatonic',keys_major:'All keys',keys_minor:'All keys',keys_pent:'All keys'};
   let gridHTML='';
   const cats=[...new Set(exs.map(e=>e.cat))];
   cats.forEach(cat=>{
@@ -1306,7 +1394,7 @@ function buildPlayer(cid,filterCats){
     maxF=frets;
     const table=document.getElementById('efb_'+cid);table.innerHTML='';
     const hr=document.createElement('tr');const eth=document.createElement('th');eth.className='sl';hr.appendChild(eth);
-    for(let f=0;f<=frets;f++){const th=document.createElement('th');th.className='fn'+([3,5,7,9,12,15,17].includes(f)?' mk':'');th.textContent=f===0?'':f;hr.appendChild(th);}
+    for(let f=0;f<=frets;f++){const th=document.createElement('th');th.className='fn'+(f===0?' n0':'')+([3,5,7,9,12,15,17].includes(f)?' mk':'');th.textContent=f===0?'':f;hr.appendChild(th);}
     table.appendChild(hr);
     for(let s=0;s<6;s++){
       const tr=document.createElement('tr');const lbl=document.createElement('td');lbl.className='sl';lbl.textContent=SN[s];tr.appendChild(lbl);
@@ -1334,7 +1422,7 @@ function buildPlayer(cid,filterCats){
     });
     document.querySelectorAll('#epr_'+cid+' .pd').forEach((d,i)=>{d.classList.remove('done','cur');if(i<idx)d.classList.add('done');else if(i===idx)d.classList.add('cur');});
     const st=ex.steps[idx];
-    document.getElementById('esi_'+cid).innerHTML='<strong>Step '+(idx+1)+'/'+ex.steps.length+'</strong> — '+SN[st.s]+' string, '+(st.f===0?'open':'fret '+st.f)+' · <strong>'+(st.l||nAt(st.s,st.f))+'</strong>'+(st.r?' · root':'');
+    document.getElementById('esi_'+cid).innerHTML='<strong>Step '+(idx+1)+'/'+ex.steps.length+'</strong> — '+SN[st.s]+' string, '+(st.f===0?'open':'fret '+st.f)+' · <strong>'+(st.l||nAt(st.s,st.f))+'</strong>'+(st.r?' · root':'')+(st.fi?' · finger <strong>'+st.fi+'</strong>':'');
     playNote(st.s,st.f);
   }
   function loadEx(i){
@@ -1493,7 +1581,44 @@ function buildStringStrip(cid){
 }
 
 // Dispatch — grows with each step
+// ── ALL-KEYS SCALE PICKER (lessons 3, 4, 5, 7) ──────────────────────
+function buildKeyScales(cid,fam){
+  const el=document.getElementById(cid);if(!el)return;
+  const pid='eptool_'+cid;
+  const fams=fam==='all'?['major','minor','pent']:[fam];
+  const cats=fams.map(function(f){return 'keys_'+f;});
+  const types=fam==='all'?['major','minor','major pentatonic','minor pentatonic']:KS_FAM[fam];
+  const list=ALL_EX.filter(function(e){return cats.indexOf(e.cat)>=0;});
+  let ti=0,root=fam==='minor'?9:0,n=3,pos=0;
+  el.innerHTML=(types.length>1?'<div class="pill-row"><span class="pill-lbl">Scale:</span><span id="'+cid+'_t"></span></div>':'')
+   +'<div class="pill-row"><span class="pill-lbl">Strings:</span><span id="'+cid+'_n"></span></div>'
+   +'<div class="pill-row"><span class="pill-lbl">Root note:</span><span id="'+cid+'_r"></span></div>'
+   +'<div class="pill-row"><span class="pill-lbl">Position:</span><span id="'+cid+'_p"></span></div>'
+   +'<div class="hide-exgrid"><div id="'+pid+'"></div></div>';
+  buildPlayer(pid,cats);
+  function mk(box,labels,cur,fn){
+    const b=document.getElementById(box);if(!b)return;b.innerHTML='';
+    labels.forEach(function(lb,i){
+      const btn=document.createElement('button');btn.className='pill'+(i===cur?' active':'');btn.textContent=lb;
+      btn.addEventListener('click',function(){fn(i);});b.appendChild(btn);
+    });
+  }
+  function apply(){
+    const pre='k_'+types[ti]+'_'+NN[root]+'_'+n+'_';
+    let cnt=0;while(list.some(function(e){return e.id===pre+(cnt+1);}))cnt++;
+    if(pos>=cnt)pos=0;
+    mk(cid+'_t',types.map(function(t){return t.replace('major pentatonic','major pent.').replace('minor pentatonic','minor pent.').replace(/^./,function(c){return c.toUpperCase();}).replace(' pentatonic','');}),ti,function(i){ti=i;pos=0;apply();});
+    mk(cid+'_n',['2 strings','3 strings'],n-2,function(i){n=i+2;pos=0;apply();});
+    mk(cid+'_r',NN,root,function(i){root=i;pos=0;apply();});
+    const pl=[];for(let i=1;i<=cnt;i++)pl.push(String(i));
+    mk(cid+'_p',pl,pos,function(i){pos=i;apply();});
+    window['epL_'+pid](list.findIndex(function(e){return e.id===pre+(pos+1);}));
+  }
+  apply();
+}
+
 function initVis(id){
+  if(id==='neck')buildKeyScales('vis_keys_neck','all');
   if(id==='holding'){
     buildGuitarDiagram('vis_guitar');
     buildStringStrip('vis_strings');
@@ -1528,7 +1653,7 @@ function initVis(id){
   }
   if(id==='aminor'){
     buildScaleStrip('vis_amstrip',{
-      strIdx:1,
+      strIdx:2,
       notes:[
         {note:'A',sol:'La', fret:2, root:true},
         {note:'B',sol:'Ti', fret:4},
@@ -1616,7 +1741,7 @@ function buildScaleStrip(cid, config){
   const {notes,strIdx}=config;
   let html=`<p style="font-size:12px;color:var(--muted);margin-bottom:8px;">
     <span style="background:var(--green);color:#fff;border-radius:4px;padding:1px 6px;font-size:11px;font-weight:700;margin-right:6px;">Tap</span>
-    any note to hear it on the B string. Solfège syllable shown above each dot.</p>
+    any note to hear it on the ${SN[strIdx]} string. Solfège syllable shown above each dot.</p>
   <div class="ss-outer"><div class="ss-track">`;
 
   notes.forEach((n,i)=>{
@@ -2694,6 +2819,13 @@ function buildStrumChords(cid){
   }
 
   function render(){
+    const sc=Array.prototype.map.call(el.querySelectorAll('.sc-col'),function(c){return c.scrollTop;});
+    const wx=window.scrollX,wy=window.scrollY;
+    renderInner();
+    Array.prototype.forEach.call(el.querySelectorAll('.sc-col'),function(c,i){c.scrollTop=sc[i]||0;});
+    window.scrollTo(wx,wy);
+  }
+  function renderInner(){
     el.innerHTML=
       // ── STICKY TOP: tape + chord label + controls ──────────────
       '<div class="sc-sticky" id="scsticky_'+cid+'">'
@@ -2965,6 +3097,13 @@ function buildFirstSong(cid){
   }
 
   function render(){
+    const sc=Array.prototype.map.call(el.querySelectorAll('.sc-col'),function(c){return c.scrollTop;});
+    const wx=window.scrollX,wy=window.scrollY;
+    renderInner();
+    Array.prototype.forEach.call(el.querySelectorAll('.sc-col'),function(c,i){c.scrollTop=sc[i]||0;});
+    window.scrollTo(wx,wy);
+  }
+  function renderInner(){
     el.innerHTML=
       '<div class="sc-sticky">'
         +'<div class="sc-player-row">'
@@ -3752,7 +3891,7 @@ const LESSONS=[
         <p>In solfège: <span class="hl">La Ti Do Re Mi Fa Sol La</span></p>
         <div class="card">
           <table class="l-table">
-            <tr><th>Solfège</th><th>Note</th><th>Fret (B string)</th></tr>
+            <tr><th>Solfège</th><th>Note</th><th>Fret (G string)</th></tr>
             <tr><td>La</td><td>A</td><td>2</td></tr>
             <tr><td>Ti</td><td>B</td><td>4</td></tr>
             <tr><td>Do</td><td>C</td><td>5</td></tr>
@@ -3766,9 +3905,9 @@ const LESSONS=[
       </div>
       <div class="l-sec">
         <span class="step-tag">Step 2</span>
-        <h3>See &amp; hear it on the B string</h3>
+        <h3>See &amp; hear it on the G string</h3>
         <p><span class="hl">Tap any dot to hear it.</span></p>
-        <div class="vis-box"><div class="vis-title">🎸 A minor — B string (interactive)</div><div id="vis_amstrip"></div></div>
+        <div class="vis-box"><div class="vis-title">🎸 A minor — G string (interactive)</div><div id="vis_amstrip"></div></div>
       </div>
       <div class="l-sec">
         <span class="step-tag">Step 3</span>
@@ -3900,6 +4039,15 @@ const LESSONS=[
         <div class="tool-box">
           <div class="tool-title">🎵 Full Scale Exercise Player</div>
           <div id="eptool_neck"></div>
+        </div>
+      </div>
+      <div class="l-sec">
+        <span class="step-tag">All 12 keys</span>
+        <h3>Scales in every key, every octave position</h3>
+        <p>Pick a scale, a root note and 2 or 3 strings, then choose an <span class="hl">octave position</span>. Each position is one octave of the scale on a different set of strings, so you can see every place that octave fits inside the first 12 frets.</p>
+        <div class="tool-box">
+          <div class="tool-title">🎸 Scales in All Keys</div>
+          <div id="vis_keys_neck"></div>
         </div>
       </div>
       <div class="sec-done"><button class="mark-btn" onclick="markSection(this,'neck','nk')"><span class="chk-i">○</span> Mark as done</button></div>`,
