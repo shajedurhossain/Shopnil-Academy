@@ -2950,6 +2950,7 @@ function buildFirstSong(cid){
     D:[[3,0],[2,2],[1,3],[0,2]],E:[[5,0],[4,2],[3,2],[2,1],[1,0],[0,0]],
     Dm:[[3,0],[2,2],[1,3],[0,1]],A:[[4,0],[3,2],[2,2],[1,2],[0,0]],
     F:[[5,1],[4,3],[3,3],[2,2],[1,1],[0,1]],
+    B:[[4,2],[3,4],[2,4],[1,4],[0,2]],Cm:[[4,3],[3,5],[2,5],[1,4],[0,3]],
   };
   function playChordStrum(ch,type){
     if(globalTone==='mute')return;
@@ -2996,6 +2997,10 @@ function buildFirstSong(cid){
      name:'La Bamba',artist:'Ritchie Valens (1958)',
      desc:'C-F-G in a fast rumba rhythm. The Flamenco Rumba pattern matches the original perfectly.',
      chords:['C','F','G']},
+    {id:'s13',group:3,home:'Am',bpm:100,rec:'pp3',
+     name:'Riptide',artist:'Vance Joy (2013)',
+     desc:'Am-G-C round and round. Quick, bouncy strumming; the chords never change shape.',
+     chords:['Am','G','C']},
     // ── 4-CHORD ──────────────────────────────────────────────────────
     {id:'s9',group:4,home:'Em',bpm:87,rec:'pp3',
      name:'Wonderwall',artist:'Oasis (1995)',
@@ -3013,6 +3018,34 @@ function buildFirstSong(cid){
      name:'Take Me Home, Country Roads',artist:'John Denver (1971)',
      desc:'G-D-Em-C. A Boom-Chick strum gives it the classic country-folk feel of the original.',
      chords:['G','D','Em','C']},
+    {id:'s14',group:4,home:'G',bpm:63,rec:'pp9',
+     name:'Perfect',artist:'Ed Sheeran (2017)',
+     desc:'G-Em-C-D in a slow 6/8 waltz-like swing. Three soft strums per half-bar — the 6/8 Ballad pattern.',
+     chords:['G','Em','C','D']},
+    {id:'s15',group:4,home:'G',bpm:63,rec:'pp14',capo:1,
+     name:'All of Me',artist:'John Legend (2013)',
+     desc:'Em-C-G-D with a capo on fret 1 to match the original key. Gentle ballad strumming.',
+     chords:['Em','C','G','D']},
+    {id:'s16',group:4,home:'G',bpm:67,rec:'pp14',capo:2,
+     name:'Someone Like You',artist:'Adele (2011)',
+     desc:'G-D-Em-C with a capo on fret 2 — no barre chords needed. Slow and emotional.',
+     chords:['G','D','Em','C']},
+    {id:'s17',group:4,home:'Am',bpm:76,rec:'pp3',
+     name:'Let Her Go',artist:'Passenger (2012)',
+     desc:'Am-F-C-G. Needs the F chord — a good reason to practise it. Steady, folky strumming.',
+     chords:['Am','F','C','G']},
+    {id:'s18',group:4,home:'C',bpm:62,rec:'pp14',capo:1,
+     name:'Someone You Loved',artist:'Lewis Capaldi (2018)',
+     desc:'C-G-Am-F with a capo on fret 1. Slow piano-ballad feel; keep the strumming soft.',
+     chords:['C','G','Am','F']},
+    {id:'s19',group:4,home:'G',bpm:85,rec:'pp4',capo:3,
+     name:"Say You Won't Let Go",artist:'James Arthur (2016)',
+     desc:'G-D-Em-C with a capo on fret 3. Easy open chords; a relaxed Folk strum fits well.',
+     chords:['G','D','Em','C']},
+    {id:'s20',group:4,home:'G',bpm:92,rec:'pp3',
+     name:'Creep',artist:'Radiohead (1992)',
+     desc:'G-B-C-Cm. B and Cm are barre chords, so this is a step up. The sudden major-to-minor C is the famous sound.',
+     chords:['G','B','C','Cm']},
   ];
 
   const PATTERNS=[
@@ -3072,7 +3105,7 @@ function buildFirstSong(cid){
           +'<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:4px">'
           +'<div class="song-title">'+s.name+'</div>'
           +'<span class="home-badge">'+s.home+'</span></div>'
-          +'<div class="song-artist">'+s.artist+'</div>'
+          +'<div class="song-artist">'+s.artist+(s.capo?' · <strong>Capo '+s.capo+'</strong>':'')+'</div>'
           +'<div class="song-meta"><div class="prog-seq" style="margin:0">'+seq+'</div>'
           +'<span class="song-bpm">'+s.bpm+' BPM</span></div>'
           +'</div>';
@@ -3118,7 +3151,7 @@ function buildFirstSong(cid){
         +'<div class="sc-bottom-bar">'
           +'<div style="flex:1;min-width:0">'
             +'<div class="sc-cur" id="sccur_'+cid+'">'+selSong.chords[0]+'</div>'
-            +'<div class="sc-song-label" id="scsl_'+cid+'">'+selSong.name+'</div>'
+            +'<div class="sc-song-label" id="scsl_'+cid+'">'+selSong.name+(selSong.capo?' · Capo '+selSong.capo:'')+'</div>'
           +'</div>'
           +'<button class="sc-play-btn" id="scbtn_'+cid+'" onclick="fsToggle_'+cid+'()">&#9654; Play</button>'
           +'<div class="sc-bpm"><span>BPM</span>'
