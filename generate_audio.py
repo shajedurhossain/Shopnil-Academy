@@ -55,13 +55,20 @@ MEDIA_BASE   = 'https://media.shopnilacademy.com'
 # ── One-off per-hash overrides ──────────────────────────────────────────────
 # For specific strings where Chirp 3: HD produces near-silent audio on the
 # bare, isolated text (seen so far only with very short single-grapheme
-# Bangla letters: অ, হ, কি). Found via targeted experimentation across
+# Bangla letters: অ, আ, ঐ, হ, কি). Found via targeted experimentation across
 # several diagnose_tts_round*.py scripts: voice, rate, punctuation position,
-# SSML silence tags and text-doubling were all tried before landing on
-# these. Each entry may set any combination of:
+# SSML silence tags and text-doubling were all tried. Staying on Chirp3 HD
+# with just a text/rate tweak (trailing period for আ, rate=1.0 for ঐ) DID
+# work in isolated testing, but a real production run reproduced silence
+# again for both with verified-identical parameters -- proving that fix is
+# not reliably reproducible call-to-call (Chirp3 HD's collapse on these
+# short inputs isn't fully deterministic). All 5 are therefore routed to
+# the same non-Chirp3 fallback voice instead, which doesn't share whatever
+# internal behaviour causes the collapse and has held up consistently.
+#
+# Each entry may set any combination of:
 #   'voice_name'  - full voice override (skips the normal VOICES[lang][speaker]
-#                   lookup entirely -- used to fall back to a non-Chirp3 tier
-#                   for the 3 letters Chirp3 HD could not render at all)
+#                   lookup entirely)
 #   'rate'        - overrides speaking_rate (pipeline default is 0.9)
 #   'text_suffix' - appended to the text sent to the TTS API ONLY. The hash
 #                   (and the manifest's recorded text) is still computed from
@@ -69,11 +76,11 @@ MEDIA_BASE   = 'https://media.shopnilacademy.com'
 # Keyed by FNV-1a hash of the ORIGINAL (un-suffixed) string. Add future
 # one-off fixes here rather than hard-coding them into the main loop.
 TTS_OVERRIDES = {
-    'da5f2cfa': {'voice_name': 'bn-IN-Standard-A'},  # অ - Chirp3 HD silent on this bare vowel
-    'de5f3346': {'voice_name': 'bn-IN-Standard-A'},  # হ - same issue
-    '7479ba35': {'voice_name': 'bn-IN-Standard-A'},  # কি - same issue
-    'd95f2b67': {'text_suffix': '.'},                 # আ - trailing period fixes it, stays on Chirp3 HD
-    'c75f0f11': {'rate': 1.0},                        # ঐ - normal rate fixes it, stays on Chirp3 HD
+    'da5f2cfa': {'voice_name': 'bn-IN-Standard-A'},  # অ
+    'd95f2b67': {'voice_name': 'bn-IN-Standard-A'},  # আ - period trick worked in testing, failed in production
+    'c75f0f11': {'voice_name': 'bn-IN-Standard-A'},  # ঐ - rate trick worked in testing, failed in production
+    'de5f3346': {'voice_name': 'bn-IN-Standard-A'},  # হ
+    '7479ba35': {'voice_name': 'bn-IN-Standard-A'},  # কি
 }
 
 # ── FNV-1a 32-bit hash ─────────────────────────────────────────────────────
