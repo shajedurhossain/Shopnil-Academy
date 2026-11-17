@@ -23,6 +23,10 @@ Options:
                   Example:
                   python generate_audio.py --lang bn --file chapter1.html \\
                       --retry-hashes da5f2cfa,d95f2b67,c75f0f11,de5f3346,7479ba35
+
+                  Any hash listed in TTS_OVERRIDES (below) automatically picks
+                  up its one-off voice/rate/text fix when it's (re)generated
+                  this way -- nothing extra to pass on the command line.
 """
 
 import os, re, sys, csv, html as html_mod, argparse, tempfile, time
@@ -47,6 +51,30 @@ VOICES = {
 MANIFEST_KEY = 'audio/manifest.csv'
 BUCKET       = os.getenv('R2_BUCKET', 'shopnil-media')
 MEDIA_BASE   = 'https://media.shopnilacademy.com'
+
+# ── One-off per-hash overrides ──────────────────────────────────────────────
+# For specific strings where Chirp 3: HD produces near-silent audio on the
+# bare, isolated text (seen so far only with very short single-grapheme
+# Bangla letters: অ, হ, কি). Found via targeted experimentation across
+# several diagnose_tts_round*.py scripts: voice, rate, punctuation position,
+# SSML silence tags and text-doubling were all tried before landing on
+# these. Each entry may set any combination of:
+#   'voice_name'  - full voice override (skips the normal VOICES[lang][speaker]
+#                   lookup entirely -- used to fall back to a non-Chirp3 tier
+#                   for the 3 letters Chirp3 HD could not render at all)
+#   'rate'        - overrides speaking_rate (pipeline default is 0.9)
+#   'text_suffix' - appended to the text sent to the TTS API ONLY. The hash
+#                   (and the manifest's recorded text) is still computed from
+#                   the ORIGINAL bare string, so the JS lookup is unaffected.
+# Keyed by FNV-1a hash of the ORIGINAL (un-suffixed) string. Add future
+# one-off fixes here rather than hard-coding them into the main loop.
+TTS_OVERRIDES = {
+    'da5f2cfa': {'voice_name': 'bn-IN-Standard-A'},  # অ - Chirp3 HD silent on this bare vowel
+    'de5f3346': {'voice_name': 'bn-IN-Standard-A'},  # হ - same issue
+    '7479ba35': {'voice_name': 'bn-IN-Standard-A'},  # কি - same issue
+    'd95f2b67': {'text_suffix': '.'},                 # আ - trailing period fixes it, stays on Chirp3 HD
+    'c75f0f11': {'rate': 1.0},                        # ঐ - normal rate fixes it, stays on Chirp3 HD
+}
 
 # ── FNV-1a 32-bit hash ─────────────────────────────────────────────────────
 def fnv1a(s):
@@ -156,17 +184,21 @@ def extract_strings(fname, lang):
     return strings
 
 # ── Synthesise one string with Chirp 3: HD ────────────────────────────────
-def synthesise(text, lang, speaker='f'):
+# voice_name_override / rate_override let a specific hash bypass the normal
+# voice/rate (see TTS_OVERRIDES above) without touching every other string.
+def synthesise(text, lang, speaker='f', voice_name_override=None, rate_override=None):
     voice_cfg = VOICES[lang]
     client = texttospeech.TextToSpeechClient()
+    voice_name = voice_name_override if voice_name_override else voice_cfg[speaker]
+    rate = rate_override if rate_override is not None else 0.9   # slightly slower for A1 learners
     resp = client.synthesize_speech(
         input=texttospeech.SynthesisInput(text=text),
         voice=texttospeech.VoiceSelectionParams(
             language_code=voice_cfg['code'],
-            name=voice_cfg[speaker]),
+            name=voice_name),
         audio_config=texttospeech.AudioConfig(
             audio_encoding=texttospeech.AudioEncoding.MP3,
-            speaking_rate=0.9),   # slightly slower for A1 learners
+            speaking_rate=rate),
     )
     return resp.audio_content
 
@@ -303,9 +335,19 @@ def main():
             existing_hashes.add(h)
             continue
 
+        # Apply any one-off override for this specific hash (see
+        # TTS_OVERRIDES above). The hash, R2 key, and manifest 'text' field
+        # all stay based on the ORIGINAL string -- only what's actually sent
+        # to the TTS API (and which voice/rate) changes.
+        override = TTS_OVERRIDES.get(h, {})
+        synth_text = text + override.get('text_suffix', '')
+        voice_used = override.get('voice_name') or VOICES[args.lang]['f']
+
         # Synthesise
         try:
-            mp3 = synthesise(text, args.lang)
+            mp3 = synthesise(synth_text, args.lang,
+                              voice_name_override=override.get('voice_name'),
+                              rate_override=override.get('rate'))
             upload(r2, mp3, key)
             new_count += 1
             existing_hashes.add(h)
@@ -316,11 +358,12 @@ def main():
             manifest_rows.append({
                 'hash': h,
                 'language': args.lang,
-                'voice': VOICES[args.lang]['f'],
+                'voice': voice_used,
                 'course': args.course,
                 'text': text,
             })
-            print('  NEW [{0}] {1}'.format(h, text[:55]))
+            override_note = '  [override: {0}]'.format(override) if override else ''
+            print('  NEW [{0}] {1}{2}'.format(h, text[:55], override_note))
             # Small delay to avoid rate limiting
             time.sleep(0.1)
         except Exception as e:
