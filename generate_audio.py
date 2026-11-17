@@ -15,6 +15,14 @@ Options:
   --file      Single chapter HTML file (alternative to --chapters)
   --dry-run   Extract and count strings only, no generation
   --force     Regenerate files even if they already exist in R2
+  --retry-hashes  Comma-separated list of specific FNV-1a hashes to
+                  force-regenerate. Restricts the run to ONLY those
+                  hashes (skip-checks bypassed for them, nothing else
+                  touched) -- for fixing a handful of bad files without
+                  re-synthesising or re-uploading everything else.
+                  Example:
+                  python generate_audio.py --lang bn --file chapter1.html \\
+                      --retry-hashes da5f2cfa,d95f2b67,c75f0f11,de5f3346,7479ba35
 """
 
 import os, re, sys, csv, html as html_mod, argparse, tempfile, time
@@ -198,7 +206,11 @@ def main():
     parser.add_argument('--dry-run',  action='store_true')
     parser.add_argument('--force',    action='store_true',
                         help='Regenerate even if file exists in R2')
+    parser.add_argument('--retry-hashes', default='',
+                        help='Comma-separated FNV-1a hashes to force-regenerate; '
+                             'restricts the whole run to just these hashes')
     args = parser.parse_args()
+    retry_hashes = {h.strip() for h in args.retry_hashes.split(',') if h.strip()}
 
     if not args.chapters and not args.file:
         print('Error: provide --chapters or --file')
@@ -238,6 +250,20 @@ def main():
         all_strings |= s
     print('  Total unique strings:', len(all_strings))
 
+    if retry_hashes:
+        before = len(all_strings)
+        all_strings = {s for s in all_strings if fnv1a(s) in retry_hashes}
+        found_hashes = {fnv1a(s) for s in all_strings}
+        missing = retry_hashes - found_hashes
+        print('  --retry-hashes given: restricting {0} strings down to {1} matching hash(es)'.format(
+            before, len(all_strings)))
+        for s in sorted(all_strings):
+            print('    retry: [{0}] {1}'.format(fnv1a(s), s[:55]))
+        if missing:
+            print('  WARNING: {0} requested hash(es) not found in any extracted string: {1}'.format(
+                len(missing), ', '.join(sorted(missing))))
+            print('  (nothing will be generated for those -- check the hash is still correct)')
+
     if args.dry_run:
         print()
         print('DRY RUN — no files generated')
@@ -265,13 +291,14 @@ def main():
     for text in sorted(all_strings):
         h = fnv1a(text)
         key = 'audio/{0}/{1}.mp3'.format(args.lang, h)
+        force_this = args.force or (h in retry_hashes)
 
         # Check if already in R2
-        if not args.force and h in existing_hashes:
+        if not force_this and h in existing_hashes:
             skipped += 1
             continue
 
-        if not args.force and r2_exists(r2, key):
+        if not force_this and r2_exists(r2, key):
             skipped += 1
             existing_hashes.add(h)
             continue
@@ -282,6 +309,10 @@ def main():
             upload(r2, mp3, key)
             new_count += 1
             existing_hashes.add(h)
+            # Replace rather than duplicate: a retried hash already has a
+            # (bad) row in the manifest from its first generation.
+            manifest_rows = [row for row in manifest_rows
+                              if not (row.get('hash') == h and row.get('language') == args.lang)]
             manifest_rows.append({
                 'hash': h,
                 'language': args.lang,
